@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-    <data>
+    <data noupdate="1">
         <!-- AOO -->
         <record id="protocollo_aoo_default" model="protocollo.aoo">
             <field name="name">La tua AOO</field>
