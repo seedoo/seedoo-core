@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This file is part of Seedoo.  The COPYRIGHT file at the top level of
+this module contains the full copyright notices and license terms. -->
+
+<openerp>
+    <data>
+
+        <record id="dematerializzazione_importa_documenti_step1_wizard_view" model="ir.ui.view">
+            <field name="name">Wizard di Importazione Documenti: STEP 1</field>
+            <field name="model">dematerializzazione.importa.documenti.step1.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Wizard di Importazione Documenti: STEP 1">
+                    <group attrs="{'invisible':[('verifica_importer', '=', True)]}">
+                        <separator string="Configurare o attivare almeno una sorgente di importazione prima di procedere!"/>
+                    </group>
+                    <group attrs="{'invisible':[('verifica_importer', '=', False)]}" col="4">
+                        <separator string="La procedura effettua l'importazione dalle seguenti sorgenti" colspan="4"/>
+                        <field name="importer_ids" readonly="True" nolabel="1" colspan="4">
+                            <tree>
+                                <field name="title"/>
+                                <field name="address"/>
+                                <field name="description"/>
+                            </tree>
+                            <form>
+                                <group col="4">
+                                    <field name="title"/>
+                                    <field name="description"/>
+                                    <field name="address"/>
+                                </group>
+                            </form>
+                        </field>
+                    </group>
+                    <group>
+                        <field name="verifica_importer" invisible="True"/>
+                    </group>
+                    <footer>
+                        <div>
+                            <button string="Procedi con l'Importazione" name="step2" type="object" class="oe_highlight"
+                             attrs="{'invisible':[('verifica_importer', '=', False)]}"/>
+                            <button string="Abbandona" class="oe_link" special="cancel"/>
+                        </div>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+        <act_window id="dematerializzazione_importa_documenti_wizard_action"
+                    name="Importa"
+                    res_model="dematerializzazione.importa.documenti.step1.wizard"
+                    view_type="form" view_mode="form"
+                    target="new"/>
+
+
+        <record id="dematerializzazione_importa_documenti_step2_wizard_view" model="ir.ui.view">
+            <field name="name">Wizard di Importazione Documenti: Esito</field>
+            <field name="model">dematerializzazione.importa.documenti.step2.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Wizard di Importazione Documenti: Esito">
+                    <group attrs="{'invisible':[('esito', '=', 'ok')]}">
+                        <separator string="Si sono verificati degli errori durante la procedura di importazione!"/>
+                    </group>
+                    <group attrs="{'invisible':[('esito', '=', 'errore')]}">
+                        <separator string="La procedura di importazione è stata eseguita correttamente."/>
+                    </group>
+                    <group col="4">
+                        <field name="numero_file_importati" readonly="True"/>
+                        <field name="numero_file_errore" readonly="True"/>
+                        <field name="esito" invisible="True"/>
+                    </group>
+                    <footer>
+                        <div>
+                            <button string="Controlla i Log" name="go_to_history" type="object" class="oe_highlight"/>
+                            <button string="Chiudi" class="oe_highlight" special="cancel"/>
+                        </div>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</openerp>

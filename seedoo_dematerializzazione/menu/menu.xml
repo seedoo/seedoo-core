@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file is part of Seedoo.  The COPYRIGHT file at the top level of
+this module contains the full copyright notices and license terms. -->
+
+<openerp>
+    <data>
+
+        <menuitem id="dematerializzazione_importazioni_menu" name="Importazione massiva"
+                  parent="seedoo_protocollo.menu_root_protocollo"
+                  sequence="30"/>
+
+        <menuitem id="dematerializzazione_importa_documenti_wizard_menu"
+                  action="dematerializzazione_importa_documenti_wizard_action"
+                  parent="dematerializzazione_importazioni_menu"
+                  sequence="1"/>
+
+        <menuitem id="dematerializzazione_storico_importazione_menu"
+                  action="dematerializzazione_storico_importazione_action"
+                  parent="dematerializzazione_importazioni_menu"
+                  sequence="2"/>
+
+        <menuitem id="dematerializzazione_configuration_menu"
+                  action="dematerializzazione_config_settings_act"
+                  parent="seedoo_protocollo.protocollo_configuration"
+                  sequence="100"/>
+
+        <menuitem action="protocollo_protocollo_in_imported_act" name="Bozze Importate"
+                  parent="seedoo_protocollo.protocollo_doc_in"
+                  id="protocollo_protocollo_in_imported_menu" sequence="30"
+                  groups="group_vedi_protocolli_ingresso_bozze_importate"/>
+
+    </data>
+</openerp>

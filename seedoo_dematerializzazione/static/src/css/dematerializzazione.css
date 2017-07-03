@@ -1,0 +1,15 @@
+span.conn_success, span.conn_failed {
+    visibility: hidden;
+}
+span.conn_success::after {
+    visibility: visible;
+    content:"\f00c";
+    font-family: "FontAwesome";
+    color: darkgreen;
+}
+
+span.conn_failed::after {
+    content:"\f071";
+    font-family: "FontAwesome";
+    color: orangered;
+}

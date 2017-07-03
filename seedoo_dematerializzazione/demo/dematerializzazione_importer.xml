@@ -1,0 +1,50 @@
+<?xml version="1.0" ?>
+<!-- This file is part of Seedoo.  The COPYRIGHT file at the top level of
+this module contains the full copyright notices and license terms. -->
+
+<openerp>
+    <data>
+        <record id="importer_creazione" model="dematerializzazione.importer">
+            <field name="title">Importer - Creazione bozze</field>
+            <field name="import_attivo" eval="False"></field>
+            <field name="tipologia_protocollo" ref="seedoo_protocollo.protocollo_typology_fax"></field>
+            <field name="description">Importer che crea delle bozze di protocollo partendo dai pdf presenti nel repository</field>
+            <field name="tipologia_importazione">creazione</field>
+            <field name="aoo_id" ref="seedoo_protocollo.protocollo_aoo_default"></field>
+            <field name="employee_id" ref="seedoo_protocollo.hr_lai_saul"></field>
+            <field name="user_id" ref="seedoo_protocollo.lai_saul"></field>
+            <field name="address">nas.flosslab.local</field>
+            <field name="port">139</field>
+            <field name="share">importerprivate</field>
+            <field name="processed_folder">processed</field>
+            <field name="failed_folder">failed</field>
+            <field name="auth" eval="True"></field>
+            <field name="user">andrea.peruzzu</field>
+            <field name="password">area51</field>
+        </record>
+
+        <record id="seedoo_protocollo.protocollo_aoo_default" model="protocollo.aoo">
+            <field name="importer_ids" eval="[(6, 0,[ref('importer_creazione')])]"/>
+        </record>
+
+        <record id="importer_aggancio" model="dematerializzazione.importer">
+            <field name="title">Importer - Aggancio al protocollo</field>
+            <field name="import_attivo" eval="False"></field>
+            <field name="description">Importer che preleva un documento pdf e lo allega ad un protocollo esistente</field>
+            <field name="tipologia_importazione">aggancio</field>
+            <field name="aoo_id" ref="seedoo_protocollo.protocollo_aoo_default"></field>
+            <field name="employee_id" ref="seedoo_protocollo.hr_lai_saul"></field>
+            <field name="user_id" ref="seedoo_protocollo.lai_saul"></field>
+            <field name="address">nas.flosslab.local</field>
+            <field name="port">139</field>
+            <field name="share">importer</field>
+            <field name="processed_folder">processed</field>
+            <field name="failed_folder">failed</field>
+            <field name="auth" eval="False"></field>
+        </record>
+
+        <record id="seedoo_protocollo.protocollo_aoo_default" model="protocollo.aoo">
+            <field name="importer_ids" eval="[(4, 0,[ref('importer_aggancio')])]"/>
+        </record>
+    </data>
+</openerp>

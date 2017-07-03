@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<!-- This file is part of Seedoo.  The COPYRIGHT file at the top level of
+this module contains the full copyright notices and license terms. -->
+
+<openerp>
+    <data noupdate="0">
+
+        <!-- Gruppo per la visualizzazione del menu "Bozze Importate" figlio di "Documenti in Ingresso" -->
+        <record id="group_vedi_protocolli_ingresso_bozze_importate" model="res.groups">
+            <field name="name">Vedi Bozze Importate Protocolli in Ingresso</field>
+            <field name="category_id" ref="seedoo_protocollo.module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        	<field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+        <record id="seedoo_protocollo.group_protocollo_tutti" model="res.groups">
+            <field name="implied_ids" eval="[(4, ref('group_vedi_protocolli_ingresso_bozze_importate'))]">
+            </field>
+        </record>
+
+    </data>
+</openerp>
