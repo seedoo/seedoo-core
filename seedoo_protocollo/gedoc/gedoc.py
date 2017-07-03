@@ -64,6 +64,23 @@ class protocollo_dossier(osv.Model):
         return super(protocollo_dossier, self). \
             is_document_present(cr, uid, ids, *args)
 
+    def create(self, cr, uid, vals, context=None):
+        if 'is_demo' in context and context['is_demo']:
+            dossier_type = vals['dossier_type']
+            classification_id = vals['classification_id']
+            # aoo_id = vals['classification_id']
+            # aoo_obj = self.pool.get('protocollo.aoo').browse(cr, uid, aoo_id)
+
+            if vals['name'] and dossier_type and dossier_type in self.DOSSIER_TYPE and classification_id:
+                classification = self.pool.get('protocollo.classification').\
+                    browse(cr, uid, classification_id, context=context)
+                num = len(classification.dossier_ids)
+                vals['name'] = '<' + '-' + self.DOSSIER_TYPE[dossier_type] + ' N.' + \
+                    str(num) + ' del \'' + \
+                    classification.name + '\' (' + str(classification_id) + ')>'
+
+        dossier_id = super(protocollo_dossier, self).create(cr, uid, vals, context=context)
+        return dossier_id
 
 class DocumentSearch(osv.TransientModel):
     """

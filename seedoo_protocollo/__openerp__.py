@@ -65,6 +65,7 @@
             'demo/protocollo_aoo.xml',
             'demo/protocollo_department.xml',
             'demo/protocollo_classification.xml',
+            'demo/protocollo_dossier.xml',
             'demo/protocollo_user_employee.xml'
     ],
     "qweb": [
