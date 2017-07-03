@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This file is part of Seedoo.  The COPYRIGHT file at the top level of
+this module contains the full copyright notices and license terms. -->
+
+<openerp>
+    <data>
+
+        <template id="gedoc_style" name="Seedoo Style" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <link rel="stylesheet" href="/seedoo_gedoc/static/src/css/gedoc.css"/>
+            </xpath>
+        </template>
+    
+    </data>
+</openerp>

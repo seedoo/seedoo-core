@@ -1,0 +1,304 @@
+Return-Path: <posta-certificata@legalmail.it>
+Delivered-To: info@pec.innoviu.it
+Received: from mxavasrm01.pec.ad.aruba.it (localhost [127.0.0.1])
+	by mxavasrm01.pec.ad.aruba.it (lmtpd) with LMTP id 8966.002;
+	Wed, 20 May 2015 17:08:22 +0200 (CEST)
+Received: from mx.pec.aruba.it (localhost [127.0.0.1])
+	by mx.pec.aruba.it (Postfix) with ESMTP id E5318700030D
+	for <info@pec.innoviu.it>; Wed, 20 May 2015 17:08:21 +0200 (CEST)
+Received: from relay.cert.legalmail.it (unknown [78.6.251.201])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mx.pec.aruba.it (Postfix) with ESMTPS
+	for <info@pec.innoviu.it>; Wed, 20 May 2015 17:08:21 +0200 (CEST)
+Received: from vlifpecsmtp002.intra.infocert.it (vlifpecsmtp002.intra.infocert.it [172.28.53.2])
+	by vlefpecrelay005.prdmz.infocert.it (8.14.5/8.14.5) with ESMTP id t4KF8LP6017481
+	for <info@pec.innoviu.it>; Wed, 20 May 2015 17:08:21 +0200
+Received: from vliaspec02.intra.infocert.it (vliaspec02.intra.infocert.it [172.28.52.249])
+	by vlifpecsmtp002.intra.infocert.it (8.14.5/8.14.5) with ESMTP id t4KF8LHH015494
+	for info@pec.innoviu.it; Wed, 20 May 2015 17:08:21 +0200
+Date: Wed, 20 May 2015 17:08:21 +0200 (CEST)
+From: Posta Certificata Legalmail <posta-certificata@legalmail.it>
+To: info@pec.innoviu.it
+Subject: CONSEGNA: Invio conferma domanda bando startup
+MIME-Version: 1.0
+Content-Type: multipart/signed; protocol="application/x-pkcs7-signature"; micalg="SHA1"; 
+	boundary="----=_Part_1625257_870364.1432134501808"
+X-Riferimento-Message-ID: <1432134489.558327913284302.165667473553067-openerp-private@roberto-ubuntu12>
+X-CrmlId: 1221306412
+X-Ricevuta: avvenuta-consegna
+Message-ID: <1221306412.1061659807.1432134501798vliaspec02@legalmail.it>
+
+------=_Part_1625257_870364.1432134501808
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_1625256_12881184.1432134501808"
+
+------=_Part_1625256_12881184.1432134501808
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_1625255_11007227.1432134501807"
+
+------=_Part_1625255_11007227.1432134501807
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
+
+Ricevuta  di avvenuta consegna 
+
+Il giorno 20/05/2015 alle ore 17:08:21 (+0200) il messaggio "Invio conferma domanda bando startup" 
+proveniente da "info@pec.innoviu.it" ed indirizzato a "innoviu.test1@legalmail.it"
+e' stato consegnato nella casella di destinazione.
+
+Identificativo messaggio: opec275.20150520170810.24847.06.1.17@pec.aruba.it
+
+Questa ricevuta, per Sua garanzia, e' firmata digitalmente e 
+la preghiamo di conservarla come attestato della consegna 
+nella casella indicata.
+
+-------------------------------------------
+
+Delivery receipt 
+
+The message "Invio conferma domanda bando startup" sent by "info@pec.innoviu.it" on 2015-05-20 
+at 17:08:21 (+0200) and addressed to "innoviu.test1@legalmail.it" 
+was delivered by the certified email system.
+
+As a guarantee to you, this receipt is digitally signed. 
+Please keep it as a certificate of delivery to the specified mailbox.
+
+Message ID: opec275.20150520170810.24847.06.1.17@pec.aruba.it
+
+------=_Part_1625255_11007227.1432134501807
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <title></title>
+</head>
+<body bgcolor="#ffffcc">
+
+<font color="#000080" face="Arial, Helvetica, sans-serif" size="3">
+
+<p><b>Ricevuta  di avvenuta consegna</b></p>
+
+<p>Il giorno <i>20/05/2015</i> alle ore <i>17:08:21 </i>(<i>+0200</i>)
+il messaggio "<i>Invio conferma domanda bando startup</i>" proveniente da "info@pec.innoviu.it" ed indirizzato a
+"<i>innoviu.test1@legalmail.it</i>"
+&egrave; stato <B>consegnato</B> nella casella di destinazione.</p>
+
+<p>Questa ricevuta, per Sua garanzia, &egrave; firmata digitalmente e la preghiamo di <b><u>conservarla</u></b>
+come <u>attestato</u> della <u>consegna</u> nella casella indicata</p>
+
+<p><b>Identificativo messaggio</b>:<i>opec275.20150520170810.24847.06.1.17@pec.aruba.it</i></p>
+
+</font>
+
+<hr>
+
+<font color="#000080" face="Arial, Helvetica, sans-serif" size="2">
+
+<p><b>Delivery receipt </b></p>
+
+<p>The message "<i>Invio conferma domanda bando startup</i>" sent by "info@pec.innoviu.it", on <i>2015-05-20</i>
+at <i>17:08:21 </i>(<i>+0200</i>) and addressed to "<i>innoviu.test1@legalmail.it</i>",
+was <b>delivered</b> by the certified email system</p>
+
+<p>As a guarantee to you, this receipt is digitally signed.
+Please <b><u>keep it</u></b> as <u>certificate</u> of <u>delivery</u> to the specified mailbox</p>
+
+<p><b>Message ID</b>:<i>opec275.20150520170810.24847.06.1.17@pec.aruba.it</i></p>
+
+</font>
+
+</body>
+</html>
+
+------=_Part_1625255_11007227.1432134501807--
+
+------=_Part_1625256_12881184.1432134501808
+Content-Type: application/xml; charset=UTF-8; name=daticert.xml
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename=daticert.xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<postacert tipo="avvenuta-consegna" errore="nessuno">
+<intestazione>
+ <mittente>info@pec.innoviu.it</mittente>
+ <destinatari tipo="certificato">innoviu.test1@legalmail.it</destinatari>
+ <risposte>info@pec.innoviu.it</risposte>
+ <oggetto>Invio conferma domanda bando startup</oggetto>
+</intestazione>
+<dati>
+ <gestore-emittente>InfoCert S.p.A.</gestore-emittente>
+ <data zona="+0200">
+   <giorno>20/05/2015</giorno>
+   <ora>17:08:21</ora>
+ </data>
+ <identificativo>opec275.20150520170810.24847.06.1.17@pec.aruba.it</identificativo>
+ <msgid>&lt;1432134489.558327913284302.165667473553067-openerp-private@roberto-ubuntu12&gt;</msgid>
+ <ricevuta tipo="completa"></ricevuta>
+ <consegna>innoviu.test1@legalmail.it</consegna>
+</dati>
+</postacert>
+
+------=_Part_1625256_12881184.1432134501808
+Content-Type: message/rfc822; name=postacert.eml
+Content-Disposition: inline; filename=postacert.eml
+
+Received: from roberto-ubuntu12.04 (host70-23-dynamic.53-82-r.retail.telecomitalia.it [82.53.23.70])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by smtps.pec.aruba.it (Postfix) with ESMTPSA id 2BB2A80E55BB
+	for <innoviu.test1@legalmail.it>; Wed, 20 May 2015 17:08:10 +0200 (CEST)
+Content-Type: multipart/mixed; boundary="===============4066032201159748874=="
+MIME-Version: 1.0
+Subject: Invio conferma domanda bando startup
+From: info@pec.innoviu.it
+Reply-To: info@pec.innoviu.it
+To: innoviu.test1@legalmail.it
+Date: Wed, 20 May 2015 15:08:09 -0000
+Message-ID: <opec275.20150520170810.24847.06.1.17@pec.aruba.it>
+X-Riferimento-Message-ID: <1432134489.558327913284302.165667473553067-openerp-private@roberto-ubuntu12>
+
+--===============4066032201159748874==
+Content-Type: multipart/alternative;
+ boundary="===============2292280415247430298=="
+MIME-Version: 1.0
+
+--===============2292280415247430298==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+
+Q29tZSBkYSBvZ2dldHRvCkNvcmRpYWxtZW50ZQ==
+
+--===============2292280415247430298==
+Content-Type: text/html; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+
+PGRpdj48cD5Db21lIGRhIG9nZ2V0dG88L3A+PGRpdj48YnI+PC9kaXY+PGRpdj5Db3JkaWFsbWVu
+dGU8L2Rpdj48L2Rpdj4=
+
+--===============2292280415247430298==--
+
+--===============4066032201159748874==
+MIME-Version: 1.0
+Content-Type: application/octet-stream; name="Protocollo_0000004_2015.pdf"
+Content-Disposition: attachment; filename="Protocollo_0000004_2015.pdf"
+Content-Transfer-Encoding: base64
+
+JVBERi0xLjUKJeLjz9MKMSAwIG9iago8PC9CYXNlRm9udC9UaW1lcy1Sb21hbi9UeXBlL0ZvbnQv
+RW5jb2RpbmcvV2luQW5zaUVuY29kaW5nL1N1YnR5cGUvVHlwZTE+PgplbmRvYmoKMiAwIG9iago8
+PC9DcmVhdG9yKGNhaXJvIDEuMTMuMSBcKGh0dHA6Ly9jYWlyb2dyYXBoaWNzLm9yZ1wpKS9Qcm9k
+dWNlcihjYWlybyAxLjEzLjEgXChodHRwOi8vY2Fpcm9ncmFwaGljcy5vcmdcKTsgbW9kaWZpZWQg
+dXNpbmcgaVRleHSuIDUuNS4zIKkyMDAwLTIwMTQgaVRleHQgR3JvdXAgTlYgXChBR1BMLXZlcnNp
+b25cKSkvTW9kRGF0ZShEOjIwMTUwNTIwMTUwNjExWik+PgplbmRvYmoKMyAwIG9iago8PC9MZW5n
+dGggMTAvRmlsdGVyL0ZsYXRlRGVjb2RlPj5zdHJlYW0KeJwr5AIAAO4AfAplbmRzdHJlYW0KZW5k
+b2JqCjQgMCBvYmoKPDwvTGVuZ3RoIDEwOC9GaWx0ZXIvRmxhdGVEZWNvZGU+PnN0cmVhbQp4nB2M
+vQqEQBCD+zxFSi1WZ9ZbuVbB2h9GuBdwReEKff/CXRMIX5GEMy4os+8d2gi/VJ/z3hDRG+rfIWxp
+EcLsXHshbRqpgqcK7Y9imJTdOCodl21fY0zgRYOT4NKjo7z6lHZiMMx4ADiyGakKZW5kc3RyZWFt
+CmVuZG9iago1IDAgb2JqCjw8L1R5cGUvUGFnZXMvQ291bnQgMS9LaWRzWzYgMCBSXT4+CmVuZG9i
+ago3IDAgb2JqCjw8L0V4dEdTdGF0ZTw8L2EwPDwvY2EgMS9DQSAxPj4+Pi9YT2JqZWN0PDwveDUg
+OCAwIFI+Pj4+CmVuZG9iago5IDAgb2JqCjw8L0xlbmd0aCA3MS9GaWx0ZXIvRmxhdGVEZWNvZGU+
+PnN0cmVhbQp4nCvkClQo5DJQsDAx1LM0UjC1NFXQBbIVilIVwhXyuAq5DBUMgBBE6hroGVgoJOdy
+6ScaKKQXK+hXmCq45HMFAiEACKQO5AplbmRzdHJlYW0KZW5kb2JqCjggMCBvYmoKPDwvVHlwZS9Y
+T2JqZWN0L1Jlc291cmNlcyAxMCAwIFIvU3VidHlwZS9Gb3JtL0JCb3hbMCAwIDU5NiA4NDJdL0xl
+bmd0aCA4MS9GaWx0ZXIvRmxhdGVEZWNvZGU+PnN0cmVhbQp4nCvkClQo5DJQsDAxUjC1NNUztLRU
+0LUwMdSzNDJSKEpVCFfI4yrkAskYKRgogNSBpEBMPQMLheRcLv1EA4X0YgX9CksFl3yuQCAEANd7
+EZYKZW5kc3RyZWFtCmVuZG9iago2IDAgb2JqCjw8L0dyb3VwPDwvVHlwZS9Hcm91cC9DUy9EZXZp
+Y2VSR0IvUy9UcmFuc3BhcmVuY3kvSSB0cnVlPj4vUGFyZW50IDUgMCBSL0NvbnRlbnRzWzMgMCBS
+IDkgMCBSIDQgMCBSXS9UeXBlL1BhZ2UvUmVzb3VyY2VzPDwvRXh0R1N0YXRlPDwvYTA8PC9jYSAx
+L0NBIDE+Pj4+L1hPYmplY3Q8PC94NSA4IDAgUj4+L0ZvbnQ8PC9YaTAgMSAwIFI+Pj4+L01lZGlh
+Qm94WzAgMCA1OTUuMiA4NDEuOTJdPj4KZW5kb2JqCjEwIDAgb2JqCjw8L0V4dEdTdGF0ZTw8L2Ew
+PDwvY2EgMS9DQSAxPj4+Pi9YT2JqZWN0PDwveDkgMTEgMCBSPj4+PgplbmRvYmoKMTEgMCBvYmoK
+PDwvVHlwZS9YT2JqZWN0L1N1YnR5cGUvSW1hZ2UvQ29sb3JTcGFjZS9EZXZpY2VHcmF5L0ludGVy
+cG9sYXRlIHRydWUvV2lkdGggMjQ4MC9CaXRzUGVyQ29tcG9uZW50IDEvTGVuZ3RoIDEwNzYvSGVp
+Z2h0IDM1MDgvRmlsdGVyL0ZsYXRlRGVjb2RlPj5zdHJlYW0KeJztwTEBAAAAwqD+qedlC6AAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAGy8+WAEKZW5kc3RyZWFtCmVuZG9iagoxMiAwIG9iago8
+PC9UeXBlL0NhdGFsb2cvUGFnZXMgNSAwIFI+PgplbmRvYmoKeHJlZgowIDEzCjAwMDAwMDAwMDAg
+NjU1MzUgZiAKMDAwMDAwMDAxNSAwMDAwMCBuIAowMDAwMDAwMTA1IDAwMDAwIG4gCjAwMDAwMDAz
+MjcgMDAwMDAgbiAKMDAwMDAwMDQwMyAwMDAwMCBuIAowMDAwMDAwNTc4IDAwMDAwIG4gCjAwMDAw
+MDEwNDYgMDAwMDAgbiAKMDAwMDAwMDYyOSAwMDAwMCBuIAowMDAwMDAwODM4IDAwMDAwIG4gCjAw
+MDAwMDA3MDEgMDAwMDAgbiAKMDAwMDAwMTI4NSAwMDAwMCBuIAowMDAwMDAxMzU5IDAwMDAwIG4g
+CjAwMDAwMDI2MTIgMDAwMDAgbiAKdHJhaWxlcgo8PC9Sb290IDEyIDAgUi9JRCBbPDE2YmQwNzE2
+OWVmMTE4NzRkNDkzOGI2NzVhZWM1NzE1Pjw1Yjk5NTQ5YTQ3MmM5M2FjNTk2NDVhOWVlMmIyZWIy
+Yj5dL0luZm8gMiAwIFIvU2l6ZSAxMz4+CiVpVGV4dC01LjUuMwpzdGFydHhyZWYKMjY1OAolJUVP
+Rgo=
+
+--===============4066032201159748874==--
+
+------=_Part_1625256_12881184.1432134501808--
+
+------=_Part_1625257_870364.1432134501808
+Content-Type: application/x-pkcs7-signature; name=smime.p7s
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename=smime.p7s
+
+MIAGCSqGSIb3DQEHAqCAMIACAQExCzAJBgUrDgMCGgUAMIAGCSqGSIb3DQEHAQAAoIIH2zCCA4cw
+ggJvoAMCAQICAg0VMA0GCSqGSIb3DQEBBQUAMGgxCzAJBgNVBAYTAklUMRAwDgYDVQQKDAdEaWdp
+dFBBMTEwLwYDVQQLDChVZmZpY2lvIGludGVyb3BlcmFiaWxpdGEnIGUgY29vcGVyYXppb25lMRQw
+EgYDVQQDDAtEaWdpdFBBIENBMTAeFw0xNDAyMTAxMzExMjFaFw0xNzAyMTAxMzExMjFaMFAxJzAl
+BgNVBAMMHlBvc3RhIENlcnRpZmljYXRhIExlZ2FsbWFpbCAxNTEYMBYGA1UECgwPSW5mb0NlcnQg
+Uy5wLkEuMQswCQYDVQQGEwJJVDCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEA1B0STVJv/MSe
+3ewNwMPUICl5vbEo1xc7/99+SFhyN5v7YPvw8I2cFmY2ecMJVseOTfhDT0ywGY4GSi1TDwMYU8/O
+4dSFmOYEgu/q7F3DLiYkZ16BMe9cqCpWaFGP/xlXc4b8qgKSTa4Hn0HUjZ1LNI+mTxR1cpE1Uu0/
+nm7lcv0CAwEAAaOB1jCB0zAJBgNVHRMEAjAAME4GA1UdIARHMEUwQwYGK0wQAwEBMDkwNwYIKwYB
+BQUHAgEWK2h0dHA6Ly93d3cuZGlnaXRwYS5nb3YuaXQvbWFudWFsaS1vcGVyYXRpdmkwKQYDVR0R
+BCIwIIEecG9zdGEtY2VydGlmaWNhdGFAbGVnYWxtYWlsLml0MAsGA1UdDwQEAwIHgDAfBgNVHSME
+GDAWgBT+Irck408n2QXgzLi93vSNI/0v2TAdBgNVHQ4EFgQU4AhxuLXE0rDxvs1T3t0CtyOWfYww
+DQYJKoZIhvcNAQEFBQADggEBAE33OU29ArdMuuwvaId0MZnCuBVGUJBGcjorKa+ohs7WO1aiZV9s
+dHZ+8VV4/Pi05mT/duoSqQ23xky0O+FD3jFkgf6tg9uAfxA3uN3AqGCoY1cdTY6lA5mKSkjLDu3T
+d4EXQV38Coz5wa1+qaNrI6N13dzweKLMsN5YXTJL0NkHhSpCkpxPQXEwjZsVkq8MhXX5k/6UCb7n
+8zAoTbSGNQxa3lsJOhnL6aje+lZ2cy4YNcw1109apcG9qgEDQOEHP5YmLHTlZ6QzREvAgPTxocQf
+VvUZzTw+myHBo40b6hZb4tjwNFIewQQUfdEuoxG9ZEsTG3Iv1IifF+5YcLXU5CIwggRMMIIDNKAD
+AgECAgQHJ0igMA0GCSqGSIb3DQEBBQUAMFoxCzAJBgNVBAYTAklFMRIwEAYDVQQKEwlCYWx0aW1v
+cmUxEzARBgNVBAsTCkN5YmVyVHJ1c3QxIjAgBgNVBAMTGUJhbHRpbW9yZSBDeWJlclRydXN0IFJv
+b3QwHhcNMTEwMTE0MTYyOTU2WhcNMTgwMTE0MTYyODUwWjBoMQswCQYDVQQGEwJJVDEQMA4GA1UE
+CgwHRGlnaXRQQTExMC8GA1UECwwoVWZmaWNpbyBpbnRlcm9wZXJhYmlsaXRhJyBlIGNvb3BlcmF6
+aW9uZTEUMBIGA1UEAwwLRGlnaXRQQSBDQTEwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIB
+AQCZn6QoSiNUR3LgffOrr+efD4o20KCyNa9+oM/K+FiBal1QLW3l3R1d8qN6L+FXVZIHFffa+vdu
+nA5v37QzU0t+tAi0w+dVisJ9ls86OtgiS9KZ0JmLXlSLRk0tLD9+5jKPR5XiR4mXRN2FSb1ZiDbx
+DfGDp8vGyntR3sTLkpXwk70J/GurAhpZ+oks2wDt+73dUgi5VJYWDehg9BnrPcHEjeCIdEM459+C
+B+dJe362VNYl5BEl3C7XCAeIpI1cVR2SuO66orYHadzu0bOdbN6AHxADaIuB0wHY1qKURF4rK75n
+x0a8Jt1ORQ5sLVWpvtj47C+xS86W/bdSVj9PHBV3AgMBAAGjggEKMIIBBjASBgNVHRMBAf8ECDAG
+AQH/AgEAMFwGA1UdIARVMFMwSAYJKwYBBAGxPgEAMDswOQYIKwYBBQUHAgEWLWh0dHA6Ly9jeWJl
+cnRydXN0Lm9tbmlyb290LmNvbS9yZXBvc2l0b3J5LmNmbTAHBgUrTBADATAOBgNVHQ8BAf8EBAMC
+AQYwHwYDVR0jBBgwFoAU5Z1ZMIJHWMys+ghUNoZ7OrUETfAwQgYDVR0fBDswOTA3oDWgM4YxaHR0
+cDovL2NkcDEucHVibGljLXRydXN0LmNvbS9DUkwvT21uaXJvb3QyMDI1LmNybDAdBgNVHQ4EFgQU
+/iK3JONPJ9kF4My4vd70jSP9L9kwDQYJKoZIhvcNAQEFBQADggEBACZtRODWTeunvIcNTE3PC3n8
+EMwi/MsKqRJjf+VTDuzVZi+KwsmvAWgFPvaDLA+tVx/Ezz6QsxQm9D2qodJpDrRRbRWFTPeRlO8S
+Itrc3Gqk1WDGz591JyyRfoqnyLXGL3B/ZO5U+YjLPQaUji+TxeB1IHgE4ajQ0/8TDVz701V5TR+T
+ll5KoHMvpp4AHWqWp58dVydzBXjsMiY04vmKIfhPjg21SNN2mnEbcJSsknUneOBYzeKEI5AO3lc5
+GyHMj2SB8monfm+XWEElDy700BWygKHl0vosmZjesqPblV8JF8CRhkSKKUbLCVTCbo5sKpE4XsqZ
+e66eC6LTmC6HIssxggJiMIICXgIBATBuMGgxCzAJBgNVBAYTAklUMRAwDgYDVQQKDAdEaWdpdFBB
+MTEwLwYDVQQLDChVZmZpY2lvIGludGVyb3BlcmFiaWxpdGEnIGUgY29vcGVyYXppb25lMRQwEgYD
+VQQDDAtEaWdpdFBBIENBMQICDRUwCQYFKw4DAhoFAKCCAUowGAYJKoZIhvcNAQkDMQsGCSqGSIb3
+DQEHATAcBgkqhkiG9w0BCQUxDxcNMTUwNTIwMTUwODIxWjAjBgkqhkiG9w0BCQQxFgQUjB2vOeqG
+4EbvYFSDSwc22UxaklowbAYJKoZIhvcNAQkPMV8wXTAKBggqhkiG9w0DBzAOBggqhkiG9w0DAgIC
+AIAwDQYIKoZIhvcNAwICAUAwBwYFKw4DAgcwDQYIKoZIhvcNAwICASgwCwYJKoZIhvcNAQEFMAsG
+CSqGSIb3DQEBBDB9BgkrBgEEAYI3EAQxcDBuMGgxCzAJBgNVBAYTAklUMRAwDgYDVQQKDAdEaWdp
+dFBBMTEwLwYDVQQLDChVZmZpY2lvIGludGVyb3BlcmFiaWxpdGEnIGUgY29vcGVyYXppb25lMRQw
+EgYDVQQDDAtEaWdpdFBBIENBMQICDRUwDQYJKoZIhvcNAQEBBQAEgYBHeB/cV9gDuFbraodyywFs
+Fm9cmq2Zq+DTGb1ePQMQ3qgqQavpXAGt94WSGcGhZfaKU9TtbdeXPJ6cOVSM9GeC8ZXF9CPgBzh7
+ngO65z8ryEz36JaPclYvrwgpw8ftJNjJJqIAzYQQHMBbzhJPxaNXlYB9HgHdB0E3g1T5PtTZ/gAA
+AAAAAA==
+------=_Part_1625257_870364.1432134501808--

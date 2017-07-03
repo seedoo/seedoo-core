@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This file is part of Seedoo.  The COPYRIGHT file at the top level of
+this module contains the full copyright notices and license terms. -->
+
+<openerp>
+    <data>
+
+        <!-- wizard view -->
+        <record id="gedoc_upload_doc_wizard_view" model="ir.ui.view">
+            <field name="name">Carica Documenti</field>
+            <field name="model">gedoc.upload.doc.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Carica Documenti" version="7.0">
+                    <group>
+                        <field name="name"/>
+                    </group>
+                    <label for="datas_fname"/>
+                    <field name="datas_fname"/>
+                    <label for="datas"/>
+                    <field name="datas" filename="datas_fname"/>
+                    <separator string="Inserisci altri allegati"/>
+                    <group>
+                        <field name="attachs" nolabel="1">
+                            <tree editable="bottom">
+                                <field name="ldatas_fname"/>
+                                <field name="ldatas" filename="ldatas_fname"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <footer>
+                        <button string="Salva" name="action_save" type="object"
+                                class="oe_highlight"/>
+                        o
+                        <button string="Abbandona" class="oe_link"
+                                special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="gedoc_upload_doc_wizard_action"
+                model="ir.actions.act_window">
+            <field name="name">Carica Documenti</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">gedoc.upload.doc.wizard</field>
+            <field name="src_model">gedoc.document</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="groups_id" eval="[(4, ref('base.group_user'))]"/>
+            <field name="view_id" ref="gedoc_upload_doc_wizard_view"/>
+
+        </record>
+    </data>
+</openerp>

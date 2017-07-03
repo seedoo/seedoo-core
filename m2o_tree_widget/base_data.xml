@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <template id="assets_backend" name="mail assets" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/m2o_tree_widget/static/src/js/m2o_tree_widget.js"></script>
+                <script type="text/javascript" src="/m2o_tree_widget/static/lib/jquery.ztree.core-3.5.min.js"></script>
+                <script type="text/javascript" src="/m2o_tree_widget/static/lib/jquery.ztree.excheck-3.5.min.js"></script>
+                <link rel="stylesheet" href="/m2o_tree_widget/static/src/css/zTreeStyle.css"/>
+            </xpath>
+        </template>
+
+    </data>
+</openerp>

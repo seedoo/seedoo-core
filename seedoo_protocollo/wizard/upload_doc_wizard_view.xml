@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This file is part of Seedoo.  The COPYRIGHT file at the top level of
+this module contains the full copyright notices and license terms. -->
+
+<openerp>
+    <data noupdate="0">
+        <!-- wizard action on protocollo.protocollo -->
+        <act_window id="protocollo_upload_action"
+                    name="Carica Documento da Protocollare"
+                    src_model="protocollo.protocollo"
+                    res_model="protocollo.upload.wizard"
+                    key2="client_action_multi"
+                    view_type="form" view_mode="form"
+                    target="new"/>
+
+        <!-- wizard view -->
+        <record id="protocollo_upload_view" model="ir.ui.view">
+            <field name="name">Carica Documento Protocollo</field>
+            <field name="model">protocollo.upload.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Carica Documento Protocollo" version="7.0">
+                    <group>
+                        <label for="datas_fname"/>
+                        <field name="datas_fname"/>
+                        <label for="datas"/>
+                        <field name="datas" filename="datas_fname"/>
+                    </group>
+                    <div>
+                        Carica Documento Principale Protocollo
+                    </div>
+                    <newline/>
+                    <div>
+                        L'estensione del file deve essere
+                        necessariamente .pdf
+                    </div>
+                    <footer>
+                        <button string="Ok" name="action_save" type="object"
+                                class="oe_highlight"/>
+                        o
+                        <button string="Abbandona" class="oe_link"
+                                special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</openerp>

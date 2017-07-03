@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+<t t-name="m2o_tree">
+    <span class="oe_form_field oe_form_field_many2one oe_form_field_with_button" t-att-style="widget.node.attrs.style">
+        <t t-if="widget.get('effective_readonly')">
+            <a t-if="! widget.options.no_open" href="#" class="oe_form_uri"/>
+            <span t-if="widget.options.no_open" href="#" class="oe_form_uri"/>
+            <span class="oe_form_m2o_follow"/>
+        </t>
+        <t t-if="!widget.get('effective_readonly')">
+            <div>
+				<ul id="treeData" class="ztree"></ul>
+            </div>
+        </t>
+    </span>
+</t>
+</templates>

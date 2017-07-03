@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This file is part of Seedoo.  The COPYRIGHT file at the top level of
+this module contains the full copyright notices and license terms. -->
+
+<openerp>
+    <data noupdate="1">
+        
+        <!-- Document Typology -->
+    	<record id="gedoc_document_type_contract" model="gedoc.document.type">
+            <field name="name">Contratto</field>
+            <field name="tipologia_repertorio">none</field>
+        </record>
+
+    	<record id="gedoc_document_type_cv" model="gedoc.document.type">
+            <field name="name">Curriculum Vitae</field>
+            <field name="tipologia_repertorio">none</field>
+        </record>
+
+    	<record id="gedoc_document_type_project" model="gedoc.document.type">
+            <field name="name">Progetto</field>
+            <field name="tipologia_repertorio">none</field>
+        </record>
+    
+    </data>
+</openerp>

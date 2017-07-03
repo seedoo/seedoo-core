@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file is part of Seedoo.  The COPYRIGHT file at the top level of
+this module contains the full copyright notices and license terms. -->
+
+<openerp>
+    <data>
+
+        <template id="journal_qweb">
+            <t t-call="report.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="report.external_layout">
+                        <div class="page">
+                            <h3>Registro Giornaliero -
+                                <span t-field="o.user_id.company_id.name"/>
+                            </h3>
+                            <h4>Registro di protocollo del
+                                <span t-field="o.date"/>
+                            </h4>
+                            <table style="width:100%;font-size: 10px;">
+                                <tr style="padding: 5px; border: 1px solid #aaa;height: 30px; background-color: #f0f0f0">
+                                    <th style="padding: 2px 5px 2px 2px;"
+                                        width="7%">Tipo
+                                    </th>
+                                    <th style="padding: 2px 5px 2px 2px;"
+                                        width="7%">Numero
+                                    </th>
+                                    <th style="padding: 2px 5px 2px 2px;"
+                                        width="14%">Data
+                                    </th>
+                                    <th style="padding: 2px 5px 2px 2px;"
+                                        width="40%">Oggetto
+                                    </th>
+                                    <th style="padding: 2px 5px 2px 2px;"
+                                        width="32%">Mittente/Destinatario
+                                    </th>
+                                </tr>
+                                <t t-foreach="o.protocol_ids" t-as="protocol">
+                                    <tr style="padding: 5px; border: 1px solid #aaa;height: 30px">
+                                        <td width="7%"
+                                            style="padding: 2px 5px 2px 2px;">
+                                            <span t-field="protocol.type"/>
+                                        </td>
+                                        <td width="7%"
+                                            style="padding: 2px 5px 2px 2px;">
+                                            <span t-field="protocol.name"/>
+                                        </td>
+                                        <td width="14%"
+                                            style="padding: 2px 5px 2px 2px;">
+                                            <span t-field="protocol.registration_date"/>
+                                        </td>
+                                        <td width="40%"
+                                            style="padding: 2px 5px 2px 2px;">
+                                            <span t-field="protocol.subject"/>
+                                        </td>
+                                        <td width="32%"
+                                            style="padding: 2px 5px 2px 2px;">
+                                            <t t-foreach="protocol.sender_receivers"
+                                               t-as="sr">
+                                                <span t-field="sr.name"/>
+                                                <br/>
+                                            </t>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</openerp>

@@ -1,0 +1,38 @@
+<?xml version="1.0" ?>
+<!-- This file is part of Seedoo.  The COPYRIGHT file at the top level of
+this module contains the full copyright notices and license terms. -->
+
+<openerp>
+    <data>
+        <!--UOR AOO di default (creata dai data)-->
+        <record id="protocollo_dept_uor1" model="hr.department">
+            <field name="name">Segreteria Tecnica</field>
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="assignable">True</field>
+        </record>
+
+        <record id="protocollo_dept_uor2" model="hr.department">
+            <field name="name">Ufficio di Gabinetto</field>
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="assignable">True</field>
+        </record>
+
+        <record id="protocollo_dept_uor3" model="hr.department">
+            <field name="name">Ufficio Stampa</field>
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="assignable">True</field>
+        </record>
+
+        <record id="protocollo_dept_uor4" model="hr.department">
+            <field name="name">Uff_eFatturaPA</field>
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="assignable">True</field>
+        </record>
+
+        <record id="protocollo_dept_uor5" model="hr.department">
+            <field name="name">Ufficio Legislativo</field>
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="assignable">True</field>
+        </record>
+    </data>
+</openerp>

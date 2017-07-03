@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- This file is part of Seedoo.  The COPYRIGHT file at the top level of
+this module contains the full copyright notices and license terms. -->
+
+<!DOCTYPE Segnatura SYSTEM "segnatura.dtd">
+<Segnatura>
+    <Intestazione>
+        <Identificatore>
+            <CodiceAmministrazione>
+                ECOFIN
+            </CodiceAmministrazione>
+            <CodiceAOO>
+                ECOFIN
+            </CodiceAOO>
+            <NumeroRegistrazione>
+                0001507
+            </NumeroRegistrazione>
+            <DataRegistrazione>
+
+            </DataRegistrazione>
+        </Identificatore>
+        <Origine>
+            <IndirizzoTelematico tipo="smtp">
+                qualcosa@qualcosa.it
+            </IndirizzoTelematico>
+            <Mittente>
+                <Amministrazione>
+                    <Denominazione>
+                        Ministero dell'Economia e delle Finanze
+                    </Denominazione>
+                    <CodiceAmministrazione>
+                        ECOFIN
+                    </CodiceAmministrazione>
+                    <UnitaOrganizzativa>
+                        <Denominazione>
+                            Sistemi Informativi
+                        </Denominazione>
+                        <IndirizzoPostale>
+                            <Toponimo dug="Via">
+                                XX settembre
+                            </Toponimo>
+                            <Civico>
+                                97
+                            </Civico>
+                            <CAP>
+                                00187
+                            </CAP>
+                            <Comune>
+                                Roma
+                            </Comune>
+                            <Provincia>
+                                RM
+                            </Provincia>
+                        </IndirizzoPostale>
+                        <IndirizzoTelematico/>
+                        <Telefono>
+                            06 XXXXXXXX
+                        </Telefono>
+                        <Fax/>
+                    </UnitaOrganizzativa>
+                </Amministrazione>
+                <AOO>
+                    <Denominazione/>
+                </AOO>
+            </Mittente>
+        </Origine>
+        <Destinazione confermaRicezione="si">
+            <IndirizzoTelematico tipo="smtp">protocollo@aipa.it
+            </IndirizzoTelematico>
+            <Destinatario>
+                <Amministrazione>
+                    <Denominazione>
+                        Autorità per l'informatica nella Pubblica
+                        Amministrazione
+                    </Denominazione>
+                    <CodiceAmministrazione>AIPA</CodiceAmministrazione>
+                    <UnitaOrganizzativa tipo="permanente">
+                        <Denominazione>Area Pianificazione</Denominazione>
+                        <IndirizzoPostale>
+                            <Toponimo dug="Via">Isonzo</Toponimo>
+                            <Civico>21</Civico>
+                            <CAP>00198</CAP>
+                            <Comune>Roma</Comune>
+                            <Provincia>RM</Provincia>
+                        </IndirizzoPostale>
+                        <IndirizzoTelematico/>
+                        <Telefono/>
+                        <Fax/>
+                    </UnitaOrganizzativa>
+                </Amministrazione>
+            </Destinatario>
+        </Destinazione>
+        <Oggetto>
+            Richiesta di Parere per la fornitura del sistema Informatico per il
+            servizio…
+        </Oggetto>
+    </Intestazione>
+    <Descrizione>
+        <Documento nome="lettera.doc" tipoRiferimento="MIME">
+            <Oggetto>Richiesta di Parere per la fornitura del sistema
+                Informatico per il servizio…
+            </Oggetto>
+            <NumeroPagine>1</NumeroPagine>
+        </Documento>
+        <Allegati>
+            <Documento nome="Relazione.doc" tipoRiferimento="MIME">
+                <TipoDocumento>Relazione di sintesi</TipoDocumento>
+                <Oggetto>Relazione di Sintesi per la fornitura…</Oggetto>
+                <NumeroPagine>3</NumeroPagine>
+            </Documento>
+            <Documento nome="Capitolato.doc" tipoRiferimento="MIME">
+                <TipoDocumento>Capitolato</TipoDocumento>
+                <Oggetto>Capitolato Tecnico per la fornitura…</Oggetto>
+                <NumeroPagine>inserire il num. pagine</NumeroPagine>
+            </Documento>
+        </Allegati>
+    </Descrizione>
+</Segnatura>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- Titolario -->
+        <!--
+        <record model='ir.ui.view' id='protocollo_classification_form'>
+            <field name="name">protocollo.classification.form</field>
+            <field name="model">protocollo.classification</field>
+            <field name="inherit_id" ref="seedoo_gedoc.protocollo_classification_form"/>
+            <field name="arch" type="xml">
+                <field name="class_type" position="after">
+                    <field name="aoo_id" attrs="{'readonly':[('is_aoo_id_editable','=',False)]}"
+                           on_change="on_change_aoo_id(aoo_id)"
+                           options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                    <group colspan="4"></group>
+                    <field name="is_aoo_id_editable" invisible="1"/>
+                    <newline/>
+                </field>
+                <field name="parent_id" position="attributes">
+                    <attribute name="domain">[('aoo_id','=',aoo_id)]</attribute>
+                </field>
+                <field name="assigne" position="attributes">
+                    <attribute name="domain">[('aoo_id','=',aoo_id)]</attribute>
+                </field>
+                <field name="dossier_ids" position="attributes">
+                    <attribute name="domain">[('aoo_id','=',aoo_id)]</attribute>
+                </field>
+            </field>
+        </record>
+        -->
+
+        <!--
+        <record model='ir.ui.view' id='protocollo_dossier_tree'>
+            <field name="name">protocollo.dossier.tree</field>
+            <field name="model">protocollo.dossier</field>
+            <field name="inherit_id" ref="seedoo_gedoc.protocollo_dossier_tree"/>
+            <field name="arch" type="xml">
+                <field name="user_id" position="after">
+                    <field name="aoo_id"/>
+                </field>
+            </field>
+        </record>
+        -->
+        <!--
+        <act_window
+            domain="[('dossier_ids', 'in', [active_id])]"
+            context="{'default_dossier_ids': active_id}"
+            id="zoom_protocollo_document" name="Protocolli Collegati"
+            res_model="protocollo.protocollo"
+            src_model="protocollo.dossier"/>
+        -->
+
+        <menuitem action="protocollo_protocollo_notified_act" parent="seedoo_gedoc.gedoc_document_menu" id="gedoc_protocollo_all_notified_menu" sequence="10"/>
+
+    </data>
+</openerp>

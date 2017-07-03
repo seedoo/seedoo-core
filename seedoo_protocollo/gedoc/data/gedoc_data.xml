@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This file is part of Seedoo.  The COPYRIGHT file at the top level of
+this module contains the full copyright notices and license terms. -->
+
+<openerp>
+    <data>
+
+        <!-- Model Typology -->
+        <record id="gedoc_document_type2" model="gedoc.model.type">
+            <field name="name">protocollo.protocollo</field>
+            <field name="description">Protocolli</field>
+        </record>
+
+    </data>
+</openerp>

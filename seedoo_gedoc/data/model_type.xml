@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This file is part of Seedoo.  The COPYRIGHT file at the top level of
+this module contains the full copyright notices and license terms. -->
+
+<openerp>
+    <data>
+
+    	<record id="gedoc_document_type1" model="gedoc.model.type">
+            <field name="name">gedoc.document</field>
+            <field name="description">Documenti</field>
+        </record>
+    
+    </data>
+</openerp>

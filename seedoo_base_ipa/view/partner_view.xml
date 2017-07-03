@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This file is part of Seedoo.  The COPYRIGHT file at the top level of
+this module contains the full copyright notices and license terms. -->
+
+<openerp>
+    <data>
+
+        <record id="view_partner_base_ipa_form" model="ir.ui.view">
+            <field name="name">res.partner.seedoo.base.ipa.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="l10n_it_ipa.view_partner_ipa_form"/>
+            <field name="arch" type="xml">
+                <field name="is_company" position="attributes">
+                    <attribute name="attrs">{'invisible': True}</attribute>
+                </field>
+                <label for="is_company" position="attributes">
+                    <attribute name="attrs">{'invisible': True}</attribute>
+                </label>
+                <field name="parent_id" position="attributes">
+                    <attribute name="attrs">{'invisible': True}</attribute>
+                </field>
+
+                <field name="website" position="after">
+                    <field name="legal_type" placeholder=""
+                           attrs="{'required': True}"/>
+                    <field name="pa_type" placeholder=""
+                           attrs="{'invisible': [('legal_type','!=', 'government')]}"
+                           on_change="on_change_pa_type(pa_type)"/>
+
+                    <field name="super_type" placeholder=""
+                           attrs="{'invisible': True}"/>
+                    <field name="parent_pa_type" placeholder=""
+                           attrs="{'invisible': True}"/>
+
+                    <field name="ammi_code" placeholder=""
+                           attrs="{
+                                'invisible': ['|', ('legal_type','!=', 'government'), ('pa_type','!=', 'pa')],
+                                'required': [('legal_type','=', 'government'), ('pa_type','=', 'pa')],
+                           }"/>
+                    <field name="ident_code" placeholder=""
+                           attrs="{
+                                'invisible': ['|', ('legal_type','!=', 'government'), ('pa_type','!=', 'aoo')],
+                                'required': [('legal_type','=', 'government'), ('pa_type','=', 'aoo')],
+                           }"/>
+                    <field name="parent_pa_id" placeholder=""
+                           attrs="{
+                                'invisible': ['|', ('legal_type','!=', 'government'), ('pa_type','not in', ['aoo', 'uo'])]
+                           }"
+                           domain="[('pa_type','!=', False),('pa_type','!=', pa_type),('pa_type','!=', 'uo')]"
+                    />
+                </field>
+                <field name="ipa_code" position="attributes">
+                    <attribute name="attrs">{
+                        'invisible': ['|', ('legal_type','!=', 'government'),
+                        ('pa_type','!=', 'uo')],
+                        'required': [('legal_type','=', 'government'),
+                        ('pa_type','=', 'uo')]
+                        }
+                    </attribute>
+                    <attribute name="string">Codice Unità Organizzativa
+                    </attribute>
+                </field>
+
+            </field>
+        </record>
+
+    </data>
+</openerp>

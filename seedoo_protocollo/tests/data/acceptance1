@@ -1,0 +1,126 @@
+Return-Path: <posta-certificata@pec.aruba.it>
+Delivered-To: info@pec.innoviu.it
+Received: from smtpecn3.pec.ad.aruba.it (localhost [127.0.0.1])
+	by smtpecn3.pec.ad.aruba.it (lmtpd) with LMTP id 25055.002;
+	Wed, 20 May 2015 17:08:10 +0200 (CEST)
+Subject: ACCETTAZIONE: Invio conferma domanda bando startup
+X-Riferimento-Message-ID: <1432134489.558327913284302.165667473553067-openerp-private@roberto-ubuntu12>
+Date: Wed, 20 May 2015 17:08:10 +0200
+Message-ID: <opec275.20150520170810.24847.06.1.09.17@pec.aruba.it>
+To: info@pec.innoviu.it
+From: posta-certificata@pec.aruba.it
+X-Ricevuta: accettazione
+MIME-Version: 1.0
+Content-Type: multipart/signed; protocol="application/x-pkcs7-signature"; micalg=sha1; boundary="----956E45A12C8CC85BB6DB527E02968BA1"
+
+This is an S/MIME signed message
+
+------956E45A12C8CC85BB6DB527E02968BA1
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="----------=_1432134490-24847-13"
+
+This is a multi-part message in MIME format...
+
+------------=_1432134490-24847-13
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+-- Ricevuta di accettazione del messaggio indirizzato a innoviu.test1@legal=
+mail.it ("posta certificata") --
+
+Il giorno 20/05/2015 alle ore 17:08:10 (+0200) il messaggio con Oggetto
+"Invio conferma domanda bando startup" inviato da "info@pec.innoviu.it"
+ed indirizzato a:
+innoviu.test1@legalmail.it ("posta certificata")
+=E8 stato accettato dal sistema ed inoltrato.
+Identificativo del messaggio: opec275.20150520170810.24847.06.1.17@pec.arub=
+a.it
+L'allegato daticert.xml contiene informazioni di servizio sulla trasmissione
+
+------------=_1432134490-24847-13
+Content-Type: application/xml; name="daticert.xml"
+Content-Disposition: inline; filename="daticert.xml"
+Content-Transfer-Encoding: base64
+
+PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHBvc3Rh
+Y2VydCB0aXBvPSJhY2NldHRhemlvbmUiIGVycm9yZT0ibmVzc3VubyI+CiAg
+ICA8aW50ZXN0YXppb25lPgogICAgICAgIDxtaXR0ZW50ZT5pbmZvQHBlYy5p
+bm5vdml1Lml0PC9taXR0ZW50ZT4KICAgICAgICA8ZGVzdGluYXRhcmkgdGlw
+bz0iY2VydGlmaWNhdG8iPmlubm92aXUudGVzdDFAbGVnYWxtYWlsLml0PC9k
+ZXN0aW5hdGFyaT4KICAgICAgICA8cmlzcG9zdGU+aW5mb0BwZWMuaW5ub3Zp
+dS5pdDwvcmlzcG9zdGU+CiAgICAgICAgPG9nZ2V0dG8+SW52aW8gY29uZmVy
+bWEgZG9tYW5kYSBiYW5kbyBzdGFydHVwPC9vZ2dldHRvPgogICAgPC9pbnRl
+c3RhemlvbmU+CiAgICA8ZGF0aT4KICAgICAgICA8Z2VzdG9yZS1lbWl0dGVu
+dGU+QVJVQkEgUEVDIFMucC5BLjwvZ2VzdG9yZS1lbWl0dGVudGU+CiAgICAg
+ICAgPGRhdGEgem9uYT0iKzAyMDAiPgogICAgICAgICAgICA8Z2lvcm5vPjIw
+LzA1LzIwMTU8L2dpb3Jubz4KICAgICAgICAgICAgPG9yYT4xNzowODoxMDwv
+b3JhPgogICAgICAgIDwvZGF0YT4KICAgICAgICA8aWRlbnRpZmljYXRpdm8+
+b3BlYzI3NS4yMDE1MDUyMDE3MDgxMC4yNDg0Ny4wNi4xLjE3QHBlYy5hcnVi
+YS5pdDwvaWRlbnRpZmljYXRpdm8+CiAgICAgICAgPG1zZ2lkPiZsdDsxNDMy
+MTM0NDg5LjU1ODMyNzkxMzI4NDMwMi4xNjU2Njc0NzM1NTMwNjctb3BlbmVy
+cC1wcml2YXRlQHJvYmVydG8tdWJ1bnR1MTImZ3Q7PC9tc2dpZD4KICAgIDwv
+ZGF0aT4KPC9wb3N0YWNlcnQ+Cg==
+
+------------=_1432134490-24847-13--
+
+------956E45A12C8CC85BB6DB527E02968BA1
+Content-Type: application/x-pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+
+MIIJqwYJKoZIhvcNAQcCoIIJnDCCCZgCAQExCzAJBgUrDgMCGgUAMAsGCSqGSIb3
+DQEHAaCCB9kwggOFMIICbaADAgECAgINETANBgkqhkiG9w0BAQUFADBoMQswCQYD
+VQQGEwJJVDEQMA4GA1UECgwHRGlnaXRQQTExMC8GA1UECwwoVWZmaWNpbyBpbnRl
+cm9wZXJhYmlsaXRhJyBlIGNvb3BlcmF6aW9uZTEUMBIGA1UEAwwLRGlnaXRQQSBD
+QTEwHhcNMTQwMjEwMTIzMjIxWhcNMTcwMjEwMTIzMjIxWjBOMSQwIgYDVQQDDBtQ
+b3N0YSBDZXJ0aWZpY2F0YSBBUlVCQSBQRUMxGTAXBgNVBAoMEEFSVUJBIFBFQyBT
+LnAuQS4xCzAJBgNVBAYTAklUMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDQ
+rsnZEQpkz8I2NTmt2Jj9QJIvGpKG8r6hUX0YaYGSolucoBrbVTl7IZ+LYyo+cXXu
+e3QcHFAMeO3y0RMsCSDimjDOLDPyN4VXdntoqgwHfauZHgUbIwdOP/7pIXOQRdgb
+Zvm9wKUw8f3OIMNOYek87Bv6+STB9ufoNYCkX6DMhwIDAQABo4HWMIHTMAkGA1Ud
+EwQCMAAwTgYDVR0gBEcwRTBDBgYrTBADAQEwOTA3BggrBgEFBQcCARYraHR0cDov
+L3d3dy5kaWdpdHBhLmdvdi5pdC9tYW51YWxpLW9wZXJhdGl2aTApBgNVHREEIjAg
+gR5wb3N0YS1jZXJ0aWZpY2F0YUBwZWMuYXJ1YmEuaXQwCwYDVR0PBAQDAgeAMB8G
+A1UdIwQYMBaAFP4ityTjTyfZBeDMuL3e9I0j/S/ZMB0GA1UdDgQWBBRM+kCtNZga
+awBvvT5WmMwpANppHjANBgkqhkiG9w0BAQUFAAOCAQEARAIko1J7lpwlybgntB12
+HSIb4ojfs6GW23IxBqURpI1HMYejjeObEsObqd4/etCLoTb+i2n7JT7FOi60mXDT
+Lb/+8jzDBYjvMzqq4DAq7wiOhC5LqOPYX4Yk2N1MEBUXFBNhMo4Th3ACfbuSDPf9
+sQqHIljHYlMxX+CuHyJQbhDPJDjJtIFOACc6GmZXrPGfdrR2zDeOzONTHpdNOluW
+2SdfAbHG76+WKQTSLE6N8MrD6SXVrW+EFb3rE6gMiHorwlhJ7ab3oY8gUZHepoqn
+u9foEeNi1pSES53gFtRZ+VZhrCB2VgYF3+STt3gUIk6ljlud6jErVidFQP5q4M9K
+DzCCBEwwggM0oAMCAQICBAcnSKAwDQYJKoZIhvcNAQEFBQAwWjELMAkGA1UEBhMC
+SUUxEjAQBgNVBAoTCUJhbHRpbW9yZTETMBEGA1UECxMKQ3liZXJUcnVzdDEiMCAG
+A1UEAxMZQmFsdGltb3JlIEN5YmVyVHJ1c3QgUm9vdDAeFw0xMTAxMTQxNjI5NTZa
+Fw0xODAxMTQxNjI4NTBaMGgxCzAJBgNVBAYTAklUMRAwDgYDVQQKDAdEaWdpdFBB
+MTEwLwYDVQQLDChVZmZpY2lvIGludGVyb3BlcmFiaWxpdGEnIGUgY29vcGVyYXpp
+b25lMRQwEgYDVQQDDAtEaWdpdFBBIENBMTCCASIwDQYJKoZIhvcNAQEBBQADggEP
+ADCCAQoCggEBAJmfpChKI1RHcuB986uv558PijbQoLI1r36gz8r4WIFqXVAtbeXd
+HV3yo3ov4VdVkgcV99r6926cDm/ftDNTS360CLTD51WKwn2Wzzo62CJL0pnQmYte
+VItGTS0sP37mMo9HleJHiZdE3YVJvVmINvEN8YOny8bKe1HexMuSlfCTvQn8a6sC
+Gln6iSzbAO37vd1SCLlUlhYN6GD0Ges9wcSN4Ih0Qzjn34IH50l7frZU1iXkESXc
+LtcIB4ikjVxVHZK47rqitgdp3O7Rs51s3oAfEANoi4HTAdjWopREXisrvmfHRrwm
+3U5FDmwtVam+2PjsL7FLzpb9t1JWP08cFXcCAwEAAaOCAQowggEGMBIGA1UdEwEB
+/wQIMAYBAf8CAQAwXAYDVR0gBFUwUzBIBgkrBgEEAbE+AQAwOzA5BggrBgEFBQcC
+ARYtaHR0cDovL2N5YmVydHJ1c3Qub21uaXJvb3QuY29tL3JlcG9zaXRvcnkuY2Zt
+MAcGBStMEAMBMA4GA1UdDwEB/wQEAwIBBjAfBgNVHSMEGDAWgBTlnVkwgkdYzKz6
+CFQ2hns6tQRN8DBCBgNVHR8EOzA5MDegNaAzhjFodHRwOi8vY2RwMS5wdWJsaWMt
+dHJ1c3QuY29tL0NSTC9PbW5pcm9vdDIwMjUuY3JsMB0GA1UdDgQWBBT+Irck408n
+2QXgzLi93vSNI/0v2TANBgkqhkiG9w0BAQUFAAOCAQEAJm1E4NZN66e8hw1MTc8L
+efwQzCL8ywqpEmN/5VMO7NVmL4rCya8BaAU+9oMsD61XH8TPPpCzFCb0Paqh0mkO
+tFFtFYVM95GU7xIi2tzcaqTVYMbPn3UnLJF+iqfItcYvcH9k7lT5iMs9BpSOL5PF
+4HUgeAThqNDT/xMNXPvTVXlNH5OWXkqgcy+mngAdapannx1XJ3MFeOwyJjTi+Yoh
++E+ODbVI03aacRtwlKySdSd44FjN4oQjkA7eVzkbIcyPZIHyaid+b5dYQSUPLvTQ
+FbKAoeXS+iyZmN6yo9uVXwkXwJGGRIopRssJVMJujmwqkTheypl7rp4LotOYLoci
+yzGCAZowggGWAgEBMG4waDELMAkGA1UEBhMCSVQxEDAOBgNVBAoMB0RpZ2l0UEEx
+MTAvBgNVBAsMKFVmZmljaW8gaW50ZXJvcGVyYWJpbGl0YScgZSBjb29wZXJhemlv
+bmUxFDASBgNVBAMMC0RpZ2l0UEEgQ0ExAgINETAJBgUrDgMCGgUAoIGDMBgGCSqG
+SIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTE1MDUyMDE1MDgx
+MFowIwYJKoZIhvcNAQkEMRYEFMbhCga4QRgERQFB38XEo71QNqm1MCQGCSqGSIb3
+DQEJDzEXMBUwCgYIKoZIhvcNAwcwBwYFKw4DAgcwDQYJKoZIhvcNAQEBBQAEgYAb
+xaxi5QIHu+KXwwVF6Lztd4vpFZVnjsbvILxv3OQk9rNSRGR2mtDXdLJVUZAO1fsQ
+SmU3ylL1bQ9MV/WaKE1KInO44NyGRDRWxxwRfzsdGeE/cSvDNLW3QdDPLUwycVHw
+JoDkLBcQmgcWO5GfysLmBGLWfn3hHEieWd901sEuRQ==
+
+------956E45A12C8CC85BB6DB527E02968BA1--
+

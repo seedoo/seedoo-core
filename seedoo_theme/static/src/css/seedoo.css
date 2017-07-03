@@ -1,0 +1,74 @@
+
+.openerp .oe_login {
+  background-image: none;
+}
+
+.openerp .oe_login .oe_login_bottom {
+  background: #679B41;
+}
+
+.openerp .oe_login button {
+  background-color: #679B41;
+  background-image: linear-gradient(to bottom, #679B41,#366732)!important;
+}
+
+.openerp button.oe_highlight {
+  color: #FFFFFF !important;
+  background-color: #679B41;
+  background-image: linear-gradient(to bottom, #679B41,#366732)!important;
+
+}
+
+.openerp .oe_login .oe_login_pane {
+  background: #366732;
+  color: #FFF;
+}
+
+.openerp .oe_login .oe_login_logo {
+  top: -116px;
+}
+
+.navbar {
+  background-color: #366732;
+  background-image: none;
+      font-size: 15px;
+}
+
+.openerp .oe_menu{
+  font-size: 15px!important;
+}
+
+
+
+.openerp .oe_topbar .oe_dropdown_menu {
+  background-color: #366732;
+}
+
+.openerp .oe_topbar .oe_topbar_item {
+  color: white;
+}
+
+.navbar .navbar-collapse .oe_menu_text, .oe_topbar_name, .dropdown-toggle{
+  color: white;
+}
+
+.graph_header .dropdown-toggle{
+  color: #4c4c4c!important;
+}
+
+
+.openerp .oe_topbar .oe_dropdown_menu li a {
+  color: white;
+}
+
+.openerp .oe_secondary_menu_section {
+color: #366732;
+}
+
+.openerp .oe_form_sheet{
+  max-width: 90%!important;
+}
+
+.modal-lg{
+  width: 80%!important;
+}

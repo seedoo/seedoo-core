@@ -1,0 +1,78 @@
+.openerp .oe_stat_button {
+    width: 160px !important;
+}
+
+.openerp .oe_stat_button{
+    background-color: #7c7bad;
+    color:#fff;
+}
+
+.openerp .oe_stat_button:hover{
+    background-color: #fff;
+    color:#7c7bad;
+}
+
+.openerp .oe_stat_button .stat_button_icon {
+    color:#fff;
+}
+
+.openerp .oe_stat_button:hover .stat_button_icon {
+    color:#7c7bad;
+}
+
+.openerp .history_icon::after {
+    position:absolute;
+    right:10px;
+    top:10px;
+    font-size:24px;
+    color:#7c7bad;
+    font-family: "FontAwesome";
+}
+
+.openerp .history_icon.print::after {
+    content:"\f02a";
+}
+
+.openerp .history_icon.registration::after {
+    content:"\f0a3";
+}
+
+.openerp .history_icon.update::after {
+    content:"\f044";
+}
+
+.openerp .history_icon.upload::after {
+    content:"\f093";
+}
+
+.openerp .history_icon.taken::after {
+    content:"\f087";
+}
+
+.openerp .history_icon.refused::after {
+    content:"\f05e";
+}
+
+.openerp .history_icon.mail::after {
+    content:"\f003";
+}
+
+.openerp .history_icon.trash::after {
+    content:"\f014";
+}
+
+.openerp .taballegati .oe_button {
+    height:28px;
+}
+
+.openerp .taballegati .oe_form_binary_form button span {
+    display: none;
+}
+
+.openerp .taballegati .oe_form_binary_file_save_data button span {
+    display: none;
+}
+
+.openerp .taballegati .oe_form_binary_file_clear span {
+    display: none;
+}

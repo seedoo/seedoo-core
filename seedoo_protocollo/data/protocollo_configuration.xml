@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+
+    <data noupdate="1">
+        <!-- Config Param -->
+        <record id="configurazione_protocollo_default" model="protocollo.configurazione">
+            <field name="genera_segnatura">true</field>
+            <field name="genera_xml_segnatura">true</field>
+        </record>
+
+        <record model="ir.config_parameter" id="itext_param_path">
+            <field name="key">itext.location</field>
+            <field name="value">~/seedoo/signature/signature.jar</field>
+        </record>
+
+        <record model="ir.config_parameter" id="param_path">
+            <field name="key">ir_attachment.location</field>
+            <field name="value">file:///tmp</field>
+        </record>
+    </data>
+
+    <data noupdate="1">
+        <!-- Protocol Folder -->
+        <record model="document.directory" id="dir_protocol">
+            <field name="name">Protocollazioni</field>
+            <field name="user_id" eval="False"/>
+            <field name="parent_id" ref="document.dir_root"/>
+            <field name="resource_id">0</field>
+        </record>
+
+        <!-- Email template for protocol notification -->
+        <record id="notify_protocol" model="email.template">
+            <field name="name">Notifica Protocollo</field>
+            <field name="model_id" ref="model_protocollo_protocollo"/>
+            <field name="email_from">${object.registry.company_id.email|safe}</field>
+            <field name="email_to">${object.assigne_emails|safe}</field>
+            <field name="subject"><![CDATA[Notifica Protocollo ${object.name} del ${object.registration_date}]]></field>
+            <field name="body_html">
+                <![CDATA[
+                    <p>
+                        Notifica Protocollo ${object.name} del ${object.registration_date},
+                    </p>
+                    <p>
+                        Il protocollo è stato assegnato al tuo ufficio di appartenenza
+                    </p>
+                    <p>
+                        Oggetto:  ${object.reserved and 'Riservato' or object.subject}
+                    </p>
+                    <p>
+                        ${object.type == 'in' and 'Mittenti' or 'Destinatari'}:  ${object.sender_receivers_summary}
+                    </p>
+                    <p>
+                        Protocollo Riservato: ${object.reserved and 'SI' or 'NO'}
+                    </p>
+                    <pre>
+                            ${object.registry.company_id.name|safe}
+                    </pre>
+                ]]>
+            </field>
+        </record>
+
+        <record id="notify_reserved_protocol" model="email.template">
+            <field name="name">Notifica Protocollo</field>
+            <field name="model_id" ref="model_protocollo_protocollo"/>
+            <field name="email_from">${object.registry.company_id.email|safe}</field>
+            <field name="email_to">${object.aoo_id.reserved_employee_id.user_id.email|safe}</field>
+            <field name="subject"><![CDATA[Notifica Protocollo ${object.name} del ${object.registration_date}]]></field>
+            <field name="body_html">
+                <![CDATA[
+                    <p>
+                        Notifica Protocollo Riservato ${object.name} del ${object.registration_date}
+                    </p>
+                    <p>
+                        Oggetto:  ${object.subject}
+                    </p>
+                    <p>
+                        ${object.type == 'in' and 'Mittenti' or 'Destinatari'}:  ${object.sender_receivers_summary}
+                    <pre>
+                        --
+                        ${object.registry.company_id.name|safe}
+                    </pre>
+                ]]>
+            </field>
+        </record>
+    </data>
+
+    <!-- Cron for Journal Protocollo -->
+    <data noupdate="1">
+        <record id="ir_cron_journal_protocol_action" model="ir.cron">
+            <field name="name">Protocol Journal Service</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="nextcall" eval="time.strftime('%Y')+'-01-01 00:05:00.000000'"/>
+            <field name="doall" eval="False"/>
+            <field name="model">protocollo.journal</field>
+            <field name="function">_create_journal</field>
+            <field name="args">()</field>
+            <field name="active" eval="True"/>
+        </record>
+    </data>
+
+</openerp>

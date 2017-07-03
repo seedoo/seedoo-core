@@ -1,0 +1,13 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+access_protocollo_classification_manager,protocollo.classification.manager,model_protocollo_classification,group_gedoc_manager,1,1,1,0
+access_protocollo_classification_user,protocollo.classification.user,model_protocollo_classification,group_gedoc_user,1,0,0,0
+access_protocollo_dossier_manager,protocollo.dossier.manager,model_protocollo_dossier,group_gedoc_manager,1,1,1,1
+access_protocollo_dossier_user,protocollo.dossier.user,model_protocollo_dossier,group_gedoc_user,1,1,1,0
+access_gedoc_model_type_user,gedoc.model.type.user,model_gedoc_model_type,group_gedoc_user,1,0,0,0
+access_gedoc_model_type_manager,gedoc.model.type.manager,model_gedoc_model_type,group_gedoc_manager,1,1,1,0
+access_gedoc_document_type_user,gedoc.document.type.user,model_gedoc_document_type,group_gedoc_user,1,0,0,0
+access_gedoc_document_type_manager,gedoc.document.type.manager,model_gedoc_document_type,group_gedoc_manager,1,1,1,0
+access_gedoc_document_user,gedoc.document.user,model_gedoc_document,group_gedoc_user,1,1,1,1
+access_gedoc_document_manager,gedoc.document.manager,model_gedoc_document,group_gedoc_manager,1,1,1,1
+access_gedoc_document_search_user,gedoc.document.search.user,model_gedoc_document_search,group_gedoc_user,1,1,1,1
+access_gedoc_document_search_manager,gedoc.document.search.manager,model_gedoc_document_search,group_gedoc_manager,1,1,1,1

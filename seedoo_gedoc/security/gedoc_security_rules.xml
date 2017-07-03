@@ -1,0 +1,77 @@
+<?xml version="1.0" ?>
+<!-- This file is part of Seedoo.  The COPYRIGHT file at the top level of
+this module contains the full copyright notices and license terms. -->
+
+<openerp>
+    <data>
+
+        <!-- Dossiers -->
+
+        <record id="ir_rule_readdossier0" model="ir.rule">
+            <field name="model_id" ref="model_protocollo_dossier"/>
+            <field name="domain_force">['|','|',
+                ('office_view_ids.member_ids','in',[e.id for e in user.employee_ids]),
+                ('employee_view_ids', 'in', [e.id for e in user.employee_ids]),
+                ('user_id', '=', user.id)]
+            </field>
+            <field name="name">Read dossiers</field>
+            <field eval="0" name="global"/>
+            <field eval="[(6,0,[ref('base.group_user')])]" name="groups"/>
+            <field eval="0" name="perm_unlink"/>
+            <field eval="0" name="perm_write"/>
+            <field eval="1" name="perm_read"/>
+            <field eval="0" name="perm_create"/>
+        </record>
+
+        <record id="ir_rule_documentmodifydossier" model="ir.rule">
+            <field name="model_id" ref="model_protocollo_dossier"/>
+            <field name="domain_force">['|','|',
+                ('office_comp_ids.member_ids','in',[e.id for e in user.employee_ids]),
+                ('employee_comp_ids', 'in', [e.id for e in user.employee_ids]),
+                ('user_id', '=', user.id)]
+            </field>
+            <field name="name">Modify dossiers</field>
+            <field eval="0" name="global"/>
+            <field eval="[(6,0,[ref('base.group_user')])]" name="groups"/>
+            <field eval="1" name="perm_unlink"/>
+            <field eval="1" name="perm_write"/>
+            <field eval="1" name="perm_read"/>
+            <field eval="1" name="perm_create"/>
+        </record>
+
+        <!-- Documents -->
+
+        <record id="ir_rule_readdoc0" model="ir.rule">
+            <field name="model_id" ref="model_gedoc_document"/>
+            <field name="domain_force">['|','|',
+                ('office_view_ids.member_ids','in',[e.id for e in user.employee_ids]),
+                ('employee_view_ids', 'in', [e.id for e in user.employee_ids]),
+                ('user_id', '=', user.id)]
+            </field>
+            <field name="name">Read documents</field>
+            <field eval="0" name="global"/>
+            <field eval="[(6,0,[ref('base.group_user')])]" name="groups"/>
+            <field eval="0" name="perm_unlink"/>
+            <field eval="0" name="perm_write"/>
+            <field eval="1" name="perm_read"/>
+            <field eval="0" name="perm_create"/>
+        </record>
+
+        <record id="ir_rule_documentmodifydoc" model="ir.rule">
+            <field name="model_id" ref="model_gedoc_document"/>
+            <field name="domain_force">['|','|',
+                ('office_comp_ids.member_ids','in',[e.id for e in user.employee_ids]),
+                ('employee_comp_ids', 'in', [e.id for e in user.employee_ids]),
+                ('user_id', '=', user.id)]
+            </field>
+            <field name="name">Modify documents</field>
+            <field eval="0" name="global"/>
+            <field eval="[(6,0,[ref('base.group_user')])]" name="groups"/>
+            <field eval="1" name="perm_unlink"/>
+            <field eval="1" name="perm_write"/>
+            <field eval="1" name="perm_read"/>
+            <field eval="1" name="perm_create"/>
+        </record>
+
+    </data>
+</openerp>

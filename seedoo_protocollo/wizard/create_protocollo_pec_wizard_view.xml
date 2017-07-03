@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This file is part of Seedoo.  The COPYRIGHT file at the top level of
+this module contains the full copyright notices and license terms. -->
+
+<openerp>
+    <data>
+        <!-- wizard action on protocollo.protocollo -->
+        <act_window id="create_protocollo_pec_action"
+                    name="Creazione Bozza Protocollo"
+                    src_model="mail.message"
+                    res_model="protocollo.pec.wizard"
+                    view_type="form" view_mode="form"
+                    target="new"
+                    context="{'pec_messages': True}"/>
+
+        <!-- wizard view -->
+        <record id="create_protocollo_wizard_view" model="ir.ui.view">
+            <field name="name">Protocolla PEC in ingresso</field>
+            <field name="model">protocollo.pec.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Protocollo PEC" version="7.0">
+                    <sheet>
+                        <group col="4">
+                            <separator string="Documento principale" colspan="4"/>
+                            <field name="select_doc_principale" />
+
+                            <newline/>
+                            <field name="message_id" colspan="4" invisible="1"/>
+                            <label for="doc_principale" attrs="{'invisible':[('select_doc_principale', 'in', ('testo','eml'))]}"/>
+                            <field name="doc_principale" nolabel="1"
+                                   domain="[('name','!=','original_email.eml'),('is_message_attach','=',True)]"
+                                   attrs="{'invisible':[('select_doc_principale', 'in', ('testo','eml'))],'required':[('select_doc_principale', '=', 'allegato')]}"
+                                   context="{'message_id': message_id}"
+                                   options="{'no_create_edit': 1, 'no_create': 1}"
+                                   />
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button string="Ok" name="action_save" type="object"
+                                class="oe_highlight"/>
+                        o
+                        <button string="Abbandona" class="oe_link"
+                                special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</openerp>

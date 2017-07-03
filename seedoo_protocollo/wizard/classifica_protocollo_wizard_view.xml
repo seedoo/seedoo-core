@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This file is part of Seedoo.  The COPYRIGHT file at the top level of
+this module contains the full copyright notices and license terms. -->
+
+<openerp>
+    <data>
+
+        <!-- wizard action on protocollo.protocollo -->
+        <act_window id="protocollo_classifica_action"
+                    name="Classifica"
+                    res_model="protocollo.classifica.wizard"
+                    view_type="form" view_mode="form"
+                    target="new"/>
+
+        <!-- wizard view -->
+        <record id="protocollo_classifica_view" model="ir.ui.view">
+            <field name="name">Classifica Protocollo</field>
+            <field name="model">protocollo.classifica.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Protocollo" version="7.0">
+                    <sheet>
+                        <field name="complete_name" invisible="1"/>
+                        <field name="registration_date" invisible="1"/>
+                        <field name="type" invisible="1"/>
+                        <separator string="Causa della modifica" colspan="4"/>
+                        <field name="cause" colspan="4"/>
+                        <separator string="Titolario di classificazione" colspan="4"/>
+                         <field name="classification" nolabel="1"
+                                           widget="m2o_tree" colspan="4"
+                                           options="{'limit': 5000, 'create': false, 'create_edit': false, 'label': 'name_and_code'}"/>
+                        <!--<label for="classification"/>-->
+                                    <!--<newline/>-->
+                                    <!--<field name="classification_code" nolabel="1"/>-->
+                                    <!--<field name="classification" nolabel="1"-->
+                                           <!--widget="m2o_tree" colspan="4"-->
+                                           <!--options="{'limit': 5000, 'create': false, 'create_edit': false, 'label': 'name_and_code'}"/>-->
+                    </sheet>
+                    <footer>
+                        <button string="Ok" name="action_save" type="object" class="oe_highlight"/>
+                        o
+                        <button string="Abbandona" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</openerp>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file is part of Seedoo.  The COPYRIGHT file at the top level of
+this module contains the full copyright notices and license terms. -->
+
+<openerp>
+    <data>
+
+        <!-- Disable Comunicazioni -->
+        <record id="mail.mail_feeds_main" model="ir.ui.menu">
+            <field name="groups_id"
+                   eval="[(6,0,[ref('base.group_system'), ref('base.group_erp_manager')])]"/>
+        </record>
+
+        <!-- Disable Vendite -->
+        <record id="base.menu_base_partner" model="ir.ui.menu">
+            <field name="groups_id"
+                   eval="[(6,0,[ref('base.group_system'), ref('base.group_erp_manager')])]"/>
+        </record>
+
+        <!-- Disable Risorse Umane -->
+        <record id="hr.menu_hr_root" model="ir.ui.menu">
+            <field name="groups_id"
+                   eval="[(6,0,[ref('base.group_system'), ref('base.group_erp_manager')])]"/>
+        </record>
+
+        <!-- Set Top Menu Sequences -->
+        <menuitem name="Rubrica" id="seedoo_protocollo.menu_root_rubrica"
+                  sequence="50"/>
+        <menuitem name="Gestione Documentale" id="seedoo_gedoc.menu_root_gedoc"
+                  sequence="60"/>
+        <menuitem name="Protocollo" id="seedoo_protocollo.menu_root_protocollo"
+                  sequence="70"/>
+        <menuitem name="Reporting" id="base.menu_reporting" sequence="90"/>
+
+    </data>
+</openerp>
+

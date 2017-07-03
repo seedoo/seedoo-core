@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file is part of Seedoo.  The COPYRIGHT file at the top level of
+this module contains the full copyright notices and license terms. -->
+
+<openerp>
+    <data>
+
+        <menuitem name="Rubrica" id="menu_root_rubrica" sequence="120" groups="group_protocollo_user"/>
+        <menuitem name="Rubrica Esterna" id="menu_rubrica_esterna_main" parent="menu_root_rubrica" sequence="1" groups="group_protocollo_user"/>
+
+        <record model='ir.ui.view' id='view_rubrica_tree'>
+            <field name="name">protocollo.rubrica.tree</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <tree string="Rubrica" >
+                    <field name="legal_type" />
+                    <field name="name" />
+                    <field name="street" />
+                    <field name="zip" />
+                    <field name="city" />
+                    <field name="country_id" />
+                    <field name="pec_mail" />
+                    <field name="email" />
+                    <field name="phone" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_rubrica_filter" model="ir.ui.view">
+            <field name="name">protocollo.rubrica.select</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <search string="Ricerca In Rubrica">
+                   <field name="name"
+                       filter_domain="['|','|',('name','ilike',self),('parent_id','ilike',self),('ref','=',self)]"/>
+                    <separator/>
+                       <filter string="PA" name="type_pa" domain="[('legal_type','=','government')]"/>
+                        <filter string="Amministrazioni" name="type_amm" domain="[('pa_type','=','pa')]"/>
+                        <filter string="AOO" name="type_aoo" domain="[('pa_type','=','aoo')]"/>
+                        <filter string="UO" name="type_uo" domain="[('pa_type','=','uo')]"/>
+                    <separator/>
+                       <filter string="Persone Giuridiche" name="type_pg" domain="[('legal_type','=','legal')]"/>
+                       <filter string="Persone Fisiche" name="type_pf" domain="[('legal_type','=','individual')]"/>
+               </search>
+            </field>
+        </record>
+
+        <record model='ir.actions.act_window' id='rubrica_action'>
+            <field name="name">Rubrica</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_rubrica_tree"/>
+            <field name="search_view_id" ref="view_rubrica_filter"/>
+            <field name="domain">['|','|',('legal_type','=','government'),('legal_type','=','legal'),('legal_type','=','individual')]</field>
+        </record>
+
+        <menuitem name="Tutti" id="menu_rubrica_tutti" parent="menu_rubrica_esterna_main" action="rubrica_action" sequence="1"/>
+
+        <record model='ir.actions.act_window' id='rubrica_action_pa'>
+            <field name="name">Rubrica</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_rubrica_tree"/>
+            <field name="search_view_id" ref="view_rubrica_filter"/>
+            <field name="domain">[('legal_type','=','government')]</field>
+        </record>
+
+        <record model='ir.actions.act_window' id='rubrica_action_amm'>
+            <field name="name">Rubrica</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_rubrica_tree"/>
+            <field name="search_view_id" ref="view_rubrica_filter"/>
+            <field name="domain">[('legal_type','=','government'),('pa_type','=','pa')]</field>
+        </record>
+
+        <record model='ir.actions.act_window' id='rubrica_action_aoo'>
+            <field name="name">Rubrica</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_rubrica_tree"/>
+            <field name="search_view_id" ref="view_rubrica_filter"/>
+            <field name="domain">[('legal_type','=','government'),('pa_type','=','aoo')]</field>
+        </record>
+
+        <record model='ir.actions.act_window' id='rubrica_action_uo'>
+            <field name="name">Rubrica</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_rubrica_tree"/>
+            <field name="search_view_id" ref="view_rubrica_filter"/>
+            <field name="domain">[('legal_type','=','government'),('pa_type','=','uo')]</field>
+        </record>
+
+        <menuitem name="PA" id="menu_rubrica_pa" parent="menu_rubrica_esterna_main" action="rubrica_action_pa" sequence="2"/>
+        <menuitem name="Amministrazioni" id="menu_rubrica_pa_amm" parent="menu_rubrica_pa" action="rubrica_action_amm" sequence="1"/>
+        <menuitem name="AOO" id="menu_rubrica_pa_aoo" sequence="2" parent="menu_rubrica_pa" action="rubrica_action_aoo"/>
+        <menuitem name="UO" id="menu_rubrica_pa_uo" sequence="3" parent="menu_rubrica_pa" action="rubrica_action_uo"/>
+
+
+        <record model='ir.actions.act_window' id='rubrica_action_pg'>
+            <field name="name">Rubrica</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_rubrica_tree"/>
+            <field name="search_view_id" ref="view_rubrica_filter"/>
+            <field name="domain">[('legal_type','=','legal')]</field>
+        </record>
+
+        <record model='ir.actions.act_window' id='rubrica_action_pf'>
+            <field name="name">Rubrica</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_rubrica_tree"/>
+            <field name="search_view_id" ref="view_rubrica_filter"/>
+            <field name="domain">[('legal_type','=','individual')]</field>
+        </record>
+
+        <menuitem name="Persone Giuridiche" id="menu_rubrica_pg" parent="menu_rubrica_esterna_main" action="rubrica_action_pg" sequence="3"/>
+        <menuitem name="Persone Fisiche" id="menu_rubrica_pf" parent="menu_rubrica_esterna_main" action="rubrica_action_pf" sequence="4"/>
+
+
+        <menuitem name="Rubrica Interna" id="menu_rubrica_interna_main" parent="menu_root_rubrica" sequence="2"/>
+
+        <record model="ir.actions.act_window" id="action_organigramma">
+            <field name="name">Organigramma</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.department</field>
+            <field name="view_type">tree</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain" eval="[('parent_id','=', False)]"></field>
+            <!--<field name="search_view_id" ref="view_department_protocollo_search"/>-->
+        </record>
+
+        <record model="ir.actions.act_window" id="action_employee_department">
+	        <field name="type">ir.actions.act_window</field>
+	        <field name="res_model">hr.employee</field>
+	        <field name="name">Dipendenti Ufficio</field>
+	        <field name="view_type">form</field>
+	        <field name="domain">[('department_id','in',[active_id])]</field>
+	    </record>
+
+	    <record model="ir.values" id="ir_action_employee_department">
+	        <field name="key2" eval="'tree_but_open'"/>
+	        <field name="model" eval="'hr.department'"/>
+	        <field name="name">Organigramma</field>
+	        <field name="value" eval="'ir.actions.act_window,%d'%action_employee_department"/>
+	    </record>
+
+        <menuitem name="Organigramma" id="menu_organigramma" parent="menu_rubrica_interna_main" action="action_organigramma" sequence="1"/>
+        <menuitem name="Uffici" id="menu_rubrica_uff" parent="menu_rubrica_interna_main" action="action_dept_manage_office_protocollo" sequence="2"/>
+
+
+        <menuitem name="Persone" id="menu_rubrica_dip" parent="menu_rubrica_interna_main" action="hr.open_view_employee_list_my" sequence="3"/>
+
+    </data>
+</openerp>
+

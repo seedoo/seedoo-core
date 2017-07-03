@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This file is part of Seedoo.  The COPYRIGHT file at the top level of
+this module contains the full copyright notices and license terms. -->
+
+<openerp>
+    <data>
+
+        <!-- wizard action on protocollo.protocollo -->
+        <act_window id="protocollo_assegna_action"
+                    name="Assegna"
+                    res_model="protocollo.assegna.wizard"
+                    view_type="form" view_mode="form"
+                    target="new"/>
+
+        <!-- wizard view -->
+        <record id="protocollo_assegna_view" model="ir.ui.view">
+            <field name="name">Assegna Protocollo</field>
+            <field name="model">protocollo.assegna.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Protocollo" version="7.0">
+                    <sheet>
+                        <field name="complete_name" invisible="1"/>
+                        <field name="reserved" invisible="1"/>
+                        <field name="registration_date" invisible="1"/>
+                        <field name="type" invisible="1"/>
+                        <separator string="Causa della modifica" colspan="4"/>
+                        <field name="cause" colspan="4"/>
+
+                        <group col="11">
+                            <group colspan="5">
+                                <separator string="Assegnatari per Competenza" colspan="2"/>
+
+                                <field name="assegnatari_competenza_uffici_ids"
+                                       attrs="{'invisible':[('reserved','=',True)]}"
+                                       nolabel="1" colspan="2">
+                                    <tree>
+                                        <field name="department_id"/>
+                                    </tree>
+                                    <form>
+                                        <group col="4">
+                                            <field name="department_id" colspan="4"
+                                                   domain="[('assignable','=',True)]"
+                                                   on_change="on_change_department_id(department_id)"
+                                                   options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                                            <field name="assegnatari_dipendenti_ids"
+                                                   readonly="1" nolabel="1" colspan="4">
+                                                <tree>
+                                                    <field name="dipendente_id"/>
+                                                    <field name="state"/>
+                                                </tree>
+                                            </field>
+                                        </group>
+                                    </form>
+                                </field>
+
+                                <field name="assegnatari_competenza_dipendenti_ids"
+                                       nolabel="1" colspan="5">
+                                    <tree>
+                                        <field name="dipendente_id"/>
+                                    </tree>
+                                    <form>
+                                        <group col="4">
+                                            <field name="dipendente_id"
+                                                   options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                                        </group>
+                                    </form>
+                                </field>
+
+                            </group>
+
+                            <group colspan="1"/>
+
+                            <group colspan="5">
+                                <separator string="Assegnatari per Conoscenza"
+                                       attrs="{'invisible':[('reserved','=',True)]}" colspan="2"/>
+
+                                <field name="assegnatari_conoscenza_uffici_ids"
+                                       attrs="{'invisible':[('reserved','=',True)]}"
+                                       nolabel="1" colspan="2">
+                                    <tree>
+                                        <field name="department_id"/>
+                                    </tree>
+                                    <form>
+                                        <group col="4">
+                                            <field name="department_id" colspan="4"
+                                                   domain="[('assignable','=',True)]"
+                                                   on_change="on_change_department_id(department_id)"
+                                                   options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                                            <field name="assegnatari_dipendenti_ids"
+                                                   readonly="1" nolabel="1" colspan="4">
+                                                <tree>
+                                                    <field name="dipendente_id"/>
+                                                </tree>
+                                            </field>
+                                        </group>
+                                    </form>
+                                </field>
+
+                                <field name="assegnatari_conoscenza_dipendenti_ids"
+                                       attrs="{'invisible':[('reserved','=',True)]}"
+                                       nolabel="1" colspan="5">
+                                    <tree>
+                                        <field name="dipendente_id"/>
+                                    </tree>
+                                    <form>
+                                        <group col="4">
+                                            <field name="dipendente_id"
+                                                   options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                                        </group>
+                                    </form>
+                                </field>
+
+                            </group>
+                        </group>
+
+                    </sheet>
+                    <footer>
+                        <button string="Ok" name="action_save" type="object" class="oe_highlight"/>
+                        o
+                        <button string="Abbandona" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="protocollo_assegna_dipendente_view" model="ir.ui.view">
+            <field name="name">Assegna Dipendente</field>
+            <field name="model">protocollo.assegna.dipendente.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Protocollo" version="7.0">
+                    <sheet>
+                        <group col="4">
+                            <field name="dipendente_id"/>
+                            <field name="state"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</openerp>

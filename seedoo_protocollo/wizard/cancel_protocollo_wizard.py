@@ -1,0 +1,82 @@
+# -*- coding: utf-8 -*-
+# This file is part of Seedoo.  The COPYRIGHT file at the top level of
+# this module contains the full copyright notices and license terms.
+
+import logging
+from openerp.osv import fields, osv
+from openerp.tools import (
+    DEFAULT_SERVER_DATETIME_FORMAT as DSDF)
+from openerp.tools.translate import _
+import time
+from openerp import netsvc
+
+_logger = logging.getLogger(__name__)
+
+
+class wizard(osv.TransientModel):
+    """
+        A wizard to manage the cancel state of protocol
+    """
+    _name = 'protocollo.cancel.wizard'
+    _description = 'Cancel Protocol Management'
+
+    _columns = {
+        'name': fields.char(
+            'Causa Cancellazione',
+            required=True,
+            readonly=False
+        ),
+        'user_id': fields.many2one(
+            'res.users',
+            'Responsabile',
+            readonly=True
+        ),
+        'agent_id': fields.many2one(
+            'res.users',
+            'Mandante',
+            readonly=False
+        ),
+        'date_cancel': fields.datetime(
+            'Data Cancellazione',
+            required=True,
+            readonly=True
+        ),
+    }
+
+    _defaults = {
+        'user_id': lambda obj, cr, uid, context: uid,
+        'agent_id': lambda obj, cr, uid, context: uid,
+        'date_cancel': fields.datetime.now
+    }
+
+    def action_cancel(self, cr, uid, ids, context=None):
+        wizard = self.browse(cr, uid, ids[0], context)
+        if wizard.name and wizard.date_cancel:
+            protocollo_obj = self.pool.get('protocollo.protocollo')
+            historical_obj = self.pool.get('protocollo.history')
+            historical = {}
+            historical['name'] = wizard.date_cancel
+            historical['user_id'] = wizard.user_id.id
+            historical['agent_id'] = wizard.agent_id.id
+            historical['description'] = wizard.name + ' - ' + 'Autorizzato da: ' + wizard.agent_id.name
+            historical['type'] = 'cancel'
+            history_id = historical_obj.create(cr, uid, historical)
+            vals = {}
+            vals['history_ids'] = [[4, history_id]]
+            protocollo_obj.write(cr, uid, [context['active_id']], vals)
+            wf_service = netsvc.LocalService('workflow')
+            wf_service.trg_validate(uid, 'protocollo.protocollo', context['active_id'], 'cancel', cr)
+
+            action_class = "history_icon trash"
+            body = "<div class='%s'><ul><li style='color:#990000;'><strong>Annullamento autorizzato da: %s</strong></li></ul></div>" % (action_class, wizard.agent_id.name)
+
+            post_vars = {'subject': "Protocollo Annullato:  %s" %wizard.name,
+                         'body': body,
+                         'model': "protocollo.protocollo",
+                         'res_id': context['active_id'],
+                         }
+
+            thread_pool = self.pool.get('protocollo.protocollo')
+            thread_pool.message_post(cr, uid, context['active_id'], type="notification", context=context, **post_vars)
+
+        return {'type': 'ir.actions.act_window_close'}

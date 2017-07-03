@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file is part of Seedoo.  The COPYRIGHT file at the top level of
+this module contains the full copyright notices and license terms. -->
+
+<openerp>
+    <data>
+
+        <menuitem name="Protocollo" id="menu_root_protocollo" sequence="1" groups="group_protocollo_user"/>
+
+        <menuitem name="Documenti in ingresso" parent="menu_root_protocollo"
+                  id="protocollo_doc_in" sequence="10"/>
+
+        <menuitem name="Documenti in uscita" parent="menu_root_protocollo"
+                  id="protocollo_doc_out" sequence="20"/>
+
+        <menuitem name="Protocollo" parent="menu_root_protocollo"
+                  id="protocollo_protocollo_menu" sequence="30"/>
+
+        <menuitem name="Configurazioni" parent="menu_root_protocollo"
+                  id="protocollo_configuration" sequence="40"/>
+
+        <!--<menuitem action="protocollo_protocollo_in_act"-->
+                  <!--parent="protocollo_doc_in"-->
+                  <!--id="protocollo_protocollo_in_menu" sequence="10"/>-->
+
+        <!-- Documenti in ingresso-->
+
+        <menuitem name="Crea Protocollo" action="crea_protocollo_ingresso_action"
+                  parent="protocollo_doc_in"
+                  id="crea_protocollo_ingresso_menu" sequence="5"
+                  groups="group_crea_protocollo_ingresso"/>
+
+        <menuitem name="Registrati" action="protocollo_protocollo_in_act"
+                  parent="protocollo_doc_in"
+                  id="protocollo_protocollo_notified_menu" sequence="10"
+                  groups="group_vedi_protocolli_ingresso_registrati"/>
+
+        <menuitem name="Bozze" action="protocollo_protocollo_in_draft_act"
+                  parent="protocollo_doc_in"
+                  id="protocollo_protocollo_in_draft_menu" sequence="20"
+                  groups="group_vedi_protocolli_ingresso_bozze"/>
+
+        <menuitem name="PEC" action="protocollo_pec_act" sequence="40"
+                  parent="protocollo_doc_in" id="protocollo_pec_menu"
+                  groups="base.group_pec"/>
+
+        <!-- Documenti in uscita-->
+        <menuitem name="Crea Protocollo" action="crea_protocollo_uscita_action"
+                  parent="protocollo_doc_out"
+                  id="crea_protocollo_uscita_menu" sequence="5"
+                  groups="group_crea_protocollo_uscita"/>
+
+        <menuitem name="Registrati" action="protocollo_protocollo_out_act"
+                  parent="protocollo_doc_out"
+                  id="protocollo_protocollo_out_menu" sequence="10"
+                  groups="group_vedi_protocolli_uscita_registrati"/>
+
+        <menuitem name="Bozze" action="protocollo_protocollo_out_draft_act"
+                  parent="protocollo_doc_out"
+                  id="protocollo_protocollo_out_draft_menu" sequence="10"
+                  groups="group_vedi_protocolli_uscita_bozze"/>
+
+        <menuitem name="Richieste protocollo" action="protocollo_protocollo_out_draft_others_act"
+                  parent="protocollo_doc_out"
+                  id="protocollo_protocollo_out_draft_others_menu"
+                  sequence="20"/>
+
+        <!--Protocollo-->
+        <menuitem action="protocollo_protocollo_not_classified_act"
+                  parent="protocollo_protocollo_menu"
+                  id="protocollo_protocollo_not_classified_menu" sequence="5"/>
+
+        <menuitem action="protocollo_protocollo_not_dossier_act"
+                  parent="protocollo_protocollo_menu"
+                  id="protocollo_protocollo_not_dossier_menu" sequence="10"/>
+
+        <!--
+        <menuitem action="protocollo_registry_act"
+                  parent="protocollo_protocollo_menu"
+                  id="protocollo_registry_menu"
+                  sequence="15"/>
+        -->
+
+        <menuitem action="protocollo_journal_act"
+                  parent="protocollo_protocollo_menu"
+                  id="protocollo_journal_menu"
+                  sequence="20"/>
+
+        <menuitem
+                icon="STOCK_EXECUTE"
+                name="Crea Registro"
+                action="protocollo_journal_action"
+                id="menu_protocollo_journal_create"
+                parent="protocollo_journal_menu"/>
+
+        <menuitem action="protocollo_emergency_registry_act"
+                parent="protocollo_protocollo_menu"
+                id="protocollo_emergency_registry_menu"
+                sequence="30"/>
+
+        <menuitem
+                icon="STOCK_EXECUTE"
+                name="Crea Registro"
+                action="protocollo_emergency_registry_action"
+                id="menu_protocollo_emergency_registry_create"
+                parent="protocollo_emergency_registry_menu"/>
+
+        <menuitem name="Organigramma"
+                  id="protocollo_menu_organigramma"
+                  parent="protocollo_protocollo_menu"
+                  action="action_organigramma"
+                  sequence="45"/>
+
+        <menuitem action="protocollo_classification_act"
+                  parent="protocollo_protocollo_menu"
+                  id="protocollo_classification_menu"
+                  sequence="50"/>
+
+        <menuitem action="protocollo_dossier_read_act"
+                  parent="protocollo_protocollo_menu"
+                  id="protocollo_dossier_read_menu"
+                  sequence="60"/>
+
+
+        <!-- Configurazione-->
+        <menuitem name="AOO" id="protocollo_aoo_menu"
+                  action="protocollo_aoo_action"
+                  parent="protocollo_configuration" sequence="1"/>
+
+        <menuitem name="Parametri Generali" action="protocollo_config_settings_act"
+                  parent="protocollo_configuration"
+                  id="protocollo_configuration_menu"
+                  sequence="5"/>
+        <!--
+        <menuitem action="protocollo_typology_act"
+                  parent="protocollo_configuration"
+                  id="protocollo_typology_menu"
+                  sequence="10"/>
+
+        <menuitem action="protocollo_classification_def_act"
+                  parent="protocollo_configuration"
+                  id="protocollo_classification_def_menu"
+                  sequence="20"/>
+
+        <menuitem action="protocollo_dossier_act"
+                  parent="protocollo_configuration"
+                  id="protocollo_dossier_menu"
+                  sequence="30"/>
+        -->
+    </data>
+</openerp>

@@ -1,0 +1,226 @@
+<?xml version="1.0" ?>
+<!-- This file is part of Seedoo.  The COPYRIGHT file at the top level of
+this module contains the full copyright notices and license terms. -->
+
+<openerp>
+    <data noupdate="0">
+
+        <record model="ir.module.category" id="module_protocollo_management">
+            <field name="name">Protocollo</field>
+            <field name="sequence">200</field>
+        </record>
+        <record id="group_protocollo_user" model="res.groups">
+            <field name="name">Utente</field>
+            <field name="category_id" ref="module_protocollo_management"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user')), (4, ref('base.group_document_user')), (4, ref('seedoo_gedoc.group_gedoc_user')), (4, ref('seedoo_gedoc.group_gedoc_manager'))]"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+
+        <!-- Categoria per i nuovi permessi -->
+        <record model="ir.module.category" id="module_category_protocollo">
+            <field name="name">Protocollo</field>
+            <field name="sequence">21</field>
+        </record>
+
+        <!-- Menu "Documenti in Ingresso" -->
+        <!-- Gruppo per la visualizzazione del menu "Crea Protocollo" -->
+        <record id="group_crea_protocollo_ingresso" model="res.groups">
+            <field name="name">Crea Protocollo Ingresso</field>
+            <field name="category_id" ref="module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+        <!-- Gruppo per la visualizzazione del menu "Registrati" -->
+        <record id="group_vedi_protocolli_ingresso_registrati" model="res.groups">
+            <field name="name">Vedi Protocolli in Ingresso Registrati</field>
+            <field name="category_id" ref="module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+        <!-- Gruppo per la visualizzazione del menu "Bozze" -->
+        <record id="group_vedi_protocolli_ingresso_bozze" model="res.groups">
+            <field name="name">Vedi Bozze Protocolli in Ingresso</field>
+            <field name="category_id" ref="module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+
+        <!-- Menu "Documenti in Uscita" -->
+        <!-- Gruppo per la visualizzazione del menu "Crea Protocollo" -->
+        <record id="group_crea_protocollo_uscita" model="res.groups">
+            <field name="name">Crea Protocollo Uscita</field>
+            <field name="category_id" ref="module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+        <!-- Gruppo per la visualizzazione del menu "Registrati" -->
+        <record id="group_vedi_protocolli_uscita_registrati" model="res.groups">
+            <field name="name">Vedi Protocolli in Uscita Registrati</field>
+            <field name="category_id" ref="module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+        <!-- Gruppo per la visualizzazione del menu "Bozze" -->
+        <record id="group_vedi_protocolli_uscita_bozze" model="res.groups">
+            <field name="name">Vedi Bozze Protocolli in Uscita</field>
+            <field name="category_id" ref="module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+
+        <!-- Button Protocollo -->
+        <!-- Button "Registra protocollo" nella vista form protocollo in ingresso -->
+        <record id="group_registra_protocollo_ingresso" model="res.groups">
+            <field name="name">Registra Protocollo in Ingresso</field>
+            <field name="category_id" ref="module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+        <!-- Button "Annulla Protocollo" nella vista form protocollo in ingresso -->
+        <record id="group_annulla_protocollo_ingresso" model="res.groups">
+            <field name="name">Annulla Protocollo in Ingresso</field>
+            <field name="category_id" ref="module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+        <!-- Button "Prendi in Carico" nella vista form protocollo in ingresso -->
+        <record id="group_prendi_in_carico_protocollo_ingresso" model="res.groups">
+            <field name="name">Presa in Carico Protocolli in Ingresso</field>
+            <field name="category_id" ref="module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+        <!-- Button "Rifiuta" nella vista form protocollo in ingresso -->
+        <record id="group_rifiuta_protocollo_ingresso" model="res.groups">
+            <field name="name">Rifiuta Protocolli in Ingresso</field>
+            <field name="category_id" ref="module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+        <!-- Button "Modifica Protocollo" nella vista form protocollo in ingresso -->
+        <record id="group_modifica_protocollo_ingresso" model="res.groups">
+            <field name="name">Modifica Protocollo in Ingresso</field>
+            <field name="category_id" ref="module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+        <!-- Button "Classifica" nella vista form protocollo in ingresso -->
+        <record id="group_classifica_protocollo_ingresso" model="res.groups">
+            <field name="name">Classifica Protocollo in Ingresso</field>
+            <field name="category_id" ref="module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+        <!-- Button "Fascicola" nella vista form protocollo in ingresso -->
+        <record id="group_fascicola_protocollo_ingresso" model="res.groups">
+            <field name="name">Fascicola Protocollo in Ingresso</field>
+            <field name="category_id" ref="module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+        <!-- Button "Assegna" nella vista form protocollo in ingresso -->
+        <record id="group_assegna_protocollo_ingresso" model="res.groups">
+            <field name="name">Assegna Protocollo in Ingresso</field>
+            <field name="category_id" ref="module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+
+        <!-- Button "Registra protocollo" nella vista form protocollo in uscita -->
+        <record id="group_registra_protocollo_uscita" model="res.groups">
+            <field name="name">Registra Protocollo in Uscita</field>
+            <field name="category_id" ref="module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+        <!-- Button "Annulla Protocollo" nella vista form protocollo in uscita -->
+        <record id="group_annulla_protocollo_uscita" model="res.groups">
+            <field name="name">Annulla Protocollo in Uscita</field>
+            <field name="category_id" ref="module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+        <!-- Button "Prendi in Carico" nella vista form protocollo in uscita -->
+        <record id="group_prendi_in_carico_protocollo_uscita" model="res.groups">
+            <field name="name">Presa in Carico Protocolli in Uscita</field>
+            <field name="category_id" ref="module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+        <!-- Button "Rifiuta" nella vista form protocollo in uscita -->
+        <record id="group_rifiuta_protocollo_uscita" model="res.groups">
+            <field name="name">Rifiuta Protocolli in Uscita</field>
+            <field name="category_id" ref="module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+        <!-- Button "Modifica Protocollo" nella vista form protocollo in uscita -->
+        <record id="group_modifica_protocollo_uscita" model="res.groups">
+            <field name="name">Modifica Protocollo in Uscita</field>
+            <field name="category_id" ref="module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+        <!-- Button "Classifica" nella vista form protocollo in uscita -->
+        <record id="group_classifica_protocollo_uscita" model="res.groups">
+            <field name="name">Classifica Protocollo in Uscita</field>
+            <field name="category_id" ref="module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+        <!-- Button "Fascicola" nella vista form protocollo in uscita -->
+        <record id="group_fascicola_protocollo_uscita" model="res.groups">
+            <field name="name">Fascicola Protocollo in Uscita</field>
+            <field name="category_id" ref="module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+        <!-- Button "Assegna" nella vista form protocollo in uscita -->
+        <record id="group_assegna_protocollo_uscita" model="res.groups">
+            <field name="name">Assegna Protocollo in Uscita</field>
+            <field name="category_id" ref="module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+
+        <!-- Button "Invia Protocollo" nella vista form protocollo in uscita -->
+        <record id="group_invia_protocollo_uscita" model="res.groups">
+            <field name="name">Invia Protocollo in Uscita</field>
+            <field name="category_id" ref="module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+        <!-- Button "Invia PEC Protocollo" nella vista form protocollo in uscita -->
+        <record id="group_invia_protocollo_pec_uscita" model="res.groups">
+            <field name="name">Invia Protocollo PEC in Uscita</field>
+            <field name="category_id" ref="module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+        <!-- Button "Modifica Destinatari PEC" nella vista form protocollo in uscita -->
+        <record id="group_modifica_destinatari_pec_uscita" model="res.groups">
+            <field name="name">Modifica Destinatari PEC in Uscita</field>
+            <field name="category_id" ref="module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+
+        <!-- Checkbox "Riservato" nella vista form protocollo -->
+        <record id="group_protocollazione_riservata" model="res.groups">
+            <field name="name">Protocollazione Riservata</field>
+            <field name="category_id" ref="module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+
+        <!-- Tutti i permessi del Protocollo -->
+        <record id="group_protocollo_tutti" model="res.groups">
+            <field name="name">Tutti i permessi protocollo</field>
+            <field name="category_id" ref="module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+            <field name="implied_ids" eval="[
+                    (4, ref('group_crea_protocollo_ingresso')),
+                    (4, ref('group_vedi_protocolli_ingresso_registrati')),
+                    (4, ref('group_vedi_protocolli_ingresso_bozze')),
+                    (4, ref('group_crea_protocollo_uscita')),
+                    (4, ref('group_vedi_protocolli_uscita_registrati')),
+                    (4, ref('group_vedi_protocolli_uscita_bozze')),
+                    (4, ref('group_registra_protocollo_ingresso')),
+                    (4, ref('group_annulla_protocollo_ingresso')),
+                    (4, ref('group_prendi_in_carico_protocollo_ingresso')),
+                    (4, ref('group_rifiuta_protocollo_ingresso')),
+                    (4, ref('group_modifica_protocollo_ingresso')),
+                    (4, ref('group_classifica_protocollo_ingresso')),
+                    (4, ref('group_fascicola_protocollo_ingresso')),
+                    (4, ref('group_assegna_protocollo_ingresso')),
+                    (4, ref('group_registra_protocollo_uscita')),
+                    (4, ref('group_annulla_protocollo_uscita')),
+                    (4, ref('group_prendi_in_carico_protocollo_uscita')),
+                    (4, ref('group_rifiuta_protocollo_uscita')),
+                    (4, ref('group_modifica_protocollo_uscita')),
+                    (4, ref('group_classifica_protocollo_uscita')),
+                    (4, ref('group_fascicola_protocollo_uscita')),
+                    (4, ref('group_assegna_protocollo_uscita')),
+                    (4, ref('group_invia_protocollo_uscita')),
+                    (4, ref('group_invia_protocollo_pec_uscita')),
+                    (4, ref('group_modifica_destinatari_pec_uscita')),
+                    (4, ref('base.group_pec'))
+                    ]"/>
+        </record>
+    </data>
+
+</openerp>

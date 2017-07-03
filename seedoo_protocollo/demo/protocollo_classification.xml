@@ -1,0 +1,2142 @@
+<?xml version="1.0" ?>
+<!-- This file is part of Seedoo.  The COPYRIGHT file at the top level of
+this module contains the full copyright notices and license terms. -->
+
+<openerp>
+    <data>
+        <record id="protocollo_classification_aoo_default_1" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Organismi e attività istituzionali</field>
+            <field name="complete_name">Risorse umane e gestione del personale</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1</field>
+            <field name="class_type">titolo</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_1" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Normativa, disposizioni di massima</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1"/>
+            <field name="complete_name">Normativa, disposizioni di massima</field>
+            <field name="description">Normativa a carattere generale riguardante il titolo nel suo complesso. Comprende Statuto e Regolamento.</field>
+            <field name="code">1.1</field>
+            <field name="class_type">classe</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_2" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Elezioni</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1"/>
+            <field name="complete_name">Elezioni</field>
+            <field name="description">Documentazione relativa alle elezioni del Consiglio, comprese le serie relative a ”Verbali” “Riepiloghi”</field>
+            <field name="code">1.2</field>
+            <field name="class_type">classe</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_2_1" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Normativa, disposizioni di massima</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_2"/>
+            <field name="complete_name">Normativa, disposizioni di massima</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.2.1</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_2_2" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Verbali/riepiloghi</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_2"/>
+            <field name="complete_name">Verbali/riepiloghi</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.2.2</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_2_3" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Schede</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_2"/>
+            <field name="complete_name">Schede</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.2.3</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_2_4" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Ricorsi</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_2"/>
+            <field name="complete_name">Ricorsi</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.2.4</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_2_5" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Rendiconto spese elettorali</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_2"/>
+            <field name="complete_name">Rendiconto spese elettorali</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.2.5</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_3" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Consiglieri regionali</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1"/>
+            <field name="complete_name">Consiglieri regionali</field>
+            <field name="description">Documentazione concernente lo “status” giuridico dei Consiglieri e le attività di aggiornamento(tutta la documentazione concorre alla formazione dei fascicoli personali dei Consiglieri).</field>
+            <field name="code">1.3</field>
+            <field name="class_type">classe</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_3_1" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Normativa, disposizioni di massima</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_3"/>
+            <field name="complete_name">Normativa, disposizioni di massima</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.3.1</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_3_2" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Proclamazione eletti</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_3"/>
+            <field name="complete_name">Proclamazione eletti</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.3.2</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_3_3" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Dimissioni / Surroghe</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_3"/>
+            <field name="complete_name">Dimissioni / Surroghe</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.3.3</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_3_4" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Status</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_3"/>
+            <field name="complete_name">Status</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.3.4</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_3_5" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Anagrafica</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_3"/>
+            <field name="complete_name">Anagrafica</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.3.5</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_3_6" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Situazione promozionale</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_3"/>
+            <field name="complete_name">Situazione promozionale</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.3.6</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_4" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Gruppi consiliari</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1"/>
+            <field name="complete_name">Gruppi consiliari</field>
+            <field name="description">Documentazione relativa alla composizione dei Gruppi, dalla costituzione alle eventuali dimissioni dei singoli membri.</field>
+            <field name="code">1.4</field>
+            <field name="class_type">classe</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_4_1" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Normativa, disposizioni di massima</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_4"/>
+            <field name="complete_name">Normativa, disposizioni di massima</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.4.1</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_4_2" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Composizione</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_4"/>
+            <field name="complete_name">Composizione</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.4.2</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_5" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Giunta delle elezioni</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1"/>
+            <field name="complete_name">Giunta delle elezioni</field>
+            <field name="description">Documentazione relativa alla composizione della Giunta ed alla sua attività. Comprende anche la serie “Verbali”</field>
+            <field name="code">1.5</field>
+            <field name="class_type">classe</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_5_1" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Normativa, disposizioni di massima</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_5"/>
+            <field name="complete_name">Normativa, disposizioni di massima</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.5.1</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_5_2" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Corrispondenza generale</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_5"/>
+            <field name="complete_name">Corrispondenza generale</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.5.2</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_5_3" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Composizione</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_5"/>
+            <field name="complete_name">Composizione</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.5.3</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_5_4" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Convocazioni/o.d.g.</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_5"/>
+            <field name="complete_name">Convocazioni/o.d.g.</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.5.4</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_5_5" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Verbali</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_5"/>
+            <field name="complete_name">Verbali</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.5.5</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_6" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Presidente del Consiglio Regionale</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1"/>
+            <field name="complete_name">Presidente del Consiglio Regionale</field>
+            <field name="description">Documentazione relativa al Presidente e alla sua attività, compresa la partecipazione alla Conferenza dei Presidenti. Comprende le serie “Decreti”. Per la corrispondenza inviata al Presidente utilizzare la voce “Rapporti istituzionali” o “Relazioni internazionali e cooperazione internazionale”.</field>
+            <field name="code">1.6</field>
+            <field name="class_type">classe</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_6_1" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Normativa, disposizioni di massima</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_6"/>
+            <field name="complete_name">Normativa, disposizioni di massima</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.6.1</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_6_2" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Elezioni</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_6"/>
+            <field name="complete_name">Elezioni</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.6.2</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_6_3" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Conferenza dei Presidenti delle Assemblee e delle Province autonome</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_6"/>
+            <field name="complete_name">Conferenza dei Presidenti delle Assemblee e delle Province autonome</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.6.3</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_6_4" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Decreti</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_6"/>
+            <field name="complete_name">Decreti</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.6.4</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_7" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Ufficio di presidenza</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1"/>
+            <field name="complete_name">Ufficio di presidenza</field>
+            <field name="description">Documentazione relativa all’elezione ed alle attività dell’Ufficio e dei suoi membri. Comprende le serie “Convocazioni”, “Verbali” e “Deliberazioni”. Per la corrispondenza inviata ai membri dell’Ufficio di Presidenza utilizzare la voce “Rapporti istituzionali” o “Relazioni internazionali e cooperazione internazionale”</field>
+            <field name="code">1.7</field>
+            <field name="class_type">classe</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_7_1" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Normativa, disposizioni di massima</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_7"/>
+            <field name="complete_name">Normativa, disposizioni di massima</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.7.1</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_7_2" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Elezione</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_7"/>
+            <field name="complete_name">Elezione</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.7.2</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_7_3" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Convocazioni/o.d.g.</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_7"/>
+            <field name="complete_name">Convocazioni/o.d.g.</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.7.3</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_7_4" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Verbali</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_7"/>
+            <field name="complete_name">Verbali</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.7.4</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_7_5" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Deliberazioni</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_7"/>
+            <field name="complete_name">Deliberazioni</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.7.5</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_8" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Commissioni consiliari permanenti</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1"/>
+            <field name="complete_name">Commissioni consiliari permanenti</field>
+            <field name="description">Articolato nelle singole Commissioni, comprende per ognuna la composizione (nomine e dimissioni), le convocazioni/o.d.g. e le serie dei “Verbali” e dei “Resoconti”, nonché le attività non di aula delle Commissioni. I pareri e i documenti prodotti per l’attività legislativa figurano nel Titolo 2. Audizioni e consultazioni che esulano dagli atti assegnati vanno classificati in “Indagini e visite conoscitive”. In “Corrispondenza generale” inserire la documentazione non riconducibile ad alcuna delle sue funzioni specifiche delle commissioni</field>
+            <field name="code">1.8</field>
+            <field name="class_type">classe</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_8_1" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Normativa, disposizioni di massima</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_8"/>
+            <field name="complete_name">Normativa, disposizioni di massima</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.8.1</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_8_2" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Nome commissione permanente</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_8"/>
+            <field name="complete_name">Nome commissione permanente</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.8.2</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_9" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Commissioni d’inchiesta e speciali</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1"/>
+            <field name="complete_name">Commissioni d’inchiesta e speciali</field>
+            <field name="description">Normativa a carattere generale riguardante il titolo nel suo complesso. Comprende Statuto e Regolamento.</field>
+            <field name="code">1.9</field>
+            <field name="class_type">classe</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_9_1" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Normativa, disposizioni di massima</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_9"/>
+            <field name="complete_name">Normativa, disposizioni di massima</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.9.1</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_9_2" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Nome commissione d’inchiesta o speciale</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_9"/>
+            <field name="complete_name">Nome commissione d’inchiesta o speciale</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.9.2</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_10" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Difensore civico</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1"/>
+            <field name="complete_name">Difensore civico</field>
+            <field name="description">Normativa a carattere generale riguardante il titolo nel suo complesso. Comprende Statuto e Regolamento.</field>
+            <field name="code">1.10</field>
+            <field name="class_type">classe</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_10_1" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Normativa, disposizioni di massima</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_10"/>
+            <field name="complete_name">Normativa, disposizioni di massima</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.10.1</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_10_2" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Corrispondenza generale</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_10"/>
+            <field name="complete_name">Corrispondenza generale</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.10.2</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_10_3" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Nomina/Elezione</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_10"/>
+            <field name="complete_name">Nomina/Elezione</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.10.3</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_10_4" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Attività istituzionale</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_10"/>
+            <field name="complete_name">Attività istituzionale</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.10.4</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_10_5" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Relazioni annuali e statistiche</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_10"/>
+            <field name="complete_name">Relazioni annuali e statistiche</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.10.5</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_10_6" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Enti convenzionati</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_10"/>
+            <field name="complete_name">Enti convenzionati</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.10.6</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_10_7" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Attività di tutela</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_10"/>
+            <field name="complete_name">Attività di tutela</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.10.7</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_11" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">CORECOM</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1"/>
+            <field name="complete_name">CORECOM</field>
+            <field name="description">Normativa a carattere generale riguardante il titolo nel suo complesso. Comprende Statuto e Regolamento.</field>
+            <field name="code">1.11</field>
+            <field name="class_type">classe</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+                <record id="protocollo_classification_aoo_default_1_11_1" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Normativa, disposizioni di massima</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_11"/>
+            <field name="complete_name">Normativa, disposizioni di massima</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.11.1</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_11_2" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Corrispondenza generale</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_11"/>
+            <field name="complete_name">Corrispondenza generale</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.11.2</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_11_3" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Nomina/Elezione</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_11"/>
+            <field name="complete_name">Nomina/Elezione</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.11.3</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_11_4" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Convocazioni / o.d.g</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_11"/>
+            <field name="complete_name">Attività istituzionale</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.11.4</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_11_5" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Verbali e resoconti</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_11"/>
+            <field name="complete_name">Verbali e resoconti</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.11.5</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_11_6" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Delibere</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_11"/>
+            <field name="complete_name">Delibere</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.11.6</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_11_7" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Attività di consulenza</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_11"/>
+            <field name="complete_name">Attività di consulenza</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.11.7</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_11_8" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Attività gestionali</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_11"/>
+            <field name="complete_name">Attività gestionali</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.11.8</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_11_9" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Attività delegate dall’Autorità per le garanzie nelle comunicazioni</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_11"/>
+            <field name="complete_name">Attività delegate dall’Autorità per le garanzie nelle comunicazioni</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.11.9</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_11_10" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Studi e ricerche</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_11"/>
+            <field name="complete_name">Studi e ricerche</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.11.10</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_12" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Commissione per le Pari Opportunità</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1"/>
+            <field name="complete_name">Commissione per le Pari Opportunità</field>
+            <field name="description">Normativa a carattere generale riguardante il titolo nel suo complesso. Comprende Statuto e Regolamento.</field>
+            <field name="code">1.12</field>
+            <field name="class_type">classe</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_12_1" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Normativa, disposizioni di massima</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_12"/>
+            <field name="complete_name">Normativa, disposizioni di massima</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.12.1</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_12_2" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Corrispondenza generale</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_12"/>
+            <field name="complete_name">Corrispondenza generale</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.12.2</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_12_3" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Nomina / elezione</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_12"/>
+            <field name="complete_name">Nomina / elezione</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.12.3</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_12_4" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Convocazioni/o.d.g.</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_12"/>
+            <field name="complete_name">Convocazioni/o.d.g.</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.12.4</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_12_5" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Verbali e resoconti</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_12"/>
+            <field name="complete_name">Verbali e resoconti</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.12.5</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_12_6" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Attività di consulenza</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_12"/>
+            <field name="complete_name">Attività di consulenza</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.12.6</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_12_7" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Studi, ricerche e indagini</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_12"/>
+            <field name="complete_name">Studi, ricerche e indagini</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.12.7</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_13" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Consiglio delle Autonomie locali</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1"/>
+            <field name="complete_name">Consiglio delle Autonomie locali</field>
+            <field name="description">Normativa a carattere generale riguardante il titolo nel suo complesso. Comprende Statuto e Regolamento.</field>
+            <field name="code">1.13</field>
+            <field name="class_type">classe</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_13_1" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Normativa, disposizioni di massima</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_13"/>
+            <field name="complete_name">Normativa, disposizioni di massima</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.13.1</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_13_2" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Corrispondenza generale</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_13"/>
+            <field name="complete_name">Corrispondenza generale</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.13.2</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_13_3" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Composizione</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_13"/>
+            <field name="complete_name">Composizione</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.13.3</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_13_4" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Convocazioni/o.d.g.</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_13"/>
+            <field name="complete_name">Convocazioni/o.d.g.</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.13.4</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_13_5" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Verbali e resoconti</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_13"/>
+            <field name="complete_name">Verbali e resoconti</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.13.5</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_13_6" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Studi e ricerche</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_13"/>
+            <field name="complete_name">Studi e ricerche</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.13.6</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_14" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Consulte e comitati</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1"/>
+            <field name="complete_name">Consulte e comitati</field>
+            <field name="description">Normativa a carattere generale riguardante il titolo nel suo complesso. Comprende Statuto e Regolamento.</field>
+            <field name="code">1.14</field>
+            <field name="class_type">classe</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_14_1" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Normativa, disposizioni di massima</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_14"/>
+            <field name="complete_name">Normativa, disposizioni di massima</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.14.1</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_14_2" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Nome Consulta o Comitato</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_14"/>
+            <field name="complete_name">Nome Consulta o Comitato</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.14.2</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_15" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Rapporti istituzionali</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1"/>
+            <field name="complete_name">Rapporti istituzionali</field>
+            <field name="description">Normativa a carattere generale riguardante il titolo nel suo complesso. Comprende Statuto e Regolamento.</field>
+            <field name="code">1.15</field>
+            <field name="class_type">classe</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_15_1" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Normativa, disposizioni di massima</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_15"/>
+            <field name="complete_name">Normativa, disposizioni di massima</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.15.1</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_15_2" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Giunta regionale</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_15"/>
+            <field name="complete_name">Giunta regionale</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.15.2</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_15_3" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Società a partecipazione regionale ed altri enti</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_15"/>
+            <field name="complete_name">Società a partecipazione regionale ed altri enti</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.15.3</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_15_4" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Organi di Governo e Parlamento</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_15"/>
+            <field name="complete_name">Organi di Governo e Parlamento</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.15.4</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_15_5" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Istituzioni ed organismi nazionali (comprese le altre Regioni)</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_15"/>
+            <field name="complete_name">Istituzioni ed organismi nazionali (comprese le altre Regioni)</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.15.5</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_15_6" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Enti Locali (compresi Unioni e Consorzi)</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_15"/>
+            <field name="complete_name">Enti Locali (compresi Unioni e Consorzi)</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.15.6</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_15_7" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Soggetti privati e associazioni</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_15"/>
+            <field name="complete_name">Soggetti privati e associazioni</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.15.7</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_16" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Relazioni internazionali e cooperazione internazionale</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1"/>
+            <field name="complete_name">Relazioni internazionali e cooperazione internazionale</field>
+            <field name="description">Normativa a carattere generale riguardante il titolo nel suo complesso. Comprende Statuto e Regolamento.</field>
+            <field name="code">1.16</field>
+            <field name="class_type">classe</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_16_1" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Normativa, disposizioni di massima</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_16"/>
+            <field name="complete_name">Normativa, disposizioni di massima</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.16.1</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_16_2" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Unione Europea</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_16"/>
+            <field name="complete_name">Unione Europea</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.16.2</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_16_3" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Stati e Regioni europee</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_16"/>
+            <field name="complete_name">Stati e Regioni europee</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.16.3</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_16_4" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Organismi e Stati non aderenti UE</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_16"/>
+            <field name="complete_name">Organismi e Stati non aderenti UE</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.16.4</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_17" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Comunicazione</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1"/>
+            <field name="complete_name">Comunicazione</field>
+            <field name="description">Normativa a carattere generale riguardante il titolo nel suo complesso. Comprende Statuto e Regolamento.</field>
+            <field name="code">1.17</field>
+            <field name="class_type">classe</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_17_1" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Normativa, disposizioni di massima</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_17"/>
+            <field name="complete_name">Normativa, disposizioni di massima</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.17.1</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_17_2" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Cerimoniale</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_17"/>
+            <field name="complete_name">Cerimoniale</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.17.2</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_17_3" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Patrocinio, Comitato d’onore, Gonfalone</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_17"/>
+            <field name="complete_name">Patrocinio, Comitato d’onore, Gonfalone</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.17.3</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_17_4" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Premi ed onorificenze</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_17"/>
+            <field name="complete_name">Premi ed onorificenze</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.17.4</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_17_5" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Relazioni esterne</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_17"/>
+            <field name="complete_name">Relazioni esterne</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.17.5</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_17_6" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Rapporti con gli organi di informazione</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_17"/>
+            <field name="complete_name">Rapporti con gli organi di informazione</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.17.6</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_17_7" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Rassegna stampa</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_17"/>
+            <field name="complete_name">Rassegna stampa</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.17.7</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_18" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Promozione culturale</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1"/>
+            <field name="complete_name">Promozione culturale</field>
+            <field name="description">Normativa a carattere generale riguardante il titolo nel suo complesso. Comprende Statuto e Regolamento.</field>
+            <field name="code">1.18</field>
+            <field name="class_type">classe</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_18_1" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Normativa, disposizioni di massima</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_18"/>
+            <field name="complete_name">Normativa, disposizioni di massima</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.18.1</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_18_2" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Rapporti con associazioni culturali, scuole ed enti vari</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_18"/>
+            <field name="complete_name">Rapporti con associazioni culturali, scuole ed enti vari</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.18.2</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_18_3" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Contributi e progetti culturali</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_18"/>
+            <field name="complete_name">Contributi e progetti culturali</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.18.3</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_18_4" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Convegni ed altre manifestazioni</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1_18"/>
+            <field name="complete_name">Convegni ed altre manifestazioni</field>
+            <field name="description">Descrizione</field>
+            <field name="code">1.18.4</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_1_99" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Documentazione eterogenea</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1"/>
+            <field name="complete_name">Documentazione eterogenea</field>
+            <field name="description">Corrispondenza e documentazione non riconducibile specificamente al alcuna voce del presente titolo. Codice da usare con estrema cautela.</field>
+            <field name="code">1.99</field>
+            <field name="class_type">classe</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+
+        <!--TITOLO 2 -->
+        <record id="protocollo_classification_aoo_default_2" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Attività legislativa, di controllo e di supporto</field>
+            <field name="complete_name">Attività legislativa, di controllo e di supporto</field>
+            <field name="description"></field>
+            <field name="code">2</field>
+            <field name="class_type">titolo</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_2_1" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Normativa, disposizioni di massima</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_2"/>
+            <field name="complete_name">Normativa, disposizioni di massima</field>
+            <field name="description">Normativa a carattere generale riguardante il titolo nel suo complesso. Comprende Statuto e Regolamento.</field>
+            <field name="code">2.1</field>
+            <field name="class_type">classe</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_2_2" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Conferenza dei Presidenti dei gruppi consiliari</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_1"/>
+            <field name="complete_name">Conferenza dei Presidenti dei gruppi consiliari</field>
+            <field name="description">Documentazione relativa alle elezioni del Consiglio, comprese le serie relative a ”Verbali” “Riepiloghi”</field>
+            <field name="code">2.2</field>
+            <field name="class_type">classe</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_2_2_1" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Normativa, disposizioni di massima</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_2_2"/>
+            <field name="complete_name">Normativa, disposizioni di massima</field>
+            <field name="description">Descrizione</field>
+            <field name="code">2.2.1</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_2_2_2" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Convocazioni/o.d.g.</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_2_2"/>
+            <field name="complete_name">Convocazioni/o.d.g.</field>
+            <field name="description">Descrizione</field>
+            <field name="code">2.2.2</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_2_2_3" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Verbali</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_2_2"/>
+            <field name="complete_name">Verbali</field>
+            <field name="description">Descrizione</field>
+            <field name="code">2.2.3</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_2_3" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Assemblea consiliare</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_2"/>
+            <field name="complete_name">Assemblea consiliare</field>
+            <field name="description">Descrizione</field>
+            <field name="code">2.3</field>
+            <field name="class_type">classe</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_2_3_1" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Normativa, disposizioni di massima</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_2_3"/>
+            <field name="complete_name">Normativa, disposizioni di massima</field>
+            <field name="description">Descrizione</field>
+            <field name="code">2.3.1</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_2_3_2" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Convocazioni/o.d.g.</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_2_3"/>
+            <field name="complete_name">Convocazioni/o.d.g.</field>
+            <field name="description">Descrizione</field>
+            <field name="code">2.3.2</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_2_3_3" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Documenti programmatici</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_2_3"/>
+            <field name="complete_name">Documenti programmatici</field>
+            <field name="description">Descrizione</field>
+            <field name="code">2.3.3</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_2_3_4" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Processi verbali</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_2_3"/>
+            <field name="complete_name">Processi verbali</field>
+            <field name="description">Descrizione</field>
+            <field name="code">2.3.4</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_2_3_5" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Resocontazioni</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_2_3"/>
+            <field name="complete_name">Resocontazioni</field>
+            <field name="description">Descrizione</field>
+            <field name="code">2.3.5</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_2_3_6" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Comunicazioni del Presidente del Consiglio</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_2_3"/>
+            <field name="complete_name">Comunicazioni del Presidente del Consiglio</field>
+            <field name="description">Descrizione</field>
+            <field name="code">2.3.6</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_2_3_7" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Comunicazioni di Giunta</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_2_3"/>
+            <field name="complete_name">Comunicazioni di Giunta</field>
+            <field name="description">Descrizione</field>
+            <field name="code">2.3.7</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_2_4" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Proposte di legge regionale</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_2"/>
+            <field name="complete_name">Proposte di legge regionale</field>
+            <field name="description">Descrizione</field>
+            <field name="code">2.4</field>
+            <field name="class_type">classe</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_2_5" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Proposte di legge regionale d’iniziativa popolare e di Enti locali – ammissibilità</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_2"/>
+            <field name="complete_name">Proposte di legge regionale d’iniziativa popolare e di Enti locali – ammissibilità</field>
+            <field name="description">Descrizione</field>
+            <field name="code">2.5</field>
+            <field name="class_type">classe</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_2_6" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Proposte di legge al Parlamento</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_2"/>
+            <field name="complete_name">Proposte di legge al Parlamento</field>
+            <field name="description">Descrizione</field>
+            <field name="code">2.6</field>
+            <field name="class_type">classe</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_2_7" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Proposte di referendum</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_2"/>
+            <field name="complete_name">Proposte di referendum</field>
+            <field name="description">Descrizione</field>
+            <field name="code">2.7</field>
+            <field name="class_type">classe</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_2_8" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Petizioni</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_2"/>
+            <field name="complete_name">Petizioni</field>
+            <field name="description">Descrizione</field>
+            <field name="code">2.8</field>
+            <field name="class_type">classe</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_2_9" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Proposte di regolamento</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_2"/>
+            <field name="complete_name">Proposte di regolamento</field>
+            <field name="description">Descrizione</field>
+            <field name="code">2.9</field>
+            <field name="class_type">classe</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_2_10" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Proposte di deliberazione consiliari</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_2"/>
+            <field name="complete_name">Proposte di deliberazione consiliari</field>
+            <field name="description">Descrizione</field>
+            <field name="code">2.10</field>
+            <field name="class_type">classe</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_2_11" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Pareri</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_2"/>
+            <field name="complete_name">Pareri</field>
+            <field name="description">Descrizione</field>
+            <field name="code">2.11</field>
+            <field name="class_type">classe</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_2_12" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Informative</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_2"/>
+            <field name="complete_name">Informative</field>
+            <field name="description">Descrizione</field>
+            <field name="code">2.12</field>
+            <field name="class_type">classe</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_2_13" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Sindaco ispettivo</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_2"/>
+            <field name="complete_name">Sindaco ispettivo</field>
+            <field name="description">Descrizione</field>
+            <field name="code">2.13</field>
+            <field name="class_type">classe</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_2_13_1" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Interrogazioni</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_2_13"/>
+            <field name="complete_name">Interrogazioni</field>
+            <field name="description">Descrizione</field>
+            <field name="code">2.13.1</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_2_13_2" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Interpellanze</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_2_13"/>
+            <field name="complete_name">Interpellanze</field>
+            <field name="description">Descrizione</field>
+            <field name="code">2.13.2</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_2_14" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Indirizzo politico</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_2"/>
+            <field name="complete_name">Indirizzo politico</field>
+            <field name="description">Descrizione</field>
+            <field name="code">2.14</field>
+            <field name="class_type">classe</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_2_14_1" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Mozioni</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_2_14"/>
+            <field name="complete_name">Mozioni</field>
+            <field name="description">Descrizione</field>
+            <field name="code">2.14.1</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_2_14_2" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Proposte di risoluzione</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_2_14"/>
+            <field name="complete_name">Proposte di risoluzione</field>
+            <field name="description">Descrizione</field>
+            <field name="code">2.14.2</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_2_14_3" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Ordini del giorno</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_2_14"/>
+            <field name="complete_name">Ordini del giorno</field>
+            <field name="description">Descrizione</field>
+            <field name="code">2.14.3</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_2_15" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Nomine</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_2"/>
+            <field name="complete_name">Nomine</field>
+            <field name="description">Descrizione</field>
+            <field name="code">2.15</field>
+            <field name="class_type">classe</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_2_15_1" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Normativa, disposizioni di massima</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_2_15"/>
+            <field name="complete_name">Normativa, disposizioni di massima</field>
+            <field name="description">Descrizione</field>
+            <field name="code">2.15.1</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_2_15_2" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Procedura</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_2_15"/>
+            <field name="complete_name">Procedura</field>
+            <field name="description">Descrizione</field>
+            <field name="code">2.15.2</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_2_15_3" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Situazioni patrimoniali amministratori pubblici</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_2_15"/>
+            <field name="complete_name">Situazioni patrimoniali amministratori pubblici</field>
+            <field name="description">Descrizione</field>
+            <field name="code">2.15.3</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_2_16" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Studi e documentazione legislativa</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_2"/>
+            <field name="complete_name">Studi e documentazione legislativa</field>
+            <field name="description">Descrizione</field>
+            <field name="code">2.16</field>
+            <field name="class_type">classe</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_2_16_1" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Pareri/Osservazioni/Relazioni</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_2_16"/>
+            <field name="complete_name">Pareri/Osservazioni/Relazioni</field>
+            <field name="description">Descrizione</field>
+            <field name="code">2.16.1</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_2_16_2" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Osservatorio Legislativo </field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_2_16"/>
+            <field name="complete_name">Osservatorio Legislativo </field>
+            <field name="description">Descrizione</field>
+            <field name="code">2.16.2</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_2_17" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Ricorsi</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_2"/>
+            <field name="complete_name">Ricorsi</field>
+            <field name="description">Descrizione</field>
+            <field name="code">2.17</field>
+            <field name="class_type">classe</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_2_17_1" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Ricorsi su atti regionali</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_2_17"/>
+            <field name="complete_name">Ricorsi su atti regionali</field>
+            <field name="description">Descrizione</field>
+            <field name="code">2.17.1</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_2_17_2" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Ricorsi della Regione su atti governativi</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_2_17"/>
+            <field name="complete_name">Ricorsi della Regione su atti governativi</field>
+            <field name="description">Descrizione</field>
+            <field name="code">2.17.2</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_2_99" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Documentazione eterogenea</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_2"/>
+            <field name="complete_name">Documentazione eterogenea</field>
+            <field name="description">Corrispondenza e documentazione non riconducibile specificamente al alcuna voce del presente titolo. Codice da usare con estrema cautela.</field>
+            <field name="code">2.99</field>
+            <field name="class_type">classe</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <!-- Titolo 3 -->
+        <record id="protocollo_classification_aoo_default_3" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Organizzazione, patrimonio e risorse strumentali</field>
+            <field name="complete_name">Organizzazione, patrimonio e risorse strumentali</field>
+            <field name="description"></field>
+            <field name="code">3</field>
+            <field name="class_type">titolo</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_3_1" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Normativa, disposizioni di massima</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_3"/>
+            <field name="complete_name">Normativa, disposizioni di massima</field>
+            <field name="description">Normativa a carattere generale riguardante il titolo nel suo complesso. Comprende Statuto e Regolamento.</field>
+            <field name="code">3.1</field>
+            <field name="class_type">classe</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_3_2" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Programmazione e controllo di gestione</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_3"/>
+            <field name="complete_name">Programmazione e controllo di gestione</field>
+            <field name="description">Documentazione relativa alle elezioni del Consiglio, comprese le serie relative a ”Verbali” “Riepiloghi”</field>
+            <field name="code">3.2</field>
+            <field name="class_type">classe</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_3_2_1" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Piani di lavoro</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_3_2"/>
+            <field name="complete_name">Piani di lavoro</field>
+            <field name="description">Descrizione</field>
+            <field name="code">3.2.1</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_3_2_2" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Progetti di miglioramento</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_3_2"/>
+            <field name="complete_name">Progetti di miglioramento</field>
+            <field name="description">Descrizione</field>
+            <field name="code">3.2.2</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_3_2_3" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Gruppi di lavoro</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_3_2"/>
+            <field name="complete_name">Gruppi di lavoro</field>
+            <field name="description">Descrizione</field>
+            <field name="code">3.2.3</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_3_2_4" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Controllo di gestione</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_3_2"/>
+            <field name="complete_name">Controllo di gestione</field>
+            <field name="description">Descrizione</field>
+            <field name="code">3.2.4</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_3_2_5" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Studi e statistiche</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_3_2"/>
+            <field name="complete_name">Studi e statistiche</field>
+            <field name="description">Descrizione</field>
+            <field name="code">3.2.5</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_3_3" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Assetto organizzativo</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_3"/>
+            <field name="complete_name">Assetto organizzativo</field>
+            <field name="description">Documentazione relativa alle elezioni del Consiglio, comprese le serie relative a ”Verbali” “Riepiloghi”</field>
+            <field name="code">3.3</field>
+            <field name="class_type">classe</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_3_3_1" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Organigramma</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_3_3"/>
+            <field name="complete_name">Organigramma</field>
+            <field name="description">Descrizione</field>
+            <field name="code">3.3.1</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_3_3_2" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Organismo amministrativo apicale</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_3_3"/>
+            <field name="complete_name">Organismo amministrativo apicale</field>
+            <field name="description">Descrizione</field>
+            <field name="code">3.3.2</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_3_3_3" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Dirigenti</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_3_3"/>
+            <field name="complete_name">Dirigenti</field>
+            <field name="description">Descrizione</field>
+            <field name="code">3.3.3</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_3_4" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Organizzazione logistica</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_3"/>
+            <field name="complete_name">Organizzazione logistica</field>
+            <field name="description">Documentazione relativa alle elezioni del Consiglio, comprese le serie relative a ”Verbali” “Riepiloghi”</field>
+            <field name="code">3.4</field>
+            <field name="class_type">classe</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_3_4_1" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Pianificazione</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_3_4"/>
+            <field name="complete_name">Pianificazione</field>
+            <field name="description">Descrizione</field>
+            <field name="code">3.4.1</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_3_4_2" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Richieste/assegnazioni/variazioni</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_3_4"/>
+            <field name="complete_name">Richieste/assegnazioni/variazioni</field>
+            <field name="description">Descrizione</field>
+            <field name="code">3.4.2</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_3_5" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Sicurezza sul lavoro</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_3"/>
+            <field name="complete_name">Sicurezza sul lavoro</field>
+            <field name="description">Documentazione relativa alle elezioni del Consiglio, comprese le serie relative a ”Verbali” “Riepiloghi”</field>
+            <field name="code">3.5</field>
+            <field name="class_type">classe</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_3_5_1" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Normativa, disposizioni si massima</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_3_5"/>
+            <field name="complete_name">Normativa, disposizioni si massima</field>
+            <field name="description">Descrizione</field>
+            <field name="code">3.5.1</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_3_5_2" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Servizio prevenzione e protezione</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_3_5"/>
+            <field name="complete_name">Servizio prevenzione e protezione</field>
+            <field name="description">Descrizione</field>
+            <field name="code">3.5.2</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_3_5_3" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Piani di valutazione rischi e piani di evacuazione</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_3_5"/>
+            <field name="complete_name">Piani di valutazione rischi e piani di evacuazione</field>
+            <field name="description">Descrizione</field>
+            <field name="code">3.5.3</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_3_5_4" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Sorveglianza sanitaria</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_3_5"/>
+            <field name="complete_name">Sorveglianza sanitaria</field>
+            <field name="description">Descrizione</field>
+            <field name="code">3.5.4</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_3_6" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Servizi ausiliari</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_3"/>
+            <field name="complete_name">Servizi ausiliari</field>
+            <field name="description">Documentazione relativa alle elezioni del Consiglio, comprese le serie relative a ”Verbali” “Riepiloghi”</field>
+            <field name="code">3.6</field>
+            <field name="class_type">classe</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_3_6_1" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Servizi d’aula</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_3_6"/>
+            <field name="complete_name">Servizi d’aula</field>
+            <field name="description">Descrizione</field>
+            <field name="code">3.6.1</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_3_6_2" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Servizi d’accoglienza</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_3_6"/>
+            <field name="complete_name">Servizi d’accoglienza</field>
+            <field name="description">Descrizione</field>
+            <field name="code">3.6.2</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_3_6_3" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Tipografia e stampa</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_3_6"/>
+            <field name="complete_name">Tipografia e stampa</field>
+            <field name="description">Descrizione</field>
+            <field name="code">3.6.3</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_3_6_4" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Servizio di posta</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_3_6"/>
+            <field name="complete_name">Servizio di posta</field>
+            <field name="description">Descrizione</field>
+            <field name="code">3.6.4</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_3_6_5" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Autoparco</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_3_6"/>
+            <field name="complete_name">Autoparco</field>
+            <field name="description">Descrizione</field>
+            <field name="code">3.6.5</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_3_7" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Attività negoziale e contrattuale</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_3"/>
+            <field name="complete_name">Attività negoziale e contrattuale</field>
+            <field name="description">Documentazione relativa alle elezioni del Consiglio, comprese le serie relative a ”Verbali” “Riepiloghi”</field>
+            <field name="code">3.7</field>
+            <field name="class_type">classe</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_3_8" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Beni immobili</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_3"/>
+            <field name="complete_name">Beni immobili</field>
+            <field name="description">Documentazione relativa alle elezioni del Consiglio, comprese le serie relative a ”Verbali” “Riepiloghi”</field>
+            <field name="code">3.8</field>
+            <field name="class_type">classe</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_3_8_1" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Acquisizioni ed alienazioni</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_3_8"/>
+            <field name="complete_name">Acquisizioni ed alienazioni</field>
+            <field name="description">Descrizione</field>
+            <field name="code">3.8.1</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_3_8_2" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Inventario</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_3_8"/>
+            <field name="complete_name">Inventario</field>
+            <field name="description">Descrizione</field>
+            <field name="code">3.8.2</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_3_8_3" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Locazioni attive e passive</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_3_8"/>
+            <field name="complete_name">Locazioni attive e passive</field>
+            <field name="description">Descrizione</field>
+            <field name="code">3.8.3</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_3_8_4" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Concessione spazi, locali ed aree</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_3_8"/>
+            <field name="complete_name">Concessione spazi, locali ed aree</field>
+            <field name="description">Descrizione</field>
+            <field name="code">3.8.4</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+       <record id="protocollo_classification_aoo_default_3_9" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Beni mobili</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_3"/>
+            <field name="complete_name">Beni mobili</field>
+            <field name="description">Documentazione relativa alle elezioni del Consiglio, comprese le serie relative a ”Verbali” “Riepiloghi”</field>
+            <field name="code">3.9</field>
+            <field name="class_type">classe</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_3_9_1" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Acquisizioni, donazioni e dismissioni</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_3_9"/>
+            <field name="complete_name">Acquisizioni, donazioni e dismissioni</field>
+            <field name="description">Descrizione</field>
+            <field name="code">3.9.1</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_3_9_2" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Inventario</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_3_9"/>
+            <field name="complete_name">Inventario</field>
+            <field name="description">Descrizione</field>
+            <field name="code">3.9.2</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_3_9_3" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Locazioni / noleggi</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_3_9"/>
+            <field name="complete_name">Locazioni / noleggi</field>
+            <field name="description">Descrizione</field>
+            <field name="code">3.9.3</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+       <record id="protocollo_classification_aoo_default_3_10" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Beni di consumo</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_3"/>
+            <field name="complete_name">Beni di consumo</field>
+            <field name="description">Documentazione relativa alle elezioni del Consiglio, comprese le serie relative a ”Verbali” “Riepiloghi”</field>
+            <field name="code">3.10</field>
+            <field name="class_type">classe</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_3_10_1" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Acquisizioni</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_3_10"/>
+            <field name="complete_name">Acquisizioni</field>
+            <field name="description">Descrizione</field>
+            <field name="code">3.10.1</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_3_10_2" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Richieste</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_3_10"/>
+            <field name="complete_name">Richieste</field>
+            <field name="description">Descrizione</field>
+            <field name="code">3.10.2</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+       <record id="protocollo_classification_aoo_default_3_11" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Forniture di servizi</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_3"/>
+            <field name="complete_name">Forniture di servizi</field>
+            <field name="description">Documentazione relativa alle elezioni del Consiglio, comprese le serie relative a ”Verbali” “Riepiloghi”</field>
+            <field name="code">3.11</field>
+            <field name="class_type">classe</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_3_11_1" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Acquisizioni</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_3_11"/>
+            <field name="complete_name">Acquisizioni</field>
+            <field name="description">Descrizione</field>
+            <field name="code">3.11.1</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_3_11_2" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Assicurazioni</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_3_11"/>
+            <field name="complete_name">Assicurazioni</field>
+            <field name="description">Descrizione</field>
+            <field name="code">3.11.2</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_3_11_3" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Consulenze esterne</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_3_11"/>
+            <field name="complete_name">Consulenze esterne</field>
+            <field name="description">Descrizione</field>
+            <field name="code">3.11.3</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+       <record id="protocollo_classification_aoo_default_3_12" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Utenze</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_3"/>
+            <field name="complete_name">Utenze</field>
+            <field name="description">Documentazione relativa alle elezioni del Consiglio, comprese le serie relative a ”Verbali” “Riepiloghi”</field>
+            <field name="code">3.12</field>
+            <field name="class_type">classe</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_3_12_1" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Acquisizioni</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_3_12"/>
+            <field name="complete_name">Acquisizioni</field>
+            <field name="description">Descrizione</field>
+            <field name="code">3.12.1</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_3_12_2" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Richieste</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_3_12"/>
+            <field name="complete_name">Richieste</field>
+            <field name="description">Descrizione</field>
+            <field name="code">3.12.2</field>
+            <field name="class_type">sottoclasse</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+       <record id="protocollo_classification_aoo_default_3_13" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Manutenzione ordinaria</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_3"/>
+            <field name="complete_name">Manutenzione ordinaria</field>
+            <field name="description">Documentazione relativa alle elezioni del Consiglio, comprese le serie relative a ”Verbali” “Riepiloghi”</field>
+            <field name="code">3.13</field>
+            <field name="class_type">classe</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+        <record id="protocollo_classification_aoo_default_3_99" model="protocollo.classification">
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="name">Documentazione eterogenea</field>
+            <field name="parent_id" ref="protocollo_classification_aoo_default_3"/>
+            <field name="complete_name">Documentazione eterogenea</field>
+            <field name="description">Corrispondenza e documentazione non riconducibile specificamente al alcuna voce del presente titolo. Codice da usare con estrema cautela.</field>
+            <field name="code">3.99</field>
+            <field name="class_type">classe</field>
+            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
+        </record>
+
+    </data>
+</openerp>

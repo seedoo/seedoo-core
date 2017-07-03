@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This file is part of Seedoo.  The COPYRIGHT file at the top level of
+this module contains the full copyright notices and license terms. -->
+
+<openerp>
+    <data>
+
+        <!--
+        <record id="view_department_collaborator_tree_protocollo"
+                model="ir.ui.view">
+            <field name="name">hr.department.collaborator.tree</field>
+            <field name="model">hr.department.collaborator</field>
+            <field name="arch" type="xml">
+                <tree string="Collaborators" editable="bottom">
+                    <field name="name"/>
+                    <field name="to_notify"/>
+                </tree>
+            </field>
+        </record>
+        -->
+
+        <record id="view_department_form_protocollo" model="ir.ui.view">
+            <field name="name">hr.department.form.protocollo</field>
+            <field name="model">hr.department</field>
+            <field name="inherit_id" ref="hr.view_department_form"></field>
+            <field name="arch" type="xml">
+                <!--
+                <field name="company_id" position="after">
+                    <notebook colspan="6">
+                        <page string="Collaborators">
+                            <field name="collaborator_ids" colspan="6"
+                                   nolabel="1" string="Collaborators"/>
+                        </page>
+                    </notebook>
+                </field>
+                -->
+                <field name="company_id" position="after">
+                    <newline/>
+                    <field name="assignable"/>
+                    <newline/>
+                    <field name="description" colspan="4"/>
+                    <notebook colspan="6">
+                        <page string="Dipendenti">
+                            <field name="member_ids" colspan="6" nolabel="1" readonly="1"/>
+                        </page>
+                    </notebook>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_department_tree_protocollo" model="ir.ui.view">
+            <field name="name">hr.department.tree.protocollo</field>
+            <field name="model">hr.department</field>
+            <field name="inherit_id" ref="hr.view_department_tree"></field>
+            <field name="arch" type="xml">
+                <tree string="Companies">
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--
+        <record id="view_department_protocollo_search" model="ir.ui.view">
+            <field name="name">hr.departmentg.protocollo.search</field>
+            <field name="model">hr.department</field>
+            <field name="inherit_id" ref="hr.view_department_filter"></field>
+            <field name="arch" type="xml">
+                <field name="manager_id" position="after">
+                    <field name="collaborator_ids"
+                           filter_domain="[('collaborator_ids.name.id','=',self)]"
+                           invisible="True"/>
+                </field>
+
+            </field>
+        </record>
+        -->
+
+        <!--
+        <record id="hr.open_module_tree_department" model="ir.actions.act_window">
+            <field name="domain" eval="['!', ('parent_id','child_of',ref('protocollo_dept_root'))]"></field>
+        </record>
+        -->
+
+        <record model="ir.actions.act_window" id="action_mydepartment_protocollo">
+            <field name="name">I Miei Uffici</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.department</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <!--<field name="domain" eval="[('parent_id','child_of',ref('protocollo_dept_root'))]"></field>-->
+            <!--<field name="context">{"search_default_collaborator_ids": uid}</field>-->
+            <!--<field name="search_view_id" ref="view_department_protocollo_search"/>-->
+        </record>
+
+        <record model="ir.actions.act_window" id="action_dept_manage_office_protocollo">
+            <field name="name">Gestione Uffici Protocollo</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.department</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <!--<field name="domain" eval="[('parent_id','child_of',ref('protocollo_dept_root'))]"></field>-->
+            <!--<field name="search_view_id" ref="view_department_protocollo_search"/>-->
+        </record>
+
+
+        <record id="action_department_protocol_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="4"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_department_form_protocollo"/>
+            <field name="act_window_id" ref="action_dept_manage_office_protocollo"/>
+        </record>
+
+        <record id="action_department_protocol_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_department_tree_protocollo"/>
+            <field name="act_window_id" ref="action_dept_manage_office_protocollo"/>
+        </record>
+
+        <!--
+        <menuitem id="hr_protocol_menu_root" parent="hr.menu_hr_root"
+                  sequence="1" name="Protocol"/>
+
+        <menuitem id="hr_myoffice_protocol_menu" parent="hr_protocol_menu_root"
+                  action="action_mydepartment_protocollo"
+                  groups="group_protocollo_user" sequence="1"/>
+
+        <menuitem id="hr_manage_department_protocol_menu"
+                  parent="hr_protocol_menu_root"
+                  action="action_dept_manage_office_protocollo"sequence="2"/>
+        -->
+
+    </data>
+</openerp>

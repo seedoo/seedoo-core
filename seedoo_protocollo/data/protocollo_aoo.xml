@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- AOO -->
+        <record id="protocollo_aoo_default" model="protocollo.aoo">
+            <field name="name">La tua AOO</field>
+            <field name="ident_code">AOO</field>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+    </data>
+</openerp>

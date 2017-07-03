@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file is part of Seedoo.  The COPYRIGHT file at the top level of
+this module contains the full copyright notices and license terms. -->
+<openerp>
+    <data>
+
+        <record model='ir.ui.view' id='protocollo_protocollo_zip_form'>
+            <field name="name">protocollo.protocollo.zip.form</field>
+            <field name="model">protocollo.protocollo</field>
+            <field name="inherit_id" ref="seedoo_protocollo.protocollo_protocollo_form"/>
+            <field name="arch" type="xml">
+	                <xpath expr="/form/header/field[@name='state']" position="before">
+	                		<newline/>
+		                    <button name="%(create_zip_wizard_action)d" type='action' string='Scarica Archivio Zip' icon="STOCK_SAVE_AS" attrs="{'invisible': ['|', ('state','not in',('registered','sent','notified')), ('reserved','=',True)]}" groups="seedoo_protocollo.group_protocollo_simple_user,seedoo_protocollo.group_protocollo_user"/>
+	                </xpath>
+            </field>
+        </record>
+
+    </data>
+</openerp>

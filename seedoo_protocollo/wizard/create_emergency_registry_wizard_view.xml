@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This file is part of Seedoo.  The COPYRIGHT file at the top level of
+this module contains the full copyright notices and license terms. -->
+
+<openerp>
+    <data>
+        <!-- wizard action on protocollo.protocollo -->
+        <act_window id="protocollo_emergency_registry_action"
+                    name="Crea Registro Emergenza Protocollo"
+                    res_model="protocollo.emergency.registry.wizard"
+                    view_type="form" view_mode="form"
+                    target="new"/>
+
+        <!-- wizard view -->
+        <record id="protocollo_emergency_registry_view" model="ir.ui.view">
+            <field name="name">Crea Registro Emergenza</field>
+            <field name="model">protocollo.emergency.registry.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Registro Emergenza" version="7.0">
+                    <group col="4">
+                        <field name="name" attrs="{'invisible':[('registry_exists','=',True)]}" colspan="4"/>
+                        <field name="date_start" attrs="{'invisible':[('registry_exists','=',True)]}"/>
+                        <field name="date_end" attrs="{'invisible':[('registry_exists','=',True)]}"/>
+                        <field name="number" attrs="{'invisible':[('registry_exists','=',True)]}"/>
+                        <group attrs="{'invisible':[('registry_exists','=',False)]}" colspan="4">
+                            <separator string="Esiste già un registro emergenza in stato Bozza!"/>
+                        </group>
+                    </group>
+                    <field name="registry_exists" invisible="1"/>
+                    <footer>
+                        <button string="Crea" name="action_create" type="object" class="oe_highlight"
+                            attrs="{'invisible':[('registry_exists','=',True)]}"/>
+                        <button string="Abbandona" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</openerp>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file is part of Seedoo.  The COPYRIGHT file at the top level of
+this module contains the full copyright notices and license terms. -->
+
+<openerp>
+    <data>
+        <record model='ir.ui.view' id='protocollo_pec_form'>
+            <field name="name">protocollo.pec.form</field>
+            <field name="model">mail.message</field>
+            <field name="priority">100</field>
+            <field name="context">{'pec_messages': True}</field>
+            <field name="arch" type="xml">
+                <form string="Pec da Protocollare" version="7.0">
+                    <header>
+                        <button name="%(create_protocollo_pec_action)d"
+                                type="action" string="Crea Bozza Protocollo"
+                                context="{'attachment_ids':attachment_ids}"
+                                attrs="{'invisible':[('pec_state','!=','new')]}"/>
+                        <button name="action_not_protocol" type='object'
+                                string="Non protocollare"
+                                attrs="{'invisible':[('pec_state','!=','new')]}"/>
+
+                        <field name="pec_state" widget="statusbar" invisible="1"/>
+                    </header>
+                    <sheet>
+                        <div class="gedoc_header">
+                            <group col="4">
+                                <newline/>
+                                <field name="email_from"/>
+                                <field name="date"/>
+                                <field name="author_id"/>
+                            </group>
+                        </div>
+                        <group>
+                            <newline/>
+                            <field name="subject" colspan="4"/>
+                            <field name="body" colspan="4"/>
+                            <field name="attachment_ids" invisible="1"/>
+                            <!--<separator string="Documenti" colspan="4"/>-->
+                            <group>
+                                <field name="pec_eml" invisible="1"/>
+                                <field name="pec_eml_fname" invisible="1"/>
+                                <field name="pec_eml_content" filename="pec_eml_fname" colspan="4" />
+                            </group>
+                            <newline/>
+                            <group>
+                                <field name="pec_attachs">
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="file_type"/>
+                                     </tree>
+                                </field>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model='ir.ui.view' id='protocollo_pec_tree'>
+            <field name="name">protocollo.pec.tree</field>
+            <field name="model">mail.message</field>
+            <field name="priority">100</field>
+            <field name="arch" type="xml">
+                <tree create="false" string="Pec da Protocollare">
+                    <field name="email_from"/>
+                    <field name="date"/>
+                    <field name="subject"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record model="ir.actions.act_window" id="protocollo_pec_act">
+            <field name="name">PEC</field>
+            <field name="res_model">mail.message</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('server_id.pec','=',True),('pec_type','=','posta-certificata'),('server_id.user_ids','in',uid),('pec_state','=','new')]</field>
+            <field name="context">{'pec_messages': True}</field>
+        </record>
+
+        <record model="ir.actions.act_window.view"
+                id="protocollo_pec_act_tree">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="protocollo_pec_tree"/>
+            <field name="act_window_id" ref="protocollo_pec_act"/>
+        </record>
+        <record model="ir.actions.act_window.view"
+                id="protocollo_pec_act_form">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="protocollo_pec_form"/>
+            <field name="act_window_id" ref="protocollo_pec_act"/>
+        </record>
+
+    </data>
+</openerp>
