@@ -173,16 +173,18 @@
     				$.fn.zTree.init($("#treeData"), setting, zNodes);
     				
 		 			var zTree = $.fn.zTree.getZTreeObj("treeData");
-		 			var nodes = zTree.getNodes();
-		 			if (! self.options.all_checkable) {
-			 			for (n in nodes) {
-			 				if (nodes[n].isParent) {
-			 					zTree.setChkDisabled(nodes[n], true);
-			 				}
-			 			}
-		 			}
-		 			var checked = zTree.getNodeByParam("checked", true, null);
-		 			expandParentNode(zTree, checked);
+		 			if (zTree) {
+		 			    var nodes = zTree.getNodes();
+                        if (! self.options.all_checkable) {
+                            for (n in nodes) {
+                                if (nodes[n].isParent) {
+                                    zTree.setChkDisabled(nodes[n], true);
+                                }
+                            }
+                        }
+                        var checked = zTree.getNodeByParam("checked", true, null);
+                        expandParentNode(zTree, checked);
+                    }
 	            });
         },
         set_value: function(value_) {
