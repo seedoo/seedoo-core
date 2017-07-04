@@ -494,26 +494,25 @@ class gedoc_document_type(osv.Model):
     }
 
     def create(self, cr, uid, vals, context=None):
-        if vals['tipologia_repertorio'] == 'automatic':
-            seq_id = self._create_repertorio_sequence(cr,uid,vals['name'])
-            vals['repertorio_sequence'] = seq_id
         document_type_id = super(gedoc_document_type, self).create(cr, uid, vals, context=context)
+        if vals['tipologia_repertorio'] == 'automatic':
+            document_type = self.browse(cr, uid, document_type_id)
+            seq_id = self._create_repertorio_sequence(cr, uid, document_type.id, document_type.name)
+            self.write(cr, uid, [document_type.id], {'repertorio_sequence': seq_id})
         return document_type_id
 
     def write(self, cr, uid, ids, vals, context=None):
         if vals.has_key('tipologia_repertorio') and vals['tipologia_repertorio'] == 'automatic':
             document_type = self.browse(cr, uid, ids[0])
             if not document_type.repertorio_sequence:
-                seq_id = self._create_repertorio_sequence(cr, uid,
-                                                          document_type.name)
+                seq_id = self._create_repertorio_sequence(cr, uid, document_type.id, document_type.name)
                 vals['repertorio_sequence'] = seq_id
         document_type_id = super(gedoc_document_type, self).write(cr, uid, ids, vals, context=context)
         return document_type_id
 
-    def _create_repertorio_sequence(self, cr, uid, document_type_name):
+    def _create_repertorio_sequence(self, cr, uid, document_type_id, document_type_name):
         sequence_type_obj = self.pool.get('ir.sequence.type')
-        repertorio_code = document_type_name.lower().strip().replace(' ', '.')
-        sequence_type_code = 'repertorio.sequence.' + repertorio_code
+        sequence_type_code = 'repertorio.sequence.' + str(document_type_id)
         sequence_type_obj.create(cr, SUPERUSER_ID, {
             'name': 'Sequence Repertorio ' + document_type_name,
             'code': sequence_type_code
