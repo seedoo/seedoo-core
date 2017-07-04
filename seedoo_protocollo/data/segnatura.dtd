@@ -405,7 +405,7 @@
 * Mittente. *
 * *
 * [CPPA]: Introduzione di un nuovo elemento che descrive un mittente privato
-*         dei messaggi di Protocollo 
+*         dei messaggi di Protocollo
 *************************************************************************
 -->
 <!ELEMENT Mittente (Amministrazione, AOO, Privato?)>
@@ -510,20 +510,20 @@
 <!--
 *************************** Privato **************************************
 **
-* Un elemento Privato contiene la specifica di un soggetto privato 
+* Un elemento Privato contiene la specifica di un soggetto privato
 * (ciitadino o impresa )che puÃ² comunicare con le Pubbliche Amministrazioni.
 **
 * Regole di corrispondenza *
 * se il valore dell'attributo tipo Ã¨ uguale a "impresa" allora gli elementi
 * DenominazioneImpresa e PartitaIva devono contenere rispettivamente la descrizione
-* (ragione sociale) e la partita iva dell'impresa; altrimenti saranno vuoti. 
+* (ragione sociale) e la partita iva dell'impresa; altrimenti saranno vuoti.
 **
 **************************************************************************
 -->
 <!ELEMENT Privato (Identificativo, DenominazioneImpresa, PartitaIva, Nome, Cognome, CodiceFiscale, IndirizzoTelematico, IndirizzoPostale, Telefono?)>
 <!ATTLIST Privato
 	tipo (cittadino | impresa) "cittadino"
->	
+>
 <!ELEMENT DenominazioneImpresa (#PCDATA)>
 <!ELEMENT PartitaIva (#PCDATA)>
 
@@ -734,7 +734,7 @@
 * tecnico il riferimento al Documento effettivo. Il significato degli *
 * attributi varia a seconda del tipo di riferimento. In particolare: *
 * *
-* - Per i riferimenti di tipo "MIME"/"DIME", il valore dell'attributo nome 
+* - Per i riferimenti di tipo "MIME"/"DIME", il valore dell'attributo nome
 * corrisponde al valore del parametro filename dell'attributo *
 * Content-Disposition o, in subordine, al valore del parametro name *
 * dell'attributo Content-Type specificato per una body part della *
@@ -757,7 +757,7 @@
 * l'attributo nome non ha alcun significato e non deve quindi essere *
 * utilizzato. *
 * *
-* L'attributo tipoMIME va utilizzato solo per riferimenti a 
+* L'attributo tipoMIME va utilizzato solo per riferimenti a
 * Documenti Informatici. *
 * *
 * Regole aggiuntive *
