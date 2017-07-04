@@ -373,11 +373,11 @@ class protocollo_dossier(osv.Model):
         'dossier_typology': 'procedimento',
     }
 
-    _sql_constraints = [
-        ('dossier_name_unique',
-         'unique (name)',
-         'Elemento presente nel DB!'),
-        ]
+    # _sql_constraints = [
+    #     ('dossier_name_unique',
+    #      'unique (name)',
+    #      'Elemento presente nel DB!'),
+    #     ]
 
     def is_document_present(self, cr, uid, ids, *args):
         for dossier in self.browse(cr, uid, ids):
