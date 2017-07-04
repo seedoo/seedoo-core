@@ -2,19 +2,16 @@
 <!--
 *************************************************************************
 * *
-* Centro Nazionale per lInformatica nella Pubblica Amministrazione *
+* Autorita` per l'Informatica nella Pubblica Amministrazione *
 * *
-* Segnatura.dtd *
+* segnatura.dtd *
 * *
 * Allegato B alla Circolare 7 maggio 2001, n. AIPA/CR/28 *
 * "Formato e definizioni dei tipi di informazioni minime ed *
 * accessorie comunemente scambiate tra le pubbliche amministrazioni *
 * e associate ai documenti protocollati" *
 * *
-* versione del 7 maggio 2001, modificata ai sensi dell'art.4 della
-* Deliberazione N. 45 del 21 Maggio 2009 - Regole per il riconoscimento
-* e la verifica del documento informatico - del Centro Nazionale per
-* lInformatica nella Pubblica Amministrazione *
+* versione del 7 maggio 2001 *
 * *
 *************************************************************************
 -->
@@ -25,11 +22,11 @@
 * *
 *************************************************************************
 -->
-<!ENTITY % dataPubblicazione "2009-12-03">
+<!ENTITY % dataPubblicazione "2009-03-31">
 <!--
 *************************** ROOT ELEMENT ********************************
 * *
-* La DTD prevede cinque possibili"ROOT ELEMENT": *
+* La DTD prevede cinque possibili "ROOT ELEMENT": *
 * - Segnatura *
 * - ConfermaRicezione *
 * - AggiornamentoConferma *
@@ -40,15 +37,15 @@
 -->
 <!--
 *************************** Segnatura ***********************************
-*
+* *
 * Si compone di tre sezioni, di cui due obbligatorie (Intestazione e *
 * Descrizione) ed una opzionale (Riferimenti): *
 * - la sezione Intestazione contiene i dati identificativi e le *
-*   informazioni fondamentali del messaggio; *
-* - la sezione Riferimenti contiene le informazioni relative al*
-*   contesto generale di cui il messaggio fa parte;*
+* informazioni fondamentali del messaggio; *
+* - la sezione Riferimenti contiene le informazioni relative al *
+* contesto generale di cui il messaggio fa parte; *
 * - la sezione Descrizione contiene le informazioni descrittive *
-*   riguardanti il contenuto del messaggio. *
+* riguardanti il contenuto del messaggio. *
 * *
 * Gli attributi della Segnatura definiscono la versione di riferimento *
 * del formato ed il linguaggio usato nella definizione *
@@ -63,25 +60,22 @@
 -->
 <!ELEMENT Segnatura (Intestazione, Riferimenti?, Descrizione)>
 <!ATTLIST Segnatura
-	versione NMTOKEN #FIXED "%dataPubblicazione;"
+	versione NMTOKEN #FIXED "2001-05-07"
 	xml:lang NMTOKEN #FIXED "it"
 >
 <!--
 *************************** Intestazione ********************************
 * *
-* L'elemento Intestazione è obbligatorio nella Segnatura Informatica e *
+* L'elemento Intestazione e` obbligatorio nella Segnatura Informatica e *
 * contiene gli elementi essenziali di identificazione e *
 * caratterizzazione amministrativa del Messaggio Protocollato. *
 * L'elemento Intestazione contiene anche le informazioni relative alla *
 * trasmissione del messaggio, sia dal punto di vista telematico *
-* che amministrativo.*
+* che amministrativo. *
 * *
 *************************************************************************
 -->
-<!ELEMENT Intestazione (Identificatore, PrimaRegistrazione?,
-OraRegistrazione?, Origine, Destinazione+, PerConoscenza*, Risposta?,
-Riservato?, InterventoOperatore?, RiferimentoDocumentiCartacei?,
-RiferimentiTelematici?, Oggetto, Classifica*, Note?)>
+<!ELEMENT Intestazione (Identificatore, PrimaRegistrazione?, OraRegistrazione?, Origine, Destinazione+, PerConoscenza*, Risposta?, Riservato?, InterventoOperatore?, RiferimentoDocumentiCartacei?, RiferimentiTelematici?, Oggetto, Classifica*, Note?)>
 <!--
 *************************** Identificatore ******************************
 * *
@@ -91,37 +85,36 @@ RiferimentiTelematici?, Oggetto, Classifica*, Note?)>
 * riporta i dati dell'Identificatore di Registrazione del *
 * Messaggio Protocollato. Nelle altre posizioni in cui viene utilizzato *
 * nella DTD esso riporta i dati di un generico Identificatore di *
-* Protocollo il cui significato è desumibile dal contesto. *
+* Protocollo il cui significato e` desumibile dal contesto. *
 * *
 * Regole aggiuntive *
-* - un CodiceAmministrazione è codificato mediante i caratteri*
-*   previsti dalla specifica ISO 646 (US-ASCII a 7 bit) ed è composto  *
-*   di lettere maiuscole ([A-Z]), lettere minuscole ( [a-z]), cifre *
-*   decimali ([0-9]) e dal carattere '-'; *
+* - un CodiceAmministrazione e` codificato mediante i caratteri *
+* previsti dalla specifica ISO 646 (US-ASCII a 7 bit) ed e` composto *
+* di lettere maiuscole ([A-Z]), lettere minuscole ([a-z]), cifre *
+* decimali ([0-9]) e dal carattere '-'; *
 * - un CodiceAmministrazione deve avere una lunghezza non superiore a *
-*   8 caratteri. *
-* - un CodiceAOO è codificato mediante i caratteri previsti dalla *
-*   specifica ISO 646 (US-ASCII a 7 bit) ed è composto da una sequenza *
-*   di lettere maiuscole ([A-Z]), lettere minuscole ([a-z]), cifre*
-*   decimali ([0-9]) e dal carattere '-'; *
+* 8 caratteri. *
+* - un CodiceAOO e` codificato mediante i caratteri previsti dalla *
+* specifica ISO 646 (US-ASCII a 7 bit) ed e` composto da una sequenza *
+* di lettere maiuscole ([A-Z]), lettere minuscole ([a-z]), cifre *
+* decimali ([0-9]) e dal carattere '-'; *
 * - un CodiceAOO deve avere una lunghezza non superiore a 8 caratteri. *
 * - il NumeroRegistrazione deve essere sempre formato da sette *
-*   cifre decimali, con giustificazione mediante zeri (e.g. il numero 1 *
-*   deve essere codificato come 0000001); *
-* - la DataRegistrazione deve essere in formato ISO 8601 esteso*
-*   (i.e. aaaa-mm-gg). *
+* cifre decimali, con giustificazione mediante zeri (e.g. il numero 1 *
+* deve essere codificato come 0000001); *
+* - la DataRegistrazione deve essere in formato ISO 8601 esteso *
+* (i.e. aaaa-mm-gg). *
 * *
-* Regole di corrispondenza*
+* Regole di corrispondenza *
 * - il CodiceAmministrazione deve essere un codice valido ai sensi *
-*   del d.P.R. 445/2000 e del d.P.C.M 31/10/2000; *
+* del d.P.R. 445/2000 e del d.P.C.M 31/10/2000; *
 * - il CodiceAOO deve corrispondere ad un codice valido attribuito *
-*   dalla amministrazione di cui la AOO fa parte (come previsto dal *
-*   d.P.R. 445/2000 e dal d.P.C.M 31/10/2000). *
+* dalla amministrazione di cui la AOO fa parte (come previsto dal *
+* d.P.R. 445/2000 e dal d.P.C.M 31/10/2000). *
 * *
 *************************************************************************
 -->
-<!ELEMENT Identificatore (CodiceAmministrazione, CodiceAOO,
-NumeroRegistrazione, DataRegistrazione)>
+<!ELEMENT Identificatore (CodiceAmministrazione, CodiceAOO, NumeroRegistrazione, DataRegistrazione)>
 <!ELEMENT CodiceAmministrazione (#PCDATA)>
 <!ELEMENT CodiceAOO (#PCDATA)>
 <!ELEMENT NumeroRegistrazione (#PCDATA)>
@@ -135,7 +128,7 @@ NumeroRegistrazione, DataRegistrazione)>
 * *
 * Regole di corrispondenza *
 * - la PrimaRegistrazione deve essere specificata solo se non coincide *
-*   con l'Identificatore del Messaggio Protocollato.
+* con l'Identificatore del Messaggio Protocollato. *
 * *
 *************************************************************************
 -->
@@ -146,16 +139,16 @@ NumeroRegistrazione, DataRegistrazione)>
 * L'elemento OraRegistrazione riporta l'ora di creazione della *
 * Registrazione di Protocollo del Messaggio Protocollato. *
 * *
-* L'attributo tempo descrive il tipo di misurazione temporale
+* L'attributo tempo descrive il tipo di misurazione temporale *
 * utilizzata. *
 * Il token "locale" indica il tempo locale non sincronizzato del *
-* sistema dove la Registrazione di Protocollo è stata creata.
+* sistema dove la Registrazione di Protocollo e` stata creata. *
 * Il token "rupa" indica il tempo sincronizzato di RUPA. *
 * *
 * Regole aggiuntive *
 * - l'OraRegistrazione deve essere in formato ISO 8601 esteso *
-*   (i.e. hh:mm:ss[,ddd] - ad esempio 16:09:19,710; *
-*   si noti che l'indicazione dei millisecondi è opzionale). *
+* (i.e. hh:mm:ss[,ddd] - ad esempio 16:09:19,710; *
+* si noti che l'indicazione dei millisecondi e` opzionale). *
 * *
 *************************************************************************
 -->
@@ -169,9 +162,9 @@ NumeroRegistrazione, DataRegistrazione)>
 * L'elemento Origine riporta i dati telematici ed amministrativi del *
 * mittente del Messaggio Protocollato. *
 * *
-* Regole di corrispondenza
-* - la descrizione dell'Origine deve essere specificata nel modo più *
-*   completo possibile. *
+* Regole di corrispondenza *
+* - la descrizione dell'Origine deve essere specificata nel modo piu` *
+* completo possibile. *
 * *
 *************************************************************************
 -->
@@ -186,10 +179,10 @@ NumeroRegistrazione, DataRegistrazione)>
 * Conferma di Ricezione da parte del destinatario. *
 * *
 * Regole di corrispondenza *
-* - se la Destinazione del Messaggio Protocollato è una pubblica *
-*   amministrazione  l'IndirizzoTelematico indicato deve corrispondere *
-*   a quello della casella istituzionale della AOO destinataria, ai *
-*   sensi dell'art. 15 comma 3 del d.P.C.M. 31/10/00. *
+* - se la Destinazione del Messaggio Protocollato e` una pubblica *
+* amministrazione l'IndirizzoTelematico indicato deve corrispondere *
+* a quello della casella istituzionale della AOO destinataria, ai *
+* sensi dell'art. 15 comma 3 del d.P.C.M. 31/10/00. *
 * *
 *************************************************************************
 -->
@@ -208,10 +201,10 @@ NumeroRegistrazione, DataRegistrazione)>
 * Conferma di Ricezione da parte del destinatario per conoscenza. *
 * *
 * Regole di corrispondenza *
-* - se la destinazione PerConoscenza del Messaggio Protocollato è una *
-*   pubblica amministrazione l'IndirizzoTelematico indicato deve *
-*   corrispondere a quello della casella istituzionale della AOO *
-*   destinataria.
+* - se la destinazione PerConoscenza del Messaggio Protocollato e` una *
+* pubblica amministrazione l'IndirizzoTelematico indicato deve *
+* corrispondere a quello della casella istituzionale della AOO *
+* destinataria. *
 * *
 *************************************************************************
 -->
@@ -226,14 +219,14 @@ NumeroRegistrazione, DataRegistrazione)>
 * le risposte automatiche (i.e. ConfermaRicezione, NotificaEccezione, *
 * AggiornamentoConferma, AnnullamentoProtocollazione). *
 * Tale indirizzo viene specificato solo se non coincidente con *
-* l'indirizzo telematico indicato nell'elemento Origine.
+* l'indirizzo telematico indicato nell'elemento Origine. *
 * *
 * Regole di corrispondenza *
 * - dato che Conferme di Ricezione, Messaggi di Notifica di Eccezione, *
-*   Aggiornamenti di Conferma, Annullamenti di Protocollazione non sono *
-*   soggetti a protocollazione, l'IndirizzoTelematico indicato *
-*   nell'elemento Risposta può essere diverso da quello di una casella *
-*   istituzionale. *
+* Aggiornamenti di Conferma, Annullamenti di Protocollazione non sono *
+* soggetti a protocollazione, l'IndirizzoTelematico indicato *
+* nell'elemento Risposta puo` essere diverso da quello di una casella *
+* istituzionale. *
 * *
 *************************************************************************
 -->
@@ -241,30 +234,30 @@ NumeroRegistrazione, DataRegistrazione)>
 <!--
 *************************** IndirizzoTelematico *************************
 * *
-* Un IndirizzoTelematico contiene un indirizzo, ad esempio di posta*
+* Un IndirizzoTelematico contiene un indirizzo, ad esempio di posta *
 * elettronica, utilizzato per la trasmissione telematica. *
 * *
 * L'attributo tipo di indirizzo telematico specificato. *
 * Il token "smtp" indica un indirizzo SMTP, il token "uri" indica la *
 * specifica di un indirizzo telematico tramite la sintassi delle URI. *
-* Il formato libero (NMTOKEN) è da utilizzarsi per l'indicazione di *
+* Il formato libero (NMTOKEN) e` da utilizzarsi per l'indicazione di *
 * tipo di sistemi di messaging diversi da quelli utilizzati su internet *
 * (e.g. sistemi proprietari). *
 * *
 * Regole aggiuntive *
 * - il contenuto dell'elemento IndirizzoTelematico di tipo "smtp" *
-*   deve essere sintatticamente conforme a quanto previsto dalla *
-*   specifica pubblica RFC 822; *
+* deve essere sintatticamente conforme a quanto previsto dalla *
+* specifica pubblica RFC 822; *
 * - il contenuto dell'elemento IndirizzoTelematico di tipo "uri" *
-*   deve essere sintatticamente conforme a quanto previsto dalla *
-*   specifica pubblica RFC 1738. *
+* deve essere sintatticamente conforme a quanto previsto dalla *
+* specifica pubblica RFC 1738. *
 * *
 * Regole di corrispondenza *
-* - non è ammesso l'uso del tipo "uri" per l'indicazione di un *
-*   indirizzo SMTP (i.e. tramite una URI "mailto:"); *
+* - non e` ammesso l'uso del tipo "uri" per l'indicazione di un *
+* indirizzo SMTP (i.e. tramite una URI "mailto:"); *
 * - qualunque sia il tipo di protocollo di trasporto telematico *
-*   adottato, la specifica di un IndirizzoTelematico deve essere *
-*   completa e non ambigua. *
+* adottato, la specifica di un IndirizzoTelematico deve essere *
+* completa e non ambigua. *
 * *
 *************************************************************************
 -->
@@ -277,10 +270,10 @@ NumeroRegistrazione, DataRegistrazione)>
 *************************** InterventoOperatore *************************
 * *
 * L'elemento InterventoOperatore esprime la richiesta di intervento di *
-* un Operatore ai fini della protocollazione e/o smistamento del
+* un Operatore ai fini della protocollazione e/o smistamento del *
 * Messaggio Protocollato (invece di una protocollazione e/o smistamento *
-* che potrebbe essere automatica). Può contenere un testo che descrive *
-* i motivi della richiesta.*
+* che potrebbe essere automatica). Puo` contenere un testo che descrive *
+* i motivi della richiesta. *
 * *
 *************************************************************************
 -->
@@ -289,7 +282,7 @@ NumeroRegistrazione, DataRegistrazione)>
 *************************** Riservato ***********************************
 * *
 * L'elemento Riservato esprime la richiesta di trattamento riservato *
-* del Messaggio Protocollato. Può contenere un testo che descrive i *
+* del Messaggio Protocollato. Puo` contenere un testo che descrive i *
 * motivi della richiesta *
 * *
 *************************************************************************
@@ -298,9 +291,9 @@ NumeroRegistrazione, DataRegistrazione)>
 <!--
 *************************** RiferimentoDocumentiCartacei ****************
 * *
-* L'elemento RiferimentoDocumentiCartacei è indice della presenza nel *
+* L'elemento RiferimentoDocumentiCartacei e` indice della presenza nel *
 * Messaggio Protocollato di riferimenti esterni a Documenti Cartacei e *
-* quindi della necessità di effettuare una validazione manuale della *
+* quindi della necessita` di effettuare una validazione manuale della *
 * corrispondenza tra i dati riportati nella Segnatura Informatica sui *
 * documenti in questione. *
 * *
@@ -308,13 +301,13 @@ NumeroRegistrazione, DataRegistrazione)>
 -->
 <!ELEMENT RiferimentoDocumentiCartacei EMPTY>
 <!--
-*************************** RIferimentiTelematici ***********************
+*************************** RiferimentiTelematici ***********************
 * *
-* L'elemento RiferimentiTelematici è indice della presenza nel *
+* L'elemento RiferimentiTelematici e` indice della presenza nel *
 * Messaggio Protocollato di riferimenti esterni a Documenti Informatici *
 * dislocati in una posizione remota (e.g. repositorio condiviso). *
 * *
-* La collocazione effettiva dei Documenti Informatici è indicata *
+* La collocazione effettiva dei Documenti Informatici e` indicata *
 * all'interno dell'elemento Documento. *
 * *
 *************************************************************************
@@ -344,8 +337,7 @@ NumeroRegistrazione, DataRegistrazione)>
 * *
 *************************************************************************
 -->
-<!ELEMENT Classifica (CodiceAmministrazione?, CodiceAOO?, Denominazione?,
-Livello+)>
+<!ELEMENT Classifica (CodiceAmministrazione?, CodiceAOO?, Denominazione?, Livello+)>
 <!ELEMENT Denominazione (#PCDATA)>
 <!ELEMENT Livello (#PCDATA)>
 <!ATTLIST Livello
@@ -354,21 +346,21 @@ Livello+)>
 <!--
 *************************** Identificativo ******************************
 * *
-* Un Identificativo è un codice che consente di identificare *
-* univocamente un'entità dal punto di vista amministrativo *
+* Un Identificativo e` un codice che consente di identificare *
+* univocamente un'entita` dal punto di vista amministrativo *
 * *
-* La forma dell'Identificativo può essere stabilita dalla *
+* La forma dell'Identificativo puo` essere stabilita dalla *
 * amministrazione che lo attribuisce. Un Identificativo deve essere *
 * compatibile con la formazione di un identificativo telematico come *
-* URI, cioè Uniform Resource Identifier (RFC 1738). *
+* URI, cioe` Uniform Resource Identifier (RFC 1738). *
 * *
 * Regole aggiuntive *
-* - un Identificativo è codificato mediante i caratteri previsti dalla *
-*   specifica ISO 646 (US-ASCII a 7 bit) ed è composto da una sequenza *
-*   di lettere maiuscole ([A-Z]), lettere minuscole ( [a-z]), cifre*
-*   decimali ([0-9]) e dai caratteri '.', '-' e '_'. *
+* - un Identificativo e` codificato mediante i caratteri previsti dalla *
+* specifica ISO 646 (US-ASCII a 7 bit) ed e` composto da una sequenza *
+* di lettere maiuscole ([A-Z]), lettere minuscole ([a-z]), cifre *
+* decimali ([0-9]) e dai caratteri '.', '-' e '_'. *
 * - un Identificativo deve avere una lunghezza non superiore a 32 *
-*   caratteri. *
+* caratteri. *
 * *
 *************************************************************************
 -->
@@ -377,7 +369,7 @@ Livello+)>
 *************************** Note ****************************************
 * *
 * Un elemento Note contiene delle note esplicative in formato testuale. *
-* All'interno dell'elemento Note non è consentito l'inserimento di *
+* All'interno dell'elemento Note non e` consentito l'inserimento di *
 * testo altrimenti strutturato, ad esempio un frammento di codice XML. *
 * *
 *************************************************************************
@@ -389,13 +381,13 @@ Livello+)>
 * La descrizione di un mittente o destinatario istituzionale in forma *
 * estesa e strutturata si configura come la descrizione di un percorso *
 * all'interno di una struttura organizzativa. *
-* Il formato di descrizione di tale percorso è compatibile con lo *
+* Il formato di descrizione di tale percorso e` compatibile con lo *
 * schema dell'indice delle pubbliche amministrazioni previsto dal *
 * d.P.C.M. 31/10/00. *
 * *
-* E' comunque prevista la possibilità di descrizioni non strutturate, *
-* cioè interamente testuali, di parte o di tutti gli elementi *
-* coinvolti al fine di garantire la compatibilità" con sistemi *
+* E` comunque prevista la possibilita` di descrizioni non strutturate, *
+* cioe` interamente testuali, di parte o di tutti gli elementi *
+* coinvolti al fine di garantire la compatibilita` con sistemi *
 * informatici realizzati che utilizzano dati in forma non strutturata o *
 * in una forma strutturata non compatibile con quella descritta. *
 * Se utilizzata, la descrizione testuale non deve tuttavia contenere *
@@ -407,14 +399,16 @@ Livello+)>
 * *
 * Regole di corrispondenza *
 * - la Denominazione della AOO mittente deve corrispondere al CodiceAOO *
-*   indicato nell'Identificatore del Messaggio Protocollato; *
-* - la Denominazione della AOO mittente deve corrispondere
-*   all'IndirizzoTelematico della casella istituzionale indicata nel *
-*   Mittente.*
+* indicato nell'Identificatore del Messaggio Protocollato; *
+* - la Denominazione della AOO mittente deve corrispondere *
+* all'IndirizzoTelematico della casella istituzionale indicata nel *
+* Mittente. *
 * *
+* [CPPA]: Introduzione di un nuovo elemento che descrive un mittente privato
+*         dei messaggi di Protocollo
 *************************************************************************
 -->
-<!ELEMENT Mittente (Amministrazione, AOO)>
+<!ELEMENT Mittente (Amministrazione, AOO, Privato?)>
 <!--
 *************************** Destinatario ********************************
 * *
@@ -423,55 +417,52 @@ Livello+)>
 * *
 * Regole aggiuntive *
 * - la descrizione del Destinatario deve includere come minimo la *
-*   Denominazione della Amministrazione oppure una Denominazione *
-*   generica oppure il riferimento ad una Persona fisica. *
+* Denominazione della Amministrazione oppure una Denominazione *
+* generica oppure il riferimento ad una Persona fisica. *
 * *
 * Regole di corrispondenza *
 * - qualora specificata, la Denominazione della AOO destinataria deve *
-*   corrispondere all'IndirizzoTelematico della casella istituzionale *
-*   indicata nel Mittente. *
+* corrispondere all'IndirizzoTelematico della casella istituzionale *
+* indicata nel Mittente. *
 * *
-* Si noti che la specifica del Destinatario è opzionale e pertanto *
+* Si noti che la specifica del Destinatario e` opzionale e pertanto *
 * l'inserimento di un simile elemento privo di informazioni *
-* significative è inutile. *
+* significative e` inutile. *
 * *
+* [CPPA]: Introduzione di un nuovo elemento che descrive un destinatario privato
+*         dei messaggi di Protocollo
 *************************************************************************
 -->
-<!ELEMENT Destinatario (((Amministrazione, AOO?) | (Denominazione, Persona*)
-| Persona+), IndirizzoTelematico?, Telefono*, Fax*, IndirizzoPostale?)>
+<!ELEMENT Destinatario (((Amministrazione, AOO?, Privato?) | (Denominazione, Persona*) | Persona+), IndirizzoTelematico?, Telefono*, Fax*, IndirizzoPostale?)>
 <!--
 *************************** Amministrazione *****************************
 * *
-* Un elemento Amministrazione rappresenta l'elemento radice della  *
+* Un elemento Amministrazione rappresenta l'elemento radice della *
 * descrizione estesa e strutturata di un mittente o destinatario *
 * istituzionale, inteso come percorso all'interno di una struttura *
 * organizzativa. *
 * *
 * Regole aggiuntive *
 * - il CodiceAmministrazione dovrebbe essere incluso solo quando *
-*   l'elemento Amministrazione compare nel contesto di un elemento *
-*   Destinatario. *
+* l'elemento Amministrazione compare nel contesto di un elemento *
+* Destinatario. *
 * *
 *************************************************************************
 -->
-<!ELEMENT Amministrazione (Denominazione, CodiceAmministrazione?,
-UnitaOrganizzativa | ((Ruolo | Persona)*, IndirizzoPostale,
-IndirizzoTelematico*, Telefono*, Fax*)))>
+<!ELEMENT Amministrazione (Denominazione, CodiceAmministrazione?, (UnitaOrganizzativa | ((Ruolo | Persona)*, IndirizzoPostale, IndirizzoTelematico*, Telefono*, Fax*)))>
 <!--
 *************************** UnitaOrganizzativa **************************
 * *
-* Un elemento UnitaOrganizzativa rappresenta un elemento nel percorso  *
+* Un elemento UnitaOrganizzativa rappresenta un elemento nel percorso *
 * che costituisce della descrizione di un indirizzo. *
 * *
-* L'attributo tipo descrive il tipo di unità organizzativa. *
-* Un'unità organizzativa temporanea potrebbe essere infatti istituita *
+* L'attributo tipo descrive il tipo di unita` organizzativa. *
+* Un'unita` organizzativa temporanea potrebbe essere infatti istituita *
 * in una amministrazione a fronte di eventi speciali o per emergenza. *
-*
+* *
 *************************************************************************
 -->
-<!ELEMENT UnitaOrganizzativa (Denominazione, Identificativo?,
-(UnitaOrganizzativa | ((Ruolo | Persona)*, IndirizzoPostale,
-IndirizzoTelematico*, Telefono*, Fax*)))>
+<!ELEMENT UnitaOrganizzativa (Denominazione, Identificativo?, (UnitaOrganizzativa | ((Ruolo | Persona)*, IndirizzoPostale, IndirizzoTelematico*, Telefono*, Fax*)))>
 <!ATTLIST UnitaOrganizzativa
 	tipo (permanente | temporanea) "permanente"
 >
@@ -479,13 +470,13 @@ IndirizzoTelematico*, Telefono*, Fax*)))>
 *************************** AOO *****************************************
 * *
 * Un elemento AOO specifica la Denominazione ed eventualmente il *
-* CodiceAOO. Non è necessario che tale specifica contenga altre *
-* informazioni dato il contesto in cui questo elemento può essere *
+* CodiceAOO. Non e` necessario che tale specifica contenga altre *
+* informazioni dato il contesto in cui questo elemento puo` essere *
 * inserito. *
 * *
 * Regole aggiuntive *
 * - il CodiceAOO dovrebbe essere incluso solo quando l'elemento AOO *
-*   compare nel contesto di un elemento Destinatario. *
+* compare nel contesto di un elemento Destinatario. *
 * *
 *************************************************************************
 -->
@@ -507,8 +498,7 @@ IndirizzoTelematico*, Telefono*, Fax*)))>
 * *
 *************************************************************************
 -->
-<!ELEMENT Persona ((Denominazione | (Nome?, Cognome, Titolo?,
-CodiceFiscale?)), Identificativo?)>
+<!ELEMENT Persona ((Denominazione | (Nome?, Cognome, Titolo?, CodiceFiscale?)), Identificativo?)>
 <!ATTLIST Persona
 	id ID #IMPLIED
 	rife IDREF #IMPLIED
@@ -518,9 +508,29 @@ CodiceFiscale?)), Identificativo?)>
 <!ELEMENT Titolo (#PCDATA)>
 <!ELEMENT CodiceFiscale (#PCDATA)>
 <!--
+*************************** Privato **************************************
+**
+* Un elemento Privato contiene la specifica di un soggetto privato
+* (ciitadino o impresa )che puÃ² comunicare con le Pubbliche Amministrazioni.
+**
+* Regole di corrispondenza *
+* se il valore dell'attributo tipo Ã¨ uguale a "impresa" allora gli elementi
+* DenominazioneImpresa e PartitaIva devono contenere rispettivamente la descrizione
+* (ragione sociale) e la partita iva dell'impresa; altrimenti saranno vuoti.
+**
+**************************************************************************
+-->
+<!ELEMENT Privato (Identificativo, DenominazioneImpresa, PartitaIva, Nome, Cognome, CodiceFiscale, IndirizzoTelematico, IndirizzoPostale, Telefono?)>
+<!ATTLIST Privato
+	tipo (cittadino | impresa) "cittadino"
+>
+<!ELEMENT DenominazioneImpresa (#PCDATA)>
+<!ELEMENT PartitaIva (#PCDATA)>
+
+<!--
 *************************** IndirizzoPostale ****************************
 * *
-* Un IndirizzoPostale indica tipicamente la sede di un'unità *
+* Un IndirizzoPostale indica tipicamente la sede di un'unita` *
 * organizzativa o amministrazione o l'indirizzo di un cittadino o altro *
 * ente esterno alla pubblica amministrazione. *
 * *
@@ -531,24 +541,23 @@ CodiceFiscale?)), Identificativo?)>
 * *
 * Regole aggiuntive *
 * - il valore dell'attributo opzionale codiceISTAT dell'elemento Comune *
-*   deve essere formato da sei cifre decimali con giustificazione *
-*   mediante zeri(e.g. "018190"); *
+* deve essere formato da sei cifre decimali con giustificazione *
+* mediante zeri(e.g. "018190"); *
 * - il valore testuale dell'elemento opzionale Nazione indica la *
-*   codifica internazionale della nazione specificata nell'indirizzo *
-*   in formato standard ISO 3166-1-Alpha-2. Qualora l'elemento non sia *
-*   presente o il suo valore non specificato la nazione va interpretata *
-*   come Italia identificata dal codice "IT"; *
-* - la lunghezza per questo elemento è pari a 2 caratteri; *
+* codifica internazionale della nazione specificata nell'indirizzo *
+* in formato standard ISO 3166-1-Alpha-2. Qualora l'elemento non sia *
+* presente o il suo valore non specificato la nazione va interpretata *
+* come Italia identificata dal codice "IT"; *
+* la lunghezza per questo elemento e' pari a 2 caratteri; *
 * - il valore testuale dell'elemento Provincia deve essere formato da *
-*   due lettere maiuscole (e.g. "RM" per Roma, "PA" per Palermo, etc. ); *
+* due lettere maiuscole (e.g. "RM" per Roma, "PA" per Palermo, etc.); *
 * - il valore testuale dell'elemento Civico qualora si riferisca ad un *
-*   indirizzo privo del numero civico deve contenere *
-*   l'espressione "snc". *
+* indirizzo privo del numero civico deve contenere *
+* l'espressione "snc". *
 * *
 *************************************************************************
 -->
-<!ELEMENT IndirizzoPostale (Denominazione | (Toponimo, Civico, CAP, Comune,
-Provincia, Nazione?))>
+<!ELEMENT IndirizzoPostale (Denominazione | (Toponimo, Civico, CAP, Comune, Provincia, Nazione?))>
 <!ELEMENT Toponimo (#PCDATA)>
 <!ATTLIST Toponimo
 	dug CDATA #IMPLIED
@@ -586,15 +595,14 @@ Provincia, Nazione?))>
 * *
 * Regole di corrispondenza *
 * - nella indicazione di un riferimento ad un Messaggio Protocollato *
-*   deve essere usato l'Identificatore attribuito dalla AOO mittente; *
+* deve essere usato l'Identificatore attribuito dalla AOO mittente; *
 * - deve anche essere specificato l'Identificatore di prima *
-*   registrazione, come definito precedentemente, se e solo se esso non *
-*   coincide con il precedente. *
+* registrazione, come definito precedentemente, se e solo se esso non *
+* coincide con il precedente. *
 * *
 *************************************************************************
 -->
-<!ELEMENT Messaggio ((Identificatore | DescrizioneMessaggio),
-PrimaRegistrazione?)>
+<!ELEMENT Messaggio ((Identificatore | DescrizioneMessaggio), PrimaRegistrazione?)>
 <!--
 *************************** DescrizioneMessaggio ************************
 * *
@@ -603,10 +611,10 @@ PrimaRegistrazione?)>
 * *
 * Regole di corrispondenza *
 * - l'elemento DescrizioneMessaggio deve essere utilizzato solo per i *
-*   riferimenti a Messaggi non protocollati; *
+* riferimenti a Messaggi non protocollati; *
 * - la DescrizioneMessaggio riporta i dati identificativi di *
-*   trasmissione (e.g. i dati SMTP). *
-*
+* trasmissione (e.g. i dati SMTP). *
+* *
 *************************************************************************
 -->
 <!ELEMENT DescrizioneMessaggio (#PCDATA)>
@@ -615,34 +623,32 @@ PrimaRegistrazione?)>
 * *
 * Un elemento ContestoProcedurale indica un riferimento ad un *
 * Contesto Procedurale ovvero lo svolgimento di un generico complesso *
-* di attività amministrative in qualche modo collegate. *
+* di attivita` amministrative in qualche modo collegate. *
 * *
-* Un Contesto procedurale è pertanto un elemento aggregante di *
-* attività svolte all'interno di una o più Unità Organizzative *
+* Un Contesto procedurale e` pertanto un elemento aggregante di *
+* attivita` svolte all'interno di una o piu` Unita` Organizzative *
 * associate alla stessa AOO; le azioni svolte nell'ambito di un *
 * Contesto Procedurale sono finalizzate alla produzione di un *
 * risultato, finale o intermedio, che ha valore anche all'esterno *
-* delle Unità Organizzative coinvolte. *
+* delle Unita` Organizzative coinvolte. *
 * *
 * Regole aggiuntive *
 * - la DataAvvio deve essere in formato ISO 8601 esteso *
-*   (i.e. aaaa-mm-gg - ad esempio 1963-07-15) . *
+* (i.e. aaaa-mm-gg - ad esempio 1963-07-15). *
 * *
-* Regole di corrispondenza
-* - la forma dell'Identificativo può essere stabilita dalla AOO che lo *
-*   attribuisce, tuttavia il contenuto di tale elemento deve essere *
-*   sufficiente per l'identificazione univoca del corrispondente *
-* Contesto Procedurale;
-* - anche il TipoContestoProcedurale può essere stabilito dalla AOO *
-*   che attribuisce l'Identificativo; tuttavia non sono ammessi tipi *
-*   che corrispondono a Procedimenti (ai sensi della l. 241/90), *
-*   per cui si deve utilizzare un elemento Procedimento.
+* Regole di corrispondenza *
+* - la forma dell'Identificativo puo` essere stabilita dalla AOO che lo *
+* attribuisce, tuttavia il contenuto di tale elemento deve essere *
+* sufficiente per l'identificazione univoca del corrispondente *
+* Contesto Procedurale; *
+* - anche il TipoContestoProcedurale puo` essere stabilito dalla AOO *
+* che attribuisce l'Identificativo; tuttavia non sono ammessi tipi *
+* che corrispondono a Procedimenti (ai sensi della l. 241/90), *
+* per cui si deve utilizzare un elemento Procedimento. *
 * *
 *************************************************************************
 -->
-<!ELEMENT ContestoProcedurale (CodiceAmministrazione, CodiceAOO,
-Identificativo, TipoContestoProcedurale?, Oggetto?, Classifica*, DataAvvio?,
-Note?)>
+<!ELEMENT ContestoProcedurale (CodiceAmministrazione, CodiceAOO, Identificativo, TipoContestoProcedurale?, Oggetto?, Classifica*, DataAvvio?, Note?)>
 <!ATTLIST ContestoProcedurale
 	id ID #IMPLIED
 	rife IDREF #IMPLIED
@@ -652,26 +658,24 @@ Note?)>
 <!--
 *************************** Procedimento ********************************
 * *
-* Un elemento Procedimento indica un riferimento ad un Procedimento  *
-* (ai sensi della l. 241/90) ed è formalmente identico all'elemento *
+* Un elemento Procedimento indica un riferimento ad un Procedimento *
+* (ai sensi della l. 241/90) ed e` formalmente identico all'elemento *
 * ContestoProcedurale, con l'aggiunta degli elementi Responsabile e *
 * DataTermine. *
 * *
-* Regole aggiuntive*
+* Regole aggiuntive *
 * - la DataTermine deve essere in formato ISO 8601 esteso *
-*   (i.e. aaaa-mm-gg). *
+* (i.e. aaaa-mm-gg). *
 * *
 * Regole di corrispondenza *
-* - la forma dell'Identificativo può essere stabilita dalla AOO *
-*   che lo attribuisce, tuttavia il contenuto di tale elemento deve *
-*   essere sufficiente per l'identificazione univoca del corrispondente *
-*   Procedimento. *
+* - la forma dell'Identificativo puo` essere stabilita dalla AOO *
+* che lo attribuisce, tuttavia il contenuto di tale elemento deve *
+* essere sufficiente per l'identificazione univoca del corrispondente *
+* Procedimento. *
 * *
 *************************************************************************
 -->
-<!ELEMENT Procedimento (CodiceAmministrazione, CodiceAOO, Identificativo,
-TipoProcedimento?, Oggetto?, Classifica*, Responsabile?, DataAvvio?,
-DataTermine?, Note?)>
+<!ELEMENT Procedimento (CodiceAmministrazione, CodiceAOO, Identificativo, TipoProcedimento?, Oggetto?, Classifica*, Responsabile?, DataAvvio?, DataTermine?, Note?)>
 <!ATTLIST Procedimento
 	id ID #IMPLIED
 	rife IDREF #IMPLIED
@@ -686,26 +690,27 @@ DataTermine?, Note?)>
 * del contenuto del Messaggio Protocollato. *
 * *
 * L'elemento Documento si riferisce al Documento primario del Messaggio *
-* protocollato se questo viene inviato da una AOO di una amministrazione *
-* ad una AOO di una diversa amministrazione. In tal caso il Documento  *
+* protocollato se questo viene inviato da una AOO di una amministrazione*
+* ad una AOO di una diversa amministrazione. In tal caso il Documento *
 * deve essere sottoscritto secondo le norme stabilite dal d.P.R. *
 * 445/2000. *
 * *
 * I Documenti primari riguardanti scambi tra AOO della stessa *
 * amministrazione possono essere indicati nell'elemento Documento o, *
 * in alternativa, nell'elemento TestoDelMessaggio. Se indicati nell' *
-* elemento Documento possono eventualmente essere sottoscritti. *
+* elemento Documento possono eventualmente essere sottoscritti secondo *
+* le modalitÃ  espresse nell'art. 5 della delibera AIPA 51/2000. *
 * *
 * Regole aggiuntive *
 * - l'elemento Descrizione deve essere presente in una Segnatura *
-*   Informatica, in quanto permette di interpretare la struttura MIME *
-*   che rappresenta il Messaggio Protocollato.
+* Informatica, in quanto permette di interpretare la struttura *
+* che rappresenta il Messaggio Protocollato. *
 * *
 *************************************************************************
 -->
 <!ELEMENT Descrizione ((Documento | TestoDelMessaggio), Allegati?, Note?)>
 <!--
-*************************** Documento ************************************
+*************************** Documento************************************
 * *
 * Un elemento Documento specifica un riferimento ad un Documento che *
 * costituisce parte integrante del Messaggio Protocollato. *
@@ -715,66 +720,64 @@ DataTermine?, Note?)>
 * *
 * Si possono avere tre tipi di riferimenti, definiti dal valore *
 * dell'attributo tipoRiferimento di Documento: *
-* 1)"MIME" *
-*   riferimento a un Documento Informatico contenuto nella struttura *
-*   MIME che costituisce il messaggio;
-* 2)"telematico"*
-*   riferimento esterno a un Documento Informatico comunque *
-*   reperibile per altra via (e.g. in un repositorio condiviso); *
-* 3)"cartaceo" *
-*   riferimento esterno a un Documento Cartaceo trasmesso per via *
-*   tradizionale (e.g. spedizione postale o tramite posta interna). *
+* 1) "MIME"/"DIME" *
+* riferimento a un Documento Informatico contenuto nella struttura *
+* che costituisce il messaggio; *
+* 2) "telematico" *
+* riferimento esterno a un Documento Informatico comunque *
+* reperibile per altra via (e.g. in un repositorio condiviso); *
+* 3) "cartaceo" *
+* riferimento esterno a un Documento Cartaceo trasmesso per via *
+* tradizionale (e.g. spedizione postale o tramite posta interna). *
 * *
 * Gli attributi id e nome di Documento caratterizzano dal punto vista *
 * tecnico il riferimento al Documento effettivo. Il significato degli *
 * attributi varia a seconda del tipo di riferimento. In particolare: *
 * *
-* - Per i riferimenti di tipo "MIME", il valore dell'attributo nome *
-*   corrisponde al valore del parametro filename dell'attributo
-*   Content-Disposition o, in subordine, al valore del parametro name *
-*   dell'attributo Content-Type specificato per una body part della *
-*   struttura MIME. L'attributo id può essere utilizzato allo scopo di *
-*   definire un identificatore univoco del riferimento nell'ambito della *
-*   struttura XML. *
+* - Per i riferimenti di tipo "MIME"/"DIME", il valore dell'attributo nome
+* corrisponde al valore del parametro filename dell'attributo *
+* Content-Disposition o, in subordine, al valore del parametro name *
+* dell'attributo Content-Type specificato per una body part della *
+* struttura. L'attributo id puo` essere utilizzato allo scopo di *
+* definire un identificatore univoco del riferimento nell'ambito della *
+* struttura XML. *
 * *
-* - Nel caso di un riferimento di tipo "telematico" l'attributo id può *
-*   essere utilizzato allo scopo di definire un identificatore univoco *
-*   del riferimento nell'ambito della struttura XML. *
+* - Nel caso di un riferimento di tipo "telematico" l'attributo id puo` *
+* essere utilizzato allo scopo di definire un identificatore univoco *
+* del riferimento nell'ambito della struttura XML. *
 * *
 * - Nel caso di un riferimento di tipo "cartaceo" il valore *
-*   dell'attributo id corrisponde al valore dell'identificativo del *
-*   documento Cartaceo e deve essere sempre specificato per i Documenti *
-*   Cartacei non protocollati, che non hanno quindi un Identificatore di *
-*   Registrazione riportato nell'elemento PrimaRegistrazione. Nel caso di *
-*   un Documento Cartaceo privo di identificativo, l'attributo id può *
-*   essere specificato al solo scopo di definire un identificatore*
-*   univoco del riferimento nell'ambito della struttura XML. Viceversa, *
-*   l'attributo nome non ha alcun significato e non deve quindi essere *
-*   utilizzato. *
+* dell'attributo id corrisponde al valore dell'identificativo del *
+* Documento Cartaceo e deve essere sempre specificato per i Documenti *
+* Cartacei non protocollati, che non hanno quindi un Identificatore di *
+* Registrazione riportato nell'elemento PrimaRegistrazione. Nel caso di *
+* un Documento Cartaceo privo di identificativo, l'attributo id puo` *
+* essere specificato al solo scopo di definire un identificatore *
+* univoco del riferimento nell'ambito della struttura XML. Viceversa, *
+* l'attributo nome non ha alcun significato e non deve quindi essere *
+* utilizzato. *
 * *
-* L'attributo tipoMIME va utilizzato solo per riferimenti a Documenti *
-* Informatici. *
+* L'attributo tipoMIME va utilizzato solo per riferimenti a
+* Documenti Informatici. *
 * *
-* Regole aggiuntive*
+* Regole aggiuntive *
 * - devono essere rispettate le regole sopra descritte per l'uso degli *
-*  attributi di Documento.*
-*
+* attributi di Documento. *
+* *
 * Regole di corrispondenza *
 * - devono essere rispettate le regole di corrispondenza sopra *
-*   descritte per il significato dei valori degli attributi di *
-*   Documento.
+* descritte per il significato dei valori degli attributi di *
+* Documento. *
 * *
 *************************************************************************
 -->
-<!ELEMENT Documento ((CollocazioneTelematica, Impronta?)?, TitoloDocumento?,
-PrimaRegistrazione?, TipoDocumento?, Oggetto?, Classifica*, NumeroPagine?,
-Note?)>
+<!ELEMENT Documento ((CollocazioneTelematica, Impronta?)?, TitoloDocumento?, PrimaRegistrazione?, TipoDocumento?, Oggetto?, Classifica*, NumeroPagine?, Note?)>
 <!ATTLIST Documento
 	id ID #IMPLIED
 	rife IDREF #IMPLIED
 	nome CDATA #IMPLIED
 	tipoMIME CDATA #IMPLIED
-	tipoRiferimento (MIME | telematico | cartaceo) "MIME"
+	tipoRiferimento (MIME | DIME | telematico | cartaceo) "MIME"
 >
 <!--
 *************************** TitoloDocumento *****************************
@@ -808,22 +811,22 @@ Note?)>
 *************************** CollocazioneTelematica, Impronta ************
 * *
 * Un riferimento esterno di tipo "telematico" comporta la *
-* specificazione di un riferimento esterno come URI, cioè Uniform *
-* Resource Identifier (RFC 1738), all'interno di un elemento di tipo
-* CollocazioneTelematica. Ad un riferimento esterno di questo tipo può *
+* specificazione di un riferimento esterno come URI, cioe` Uniform *
+* Resource Identifier (RFC 1738), all'interno di un elemento di tipo *
+* CollocazioneTelematica. Ad un riferimento esterno di questo tipo puo` *
 * anche essere associata un'impronta. *
 * *
-* Regole aggiuntive
+* Regole aggiuntive *
 * - un elemento CollocazioneTelematica ed, eventualmente, Impronta deve *
-*   essere presente in un Documento se e solo se il valore *
-*   dell'attributo tipoRiferimento  è "telematico". *
+* essere presente in un Documento se e solo se il valore *
+* dell'attributo tipoRiferimento e` "telematico". *
 * - il contenuto dell'elemento CollocazioneTelematica deve essere *
-*   sintatticamente conforme a quanto previsto dalla specifica *
-*   pubblica RFC 1738. *
+* sintatticamente conforme a quanto previsto dalla specifica *
+* pubblica RFC 1738. *
 * *
 * Regole di corrispondenza *
 * - l'Impronta, se presente, deve corrispondere al Documento *
-*   Informatico indicato nell'elemento CollocazioneTelematica. *
+* Informatico indicato nell'elemento CollocazioneTelematica. *
 * *
 * Si assume comunque che l'accettazione in ingresso di Messaggi *
 * Protocollati che contengono riferimenti esterni a Documenti *
@@ -837,19 +840,19 @@ Note?)>
 <!ELEMENT CollocazioneTelematica (#PCDATA)>
 <!ELEMENT Impronta (#PCDATA)>
 <!ATTLIST Impronta
-	algoritmo CDATA #FIXED "SHA-256"
+	algoritmo CDATA #FIXED "SHA-1"
 	codifica CDATA #FIXED "base64"
 >
 <!--
 *************************** TestoDelMessaggio ***************************
 * *
 * La presenza dell'elemento TestoDelMessaggio nella Segnatura *
-* Informatica indica che il Testo del Messaggio è da considerarsi dal *
+* Informatica indica che il Testo del Messaggio e` da considerarsi dal *
 * punto di vista formale come il Documento primario e deve essere *
 * considerato nella Registrazione di Protocollo. In assenza di tale *
 * indicazione il Testo del Messaggio viene semplicemente ignorato. *
-* La possibilità di considerare il Testo del Messaggio come documento *
-* primario è consentita solo per scambi tra AOO di una stessa *
+* La possibilitÃ  di considerare il Testo del Messaggio come documento *
+* primario e` consentita solo per scambi tra AOO di una stessa *
 * amministrazione. Nel caso di scambi tra AOO appartenenti ad *
 * amministrazioni diverse il Testo del Messaggio viene ignorato ai fini *
 * della protocollazione. *
@@ -866,27 +869,26 @@ Note?)>
 *************************** Allegati ************************************
 * *
 * L'elemento opzionale Allegati contiene una lista di elementi *
-* Documento o Fascicolo. Lo scopo di tale lista è quello di fornire
+* Documento o Fascicolo. Lo scopo di tale lista e` quello di fornire *
 * una descrizione, possibilmente strutturata, dei Documenti allegati al *
 * Documento primario. *
-* Più precisamente, il contenuto dell'elemento Allegati ha due scopi: *
+* Piu` precisamente, il contenuto dell'elemento Allegati ha due scopi: *
 * 1) descrivere l'elenco dei Documenti allegati; *
 * 2) descrivere la struttura dal punto di vista amministrativo del *
 * Messaggio Protocollato, in termini di organizzazione in Fascicoli *
 * dei Documenti inclusi. *
-
-* E' quindi anche possibile che, nella descrizione della struttura, *
-* si faccia riferimento più volte allo stesso Documento, incluso il *
-* Documento primario (e.g. Documenti logicamente appartenenti a più di *
+* E` quindi anche possibile che, nella descrizione della struttura, *
+* si faccia riferimento piu` volte allo stesso Documento, incluso il *
+* Documento primario (e.g. Documenti logicamente appartenenti a piu` di *
 * un Fascicolo). *
 * *
 * Regole di corrispondenza *
 * - la citazione multipla di uno stesso Documento nella descrizione *
-*   strutturale contenuta in Allegati deve essere resa utilizzando il *
-*   meccanismo XML degli ID/IDREF. In altri termini, il riferimento *
-*   effettivo al Documento deve essere specificato una sola volta e *
-*   accompagnato dalla definizione dell'attributo id di Documento; gli *
-*   altri riferimenti vengono specificati utilizzando l'attributo rife.*
+* strutturale contenuta in Allegati deve essere resa utilizzando il *
+* meccanismo XML degli ID/IDREF. In altri termini, il riferimento *
+* effettivo al Documento deve essere specificato una sola volta e *
+* accompagnato dalla definizione dell'attributo id di Documento; gli *
+* altri riferimenti vengono specificati utilizzando l'attributo rife. *
 * *
 * Si veda in proposito anche la definizione dell'elemento Documento *
 * descritta precedentemente. *
@@ -902,8 +904,7 @@ Note?)>
 * *
 *************************************************************************
 -->
-<!ELEMENT Fascicolo (CodiceAmministrazione?, CodiceAOO?, Oggetto?,
-Identificativo?, Classifica*, Note?, (Documento | Fascicolo)+)>
+<!ELEMENT Fascicolo (CodiceAmministrazione?, CodiceAOO?, Oggetto?, Identificativo?, Classifica*, Note?, (Documento | Fascicolo)+)>
 <!ATTLIST Fascicolo
 	id ID #IMPLIED
 	rife IDREF #IMPLIED
@@ -916,15 +917,14 @@ Identificativo?, Classifica*, Note?, (Documento | Fascicolo)+)>
 * Un elemento ConfermaRicezione riporta l'Identificatore di protocollo *
 * attribuito al Messaggio dal ricevente e la descrizione del *
 * MessaggioRicevuto. *
-* Per gli attributi di ConfermaRicezione valgono le stesse*
+* Per gli attributi di ConfermaRicezione valgono le stesse *
 * considerazioni svolte per gli attributi dell'elemento Segnatura. *
 * *
 *************************************************************************
 -->
-<!ELEMENT ConfermaRicezione (Identificatore, MessaggioRicevuto, Riferimenti?,
-Descrizione?)>
+<!ELEMENT ConfermaRicezione (Identificatore, MessaggioRicevuto, Riferimenti?, Descrizione?)>
 <!ATTLIST ConfermaRicezione
-	versione NMTOKEN #FIXED "%dataPubblicazione;"
+	versione NMTOKEN #FIXED "2001-05-07"
 	xml:lang NMTOKEN #FIXED "it"
 >
 <!--
@@ -936,12 +936,11 @@ Descrizione?)>
 * *
 * Regole di corrispondenza *
 * - l'elemento DescrizioneMessaggio deve essere utilizzato solo per *
-*   confermare la ricezione di Messaggi non protocollati. *
+* confermare la ricezione di Messaggi non protocollati. *
 * *
 *************************************************************************
 -->
-<!ELEMENT MessaggioRicevuto ((Identificatore, PrimaRegistrazione?) |
-DescrizioneMessaggio)>
+<!ELEMENT MessaggioRicevuto ((Identificatore, PrimaRegistrazione?) | DescrizioneMessaggio)>
 <!--
 *************************** AggiornamentoConferma ***********************
 * *
@@ -956,10 +955,9 @@ DescrizioneMessaggio)>
 * *
 *************************************************************************
 -->
-<!ELEMENT AggiornamentoConferma (Identificatore, MessaggioRicevuto,
-Riferimenti?, Descrizione?)>
+<!ELEMENT AggiornamentoConferma (Identificatore, MessaggioRicevuto, Riferimenti?, Descrizione?)>
 <!ATTLIST AggiornamentoConferma
-	versione NMTOKEN #FIXED "%dataPubblicazione;"
+	versione NMTOKEN #FIXED "2001-05-07"
 	xml:lang NMTOKEN #FIXED "it"
 >
 <!--
@@ -971,21 +969,21 @@ Riferimenti?, Descrizione?)>
 * MessaggioRicevuto e la descrizione testuale del Motivo che ha *
 * generato l'eccezione. *
 * Per gli attributi di NotificaEccezione valgono le stesse *
-* considerazioni svolte per gli attributi dell'elemento Segnatura.
+* considerazioni svolte per gli attributi dell'elemento Segnatura. *
 * *
-* Regole di corrispondenza*
+* Regole di corrispondenza *
 * - l'elemento Identificatore deve contenere l'identificatore di *
-*   protocollo attribuito al Messaggio dal ricevente; qualora non sia *
-*   stato possibile protocollare in ingresso il Messaggio Ricevuto*
-*   l'elemento Identificatore non deve essere incluso; *
+* protocollo attribuito al Messaggio dal ricevente; qualora non sia *
+* stato possibile protocollare in ingresso il Messaggio Ricevuto *
+* l'elemento Identificatore non deve essere incluso; *
 * - la descrizione del Motivo deve essere specifica e direttamente *
-*   associabile alla causa che ha generato l'eccezione. *
+* associabile alla causa che ha generato l'eccezione. *
 * *
 *************************************************************************
 -->
 <!ELEMENT NotificaEccezione (Identificatore?, MessaggioRicevuto, Motivo)>
 <!ATTLIST NotificaEccezione
-	versione NMTOKEN #FIXED "%dataPubblicazione;"
+	versione NMTOKEN #FIXED "2001-05-07"
 	xml:lang NMTOKEN #FIXED "it"
 >
 <!ELEMENT Motivo (#PCDATA)>
@@ -999,15 +997,14 @@ Riferimenti?, Descrizione?)>
 * Un elemento AnnullamentoProtocollazione contiene l'identificatore *
 * della registrazione annullata e gli estremi del corrispondente *
 * provvedimento amministrativo. *
-* Per gli attributi di AnnullamentoProtocollazione valgono le stesse*
+* Per gli attributi di AnnullamentoProtocollazione valgono le stesse *
 * considerazioni svolte per gli attributi dell'elemento Segnatura. *
-**
+* *
 *************************************************************************
 -->
-<!ELEMENT AnnullamentoProtocollazione (Identificatore, Motivo,
-Provvedimento)>
+<!ELEMENT AnnullamentoProtocollazione (Identificatore, Motivo, Provvedimento)>
 <!ATTLIST AnnullamentoProtocollazione
-	versione NMTOKEN #FIXED "%dataPubblicazione;"
+	versione NMTOKEN #FIXED "2001-05-07"
 	xml:lang NMTOKEN #FIXED "it"
 >
 <!ELEMENT Provvedimento (#PCDATA)>
