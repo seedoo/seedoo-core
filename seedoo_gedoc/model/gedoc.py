@@ -4,6 +4,7 @@
 
 from openerp.osv import fields, osv
 from openerp.tools.translate import _
+from openerp import SUPERUSER_ID
 
 
 class protocollo_classification(osv.Model):
@@ -511,10 +512,9 @@ class gedoc_document_type(osv.Model):
 
     def _create_repertorio_sequence(self, cr, uid, document_type_name):
         sequence_type_obj = self.pool.get('ir.sequence.type')
-        repertorio_code = document_type_name.lower().strip().replace(' ',
-                                                                     '.')
+        repertorio_code = document_type_name.lower().strip().replace(' ', '.')
         sequence_type_code = 'repertorio.sequence.' + repertorio_code
-        sequence_type_obj.create(cr, uid, {
+        sequence_type_obj.create(cr, SUPERUSER_ID, {
             'name': 'Sequence Repertorio ' + document_type_name,
             'code': sequence_type_code
         })
@@ -527,7 +527,7 @@ class gedoc_document_type(osv.Model):
         sequence_vals['number_next'] = 1
         sequence_vals['number_increment'] = 1
         sequence_vals['padding'] = 0
-        seq_id = sequence_obj.create(cr, uid, sequence_vals, context={})
+        seq_id = sequence_obj.create(cr, SUPERUSER_ID, sequence_vals, context={})
         return seq_id
 
 

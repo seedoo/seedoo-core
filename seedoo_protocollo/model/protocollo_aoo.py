@@ -109,7 +109,7 @@ class protocollo_aoo(orm.Model):
 
         registry_id = self.pool.get('protocollo.registry').create(cr, uid, {
             'name': 'Registro ' + aoo.name,
-            'code': 'protocollo.registro.aoo.' + str(aoo.id),
+            'code': 'REG.UFF.' + str(aoo.ident_code),
             'company_id': aoo.company_id.id,
             'sequence': sequence_copy_id
         })
