@@ -21,6 +21,7 @@ from reportlab.pdfgen import canvas
 
 from openerp import http, SUPERUSER_ID
 from openerp.http import request
+from openerp.modules import get_module_path
 from ..utility.dimension import DimensionUtility
 
 
@@ -75,10 +76,11 @@ class Etichetta(http.Controller):
             pagesize=pos.get_pagesize_points()
         )
 
-        pdfmetrics.registerFont(TTFont("sans", "fonts/LiberationSans-Regular.ttf"))
-        pdfmetrics.registerFont(TTFont("sans_bold", "fonts/LiberationSans-Bold.ttf"))
-        pdfmetrics.registerFont(TTFont("monospace", "fonts/LiberationMono-Regular.ttf"))
-        pdfmetrics.registerFont(TTFont("monospace_bold", "fonts/LiberationMono-Bold.ttf"))
+        module_path = get_module_path('seedoo_dematerializzazione')
+        pdfmetrics.registerFont(TTFont("sans", os.path.join(module_path, "fonts", "LiberationSans-Regular.ttf")))
+        pdfmetrics.registerFont(TTFont("sans_bold", os.path.join(module_path, "fonts", "LiberationSans-Bold.ttf")))
+        pdfmetrics.registerFont(TTFont("monospace", os.path.join(module_path, "fonts", "LiberationMono-Regular.ttf")))
+        pdfmetrics.registerFont(TTFont("monospace_bold", os.path.join(module_path, "fonts", "LiberationMono-Bold.ttf")))
 
         writer = SVGWriter()
         writer.set_options({
