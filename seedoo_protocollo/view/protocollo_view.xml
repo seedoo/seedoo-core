@@ -903,21 +903,9 @@ this module contains the full copyright notices and license terms. -->
             <field name="view_id" ref="protocollo_protocollo_tree"/>
             <field name="search_view_id" ref="protocollo_protocollo_search"/>
             <field name="domain">
-                [('type','=','out'),('state','=','draft'),('user_id','=',1)]
+                [('type','=','out'),('state','=','draft')]
             </field>
             <field name="context">{'default_type':'out'}</field>
-            <field name="help" type="html">
-                <p class="oe_view_nocontent_create">
-                    Premi qui per creare un nuovo protocollo in uscita
-                </p>
-                <p>
-                    Si possono creare protocollazioni in ingresso e uscita ed
-                    inserire gli assegnatari della pratica
-                </p>
-                <p>
-                    Il sistema notifica sull'andamento del protocollo
-                </p>
-            </field>
         </record>
 
         <record model="ir.actions.act_window" id="protocollo_protocollo_notified_act">
@@ -929,18 +917,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="search_view_id" ref="protocollo_protocollo_search"/>
             <field name="domain">
                 [('state','in',('registered','notified','sent','waiting','error'))]
-            </field>
-            <field name="help" type="html">
-                <p class="oe_view_nocontent_create">
-                    Premi qui per creare un nuovo protocollo in uscita
-                </p>
-                <p>
-                    Si possono creare protocollazioni in ingresso e uscita ed
-                    inserire gli assegnatari della pratica
-                </p>
-                <p>
-                    Il sistema notifica sull'andamento del protocollo
-                </p>
             </field>
         </record>
 
