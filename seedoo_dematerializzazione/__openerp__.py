@@ -4,21 +4,19 @@
 # this module contains the full copyright notices and license terms.
 
 {
-    "name": "Seedoo Dematerializzazione",
-    "version": "1.0",
-    "author": "Flosslab Srl",
-    "website": "http://www.flosslab.com",
-    "category": "Document Management",
-    "summary": "Gestione documenti cartacei",
-    "description": """Gestione documenti cartacei
-==================================================
-
-Aggiunge funzionalità di stampa etichetta adesiva per i protocolli, importazione documenti tramite scanner, etc.""",
+    'name': 'Seedoo Dematerializzazione',
+    'version': '8.0.0.0.0',
+    'category': 'Document Management',
+    'summary': 'Gestione Documenti Analogici Protocollo',
+    'author': 'Flosslab',
+    'website': 'https://www.seedoo.it',
+    'license': 'AGPL-3',
     "depends": [
         "base",
         "seedoo_protocollo"
     ],
-    "data": [
+    "data":
+    [
         'data/configurazione.xml',
         'data/cron.xml',
         'security/ir.model.access.csv',
@@ -33,10 +31,14 @@ Aggiunge funzionalità di stampa etichetta adesiva per i protocolli, importazion
         'wizard/importa_documenti_wizard_view.xml',
         'menu/menu.xml'
     ],
-    'css': ['static/src/css/dematerializzazione.css'],
-    "demo": [
+    "demo":
+    [
         'demo/dematerializzazione_importer.xml',
-    ]
+    ],
+    "css": ['static/src/css/dematerializzazione.css'],
+    "installable": True,
+    "application": True,
+    "active": False,
 }
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
