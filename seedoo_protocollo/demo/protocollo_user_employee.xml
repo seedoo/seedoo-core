@@ -5,412 +5,412 @@ this module contains the full copyright notices and license terms. -->
 <openerp>
     <data>
 
-        <record model="res.users" id="alba_francesco">
-            <field name="name">Alba Francesco</field>
-            <field name="login">alba_francesco</field>
+        <record model="res.users" id="francesco.alba">
+            <field name="name">Francesco Alba</field>
+            <field name="login">francesco.alba</field>
             <field name="password">seedoo</field>
-            <field name="email">alba_francesco@example.com</field>
+            <field name="email">francesco.alba@example.com</field>
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_user'),ref('seedoo_protocollo.group_protocollo_tutti')])]"/>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/alba.png"/>
         </record>
 
-        <record model="hr.employee" id="hr_alba_francesco">
-            <field name="name">Alba Francesco</field>
-            <field name="user_id" ref="alba_francesco"/>
+        <record model="hr.employee" id="hr_francesco.alba">
+            <field name="name">Francesco Alba</field>
+            <field name="user_id" ref="francesco.alba"/>
             <field name="department_id" ref="protocollo_dept_uor1"/>
-            <field name="work_email">alba_francesco@example.com</field>
+            <field name="work_email">francesco.alba@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/alba.png"/>
         </record>
 
-        <record model="res.users" id="lai_saul">
-            <field name="name">Lai Saul</field>
-            <field name="login">lai_saul</field>
+        <record model="res.users" id="saul.lai">
+            <field name="name">Saul Lai</field>
+            <field name="login">saul.lai</field>
             <field name="password">seedoo</field>
-            <field name="email">lai_saul@example.com</field>
+            <field name="email">saul.lai@example.com</field>
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_user'),ref('seedoo_protocollo.group_protocollo_tutti')])]"/>
             <field name="password">seedoo</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/saul.jpg"/>
         </record>
 
-        <record model="hr.employee" id="hr_lai_saul">
-            <field name="name">Lai Saul</field>
-            <field name="user_id" ref="lai_saul"/>
+        <record model="hr.employee" id="hr_saul.lai">
+            <field name="name">Saul Lai</field>
+            <field name="user_id" ref="saul.lai"/>
             <field name="department_id" ref="protocollo_dept_uor1"/>
-            <field name="work_email">lai_saul@example.com</field>
+            <field name="work_email">saul.lai@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/saul.jpg"/>
         </record>
 
-        <record model="res.users" id="sanna_daniele">
-            <field name="name">Sanna Daniele</field>
-            <field name="login">sanna_daniele</field>
+        <record model="res.users" id="daniele.sanna">
+            <field name="name">Daniele Sanna</field>
+            <field name="login">daniele.sanna</field>
             <field name="password">seedoo</field>
-            <field name="email">sanna_daniele@example.com</field>
+            <field name="email">daniele.sanna@example.com</field>
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_user'),ref('seedoo_protocollo.group_protocollo_tutti')])]"/>
             <field name="password">seedoo</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/daniele.jpg"/>
         </record>
 
-        <record model="hr.employee" id="hr_sanna_daniele">
-            <field name="name">Sanna Daniele</field>
-            <field name="user_id" ref="sanna_daniele"/>
+        <record model="hr.employee" id="hr_daniele.sanna">
+            <field name="name">Daniele Sanna</field>
+            <field name="user_id" ref="daniele.sanna"/>
             <field name="department_id" ref="protocollo_dept_uor1"/>
-            <field name="work_email">sanna_daniele@example.com</field>
+            <field name="work_email">daniele.sanna@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/daniele.jpg"/>
         </record>
 
-        <record model="res.users" id="peruzzu_andrea">
-            <field name="name">Peruzzu Andrea</field>
-            <field name="login">peruzzu_andrea</field>
+        <record model="res.users" id="andrea.peruzzu">
+            <field name="name">Andrea Peruzzu</field>
+            <field name="login">andrea.peruzzu</field>
             <field name="password">seedoo</field>
-            <field name="email">peruzzu_andrea@example.com</field>
+            <field name="email">andrea.peruzzu@example.com</field>
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_user'),ref('seedoo_protocollo.group_protocollo_tutti')])]"/>
             <field name="password">seedoo</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/andrea.jpg"/>
         </record>
 
-        <record model="hr.employee" id="hr_peruzzu_andrea">
-            <field name="name">Peruzzu Andrea</field>
-            <field name="user_id" ref="peruzzu_andrea"/>
+        <record model="hr.employee" id="hr_andrea.peruzzu">
+            <field name="name">Andrea Peruzzu</field>
+            <field name="user_id" ref="andrea.peruzzu"/>
             <field name="department_id" ref="protocollo_dept_uor1"/>
-            <field name="work_email">peruzzu_andrea@example.com</field>
+            <field name="work_email">andrea.peruzzu@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/andrea.jpg"/>
         </record>
 
-        <record model="res.users" id="manca_dino">
-            <field name="name">Manca Dino</field>
-            <field name="login">manca_dino</field>
+        <record model="res.users" id="dino.manca">
+            <field name="name">Dino Manca</field>
+            <field name="login">dino.manca</field>
             <field name="password">seedoo</field>
-            <field name="email">manca_dino@example.com</field>
+            <field name="email">dino.manca@example.com</field>
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_user'),ref('seedoo_protocollo.group_protocollo_tutti')])]"/>
             <field name="password">seedoo</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/dino.png"/>
         </record>
 
-        <record model="hr.employee" id="hr_manca_dino">
-            <field name="name">Manca Dino</field>
-            <field name="user_id" ref="manca_dino"/>
+        <record model="hr.employee" id="hr_dino.manca">
+            <field name="name">Dino Manca</field>
+            <field name="user_id" ref="dino.manca"/>
             <field name="department_id" ref="protocollo_dept_uor2"/>
-            <field name="work_email">manca_dino@example.com</field>
+            <field name="work_email">dino.manca@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/dino.png"/>
         </record>
 
-        <record model="res.users" id="ariu_antonio">
-            <field name="name">Ariu Antonio</field>
-            <field name="login">ariu_antonio</field>
+        <record model="res.users" id="antonio.ariu">
+            <field name="name">Antonio Ariu</field>
+            <field name="login">antonio.ariu</field>
             <field name="password">seedoo</field>
-            <field name="email">ariu_antonio@example.com</field>
+            <field name="email">antonio.ariu@example.com</field>
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_user'),ref('seedoo_protocollo.group_protocollo_tutti')])]"/>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/antonio.jpg"/>
             <field name="password">seedoo</field>
         </record>
 
-        <record model="hr.employee" id="hr_ariu_antonio">
-            <field name="name">Ariu Antonio</field>
-            <field name="user_id" ref="ariu_antonio"/>
+        <record model="hr.employee" id="hr_antonio.ariu">
+            <field name="name">Antonio Ariu</field>
+            <field name="user_id" ref="antonio.ariu"/>
             <field name="department_id" ref="protocollo_dept_uor2"/>
-            <field name="work_email">ariu_antonio@example.com</field>
+            <field name="work_email">antonio.ariu@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/antonio.jpg"/>
         </record>
 
-        <record model="res.users" id="farris_gianluca">
-            <field name="name">Farris Gianluca</field>
-            <field name="login">farris_gianluca</field>
+        <record model="res.users" id="gianluca.farris">
+            <field name="name">Gianluca Farris</field>
+            <field name="login">gianluca.farris</field>
             <field name="password">seedoo</field>
-            <field name="email">farris_gianluca@example.com</field>
+            <field name="email">gianluca.farris@example.com</field>
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_user'),ref('seedoo_protocollo.group_protocollo_tutti')])]"/>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/gianlu.jpg"/>
             <field name="password">seedoo</field>
         </record>
 
-        <record model="hr.employee" id="hr_farris_gianluca">
-            <field name="name">Farris Gianluca</field>
-            <field name="user_id" ref="farris_gianluca"/>
+        <record model="hr.employee" id="hr_gianluca.farris">
+            <field name="name">Gianluca Farris</field>
+            <field name="user_id" ref="gianluca.farris"/>
             <field name="department_id" ref="protocollo_dept_uor2"/>
-            <field name="work_email">farris_gianluca@example.com</field>
+            <field name="work_email">gianluca.farris@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/gianlu.jpg"/>
         </record>
 
-        <record model="res.users" id="collu_samuele">
-            <field name="name">Collu Samuele</field>
-            <field name="login">collu_samuele</field>
+        <record model="res.users" id="samuele.collu">
+            <field name="name">Samuele Collu</field>
+            <field name="login">samuele.collu</field>
             <field name="password">seedoo</field>
-            <field name="email">collu_samuele@example.com</field>
+            <field name="email">samuele.collu@example.com</field>
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_user'),ref('seedoo_protocollo.group_protocollo_tutti')])]"/>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/samuele.jpg"/>
             <field name="password">seedoo</field>
         </record>
 
-        <record model="hr.employee" id="hr_collu_samuele">
-            <field name="name">Collu Samuele</field>
-            <field name="user_id" ref="collu_samuele"/>
+        <record model="hr.employee" id="hr_samuele.collu">
+            <field name="name">Samuele Collu</field>
+            <field name="user_id" ref="samuele.collu"/>
             <field name="department_id" ref="protocollo_dept_uor2"/>
-            <field name="work_email">collu_samuele@example.com</field>
+            <field name="work_email">samuele.collu@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/samuele.jpg"/>
         </record>
 
-        <record model="res.users" id="difrancesco_marco">
-            <field name="name">Di Francesco Marco</field>
-            <field name="login">difrancesco_marco</field>
+        <record model="res.users" id="marco.difrancesco">
+            <field name="name">Marco Di Francesco</field>
+            <field name="login">marco.difrancesco</field>
             <field name="password">seedoo</field>
-            <field name="email">difrancesco_marco@example.com</field>
+            <field name="email">marco.difrancesco@example.com</field>
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_user'),ref('seedoo_protocollo.group_protocollo_tutti')])]"/>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/marco.jpg"/>
             <field name="password">seedoo</field>
         </record>
 
-        <record model="hr.employee" id="hr_difrancesco_marco">
-            <field name="name">Di Francesco Marco</field>
-            <field name="user_id" ref="difrancesco_marco"/>
+        <record model="hr.employee" id="hr_marco.difrancesco">
+            <field name="name">Marco Di Francesco</field>
+            <field name="user_id" ref="marco.difrancesco"/>
             <field name="department_id" ref="protocollo_dept_uor3"/>
-            <field name="work_email">difrancesco_marco@example.com</field>
+            <field name="work_email">marco.difrancesco@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/marco.jpg"/>
         </record>
 
-        <record model="res.users" id="melis_claudio">
-            <field name="name">Melis Claudio</field>
-            <field name="login">melis_claudio</field>
+        <record model="res.users" id="claudio.mielis">
+            <field name="name">Claudio Melis</field>
+            <field name="login">claudio.mielis</field>
             <field name="password">seedoo</field>
-            <field name="email">melis_claudio@example.com</field>
+            <field name="email">claudio.mielis@example.com</field>
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_user'),ref('seedoo_protocollo.group_protocollo_tutti')])]"/>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/claudio.jpg"/>
             <field name="password">seedoo</field>
         </record>
 
-        <record model="hr.employee" id="hr_melis_claudio">
-            <field name="name">Melis Claudio</field>
-            <field name="user_id" ref="melis_claudio"/>
+        <record model="hr.employee" id="hr_claudio.mielis">
+            <field name="name">Claudio Melis</field>
+            <field name="user_id" ref="claudio.mielis"/>
             <field name="department_id" ref="protocollo_dept_uor3"/>
-            <field name="work_email">melis_claudio@example.com</field>
+            <field name="work_email">claudio.mielis@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/claudio.jpg"/>
         </record>
 
-        <record model="res.users" id="argiolas_norman">
-            <field name="name">Argiolas Norman</field>
-            <field name="login">argiolas_norman</field>
+        <record model="res.users" id="norman.argiolas">
+            <field name="name">Norman Argiolas</field>
+            <field name="login">norman.argiolas</field>
             <field name="password">seedoo</field>
-            <field name="email">argiolas_norman@example.com</field>
+            <field name="email">norman.argiolas@example.com</field>
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_user'),ref('seedoo_protocollo.group_protocollo_tutti')])]"/>
             <field name="password">seedoo</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/norman1.jpg"/>
         </record>
 
-        <record model="hr.employee" id="hr_argiolas_norman">
-            <field name="name">Argiolas Norman</field>
-            <field name="user_id" ref="argiolas_norman"/>
+        <record model="hr.employee" id="hr_norman.argiolas">
+            <field name="name">Norman Argiolas</field>
+            <field name="user_id" ref="norman.argiolas"/>
             <field name="department_id" ref="protocollo_dept_uor3"/>
-            <field name="work_email">argiolas_norman@example.com</field>
+            <field name="work_email">norman.argiolas@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/norman1.jpg"/>
         </record>
 
-        <record model="res.users" id="masia_pierpaolo">
-            <field name="name">Masia Pierpaolo</field>
-            <field name="login">masia_pierpaolo</field>
+        <record model="res.users" id="pierpaolo.masia">
+            <field name="name">Pierpaolo Masia</field>
+            <field name="login">pierpaolo.masia</field>
             <field name="password">seedoo</field>
-            <field name="email">masia_pierpaolo@example.com</field>
+            <field name="email">pierpaolo.masia@example.com</field>
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_user'),ref('seedoo_protocollo.group_protocollo_tutti')])]"/>
             <field name="password">seedoo</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/pierpaolo1.jpg"/>
         </record>
 
-        <record model="hr.employee" id="hr_masia_pierpaolo">
-            <field name="name">Masia Pierpaolo</field>
-            <field name="user_id" ref="masia_pierpaolo"/>
+        <record model="hr.employee" id="hr_pierpaolo.masia">
+            <field name="name">Pierpaolo Masia</field>
+            <field name="user_id" ref="pierpaolo.masia"/>
             <field name="department_id" ref="protocollo_dept_uor3"/>
-            <field name="work_email">masia_pierpaolo@example.com</field>
+            <field name="work_email">pierpaolo.masia@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/pierpaolo1.jpg"/>
         </record>
 
-        <record model="res.users" id="serreli_franco">
-            <field name="name">Serreli Franco</field>
-            <field name="login">serreli_franco</field>
+        <record model="res.users" id="franco.serreli">
+            <field name="name">Franco Serreli</field>
+            <field name="login">franco.serreli</field>
             <field name="password">seedoo</field>
-            <field name="email">serreli_franco@example.com</field>
+            <field name="email">franco.serreli@example.com</field>
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_user'),ref('seedoo_protocollo.group_protocollo_tutti')])]"/>
             <field name="password">seedoo</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/franco1.jpg"/>
         </record>
 
-        <record model="hr.employee" id="hr_serreli_franco">
-            <field name="name">Serreli Franco</field>
-            <field name="user_id" ref="serreli_franco"/>
+        <record model="hr.employee" id="hr_franco.serreli">
+            <field name="name">Franco Serreli</field>
+            <field name="user_id" ref="franco.serreli"/>
             <field name="department_id" ref="protocollo_dept_uor4"/>
-            <field name="work_email">serreli_franco@example.com</field>
+            <field name="work_email">franco.serreli@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/franco1.jpg"/>
         </record>
 
-        <record model="res.users" id="marras_stefano">
+        <record model="res.users" id="stefano.marras">
             <field name="name">Marras Stefano</field>
-            <field name="login">marras_stefano</field>
+            <field name="login">stefano.marras</field>
             <field name="password">seedoo</field>
-            <field name="email">marras_stefano@example.com</field>
+            <field name="email">stefano.marras@example.com</field>
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_user'),ref('seedoo_protocollo.group_protocollo_tutti')])]"/>
             <field name="password">seedoo</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/sm.jpg"/>
         </record>
 
-        <record model="hr.employee" id="hr_marras_stefano">
+        <record model="hr.employee" id="hr_stefano.marras">
             <field name="name">Marras Stefano</field>
-            <field name="user_id" ref="marras_stefano"/>
+            <field name="user_id" ref="stefano.marras"/>
             <field name="department_id" ref="protocollo_dept_uor4"/>
-            <field name="work_email">marras_stefano@example.com</field>
+            <field name="work_email">stefano.marras@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/sm.jpg"/>
         </record>
 
-        <record model="res.users" id="bullitta_paola">
-            <field name="name">Bullitta Paola</field>
-            <field name="login">bullitta_paola</field>
+        <record model="res.users" id="paola.bullitta">
+            <field name="name">Paola Bullitta</field>
+            <field name="login">paola.bullitta</field>
             <field name="password">seedoo</field>
-            <field name="email">bullitta_paola@example.com</field>
+            <field name="email">paola.bullitta@example.com</field>
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_user'),ref('seedoo_protocollo.group_protocollo_tutti')])]"/>
             <field name="password">seedoo</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/paola.jpg"/>
         </record>
 
-        <record model="hr.employee" id="hr_bullitta_paola">
-            <field name="name">Bullitta Paola</field>
-            <field name="user_id" ref="bullitta_paola"/>
+        <record model="hr.employee" id="hr_paola.bullitta">
+            <field name="name">Paola Bullitta</field>
+            <field name="user_id" ref="paola.bullitta"/>
             <field name="department_id" ref="protocollo_dept_uor4"/>
-            <field name="work_email">bullitta_paola@example.com</field>
+            <field name="work_email">paola.bullitta@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/paola.jpg"/>
         </record>
 
         <record model="res.users" id="melis_daniela">
-            <field name="name">Melis Daniela</field>
-            <field name="login">melis_daniela</field>
+            <field name="name">Daniela Melis</field>
+            <field name="login">daniela.melis</field>
             <field name="password">seedoo</field>
-            <field name="email">melis_daniela@example.com</field>
+            <field name="email">daniela.melis@example.com</field>
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_user'),ref('seedoo_protocollo.group_protocollo_tutti')])]"/>
             <field name="password">seedoo</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/daniela2.jpg"/>
         </record>
 
-        <record model="hr.employee" id="hr_melis_daniela">
-            <field name="name">Melis Daniela</field>
-            <field name="user_id" ref="melis_daniela"/>
+        <record model="hr.employee" id="hr_daniela.melis">
+            <field name="name">Daniela Melis</field>
+            <field name="user_id" ref="daniela.melis"/>
             <field name="department_id" ref="protocollo_dept_uor4"/>
-            <field name="work_email">melis_daniela@example.com</field>
+            <field name="work_email">daniela.melis@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/daniela2.jpg"/>
         </record>
 
-        <record model="res.users" id="mura_ilaria">
-            <field name="name">Mura Ilaria</field>
-            <field name="login">mura_ilaria</field>
+        <record model="res.users" id="ilaria.mura">
+            <field name="name">Ilaria Mura</field>
+            <field name="login">ilaria.mura</field>
             <field name="password">seedoo</field>
-            <field name="email">mura_ilaria@example.com</field>
+            <field name="email">ilaria.mura@example.com</field>
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_user'),ref('seedoo_protocollo.group_protocollo_tutti')])]"/>
             <field name="password">seedoo</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/ilariamura.jpg"/>
         </record>
 
-        <record model="hr.employee" id="hr_mura_ilaria">
-            <field name="name">Mura Ilaria</field>
-            <field name="user_id" ref="mura_ilaria"/>
+        <record model="hr.employee" id="hr_ilaria.mura">
+            <field name="name">Ilaria Mura</field>
+            <field name="user_id" ref="ilaria.mura"/>
             <field name="department_id" ref="protocollo_dept_uor5"/>
-            <field name="work_email">mura_ilaria@example.com</field>
+            <field name="work_email">ilaria.mura@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/ilariamura.jpg"/>
         </record>
 
-        <record model="res.users" id="sanna_georgia">
-            <field name="name">Sanna Georgia</field>
-            <field name="login">sanna_georgia</field>
+        <record model="res.users" id="georgia.sanna">
+            <field name="name">Georgia Sanna</field>
+            <field name="login">georgia.sanna</field>
             <field name="password">seedoo</field>
-            <field name="email">sanna_georgia@example.com</field>
+            <field name="email">georgia.sanna@example.com</field>
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_user'),ref('seedoo_protocollo.group_protocollo_tutti')])]"/>
             <field name="password">seedoo</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/georgia.jpg"/>
         </record>
 
-        <record model="hr.employee" id="hr_sanna_georgia">
-            <field name="name">Sanna Georgia</field>
-            <field name="user_id" ref="sanna_georgia"/>
+        <record model="hr.employee" id="hr_georgia.sanna">
+            <field name="name">Georgia Sanna</field>
+            <field name="user_id" ref="georgia.sanna"/>
             <field name="department_id" ref="protocollo_dept_uor5"/>
-            <field name="work_email">sanna_georgia@example.com</field>
+            <field name="work_email">georgia.sanna@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/georgia.jpg"/>
         </record>
 
-        <record model="res.users" id="vitrani_martina">
-            <field name="name">Vitrani Martina</field>
-            <field name="login">vitrani_martina</field>
+        <record model="res.users" id="martina.vitrani">
+            <field name="name">Martina Vitrani</field>
+            <field name="login">martina.vitrani</field>
             <field name="password">seedoo</field>
-            <field name="email">vitrani_martina@example.com</field>
+            <field name="email">martina.vitrani@example.com</field>
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_user'),ref('seedoo_protocollo.group_protocollo_tutti')])]"/>
             <field name="password">seedoo</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/martinavitrani.jpg"/>
         </record>
 
-        <record model="hr.employee" id="hr_vitrani_martina">
-            <field name="name">Vitrani Martina</field>
-            <field name="user_id" ref="vitrani_martina"/>
+        <record model="hr.employee" id="hr_martina.vitrani">
+            <field name="name">Martina Vitrani</field>
+            <field name="user_id" ref="martina.vitrani"/>
             <field name="department_id" ref="protocollo_dept_uor5"/>
-            <field name="work_email">vitrani_martina@example.com</field>
+            <field name="work_email">martina.vitrani@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/martinavitrani.jpg"/>
         </record>
 
-        <record model="res.users" id="boi_fabiana">
-            <field name="name">Boi Fabiana</field>
-            <field name="login">boi_fabiana</field>
+        <record model="res.users" id="fabiana.boi">
+            <field name="name">Fabiana Boi</field>
+            <field name="login">fabiana.boi</field>
             <field name="password">seedoo</field>
-            <field name="email">boi_fabiana@example.com</field>
+            <field name="email">fabiana.boi@example.com</field>
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_user'),ref('seedoo_protocollo.group_protocollo_tutti')])]"/>
             <field name="password">seedoo</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/fabiana.jpg"/>
         </record>
 
-        <record model="hr.employee" id="hr_boi_fabiana">
-            <field name="name">Boi Fabiana</field>
-            <field name="user_id" ref="boi_fabiana"/>
+        <record model="hr.employee" id="hr_fabiana.boi">
+            <field name="name">Fabiana Boi</field>
+            <field name="user_id" ref="fabiana.boi"/>
             <field name="department_id" ref="protocollo_dept_uor5"/>
-            <field name="work_email">boi_fabiana@example.com</field>
+            <field name="work_email">fabiana.boi@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/fabiana.jpg"/>
         </record>
 
         <record id="protocollo_aoo_default" model="protocollo.aoo">
             <field name="employee_ids" eval="[(6, 0,[
-                                        ref('hr_alba_francesco'),
-                                        ref('hr_lai_saul'),
-                                        ref('hr_sanna_daniele'),
-                                        ref('hr_peruzzu_andrea'),
-                                        ref('hr_manca_dino'),
-                                        ref('hr_ariu_antonio'),
-                                        ref('hr_farris_gianluca'),
-                                        ref('hr_collu_samuele'),
-                                        ref('hr_difrancesco_marco'),
-                                        ref('hr_melis_claudio'),
-                                        ref('hr_argiolas_norman'),
-                                        ref('hr_masia_pierpaolo'),
-                                        ref('hr_serreli_franco'),
-                                        ref('hr_marras_stefano'),
-                                        ref('hr_bullitta_paola'),
-                                        ref('hr_melis_daniela'),
-                                        ref('hr_mura_ilaria'),
-                                        ref('hr_sanna_georgia'),
-                                        ref('hr_vitrani_martina'),
-                                        ref('hr_boi_fabiana')
+                                        ref('hr_francesco.alba'),
+                                        ref('hr_saul.lai'),
+                                        ref('hr_daniele.sanna'),
+                                        ref('hr_andrea.peruzzu'),
+                                        ref('hr_dino.manca'),
+                                        ref('hr_antonio.ariu'),
+                                        ref('hr_gianluca.farris'),
+                                        ref('hr_samuele.collu'),
+                                        ref('hr_marco.difrancesco'),
+                                        ref('hr_claudio.mielis'),
+                                        ref('hr_norman.argiolas'),
+                                        ref('hr_pierpaolo.masia'),
+                                        ref('hr_franco.serreli'),
+                                        ref('hr_stefano.marras'),
+                                        ref('hr_paola.bullitta'),
+                                        ref('hr_daniela.melis'),
+                                        ref('hr_ilaria.mura'),
+                                        ref('hr_georgia.sanna'),
+                                        ref('hr_martina.vitrani'),
+                                        ref('hr_fabiana.boi')
             ])]"/>
         </record>
 
         <record id="l10n_it_pec_messages.imap_pec_server" model="fetchmail.server" >
             <field name="user_ids" eval="[(6, 0,[
-                                            ref('alba_francesco'),
-                                            ref('lai_saul'),
-                                            ref('sanna_daniele'),
-                                            ref('peruzzu_andrea'),
-                                            ref('manca_dino'),
-                                            ref('ariu_antonio'),
-                                            ref('farris_gianluca'),
-                                            ref('collu_samuele'),
-                                            ref('difrancesco_marco'),
-                                            ref('melis_claudio'),
-                                            ref('argiolas_norman'),
-                                            ref('masia_pierpaolo'),
-                                            ref('serreli_franco'),
-                                            ref('marras_stefano'),
-                                            ref('bullitta_paola'),
-                                            ref('melis_daniela'),
-                                            ref('mura_ilaria'),
-                                            ref('sanna_georgia'),
-                                            ref('vitrani_martina'),
-                                            ref('boi_fabiana'),
+                                            ref('francesco.alba'),
+                                            ref('saul.lai'),
+                                            ref('daniele.sanna'),
+                                            ref('andrea.peruzzu'),
+                                            ref('dino.manca'),
+                                            ref('antonio.ariu'),
+                                            ref('gianluca.farris'),
+                                            ref('samuele.collu'),
+                                            ref('marco.difrancesco'),
+                                            ref('claudio.mielis'),
+                                            ref('norman.argiolas'),
+                                            ref('pierpaolo.masia'),
+                                            ref('franco.serreli'),
+                                            ref('stefano.marras'),
+                                            ref('paola.bullitta'),
+                                            ref('daniela.melis'),
+                                            ref('ilaria.mura'),
+                                            ref('georgia.sanna'),
+                                            ref('martina.vitrani'),
+                                            ref('fabiana.boi'),
                                         ])]">
 
             </field>
