@@ -4,17 +4,12 @@
 
 {
     'name': 'Seedoo Protocollo Zip',
-    'version': '1.0',
-    'author': 'Innoviu',
+    'version': '8.0.0.0.0',
     'category': 'Document Management',
-    'sequence': 23,
-    'summary': 'Gestione Protocollo Informatico',
-    'description': """
-Downloads of all the attachment of a protocol in zip format
-
-    """,
-    'author': 'Innoviu Srl',
-    'website': 'http://www.innoviu.com',
+    'summary': 'Protocollo Informatico PA',
+    'author': 'Innoviu',
+    'website': 'https://www.seedoo.it',
+    'license': 'AGPL-3',
     'depends': [
         'seedoo_protocollo',
         ],
