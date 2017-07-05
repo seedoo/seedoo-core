@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+<!-- This file is part of Seedoo.  The COPYRIGHT file at the top level of
+this module contains the full copyright notices and license terms. -->
+
+<openerp>
+    <data noupdate="0">
+        <record id="protocol_access_rule" model="ir.rule">
+            <field name="name">Regola Accesso Protocolli</field>
+            <field ref="model_protocollo_protocollo" name="model_id"/>
+            <field name="domain_force">[
+                '|', '|', '|', '|', '|', '|',
+                ('user_id', '=', user.id),
+                ('aoo_id.manager_employee_id.user_id.id', '=', user.id),
+                ('assegnatari_competenza_dipendenti_ids.dipendente_id.user_id.id', '=', user.id),
+                ('assegnatari_competenza_uffici_ids.assegnatari_dipendenti_ids.dipendente_id.user_id.id', '=', user.id),
+                ('assegnatari_conoscenza_dipendenti_ids.dipendente_id.user_id.id', '=', user.id),
+                ('assegnatari_conoscenza_uffici_ids.assegnatari_dipendenti_ids.dipendente_id.user_id.id', '=', user.id),
+                '&amp;',
+                ('reserved', '=', True),
+                ('aoo_id.reserved_employee_id.user_id.id', '=', user.id),
+            ]
+            </field>
+
+            <field name="groups" eval="[(4, ref('group_protocollo_user'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+    </data>
+</openerp>

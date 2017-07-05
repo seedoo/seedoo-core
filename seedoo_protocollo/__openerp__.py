@@ -28,6 +28,7 @@
         [
             'data/protocollo_configuration.xml',
             'security/protocollo_security.xml',
+            'security/security_rules.xml',
             'security/mail_security.xml',
             'security/ir.model.access.csv',
             'data/protocollo_sequence.xml',
