@@ -5,7 +5,7 @@ this module contains the full copyright notices and license terms. -->
 <openerp>
     <data>
 
-        <record model="res.users" id="francesco.alba">
+        <record model="res.users" id="francesco_alba">
             <field name="name">Francesco Alba</field>
             <field name="login">francesco.alba</field>
             <field name="password">seedoo</field>
@@ -14,15 +14,15 @@ this module contains the full copyright notices and license terms. -->
             <field name="image" type="base64" file="seedoo_protocollo/static/img/alba.png"/>
         </record>
 
-        <record model="hr.employee" id="hr_francesco.alba">
+        <record model="hr.employee" id="hr_francesco_alba">
             <field name="name">Francesco Alba</field>
-            <field name="user_id" ref="francesco.alba"/>
+            <field name="user_id" ref="francesco_alba"/>
             <field name="department_id" ref="protocollo_dept_uor1"/>
             <field name="work_email">francesco.alba@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/alba.png"/>
         </record>
 
-        <record model="res.users" id="saul.lai">
+        <record model="res.users" id="saul_lai">
             <field name="name">Saul Lai</field>
             <field name="login">saul.lai</field>
             <field name="password">seedoo</field>
@@ -32,15 +32,15 @@ this module contains the full copyright notices and license terms. -->
             <field name="image" type="base64" file="seedoo_protocollo/static/img/saul.jpg"/>
         </record>
 
-        <record model="hr.employee" id="hr_saul.lai">
+        <record model="hr.employee" id="hr_saul_lai">
             <field name="name">Saul Lai</field>
-            <field name="user_id" ref="saul.lai"/>
+            <field name="user_id" ref="saul_lai"/>
             <field name="department_id" ref="protocollo_dept_uor1"/>
             <field name="work_email">saul.lai@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/saul.jpg"/>
         </record>
 
-        <record model="res.users" id="daniele.sanna">
+        <record model="res.users" id="daniele_sanna">
             <field name="name">Daniele Sanna</field>
             <field name="login">daniele.sanna</field>
             <field name="password">seedoo</field>
@@ -50,15 +50,15 @@ this module contains the full copyright notices and license terms. -->
             <field name="image" type="base64" file="seedoo_protocollo/static/img/daniele.jpg"/>
         </record>
 
-        <record model="hr.employee" id="hr_daniele.sanna">
+        <record model="hr.employee" id="hr_daniele_sanna">
             <field name="name">Daniele Sanna</field>
-            <field name="user_id" ref="daniele.sanna"/>
+            <field name="user_id" ref="daniele_sanna"/>
             <field name="department_id" ref="protocollo_dept_uor1"/>
             <field name="work_email">daniele.sanna@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/daniele.jpg"/>
         </record>
 
-        <record model="res.users" id="andrea.peruzzu">
+        <record model="res.users" id="andrea_peruzzu">
             <field name="name">Andrea Peruzzu</field>
             <field name="login">andrea.peruzzu</field>
             <field name="password">seedoo</field>
@@ -68,15 +68,15 @@ this module contains the full copyright notices and license terms. -->
             <field name="image" type="base64" file="seedoo_protocollo/static/img/andrea.jpg"/>
         </record>
 
-        <record model="hr.employee" id="hr_andrea.peruzzu">
+        <record model="hr.employee" id="hr_andrea_peruzzu">
             <field name="name">Andrea Peruzzu</field>
-            <field name="user_id" ref="andrea.peruzzu"/>
+            <field name="user_id" ref="andrea_peruzzu"/>
             <field name="department_id" ref="protocollo_dept_uor1"/>
             <field name="work_email">andrea.peruzzu@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/andrea.jpg"/>
         </record>
 
-        <record model="res.users" id="dino.manca">
+        <record model="res.users" id="dino_manca">
             <field name="name">Dino Manca</field>
             <field name="login">dino.manca</field>
             <field name="password">seedoo</field>
@@ -86,15 +86,15 @@ this module contains the full copyright notices and license terms. -->
             <field name="image" type="base64" file="seedoo_protocollo/static/img/dino.png"/>
         </record>
 
-        <record model="hr.employee" id="hr_dino.manca">
+        <record model="hr.employee" id="hr_dino_manca">
             <field name="name">Dino Manca</field>
-            <field name="user_id" ref="dino.manca"/>
+            <field name="user_id" ref="dino_manca"/>
             <field name="department_id" ref="protocollo_dept_uor2"/>
             <field name="work_email">dino.manca@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/dino.png"/>
         </record>
 
-        <record model="res.users" id="antonio.ariu">
+        <record model="res.users" id="antonio_ariu">
             <field name="name">Antonio Ariu</field>
             <field name="login">antonio.ariu</field>
             <field name="password">seedoo</field>
@@ -104,15 +104,15 @@ this module contains the full copyright notices and license terms. -->
             <field name="password">seedoo</field>
         </record>
 
-        <record model="hr.employee" id="hr_antonio.ariu">
+        <record model="hr.employee" id="hr_antonio_ariu">
             <field name="name">Antonio Ariu</field>
-            <field name="user_id" ref="antonio.ariu"/>
+            <field name="user_id" ref="antonio_ariu"/>
             <field name="department_id" ref="protocollo_dept_uor2"/>
             <field name="work_email">antonio.ariu@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/antonio.jpg"/>
         </record>
 
-        <record model="res.users" id="gianluca.farris">
+        <record model="res.users" id="gianluca_farris">
             <field name="name">Gianluca Farris</field>
             <field name="login">gianluca.farris</field>
             <field name="password">seedoo</field>
@@ -122,15 +122,15 @@ this module contains the full copyright notices and license terms. -->
             <field name="password">seedoo</field>
         </record>
 
-        <record model="hr.employee" id="hr_gianluca.farris">
+        <record model="hr.employee" id="hr_gianluca_farris">
             <field name="name">Gianluca Farris</field>
-            <field name="user_id" ref="gianluca.farris"/>
+            <field name="user_id" ref="gianluca_farris"/>
             <field name="department_id" ref="protocollo_dept_uor2"/>
             <field name="work_email">gianluca.farris@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/gianlu.jpg"/>
         </record>
 
-        <record model="res.users" id="samuele.collu">
+        <record model="res.users" id="samuele_collu">
             <field name="name">Samuele Collu</field>
             <field name="login">samuele.collu</field>
             <field name="password">seedoo</field>
@@ -140,15 +140,15 @@ this module contains the full copyright notices and license terms. -->
             <field name="password">seedoo</field>
         </record>
 
-        <record model="hr.employee" id="hr_samuele.collu">
+        <record model="hr.employee" id="hr_samuele_collu">
             <field name="name">Samuele Collu</field>
-            <field name="user_id" ref="samuele.collu"/>
+            <field name="user_id" ref="samuele_collu"/>
             <field name="department_id" ref="protocollo_dept_uor2"/>
             <field name="work_email">samuele.collu@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/samuele.jpg"/>
         </record>
 
-        <record model="res.users" id="marco.difrancesco">
+        <record model="res.users" id="marco_difrancesco">
             <field name="name">Marco Di Francesco</field>
             <field name="login">marco.difrancesco</field>
             <field name="password">seedoo</field>
@@ -158,17 +158,17 @@ this module contains the full copyright notices and license terms. -->
             <field name="password">seedoo</field>
         </record>
 
-        <record model="hr.employee" id="hr_marco.difrancesco">
+        <record model="hr.employee" id="hr_marco_difrancesco">
             <field name="name">Marco Di Francesco</field>
-            <field name="user_id" ref="marco.difrancesco"/>
+            <field name="user_id" ref="marco_difrancesco"/>
             <field name="department_id" ref="protocollo_dept_uor3"/>
             <field name="work_email">marco.difrancesco@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/marco.jpg"/>
         </record>
 
-        <record model="res.users" id="claudio.mielis">
+        <record model="res.users" id="claudio_melis">
             <field name="name">Claudio Melis</field>
-            <field name="login">claudio.mielis</field>
+            <field name="login">claudio.melis</field>
             <field name="password">seedoo</field>
             <field name="email">claudio.mielis@example.com</field>
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_user'),ref('seedoo_protocollo.group_protocollo_tutti')])]"/>
@@ -176,15 +176,15 @@ this module contains the full copyright notices and license terms. -->
             <field name="password">seedoo</field>
         </record>
 
-        <record model="hr.employee" id="hr_claudio.mielis">
+        <record model="hr.employee" id="hr_claudio_melis">
             <field name="name">Claudio Melis</field>
-            <field name="user_id" ref="claudio.mielis"/>
+            <field name="user_id" ref="claudio_melis"/>
             <field name="department_id" ref="protocollo_dept_uor3"/>
-            <field name="work_email">claudio.mielis@example.com</field>
+            <field name="work_email">claudio.melis@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/claudio.jpg"/>
         </record>
 
-        <record model="res.users" id="norman.argiolas">
+        <record model="res.users" id="norman_argiolas">
             <field name="name">Norman Argiolas</field>
             <field name="login">norman.argiolas</field>
             <field name="password">seedoo</field>
@@ -194,15 +194,15 @@ this module contains the full copyright notices and license terms. -->
             <field name="image" type="base64" file="seedoo_protocollo/static/img/norman1.jpg"/>
         </record>
 
-        <record model="hr.employee" id="hr_norman.argiolas">
+        <record model="hr.employee" id="hr_norman_argiolas">
             <field name="name">Norman Argiolas</field>
-            <field name="user_id" ref="norman.argiolas"/>
+            <field name="user_id" ref="norman_argiolas"/>
             <field name="department_id" ref="protocollo_dept_uor3"/>
             <field name="work_email">norman.argiolas@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/norman1.jpg"/>
         </record>
 
-        <record model="res.users" id="pierpaolo.masia">
+        <record model="res.users" id="pierpaolo_masia">
             <field name="name">Pierpaolo Masia</field>
             <field name="login">pierpaolo.masia</field>
             <field name="password">seedoo</field>
@@ -212,15 +212,15 @@ this module contains the full copyright notices and license terms. -->
             <field name="image" type="base64" file="seedoo_protocollo/static/img/pierpaolo1.jpg"/>
         </record>
 
-        <record model="hr.employee" id="hr_pierpaolo.masia">
+        <record model="hr.employee" id="hr_pierpaolo_masia">
             <field name="name">Pierpaolo Masia</field>
-            <field name="user_id" ref="pierpaolo.masia"/>
+            <field name="user_id" ref="pierpaolo_masia"/>
             <field name="department_id" ref="protocollo_dept_uor3"/>
             <field name="work_email">pierpaolo.masia@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/pierpaolo1.jpg"/>
         </record>
 
-        <record model="res.users" id="franco.serreli">
+        <record model="res.users" id="franco_serreli">
             <field name="name">Franco Serreli</field>
             <field name="login">franco.serreli</field>
             <field name="password">seedoo</field>
@@ -230,16 +230,16 @@ this module contains the full copyright notices and license terms. -->
             <field name="image" type="base64" file="seedoo_protocollo/static/img/franco1.jpg"/>
         </record>
 
-        <record model="hr.employee" id="hr_franco.serreli">
+        <record model="hr.employee" id="hr_franco_serreli">
             <field name="name">Franco Serreli</field>
-            <field name="user_id" ref="franco.serreli"/>
+            <field name="user_id" ref="franco_serreli"/>
             <field name="department_id" ref="protocollo_dept_uor4"/>
             <field name="work_email">franco.serreli@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/franco1.jpg"/>
         </record>
 
-        <record model="res.users" id="stefano.marras">
-            <field name="name">Marras Stefano</field>
+        <record model="res.users" id="stefano_marras">
+            <field name="name">Stefano Marras</field>
             <field name="login">stefano.marras</field>
             <field name="password">seedoo</field>
             <field name="email">stefano.marras@example.com</field>
@@ -248,15 +248,15 @@ this module contains the full copyright notices and license terms. -->
             <field name="image" type="base64" file="seedoo_protocollo/static/img/sm.jpg"/>
         </record>
 
-        <record model="hr.employee" id="hr_stefano.marras">
-            <field name="name">Marras Stefano</field>
-            <field name="user_id" ref="stefano.marras"/>
+        <record model="hr.employee" id="hr_stefano_marras">
+            <field name="name">Stefano Marras</field>
+            <field name="user_id" ref="stefano_marras"/>
             <field name="department_id" ref="protocollo_dept_uor4"/>
             <field name="work_email">stefano.marras@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/sm.jpg"/>
         </record>
 
-        <record model="res.users" id="paola.bullitta">
+        <record model="res.users" id="paola_bullitta">
             <field name="name">Paola Bullitta</field>
             <field name="login">paola.bullitta</field>
             <field name="password">seedoo</field>
@@ -266,15 +266,15 @@ this module contains the full copyright notices and license terms. -->
             <field name="image" type="base64" file="seedoo_protocollo/static/img/paola.jpg"/>
         </record>
 
-        <record model="hr.employee" id="hr_paola.bullitta">
+        <record model="hr.employee" id="hr_paola_bullitta">
             <field name="name">Paola Bullitta</field>
-            <field name="user_id" ref="paola.bullitta"/>
+            <field name="user_id" ref="paola_bullitta"/>
             <field name="department_id" ref="protocollo_dept_uor4"/>
             <field name="work_email">paola.bullitta@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/paola.jpg"/>
         </record>
 
-        <record model="res.users" id="melis_daniela">
+        <record model="res.users" id="daniela_melis">
             <field name="name">Daniela Melis</field>
             <field name="login">daniela.melis</field>
             <field name="password">seedoo</field>
@@ -284,15 +284,15 @@ this module contains the full copyright notices and license terms. -->
             <field name="image" type="base64" file="seedoo_protocollo/static/img/daniela2.jpg"/>
         </record>
 
-        <record model="hr.employee" id="hr_daniela.melis">
+        <record model="hr.employee" id="hr_daniela_melis">
             <field name="name">Daniela Melis</field>
-            <field name="user_id" ref="daniela.melis"/>
+            <field name="user_id" ref="daniela_melis"/>
             <field name="department_id" ref="protocollo_dept_uor4"/>
             <field name="work_email">daniela.melis@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/daniela2.jpg"/>
         </record>
 
-        <record model="res.users" id="ilaria.mura">
+        <record model="res.users" id="ilaria_mura">
             <field name="name">Ilaria Mura</field>
             <field name="login">ilaria.mura</field>
             <field name="password">seedoo</field>
@@ -302,15 +302,15 @@ this module contains the full copyright notices and license terms. -->
             <field name="image" type="base64" file="seedoo_protocollo/static/img/ilariamura.jpg"/>
         </record>
 
-        <record model="hr.employee" id="hr_ilaria.mura">
+        <record model="hr.employee" id="hr_ilaria_mura">
             <field name="name">Ilaria Mura</field>
-            <field name="user_id" ref="ilaria.mura"/>
+            <field name="user_id" ref="ilaria_mura"/>
             <field name="department_id" ref="protocollo_dept_uor5"/>
             <field name="work_email">ilaria.mura@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/ilariamura.jpg"/>
         </record>
 
-        <record model="res.users" id="georgia.sanna">
+        <record model="res.users" id="georgia_sanna">
             <field name="name">Georgia Sanna</field>
             <field name="login">georgia.sanna</field>
             <field name="password">seedoo</field>
@@ -320,15 +320,15 @@ this module contains the full copyright notices and license terms. -->
             <field name="image" type="base64" file="seedoo_protocollo/static/img/georgia.jpg"/>
         </record>
 
-        <record model="hr.employee" id="hr_georgia.sanna">
+        <record model="hr.employee" id="hr_georgia_sanna">
             <field name="name">Georgia Sanna</field>
-            <field name="user_id" ref="georgia.sanna"/>
+            <field name="user_id" ref="georgia_sanna"/>
             <field name="department_id" ref="protocollo_dept_uor5"/>
             <field name="work_email">georgia.sanna@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/georgia.jpg"/>
         </record>
 
-        <record model="res.users" id="martina.vitrani">
+        <record model="res.users" id="martina_vitrani">
             <field name="name">Martina Vitrani</field>
             <field name="login">martina.vitrani</field>
             <field name="password">seedoo</field>
@@ -338,15 +338,15 @@ this module contains the full copyright notices and license terms. -->
             <field name="image" type="base64" file="seedoo_protocollo/static/img/martinavitrani.jpg"/>
         </record>
 
-        <record model="hr.employee" id="hr_martina.vitrani">
+        <record model="hr.employee" id="hr_martina_vitrani">
             <field name="name">Martina Vitrani</field>
-            <field name="user_id" ref="martina.vitrani"/>
+            <field name="user_id" ref="martina_vitrani"/>
             <field name="department_id" ref="protocollo_dept_uor5"/>
             <field name="work_email">martina.vitrani@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/martinavitrani.jpg"/>
         </record>
 
-        <record model="res.users" id="fabiana.boi">
+        <record model="res.users" id="fabiana_boi">
             <field name="name">Fabiana Boi</field>
             <field name="login">fabiana.boi</field>
             <field name="password">seedoo</field>
@@ -356,9 +356,9 @@ this module contains the full copyright notices and license terms. -->
             <field name="image" type="base64" file="seedoo_protocollo/static/img/fabiana.jpg"/>
         </record>
 
-        <record model="hr.employee" id="hr_fabiana.boi">
+        <record model="hr.employee" id="hr_fabiana_boi">
             <field name="name">Fabiana Boi</field>
-            <field name="user_id" ref="fabiana.boi"/>
+            <field name="user_id" ref="fabiana_boi"/>
             <field name="department_id" ref="protocollo_dept_uor5"/>
             <field name="work_email">fabiana.boi@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/fabiana.jpg"/>
@@ -366,51 +366,51 @@ this module contains the full copyright notices and license terms. -->
 
         <record id="protocollo_aoo_default" model="protocollo.aoo">
             <field name="employee_ids" eval="[(6, 0,[
-                                        ref('hr_francesco.alba'),
-                                        ref('hr_saul.lai'),
-                                        ref('hr_daniele.sanna'),
-                                        ref('hr_andrea.peruzzu'),
-                                        ref('hr_dino.manca'),
-                                        ref('hr_antonio.ariu'),
-                                        ref('hr_gianluca.farris'),
-                                        ref('hr_samuele.collu'),
-                                        ref('hr_marco.difrancesco'),
-                                        ref('hr_claudio.mielis'),
-                                        ref('hr_norman.argiolas'),
-                                        ref('hr_pierpaolo.masia'),
-                                        ref('hr_franco.serreli'),
-                                        ref('hr_stefano.marras'),
-                                        ref('hr_paola.bullitta'),
-                                        ref('hr_daniela.melis'),
-                                        ref('hr_ilaria.mura'),
-                                        ref('hr_georgia.sanna'),
-                                        ref('hr_martina.vitrani'),
-                                        ref('hr_fabiana.boi')
+                                        ref('hr_francesco_alba'),
+                                        ref('hr_saul_lai'),
+                                        ref('hr_daniele_sanna'),
+                                        ref('hr_andrea_peruzzu'),
+                                        ref('hr_dino_manca'),
+                                        ref('hr_antonio_ariu'),
+                                        ref('hr_gianluca_farris'),
+                                        ref('hr_samuele_collu'),
+                                        ref('hr_marco_difrancesco'),
+                                        ref('hr_claudio_melis'),
+                                        ref('hr_norman_argiolas'),
+                                        ref('hr_pierpaolo_masia'),
+                                        ref('hr_franco_serreli'),
+                                        ref('hr_stefano_marras'),
+                                        ref('hr_paola_bullitta'),
+                                        ref('hr_daniela_melis'),
+                                        ref('hr_ilaria_mura'),
+                                        ref('hr_georgia_sanna'),
+                                        ref('hr_martina_vitrani'),
+                                        ref('hr_fabiana_boi')
             ])]"/>
         </record>
 
         <record id="l10n_it_pec_messages.imap_pec_server" model="fetchmail.server" >
             <field name="user_ids" eval="[(6, 0,[
-                                            ref('francesco.alba'),
-                                            ref('saul.lai'),
-                                            ref('daniele.sanna'),
-                                            ref('andrea.peruzzu'),
-                                            ref('dino.manca'),
-                                            ref('antonio.ariu'),
-                                            ref('gianluca.farris'),
-                                            ref('samuele.collu'),
-                                            ref('marco.difrancesco'),
-                                            ref('claudio.mielis'),
-                                            ref('norman.argiolas'),
-                                            ref('pierpaolo.masia'),
-                                            ref('franco.serreli'),
-                                            ref('stefano.marras'),
-                                            ref('paola.bullitta'),
-                                            ref('daniela.melis'),
-                                            ref('ilaria.mura'),
-                                            ref('georgia.sanna'),
-                                            ref('martina.vitrani'),
-                                            ref('fabiana.boi'),
+                                            ref('francesco_alba'),
+                                            ref('saul_lai'),
+                                            ref('daniele_sanna'),
+                                            ref('andrea_peruzzu'),
+                                            ref('dino_manca'),
+                                            ref('antonio_ariu'),
+                                            ref('gianluca_farris'),
+                                            ref('samuele_collu'),
+                                            ref('marco_difrancesco'),
+                                            ref('claudio_melis'),
+                                            ref('norman_argiolas'),
+                                            ref('pierpaolo_masia'),
+                                            ref('franco_serreli'),
+                                            ref('stefano_marras'),
+                                            ref('paola_bullitta'),
+                                            ref('daniela_melis'),
+                                            ref('ilaria_mura'),
+                                            ref('georgia_sanna'),
+                                            ref('martina_vitrani'),
+                                            ref('fabiana_boi'),
                                         ])]">
 
             </field>
