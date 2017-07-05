@@ -3,27 +3,19 @@
 # this module contains the full copyright notices and license terms.
 
 {
-    'name': 'Seedoo GeDoc',
-    'version': '1.0',
-    'author': 'Innoviu - Flosslab',
+    'name': 'Seedoo Gestione Documentale',
+    'version': '8.0.0.0.0',
     'category': 'Document Management',
-    'sequence': 23,
-    'summary': 'Gestione Documentale Seedoo',
-    'description': """
-Seedoo personalization for Public Administrations
-==================================================
-
-Manages the documents of a Public Administration
-
-""",
-    'author': 'Innoviu Srl - Flosslab Srl',
-    'website': 'http://www.innoviu.com - http://www.flosslab.com',
-    'depends':
+    'summary': 'Modulo Gestione Documentale',
+    'author': 'Innoviu, Flosslab',
+    'website': 'https://www.seedoo.it',
+    'license': 'AGPL-3',
+    "depends":
         [
             'base',
             'document',
             'hr'],
-    'data':
+    "data":
         [
             'security/gedoc_security.xml',
             'security/gedoc_security_rules.xml',
@@ -35,10 +27,10 @@ Manages the documents of a Public Administration
             'view/gedoc_view.xml',
             'workflow/gedoc_dossier_workflow.xml',
             ],
-    'demo': [],
-    'css': ['static/src/css/gedoc.css'],
-    'installable': True,
-    'application': True,
-    'active': False,
+    "demo": [],
+    "css": ['static/src/css/gedoc.css'],
+    "installable": True,
+    "application": True,
+    "active": False,
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
