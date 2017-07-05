@@ -538,12 +538,10 @@ this module contains the full copyright notices and license terms. -->
             <field name="arch" type="xml">
                 <form string="Documento" version="7.0">
                     <header>
-                        <div>
-                            <button name="%(gedoc_upload_doc_wizard_action)d"
-                                    type='action' string='Carica Documento'
-                                    attrs="{'invisible': [('main_doc_id','!=',False)]}"
-                                    groups="seedoo_gedoc.group_gedoc_user"/>
-                        </div>
+                        <button name="%(gedoc_upload_doc_wizard_action)d"
+                                type='action' string='Carica Documento'
+                                attrs="{'invisible': [('main_doc_id','!=',False)]}"
+                                groups="seedoo_gedoc.group_gedoc_user"/>
                     </header>
                     <sheet>
                         <div class="gedoc_header">
