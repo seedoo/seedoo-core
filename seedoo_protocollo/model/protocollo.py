@@ -598,6 +598,7 @@ class protocollo_protocollo(orm.Model):
         'aoo_id': fields.many2one('protocollo.aoo', 'AOO', required=True),
         'registry': fields.related('aoo_id', 'registry_id', type='many2one', relation='protocollo.registry',
                                    string='Registro', store=True, readonly=True),
+        'protocol_request': fields.boolean('Richiesta Protocollo', readonly=True),
     }
 
     def _get_default_name(self, cr, uid, context=None):

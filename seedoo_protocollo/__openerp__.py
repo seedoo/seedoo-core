@@ -66,7 +66,8 @@
             'demo/protocollo_department.xml',
             'demo/protocollo_classification.xml',
             'demo/protocollo_dossier.xml',
-            'demo/protocollo_user_employee.xml'
+            'demo/protocollo_user_employee.xml',
+            #'demo/hr_delete.xml'
     ],
     "qweb": [
         'static/src/xml/base.xml',

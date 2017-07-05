@@ -38,7 +38,7 @@ Contributors
 * Lorenzo Battistini
 * Daniele Sanna <daniele.sanna@flosslab.com>
 * Samuele Collu <Samuele.collu@flosslab.com>
-* Saul Lai <saul-lai@flosslab.com>
+* Saul Lai <saul.lai@flosslab.com>
 * Francesco Alba <francesco.alba@flosslab.com>
 * Norman Argiolas <norman.argiolas@flosslab.com>
 * Andrea Peruzzu <andrea.peruzzu@flosslab.com>

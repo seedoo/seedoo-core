@@ -868,43 +868,25 @@ this module contains the full copyright notices and license terms. -->
             </field>
         </record>
 
-        <record model='ir.actions.act_window'
-                id='protocollo_protocollo_out_draft_act'>
+        <record model="ir.actions.act_window" id="protocollo_protocollo_out_draft_act">
             <field name="name">Bozze</field>
             <field name="res_model">protocollo.protocollo</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="protocollo_protocollo_tree"/>
             <field name="search_view_id" ref="protocollo_protocollo_search"/>
-            <field name="domain">
-                [('type','=','out'),('state','=','draft'),('user_id','!=',1)]
-            </field>
+            <field name="domain">[('type','=','out'),('state','=','draft'),('protocol_request','=',False)]</field>
             <field name="context">{'default_type':'out'}</field>
-            <field name="help" type="html">
-                <p class="oe_view_nocontent_create">
-                    Premi qui per creare un nuovo protocollo in uscita
-                </p>
-                <p>
-                    Si possono creare protocollazioni in ingresso e uscita ed
-                    inserire gli assegnatari della pratica
-                </p>
-                <p>
-                    Il sistema notifica sull'andamento del protocollo
-                </p>
-            </field>
         </record>
 
-        <record model='ir.actions.act_window'
-                id='protocollo_protocollo_out_draft_others_act'>
+        <record model="ir.actions.act_window" id="protocollo_protocollo_out_draft_others_act">
             <field name="name">Richieste protocollo</field>
             <field name="res_model">protocollo.protocollo</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="protocollo_protocollo_tree"/>
             <field name="search_view_id" ref="protocollo_protocollo_search"/>
-            <field name="domain">
-                [('type','=','out'),('state','=','draft')]
-            </field>
+            <field name="domain">[('type','=','out'),('state','=','draft'),('protocol_request','=',True)]</field>
             <field name="context">{'default_type':'out'}</field>
         </record>
 
@@ -915,42 +897,33 @@ this module contains the full copyright notices and license terms. -->
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="protocollo_protocollo_tree"/>
             <field name="search_view_id" ref="protocollo_protocollo_search"/>
-            <field name="domain">
-                [('state','in',('registered','notified','sent','waiting','error'))]
-            </field>
+            <field name="domain">[('state','in',('registered','notified','sent','waiting','error'))]</field>
         </record>
 
-        <record model='ir.actions.act_window'
-                id='protocollo_protocollo_not_classified_act'>
+        <record model="ir.actions.act_window" id="protocollo_protocollo_not_classified_act">
             <field name="name">Non Classificati</field>
             <field name="res_model">protocollo.protocollo</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="protocollo_protocollo_tree"/>
             <field name="search_view_id" ref="protocollo_protocollo_search"/>
-            <field name="domain">
-                [('state','in',('registered','notified','sent','waiting','error')),('classification','=',False)]
-            </field>
+            <field name="domain">[('state','in',('registered','notified','sent','waiting','error')),('classification','=',False)]</field>
         </record>
 
-        <record model='ir.actions.act_window'
-                id='protocollo_protocollo_not_dossier_act'>
+        <record model="ir.actions.act_window" id="protocollo_protocollo_not_dossier_act">
             <field name="name">Non Fascicolati</field>
             <field name="res_model">protocollo.protocollo</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="protocollo_protocollo_tree"/>
             <field name="search_view_id" ref="protocollo_protocollo_search"/>
-            <field name="domain">
-                [('state','in',('registered','notified','sent','waiting','error')),('dossier_ids','=',False)]
-            </field>
+            <field name="domain"> [('state','in',('registered','notified','sent','waiting','error')),('dossier_ids','=',False)]</field>
         </record>
 
 
 
         <!-- Browse Classification -->
-        <record model="ir.actions.act_window"
-                id="action_protocollo_protocollo_classification">
+        <record model="ir.actions.act_window" id="action_protocollo_protocollo_classification">
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">protocollo.protocollo</field>
             <field name="name">Protocolli da Titolario</field>
@@ -958,13 +931,11 @@ this module contains the full copyright notices and license terms. -->
             <field name="domain">[('classification','in',[active_id])]</field>
         </record>
 
-        <record model="ir.values"
-                id="ir_action_protocollo_protocollo_classification_form">
+        <record model="ir.values" id="ir_action_protocollo_protocollo_classification_form">
             <field name="key2" eval="'tree_but_open'"/>
             <field name="model" eval="'protocollo.classification'"/>
             <field name="name">Naviga Titolario</field>
-            <field name="value"
-                   eval="'ir.actions.act_window,%d'%action_protocollo_protocollo_classification"/>
+            <field name="value" eval="'ir.actions.act_window,%d'%action_protocollo_protocollo_classification"/>
         </record>
 
 

@@ -12,8 +12,8 @@ this module contains the full copyright notices and license terms. -->
             <field name="email">alba_francesco@example.com</field>
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_user'),ref('seedoo_protocollo.group_protocollo_tutti')])]"/>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/alba.png"/>
+            <field name="tz">Europe/Rome</field>
         </record>
-
         <record model="hr.employee" id="hr_alba_francesco">
             <field name="name">Alba Francesco</field>
             <field name="user_id" ref="alba_francesco"/>
@@ -30,8 +30,8 @@ this module contains the full copyright notices and license terms. -->
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_user'),ref('seedoo_protocollo.group_protocollo_tutti')])]"/>
             <field name="password">seedoo</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/saul.jpg"/>
+            <field name="tz">Europe/Rome</field>
         </record>
-
         <record model="hr.employee" id="hr_lai_saul">
             <field name="name">Lai Saul</field>
             <field name="user_id" ref="lai_saul"/>
@@ -48,8 +48,8 @@ this module contains the full copyright notices and license terms. -->
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_user'),ref('seedoo_protocollo.group_protocollo_tutti')])]"/>
             <field name="password">seedoo</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/daniele.jpg"/>
+            <field name="tz">Europe/Rome</field>
         </record>
-
         <record model="hr.employee" id="hr_sanna_daniele">
             <field name="name">Sanna Daniele</field>
             <field name="user_id" ref="sanna_daniele"/>
@@ -66,8 +66,8 @@ this module contains the full copyright notices and license terms. -->
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_user'),ref('seedoo_protocollo.group_protocollo_tutti')])]"/>
             <field name="password">seedoo</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/andrea.jpg"/>
+            <field name="tz">Europe/Rome</field>
         </record>
-
         <record model="hr.employee" id="hr_peruzzu_andrea">
             <field name="name">Peruzzu Andrea</field>
             <field name="user_id" ref="peruzzu_andrea"/>
@@ -84,8 +84,8 @@ this module contains the full copyright notices and license terms. -->
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_user'),ref('seedoo_protocollo.group_protocollo_tutti')])]"/>
             <field name="password">seedoo</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/dino.png"/>
+            <field name="tz">Europe/Rome</field>
         </record>
-
         <record model="hr.employee" id="hr_manca_dino">
             <field name="name">Manca Dino</field>
             <field name="user_id" ref="manca_dino"/>
@@ -100,10 +100,10 @@ this module contains the full copyright notices and license terms. -->
             <field name="password">seedoo</field>
             <field name="email">ariu_antonio@example.com</field>
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_user'),ref('seedoo_protocollo.group_protocollo_tutti')])]"/>
-            <field name="image" type="base64" file="seedoo_protocollo/static/img/antonio.jpg"/>
             <field name="password">seedoo</field>
+            <field name="image" type="base64" file="seedoo_protocollo/static/img/antonio.jpg"/>
+            <field name="tz">Europe/Rome</field>
         </record>
-
         <record model="hr.employee" id="hr_ariu_antonio">
             <field name="name">Ariu Antonio</field>
             <field name="user_id" ref="ariu_antonio"/>
@@ -118,10 +118,10 @@ this module contains the full copyright notices and license terms. -->
             <field name="password">seedoo</field>
             <field name="email">farris_gianluca@example.com</field>
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_user'),ref('seedoo_protocollo.group_protocollo_tutti')])]"/>
-            <field name="image" type="base64" file="seedoo_protocollo/static/img/gianlu.jpg"/>
             <field name="password">seedoo</field>
+            <field name="image" type="base64" file="seedoo_protocollo/static/img/gianlu.jpg"/>
+            <field name="tz">Europe/Rome</field>
         </record>
-
         <record model="hr.employee" id="hr_farris_gianluca">
             <field name="name">Farris Gianluca</field>
             <field name="user_id" ref="farris_gianluca"/>
@@ -136,10 +136,10 @@ this module contains the full copyright notices and license terms. -->
             <field name="password">seedoo</field>
             <field name="email">collu_samuele@example.com</field>
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_user'),ref('seedoo_protocollo.group_protocollo_tutti')])]"/>
-            <field name="image" type="base64" file="seedoo_protocollo/static/img/samuele.jpg"/>
             <field name="password">seedoo</field>
+            <field name="image" type="base64" file="seedoo_protocollo/static/img/samuele.jpg"/>
+            <field name="tz">Europe/Rome</field>
         </record>
-
         <record model="hr.employee" id="hr_collu_samuele">
             <field name="name">Collu Samuele</field>
             <field name="user_id" ref="collu_samuele"/>
@@ -154,10 +154,10 @@ this module contains the full copyright notices and license terms. -->
             <field name="password">seedoo</field>
             <field name="email">difrancesco_marco@example.com</field>
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_user'),ref('seedoo_protocollo.group_protocollo_tutti')])]"/>
-            <field name="image" type="base64" file="seedoo_protocollo/static/img/marco.jpg"/>
             <field name="password">seedoo</field>
+            <field name="image" type="base64" file="seedoo_protocollo/static/img/marco.jpg"/>
+            <field name="tz">Europe/Rome</field>
         </record>
-
         <record model="hr.employee" id="hr_difrancesco_marco">
             <field name="name">Di Francesco Marco</field>
             <field name="user_id" ref="difrancesco_marco"/>
@@ -172,10 +172,10 @@ this module contains the full copyright notices and license terms. -->
             <field name="password">seedoo</field>
             <field name="email">melis_claudio@example.com</field>
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_user'),ref('seedoo_protocollo.group_protocollo_tutti')])]"/>
-            <field name="image" type="base64" file="seedoo_protocollo/static/img/claudio.jpg"/>
             <field name="password">seedoo</field>
+            <field name="image" type="base64" file="seedoo_protocollo/static/img/claudio.jpg"/>
+            <field name="tz">Europe/Rome</field>
         </record>
-
         <record model="hr.employee" id="hr_melis_claudio">
             <field name="name">Melis Claudio</field>
             <field name="user_id" ref="melis_claudio"/>
@@ -192,8 +192,8 @@ this module contains the full copyright notices and license terms. -->
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_user'),ref('seedoo_protocollo.group_protocollo_tutti')])]"/>
             <field name="password">seedoo</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/norman1.jpg"/>
+            <field name="tz">Europe/Rome</field>
         </record>
-
         <record model="hr.employee" id="hr_argiolas_norman">
             <field name="name">Argiolas Norman</field>
             <field name="user_id" ref="argiolas_norman"/>
@@ -210,8 +210,8 @@ this module contains the full copyright notices and license terms. -->
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_user'),ref('seedoo_protocollo.group_protocollo_tutti')])]"/>
             <field name="password">seedoo</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/pierpaolo1.jpg"/>
+            <field name="tz">Europe/Rome</field>
         </record>
-
         <record model="hr.employee" id="hr_masia_pierpaolo">
             <field name="name">Masia Pierpaolo</field>
             <field name="user_id" ref="masia_pierpaolo"/>
@@ -228,8 +228,8 @@ this module contains the full copyright notices and license terms. -->
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_user'),ref('seedoo_protocollo.group_protocollo_tutti')])]"/>
             <field name="password">seedoo</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/franco1.jpg"/>
+            <field name="tz">Europe/Rome</field>
         </record>
-
         <record model="hr.employee" id="hr_serreli_franco">
             <field name="name">Serreli Franco</field>
             <field name="user_id" ref="serreli_franco"/>
@@ -246,8 +246,8 @@ this module contains the full copyright notices and license terms. -->
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_user'),ref('seedoo_protocollo.group_protocollo_tutti')])]"/>
             <field name="password">seedoo</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/sm.jpg"/>
+            <field name="tz">Europe/Rome</field>
         </record>
-
         <record model="hr.employee" id="hr_marras_stefano">
             <field name="name">Marras Stefano</field>
             <field name="user_id" ref="marras_stefano"/>
@@ -264,8 +264,8 @@ this module contains the full copyright notices and license terms. -->
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_user'),ref('seedoo_protocollo.group_protocollo_tutti')])]"/>
             <field name="password">seedoo</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/paola.jpg"/>
+            <field name="tz">Europe/Rome</field>
         </record>
-
         <record model="hr.employee" id="hr_bullitta_paola">
             <field name="name">Bullitta Paola</field>
             <field name="user_id" ref="bullitta_paola"/>
@@ -282,8 +282,8 @@ this module contains the full copyright notices and license terms. -->
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_user'),ref('seedoo_protocollo.group_protocollo_tutti')])]"/>
             <field name="password">seedoo</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/daniela2.jpg"/>
+            <field name="tz">Europe/Rome</field>
         </record>
-
         <record model="hr.employee" id="hr_melis_daniela">
             <field name="name">Melis Daniela</field>
             <field name="user_id" ref="melis_daniela"/>
@@ -300,8 +300,8 @@ this module contains the full copyright notices and license terms. -->
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_user'),ref('seedoo_protocollo.group_protocollo_tutti')])]"/>
             <field name="password">seedoo</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/ilariamura.jpg"/>
+            <field name="tz">Europe/Rome</field>
         </record>
-
         <record model="hr.employee" id="hr_mura_ilaria">
             <field name="name">Mura Ilaria</field>
             <field name="user_id" ref="mura_ilaria"/>
@@ -318,8 +318,8 @@ this module contains the full copyright notices and license terms. -->
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_user'),ref('seedoo_protocollo.group_protocollo_tutti')])]"/>
             <field name="password">seedoo</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/georgia.jpg"/>
+            <field name="tz">Europe/Rome</field>
         </record>
-
         <record model="hr.employee" id="hr_sanna_georgia">
             <field name="name">Sanna Georgia</field>
             <field name="user_id" ref="sanna_georgia"/>
@@ -336,8 +336,8 @@ this module contains the full copyright notices and license terms. -->
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_user'),ref('seedoo_protocollo.group_protocollo_tutti')])]"/>
             <field name="password">seedoo</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/martinavitrani.jpg"/>
+            <field name="tz">Europe/Rome</field>
         </record>
-
         <record model="hr.employee" id="hr_vitrani_martina">
             <field name="name">Vitrani Martina</field>
             <field name="user_id" ref="vitrani_martina"/>
@@ -354,8 +354,8 @@ this module contains the full copyright notices and license terms. -->
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_user'),ref('seedoo_protocollo.group_protocollo_tutti')])]"/>
             <field name="password">seedoo</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/fabiana.jpg"/>
+            <field name="tz">Europe/Rome</field>
         </record>
-
         <record model="hr.employee" id="hr_boi_fabiana">
             <field name="name">Boi Fabiana</field>
             <field name="user_id" ref="boi_fabiana"/>
