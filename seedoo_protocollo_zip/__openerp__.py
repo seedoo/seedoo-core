@@ -4,7 +4,7 @@
 
 {
     'name': 'Seedoo Protocollo Zip',
-    'version': '8.0.0.0.0',
+    'version': '8.0.1.5.0',
     'category': 'Document Management',
     'summary': 'Protocollo Informatico PA',
     'author': 'Agile Businnes Gropup, Innoviu',

@@ -4,7 +4,7 @@
 
 {
     'name': 'Seedoo Theme',
-    'version': '8.0.0.0.0',
+    'version': '8.0.1.5.0',
     'category': 'Web',
     'summary': 'Tema Grafico Piattaforma Seedoo',
     'author': 'Agile Business Group, Flosslab',
