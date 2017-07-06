@@ -568,7 +568,7 @@ this module contains the full copyright notices and license terms. -->
                                 <field name="attachment_ids" colspan="4"/>
                             </page>
                             <page string="Fascicoli">
-                                <field name="dossier_ids"/>
+                                <field name="dossier_ids" domain="[('state', '!=', 'draft')]"/>
                             </page>
                             <page string="Permessi Documento">
                                 <group col="4">
