@@ -7,8 +7,8 @@
     'version': '8.0.0.0.0',
     'category': 'Document Management',
     'summary': 'Protocollo Informatico PA',
-    'author': 'Innoviu, Flosslab',
-    'website': 'https://www.seedoo.it',
+    'author': 'Agile Business Group, Innoviu, Flosslab',
+    'website': 'http://www.seedoo.it',
     'license': 'AGPL-3',
     "depends":  [
             'base',
