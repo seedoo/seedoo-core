@@ -3,10 +3,10 @@
    :alt: License: AGPL-3
 
 =================
-Seedoo Protocollo
+Pdf Viewer Widget
 =================
 
-Modulo per la gestione del protocollo informatico nelle PA
+This module add a pdf preview to binary data
 
 Usage
 =====
