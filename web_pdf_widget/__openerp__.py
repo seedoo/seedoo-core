@@ -17,6 +17,6 @@
     "data": ['base_data.xml'],
     "js": ['static/src/js/web_pdf_widget.js'],
     "qweb": ['static/src/xml/web_pdf_widget.xml'],
-    "installable" True,
+    "installable": True,
     "auto_install": False,
 }
