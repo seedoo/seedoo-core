@@ -8,16 +8,31 @@ this module contains the full copyright notices and license terms. -->
         <!-- Document Typology -->
     	<record id="gedoc_document_type_contract" model="gedoc.document.type">
             <field name="name">Contratto</field>
-            <field name="tipologia_repertorio">none</field>
+            <field name="tipologia_repertorio">automatic</field>
         </record>
 
     	<record id="gedoc_document_type_cv" model="gedoc.document.type">
             <field name="name">Curriculum Vitae</field>
-            <field name="tipologia_repertorio">none</field>
+            <field name="tipologia_repertorio">automatic</field>
         </record>
 
     	<record id="gedoc_document_type_project" model="gedoc.document.type">
             <field name="name">Progetto</field>
+            <field name="tipologia_repertorio">automatic</field>
+        </record>
+
+    	<record id="gedoc_document_type_decreti" model="gedoc.document.type">
+            <field name="name">Decreti</field>
+            <field name="tipologia_repertorio">none</field>
+        </record>
+
+    	<record id="gedoc_document_type_determine" model="gedoc.document.type">
+            <field name="name">Determine</field>
+            <field name="tipologia_repertorio">none</field>
+        </record>
+
+    	<record id="gedoc_document_type_circolari" model="gedoc.document.type">
+            <field name="name">Circolari</field>
             <field name="tipologia_repertorio">none</field>
         </record>
     

@@ -1146,20 +1146,11 @@ class protocollo_protocollo(orm.Model):
 
     def check_journal(self, cr, uid, ids, *args):
         journal_obj = self.pool.get('protocollo.journal')
-        journal_id = journal_obj.search(
-            cr, uid,
-            [
-                ('state', '=', 'closed'),
-                ('date',
-                 '=',
-                 time.strftime(
-                     DSDT)), ]
-        )
+        journal_id = journal_obj.search(cr, uid, [('state', '=', 'closed'), ('date', '=', time.strftime(DSDT))])
         if journal_id:
             raise orm.except_orm(
                 _('Attenzione!'),
-                _('Registro Giornaliero di protocollo chiuso!'
-                  'Non e\' possibile inserire nuovi protocolli')
+                _('Registro Giornaliero di protocollo chiuso! Non e\' possibile inserire nuovi protocolli')
             )
 
     def has_offices(self, cr, uid, ids, *args):
