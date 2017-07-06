@@ -9,7 +9,7 @@
     'category': 'Document Management',
     'summary': 'Gestione Documenti Analogici Protocollo',
     'author': 'Flosslab',
-    'website': 'https://www.seedoo.it',
+    'website': 'http://www.flosslab.com.',
     'license': 'AGPL-3',
     "depends": [
         "base",

@@ -1,4 +1,3 @@
-
 .. image:: https://img.shields.io/badge/licence-AGPL--3-blue.svg
    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
    :alt: License: AGPL-3
@@ -46,10 +45,10 @@ Maintainer
 
 .. image:: http://cdn.flosslab.com/email/logo_fl.jpg
    :alt: Flosslab
-   :target: https://www.flosslab.com
+   :target: http://www.flosslab.com
 
 This module is maintained by the Flosslab.
 
 Seedoo Dematirializzazione è un prodotto Flosslab, azienda specializzata nella realizzazione di software avanzati per Pubbliche Amministrazioni ed Enti Privati.
 
-To contribute to this module, please visit https://www.flosslab.com
+To contribute to this module, please visit http://www.flosslab.com
