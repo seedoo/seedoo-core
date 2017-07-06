@@ -3,32 +3,27 @@
 # this module contains the full copyright notices and license terms.
 
 {
-    'name': "Sedoo Theme",
-    'author': "Agile Business Group",
-    'category': "Web",
-    'sequence': 15,
-    'website': "http://www.agilebg.com",
-    'summary': 'Seedoo WEB Theme',
-    'description': """
-Seedoo Theme
-============
-This module add base theme for seedoo, like color , image and others
-    """,
-    'version': "1.0",
-    'depends': [
+    'name': 'Seedoo Theme',
+    'version': '8.0.0.0.0',
+    'category': 'Web',
+    'summary': 'Tema Grafico Piattaforma Seedoo',
+    'author': 'Agile Business Group, Flosslab',
+    'website': 'http://www.seedoo.it',
+    'license': 'AGPL-3',
+    "depends": [
         'base', 'web'
     ],
-    'data': ['base_data.xml'],
-    'js': [
+    "data": ['base_data.xml'],
+    "js": [
         'static/src/js/chrome.js',
     ],
-    'css': [
+    "css": [
         'static/src/css/seedoo.css',
     ],
-    'qweb': [
+    "qweb": [
         'static/src/xml/seedoo.xml',
     ],
-    'installable': True,
-    'application': True,
-    'auto_install': True,
+    "installable": True,
+    "application": True,
+    "auto_install": True,
 }
