@@ -3,10 +3,17 @@
    :alt: License: AGPL-3
 
 =================
-Pdf Viewer Widget
+M2O Tree Widget
 =================
 
-This module add a pdf preview to binary data
+This module add a tree view to many2one field, for a model with a hierarchy
+
+widget name=m2o_tree
+options='{"all_checkable": "1","parent_field": "pid"}'
+
+default values:
+- all_checkable: False
+- parent_field: parent_id
 
 Usage
 =====
