@@ -77,7 +77,7 @@ class protocollo_dossier(osv.Model):
                 num = len(classification.dossier_ids)
                 vals['name'] = '<' + '-' + self.DOSSIER_TYPE[dossier_type] + ' N.' + \
                     str(num) + ' del \'' + \
-                    classification.name + '\' (' + str(classification_id) + ')>'
+                    classification.name + '\' >'
 
         dossier_id = super(protocollo_dossier, self).create(cr, uid, vals, context=context)
         return dossier_id
