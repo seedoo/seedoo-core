@@ -7,7 +7,7 @@
     'version': '8.0.0.0.0',
     'category': 'Document Management',
     'summary': 'Protocollo Informatico PA',
-    'author': 'Innoviu',
+    'author': 'Agile Businnes Gropup, Innoviu',
     'website': 'https://www.seedoo.it',
     'license': 'AGPL-3',
     'depends': [

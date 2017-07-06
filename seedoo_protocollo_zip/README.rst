@@ -35,7 +35,9 @@ Images
 Contributors
 ------------
 
-* Roberto Onnis
+* Alessio Gerace <alessio.gerace@agilebg.com>
+* Lorenzo Battistini <lorenzo.battistini@agilebg.com>
+* Roberto Onnis <roberto.onnis@innoviu.com>
 
 Maintainer
 ----------
