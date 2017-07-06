@@ -3,7 +3,7 @@
 this module contains the full copyright notices and license terms. -->
 
 <openerp>
-    <data>
+    <data noupdate="1">
         <record id="protocollo_aoo_default" model="protocollo.aoo">
             <field name="name">Direzione Generale della digitalizzazione, del sistema informativo e della statistica</field>
             <field name="ident_code">AOO_DG</field>

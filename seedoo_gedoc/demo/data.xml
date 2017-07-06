@@ -3,7 +3,7 @@
 this module contains the full copyright notices and license terms. -->
 
 <openerp>
-    <data>
+    <data noupdate="1">
         
         <record model="res.users" id="gedoc_user">
             <field name="name">Gedoc user</field>
