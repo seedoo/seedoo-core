@@ -951,7 +951,7 @@ this module contains the full copyright notices and license terms. -->
                     </header>
                     <sheet>
                         <group>
-                            <field name="name"/>
+                            <field name="date"/>
                             <field name="user_id"/>
                             <separator string="Protocollazioni della giornata" colspan="4"/>
                             <field name="protocol_ids" colspan="4" nolabel="1"/>
@@ -966,7 +966,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="model">protocollo.journal</field>
             <field name="arch" type="xml">
                 <tree string="Registro Giornaliero" version="7.0" create="0">
-                    <field name="name"/>
+                    <field name="date"/>
                     <field name="state"/>
                 </tree>
             </field>
@@ -977,7 +977,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="model">protocollo.journal</field>
             <field name="arch" type="xml">
                 <search string="Registro Giornaliero">
-                    <field name="name"/>
+                    <field name="date"/>
                 </search>
             </field>
         </record>

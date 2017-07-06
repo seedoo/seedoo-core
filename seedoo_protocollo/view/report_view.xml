@@ -11,7 +11,7 @@ this module contains the full copyright notices and license terms. -->
                     <t t-call="report.external_layout">
                         <div class="page">
                             <h3>Registro Giornaliero -
-                                <span t-field="o.user_id.company_id.name"/>
+                                <span t-field="o.aoo_id.name"/>
                             </h3>
                             <h4>Registro di protocollo del
                                 <span t-field="o.date"/>

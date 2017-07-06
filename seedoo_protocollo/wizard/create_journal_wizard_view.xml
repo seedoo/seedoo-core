@@ -6,20 +6,23 @@ this module contains the full copyright notices and license terms. -->
     <data>
         <!-- wizard action on protocollo.protocollo -->
         <act_window id="protocollo_journal_action"
-                    name="Registro Giornaliero Protocollo"
+                    name="Crea Registro Giornaliero Protocollo"
                     res_model="protocollo.journal.wizard"
                     view_type="form" view_mode="form"
                     target="new"/>
 
         <!-- wizard view -->
-        <record id="protocollo_modify_view" model="ir.ui.view">
+        <record id="protocollo_journal_view" model="ir.ui.view">
             <field name="name">Crea Registro Giornaliero</field>
             <field name="model">protocollo.journal.wizard</field>
             <field name="arch" type="xml">
                 <form string="Registro Giornaliero" version="7.0">
-                    <separator string="Crea Registro Giornaliero"/>
+                    <group col="4">
+                        <field name="date_register"/>
+                    </group>
                     <footer>
                         <button string="Ok" name="action_create" type="object"
+                                confirm="Attenzione la procedura chiuderà il registro giornaliero per la data selezionata. Vuoi procedere?"
                                 class="oe_highlight"/>
                         o
                         <button string="Abbandona" class="oe_link"
