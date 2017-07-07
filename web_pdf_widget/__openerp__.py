@@ -4,23 +4,19 @@
 
 {
     'name': 'Pdf Viewer Widget',
-    'description': '''
-This module add a pdf preview to binary data
-
-This module works with Odoo 8.0.
-''',
-    'version': '8.0.0',
+    'version': '8.0.1.5.0',
     'category': 'Usability',
-    'author': 'Innoviu Srl - Flosslab Srl',
-    'website': 'http://www.innoviu.com - http://www.flosslab.com',
+    'summary': 'Protocollo Informatico PA',
+    'author': 'Agile Business Group, Innoviu, Flosslab',
+    'website': 'http://www.seedoo.it',
     'license': 'AGPL-3',
-    'depends': [
+    "depends": [
         'web',
         ],
-    'python': ['magic'],
-    'data': ['base_data.xml'],
-    'js': ['static/src/js/web_pdf_widget.js'],
-    'qweb': ['static/src/xml/web_pdf_widget.xml'],
-    'installable': True,
-    'auto_install': False,
+    "python": ['magic'],
+    "data": ['base_data.xml'],
+    "js": ['static/src/js/web_pdf_widget.js'],
+    "qweb": ['static/src/xml/web_pdf_widget.xml'],
+    "installable": True,
+    "auto_install": False,
 }

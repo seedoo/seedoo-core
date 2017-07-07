@@ -2,11 +2,11 @@
    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
    :alt: License: AGPL-3
 
-===========================
-Seedoo Gestione Documentale
-===========================
+============
+Seedoo Theme
+============
 
-Modulo per la Gestione Documentale
+Modulo grafico per piattaforma Seedoo: colori , immagini ed altro.
 
 Usage
 =====
@@ -34,15 +34,9 @@ Images
 Contributors
 ------------
 
-* Roberto Onnis <roberto.onnis@innoviu.com>
+* Alessio Gerace <alessio.gerace@agilebg.com>
 * Daniele Sanna <daniele.sanna@flosslab.com>
-* Samuele Collu <Samuele.collu@flosslab.com>
-* Saul Lai <saul.lai@flosslab.com>
-* Francesco Alba <francesco.alba@flosslab.com>
 * Norman Argiolas <norman.argiolas@flosslab.com>
-* Andrea Peruzzu <andrea.peruzzu@flosslab.com>
-* Luca Cireddu <luca.cireddu@flosslab.com>
-
 
 
 Maintainer

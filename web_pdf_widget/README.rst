@@ -2,11 +2,11 @@
    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
    :alt: License: AGPL-3
 
-===========================
-Seedoo Gestione Documentale
-===========================
+=================
+Pdf Viewer Widget
+=================
 
-Modulo per la Gestione Documentale
+This module add a pdf preview to binary data
 
 Usage
 =====
@@ -34,6 +34,8 @@ Images
 Contributors
 ------------
 
+* Alessio Gerace <alessio.gerace@agilebg.com>
+* Lorenzo Battistini <lorenzo.battistini@agilebg.com>
 * Roberto Onnis <roberto.onnis@innoviu.com>
 * Daniele Sanna <daniele.sanna@flosslab.com>
 * Samuele Collu <Samuele.collu@flosslab.com>

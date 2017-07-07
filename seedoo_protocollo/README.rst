@@ -34,8 +34,9 @@ Images
 Contributors
 ------------
 
-* Roberto Onnis
-* Lorenzo Battistini
+* Alessio Gerace <alessio.gerace@agilebg.com>
+* Lorenzo Battistini <lorenzo.battistini@agilebg.com>
+* Roberto Onnis <roberto.onnis@innoviu.com>
 * Daniele Sanna <daniele.sanna@flosslab.com>
 * Samuele Collu <Samuele.collu@flosslab.com>
 * Saul Lai <saul.lai@flosslab.com>

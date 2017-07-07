@@ -21,32 +21,19 @@
 
 {
     'name': 'M2O Tree Widget',
-    'description': '''
-This module add a tree view to many2one field, for a model
-with a hierarchy
-
-widget name=m2o_tree
-options='{"all_checkable": "1",
-          "parent_field": "pid"}'
-
-default values:
-- all_checkable: False
-- parent_field: parent_id
-
-This module is compatible with Odoo 8.0.
-''',
-    'version': '8.0.0',
+    'version': '8.0.1.5.0',
     'category': 'Usability',
-    'author': 'Innoviu Srl - Flosslab Srl',
-    'website': 'http://www.innoviu.com - http://www.flosslab.com',
+    'summary': 'Protocollo Informatico PA',
+    'author': 'Agile Business Group, Innoviu, Flosslab',
+    'website': 'http://www.seedoo.it',
     'license': 'AGPL-3',
-    'depends': ['web'],
-    'data': ['base_data.xml'],
-    'css': [
+    "depends": ['web'],
+    "data": ['base_data.xml'],
+    "css": [
         'static/src/css/zTreeStyle.css',
     ],
-    'demo': [],
-    'qweb': ['static/src/xml/m2o_tree_widget.xml'],
-    'installable': True,
-    'auto_install': False,
+    "demo": [],
+    "qweb": ['static/src/xml/m2o_tree_widget.xml'],
+    "installable": True,
+    "auto_install": False,
 }

@@ -2,11 +2,18 @@
    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
    :alt: License: AGPL-3
 
-===========================
-Seedoo Gestione Documentale
-===========================
+=================
+M2O Tree Widget
+=================
 
-Modulo per la Gestione Documentale
+This module add a tree view to many2one field, for a model with a hierarchy
+
+widget name=m2o_tree
+options='{"all_checkable": "1","parent_field": "pid"}'
+
+default values:
+- all_checkable: False
+- parent_field: parent_id
 
 Usage
 =====
@@ -34,6 +41,8 @@ Images
 Contributors
 ------------
 
+* Alessio Gerace <alessio.gerace@agilebg.com>
+* Lorenzo Battistini <lorenzo.battistini@agilebg.com>
 * Roberto Onnis <roberto.onnis@innoviu.com>
 * Daniele Sanna <daniele.sanna@flosslab.com>
 * Samuele Collu <Samuele.collu@flosslab.com>

@@ -3,7 +3,7 @@
 this module contains the full copyright notices and license terms. -->
 
 <openerp>
-    <data>
+    <data noupdate="1">
         <record id="base.main_company" model="res.company">
             <field name="name">Ministero della Salute</field>
             <field name="ammi_code">MDS</field>

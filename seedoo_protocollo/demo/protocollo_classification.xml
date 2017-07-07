@@ -3,7 +3,7 @@
 this module contains the full copyright notices and license terms. -->
 
 <openerp>
-    <data>
+    <data noupdate="1">
         <record id="protocollo_classification_aoo_default_1" model="protocollo.classification">
             <field name="aoo_id" ref="protocollo_aoo_default"/>
             <field name="name">Organismi e attività istituzionali</field>

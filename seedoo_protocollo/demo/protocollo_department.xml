@@ -3,7 +3,7 @@
 this module contains the full copyright notices and license terms. -->
 
 <openerp>
-    <data>
+    <data noupdate="1">
         <!--UOR AOO di default (creata dai data)-->
         <record id="protocollo_dept_uor1" model="hr.department">
             <field name="name">Segreteria Tecnica</field>

@@ -4,7 +4,7 @@
 
 {
     'name': 'Seedoo Gestione Documentale',
-    'version': '8.0.0.0.0',
+    'version': '8.0.1.5.0',
     'category': 'Document Management',
     'summary': 'Modulo Gestione Documentale',
     'author': 'Innoviu, Flosslab',
