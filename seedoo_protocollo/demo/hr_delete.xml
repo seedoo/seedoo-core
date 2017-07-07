@@ -3,7 +3,7 @@
 this module contains the full copyright notices and license terms. -->
 
 <openerp>
-    <data noupdate="0">
+    <data noupdate="1">
 
         <delete model="hr.employee" id="hr.employee_fp"/>
         <delete model="hr.employee" id="hr.employee_al"/>
