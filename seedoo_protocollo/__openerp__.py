@@ -20,7 +20,7 @@
             'report_webkit',
             'seedoo_gedoc',
             'l10n_it_pec_messages',
-            'seedoo_base_ipa',
+            'l10n_it_ipa',
             'm2o_tree_widget',
             'web_pdf_widget'
         ],
