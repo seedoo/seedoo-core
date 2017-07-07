@@ -80,8 +80,8 @@ class hr_employee(orm.Model):
     #             self.pool.get('res.partner').write(cr, uid, [partner_id], {'aoo_id': False})
 
     _columns = {
-        'protocollo_registry_ids': fields.many2many(
-            'hr.employee', 'protocollo_registry_hr_employee_rel', 'employee_id', 'registry_id', 'Dipendenti Abilitati')
+        'protocollo_registry_ids': fields.many2many('protocollo.registry', 'protocollo_registry_hr_employee_rel',
+                                                    'employee_id', 'registry_id', 'Dipendenti Abilitati')
     }
 
     def create(self, cr, uid, vals, context=None):

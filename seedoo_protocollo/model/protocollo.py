@@ -167,8 +167,8 @@ class protocollo_registry(orm.Model):
         #    'res.users', 'registry_res_users_rel',
         #    'user_id', 'registryt_id', 'Allowed Users',
         #    required=True),
-        'allowed_employee_ids': fields.many2many(
-            'hr.employee', 'protocollo_registry_hr_employee_rel', 'employee_id', 'registry_id', 'Dipendenti Abilitati'),
+        'allowed_employee_ids': fields.many2many('hr.employee', 'protocollo_registry_hr_employee_rel',
+                                                 'registry_id', 'employee_id', 'Dipendenti Abilitati'),
         'aoo_ids': fields.one2many('protocollo.aoo', 'registry_id', 'AOO'),
         'first_aoo_id': fields.function(_get_first_aoo_id, type='many2one', relation='protocollo.aoo', string='AOO'),
     }

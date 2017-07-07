@@ -62,7 +62,7 @@
             'menu/menu.xml',
         ],
     "demo": [
-            #'demo/hr_delete.xml',
+            'demo/hr_delete.xml',
             'demo/protocollo_company.xml',
             'demo/protocollo_aoo.xml',
             'demo/protocollo_department.xml',
