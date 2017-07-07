@@ -13,8 +13,19 @@ this module contains the full copyright notices and license terms. -->
         	<field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
         </record>
 
-        <record id="seedoo_protocollo.group_protocollo_tutti" model="res.groups">
-            <field name="implied_ids" eval="[(4, ref('group_vedi_protocolli_ingresso_bozze_importate'))]">
+        <!-- Gruppo per la visualizzazione del menu "Importa" figlio di "Importazione massiva" -->
+        <record id="group_carica_documenti_da_importer" model="res.groups">
+            <field name="name">Carica Documenti da Importer</field>
+            <field name="category_id" ref="seedoo_protocollo.module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        	<field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+        <record id="seedoo_protocollo.group_protocollo_user" model="res.groups">
+            <field name="implied_ids" eval="[
+                (4, ref('group_vedi_protocolli_ingresso_bozze_importate')),
+                (4, ref('group_carica_documenti_da_importer')),
+            ]">
             </field>
         </record>
 
