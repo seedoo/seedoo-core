@@ -115,7 +115,7 @@ class dematerializzazione_importer(orm.Model):
         if not esito:
             esito = False
             errore = 'Nome del file non valido - Controllo EAN errato'
-            return esito, errore
+            return esito, errore, protocollo_id
 
         protocollo_obj = self.pool.get('protocollo.protocollo')
         protocollo_rif = EanUtility.ean_get_protocollo(ean)
@@ -123,7 +123,7 @@ class dematerializzazione_importer(orm.Model):
         if not protocollo_rif[0]:
             esito = False
             errore = 'Nome del file non valido - Anno e numero protocollo non conformi'
-            return esito, errore
+            return esito, errore, protocollo_id
 
         protocol_ids = protocollo_obj.search(cr, uid,[
             ('year', '=', protocollo_rif[1]), ('name', '=', protocollo_rif[2]), ('aoo_id', '=', importer.aoo_id.id)])
@@ -131,7 +131,7 @@ class dematerializzazione_importer(orm.Model):
         if not len(protocol_ids):
             esito = False
             errore = 'Protocollo in ingresso %s - %s non esistente' % (protocollo_rif[1], protocollo_rif[2])
-            return esito, errore
+            return esito, errore, protocollo_id
 
         prot = self.pool.get('protocollo.protocollo').browse(cr, uid, protocol_ids[0])
         attachment_obj = self.pool.get('ir.attachment')
@@ -140,7 +140,7 @@ class dematerializzazione_importer(orm.Model):
         if attachment_ids:
             esito = False
             errore = 'Allegato già presente per il protocollo %s - %s' % (protocollo_rif[1], protocollo_rif[2])
-            return esito, errore
+            return esito, errore, protocollo_id
 
         temp_fh = StringIO()
         file_attributes, filesize = conn.retrieveFile(importer.share, file_to_import.filename, temp_fh)
@@ -149,7 +149,7 @@ class dematerializzazione_importer(orm.Model):
         if not filesize:
             esito = False
             errore = 'Errore nel caricamento del file'
-            return esito, errore
+            return esito, errore, protocollo_id
 
         protocollo_obj.carica_documento_principale(cr, uid, prot.id, data_encoded, file_to_import.filename,"")
         protocollo_obj.associa_importer_protocollo(cr, uid, prot.id, storico_importer_id)

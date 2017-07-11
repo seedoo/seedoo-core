@@ -38,13 +38,6 @@ this module contains the full copyright notices and license terms. -->
                 <p class="oe_view_nocontent_create">
                     Premi qui per creare un nuovo protocollo in ingresso
                 </p>
-                <p>
-                    Si possono creare protocollazioni in ingresso e uscita ed
-                    inserire gli assegnatari della pratica
-                </p>
-                <p>
-                    Il sistema notifica sull'andamento del protocollo
-                </p>
             </field>
         </record>
 
