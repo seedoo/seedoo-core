@@ -1374,7 +1374,7 @@ class protocollo_protocollo(orm.Model):
                         vals['xml_signature'] = etree_tostring
 
                     action_class = "history_icon upload"
-                    post_vars = {'subject': "Documento principale",
+                    post_vars = {'subject': "Upload Documento",
                                  'body': "<div class='%s'><ul><li>Aggiunto documento principale: %s</li></ul></div>" % (
                                  action_class, datas_fname),
                                  'model': "protocollo.protocollo",

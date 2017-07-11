@@ -20,11 +20,11 @@ class wizard(osv.TransientModel):
     def  set_before(self, before, label, value):
         if not value:
             value = ''
-        before += label + ': ' + value + '\n'
+        before += value + '\n'
         return before
 
     def set_after(self, after, label, value):
-        after += label + ': ' + value + '\n'
+        after += value + '\n'
         return after
 
     _columns = {
@@ -102,7 +102,7 @@ class wizard(osv.TransientModel):
                                 % (str(key), before_item.encode("utf-8"), after[key].encode("utf-8"))
 
 
-        post_vars = {'subject': "Modifica fascicoli: \'%s\'" % wizard.cause,
+        post_vars = {'subject': "Modifica Fascicolazione: \'%s\'" % wizard.cause,
                      'body': body,
                      'model': "protocollo.protocollo",
                      'res_id': context['active_id'],

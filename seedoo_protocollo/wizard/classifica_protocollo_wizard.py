@@ -20,11 +20,11 @@ class wizard(osv.TransientModel):
     def  set_before(self, before, label, value):
         if not value:
             value = ''
-        before += label + ': ' + value + '\n'
+        before += value + '\n'
         return before
 
     def set_after(self, after, label, value):
-        after += label + ': ' + value + '\n'
+        after += value + '\n'
         return after
 
     _columns = {
@@ -75,11 +75,11 @@ class wizard(osv.TransientModel):
         protocollo_obj = self.pool.get('protocollo.protocollo')
         protocollo = protocollo_obj.browse(cr, uid, context['active_id'], context=context)
         historical_obj = self.pool.get('protocollo.history')
-        before['Classificazione'] = ""
-        after['Classificazione'] = ""
+        before['Titolario'] = ""
+        after['Titolario'] = ""
         vals['classification'] = wizard.classification.id
-        before['Classificazione'] = self.set_before(before['Classificazione'], 'Titolario', protocollo.classification.name)
-        after['Classificazione'] = self.set_after(after['Classificazione'], 'Titolario', wizard.classification.name)
+        before['Titolario'] = self.set_before(before['Titolario'], 'Titolario', protocollo.classification.name)
+        after['Titolario'] = self.set_after(after['Titolario'], 'Titolario', wizard.classification.name)
 
         historical = {
             'user_id': uid,
@@ -99,7 +99,7 @@ class wizard(osv.TransientModel):
                 body = body + "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#009900'> %s </span></li>" \
                                 % (str(key), before_item.encode("utf-8"), after[key].encode("utf-8"))
         body += "</ul></div>"
-        post_vars = {'subject': "Modifica classificazione: '%s'" % wizard.cause,
+        post_vars = {'subject': "Modifica Classificazione: '%s'" % wizard.cause,
                      'body': body,
                      'model': "protocollo.protocollo",
                      'res_id': context['active_id'],
