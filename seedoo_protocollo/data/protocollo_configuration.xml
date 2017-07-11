@@ -6,6 +6,12 @@
         <record id="configurazione_protocollo_default" model="protocollo.configurazione">
             <field name="genera_segnatura">true</field>
             <field name="genera_xml_segnatura">true</field>
+            <field name="classificazione_required">false</field>
+            <field name="fascicolazione_required">false</field>
+            <field name="assegnatari_competenza_uffici_required">false</field>
+            <field name="assegnatari_competenza_dipendenti_required">false</field>
+            <field name="assegnatari_conoscenza_uffici_required">false</field>
+            <field name="assegnatari_conoscenza_dipendenti_required">false</field>
         </record>
 
         <record model="ir.config_parameter" id="itext_param_path">

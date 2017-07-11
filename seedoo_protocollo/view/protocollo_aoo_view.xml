@@ -136,9 +136,6 @@
                                                             <field name="child_ids"
                                                                    attrs="{'invisible':[('dossier_type','=','inserto')]}"/>
                                                         </page>
-                                                        <page string="Protocolli" >
-                                                            <field name="protocollo_ids" readonly="1" nolabel="1"/>
-                                                        </page>
                                                         <page string="Documenti">
                                                             <group col="4">
                                                                 <field name="document_ids" readonly="1" nolabel="1"/>

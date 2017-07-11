@@ -15,12 +15,20 @@ this module contains the full copyright notices and license terms. -->
                         or
                         <button string="Annulla" type="object" name="cancel" class="oe_link"/>
                     </header>
+                    <group string="Campi Obbligatori per la Registrazione Protocollo">
+                        <field name="classificazione_required"/>
+                        <field name="fascicolazione_required"/>
+                        <field name="assegnatari_competenza_uffici_required"/>
+                        <field name="assegnatari_competenza_dipendenti_required"/>
+                        <field name="assegnatari_conoscenza_uffici_required"/>
+                        <field name="assegnatari_conoscenza_dipendenti_required"/>
+                    </group>
                     <group string="Azioni Post Registrazione Protocollo">
                         <field name="genera_segnatura"/>
                         <newline/>
                         <field name="genera_xml_segnatura"/>
-                        <field name="config_id" invisible="True" on_change="on_change_config_id(config_id)"/>
                     </group>
+                    <field name="config_id" invisible="True" on_change="on_change_config_id(config_id)"/>
                 </form>
             </field>
         </record>

@@ -10,19 +10,31 @@ from openerp import SUPERUSER_ID
 class protocollo_classification(osv.Model):
     _name = 'protocollo.classification'
 
+    # def name_get(self, cr, uid, ids, context=None):
+    #     if isinstance(ids, (list, tuple)) and not len(ids):
+    #         return []
+    #     if isinstance(ids, (long, int)):
+    #         ids = [ids]
+    #     reads = self.read(cr, uid, ids, ['name', 'parent_id'], context=context)
+    #     res = []
+    #     for record in reads:
+    #         name = record['name']
+    #         if record['parent_id']:
+    #             name = record['parent_id'][1] + ' / ' + name
+    #         res.append((record['id'], name))
+    #
+    #     return res
+
     def name_get(self, cr, uid, ids, context=None):
         if isinstance(ids, (list, tuple)) and not len(ids):
             return []
         if isinstance(ids, (long, int)):
             ids = [ids]
-        reads = self.read(cr, uid, ids, ['name', 'parent_id'], context=context)
+        reads = self.read(cr, uid, ids, ['name', 'code'], context=context)
         res = []
         for record in reads:
-            name = record['name']
-            if record['parent_id']:
-                name = record['parent_id'][1] + ' / ' + name
+            name = record['code'] + ' - ' + record['name']
             res.append((record['id'], name))
-
         return res
 
     def _name_get_fnc(self, cr, uid, ids, prop, unknow_none, context=None):

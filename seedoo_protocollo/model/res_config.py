@@ -31,6 +31,18 @@ class protocollo_config_settings(osv.osv_memory):
 
         'genera_segnatura': fields.related('config_id', 'genera_segnatura', type='boolean', string='Genera Segnatura nel PDF'),
         'genera_xml_segnatura': fields.related('config_id', 'genera_xml_segnatura', type='boolean', string='Genera XML Segnatura'),
+
+        'classificazione_required': fields.related('config_id', 'classificazione_required', type='boolean', string='Classificazione'),
+        'fascicolazione_required': fields.related('config_id', 'fascicolazione_required', type='boolean', string='Fascicolazione'),
+
+        'assegnatari_competenza_uffici_required': fields.related('config_id', 'assegnatari_competenza_uffici_required',
+                 type='boolean', string='Uffici Assegnatari per Competenza'),
+        'assegnatari_competenza_dipendenti_required': fields.related('config_id', 'assegnatari_competenza_dipendenti_required',
+                 type='boolean', string='Dipendenti Assegnatari per Competenza'),
+        'assegnatari_conoscenza_uffici_required': fields.related('config_id', 'assegnatari_conoscenza_uffici_required',
+                 type='boolean', string='Uffici Assegnatari per Conoscenza'),
+        'assegnatari_conoscenza_dipendenti_required': fields.related('config_id', 'assegnatari_conoscenza_dipendenti_required',
+                 type='boolean', string='Dipendenti Assegnatari per Conoscenza'),
     }
 
     def _default_config_id(self, cr, uid, context):

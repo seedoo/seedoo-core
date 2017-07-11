@@ -935,16 +935,9 @@ class protocollo_protocollo(orm.Model):
 
     def action_register(self, cr, uid, ids, context=None, *args):
         for prot in self.browse(cr, uid, ids):
-            if not prot.subject:
-                raise openerp.exceptions.Warning(
-                    _('Prima di procedere con la registrazione è necessario valorizzare il campo "Oggetto"'))
-            if not prot.sender_receivers:
-                send_rec = prot.type == 'in' and 'mittenti' or 'destinatari'
-                raise openerp.exceptions.Warning(_('Mancano i %s' % send_rec))
-            if prot.type == 'out' and prot.pec:
-                for sr in prot.sender_receivers:
-                    if not sr.pec_mail:
-                        raise openerp.exceptions.Warning(_('Necessario inserire le mail pec dei destinatari!'))
+
+            self.pool.get('protocollo.configurazione').verifica_campi_obbligatori(cr, uid, prot)
+
             try:
                 vals = {}
                 prot_number = self._get_next_number(cr, uid, prot)
