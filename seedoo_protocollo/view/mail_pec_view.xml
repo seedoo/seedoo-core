@@ -10,15 +10,17 @@ this module contains the full copyright notices and license terms. -->
             <field name="priority">100</field>
             <field name="context">{'pec_messages': True}</field>
             <field name="arch" type="xml">
-                <form string="Pec da Protocollare" version="7.0">
+                <form string="Pec da Protocollare" version="7.0" create="false" edit="false" delete="false">
                     <header>
                         <button name="%(create_protocollo_pec_action)d"
                                 type="action" string="Crea Bozza Protocollo"
                                 context="{'attachment_ids':attachment_ids}"
-                                attrs="{'invisible':[('pec_state','!=','new')]}"/>
+                                attrs="{'invisible':[('pec_state','!=','new')]}"
+                                class="oe_highlight_positive"/>
                         <button name="action_not_protocol" type='object'
                                 string="Non protocollare"
-                                attrs="{'invisible':[('pec_state','!=','new')]}"/>
+                                attrs="{'invisible':[('pec_state','!=','new')]}"
+                                class="oe_highlight_warning"/>
 
                         <field name="pec_state" widget="statusbar" invisible="1"/>
                     </header>
@@ -28,13 +30,13 @@ this module contains the full copyright notices and license terms. -->
                                 <newline/>
                                 <field name="email_from"/>
                                 <field name="date"/>
-                                <field name="author_id"/>
+                                <!--<field name="author_id"/>-->
                             </group>
                         </div>
                         <group>
                             <newline/>
                             <field name="subject" colspan="4"/>
-                            <field name="body" colspan="4"/>
+                            <field name="body" colspan="4" string="Testo della PEC"/>
                             <field name="attachment_ids" invisible="1"/>
                             <!--<separator string="Documenti" colspan="4"/>-->
                             <group>

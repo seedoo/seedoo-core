@@ -703,7 +703,7 @@ this module contains the full copyright notices and license terms. -->
                                 </group>
                             </page>
                             <page string="Info PEC"
-                                  attrs="{'invisible':[('pec','!=',True)]}">z
+                                  attrs="{'invisible':[('pec','!=',True)]}">
                                 <label for="mail_pec_ref"/>
                                 <field name="mail_pec_ref" context="{'pec_messages': True,'form_view_ref' : 'seedoo_protocollo.protocollo_pec_form'}"/>
                                 <newline/>
@@ -869,13 +869,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
                     Premi qui per creare un nuovo protocollo in uscita
-                </p>
-                <p>
-                    Si possono creare protocollazioni in ingresso e uscita ed
-                    inserire gli assegnatari della pratica
-                </p>
-                <p>
-                    Il sistema notifica sull'andamento del protocollo
                 </p>
             </field>
         </record>
