@@ -964,7 +964,11 @@ class protocollo_protocollo(orm.Model):
                 now = datetime.datetime.now()
                 vals['year'] = now.year
 
-                new_context = dict(context).copy()
+                if context == None:
+                    new_context = {}
+                else:
+                    new_context = dict(context).copy()
+
                 if prot.typology.name == 'PEC':
                     new_context.update({'pec_messages': True})
 
@@ -1090,7 +1094,7 @@ class protocollo_protocollo(orm.Model):
 
             action_class = "history_icon mail"
             post_vars = {'subject': "Invio PEC",
-                         'body': "<div class='%s'><ul><li>PEC protocollo inviato</li></ul></div>" % action_class,
+                         'body': "<div class='%s'><ul><li>PEC protocollo inviato a: %s</li></ul></div>" % (action_class, values['email_to']),
                          'model': "protocollo.protocollo",
                          'res_id': prot_id,
                          }
