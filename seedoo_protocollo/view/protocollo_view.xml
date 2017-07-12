@@ -612,6 +612,7 @@ this module contains the full copyright notices and license terms. -->
                                     <field name="dossier_ids" nolabel="1"
                                            options="{'limit': 10, 'no_create': True}"
                                            domain="[('state','=','open')]"
+                                           attrs="{'readonly':[('state','!=','draft')]}"
                                            colspan="4"
                                     />
                                 </group>
