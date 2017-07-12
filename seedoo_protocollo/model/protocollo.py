@@ -963,6 +963,11 @@ class protocollo_protocollo(orm.Model):
 
                 now = datetime.datetime.now()
                 vals['year'] = now.year
+
+                new_context = dict(context).copy()
+                if prot.typology.name == 'PEC':
+                    new_context.update({'pec_messages': True})
+
             except Exception as e:
                 _logger.error(e)
                 raise openerp.exceptions.Warning(_('Errore nella registrazione del protocollo'))
@@ -972,7 +977,8 @@ class protocollo_protocollo(orm.Model):
             xml = segnatura_xml.generate_segnatura_root()
             etree_tostring = etree.tostring(xml, pretty_print=True)
             vals['xml_signature'] = etree_tostring
-            self.write(cr, uid, [prot.id], vals)
+
+            self.write(cr, uid, [prot.id], vals, new_context)
 
             action_class = "history_icon registration"
             post_vars = {'subject': "Registrazione protocollo",
@@ -983,7 +989,7 @@ class protocollo_protocollo(orm.Model):
                          }
 
             thread_pool = self.pool.get('protocollo.protocollo')
-            thread_pool.message_post(cr, uid, prot.id, type="notification", context=context, **post_vars)
+            thread_pool.message_post(cr, uid, prot.id, type="notification", context=new_context, **post_vars)
 
         return True
 

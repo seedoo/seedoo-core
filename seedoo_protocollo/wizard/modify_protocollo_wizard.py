@@ -170,10 +170,8 @@ class wizard(osv.TransientModel):
         body = "<div class='%s'><ul>" % action_class
         for key, before_item in before.items():
             if before[key] != after[key]:
-                body = body + "<li>%s: <span style='color:#990000'> %s</span> " \
-                                u"\u2192" \
-                                "<span style='color:#009900'> %s </span></li>" \
-                                % (str(key), str(before_item), str(after[key]))
+                body = body + "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#009900'> %s </span></li>" \
+                                % (str(key), before_item.encode("utf-8"), after[key].encode("utf-8"))
         body += "</ul></div>"
 
         post_vars = {'subject': "Modifica dati generali: \'%s\'" % wizard.cause,
@@ -182,7 +180,11 @@ class wizard(osv.TransientModel):
                      'res_id': context['active_id'],
                     }
 
+        new_context = dict(context).copy()
+        if protocollo.typology.name == 'PEC':
+            new_context.update({'pec_messages': True})
+
         thread_pool = self.pool.get('protocollo.protocollo')
-        thread_pool.message_post(cr, uid, context['active_id'], type="notification", context=context, **post_vars)
+        thread_pool.message_post(cr, uid, context['active_id'], type="notification", context=new_context, **post_vars)
 
         return {'type': 'ir.actions.act_window_close'}

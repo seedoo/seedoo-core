@@ -105,7 +105,11 @@ class wizard(osv.TransientModel):
                      'res_id': context['active_id'],
                      }
 
+        new_context = dict(context).copy()
+        if protocollo.typology.name == 'PEC':
+            new_context.update({'pec_messages': True})
+
         thread_pool = self.pool.get('protocollo.protocollo')
-        thread_pool.message_post(cr, uid, context['active_id'], type="notification", context=context, **post_vars)
+        thread_pool.message_post(cr, uid, context['active_id'], type="notification", context=new_context, **post_vars)
 
         return {'type': 'ir.actions.act_window_close'}
