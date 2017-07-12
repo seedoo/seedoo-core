@@ -4,14 +4,14 @@
     <data noupdate="1">
         <!-- Config Param -->
         <record id="configurazione_protocollo_default" model="protocollo.configurazione">
-            <field name="genera_segnatura">true</field>
-            <field name="genera_xml_segnatura">true</field>
-            <field name="classificazione_required">false</field>
-            <field name="fascicolazione_required">false</field>
-            <field name="assegnatari_competenza_uffici_required">false</field>
-            <field name="assegnatari_competenza_dipendenti_required">false</field>
-            <field name="assegnatari_conoscenza_uffici_required">false</field>
-            <field name="assegnatari_conoscenza_dipendenti_required">false</field>
+            <field name="genera_segnatura" eval="True"/>
+            <field name="genera_xml_segnatura" eval="True"/>
+            <field name="classificazione_required" eval="False"/>
+            <field name="fascicolazione_required" eval="False"/>
+            <field name="assegnatari_competenza_uffici_required" eval="False"/>
+            <field name="assegnatari_competenza_dipendenti_required" eval="False"/>
+            <field name="assegnatari_conoscenza_uffici_required" eval="False"/>
+            <field name="assegnatari_conoscenza_dipendenti_required" eval="False"/>
         </record>
 
         <record model="ir.config_parameter" id="itext_param_path">
