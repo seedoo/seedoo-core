@@ -969,8 +969,8 @@ class protocollo_protocollo(orm.Model):
                 else:
                     new_context = dict(context).copy()
 
-                if prot.typology.name == 'PEC':
-                    new_context.update({'pec_messages': True})
+                # if prot.typology.name == 'PEC':
+                new_context.update({'pec_messages': True})
 
             except Exception as e:
                 _logger.error(e)
@@ -982,7 +982,7 @@ class protocollo_protocollo(orm.Model):
             etree_tostring = etree.tostring(xml, pretty_print=True)
             vals['xml_signature'] = etree_tostring
 
-            self.write(cr, uid, [prot.id], vals, new_context)
+            self.write(cr, uid, [prot.id], vals)
 
             action_class = "history_icon registration"
             post_vars = {'subject': "Registrazione protocollo",
@@ -1441,7 +1441,7 @@ class protocollo_protocollo(orm.Model):
 
         if counter > 0:
             action_class = "history_icon upload"
-            post_vars = {'subject': "Documenti allegati",
+            post_vars = {'subject': "Upload Documento",
                          'body': "<div class='%s'><ul><li>Aggiunt%s %d allegat%s: <i>%s</i></li></ul></div>" % (
                          action_class, text, len(file_data_list), text, nomi_allegati),
                          'model': "protocollo.protocollo",

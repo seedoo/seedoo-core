@@ -215,7 +215,7 @@ class ProtocolloPecWizard(osv.TransientModel):
             }
             sender_receiver.append(sender_receiver_obj.create(cr, uid, srvals))
         vals['sender_receivers'] = [[6, 0, sender_receiver]]
-        protocollo_id = protocollo_obj.create(cr, uid, vals, context)
+        protocollo_id = protocollo_obj.create(cr, uid, vals)
         self.pool.get('mail.message').write(
             cr,
             SUPERUSER_ID,

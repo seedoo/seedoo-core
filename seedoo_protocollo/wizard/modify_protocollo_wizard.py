@@ -181,8 +181,8 @@ class wizard(osv.TransientModel):
                     }
 
         new_context = dict(context).copy()
-        if protocollo.typology.name == 'PEC':
-            new_context.update({'pec_messages': True})
+        # if protocollo.typology.name == 'PEC':
+        new_context.update({'pec_messages': True})
 
         thread_pool = self.pool.get('protocollo.protocollo')
         thread_pool.message_post(cr, uid, context['active_id'], type="notification", context=new_context, **post_vars)
