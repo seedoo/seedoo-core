@@ -16,7 +16,7 @@
 
         <record model="ir.config_parameter" id="itext_param_path">
             <field name="key">itext.location</field>
-            <field name="value">~/seedoo/signature/signature.jar</field>
+            <field name="value">~/seedoo/core/signature/signature-1.0.0.jar</field>
         </record>
 
         <record model="ir.config_parameter" id="param_path">
