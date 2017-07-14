@@ -5,7 +5,7 @@
 
 {
     'name': 'Seedoo Dematerializzazione',
-    'version': '8.0.1.0.1',
+    'version': '8.0.1.0.2',
     'category': 'Document Management',
     'summary': 'Gestione Documenti Analogici Protocollo',
     'author': 'Flosslab',
