@@ -4,7 +4,7 @@
 
 {
     'name': 'Seedoo Protocollo',
-    'version': '8.0.1.5.1',
+    'version': '8.0.1.5.2',
     'category': 'Document Management',
     'summary': 'Protocollo Informatico PA',
     'author': 'Agile Business Group, Innoviu, Flosslab',
