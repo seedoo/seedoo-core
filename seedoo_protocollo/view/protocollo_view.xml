@@ -573,14 +573,14 @@ this module contains the full copyright notices and license terms. -->
                         </group>
 
                         <notebook>
-                            <page string="Mittenti/Destinatari">
-                                <separator string="Mittenti"
-                                           attrs="{'invisible':[('type','!=','in')]}"/>
-                                <separator string="Destinatari"
-                                           attrs="{'invisible':[('type','!=','out')]}"/>
+                            <page string="Mittenti" attrs="{'invisible':['|',('type','!=','in')]}">
                                 <group col="4" colspan="4">
-                                    <field name="sender_receivers" nolabel="1">
-                                    </field>
+                                    <field name="senders" nolabel="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                </group>
+                            </page>
+                            <page string="Destinatari" attrs="{'invisible':[('type','!=','out')]}">
+                                <group col="4" colspan="4">
+                                    <field name="receivers" nolabel="1" attrs="{'readonly':[('state','!=','draft')]}"/>
                                 </group>
                             </page>
                             <page string="Documenti">
@@ -634,7 +634,7 @@ this module contains the full copyright notices and license terms. -->
                                                     <field name="department_id"
                                                            domain="[('assignable','=',True)]"
                                                            on_change="on_change_department_id(department_id)"
-                                                           options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                                                           options="{'no_quick_create': True, 'no_create_edit': True}"/>
                                                     <field name="state"/>
                                                     <separator string="Dipendenti"/>
                                                     <field name="assegnatari_dipendenti_ids" nolabel="1" readonly="1" colspan="4"/>
@@ -652,7 +652,7 @@ this module contains the full copyright notices and license terms. -->
                                             <form>
                                                 <group col="4">
                                                     <field name="dipendente_id"
-                                                           options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                                                           options="{'no_quick_create': True, 'no_create_edit': True}"/>
                                                     <field name="state"/>
                                                 </group>
                                             </form>
@@ -677,7 +677,7 @@ this module contains the full copyright notices and license terms. -->
                                                     <field name="department_id"
                                                            domain="[('assignable','=',True)]"
                                                            on_change="on_change_department_id(department_id)"
-                                                           options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                                                           options="{'no_quick_create': True, 'no_create_edit': True}"/>
                                                     <newline/>
                                                     <separator string="Dipendenti"/>
                                                     <field name="assegnatari_dipendenti_ids" nolabel="1" readonly="1" colspan="4"/>
@@ -694,7 +694,7 @@ this module contains the full copyright notices and license terms. -->
                                             <form>
                                                 <group col="4">
                                                     <field name="dipendente_id"
-                                                           options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                                                           options="{'no_quick_create': True, 'no_create_edit': True}"/>
                                                 </group>
                                             </form>
                                         </field>

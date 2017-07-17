@@ -80,9 +80,12 @@ class protocollo_sender_receiver(orm.Model):
         return {'value': values}
 
     _columns = {
-        # TODO: inserire anche AOO in type?
-        'protocollo_id': fields.many2one(
-            'protocollo.protocollo', 'Protocollo'),
+        'protocollo_id': fields.many2one('protocollo.protocollo', 'Protocollo'),
+        'source': fields.selection([
+                ('sender', 'Mittente'),
+                ('receiver', 'Destinatario'),
+        ], 'Mittente/Destinatario', size=32, required=True, readonly=True),
+
         'type': fields.selection(
             [
                 ('individual', 'Persona Fisica'),
@@ -133,8 +136,7 @@ class protocollo_sender_receiver(orm.Model):
     }
 
     def create(self, cr, uid, vals, context=None):
-        sender_receiver = super(protocollo_sender_receiver, self). \
-            create(cr, uid, vals, context=context)
+        sender_receiver = super(protocollo_sender_receiver, self).create(cr, uid, vals, context=context)
         return sender_receiver
 
 
@@ -553,10 +555,10 @@ class protocollo_protocollo(orm.Model):
                                        readonly=True,
                                        states={'draft': [('readonly', False)]
                                                }),
-        'sender_receivers': fields.one2many(
-            'protocollo.sender_receiver', 'protocollo_id',
-            'Mittenti/Destinatari', required=False, readonly=True,
-            states={'draft': [('readonly', False)]}),
+        'sender_receivers': fields.one2many('protocollo.sender_receiver', 'protocollo_id', 'Mittenti/Destinatari'),
+        'senders': fields.one2many('protocollo.sender_receiver', 'protocollo_id', 'Mittenti', domain=[('source', '=', 'sender')]),
+        'receivers': fields.one2many('protocollo.sender_receiver', 'protocollo_id', 'Destinatari', domain=[('source', '=', 'receiver')]),
+
         'sender_receivers_summary': fields.function(
             _get_sender_receivers_summary,
             type="char",
@@ -1274,13 +1276,28 @@ class protocollo_protocollo(orm.Model):
                 'assegnatari_conoscenza_dipendenti_ids'], 'conoscenza')
         return vals
 
+    def _verifica_dati_sender_receiver(self, cr, uid, vals, context):
+        if vals and vals.has_key('senders'):
+            for mittente in vals['senders']:
+                if mittente[0] == 0:
+                    mittente_data = mittente[2]
+                    mittente_data['source'] = 'sender'
+        if vals and vals.has_key('receivers'):
+            for destinatario in vals['receivers']:
+                if destinatario[0] == 0:
+                    destinatario_data = destinatario[2]
+                    destinatario_data['source'] = 'receiver'
+        return vals
 
     def create(self, cr, uid, vals, context=None):
         vals = self._verifica_dati_assegnatari(cr, uid, vals, context)
+        vals = self._verifica_dati_sender_receiver(cr, uid, vals, context)
         protocollo_id = super(protocollo_protocollo, self).create(cr, uid, vals, context=context)
         return protocollo_id
+
     def write(self, cr, uid, ids, vals, context=None):
         vals = self._verifica_dati_assegnatari(cr, uid, vals, context)
+        vals = self._verifica_dati_sender_receiver(cr, uid, vals, context)
         protocollo_id = super(protocollo_protocollo, self).write(cr, uid, ids, vals, context=context)
         return protocollo_id
 
