@@ -314,6 +314,12 @@ class protocollo_protocollo(orm.Model):
         res = []
         return [('id', 'in', res)]
 
+    def _get_pec_notifications_count(self, cr, uid, ids, field, arg, context=None):
+        prot = self.browse(cr, uid, ids)
+        res = []
+        # count = len(prot.pec_notifications_ids.ids)
+        return res
+
     # def _is_visible(self, cr, uid, ids, name, arg, context=None):
     #     return {}
     #
@@ -500,6 +506,10 @@ class protocollo_protocollo(orm.Model):
                                                 relation='mail.message',
                                                 string='Notification Messages',
                                                 readonly=True),
+        'pec_notifications_counter': fields.function(_get_pec_notifications_count,
+                                    type="char",
+                                    string="Ricevute PEC",
+                                    store=False),
         'creation_date': fields.date('Data Creazione',
                                      required=True,
                                      readonly=True,
@@ -1058,6 +1068,7 @@ class protocollo_protocollo(orm.Model):
             values = {}
             values['subject'] = prot.subject
             values['body_html'] = prot.body
+            values['body'] = prot.body
             values['email_from'] = mail_server.smtp_user
             values['reply_to'] = mail_server.in_server_id.user
             values['mail_server_id'] = mail_server.id
@@ -1477,7 +1488,7 @@ class protocollo_protocollo(orm.Model):
         if not context:
             context = {}
         protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, thread_id)
-        if protocollo.state == 'draft' and str(subject).find('Registrazione') != 0:
+        if protocollo.state == 'draft' and str(subject).find('Registrazione') != 0 and context.has_key('is_pec_to_draft') == False :
             pass
         else:
             return super(protocollo_protocollo, self).message_post(

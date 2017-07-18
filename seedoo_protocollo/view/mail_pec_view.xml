@@ -64,7 +64,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="model">mail.message</field>
             <field name="priority">100</field>
             <field name="arch" type="xml">
-                <tree create="false" string="Pec da Protocollare">
+                <tree string="Pec da Protocollare" create="false" edit="false" delete="false">
                     <field name="email_from"/>
                     <field name="date"/>
                     <field name="subject"/>

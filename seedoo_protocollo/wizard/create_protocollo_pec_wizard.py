@@ -224,6 +224,19 @@ class ProtocolloPecWizard(osv.TransientModel):
             context=context
         )
 
+        new_context = dict(context).copy()
+        new_context.update({'is_pec_to_draft': True})
+
+        action_class = "history_icon print"
+        post_vars = {'subject': "Creata Bozza Protocollo",
+                     'body': "<div class='%s'><ul><li>Messaggio PEC convertito in bozza di protocollo</li></ul></div>" % action_class,
+                     'model': "protocollo.protocollo",
+                     'res_id': context['active_id'],
+                     }
+
+        thread_pool = self.pool.get('protocollo.protocollo')
+        thread_pool.message_post(cr, uid, protocollo_id, type="notification", context=new_context, **post_vars)
+
         # Attachments
         file_data_list = []
 

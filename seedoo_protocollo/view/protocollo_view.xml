@@ -777,6 +777,8 @@ this module contains the full copyright notices and license terms. -->
                     <field name="subject"/>
                     <field name="typology"/>
                     <field name="state"/>
+                    <field name="pec_notifications_ids"/>
+                    <field name="pec_notifications_counter"/>
                 </tree>
             </field>
         </record>
