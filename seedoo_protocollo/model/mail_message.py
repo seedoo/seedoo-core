@@ -81,3 +81,53 @@ class MailMessage(orm.Model):
             res += [(rs.id, name)]
         return res
 
+    def create(self, cr, uid, vals, context=None):
+
+        msg_obj = super(MailMessage, self).create(cr, uid, vals, context=context)
+        if vals.get("pec_type") == 'accettazione' or vals.get("pec_type") == 'avvenuta-consegna':
+            protocollo_obj = self.pool.get('protocollo.protocollo')
+            protocollo_ids = protocollo_obj.search(cr, uid, [('mail_pec_ref', '=', vals.get('pec_msg_parent_id'))],
+                                                   context=context)
+            for protocollo_id in protocollo_ids:
+                if protocollo_id:
+                    protocollo_obj = protocollo_obj.browse(cr, uid, protocollo_id, context=context)
+                    receivers = self.pool.get('protocollo.sender_receiver')
+                    if vals.get("pec_type") == 'accettazione':
+                        receivers_ids = receivers.search(cr, uid, [('protocollo_id', '=', protocollo_id)], context=context)
+                    elif vals.get("pec_type") == 'avvenuta-consegna':
+                        receivers_ids = receivers.search(cr, uid, [('protocollo_id', '=', protocollo_id), ('pec_mail', '=', vals.get('recipient_addr'))], context=context)
+
+                    for receiver_id in receivers_ids:
+                        receiver = self.pool.get('protocollo.sender_receiver')
+                        receiver_obj = receiver.browse(cr, uid, receiver_id, context=context)
+
+                        # if receivers_obj.pec_mail ==
+                        notification_vals = {}
+                        action_class = "history_icon registration"
+
+                        if vals.get("pec_type") == 'accettazione':
+                            msg_type = 'accettata'
+                            notification_vals = {
+                                'pec_ref': vals.get('pec_msg_parent_id'),
+                                'pec_accettazione_ref': msg_obj
+                            }
+                        elif vals.get("pec_type") == 'avvenuta-consegna':
+                            msg_type = 'consegnata'
+                            notification_vals = {
+                                'pec_ref': vals.get('pec_msg_parent_id'),
+                                'pec_consegna_ref': msg_obj
+                            }
+                        receiver_obj.write(notification_vals)
+
+                        post_vars = {'subject': "Ricevuta di %s" % vals.get("pec_type"),
+                                     'body': "<div class='%s'><ul><li>PEC prot. %d inviata a %s e' stata %s</li></ul></div>" \
+                                             % (action_class, protocollo_id, receiver_obj.pec_mail, msg_type),
+                                     'model': "protocollo.protocollo",
+                                     'res_id': protocollo_obj.id,
+                                     }
+
+                        thread_pool = self.pool.get('protocollo.protocollo')
+                        thread_pool.message_post(cr, uid, protocollo_obj.id, type="notification", context=context, **post_vars)
+
+
+        return msg_obj

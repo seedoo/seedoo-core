@@ -13,7 +13,6 @@ from . import protocollo_permissions
 from . import protocollo_aoo
 from . import ir_attachment
 from . import mail_message
-from . import mail_thread
 from . import res_partner
 from . import res_user
 

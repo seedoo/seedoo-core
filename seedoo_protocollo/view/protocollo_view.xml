@@ -396,12 +396,21 @@ this module contains the full copyright notices and license terms. -->
                                 <field name="fax"/>
                                 <field name="mobile"/>
 
-                                <separator class="shipping" string="Info di Spedizione"
-                                           colspan="4"/>
+                                <separator class="shipping" string="Info di Spedizione" colspan="4"/>
                                 <field name="send_type"/>
                                 <field name="send_date"/>
+                                <field name="protocol_state" invisible="1"/>
                                 <separator class="note" string="Note"/>
                                 <field name="notes" nolabel="1" colspan="4"/>
+                            </group>
+                            <group col="4">
+                                <separator string="Info PEC" colspan="4"/>
+                                <field name="pec_ref" string="PEC" attrs="{'invisible':[('protocol_state','!=','waiting')]}"/>
+                                <field name="pec_ora" attrs="{'invisible':[('protocol_state','!=','waiting')]}"/>
+                                <field name="pec_accettazione_ref" attrs="{'invisible':[('protocol_state','!=','waiting')]}"/>
+                                <field name="pec_accettazione_ora" attrs="{'invisible':[('protocol_state','!=','waiting')]}"/>
+                                <field name="pec_consegna_ref" attrs="{'invisible':[('protocol_state','!=','waiting')]}"/>
+                                <field name="pec_consegna_ora" attrs="{'invisible':[('protocol_state','!=','waiting')]}"/>
                             </group>
                         </div>
                     </sheet>
@@ -430,6 +439,8 @@ this module contains the full copyright notices and license terms. -->
                     <field name="pec_mail"/>
                     <field name="email"/>
                     <field name="protocol_state" invisible="1"/>
+                    <field name="pec_accettazione_status" colspan="4" attrs="{'invisible':[('protocol_state','!=','waiting')]}"/>
+                    <field name="pec_consegna_status" colspan="4" attrs="{'invisible':[('protocol_state','!=','waiting')]}"/>
                 </tree>
             </field>
         </record>
@@ -765,7 +776,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="model">protocollo.protocollo</field>
             <field name="arch" type="xml">
                 <tree string="Protocolli" version="7.0" create="0"
-                      colors="blue:state=='registered';green:state=='notified';green:state=='sent';orange:state=='waiting';red:state=='canceled';red:state=='error'">
+                      colors="blue:state=='registered';green:pec_notifications_sum=='True';green:state=='notified';green:state=='sent';orange:state=='waiting';red:state=='canceled';red:state=='error';">
                     <field name="type"/>
                     <field name="complete_name"/>
                     <field name="name" invisible="1"/>
@@ -778,7 +789,7 @@ this module contains the full copyright notices and license terms. -->
                     <field name="typology"/>
                     <field name="state"/>
                     <field name="pec_notifications_ids"/>
-                    <field name="pec_notifications_counter"/>
+                    <field name="pec_notifications_sum" invisible="1"/>
                 </tree>
             </field>
         </record>

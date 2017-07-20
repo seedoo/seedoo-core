@@ -79,6 +79,29 @@ class protocollo_sender_receiver(orm.Model):
             }
         return {'value': values}
 
+    def _get_accettazione_status(self, cr, uid, ids, field, arg, context=None):
+        if isinstance(ids, (list, tuple)) and not len(ids):
+            return []
+        if isinstance(ids, (long, int)):
+            ids = [ids]
+        res = dict.fromkeys(ids, False)
+        for prot in self.browse(cr, uid, ids):
+            if prot.pec_accettazione_ref.id:
+                res[prot.id] = True
+        return res
+
+    def _get_consegna_status(self, cr, uid, ids, field, arg, context=None):
+        if isinstance(ids, (list, tuple)) and not len(ids):
+            return []
+        if isinstance(ids, (long, int)):
+            ids = [ids]
+        res = dict.fromkeys(ids, False)
+        for prot in self.browse(cr, uid, ids):
+            if prot.pec_consegna_ref.id:
+                res[prot.id] = True
+        return res
+
+
     _columns = {
         'protocollo_id': fields.many2one('protocollo.protocollo', 'Protocollo'),
         'source': fields.selection([
@@ -129,6 +152,15 @@ class protocollo_sender_receiver(orm.Model):
             'protocollo.typology', 'Canale di Spedizione'),
         'send_date': fields.date('Data Spedizione'),
         'protocol_state': fields.related('protocollo_id', 'state', type='char', string='State', readonly=True),
+        'pec_ref': fields.many2one('mail.message', 'Consegna PEC'),
+        'pec_accettazione_ref': fields.many2one('mail.message', 'Accettazione PEC', readonly=True),
+        'pec_consegna_ref': fields.many2one('mail.message', 'Consegna PEC', readonly=True),
+        'pec_accettazione_status': fields.function(_get_accettazione_status, type='boolean', string='Accettazione'),
+        'pec_consegna_status': fields.function(_get_consegna_status, type='boolean', string='Consegna'),
+        'pec_ora': fields.related('pec_ref', 'date', type='datetime', string='Orario Invio PEC', readonly=False, store=False),
+        'pec_accettazione_ora': fields.related('pec_accettazione_ref', 'cert_datetime', type='datetime', string='Orario PEC Accettazione', readonly=False, store=False),
+        'pec_consegna_ora': fields.related('pec_consegna_ref', 'cert_datetime', type='datetime', string='Orario PEC Consegna', readonly=False, store=False),
+
     }
 
     _defaults = {
@@ -314,10 +346,21 @@ class protocollo_protocollo(orm.Model):
         res = []
         return [('id', 'in', res)]
 
-    def _get_pec_notifications_count(self, cr, uid, ids, field, arg, context=None):
-        prot = self.browse(cr, uid, ids)
-        res = []
-        # count = len(prot.pec_notifications_ids.ids)
+    def _get_pec_notifications_sum(self, cr, uid, ids, field, arg, context=None):
+        if isinstance(ids, (list, tuple)) and not len(ids):
+            return []
+        if isinstance(ids, (long, int)):
+            ids = [ids]
+        res = dict.fromkeys(ids, False)
+        for prot in self.browse(cr, uid, ids):
+            if prot.sender_receivers:
+                check_notifications = 0
+                for sender_receiver_id in prot.sender_receivers.ids:
+                    sender_receiver_obj = self.pool.get('protocollo.sender_receiver').browse(cr, uid, sender_receiver_id, context=context)
+                    if sender_receiver_obj.pec_accettazione_status and sender_receiver_obj.pec_consegna_status :
+                        check_notifications += 1
+                if check_notifications == len(prot.sender_receivers.ids):
+                    res[prot.id] = True
         return res
 
     # def _is_visible(self, cr, uid, ids, name, arg, context=None):
@@ -506,9 +549,9 @@ class protocollo_protocollo(orm.Model):
                                                 relation='mail.message',
                                                 string='Notification Messages',
                                                 readonly=True),
-        'pec_notifications_counter': fields.function(_get_pec_notifications_count,
+        'pec_notifications_sum': fields.function(_get_pec_notifications_sum,
                                     type="char",
-                                    string="Ricevute PEC",
+                                    string="PEC Status",
                                     store=False),
         'creation_date': fields.date('Data Creazione',
                                      required=True,
