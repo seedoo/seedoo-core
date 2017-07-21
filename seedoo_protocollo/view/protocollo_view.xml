@@ -355,37 +355,28 @@ this module contains the full copyright notices and license terms. -->
             <field name="arch" type="xml">
                 <form string="Mittenti/Destinatari">
                     <sheet>
-                        <div>
-                            <group col="8">
-                                <field name="save_partner"
-                                       attrs="{'readonly': ['|',('partner_id','!=',False),('partner_id','is not',None)]}"/>
+                        <group colspan="4" col="4">
+                            <group class="general" string="Info Anagrafiche" colspan="4" col="4">
+                                <field name="type" on_change="on_change_type(type)"/>
+                                <field name="partner_id" on_change="on_change_partner(partner_id)" options="{'no_quick_create': True, 'no_create_edit': True}"/>
+
+                                <field name="pa_type" placeholder="" attrs="{'required': [('type','=', 'government')], 'invisible': [('type','!=', 'government')]}" on_change="on_change_pa_type(pa_type)"/>
+                                <newline/>
+                                <field name="name"/>
+                                <newline/>
+                                <field name="ammi_code" attrs="{
+                                        'required': [('type','=','government'), ('pa_type','=', 'pa')],
+                                        'invisible': ['|', ('type','!=', 'government'), ('pa_type','!=', 'pa')]}
+                                "/>
+                                <newline/>
+                                <field name="ident_code" attrs="{
+                                        'invisible': ['|', ('type','!=', 'government'), ('pa_type','!=', 'aoo')],
+                                        'required': [('type','=', 'government'), ('pa_type','=', 'aoo')],
+                                }"/>
                             </group>
-                        </div>
-                        <div class="gedoc_header">
-                            <group col="4">
-                                <field name="type"/>
-                                <field name="partner_id"
-                                       on_change="on_change_partner(partner_id)"
-                                       attrs="{'readonly': [('save_partner','=',True)]}"/>
-                                <field name="pa_type" placeholder=""
-                                       attrs="{'invisible': [('type','!=', 'government')]}"
-                                       on_change="on_change_pa_type(pa_type)"/>
-                            </group>
-                            <group col="4">
-                                <group col="4" colspan="2">
-                                    <field name="name" colspan="4"/>
-                                </group>
-                                <group col="4" colspan="2">
-                                    <field name="ammi_code"
-                                           attrs="{'required': [('type','=','government')], 'readonly': [('type','in',('legal', 'individual'))]}"/>
-                                    <field name="ident_code"
-                                           attrs="{'readonly': [('type','in',('legal', 'individual'))]}"/>
-                                </group>
-                            </group>
-                        </div>
-                        <div>
-                            <group col="4">
-                                <separator class="address" string="Info di Recapito" colspan="4"/>
+
+                            <newline/>
+                            <group class="address" string="Info di Recapito" colspan="4" col="4">
                                 <field name="street"/>
                                 <field name="zip"/>
                                 <field name="city"/>
@@ -395,16 +386,22 @@ this module contains the full copyright notices and license terms. -->
                                 <field name="phone"/>
                                 <field name="fax"/>
                                 <field name="mobile"/>
+                            </group>
 
-                                <separator class="shipping" string="Info di Spedizione" colspan="4"/>
+                            <newline/>
+                            <group class="shipping" string="Info di Spedizione" colspan="4" col="4">
                                 <field name="send_type"/>
                                 <field name="send_date"/>
                                 <field name="protocol_state" invisible="1"/>
-                                <separator class="note" string="Note"/>
+                            </group>
+
+                            <newline/>
+                            <group class="note" string="Note" colspan="4" col="4">
                                 <field name="notes" nolabel="1" colspan="4"/>
                             </group>
-                            <group col="4">
-                                <separator string="Info PEC" colspan="4"/>
+
+                            <newline/>
+                            <group string="Info PEC" attrs="{'invisible':[('protocol_state','!=','waiting')]}" colspan="4" col="4">
                                 <field name="pec_ref" string="PEC" attrs="{'invisible':[('protocol_state','!=','waiting')]}"/>
                                 <field name="pec_ora" attrs="{'invisible':[('protocol_state','!=','waiting')]}"/>
                                 <field name="pec_accettazione_ref" attrs="{'invisible':[('protocol_state','!=','waiting')]}"/>
@@ -412,7 +409,12 @@ this module contains the full copyright notices and license terms. -->
                                 <field name="pec_consegna_ref" attrs="{'invisible':[('protocol_state','!=','waiting')]}"/>
                                 <field name="pec_consegna_ora" attrs="{'invisible':[('protocol_state','!=','waiting')]}"/>
                             </group>
-                        </div>
+
+                            <newline/>
+                            <group string="Salva contatto nella rubrica" colspan="4" col="4" attrs="{'invisible': [('partner_id','!=',False)]}">
+                                <field name="save_partner" nolabel="1" attrs="{'readonly': [('partner_id','!=',False)], 'invisible': [('partner_id','!=',False)]}"/>
+                            </group>
+                        </group>
                     </sheet>
                 </form>
             </field>
@@ -426,11 +428,11 @@ this module contains the full copyright notices and license terms. -->
                     <field name="type"/>
                     <field name="ammi_code"
                            attrs="{'required': [('type','=','government')], 'readonly': [('type','in',('legal', 'individual'))]}"
-                           width="5%%" string="Cod.AMM"/>
+                           width="5%%" string="Cod. iPA"/>
                     <field name="ident_code"
                            attrs="{'readonly': [('type','in',('legal', 'individual'))]}"
                            width="5%%"
-                           string="Cod.AOO"/>
+                           string="Cod. AOO"/>
                     <field name="name"
                            string="Nome Cognome / Ragione Sociale"/>
                     <field name="street"/>

@@ -12,7 +12,7 @@ from openerp.osv import *
 _logger = logging.getLogger(__name__)
 
 
-class ResPartner(orm.Model):
+class res_partner(orm.Model):
     # inherit partner because PEC mails are not supposed to be associate to
     # generic models
     _inherit = 'res.partner'
@@ -27,36 +27,53 @@ class ResPartner(orm.Model):
         return res
 
     _columns = {
-        'legal_type': fields.selection([('individual', 'Persona Fisica'), ('legal', 'Azienda privata'), ('government', 'Amministrazione pubblica')],
+        'legal_type': fields.selection([('individual', 'Persona Fisica'), ('legal', 'Azienda Privata'), ('government', 'Amministrazione Pubblica')],
                                        'Tipologia', size=32, required=False),
         'pa_type': fields.selection([('pa', 'Amministrazione Principale'), ('aoo', 'Area Organizzativa Omogenea'), ('uo', 'Unità Organizzativa')],
                                     'Tipologia amministrazione', size=5, required=False),
         'super_type': fields.char('super_type', size=5, required=False),
-        'ident_code': fields.char('Codice Identificativo Area (AOO)', size=256, required=False),
-        'ammi_code': fields.char('Codice Amministrazione', size=256, required=False),
+        'ident_code': fields.char('Codice AOO', size=256, required=False),
+        'ammi_code': fields.char('Codice iPA', size=256, required=False),
         'ipa_code': fields.char('Codice Unità Organizzativa', size=256, required=False),
-        'parent_pa_id': fields.many2one('res.partner', 'Organizzazione di Appartenenza', required=False),
+        'parent_pa_id': fields.many2one('res.partner', 'PA di Appartenenza', required=False),
         'parent_pa_type': fields.related('parent_pa_id', 'pa_type', type='char', readonly=True, string='Tipologia amministrazione padre'),
         'child_pa_ids': fields.one2many('res.partner', 'parent_pa_id', 'Strutture Afferenti', required=False)
     }
 
-    def message_post(
-            self, cr, uid, thread_id, body='', subject=None, type='notification',
+    def _check_field(self, cr, uid, domain, message):
+        if (self.search(cr, uid, domain)):
+            raise orm.except_orm('Errore!', message)
+
+    def check_field_in_create(self, cr, uid, vals):
+        if vals.has_key('pec_mail') and vals['pec_mail']:
+            self._check_field(cr, uid, [('pec_mail', '=', vals['pec_mail'])], 'Esiste già un contatto con la stessa Mail PEC!')
+        if vals.has_key('email') and vals['email']:
+            self._check_field(cr, uid, [('email', '=', vals['email'])], 'Esiste già un contatto con la stessa Mail!')
+
+    def check_field_in_write(self, cr, uid, ids, vals):
+        if vals.has_key('pec_mail') and vals['pec_mail']:
+            self._check_field(cr, uid, [('pec_mail', '=', vals['pec_mail'])], 'Esiste già un contatto con la stessa Mail PEC!')
+        if vals.has_key('email') and vals['email']:
+            self._check_field(cr, uid, [('email', '=', vals['email'])], 'Esiste già un contatto con la stessa Mail!')
+
+    def create(self, cr, uid, vals, context=None):
+        self.check_field_in_create(cr, uid, vals)
+        return super(res_partner, self).create(cr, uid, vals, context=context)
+
+    def write(self, cr, uid, ids, vals, context=None):
+        self.check_field_in_write(cr, uid, ids, vals)
+        return super(res_partner, self).write(cr, uid, ids, vals, context=context)
+
+    def message_post(self, cr, uid, thread_id, body='', subject=None, type='notification',
             subtype=None, parent_id=False, attachments=None, context=None,
             content_subtype='html', **kwargs):
         if context is None:
             context = {}
-        msg_id = super(ResPartner, self).message_post(
+        msg_id = super(res_partner, self).message_post(
             cr, uid, thread_id, body=body, subject=subject, type=type,
             subtype=subtype, parent_id=parent_id, attachments=attachments,
             context=context, content_subtype=content_subtype, **kwargs)
-        if (
-                    context.get('main_message_id') and
-                    (
-                                context.get('pec_type') or
-                                context.get('send_error')
-                    )
-        ):
+        if (context.get('main_message_id') and (context.get('pec_type') or context.get('send_error'))):
             wf_service = netsvc.LocalService("workflow")
             _logger.info('workflow: mail message trigger')
             wf_service.trg_trigger(uid, 'mail.message',

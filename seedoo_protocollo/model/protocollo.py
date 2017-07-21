@@ -43,6 +43,16 @@ class protocollo_typology(orm.Model):
 class protocollo_sender_receiver(orm.Model):
     _name = 'protocollo.sender_receiver'
 
+    def on_change_type(self, cr, uid, ids, type):
+        res = {}
+        res['value'] = {
+            'partner_id': False,
+            'pa_type': False,
+            'ident_code': False,
+            'ammi_code': False
+        }
+        return res
+
     def on_change_pa_type(self, cr, uid, ids, pa_type):
         res = {'value': {}}
 
@@ -60,7 +70,7 @@ class protocollo_sender_receiver(orm.Model):
                 browse(cr, uid, partner_id, context=context)
             values = {
                 # 'type': partner.is_company and 'individual' or 'legal',
-                'type': partner.legal_type,
+                'pa_type': partner.pa_type,
                 'ident_code': partner.ident_code,
                 'ammi_code': partner.ammi_code,
                 'name': partner.name,
@@ -75,6 +85,23 @@ class protocollo_sender_receiver(orm.Model):
                 'pec_mail': partner.pec_mail,
                 'fax': partner.fax,
                 'zip': partner.zip,
+                'save_partner': False,
+            }
+        else:
+            values = {
+                'pa_type': False,
+                'ident_code': False,
+                'ammi_code': False,
+                'name': False,
+                'street': False,
+                'city': False,
+                'country_id': False,
+                'email': False,
+                'phone': False,
+                'mobile': False,
+                'pec_mail': False,
+                'fax': False,
+                'zip': False,
                 'save_partner': False,
             }
         return {'value': values}
@@ -112,8 +139,8 @@ class protocollo_sender_receiver(orm.Model):
         'type': fields.selection(
             [
                 ('individual', 'Persona Fisica'),
-                ('legal', 'Azienda privata'),
-                ('government', 'Amministrazione pubblica')
+                ('legal', 'Azienda Privata'),
+                ('government', 'Amministrazione Pubblica')
             ], 'Tipologia', size=32, required=True),
 
         'pa_type': fields.selection(
@@ -124,19 +151,17 @@ class protocollo_sender_receiver(orm.Model):
             'Tipologia amministrazione', size=5, required=False),
 
         'ident_code': fields.char(
-            'Codice Identificativo Area',
+            'Codice AOO',
             size=256,
             required=False),
 
         'ammi_code': fields.char(
-            'Codice Amministrazione',
+            'Codice iPA',
             size=256,
             required=False),
 
-        'save_partner': fields.boolean(
-            'Salva',
-            help='Se spuntato salva i dati in anagrafica.'),
-        'partner_id': fields.many2one('res.partner', 'Anagrafica', domain="[('legal_type','=',type),('pa_type','=',pa_type)]"),
+        'save_partner': fields.boolean('Salva', help='Se spuntato salva i dati in anagrafica.'),
+        'partner_id': fields.many2one('res.partner', 'Copia Anagrafica da Rubrica', domain="[('legal_type','=',type)]"),
         'name': fields.char('Nome Cognome/Ragione Sociale', size=512, required=True),
         'street': fields.char('Via/Piazza num civico', size=128),
         'zip': fields.char('Cap', change_default=True, size=24),
