@@ -381,8 +381,8 @@ this module contains the full copyright notices and license terms. -->
                                 <field name="zip"/>
                                 <field name="city"/>
                                 <field name="country_id"/>
-                                <field name="pec_mail"/>
-                                <field name="email"/>
+                                <field name="pec_mail" on_change="on_change_pec_mail(pec_mail, save_partner)"/>
+                                <field name="email" on_change="on_change_email(email, save_partner)"/>
                                 <field name="phone"/>
                                 <field name="fax"/>
                                 <field name="mobile"/>
@@ -414,7 +414,8 @@ this module contains the full copyright notices and license terms. -->
 
                             <newline/>
                             <group string="Salva contatto nella rubrica" colspan="4" col="4" attrs="{'invisible': [('partner_id','!=',False)]}">
-                                <field name="save_partner" nolabel="1" attrs="{'readonly': [('partner_id','!=',False)], 'invisible': [('partner_id','!=',False)]}"/>
+                                <field name="save_partner" on_change="on_change_save_partner(pec_mail, email, save_partner)"
+                                       nolabel="1" attrs="{'readonly': [('partner_id','!=',False)], 'invisible': [('partner_id','!=',False)]}"/>
                             </group>
                         </group>
                     </sheet>

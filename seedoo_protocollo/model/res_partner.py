@@ -2,12 +2,11 @@
 # This file is part of Seedoo.  The COPYRIGHT file at the top level of
 # this module contains the full copyright notices and license terms.
 
-from openerp.osv import orm
-from openerp import netsvc
-from openerp import SUPERUSER_ID
 import logging
 
+from openerp import netsvc
 from openerp.osv import *
+from openerp.osv import orm
 
 _logger = logging.getLogger(__name__)
 
@@ -23,7 +22,14 @@ class res_partner(orm.Model):
             res['value']['super_type'] = 'pa'
         elif pa_type == 'uo':
             res['value']['super_type'] = 'aoo'
+        return res
 
+    def on_change_pa_type(self, cr, uid, ids, pa_type):
+        res = {'value': {}}
+        if pa_type == 'aoo':
+            res['value']['super_type'] = 'pa'
+        elif pa_type == 'uo':
+            res['value']['super_type'] = 'aoo'
         return res
 
     _columns = {
@@ -40,21 +46,44 @@ class res_partner(orm.Model):
         'child_pa_ids': fields.one2many('res.partner', 'parent_pa_id', 'Strutture Afferenti', required=False)
     }
 
-    def _check_field(self, cr, uid, domain, message):
+    def dispatch_email_error(self, values):
+        error = ''
+        for data in values:
+            error = error + '\nEsiste già un contatto in rubrica con la stessa ' + data[0].encode() + ': ' + data[1].encode()
+        if error:
+            raise orm.except_orm('Errore!', error)
+
+    def check_email_field(self, cr, uid, domain, field, value, dispatch=True):
         if (self.search(cr, uid, domain)):
-            raise orm.except_orm('Errore!', message)
+            if dispatch:
+                self.dispatch_email_error([(field, value)])
+            else:
+                return True
+        return False
 
     def check_field_in_create(self, cr, uid, vals):
+        errors = []
         if vals.has_key('pec_mail') and vals['pec_mail']:
-            self._check_field(cr, uid, [('pec_mail', '=', vals['pec_mail'])], 'Esiste già un contatto con la stessa Mail PEC!')
+            pec_mail_error = self.check_email_field(cr, uid, [('pec_mail', '=', vals['pec_mail'])], 'Mail PEC', vals['pec_mail'], False)
+            if pec_mail_error:
+                errors.append(('Mail PEC', vals['pec_mail']))
         if vals.has_key('email') and vals['email']:
-            self._check_field(cr, uid, [('email', '=', vals['email'])], 'Esiste già un contatto con la stessa Mail!')
+            email_error = self.check_email_field(cr, uid, [('email', '=', vals['email'])], 'Mail', vals['email'], False)
+            if email_error:
+                errors.append(('Mail', vals['email']))
+        self.dispatch_email_error(errors)
 
     def check_field_in_write(self, cr, uid, ids, vals):
+        errors = []
         if vals.has_key('pec_mail') and vals['pec_mail']:
-            self._check_field(cr, uid, [('pec_mail', '=', vals['pec_mail'])], 'Esiste già un contatto con la stessa Mail PEC!')
+            pec_mail_error = self.check_email_field(cr, uid, [('pec_mail', '=', vals['pec_mail'])], 'Mail PEC', vals['pec_mail'], False)
+            if pec_mail_error:
+                errors.append(('Mail PEC', vals['pec_mail']))
         if vals.has_key('email') and vals['email']:
-            self._check_field(cr, uid, [('email', '=', vals['email'])], 'Esiste già un contatto con la stessa Mail!')
+            email_error = self.check_email_field(cr, uid, [('email', '=', vals['email'])], 'Mail', vals['email'], False)
+            if email_error:
+                errors.append(('Mail', vals['email']))
+        self.dispatch_email_error(errors)
 
     def create(self, cr, uid, vals, context=None):
         self.check_field_in_create(cr, uid, vals)

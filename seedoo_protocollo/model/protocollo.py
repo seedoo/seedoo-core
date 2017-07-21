@@ -106,6 +106,33 @@ class protocollo_sender_receiver(orm.Model):
             }
         return {'value': values}
 
+    def on_change_pec_mail(self, cr, uid, ids, pec_mail, save_partner, context=None):
+        res = {'value': {}}
+        if pec_mail and save_partner:
+            self.pool.get('res.partner').check_email_field(cr, uid, [('pec_mail', '=', pec_mail)], 'Mail PEC', pec_mail)
+        return res
+
+    def on_change_email(self, cr, uid, ids, email, save_partner, context=None):
+        res = {'value': {}}
+        if email and save_partner:
+            self.pool.get('res.partner').check_email_field(cr, uid, [('email', '=', email)], 'Mail', email)
+        return res
+
+    def on_change_save_partner(self, cr, uid, ids, pec_mail, email, save_partner, context=None):
+        res = {'value': {}}
+        errors = []
+        if pec_mail and save_partner:
+            pec_mail_error = self.pool.get('res.partner').check_email_field(cr, uid, [('pec_mail', '=', pec_mail)],
+                                                                            'Mail PEC', pec_mail, False)
+            if pec_mail_error:
+                errors.append(('Mail PEC', pec_mail))
+        if email and save_partner:
+            email_error = self.pool.get('res.partner').check_email_field(cr, uid, [('email', '=', email)], 'Mail', email, False)
+            if email_error:
+                errors.append(('Mail', email))
+        self.pool.get('res.partner').dispatch_email_error(errors)
+        return res
+
     def _get_accettazione_status(self, cr, uid, ids, field, arg, context=None):
         if isinstance(ids, (list, tuple)) and not len(ids):
             return []
@@ -979,41 +1006,35 @@ class protocollo_protocollo(orm.Model):
                     cr, uid, prot.id,
                     {'doc_id': attachment_id, 'datas': 0})
 
+    def get_partner_values(self, cr, uid, send_rec):
+        values = {
+            'name': send_rec.name,
+            'street': send_rec.street,
+            'city': send_rec.city,
+            'country_id': send_rec.country_id and send_rec.country_id.id or False,
+            'email': send_rec.email,
+            'pec_mail': send_rec.pec_mail,
+            'phone': send_rec.phone,
+            'mobile': send_rec.mobile,
+            'fax': send_rec.fax,
+            'zip': send_rec.zip,
+            'legal_type': send_rec.type,
+            'ident_code': send_rec.ident_code,
+            'ammi_code': send_rec.ammi_code
+        }
+        return values
+
     def action_create_partners(self, cr, uid, ids, *args):
         send_rec_obj = self.pool.get('protocollo.sender_receiver')
         for prot in self.browse(cr, uid, ids):
             for send_rec in prot.sender_receivers:
                 if send_rec.save_partner:
                     if send_rec.partner_id:
-                        raise orm.except_orm(
-                            _('Attenzione!'),
-                            _('Si sta tentando di salvare un\' anagrafica '
-                              'gia\' presente nel sistema'))
-                    values = {}
+                        raise orm.except_orm('Attenzione!', 'Si sta tentando di salvare un\' anagrafica già presente nel sistema')
                     partner_obj = self.pool.get('res.partner')
-                    values = {
-                        'name': send_rec.name,
-                        'street': send_rec.street,
-                        'city': send_rec.city,
-                        'country_id': send_rec.country_id and
-                                      send_rec.country_id.id or False,
-                        'email': send_rec.email,
-                        'pec_mail': send_rec.pec_mail,
-                        'phone': send_rec.phone,
-                        'mobile': send_rec.mobile,
-                        'fax': send_rec.fax,
-                        'zip': send_rec.zip,
-                        'legal_type': send_rec.type,
-                        'ident_code': send_rec.ident_code,
-                        'ammi_code': send_rec.ammi_code
-                    }
+                    values = self.get_partner_values(cr, uid, send_rec)
                     partner_id = partner_obj.create(cr, uid, values)
-                    send_rec_obj.write(
-                        cr,
-                        uid,
-                        send_rec.id,
-                        {'partner_id': partner_id}
-                    )
+                    send_rec_obj.write(cr, uid, [send_rec.id], {'partner_id': partner_id})
         return True
 
     def action_register(self, cr, uid, ids, context=None, *args):
