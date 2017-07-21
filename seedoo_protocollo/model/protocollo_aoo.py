@@ -42,7 +42,7 @@ class protocollo_aoo(orm.Model):
     _columns = {
         'name': fields.char('Nome', size=256, required=True),
         'company_id': fields.many2one('res.company', 'Ente', required=True),
-        'ident_code': fields.char('Codice Identificativo Area', size=256, required=True),
+        'ident_code': fields.char('Codice AOO', size=256, required=True),
         'manager_employee_id': fields.many2one('hr.employee', 'Responsabile'),
         'reserved_employee_id': fields.many2one('hr.employee', 'Responsabile Dati Sensibili'),
         'registry_id': fields.many2one('protocollo.registry', 'Registro', readonly=True),

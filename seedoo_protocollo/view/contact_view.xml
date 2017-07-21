@@ -123,7 +123,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="domain">[('legal_type','=','individual')]</field>
         </record>
 
-        <menuitem name="Persone Giuridiche" id="menu_rubrica_pg" parent="menu_rubrica_esterna_main" action="rubrica_action_pg" sequence="3"/>
+        <menuitem name="Aziende Private" id="menu_rubrica_pg" parent="menu_rubrica_esterna_main" action="rubrica_action_pg" sequence="3"/>
         <menuitem name="Persone Fisiche" id="menu_rubrica_pf" parent="menu_rubrica_esterna_main" action="rubrica_action_pf" sequence="4"/>
 
 

@@ -43,6 +43,16 @@ class protocollo_typology(orm.Model):
 class protocollo_sender_receiver(orm.Model):
     _name = 'protocollo.sender_receiver'
 
+    def on_change_type(self, cr, uid, ids, type):
+        res = {}
+        res['value'] = {
+            'partner_id': False,
+            'pa_type': False,
+            'ident_code': False,
+            'ammi_code': False
+        }
+        return res
+
     def on_change_pa_type(self, cr, uid, ids, pa_type):
         res = {'value': {}}
 
@@ -60,7 +70,7 @@ class protocollo_sender_receiver(orm.Model):
                 browse(cr, uid, partner_id, context=context)
             values = {
                 # 'type': partner.is_company and 'individual' or 'legal',
-                'type': partner.legal_type,
+                'pa_type': partner.pa_type,
                 'ident_code': partner.ident_code,
                 'ammi_code': partner.ammi_code,
                 'name': partner.name,
@@ -77,8 +87,26 @@ class protocollo_sender_receiver(orm.Model):
                 'zip': partner.zip,
                 'save_partner': False,
             }
+        else:
+            values = {
+                'pa_type': False,
+                'ident_code': False,
+                'ammi_code': False,
+                'name': False,
+                'street': False,
+                'city': False,
+                'country_id': False,
+                'email': False,
+                'phone': False,
+                'mobile': False,
+                'pec_mail': False,
+                'fax': False,
+                'zip': False,
+                'save_partner': False,
+            }
         return {'value': values}
 
+<<<<<<< HEAD
     def _get_invio_status(self, cr, uid, ids, field, arg, context=None):
         if isinstance(ids, (list, tuple)) and not len(ids):
             return []
@@ -91,6 +119,33 @@ class protocollo_sender_receiver(orm.Model):
                 for prot in protocollo_obj.browse(cr, uid, sr.protocollo_id.id):
                     if prot.state == "waiting" and prot.mail_pec_ref:
                         res[sr.id] = True
+=======
+    def on_change_pec_mail(self, cr, uid, ids, pec_mail, save_partner, context=None):
+        res = {'value': {}}
+        if pec_mail and save_partner:
+            self.pool.get('res.partner').check_email_field(cr, uid, [('pec_mail', '=', pec_mail)], 'Mail PEC', pec_mail)
+        return res
+
+    def on_change_email(self, cr, uid, ids, email, save_partner, context=None):
+        res = {'value': {}}
+        if email and save_partner:
+            self.pool.get('res.partner').check_email_field(cr, uid, [('email', '=', email)], 'Mail', email)
+        return res
+
+    def on_change_save_partner(self, cr, uid, ids, pec_mail, email, save_partner, context=None):
+        res = {'value': {}}
+        errors = []
+        if pec_mail and save_partner:
+            pec_mail_error = self.pool.get('res.partner').check_email_field(cr, uid, [('pec_mail', '=', pec_mail)],
+                                                                            'Mail PEC', pec_mail, False)
+            if pec_mail_error:
+                errors.append(('Mail PEC', pec_mail))
+        if email and save_partner:
+            email_error = self.pool.get('res.partner').check_email_field(cr, uid, [('email', '=', email)], 'Mail', email, False)
+            if email_error:
+                errors.append(('Mail', email))
+        self.pool.get('res.partner').dispatch_email_error(errors)
+>>>>>>> origin
         return res
 
     def _get_accettazione_status(self, cr, uid, ids, field, arg, context=None):
@@ -126,8 +181,8 @@ class protocollo_sender_receiver(orm.Model):
         'type': fields.selection(
             [
                 ('individual', 'Persona Fisica'),
-                ('legal', 'Azienda privata'),
-                ('government', 'Amministrazione pubblica')
+                ('legal', 'Azienda Privata'),
+                ('government', 'Amministrazione Pubblica')
             ], 'Tipologia', size=32, required=True),
 
         'pa_type': fields.selection(
@@ -138,19 +193,17 @@ class protocollo_sender_receiver(orm.Model):
             'Tipologia amministrazione', size=5, required=False),
 
         'ident_code': fields.char(
-            'Codice Identificativo Area',
+            'Codice AOO',
             size=256,
             required=False),
 
         'ammi_code': fields.char(
-            'Codice Amministrazione',
+            'Codice iPA',
             size=256,
             required=False),
 
-        'save_partner': fields.boolean(
-            'Salva',
-            help='Se spuntato salva i dati in anagrafica.'),
-        'partner_id': fields.many2one('res.partner', 'Anagrafica', domain="[('legal_type','=',type),('pa_type','=',pa_type)]"),
+        'save_partner': fields.boolean('Salva', help='Se spuntato salva i dati in anagrafica.'),
+        'partner_id': fields.many2one('res.partner', 'Copia Anagrafica da Rubrica', domain="[('legal_type','=',type)]"),
         'name': fields.char('Nome Cognome/Ragione Sociale', size=512, required=True),
         'street': fields.char('Via/Piazza num civico', size=128),
         'zip': fields.char('Cap', change_default=True, size=24),
@@ -969,41 +1022,35 @@ class protocollo_protocollo(orm.Model):
                     cr, uid, prot.id,
                     {'doc_id': attachment_id, 'datas': 0})
 
+    def get_partner_values(self, cr, uid, send_rec):
+        values = {
+            'name': send_rec.name,
+            'street': send_rec.street,
+            'city': send_rec.city,
+            'country_id': send_rec.country_id and send_rec.country_id.id or False,
+            'email': send_rec.email,
+            'pec_mail': send_rec.pec_mail,
+            'phone': send_rec.phone,
+            'mobile': send_rec.mobile,
+            'fax': send_rec.fax,
+            'zip': send_rec.zip,
+            'legal_type': send_rec.type,
+            'ident_code': send_rec.ident_code,
+            'ammi_code': send_rec.ammi_code
+        }
+        return values
+
     def action_create_partners(self, cr, uid, ids, *args):
         send_rec_obj = self.pool.get('protocollo.sender_receiver')
         for prot in self.browse(cr, uid, ids):
             for send_rec in prot.sender_receivers:
                 if send_rec.save_partner:
                     if send_rec.partner_id:
-                        raise orm.except_orm(
-                            _('Attenzione!'),
-                            _('Si sta tentando di salvare un\' anagrafica '
-                              'gia\' presente nel sistema'))
-                    values = {}
+                        raise orm.except_orm('Attenzione!', 'Si sta tentando di salvare un\' anagrafica già presente nel sistema')
                     partner_obj = self.pool.get('res.partner')
-                    values = {
-                        'name': send_rec.name,
-                        'street': send_rec.street,
-                        'city': send_rec.city,
-                        'country_id': send_rec.country_id and
-                                      send_rec.country_id.id or False,
-                        'email': send_rec.email,
-                        'pec_mail': send_rec.pec_mail,
-                        'phone': send_rec.phone,
-                        'mobile': send_rec.mobile,
-                        'fax': send_rec.fax,
-                        'zip': send_rec.zip,
-                        'legal_type': send_rec.type,
-                        'ident_code': send_rec.ident_code,
-                        'ammi_code': send_rec.ammi_code
-                    }
+                    values = self.get_partner_values(cr, uid, send_rec)
                     partner_id = partner_obj.create(cr, uid, values)
-                    send_rec_obj.write(
-                        cr,
-                        uid,
-                        send_rec.id,
-                        {'partner_id': partner_id}
-                    )
+                    send_rec_obj.write(cr, uid, [send_rec.id], {'partner_id': partner_id})
         return True
 
     def action_register(self, cr, uid, ids, context=None, *args):

@@ -21,7 +21,7 @@
                     <field name="legal_type" placeholder=""
                            attrs="{'required': True}"/>
                     <field name="pa_type" placeholder=""
-                           attrs="{'invisible': [('legal_type','!=', 'government')]}"
+                           attrs="{'required': [('legal_type','=', 'government')], 'invisible': [('legal_type','!=', 'government')]}"
                            on_change="on_change_pa_type(pa_type)"/>
 
                     <field name="super_type" placeholder=""
