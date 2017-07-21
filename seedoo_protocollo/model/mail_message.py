@@ -84,7 +84,7 @@ class MailMessage(orm.Model):
     def create(self, cr, uid, vals, context=None):
 
         msg_obj = super(MailMessage, self).create(cr, uid, vals, context=context)
-        if vals.get("pec_type") == 'accettazione' or vals.get("pec_type") == 'avvenuta-consegna':
+        if vals.get("pec_type") in ('accettazione', 'avvenuta-consegna', 'errore-consegna'):
             protocollo_obj = self.pool.get('protocollo.protocollo')
             protocollo_ids = protocollo_obj.search(cr, uid, [('mail_pec_ref', '=', vals.get('pec_msg_parent_id'))],
                                                    context=context)
@@ -94,10 +94,11 @@ class MailMessage(orm.Model):
                     receivers = self.pool.get('protocollo.sender_receiver')
                     if vals.get("pec_type") == 'accettazione':
                         receivers_ids = receivers.search(cr, uid, [('protocollo_id', '=', protocollo_id)], context=context)
-                    elif vals.get("pec_type") == 'avvenuta-consegna':
+                    elif vals.get("pec_type") in ('avvenuta-consegna', 'errore-consegna'):
                         receivers_ids = receivers.search(cr, uid, [('protocollo_id', '=', protocollo_id), ('pec_mail', '=', vals.get('recipient_addr'))], context=context)
 
                     for receiver_id in receivers_ids:
+                        msg_log = None
                         receiver = self.pool.get('protocollo.sender_receiver')
                         receiver_obj = receiver.browse(cr, uid, receiver_id, context=context)
 
@@ -106,22 +107,34 @@ class MailMessage(orm.Model):
                         action_class = "history_icon registration"
 
                         if vals.get("pec_type") == 'accettazione':
-                            msg_type = 'accettata'
+                            msg_log = "<div class='%s'><ul><li>PEC prot. %d inviata a %s e' stata accettata</li></ul></div>" \
+                                             % (action_class, protocollo_id, receiver_obj.pec_mail)
                             notification_vals = {
                                 'pec_ref': vals.get('pec_msg_parent_id'),
                                 'pec_accettazione_ref': msg_obj
                             }
                         elif vals.get("pec_type") == 'avvenuta-consegna':
-                            msg_type = 'consegnata'
+                            msg_log = "<div class='%s'><ul><li>PEC prot. %d inviata a %s e' stata consegnata</li></ul></div>" \
+                                      % (action_class, protocollo_id, receiver_obj.pec_mail)
                             notification_vals = {
                                 'pec_ref': vals.get('pec_msg_parent_id'),
                                 'pec_consegna_ref': msg_obj
                             }
+                        elif vals.get("pec_type") == 'errore-consegna':
+                            if vals.get("errore-esteso"):
+                                msg_log = "<div class='%s'><ul><li>PEC prot. %d inviata a %s non e' stata consegnata per il seguente errore: <strong>%s</strong></li></ul></div>" \
+                                % (action_class, protocollo_id, receiver_obj.pec_mail, vals.get("errore-esteso"))
+                            else:
+                                msg_log = "<div class='%s'><ul><li>PEC prot. %d inviata a %s non e' stata consegnata a causa di un errore</li></ul></div>" \
+                                % (action_class, protocollo_id, receiver_obj.pec_mail)
+                            notification_vals = {
+                                'pec_ref': vals.get('pec_msg_parent_id'),
+                                'pec_errore-consegna_ref': msg_obj
+                            }
                         receiver_obj.write(notification_vals)
 
                         post_vars = {'subject': "Ricevuta di %s" % vals.get("pec_type"),
-                                     'body': "<div class='%s'><ul><li>PEC prot. %d inviata a %s e' stata %s</li></ul></div>" \
-                                             % (action_class, protocollo_id, receiver_obj.pec_mail, msg_type),
+                                     'body': str(msg_log),
                                      'model': "protocollo.protocollo",
                                      'res_id': protocollo_obj.id,
                                      }

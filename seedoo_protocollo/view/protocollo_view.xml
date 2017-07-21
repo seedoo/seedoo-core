@@ -408,6 +408,8 @@ this module contains the full copyright notices and license terms. -->
                                 <field name="pec_accettazione_ora" attrs="{'invisible':[('protocol_state','!=','waiting')]}"/>
                                 <field name="pec_consegna_ref" attrs="{'invisible':[('protocol_state','!=','waiting')]}"/>
                                 <field name="pec_consegna_ora" attrs="{'invisible':[('protocol_state','!=','waiting')]}"/>
+                                <field name="pec_errore-consegna_ref" attrs="{'invisible':[('protocol_state','!=','waiting')]}"/>
+                                <field name="pec_errore-consegna_ora" attrs="{'invisible':[('protocol_state','!=','waiting')]}"/>
                             </group>
 
                             <newline/>
@@ -790,7 +792,7 @@ this module contains the full copyright notices and license terms. -->
                     <field name="subject"/>
                     <field name="typology"/>
                     <field name="state"/>
-                    <field name="pec_notifications_ids"/>
+                    <field name="pec_notifications_ids" invisible="1"/>
                     <field name="pec_notifications_sum" invisible="1"/>
                 </tree>
             </field>

@@ -180,11 +180,14 @@ class protocollo_sender_receiver(orm.Model):
         'pec_ref': fields.many2one('mail.message', 'Consegna PEC'),
         'pec_accettazione_ref': fields.many2one('mail.message', 'Accettazione PEC', readonly=True),
         'pec_consegna_ref': fields.many2one('mail.message', 'Consegna PEC', readonly=True),
+        'pec_errore-consegna_ref': fields.many2one('mail.message', 'Errore Consegna PEC', readonly=True),
         'pec_accettazione_status': fields.function(_get_accettazione_status, type='boolean', string='Accettazione'),
         'pec_consegna_status': fields.function(_get_consegna_status, type='boolean', string='Consegna'),
+        'pec_errore-consegna_status': fields.function(_get_consegna_status, type='boolean', string='Errore Consegna'),
         'pec_ora': fields.related('pec_ref', 'date', type='datetime', string='Orario Invio PEC', readonly=False, store=False),
         'pec_accettazione_ora': fields.related('pec_accettazione_ref', 'cert_datetime', type='datetime', string='Orario PEC Accettazione', readonly=False, store=False),
         'pec_consegna_ora': fields.related('pec_consegna_ref', 'cert_datetime', type='datetime', string='Orario PEC Consegna', readonly=False, store=False),
+        'pec_errore-consegna_ora': fields.related('pec_errore-consegna_ref', 'cert_datetime', type='datetime', string='Orario PEC Errore Consegna', readonly=False, store=False),
 
     }
 
