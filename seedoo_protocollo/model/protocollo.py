@@ -79,15 +79,29 @@ class protocollo_sender_receiver(orm.Model):
             }
         return {'value': values}
 
+    def _get_invio_status(self, cr, uid, ids, field, arg, context=None):
+        if isinstance(ids, (list, tuple)) and not len(ids):
+            return []
+        if isinstance(ids, (long, int)):
+            ids = [ids]
+        res = dict.fromkeys(ids, False)
+        for sr in self.browse(cr, uid, ids):
+            if sr.protocollo_id.id:
+                protocollo_obj = self.pool.get('protocollo.protocollo')
+                for prot in protocollo_obj.browse(cr, uid, sr.protocollo_id.id):
+                    if prot.state == "waiting" and prot.mail_pec_ref:
+                        res[sr.id] = True
+        return res
+
     def _get_accettazione_status(self, cr, uid, ids, field, arg, context=None):
         if isinstance(ids, (list, tuple)) and not len(ids):
             return []
         if isinstance(ids, (long, int)):
             ids = [ids]
         res = dict.fromkeys(ids, False)
-        for prot in self.browse(cr, uid, ids):
-            if prot.pec_accettazione_ref.id:
-                res[prot.id] = True
+        for sr in self.browse(cr, uid, ids):
+            if sr.pec_accettazione_ref.id:
+                res[sr.id] = True
         return res
 
     def _get_consegna_status(self, cr, uid, ids, field, arg, context=None):
@@ -96,9 +110,9 @@ class protocollo_sender_receiver(orm.Model):
         if isinstance(ids, (long, int)):
             ids = [ids]
         res = dict.fromkeys(ids, False)
-        for prot in self.browse(cr, uid, ids):
-            if prot.pec_consegna_ref.id:
-                res[prot.id] = True
+        for sr in self.browse(cr, uid, ids):
+            if sr.pec_consegna_ref.id:
+                res[sr.id] = True
         return res
 
 
@@ -156,8 +170,9 @@ class protocollo_sender_receiver(orm.Model):
         'pec_accettazione_ref': fields.many2one('mail.message', 'Accettazione PEC', readonly=True),
         'pec_consegna_ref': fields.many2one('mail.message', 'Consegna PEC', readonly=True),
         'pec_errore-consegna_ref': fields.many2one('mail.message', 'Errore Consegna PEC', readonly=True),
-        'pec_accettazione_status': fields.function(_get_accettazione_status, type='boolean', string='Accettazione'),
-        'pec_consegna_status': fields.function(_get_consegna_status, type='boolean', string='Consegna'),
+        'pec_invio_status': fields.function(_get_invio_status, type='boolean', string='Inviato'),
+        'pec_accettazione_status': fields.function(_get_accettazione_status, type='boolean', string='Accettato'),
+        'pec_consegna_status': fields.function(_get_consegna_status, type='boolean', string='Consegnato'),
         'pec_errore-consegna_status': fields.function(_get_consegna_status, type='boolean', string='Errore Consegna'),
         'pec_ora': fields.related('pec_ref', 'date', type='datetime', string='Orario Invio PEC', readonly=False, store=False),
         'pec_accettazione_ora': fields.related('pec_accettazione_ref', 'cert_datetime', type='datetime', string='Orario PEC Accettazione', readonly=False, store=False),

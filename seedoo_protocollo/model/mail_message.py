@@ -107,26 +107,26 @@ class MailMessage(orm.Model):
                         action_class = "history_icon registration"
 
                         if vals.get("pec_type") == 'accettazione':
-                            msg_log = "<div class='%s'><ul><li>PEC prot. %d inviata a %s e' stata accettata</li></ul></div>" \
-                                             % (action_class, protocollo_id, receiver_obj.pec_mail)
+                            msg_log = "<div class='%s'><ul><li>PEC prot. %s inviata a %s e' stata accettata</li></ul></div>" \
+                                             % (action_class, protocollo_obj.complete_name, receiver_obj.pec_mail)
                             notification_vals = {
                                 'pec_ref': vals.get('pec_msg_parent_id'),
                                 'pec_accettazione_ref': msg_obj
                             }
                         elif vals.get("pec_type") == 'avvenuta-consegna':
-                            msg_log = "<div class='%s'><ul><li>PEC prot. %d inviata a %s e' stata consegnata</li></ul></div>" \
-                                      % (action_class, protocollo_id, receiver_obj.pec_mail)
+                            msg_log = "<div class='%s'><ul><li>PEC prot. %s inviata a %s e' stata consegnata</li></ul></div>" \
+                                      % (action_class, protocollo_obj.complete_name, receiver_obj.pec_mail)
                             notification_vals = {
                                 'pec_ref': vals.get('pec_msg_parent_id'),
                                 'pec_consegna_ref': msg_obj
                             }
                         elif vals.get("pec_type") == 'errore-consegna':
                             if vals.get("errore-esteso"):
-                                msg_log = "<div class='%s'><ul><li>PEC prot. %d inviata a %s non e' stata consegnata per il seguente errore: <strong>%s</strong></li></ul></div>" \
-                                % (action_class, protocollo_id, receiver_obj.pec_mail, vals.get("errore-esteso"))
+                                msg_log = "<div class='%s'><ul><li>PEC prot. %s inviata a %s non e' stata consegnata per il seguente errore: <strong>%s</strong></li></ul></div>" \
+                                % (action_class, protocollo_obj.complete_name, receiver_obj.pec_mail, vals.get("errore-esteso"))
                             else:
-                                msg_log = "<div class='%s'><ul><li>PEC prot. %d inviata a %s non e' stata consegnata a causa di un errore</li></ul></div>" \
-                                % (action_class, protocollo_id, receiver_obj.pec_mail)
+                                msg_log = "<div class='%s'><ul><li>PEC prot. %s inviata a %s non e' stata consegnata a causa di un errore</li></ul></div>" \
+                                % (action_class, protocollo_obj.complete_name, receiver_obj.pec_mail)
                             notification_vals = {
                                 'pec_ref': vals.get('pec_msg_parent_id'),
                                 'pec_errore-consegna_ref': msg_obj
