@@ -28,6 +28,9 @@ this module contains the full copyright notices and license terms. -->
                         <newline/>
                         <field name="genera_xml_segnatura"/>
                     </group>
+                    <group string="Rubrica">
+                        <field name="email_pec_unique"/>
+                    </group>
                     <field name="config_id" invisible="True" on_change="on_change_config_id(config_id)"/>
                 </form>
             </field>

@@ -390,8 +390,8 @@ this module contains the full copyright notices and license terms. -->
 
                             <newline/>
                             <group class="shipping" string="Info di Spedizione" colspan="4" col="4">
-                                <field name="send_type"/>
                                 <field name="send_date"/>
+                                <field name="send_type" invisible="1"/>
                                 <field name="protocol_state" invisible="1"/>
                             </group>
 

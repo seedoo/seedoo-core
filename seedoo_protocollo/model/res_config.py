@@ -43,6 +43,8 @@ class protocollo_config_settings(osv.osv_memory):
                  type='boolean', string='Uffici Assegnatari per Conoscenza'),
         'assegnatari_conoscenza_dipendenti_required': fields.related('config_id', 'assegnatari_conoscenza_dipendenti_required',
                  type='boolean', string='Dipendenti Assegnatari per Conoscenza'),
+
+        'email_pec_unique': fields.related('config_id', 'email_pec_unique', type='boolean', string='PEC/Email Univoca'),
     }
 
     def _default_config_id(self, cr, uid, context):

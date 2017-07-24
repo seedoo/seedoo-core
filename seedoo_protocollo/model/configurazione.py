@@ -20,6 +20,8 @@ class protocollo_configurazione(orm.Model):
         'assegnatari_competenza_dipendenti_required': fields.boolean('Dipendenti Assegnatari per Competenza Obbligatori'),
         'assegnatari_conoscenza_uffici_required': fields.boolean('Uffici Assegnatari per Conoscenza Obbligatori'),
         'assegnatari_conoscenza_dipendenti_required': fields.boolean('Dipendenti Assegnatari per Conoscenza Obbligatori'),
+
+        'email_pec_unique': fields.boolean('PEC/Email Univoca'),
     }
 
     _defaults = {
@@ -31,6 +33,7 @@ class protocollo_configurazione(orm.Model):
         'assegnatari_competenza_dipendenti_required': False,
         'assegnatari_conoscenza_uffici_required': False,
         'assegnatari_conoscenza_dipendenti_required': False,
+        'email_pec_unique': True,
     }
 
     def verifica_campi_obbligatori(self, cr, uid, protocollo):

@@ -54,11 +54,15 @@ class res_partner(orm.Model):
             raise orm.except_orm('Errore!', error)
 
     def check_email_field(self, cr, uid, domain, field, value, dispatch=True):
-        if (self.search(cr, uid, domain)):
-            if dispatch:
-                self.dispatch_email_error([(field, value)])
-            else:
-                return True
+        configurazione_obj = self.pool.get('protocollo.configurazione')
+        configurazione_ids = configurazione_obj.search(cr, uid, [])
+        configurazione = configurazione_obj.browse(cr, uid, configurazione_ids[0])
+        if configurazione.email_pec_unique:
+            if (self.search(cr, uid, domain)):
+                if dispatch:
+                    self.dispatch_email_error([(field, value)])
+                else:
+                    return True
         return False
 
     def check_field_in_create(self, cr, uid, vals):

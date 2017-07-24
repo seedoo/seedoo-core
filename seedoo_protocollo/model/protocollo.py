@@ -106,20 +106,6 @@ class protocollo_sender_receiver(orm.Model):
             }
         return {'value': values}
 
-<<<<<<< HEAD
-    def _get_invio_status(self, cr, uid, ids, field, arg, context=None):
-        if isinstance(ids, (list, tuple)) and not len(ids):
-            return []
-        if isinstance(ids, (long, int)):
-            ids = [ids]
-        res = dict.fromkeys(ids, False)
-        for sr in self.browse(cr, uid, ids):
-            if sr.protocollo_id.id:
-                protocollo_obj = self.pool.get('protocollo.protocollo')
-                for prot in protocollo_obj.browse(cr, uid, sr.protocollo_id.id):
-                    if prot.state == "waiting" and prot.mail_pec_ref:
-                        res[sr.id] = True
-=======
     def on_change_pec_mail(self, cr, uid, ids, pec_mail, save_partner, context=None):
         res = {'value': {}}
         if pec_mail and save_partner:
@@ -145,8 +131,20 @@ class protocollo_sender_receiver(orm.Model):
             if email_error:
                 errors.append(('Mail', email))
         self.pool.get('res.partner').dispatch_email_error(errors)
->>>>>>> origin
         return res
+
+    def _get_invio_status(self, cr, uid, ids, field, arg, context=None):
+        if isinstance(ids, (list, tuple)) and not len(ids):
+            return []
+        if isinstance(ids, (long, int)):
+            ids = [ids]
+        res = dict.fromkeys(ids, False)
+        for sr in self.browse(cr, uid, ids):
+            if sr.protocollo_id.id:
+                protocollo_obj = self.pool.get('protocollo.protocollo')
+                for prot in protocollo_obj.browse(cr, uid, sr.protocollo_id.id):
+                    if prot.state == "waiting" and prot.mail_pec_ref:
+                        res[sr.id] = True
 
     def _get_accettazione_status(self, cr, uid, ids, field, arg, context=None):
         if isinstance(ids, (list, tuple)) and not len(ids):
