@@ -66,13 +66,13 @@ class protocollo_sender_receiver(orm.Model):
     def on_change_partner(self, cr, uid, ids, partner_id, context=None):
         values = {}
         if partner_id:
-            partner = self.pool.get('res.partner'). \
-                browse(cr, uid, partner_id, context=context)
+            partner = self.pool.get('res.partner').browse(cr, uid, partner_id, context=context)
             values = {
                 # 'type': partner.is_company and 'individual' or 'legal',
                 'pa_type': partner.pa_type,
                 'ident_code': partner.ident_code,
                 'ammi_code': partner.ammi_code,
+                'ipa_code': partner.ipa_code,
                 'name': partner.name,
                 'street': partner.street,
                 'city': partner.city,
@@ -92,6 +92,7 @@ class protocollo_sender_receiver(orm.Model):
                 'pa_type': False,
                 'ident_code': False,
                 'ammi_code': False,
+                'ipa_code': False,
                 'name': False,
                 'street': False,
                 'city': False,
@@ -190,15 +191,9 @@ class protocollo_sender_receiver(orm.Model):
                 ('uo', 'Unità Organizzativa')],
             'Tipologia amministrazione', size=5, required=False),
 
-        'ident_code': fields.char(
-            'Codice AOO',
-            size=256,
-            required=False),
-
-        'ammi_code': fields.char(
-            'Codice iPA',
-            size=256,
-            required=False),
+        'ident_code': fields.char('Codice AOO', size=256, required=False),
+        'ammi_code': fields.char('Codice iPA', size=256, required=False),
+        'ipa_code': fields.char('Codice Unità Organizzativa', size=256, required=False),
 
         'save_partner': fields.boolean('Salva', help='Se spuntato salva i dati in anagrafica.'),
         'partner_id': fields.many2one('res.partner', 'Copia Anagrafica da Rubrica', domain="[('legal_type','=',type)]"),
@@ -1033,8 +1028,10 @@ class protocollo_protocollo(orm.Model):
             'fax': send_rec.fax,
             'zip': send_rec.zip,
             'legal_type': send_rec.type,
+            'pa_type': send_rec.pa_type,
             'ident_code': send_rec.ident_code,
-            'ammi_code': send_rec.ammi_code
+            'ammi_code': send_rec.ammi_code,
+            'ipa_code': send_rec.ipa_code
         }
         return values
 
@@ -1042,9 +1039,9 @@ class protocollo_protocollo(orm.Model):
         send_rec_obj = self.pool.get('protocollo.sender_receiver')
         for prot in self.browse(cr, uid, ids):
             for send_rec in prot.sender_receivers:
-                if send_rec.save_partner:
-                    if send_rec.partner_id:
-                        raise orm.except_orm('Attenzione!', 'Si sta tentando di salvare un\' anagrafica già presente nel sistema')
+                if send_rec.save_partner and not send_rec.partner_id:
+                    #if send_rec.partner_id:
+                    #    raise orm.except_orm('Attenzione!', 'Si sta tentando di salvare un\' anagrafica già presente nel sistema')
                     partner_obj = self.pool.get('res.partner')
                     values = self.get_partner_values(cr, uid, send_rec)
                     partner_id = partner_obj.create(cr, uid, values)

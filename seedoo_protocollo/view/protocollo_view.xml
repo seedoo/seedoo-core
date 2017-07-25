@@ -367,6 +367,8 @@ this module contains the full copyright notices and license terms. -->
                                 <field name="ammi_code" attrs="{'invisible': ['|', ('type','!=', 'government'), ('pa_type','!=', 'pa')]}"/>
                                 <newline/>
                                 <field name="ident_code" attrs="{'invisible': ['|', ('type','!=', 'government'), ('pa_type','!=', 'aoo')]}"/>
+                                <newline/>
+                                <field name="ipa_code" attrs="{'invisible': ['|', ('type','!=', 'government'), ('pa_type','!=', 'uo')]}"/>
                             </group>
 
                             <newline/>
