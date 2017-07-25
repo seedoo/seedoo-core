@@ -65,6 +65,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="view_id" ref="view_rubrica_tree"/>
             <field name="search_view_id" ref="view_rubrica_filter"/>
             <field name="domain">[('legal_type','=','government')]</field>
+            <field name="context">{'legal_type': 'government'}</field>
         </record>
 
         <record model='ir.actions.act_window' id='rubrica_action_amm'>
@@ -75,6 +76,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="view_id" ref="view_rubrica_tree"/>
             <field name="search_view_id" ref="view_rubrica_filter"/>
             <field name="domain">[('legal_type','=','government'),('pa_type','=','pa')]</field>
+            <field name="context">{'legal_type': 'government', 'pa_type': 'pa'}</field>
         </record>
 
         <record model='ir.actions.act_window' id='rubrica_action_aoo'>
@@ -85,6 +87,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="view_id" ref="view_rubrica_tree"/>
             <field name="search_view_id" ref="view_rubrica_filter"/>
             <field name="domain">[('legal_type','=','government'),('pa_type','=','aoo')]</field>
+            <field name="context">{'legal_type': 'government', 'pa_type': 'aoo'}</field>
         </record>
 
         <record model='ir.actions.act_window' id='rubrica_action_uo'>
@@ -95,13 +98,13 @@ this module contains the full copyright notices and license terms. -->
             <field name="view_id" ref="view_rubrica_tree"/>
             <field name="search_view_id" ref="view_rubrica_filter"/>
             <field name="domain">[('legal_type','=','government'),('pa_type','=','uo')]</field>
+            <field name="context">{'legal_type': 'government', 'pa_type': 'uo'}</field>
         </record>
 
         <menuitem name="PA" id="menu_rubrica_pa" parent="menu_rubrica_esterna_main" action="rubrica_action_pa" sequence="2"/>
         <menuitem name="Amministrazioni" id="menu_rubrica_pa_amm" parent="menu_rubrica_pa" action="rubrica_action_amm" sequence="1"/>
         <menuitem name="AOO" id="menu_rubrica_pa_aoo" sequence="2" parent="menu_rubrica_pa" action="rubrica_action_aoo"/>
         <menuitem name="UO" id="menu_rubrica_pa_uo" sequence="3" parent="menu_rubrica_pa" action="rubrica_action_uo"/>
-
 
         <record model='ir.actions.act_window' id='rubrica_action_pg'>
             <field name="name">Rubrica</field>
@@ -111,6 +114,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="view_id" ref="view_rubrica_tree"/>
             <field name="search_view_id" ref="view_rubrica_filter"/>
             <field name="domain">[('legal_type','=','legal')]</field>
+            <field name="context">{'legal_type': 'legal'}</field>
         </record>
 
         <record model='ir.actions.act_window' id='rubrica_action_pf'>
@@ -121,6 +125,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="view_id" ref="view_rubrica_tree"/>
             <field name="search_view_id" ref="view_rubrica_filter"/>
             <field name="domain">[('legal_type','=','individual')]</field>
+            <field name="context">{'legal_type': 'individual'}</field>
         </record>
 
         <menuitem name="Aziende Private" id="menu_rubrica_pg" parent="menu_rubrica_esterna_main" action="rubrica_action_pg" sequence="3"/>

@@ -16,12 +16,12 @@ class res_partner(orm.Model):
     # generic models
     _inherit = 'res.partner'
 
-    def on_change_pa_type(self, cr, uid, ids, pa_type):
+    def on_change_legal_type(self, cr, uid, ids, legal_type):
         res = {'value': {}}
-        if pa_type == 'aoo':
-            res['value']['super_type'] = 'pa'
-        elif pa_type == 'uo':
-            res['value']['super_type'] = 'aoo'
+        if legal_type=='legal' or legal_type=='government':
+            res['value']['is_company'] = True
+        else:
+            res['value']['is_company'] = False
         return res
 
     def on_change_pa_type(self, cr, uid, ids, pa_type):
@@ -31,6 +31,18 @@ class res_partner(orm.Model):
         elif pa_type == 'uo':
             res['value']['super_type'] = 'aoo'
         return res
+
+    def _is_visible_parent_id(self, cr, uid, ids, name, arg, context=None):
+        return {}
+
+    def _is_visible_parent_id_search(self, cr, uid, obj, name, args, domain=None, context=None):
+        partner_ids = []
+        if context and context.has_key('legal_type') and context['legal_type']:
+            if context['legal_type'] == 'individual':
+                partner_ids = self.pool.get('res.partner').search(cr, uid, [('legal_type','=', 'legal')])
+            elif context['legal_type'] == 'government' and context.has_key('pa_type'):
+                partner_ids = self.pool.get('res.partner').search(cr, uid, [('pa_type','!=', False),('pa_type','!=', context['pa_type']),('pa_type','!=', 'uo')])
+        return [('id', 'in', partner_ids)]
 
     _columns = {
         'legal_type': fields.selection([('individual', 'Persona Fisica'), ('legal', 'Azienda Privata'), ('government', 'Amministrazione Pubblica')],
@@ -41,9 +53,26 @@ class res_partner(orm.Model):
         'ident_code': fields.char('Codice AOO', size=256, required=False),
         'ammi_code': fields.char('Codice iPA', size=256, required=False),
         'ipa_code': fields.char('Codice Unità Organizzativa', size=256, required=False),
-        'parent_pa_id': fields.many2one('res.partner', 'PA di Appartenenza', required=False),
-        'parent_pa_type': fields.related('parent_pa_id', 'pa_type', type='char', readonly=True, string='Tipologia amministrazione padre'),
-        'child_pa_ids': fields.one2many('res.partner', 'parent_pa_id', 'Strutture Afferenti', required=False)
+        #'parent_pa_id': fields.many2one('res.partner', 'PA di Appartenenza', required=False),
+        #'parent_pa_type': fields.related('parent_pa_id', 'pa_type', type='char', readonly=True, string='Tipologia amministrazione padre'),
+        #'child_pa_ids': fields.one2many('res.partner', 'parent_pa_id', 'Strutture Afferenti', required=False)
+
+        'is_visible_parent_id': fields.function(_is_visible_parent_id, fnct_search=_is_visible_parent_id_search, type='boolean', string='Visibile'),
+    }
+
+    def _get_default_legal_type(self, cr, uid, context=None):
+        if context and context.has_key('legal_type') and context['legal_type']:
+            return context['legal_type']
+        return False
+
+    def _get_default_pa_type(self, cr, uid, context=None):
+        if context and context.has_key('pa_type') and context['pa_type']:
+            return context['pa_type']
+        return False
+
+    _defaults = {
+        'legal_type': _get_default_legal_type,
+        'pa_type': _get_default_pa_type,
     }
 
     def dispatch_email_error(self, values):

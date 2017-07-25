@@ -7,55 +7,68 @@
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="l10n_it_ipa.view_partner_ipa_form"/>
             <field name="arch" type="xml">
+                <!--
                 <field name="is_company" position="attributes">
                     <attribute name="attrs">{'invisible': True}</attribute>
                 </field>
-                <label for="is_company" position="attributes">
-                    <attribute name="attrs">{'invisible': True}</attribute>
-                </label>
                 <field name="parent_id" position="attributes">
                     <attribute name="attrs">{'invisible': True}</attribute>
                 </field>
+                -->
 
-                <field name="website" position="after">
-                    <field name="legal_type" placeholder=""
-                           attrs="{'required': True}"/>
-                    <field name="pa_type" placeholder=""
+                <xpath expr="//div[@class='oe_edit_only']" position="replace">
+                    <div class="oe_edit_only">
+                        <label for="name"/>
+                        <field name="is_company" on_change="onchange_type(is_company)" invisible="1"/>
+                    </div>
+                </xpath>
+
+                <field name="parent_id" position="before">
+                    <field name="legal_type" attrs="{'required': True}" widget="radio" on_change="on_change_legal_type(legal_type)"/>
+                    <field name="pa_type"
                            attrs="{'required': [('legal_type','=', 'government')], 'invisible': [('legal_type','!=', 'government')]}"
-                           on_change="on_change_pa_type(pa_type)"/>
+                           on_change="on_change_pa_type(pa_type)"
+                    />
+                </field>
 
-                    <field name="super_type" placeholder=""
-                           attrs="{'invisible': True}"/>
-                    <field name="parent_pa_type" placeholder=""
-                           attrs="{'invisible': True}"/>
+                <field name="parent_id" position="attributes">
+                    <attribute name="string">PA di Appartenenza</attribute>
+                    <attribute name="placeholder">PA di Appartenenza</attribute>
+                    <attribute name="attrs">{'invisible': ['|', '|', '|',
+                        ('legal_type', '=', False),
+                        ('legal_type', '=', 'legal'),
+                        '&amp;', ('legal_type', '=', 'government'), ('pa_type', '=', False),
+                        '&amp;', ('legal_type', '=', 'government'), ('pa_type', '=', 'pa')
+                        ]}
+                    </attribute>
+                    <attribute name="context">{'legal_type': legal_type, 'pa_type': pa_type}</attribute>
+                    <attribute name="domain">[('is_visible_parent_id', '=', True)]</attribute>
+                </field>
 
-                    <field name="ammi_code" placeholder=""
-                           attrs="{
-                                'invisible': ['|', ('legal_type','!=', 'government'), ('pa_type','!=', 'pa')],
-                                'required': [('legal_type','=', 'government'), ('pa_type','=', 'pa')],
-                           }"/>
-                    <field name="ident_code" placeholder=""
-                           attrs="{
-                                'invisible': ['|', ('legal_type','!=', 'government'), ('pa_type','!=', 'aoo')],
-                                'required': [('legal_type','=', 'government'), ('pa_type','=', 'aoo')],
-                           }"/>
-                    <field name="parent_pa_id" placeholder=""
+                <field name="ipa_code" position="replace">
+
+                </field>
+
+                <field name="title" position="after">
+                    <field name="ammi_code"
+                           attrs="{'invisible': ['|', ('legal_type','!=', 'government'), ('pa_type','!=', 'pa')]}"
+                    />
+                    <field name="ident_code"
+                           attrs="{'invisible': ['|', ('legal_type','!=', 'government'), ('pa_type','!=', 'aoo')]}"
+                    />
+                    <field name="ipa_code" string="Codice Unità Organizzativa"
+                           attrs="{'invisible': ['|', ('legal_type','!=', 'government'), ('pa_type','!=', 'uo')]}"
+                    />
+                    <!--
+                    <field name="parent_pa_id" placeholder="PA di Appartenenza"
                            attrs="{
                                 'invisible': ['|', ('legal_type','!=', 'government'), ('pa_type','not in', ['aoo', 'uo'])]
                            }"
                            domain="[('pa_type','!=', False),('pa_type','!=', pa_type),('pa_type','!=', 'uo')]"
                     />
-                </field>
-                <field name="ipa_code" position="attributes">
-                    <attribute name="attrs">{
-                        'invisible': ['|', ('legal_type','!=', 'government'),
-                        ('pa_type','!=', 'uo')],
-                        'required': [('legal_type','=', 'government'),
-                        ('pa_type','=', 'uo')]
-                        }
-                    </attribute>
-                    <attribute name="string">Codice Unità Organizzativa
-                    </attribute>
+                    <field name="parent_pa_type" attrs="{'invisible': True}"/>
+                    -->
+                    <field name="super_type" attrs="{'invisible': True}"/>
                 </field>
 
             </field>

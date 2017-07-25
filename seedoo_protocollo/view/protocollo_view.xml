@@ -360,19 +360,13 @@ this module contains the full copyright notices and license terms. -->
                                 <field name="type" on_change="on_change_type(type)"/>
                                 <field name="partner_id" on_change="on_change_partner(partner_id)" options="{'no_quick_create': True, 'no_create_edit': True}"/>
 
-                                <field name="pa_type" placeholder="" attrs="{'required': [('type','=', 'government')], 'invisible': [('type','!=', 'government')]}" on_change="on_change_pa_type(pa_type)"/>
+                                <field name="pa_type" placeholder="" attrs="{'invisible': [('type','!=', 'government')]}" on_change="on_change_pa_type(pa_type)"/>
                                 <newline/>
                                 <field name="name"/>
                                 <newline/>
-                                <field name="ammi_code" attrs="{
-                                        'required': [('type','=','government'), ('pa_type','=', 'pa')],
-                                        'invisible': ['|', ('type','!=', 'government'), ('pa_type','!=', 'pa')]}
-                                "/>
+                                <field name="ammi_code" attrs="{'invisible': ['|', ('type','!=', 'government'), ('pa_type','!=', 'pa')]}"/>
                                 <newline/>
-                                <field name="ident_code" attrs="{
-                                        'invisible': ['|', ('type','!=', 'government'), ('pa_type','!=', 'aoo')],
-                                        'required': [('type','=', 'government'), ('pa_type','=', 'aoo')],
-                                }"/>
+                                <field name="ident_code" attrs="{'invisible': ['|', ('type','!=', 'government'), ('pa_type','!=', 'aoo')]}"/>
                             </group>
 
                             <newline/>
