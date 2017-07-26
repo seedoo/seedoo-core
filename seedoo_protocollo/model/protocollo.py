@@ -169,6 +169,20 @@ class protocollo_sender_receiver(orm.Model):
                 res[sr.id] = True
         return res
 
+    def _get_default_protocollo_id(self, cr, uid, context=None):
+        if context and 'is_add_pec_receiver' in context and context['is_add_pec_receiver']:
+            if context.has_key('protocollo_id') and context['protocollo_id']:
+                return context['protocollo_id']
+
+    def _get_default_source(self, cr, uid, context=None):
+        if context and 'is_add_pec_receiver' in context and context['is_add_pec_receiver']:
+            return 'receiver'
+        return None
+
+    def _get_add_pec_receiver_visibility(self, cr, uid, context=None):
+        if context and 'is_add_pec_receiver' in context and context['is_add_pec_receiver']:
+            return True
+        return False
 
     _columns = {
         'protocollo_id': fields.many2one('protocollo.protocollo', 'Protocollo'),
@@ -224,16 +238,24 @@ class protocollo_sender_receiver(orm.Model):
         'pec_accettazione_ora': fields.related('pec_accettazione_ref', 'cert_datetime', type='datetime', string='Orario PEC Accettazione', readonly=False, store=False),
         'pec_consegna_ora': fields.related('pec_consegna_ref', 'cert_datetime', type='datetime', string='Orario PEC Consegna', readonly=False, store=False),
         'pec_errore-consegna_ora': fields.related('pec_errore-consegna_ref', 'cert_datetime', type='datetime', string='Orario PEC Errore Consegna', readonly=False, store=False),
+        'add_pec_receiver_visibility': fields.boolean('Button Visibility', readonly=True),
 
     }
 
     _defaults = {
         'type': 'individual',
+        'protocollo_id':_get_default_protocollo_id,
+        'source':_get_default_source,
+        'add_pec_receiver_visibility': _get_add_pec_receiver_visibility
     }
 
     def create(self, cr, uid, vals, context=None):
         sender_receiver = super(protocollo_sender_receiver, self).create(cr, uid, vals, context=context)
         return sender_receiver
+
+    def aggiungi_destinatario_pec_action(self, cr, uid, ids, context=None):
+        a = 0
+        return a
 
 
 class protocollo_registry(orm.Model):
@@ -1168,6 +1190,13 @@ class protocollo_protocollo(orm.Model):
                 raise openerp.exceptions.Warning(_('Errore nella \
                     notifica del protocollo, manca il server pec in uscita'))
             mail_server = mail_server_obj.browse(cr, uid, mail_server_ids[0])
+            sender_receivers_pec_mails = []
+            if prot.sender_receivers:
+                for sender_receiver_id in prot.sender_receivers.ids:
+                    sender_receiver_obj = self.pool.get('protocollo.sender_receiver').browse(cr, uid, sender_receiver_id, context=context)
+                    if not sender_receiver_obj.pec_invio_status:
+                        sender_receivers_pec_mails.append(sender_receiver_obj.pec_mail)
+
             values = {}
             values['subject'] = prot.subject
             values['body_html'] = prot.body
@@ -1175,8 +1204,8 @@ class protocollo_protocollo(orm.Model):
             values['email_from'] = mail_server.smtp_user
             values['reply_to'] = mail_server.in_server_id.user
             values['mail_server_id'] = mail_server.id
-            values['email_to'] = ','.join([sr.pec_mail for sr in
-                                           prot.sender_receivers]
+            values['email_to'] = ','.join([sr for sr in
+                                           sender_receivers_pec_mails]
                                           )
             values['pec_state'] = 'protocol'
             values['pec_type'] = 'posta-certificata'
@@ -1227,11 +1256,28 @@ class protocollo_protocollo(orm.Model):
                     su un tipo di protocollo non pec.'))
         return True
 
+    def _process_new_pec(self, cr, uid, ids, protocollo_obj, context=None):
+        # check if waiting then resend pec mail
+        if isinstance(ids, (list, tuple)) and not len(ids):
+            return []
+        if isinstance(ids, (long, int)):
+            ids = [ids]
+
+        for prot in self.browse(cr, uid, ids):
+            if prot.state in ('waiting', 'error'):
+                wf_service = netsvc.LocalService('workflow')
+                wf_service.trg_validate(uid, 'protocollo.protocollo', prot.id, 'resend', cr)
+        return True
+
     def action_pec_send(self, cr, uid, ids, *args):
         context = {'pec_messages': True}
         for prot_id in ids:
             self._create_outgoing_pec(cr, uid, prot_id, context=context)
         return True
+
+    def action_resend(self, cr, uid, ids, context=None):
+        protocollo_obj = self.pool.get('protocollo.protocollo')
+        protocollo_obj._process_new_pec(cr, uid, ids, protocollo_obj, context)
 
     def mail_message_id_pec_get(self, cr, uid, ids, *args):
         res = {}
@@ -1601,6 +1647,30 @@ class protocollo_protocollo(orm.Model):
                 attachments=attachments, context=context,
                 content_subtype=content_subtype, **kwargs)
 
+
+    def aggiungi_destinatari_pec(self, cr, uid, ids, context=None):
+        prot_id = ids[0]
+        view_ref = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'seedoo_protocollo', 'protocollo_sender_receiver_form')
+        view_id = view_ref[1] if view_ref else False
+        context.update({
+                'protocollo_id': prot_id,
+        })
+
+        if 'default_type' in context:
+            del context['default_type']
+
+        res = {
+            'type': 'ir.actions.act_window',
+            'name': _('Aggiungi destinatario PEC'),
+            'res_model': 'protocollo.sender_receiver',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'view_id': view_id,
+            'target': 'new',
+            'context': context
+        }
+
+        return res
 
 class protocollo_journal(orm.Model):
     _name = 'protocollo.journal'
