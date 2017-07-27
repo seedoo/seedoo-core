@@ -46,6 +46,7 @@ class MailMessage(orm.Model):
         return res
 
     _columns = {
+        'pec_protocol_ref': fields.many2one('protocollo.protocollo', 'Protocollo'),
         'pec_state': fields.selection([
             ('new', 'To Protocol'),
             ('protocol', 'Protocols'),
@@ -85,62 +86,63 @@ class MailMessage(orm.Model):
 
         msg_obj = super(MailMessage, self).create(cr, uid, vals, context=context)
         if vals.get("pec_type") in ('accettazione', 'avvenuta-consegna', 'errore-consegna'):
-            protocollo_obj = self.pool.get('protocollo.protocollo')
-            protocollo_ids = protocollo_obj.search(cr, uid, [('mail_pec_ref', '=', vals.get('pec_msg_parent_id'))],
-                                                   context=context)
-            for protocollo_id in protocollo_ids:
-                if protocollo_id:
-                    protocollo_obj = protocollo_obj.browse(cr, uid, protocollo_id, context=context)
+            mail_obj = self.pool.get('mail.message')
+
+            mail_ids = mail_obj.browse(cr, uid, vals.get('pec_msg_parent_id'))
+            protocollo_ids = mail_ids.pec_protocol_ref
+            for protocollo in protocollo_ids:
+                if protocollo:
                     receivers = self.pool.get('protocollo.sender_receiver')
                     if vals.get("pec_type") == 'accettazione':
-                        receivers_ids = receivers.search(cr, uid, [('protocollo_id', '=', protocollo_id)], context=context)
+                        receivers_ids = receivers.search(cr, uid, [('protocollo_id', '=', protocollo.id)], context=context)
                     elif vals.get("pec_type") in ('avvenuta-consegna', 'errore-consegna'):
-                        receivers_ids = receivers.search(cr, uid, [('protocollo_id', '=', protocollo_id), ('pec_mail', '=', vals.get('recipient_addr'))], context=context)
+                        receivers_ids = receivers.search(cr, uid, [('protocollo_id', '=', protocollo.id), ('pec_mail', '=', vals.get('recipient_addr'))], context=context)
 
                     for receiver_id in receivers_ids:
                         msg_log = None
                         receiver = self.pool.get('protocollo.sender_receiver')
                         receiver_obj = receiver.browse(cr, uid, receiver_id, context=context)
 
-                        # if receivers_obj.pec_mail ==
-                        notification_vals = {}
-                        action_class = "history_icon registration"
+                        if receiver_obj.pec_ref.id == vals.get('pec_msg_parent_id'):
+                            # if receivers_obj.pec_mail ==
+                            notification_vals = {}
+                            action_class = "history_icon registration"
 
-                        if vals.get("pec_type") == 'accettazione':
-                            msg_log = "<div class='%s'><ul><li>PEC prot. %s inviata a %s e' stata accettata</li></ul></div>" \
-                                             % (action_class, protocollo_obj.complete_name, receiver_obj.pec_mail)
-                            notification_vals = {
-                                'pec_ref': vals.get('pec_msg_parent_id'),
-                                'pec_accettazione_ref': msg_obj
-                            }
-                        elif vals.get("pec_type") == 'avvenuta-consegna':
-                            msg_log = "<div class='%s'><ul><li>PEC prot. %s inviata a %s e' stata consegnata</li></ul></div>" \
-                                      % (action_class, protocollo_obj.complete_name, receiver_obj.pec_mail)
-                            notification_vals = {
-                                'pec_ref': vals.get('pec_msg_parent_id'),
-                                'pec_consegna_ref': msg_obj
-                            }
-                        elif vals.get("pec_type") == 'errore-consegna':
-                            if vals.get("errore-esteso"):
-                                msg_log = "<div class='%s'><ul><li>PEC prot. %s inviata a %s non e' stata consegnata per il seguente errore: <strong>%s</strong></li></ul></div>" \
-                                % (action_class, protocollo_obj.complete_name, receiver_obj.pec_mail, vals.get("errore-esteso"))
-                            else:
-                                msg_log = "<div class='%s'><ul><li>PEC prot. %s inviata a %s non e' stata consegnata a causa di un errore</li></ul></div>" \
-                                % (action_class, protocollo_obj.complete_name, receiver_obj.pec_mail)
-                            notification_vals = {
-                                'pec_ref': vals.get('pec_msg_parent_id'),
-                                'pec_errore-consegna_ref': msg_obj
-                            }
-                        receiver_obj.write(notification_vals)
+                            if vals.get("pec_type") == 'accettazione':
+                                msg_log = "<div class='%s'><ul><li>PEC prot. %s inviata a %s e' stata accettata</li></ul></div>" \
+                                                 % (action_class, protocollo.complete_name, receiver_obj.pec_mail)
+                                notification_vals = {
+                                    'pec_ref': vals.get('pec_msg_parent_id'),
+                                    'pec_accettazione_ref': msg_obj
+                                }
+                            elif vals.get("pec_type") == 'avvenuta-consegna':
+                                msg_log = "<div class='%s'><ul><li>PEC prot. %s inviata a %s e' stata consegnata</li></ul></div>" \
+                                          % (action_class, protocollo.complete_name, receiver_obj.pec_mail)
+                                notification_vals = {
+                                    'pec_ref': vals.get('pec_msg_parent_id'),
+                                    'pec_consegna_ref': msg_obj
+                                }
+                            elif vals.get("pec_type") == 'errore-consegna':
+                                if vals.get("errore-esteso"):
+                                    msg_log = "<div class='%s'><ul><li>PEC prot. %s inviata a %s non e' stata consegnata per il seguente errore: <strong>%s</strong></li></ul></div>" \
+                                    % (action_class, protocollo.complete_name, receiver_obj.pec_mail, vals.get("errore-esteso"))
+                                else:
+                                    msg_log = "<div class='%s'><ul><li>PEC prot. %s inviata a %s non e' stata consegnata a causa di un errore</li></ul></div>" \
+                                    % (action_class, protocollo.complete_name, receiver_obj.pec_mail)
+                                notification_vals = {
+                                    'pec_ref': vals.get('pec_msg_parent_id'),
+                                    'pec_errore-consegna_ref': msg_obj
+                                }
+                            receiver_obj.write(notification_vals)
 
-                        post_vars = {'subject': "Ricevuta di %s" % vals.get("pec_type"),
-                                     'body': str(msg_log),
-                                     'model': "protocollo.protocollo",
-                                     'res_id': protocollo_obj.id,
-                                     }
+                            post_vars = {'subject': "Ricevuta di %s" % vals.get("pec_type"),
+                                         'body': str(msg_log),
+                                         'model': "protocollo.protocollo",
+                                         'res_id': protocollo.id,
+                                         }
 
-                        thread_pool = self.pool.get('protocollo.protocollo')
-                        thread_pool.message_post(cr, uid, protocollo_obj.id, type="notification", context=context, **post_vars)
+                            thread_pool = self.pool.get('protocollo.protocollo')
+                            thread_pool.message_post(cr, uid, protocollo.id, type="notification", context=context, **post_vars)
 
 
         return msg_obj

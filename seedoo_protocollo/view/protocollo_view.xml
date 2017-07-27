@@ -398,15 +398,15 @@ this module contains the full copyright notices and license terms. -->
                             </group>
 
                             <newline/>
-                            <group string="Info PEC" attrs="{'invisible':[('protocol_state','!=','waiting')]}" colspan="4" col="4">
-                                <field name="pec_ref" string="PEC" attrs="{'invisible':[('protocol_state','!=','waiting')]}"/>
-                                <field name="pec_ora" attrs="{'invisible':[('protocol_state','!=','waiting')]}"/>
-                                <field name="pec_accettazione_ref" attrs="{'invisible':[('protocol_state','!=','waiting')]}"/>
-                                <field name="pec_accettazione_ora" attrs="{'invisible':[('protocol_state','!=','waiting')]}"/>
-                                <field name="pec_consegna_ref" attrs="{'invisible':[('protocol_state','!=','waiting')]}"/>
-                                <field name="pec_consegna_ora" attrs="{'invisible':[('protocol_state','!=','waiting')]}"/>
-                                <field name="pec_errore-consegna_ref" attrs="{'invisible':[('protocol_state','!=','waiting')]}"/>
-                                <field name="pec_errore-consegna_ora" attrs="{'invisible':[('protocol_state','!=','waiting')]}"/>
+                            <group string="Info PEC" attrs="{'invisible':[('protocol_state','not in',['waiting','sent','error'])]}" colspan="4" col="4">
+                                <field name="pec_ref" string="PEC" attrs="{'invisible':[('protocol_state','not in',['waiting','sent','error'])]}"/>
+                                <field name="pec_ora" attrs="{'invisible':[('protocol_state','not in',['waiting','sent','error'])]}"/>
+                                <field name="pec_accettazione_ref" attrs="{'invisible':[('protocol_state','not in',['waiting','sent','error'])]}"/>
+                                <field name="pec_accettazione_ora" attrs="{'invisible':[('protocol_state','not in',['waiting','sent','error'])]}"/>
+                                <field name="pec_consegna_ref" attrs="{'invisible':[('protocol_state','not in',['waiting','sent','error'])]}"/>
+                                <field name="pec_consegna_ora" attrs="{'invisible':[('protocol_state','not in',['waiting','sent','error'])]}"/>
+                                <field name="pec_errore-consegna_ref" attrs="{'invisible':[('protocol_state','not in',['waiting','sent','error'])]}"/>
+                                <field name="pec_errore-consegna_ora" attrs="{'invisible':[('protocol_state','not in',['waiting','sent','error'])]}"/>
                             </group>
 
                             <newline/>
@@ -447,9 +447,9 @@ this module contains the full copyright notices and license terms. -->
                     <field name="pec_mail"/>
                     <field name="email"/>
                     <field name="protocol_state" invisible="1"/>
-                    <field name="pec_invio_status" colspan="4" attrs="{'invisible':[('protocol_state','not in',['waiting','sent'])]}"/>
-                    <field name="pec_accettazione_status" colspan="4" attrs="{'invisible':[('protocol_state','not in',['waiting','sent'])]}"/>
-                    <field name="pec_consegna_status" colspan="4" attrs="{'invisible':[('protocol_state','not in',['waiting','sent'])]}"/>
+                    <field name="pec_invio_status" colspan="4" attrs="{'invisible':[('protocol_state','not in',['waiting','sent','error'])]}"/>
+                    <field name="pec_accettazione_status" colspan="4" attrs="{'invisible':[('protocol_state','not in',['waiting','sent','error'])]}"/>
+                    <field name="pec_consegna_status" colspan="4" attrs="{'invisible':[('protocol_state','not in',['waiting','sent','error'])]}"/>
                 </tree>
             </field>
         </record>
@@ -495,7 +495,7 @@ this module contains the full copyright notices and license terms. -->
                                 attrs="{'invisible':[('invio_pec_visibility','=',False)]}"/>
 
                         <button name="action_resend" string="Reinvio Mail" type="object"
-                                attrs="{'invisible': [('invio_pec_visibility', '=', False)]}"
+                                attrs="{'invisible': [('reinvio_pec_visibility', '=', False)]}"
                                 class="oe_highlight"/>
 
                         <button name="sent" string="Invia Protocollo"
@@ -525,6 +525,7 @@ this module contains the full copyright notices and license terms. -->
                             <field name="fascicola_visibility"/>
                             <field name="assegna_visibility"/>
                             <field name="invio_pec_visibility"/>
+                            <field name="reinvio_pec_visibility"/>
                             <field name="invio_protocollo_visibility"/>
                             <field name="modifica_pec_visibility"/>
                             <field name="aggiungi_pec_visibility"/>

@@ -144,8 +144,9 @@ class protocollo_sender_receiver(orm.Model):
             if sr.protocollo_id.id:
                 protocollo_obj = self.pool.get('protocollo.protocollo')
                 for prot in protocollo_obj.browse(cr, uid, sr.protocollo_id.id):
-                    if prot.state == "waiting" and prot.mail_pec_ref:
+                    if prot.state in ("waiting", "sent", "error", "notified", "canceled") and sr.pec_ref.id:
                         res[sr.id] = True
+        return res
 
     def _get_accettazione_status(self, cr, uid, ids, field, arg, context=None):
         if isinstance(ids, (list, tuple)) and not len(ids):
@@ -157,6 +158,7 @@ class protocollo_sender_receiver(orm.Model):
             if sr.pec_accettazione_ref.id:
                 res[sr.id] = True
         return res
+
 
     def _get_consegna_status(self, cr, uid, ids, field, arg, context=None):
         if isinstance(ids, (list, tuple)) and not len(ids):
@@ -246,16 +248,32 @@ class protocollo_sender_receiver(orm.Model):
         'type': 'individual',
         'protocollo_id':_get_default_protocollo_id,
         'source':_get_default_source,
-        'add_pec_receiver_visibility': _get_add_pec_receiver_visibility
+        'add_pec_receiver_visibility': _get_add_pec_receiver_visibility,
     }
 
     def create(self, cr, uid, vals, context=None):
         sender_receiver = super(protocollo_sender_receiver, self).create(cr, uid, vals, context=context)
+        sender_receiver_obj = self.browse(cr, uid, sender_receiver)
+
+        if sender_receiver_obj.protocollo_id.state != "draft":
+            action_class = "history_icon update"
+            body = "<div class='%s'><ul><li>" \
+                   "Aggiunto il destinatario %s (%s)</li></ul></div>" \
+                    % (action_class, vals.get("name"), vals.get("pec_mail"))
+
+            post_vars = {'subject': "Aggiunta destinatario PEC",
+                         'body': body,
+                         'model': "protocollo.protocollo",
+                         'res_id': sender_receiver_obj.protocollo_id.id,
+                        }
+
+            thread_pool = self.pool.get('protocollo.protocollo')
+            thread_pool.message_post(cr, uid, sender_receiver_obj.protocollo_id.id, type="notification", context=context, **post_vars)
+
         return sender_receiver
 
     def aggiungi_destinatario_pec_action(self, cr, uid, ids, context=None):
-        a = 0
-        return a
+        return True
 
 
 class protocollo_registry(orm.Model):
@@ -1191,11 +1209,13 @@ class protocollo_protocollo(orm.Model):
                     notifica del protocollo, manca il server pec in uscita'))
             mail_server = mail_server_obj.browse(cr, uid, mail_server_ids[0])
             sender_receivers_pec_mails = []
+            sender_receivers_pec_ids = []
             if prot.sender_receivers:
                 for sender_receiver_id in prot.sender_receivers.ids:
                     sender_receiver_obj = self.pool.get('protocollo.sender_receiver').browse(cr, uid, sender_receiver_id, context=context)
                     if not sender_receiver_obj.pec_invio_status:
                         sender_receivers_pec_mails.append(sender_receiver_obj.pec_mail)
+                        sender_receivers_pec_ids.append(sender_receiver_obj.id)
 
             values = {}
             values['subject'] = prot.subject
@@ -1207,6 +1227,7 @@ class protocollo_protocollo(orm.Model):
             values['email_to'] = ','.join([sr for sr in
                                            sender_receivers_pec_mails]
                                           )
+            values['pec_protocol_ref'] = prot.id
             values['pec_state'] = 'protocol'
             values['pec_type'] = 'posta-certificata'
             if prot.assigne_cc:
@@ -1250,6 +1271,10 @@ class protocollo_protocollo(orm.Model):
             if res[0]['state'] != 'sent':
                 raise openerp.exceptions.Warning(_('Errore nella \
                     notifica del protocollo, mail pec non spedita'))
+            else:
+                for sender_receiver_id in sender_receivers_pec_ids:
+                    sender_receiver_obj = self.pool.get('protocollo.sender_receiver').browse(cr, uid, sender_receiver_id, context=context)
+                    sender_receiver_obj.write({'pec_ref' : mail.mail_message_id.id})
         else:
             raise openerp.exceptions.Warning(_('Errore nel \
                     protocollo, si sta cercando di inviare una pec \
@@ -1264,7 +1289,7 @@ class protocollo_protocollo(orm.Model):
             ids = [ids]
 
         for prot in self.browse(cr, uid, ids):
-            if prot.state in ('waiting', 'error'):
+            if prot.state in ('waiting', 'sent', 'error'):
                 wf_service = netsvc.LocalService('workflow')
                 wf_service.trg_validate(uid, 'protocollo.protocollo', prot.id, 'resend', cr)
         return True

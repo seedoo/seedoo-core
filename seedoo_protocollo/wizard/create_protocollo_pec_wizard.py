@@ -220,7 +220,7 @@ class ProtocolloPecWizard(osv.TransientModel):
             cr,
             SUPERUSER_ID,
             context['active_id'],
-            {'pec_state': 'protocol'},
+            {'pec_state': 'protocol','pec_protocol_ref': protocollo_id},
             context=context
         )
 
