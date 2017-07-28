@@ -131,7 +131,7 @@ class MailMessage(orm.Model):
                                     % (action_class, protocollo.complete_name, receiver_obj.pec_mail)
                                 notification_vals = {
                                     'pec_ref': vals.get('pec_msg_parent_id'),
-                                    'pec_errore-consegna_ref': msg_obj
+                                    'pec_errore_consegna_ref': msg_obj
                                 }
                             receiver_obj.write(notification_vals)
 

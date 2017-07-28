@@ -171,6 +171,17 @@ class protocollo_sender_receiver(orm.Model):
                 res[sr.id] = True
         return res
 
+    def _get_errore_consegna_status(self, cr, uid, ids, field, arg, context=None):
+        if isinstance(ids, (list, tuple)) and not len(ids):
+            return []
+        if isinstance(ids, (long, int)):
+            ids = [ids]
+        res = dict.fromkeys(ids, False)
+        for sr in self.browse(cr, uid, ids):
+            if sr.pec_errore_consegna_ref.id:
+                res[sr.id] = True
+        return res
+
     def _get_default_protocollo_id(self, cr, uid, context=None):
         if context and 'is_add_pec_receiver' in context and context['is_add_pec_receiver']:
             if context.has_key('protocollo_id') and context['protocollo_id']:
@@ -231,15 +242,15 @@ class protocollo_sender_receiver(orm.Model):
         'pec_ref': fields.many2one('mail.message', 'Consegna PEC'),
         'pec_accettazione_ref': fields.many2one('mail.message', 'Accettazione PEC', readonly=True),
         'pec_consegna_ref': fields.many2one('mail.message', 'Consegna PEC', readonly=True),
-        'pec_errore-consegna_ref': fields.many2one('mail.message', 'Errore Consegna PEC', readonly=True),
-        'pec_invio_status': fields.function(_get_invio_status, type='boolean', string='Inviato'),
-        'pec_accettazione_status': fields.function(_get_accettazione_status, type='boolean', string='Accettato'),
-        'pec_consegna_status': fields.function(_get_consegna_status, type='boolean', string='Consegnato'),
-        'pec_errore-consegna_status': fields.function(_get_consegna_status, type='boolean', string='Errore Consegna'),
+        'pec_errore_consegna_ref': fields.many2one('mail.message', 'Errore Consegna PEC', readonly=True),
+        'pec_invio_status': fields.function(_get_invio_status, type='boolean', string='Inviata'),
+        'pec_accettazione_status': fields.function(_get_accettazione_status, type='boolean', string='Accettata'),
+        'pec_consegna_status': fields.function(_get_consegna_status, type='boolean', string='Consegnata'),
+        'pec_errore_consegna_status': fields.function(_get_errore_consegna_status, type='boolean', string='Errore Consegna'),
         'pec_ora': fields.related('pec_ref', 'date', type='datetime', string='Orario Invio PEC', readonly=False, store=False),
         'pec_accettazione_ora': fields.related('pec_accettazione_ref', 'cert_datetime', type='datetime', string='Orario PEC Accettazione', readonly=False, store=False),
         'pec_consegna_ora': fields.related('pec_consegna_ref', 'cert_datetime', type='datetime', string='Orario PEC Consegna', readonly=False, store=False),
-        'pec_errore-consegna_ora': fields.related('pec_errore-consegna_ref', 'cert_datetime', type='datetime', string='Orario PEC Errore Consegna', readonly=False, store=False),
+        'pec_errore_consegna_ora': fields.related('pec_errore_consegna_ref', 'cert_datetime', type='datetime', string='Orario PEC Errore Consegna', readonly=False, store=False),
         'add_pec_receiver_visibility': fields.boolean('Button Visibility', readonly=True),
 
     }
