@@ -1665,7 +1665,7 @@ class protocollo_protocollo(orm.Model):
 
         res = {
             'type': 'ir.actions.act_window',
-            'name': _('Aggiungi destinatario PEC'),
+            'name': _('Aggiungi Destinatario'),
             'res_model': 'protocollo.sender_receiver',
             'view_type': 'form',
             'view_mode': 'form',

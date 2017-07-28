@@ -418,7 +418,7 @@ this module contains the full copyright notices and license terms. -->
 
                             <footer>
                                 <div class="oe_edit_only">
-                                    <button name="aggiungi_destinatario_pec_action" string="Aggiungi destinatario PEC" type="object" class="oe_highlight"
+                                    <button name="aggiungi_destinatario_pec_action" string="Aggiungi Destinatario" type="object" class="oe_highlight"
                                           attrs="{'invisible':[('add_pec_receiver_visibility','=',False)]}"/>
                                     or
                                     <button string="Cancel" class="oe_link" special="cancel" />
@@ -512,7 +512,7 @@ this module contains the full copyright notices and license terms. -->
                                 <!--type="action" string="Modifica Destinatari PEC"-->
                                 <!--attrs="{'invisible':[('modifica_pec_visibility','=',False)]}"/>-->
 
-                        <button name="aggiungi_destinatari_pec" string="Aggiungi destinatario PEC" type="object"
+                        <button name="aggiungi_destinatari_pec" string="Aggiungi Destinatario" type="object"
                                 attrs="{'invisible':[('aggiungi_pec_visibility','=',False)]}"
                                 class="oe_highlight" context="{'is_add_pec_receiver': True}"/>
 
