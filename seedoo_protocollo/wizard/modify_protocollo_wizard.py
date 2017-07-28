@@ -122,7 +122,6 @@ class wizard(osv.TransientModel):
         wizard = self.browse(cr, uid, ids[0], context)
         protocollo_obj = self.pool.get('protocollo.protocollo')
         protocollo = protocollo_obj.browse(cr, uid, context['active_id'], context=context)
-        historical_obj = self.pool.get('protocollo.history')
         vals['typology'] = wizard.typology.id
         if wizard.typology.id != protocollo.typology.id:
             if protocollo.typology.pec:
@@ -150,21 +149,7 @@ class wizard(osv.TransientModel):
             before['Data ricezione'] = protocollo.receiving_date
             after['Data ricezione'] = wizard.receiving_date
 
-        historical = {
-            'user_id': uid,
-            'description': wizard.cause,
-            'type': 'modify',
-            'before': before,
-            'after': after,
-        }
-        history_id = historical_obj.create(cr, uid, historical)
-        vals['history_ids'] = [[4, history_id]]
-        protocollo_obj.write(
-            cr,
-            uid,
-            [context['active_id']],
-            vals
-        )
+        protocollo_obj.write(cr, uid, [context['active_id']], vals)
 
         action_class = "history_icon update"
         body = "<div class='%s'><ul>" % action_class

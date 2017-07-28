@@ -26,14 +26,8 @@ this module contains the full copyright notices and license terms. -->
                         <field name="cause" colspan="4"/>
                         <separator string="Titolario di classificazione" colspan="4"/>
                          <field name="classification" nolabel="1"
-                                           widget="m2o_tree" colspan="4"
-                                           options="{'limit': 5000, 'create': false, 'create_edit': false, 'label': 'name_and_code'}"/>
-                        <!--<label for="classification"/>-->
-                                    <!--<newline/>-->
-                                    <!--<field name="classification_code" nolabel="1"/>-->
-                                    <!--<field name="classification" nolabel="1"-->
-                                           <!--widget="m2o_tree" colspan="4"-->
-                                           <!--options="{'limit': 5000, 'create': false, 'create_edit': false, 'label': 'name_and_code'}"/>-->
+                               widget="m2o_tree" colspan="4"
+                               options="{'limit': 5000, 'create': false, 'create_edit': false, 'label': 'name_and_code'}"/>
                     </sheet>
                     <footer>
                         <button string="Ok" name="action_save" type="object" class="oe_highlight"/>

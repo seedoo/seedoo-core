@@ -118,7 +118,6 @@ class wizard(osv.TransientModel):
             )
         protocollo_obj = self.pool.get('protocollo.protocollo')
         sender_receiver_obj = self.pool.get('protocollo.sender_receiver')
-        historical_obj = self.pool.get('protocollo.history')
         protocollo = protocollo_obj.browse(cr, uid, context['active_id'])
         res = []
         for send_rec in protocollo.sender_receivers:
@@ -141,20 +140,8 @@ class wizard(osv.TransientModel):
             sender_receiver_obj.write(cr, uid,
                                       send_rec.sender_receiver_id.id,
                                       srvals)
-        historical = {
-            'user_id': uid,
-            'description': wizard.cause,
-            'type': 'modify',
-            'before': before,
-            'after': after,
-            }
-        history_id = historical_obj.create(cr, uid, historical)
-        vals['history_ids'] = [[4, history_id]]
-        protocollo_obj.write(cr,
-                             uid,
-                             [context['active_id']],
-                             vals
-                             )
+
+        protocollo_obj.write(cr, uid, [context['active_id']], vals)
 
         action_class = "history_icon update"
         body = "<div class='%s'><ul><li><span style='color:#990000'> %s</span> " \

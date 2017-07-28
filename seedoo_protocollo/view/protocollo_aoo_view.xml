@@ -70,7 +70,7 @@
                                                             <field name="assigne" domain="[('aoo_id','=',aoo_id)]"
                                                                    nolabel="1" colspan="4"/>
                                                         </page>
-                                                        <page string="Fascicoli">
+                                                        <page string="Fascicoli" class="fascicoli_titolario_aoo">
                                                             <field name="dossier_ids" domain="[('aoo_id','=',aoo_id)]"
                                                                    nolabel="1" readonly="1" colspan="4"/>
                                                         </page>

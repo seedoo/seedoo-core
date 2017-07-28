@@ -555,7 +555,7 @@ this module contains the full copyright notices and license terms. -->
                         </group>
                         <group col="4" string="Informazioni Generali">
                             <group col="4">
-                                <field name="user_id" readonly="1" colspan="4"/>
+                                <field name="user_id" readonly="1" colspan="4" options="{'no_open': True}"/>
                             </group>
                             <newline/>
                             <group col="2">
@@ -745,27 +745,6 @@ this module contains the full copyright notices and license terms. -->
                                 <field name="pec_notifications_ids"
                                        context="{'pec_messages': True}"
                                        attrs="{'invisible':['|', ('pec','!=',True), ('type','=','in')]}"/>
-                            </page>
-                            <page string="Storico Modifiche">
-                                <field name="history_ids">
-                                    <tree>
-                                        <field name="name"/>
-                                        <field name="type"/>
-                                        <field name="user_id"/>
-                                    </tree>
-                                    <form>
-                                        <field name="name"/>
-                                        <field name="user_id"/>
-                                        <field name="agent_id"
-                                               attrs="{'invisible':[('type','!=', 'cancel')]}"/>
-                                        <field name="type"/>
-                                        <field name="description"/>
-                                        <field name="before"
-                                               attrs="{'invisible':[('type','=', 'cancel')]}"/>
-                                        <field name="after"
-                                               attrs="{'invisible':[('type','=', 'cancel')]}"/>
-                                    </form>
-                                </field>
                             </page>
                             <page string="Note">
                                 <label for="notes"/>

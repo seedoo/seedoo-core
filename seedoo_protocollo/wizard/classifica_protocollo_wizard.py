@@ -33,11 +33,6 @@ class wizard(osv.TransientModel):
         'type': fields.selection([('out', 'Uscita'), ('in', 'Ingresso'), ('internal', 'Interno')], 'Tipo', size=32, required=True, readonly=True),
         'cause': fields.text('Motivo della Modifica', required=True),
         'classification': fields.many2one('protocollo.classification', 'Titolario di Classificazione', required=False),
-        'classification_name_and_code': fields.related('classification',
-                                      'name_and_code',
-                                      type="char",
-                                      string="Codice e Nome Titolario",
-                                      readonly=True),
     }
 
     def _default_complete_name(self, cr, uid, context):
@@ -56,15 +51,11 @@ class wizard(osv.TransientModel):
         protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
         return protocollo.classification.id
 
-    def _default_classification_name_and_code(self, cr, uid, context):
-        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
-        return protocollo.classification.name_and_code
-
     _defaults = {
         'complete_name': _default_complete_name,
         'registration_date': _default_registration_date,
         'type': _default_type,
-        'classification_name_and_code': _default_classification_name_and_code,
+        'classification': _default_classification
     }
 
     def action_save(self, cr, uid, ids, context=None):
@@ -74,22 +65,12 @@ class wizard(osv.TransientModel):
         wizard = self.browse(cr, uid, ids[0], context)
         protocollo_obj = self.pool.get('protocollo.protocollo')
         protocollo = protocollo_obj.browse(cr, uid, context['active_id'], context=context)
-        historical_obj = self.pool.get('protocollo.history')
         before['Titolario'] = ""
         after['Titolario'] = ""
         vals['classification'] = wizard.classification.id
         before['Titolario'] = self.set_before(before['Titolario'], 'Titolario', protocollo.classification.name)
         after['Titolario'] = self.set_after(after['Titolario'], 'Titolario', wizard.classification.name)
 
-        historical = {
-            'user_id': uid,
-            'description': wizard.cause,
-            'type': 'modify',
-            'before': before,
-            'after': after,
-        }
-        history_id = historical_obj.create(cr, uid, historical)
-        vals['history_ids'] = [[4, history_id]]
         protocollo_obj.write(cr, uid, [context['active_id']], vals)
 
         action_class = "history_icon update"

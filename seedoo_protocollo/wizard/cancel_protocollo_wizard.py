@@ -52,18 +52,6 @@ class wizard(osv.TransientModel):
     def action_cancel(self, cr, uid, ids, context=None):
         wizard = self.browse(cr, uid, ids[0], context)
         if wizard.name and wizard.date_cancel:
-            protocollo_obj = self.pool.get('protocollo.protocollo')
-            historical_obj = self.pool.get('protocollo.history')
-            historical = {}
-            historical['name'] = wizard.date_cancel
-            historical['user_id'] = wizard.user_id.id
-            historical['agent_id'] = wizard.agent_id.id
-            historical['description'] = wizard.name + ' - ' + 'Autorizzato da: ' + wizard.agent_id.name
-            historical['type'] = 'cancel'
-            history_id = historical_obj.create(cr, uid, historical)
-            vals = {}
-            vals['history_ids'] = [[4, history_id]]
-            protocollo_obj.write(cr, uid, [context['active_id']], vals)
             wf_service = netsvc.LocalService('workflow')
             wf_service.trg_validate(uid, 'protocollo.protocollo', context['active_id'], 'cancel', cr)
 

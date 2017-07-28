@@ -68,7 +68,6 @@ class wizard(osv.TransientModel):
         wizard = self.browse(cr, uid, ids[0], context)
         protocollo_obj = self.pool.get('protocollo.protocollo')
         protocollo = protocollo_obj.browse(cr, uid, context['active_id'], context=context)
-        historical_obj = self.pool.get('protocollo.history')
         before['Fascicolo'] = ""
         after['Fascicolo'] = ""
         vals['dossier_ids'] = [[6, 0, [d.id for d in wizard.dossier_ids]]]
@@ -83,15 +82,6 @@ class wizard(osv.TransientModel):
             ', '.join([dw.name for dw in wizard.dossier_ids])
         )
 
-        historical = {
-            'user_id': uid,
-            'description': wizard.cause,
-            'type': 'modify',
-            'before': before,
-            'after': after,
-        }
-        history_id = historical_obj.create(cr, uid, historical)
-        vals['history_ids'] = [[4, history_id]]
         protocollo_obj.write(cr, uid, [context['active_id']], vals)
 
         action_class = "history_icon update"

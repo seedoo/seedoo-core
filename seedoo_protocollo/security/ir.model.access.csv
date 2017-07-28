@@ -1,6 +1,5 @@
 id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
 access_protocollo_protocollo_user,protocollo.protocollo.user,model_protocollo_protocollo,group_protocollo_user,1,1,1,0
-access_protocollo_history_user,protocollo.history.user,model_protocollo_history,group_protocollo_user,1,1,1,0
 access_protocollo_sender_receiver_user,protocollo.sender_receiver.user,model_protocollo_sender_receiver,group_protocollo_user,1,1,1,1
 access_protocollo_registry_user,protocollo.registry.user,model_protocollo_registry,group_protocollo_user,1,1,1,1
 access_protocollo_emergency_registry_user,protocollo.emergency.registry.user,model_protocollo_emergency_registry,group_protocollo_user,1,1,1,0

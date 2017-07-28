@@ -59,8 +59,10 @@
                         self.do_warn(_t("Render"), _t("No value found for the field "+self.field.string+" for value "+self.get("value")));
                         return;
                     }
-                    self.display_value["" + self.get("value")] = data[0][1];
-                    self.render_value(true);
+                    if (self.display_value != undefined) {
+                        self.display_value["" + self.get("value")] = data[0][1];
+                        self.render_value(true);
+                    }
                 });
                 if (this.view && this.view.render_value_defs){
                     this.view.render_value_defs.push(def);

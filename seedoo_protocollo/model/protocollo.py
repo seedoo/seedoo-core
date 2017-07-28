@@ -333,38 +333,6 @@ class protocollo_registry(orm.Model):
         return True
 
 
-class protocollo_storico(orm.Model):
-    _name = "protocollo.history"
-    _description = "Storico Protocollo"
-    _columns = {
-        'name': fields.datetime('Data Evento',
-                                required=True, readonly=True),
-        'description': fields.text('Descrizione Evento',
-                                   readonly=True),
-        'before': fields.text(
-            'Dati Precedenti', readonly=True),
-        'after': fields.text(
-            'Dati Successivi', readonly=True),
-        'user_id': fields.many2one(
-            'res.users', 'Utente', readonly=True),
-        'agent_id': fields.many2one(
-            'res.users', 'Mandante', readonly=True),
-        'protocollo_id': fields.many2one(
-            'protocollo.protocollo', 'Protocollo', readonly=True,
-            ondelete="cascade"),
-        'type': fields.selection(
-            [
-                ('modify', 'Modifica'),
-                ('cancel', 'Cancellazione'),
-            ], 'Tipo', size=32, required=True, readonly=True),
-    }
-
-    _defaults = {
-        'name': fields.datetime.now,
-        'user_id': lambda obj, cr, uid, context: uid,
-    }
-
-
 class protocollo_protocollo(orm.Model):
     _name = 'protocollo.protocollo'
 
@@ -746,7 +714,6 @@ class protocollo_protocollo(orm.Model):
 
         'notes': fields.text('Note'),
         # 'is_visible': fields.function(_is_visible, fnct_search=_is_visible_search, type='boolean', string='Visibile'),
-        'history_ids': fields.one2many('protocollo.history', 'protocollo_id', 'Storico', readonly=True),
         'state': fields.selection(
             STATE_SELECTION, 'Stato', readonly=True,
             help="Lo stato del protocollo.", select=True),
