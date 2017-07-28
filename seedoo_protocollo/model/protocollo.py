@@ -1166,11 +1166,12 @@ class protocollo_protocollo(orm.Model):
             mail_mail = self.pool.get('mail.mail')
             ir_attachment = self.pool.get('ir.attachment')
             mail_server_obj = self.pool.get('ir.mail_server')
-            mail_server_ids = mail_server_obj.search(cr, uid,
-                                                     [('pec',
-                                                       '=',
-                                                       True)]
-                                                     )
+            fetch_server_obj = self.pool.get('fetchmail.server')
+            fetch_server_ids = fetch_server_obj.get_fetch_server_pec(cr, uid, context)
+            if not fetch_server_ids:
+                raise openerp.exceptions.Warning(_('Errore nella \
+                    notifica del protocollo, nessun server pec associato all\'utente'))
+            mail_server_ids = mail_server_obj.get_mail_server_pec(cr, uid, fetch_server_ids[0], context)
             if not mail_server_ids:
                 raise openerp.exceptions.Warning(_('Errore nella \
                     notifica del protocollo, manca il server pec in uscita'))
