@@ -111,26 +111,38 @@ class protocollo_sender_receiver(orm.Model):
         res = {'value': {}}
         if pec_mail and save_partner:
             self.pool.get('res.partner').check_email_field(cr, uid, [('pec_mail', '=', pec_mail)], 'Mail PEC', pec_mail)
+        elif pec_mail:
+            self.pool.get('res.partner').check_email_validity('Mail PEC', pec_mail)
         return res
 
     def on_change_email(self, cr, uid, ids, email, save_partner, context=None):
         res = {'value': {}}
         if email and save_partner:
             self.pool.get('res.partner').check_email_field(cr, uid, [('email', '=', email)], 'Mail', email)
+        elif email:
+            self.pool.get('res.partner').check_email_validity('Mail', email)
         return res
 
     def on_change_save_partner(self, cr, uid, ids, pec_mail, email, save_partner, context=None):
         res = {'value': {}}
-        errors = []
+        errors = ''
+
+        pec_mail_error = ''
         if pec_mail and save_partner:
-            pec_mail_error = self.pool.get('res.partner').check_email_field(cr, uid, [('pec_mail', '=', pec_mail)],
-                                                                            'Mail PEC', pec_mail, False)
-            if pec_mail_error:
-                errors.append(('Mail PEC', pec_mail))
+            pec_mail_error = self.pool.get('res.partner').check_email_field(cr, uid, [('pec_mail', '=', pec_mail)], 'Mail PEC', pec_mail, False)
+        elif pec_mail:
+            pec_mail_error = self.pool.get('res.partner').check_email_validity('Mail PEC', pec_mail, False)
+        if pec_mail_error:
+            errors = errors + '\n' + pec_mail_error
+
+        email_error = ''
         if email and save_partner:
             email_error = self.pool.get('res.partner').check_email_field(cr, uid, [('email', '=', email)], 'Mail', email, False)
-            if email_error:
-                errors.append(('Mail', email))
+        elif email:
+            email_error = self.pool.get('res.partner').check_email_validity('Mail', email, False)
+        if email_error:
+            errors = errors + '\n' + email_error
+
         self.pool.get('res.partner').dispatch_email_error(errors)
         return res
 
@@ -251,7 +263,71 @@ class protocollo_sender_receiver(orm.Model):
         'add_pec_receiver_visibility': _get_add_pec_receiver_visibility,
     }
 
+    def check_field_in_create(self, cr, uid, vals):
+        partner_obj = self.pool.get('res.partner')
+        errors = ''
+
+        if vals.has_key('pec_mail') and vals['pec_mail']:
+            pec_mail_error = ''
+            if vals.has_key('save_partner') and vals['save_partner']:
+                pec_mail_error = partner_obj.check_email_field(cr, uid, [('pec_mail', '=', vals['pec_mail'])],
+                                                               'Mail PEC', vals['pec_mail'], False)
+            else:
+                pec_mail_error = partner_obj.check_email_validity('Mail PEC', vals['pec_mail'], False)
+            if pec_mail_error:
+                errors = errors + '\n' + pec_mail_error
+
+        if vals.has_key('email') and vals['email']:
+            email_error = ''
+            if vals.has_key('save_partner') and vals['save_partner']:
+                email_error = partner_obj.check_email_field(cr, uid, [('email', '=', vals['email'])],
+                                                     'Mail', vals['email'], False)
+            else:
+                email_error = partner_obj.check_email_validity('Mail', vals['email'], False)
+            if email_error:
+                errors = errors + '\n' + email_error
+
+        partner_obj.dispatch_email_error(errors)
+
+    def check_field_in_write(self, cr, uid, ids, vals):
+        partner_obj = self.pool.get('res.partner')
+        errors = ''
+
+        sender_receivers_vals = self.read(cr, uid, ids, ['id', 'pec_mail', 'email', 'save_partner'])
+        if vals.has_key('pec_mail') or vals.has_key('email') or vals.has_key('save_partner'):
+            for sender_receiver_vals in sender_receivers_vals:
+                save_partner = sender_receiver_vals['save_partner']
+                if vals.has_key('save_partner'):
+                    save_partner = vals['save_partner']
+
+                pec_mail = sender_receiver_vals['pec_mail']
+                if vals.has_key('pec_mail'):
+                    pec_mail = vals['pec_mail']
+                pec_mail_error = ''
+                if pec_mail and save_partner:
+                    pec_mail_error = partner_obj.check_email_field(cr, uid, [('id', '!=', sender_receiver_vals['id']), ('pec_mail', '=', pec_mail)],
+                                      'Mail PEC', pec_mail, False)
+                elif pec_mail:
+                    pec_mail_error = partner_obj.check_email_validity('Mail PEC', pec_mail, False)
+                if pec_mail_error:
+                    errors = errors + '\n' + pec_mail_error
+
+                email = sender_receiver_vals['email']
+                if vals.has_key('email'):
+                    email = vals['email']
+                email_error = ''
+                if email and save_partner:
+                    email_error = partner_obj.check_email_field(cr, uid, [('id', '!=', sender_receiver_vals['id']), ('email', '=', email)],
+                                      'Mail', email, False)
+                elif email:
+                    email_error = partner_obj.check_email_validity('Mail', email, False)
+                if email_error:
+                    errors = errors + '\n' + email_error
+
+                partner_obj.dispatch_email_error(errors)
+
     def create(self, cr, uid, vals, context=None):
+        self.check_field_in_create(cr, uid, vals)
         sender_receiver = super(protocollo_sender_receiver, self).create(cr, uid, vals, context=context)
         sender_receiver_obj = self.browse(cr, uid, sender_receiver)
 
@@ -271,6 +347,10 @@ class protocollo_sender_receiver(orm.Model):
             thread_pool.message_post(cr, uid, sender_receiver_obj.protocollo_id.id, type="notification", context=context, **post_vars)
 
         return sender_receiver
+
+    def write(self, cr, uid, ids, vals, context=None):
+        self.check_field_in_write(cr, uid, ids, vals)
+        return super(protocollo_sender_receiver, self).write(cr, uid, ids, vals, context=context)
 
     def aggiungi_destinatario_pec_action(self, cr, uid, ids, context=None):
         return True

@@ -3,6 +3,7 @@
 # this module contains the full copyright notices and license terms.
 
 import logging
+import re
 
 from openerp import netsvc
 from openerp.osv import *
@@ -75,47 +76,58 @@ class res_partner(orm.Model):
         'pa_type': _get_default_pa_type,
     }
 
-    def dispatch_email_error(self, values):
-        error = ''
-        for data in values:
-            error = error + '\nEsiste già un contatto in rubrica con la stessa ' + data[0].encode() + ': ' + data[1].encode()
-        if error:
-            raise orm.except_orm('Errore!', error)
+    def dispatch_email_error(self, errors):
+        if errors:
+            raise orm.except_orm('Errore!', errors)
+
+    def check_email_validity(self, field, value, dispatch=True):
+        if re.match("^.+\\@(\\[?)[a-zA-Z0-9\\-\\.]+\\.([a-zA-Z]{2,3}|[0-9]{1,3})(\\]?)$", value) == None:
+            error = 'Il campo ' + field.encode() + ' contiente un indirizzo email non valido: ' + value.encode()
+            if dispatch:
+                self.dispatch_email_error(error)
+            else:
+                return error
 
     def check_email_field(self, cr, uid, domain, field, value, dispatch=True):
+        error = self.check_email_validity(field, value, dispatch)
+        if error:
+            return error
+
         configurazione_obj = self.pool.get('protocollo.configurazione')
         configurazione_ids = configurazione_obj.search(cr, uid, [])
         configurazione = configurazione_obj.browse(cr, uid, configurazione_ids[0])
         if configurazione.email_pec_unique:
             if (self.search(cr, uid, domain)):
+                error = 'Esiste già un contatto in rubrica con la stessa ' + field.encode() + ': ' + value.encode()
                 if dispatch:
-                    self.dispatch_email_error([(field, value)])
+                    raise orm.except_orm('Errore!', error)
                 else:
-                    return True
-        return False
+                    return error
+
+        return ''
 
     def check_field_in_create(self, cr, uid, vals):
-        errors = []
+        errors = ''
         if vals.has_key('pec_mail') and vals['pec_mail']:
             pec_mail_error = self.check_email_field(cr, uid, [('pec_mail', '=', vals['pec_mail'])], 'Mail PEC', vals['pec_mail'], False)
             if pec_mail_error:
-                errors.append(('Mail PEC', vals['pec_mail']))
+                errors = errors + '\n' + pec_mail_error
         if vals.has_key('email') and vals['email']:
             email_error = self.check_email_field(cr, uid, [('email', '=', vals['email'])], 'Mail', vals['email'], False)
             if email_error:
-                errors.append(('Mail', vals['email']))
+                errors = errors + '\n' + email_error
         self.dispatch_email_error(errors)
 
     def check_field_in_write(self, cr, uid, ids, vals):
-        errors = []
+        errors = ''
         if vals.has_key('pec_mail') and vals['pec_mail']:
             pec_mail_error = self.check_email_field(cr, uid, [('pec_mail', '=', vals['pec_mail'])], 'Mail PEC', vals['pec_mail'], False)
             if pec_mail_error:
-                errors.append(('Mail PEC', vals['pec_mail']))
+                errors = errors + '\n' + pec_mail_error
         if vals.has_key('email') and vals['email']:
             email_error = self.check_email_field(cr, uid, [('email', '=', vals['email'])], 'Mail', vals['email'], False)
             if email_error:
-                errors.append(('Mail', vals['email']))
+                errors = errors + '\n' + email_error
         self.dispatch_email_error(errors)
 
     def create(self, cr, uid, vals, context=None):
