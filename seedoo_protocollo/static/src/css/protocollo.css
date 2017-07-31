@@ -98,7 +98,7 @@
     opacity: 1;
 }
 
-.openerp td[data-field="pec_accettazione_status"] input:checked:after {
+.openerp td[data-field="pec_accettazione_status"] input:checked::after {
     content: "\f05d";
     font-family: "FontAwesome";
     font-size: 16px;
@@ -108,7 +108,7 @@
     opacity: 1;
 }
 
-.openerp td[data-field="pec_consegna_status"] input:checked:after {
+.openerp td[data-field="pec_consegna_status"] input[type="checkbox"]:checked:after {
     content: "\f05d";
     font-family: "FontAwesome";
     font-size: 16px;
@@ -118,7 +118,7 @@
     opacity: 1;
 }
 
-.openerp td[data-field="pec_errore_consegna_status"] input:checked:after {
+.openerp td[data-field="pec_errore_consegna_status"] input[type="checkbox"]:checked::after {
     content: "\f06a";
     font-family: "FontAwesome";
     font-size: 16px;
@@ -127,10 +127,16 @@
     visibility: visible;
     opacity: 1;
 }
-.openerp td[data-field="pec_invio_status"] input,
-.openerp td[data-field="pec_accettazione_status"] input,
-.openerp td[data-field="pec_consegna_status"] input,
-.openerp td[data-field="pec_errore_consegna_status"] input{
-    visibility: hidden;
+.openerp .oe_form td[data-field="pec_invio_status"] input[readonly],
+.openerp .oe_form td[data-field="pec_accettazione_status"] input[readonly],
+.openerp .oe_form td[data-field="pec_consegna_status"] input[readonly],
+.openerp .oe_form td[data-field="pec_errore_consegna_status"] input[readonly]{
+    /*visibility: hidden;*/
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
     opacity: 1 !important;
+    background-color: white !important;
+    border: 0 !important;
 }
+
