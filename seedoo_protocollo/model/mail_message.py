@@ -83,12 +83,15 @@ class MailMessage(orm.Model):
         return res
 
     def create(self, cr, uid, vals, context=None):
-
+        mail_obj = self.pool.get('mail.message')
+        mail_ids = mail_obj.browse(cr, uid, vals.get('pec_msg_parent_id'))
+        author_id = mail_ids.author_id.id
+        if author_id:
+            vals.update({"author_id" : author_id})
         msg_obj = super(MailMessage, self).create(cr, uid, vals, context=context)
         if vals.get("pec_type") in ('accettazione', 'avvenuta-consegna', 'errore-consegna'):
-            mail_obj = self.pool.get('mail.message')
 
-            mail_ids = mail_obj.browse(cr, uid, vals.get('pec_msg_parent_id'))
+
             protocollo_ids = mail_ids.pec_protocol_ref
             for protocollo in protocollo_ids:
                 if protocollo:
@@ -131,7 +134,7 @@ class MailMessage(orm.Model):
                                     % (action_class, protocollo.complete_name, receiver_obj.pec_mail)
                                 notification_vals = {
                                     'pec_ref': vals.get('pec_msg_parent_id'),
-                                    'pec_errore-consegna_ref': msg_obj
+                                    'pec_errore_consegna_ref': msg_obj
                                 }
                             receiver_obj.write(notification_vals)
 

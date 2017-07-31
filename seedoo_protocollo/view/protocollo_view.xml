@@ -405,8 +405,8 @@ this module contains the full copyright notices and license terms. -->
                                 <field name="pec_accettazione_ora" attrs="{'invisible':[('protocol_state','not in',['waiting','sent','error'])]}"/>
                                 <field name="pec_consegna_ref" attrs="{'invisible':[('protocol_state','not in',['waiting','sent','error'])]}"/>
                                 <field name="pec_consegna_ora" attrs="{'invisible':[('protocol_state','not in',['waiting','sent','error'])]}"/>
-                                <field name="pec_errore-consegna_ref" attrs="{'invisible':[('protocol_state','not in',['waiting','sent','error'])]}"/>
-                                <field name="pec_errore-consegna_ora" attrs="{'invisible':[('protocol_state','not in',['waiting','sent','error'])]}"/>
+                                <field name="pec_errore_consegna_ref" attrs="{'invisible':[('protocol_state','not in',['waiting','sent','error'])]}"/>
+                                <field name="pec_errore_consegna_ora" attrs="{'invisible':[('protocol_state','not in',['waiting','sent','error'])]}"/>
                             </group>
 
                             <newline/>
@@ -415,9 +415,15 @@ this module contains the full copyright notices and license terms. -->
                                        nolabel="1" attrs="{'readonly': [('partner_id','!=',False)], 'invisible': [('partner_id','!=',False)]}"/>
                             </group>
                             <field name="add_pec_receiver_visibility" invisible="1"/>
-                            <button name="aggiungi_destinatario_pec_action" string="Aggiungi destinatario PEC" type="object" class="oe_highlight"
-                                      attrs="{'invisible':[('add_pec_receiver_visibility','=',False)]}"/>
 
+                            <footer>
+                                <div class="oe_edit_only">
+                                    <button name="aggiungi_destinatario_pec_action" string="Aggiungi Destinatario" type="object" class="oe_highlight"
+                                          attrs="{'invisible':[('add_pec_receiver_visibility','=',False)]}"/>
+                                    or
+                                    <button string="Cancel" class="oe_link" special="cancel" />
+                                </div>
+                            </footer>
                                 <!--attrs="{'invisible':[('registra_visibility','=',False)]}"-->
 
                         </group>
@@ -447,9 +453,10 @@ this module contains the full copyright notices and license terms. -->
                     <field name="pec_mail"/>
                     <field name="email"/>
                     <field name="protocol_state" invisible="1"/>
-                    <field name="pec_invio_status" colspan="4" attrs="{'invisible':[('protocol_state','not in',['waiting','sent','error'])]}"/>
-                    <field name="pec_accettazione_status" colspan="4" attrs="{'invisible':[('protocol_state','not in',['waiting','sent','error'])]}"/>
-                    <field name="pec_consegna_status" colspan="4" attrs="{'invisible':[('protocol_state','not in',['waiting','sent','error'])]}"/>
+                    <field name="pec_invio_status" colspan="4" options="{'no_open': True}" attrs="{'invisible':[('protocol_state','not in',['waiting','sent','error'])]}" class="col_inviato_status"/>
+                    <field name="pec_accettazione_status" colspan="4" options="{'no_open': True}" attrs="{'invisible':[('protocol_state','not in',['waiting','sent','error'])]}" class="col_accettato_status"/>
+                    <field name="pec_consegna_status" colspan="4" options="{'no_open': True}" attrs="{'invisible':[('protocol_state','not in',['waiting','sent','error'])]}" class="col_consegnato_status"/>
+                    <field name="pec_errore_consegna_status" colspan="4" options="{'no_open': True}" attrs="{'invisible':[('protocol_state','not in',['waiting','sent','error'])]}" class="col_consegnato_status"/>
                 </tree>
             </field>
         </record>
@@ -505,7 +512,7 @@ this module contains the full copyright notices and license terms. -->
                                 <!--type="action" string="Modifica Destinatari PEC"-->
                                 <!--attrs="{'invisible':[('modifica_pec_visibility','=',False)]}"/>-->
 
-                        <button name="aggiungi_destinatari_pec" string="Aggiungi destinatario PEC" type="object"
+                        <button name="aggiungi_destinatari_pec" string="Aggiungi Destinatario" type="object"
                                 attrs="{'invisible':[('aggiungi_pec_visibility','=',False)]}"
                                 class="oe_highlight" context="{'is_add_pec_receiver': True}"/>
 
