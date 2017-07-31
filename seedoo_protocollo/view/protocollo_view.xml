@@ -418,10 +418,9 @@ this module contains the full copyright notices and license terms. -->
 
                             <footer>
                                 <div class="oe_edit_only">
-                                    <button name="aggiungi_destinatario_pec_action" string="Aggiungi Destinatario" type="object" class="oe_highlight"
+                                    <button name="aggiungi_destinatario_pec_action" string="Aggiungi Destinatario" type="object" class="oe_highlight_positive"
                                           attrs="{'invisible':[('add_pec_receiver_visibility','=',False)]}"/>
-                                    or
-                                    <button string="Cancel" class="oe_link" special="cancel" />
+                                    <button string="Cancel" class="oe_link" special="cancel" attrs="{'invisible':[('add_pec_receiver_visibility','=',False)]}" />
                                 </div>
                             </footer>
                                 <!--attrs="{'invisible':[('registra_visibility','=',False)]}"-->
@@ -480,6 +479,7 @@ this module contains the full copyright notices and license terms. -->
                                 type="object" name="prendi_in_carico"
                                 attrs="{'invisible':[('prendi_in_carico_visibility','=',False)]}"
                                 class="oe_highlight"/>
+
                         <button string="Rifiuta la Presa in Carico"
                                 type="object" name="rifiuta_presa_in_carico"
                                 attrs="{'invisible':[('rifiuta_visibility','=',False)]}"
@@ -488,33 +488,40 @@ this module contains the full copyright notices and license terms. -->
                         <button name="%(protocollo_modify_action)d" string="Modifica Protocollo" type="action"
                                 attrs="{'invisible':[('modifica_dati_generali_visibility','=',False)]}"
                                 class="oe_highlight_positive"/>
+
                         <button name="%(protocollo_classifica_action)d" string="Classifica" type="action"
                                 attrs="{'invisible':[('classifica_visibility','=',False)]}"
                                 class="oe_highlight_positive"/>
+
                         <button name="%(protocollo_fascicola_action)d" type="action" string="Fascicola"
                                 attrs="{'invisible':[('fascicola_visibility','=',False)]}"
                                 class="oe_highlight_positive"/>
+
                         <button name="%(protocollo_assegna_action)d" string="Assegna" type="action"
                                 attrs="{'invisible':[('assegna_visibility','=',False)]}"
                                 class="oe_highlight_positive"/>
 
                         <button name="sent_pec" string="Invia PEC Protocollo"
-                                attrs="{'invisible':[('invio_pec_visibility','=',False)]}"/>
+                                attrs="{'invisible':[('invio_pec_visibility','=',False)]}"
+                                class="oe_highlight"/>
+
+                        <button name="aggiungi_destinatari_pec" string="Aggiungi Destinatario" type="object"
+                                attrs="{'invisible':[('aggiungi_pec_visibility','=',False)]}"
+                                class="oe_highlight_positive" context="{'is_add_pec_receiver': True}"/>
 
                         <button name="action_resend" string="Reinvio Mail" type="object"
                                 attrs="{'invisible': [('reinvio_pec_visibility', '=', False)]}"
                                 class="oe_highlight"/>
 
                         <button name="sent" string="Invia Protocollo"
-                                attrs="{'invisible':[('invio_protocollo_visibility','=',False)]}"/>
+                                attrs="{'invisible':[('invio_protocollo_visibility','=',False)]}"
+                                class="oe_highlight"  />
 
                         <!--<button name="%(protocollo_modify_pec_action)d"-->
                                 <!--type="action" string="Modifica Destinatari PEC"-->
                                 <!--attrs="{'invisible':[('modifica_pec_visibility','=',False)]}"/>-->
 
-                        <button name="aggiungi_destinatari_pec" string="Aggiungi Destinatario" type="object"
-                                attrs="{'invisible':[('aggiungi_pec_visibility','=',False)]}"
-                                class="oe_highlight" context="{'is_add_pec_receiver': True}"/>
+
 
                         <field name="state" widget="statusbar"
                                statusbar_visible="draft,registered"
