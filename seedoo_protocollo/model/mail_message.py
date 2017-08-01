@@ -99,7 +99,8 @@ class MailMessage(orm.Model):
                     if vals.get("pec_type") == 'accettazione':
                         receivers_ids = receivers.search(cr, uid, [('protocollo_id', '=', protocollo.id)], context=context)
                     elif vals.get("pec_type") in ('avvenuta-consegna', 'errore-consegna'):
-                        receivers_ids = receivers.search(cr, uid, [('protocollo_id', '=', protocollo.id), ('pec_mail', '=', vals.get('recipient_addr'))], context=context)
+                        recipient_addr_list = vals.get('recipient_addr').split(', ', 1 )
+                        receivers_ids = receivers.search(cr, uid, [('protocollo_id', '=', protocollo.id), ('pec_mail', 'in', recipient_addr_list)], context=context)
 
                     for receiver_id in receivers_ids:
                         msg_log = None
