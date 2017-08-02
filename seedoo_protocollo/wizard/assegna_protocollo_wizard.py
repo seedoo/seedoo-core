@@ -172,28 +172,33 @@ class protocollo_assegna_wizard(osv.TransientModel):
 
 
     def action_save(self, cr, uid, ids, context=None):
-        before = dict((k, "") for k in range(4))
-        after = dict((k, "") for k in range(4))
+        before = {
+                    'Uffici Assegnatari per Competenza': '',
+                    'Dipendenti Assegnatari per Competenza': '',
+                    'Uffici Assegnatari per Conoscenza': '',
+                    'Dipendenti Assegnatari per Conoscenza': ''
+                  }
+        after = before
         wizard = self.browse(cr, uid, ids[0], context)
         protocollo_obj = self.pool.get('protocollo.protocollo')
         protocollo = protocollo_obj.browse(cr, uid, context['active_id'], context=context)
         vals = {}
 
         if not protocollo.reserved:
-            before['Uffici Assegnatari per Competenza'] = self.set_before(before[0], 'Uffici Assegnatari per Competenza',
+            before['Uffici Assegnatari per Competenza'] = self.set_before(before['Uffici Assegnatari per Competenza'], 'Uffici Assegnatari per Competenza',
                 ', '.join([a.department_id.name for a in protocollo.assegnatari_competenza_uffici_ids])
             )
-            after['Uffici Assegnatari per Competenza'] = self.set_after(after[0], 'Uffici Assegnatari per Competenza',
+            after['Uffici Assegnatari per Competenza'] = self.set_after(after['Uffici Assegnatari per Competenza'], 'Uffici Assegnatari per Competenza',
                 ', '.join([aw.department_id.name for aw in wizard.assegnatari_competenza_uffici_ids])
             )
             self._salva_assegnatari_ufficio(cr, uid, protocollo.id,
                                             protocollo.assegnatari_competenza_uffici_ids,
                                             wizard.assegnatari_competenza_uffici_ids, 'competenza')
 
-        before['Dipendenti Assegnatari per Competenza'] = self.set_before(before[1], 'Dipendenti Assegnatari per Competenza',
+        before['Dipendenti Assegnatari per Competenza'] = self.set_before(before['Dipendenti Assegnatari per Competenza'], 'Dipendenti Assegnatari per Competenza',
             ', '.join([a.dipendente_id.name for a in protocollo.assegnatari_competenza_dipendenti_ids])
         )
-        after['Dipendenti Assegnatari per Competenza'] = self.set_after(after[1], 'Dipendenti Assegnatari per Competenza',
+        after['Dipendenti Assegnatari per Competenza'] = self.set_after(after['Dipendenti Assegnatari per Competenza'], 'Dipendenti Assegnatari per Competenza',
             ', '.join([aw.dipendente_id.name for aw in wizard.assegnatari_competenza_dipendenti_ids])
         )
         self._salva_assegnatari_dipendente(cr, uid, protocollo.id,
@@ -201,10 +206,10 @@ class protocollo_assegna_wizard(osv.TransientModel):
                                         wizard.assegnatari_competenza_dipendenti_ids, 'competenza')
 
         if not protocollo.reserved:
-            before['Uffici Assegnatari per Conoscenza'] = self.set_before(before[2], 'Uffici Assegnatari per Conoscenza',
+            before['Uffici Assegnatari per Conoscenza'] = self.set_before(before['Uffici Assegnatari per Conoscenza'], 'Uffici Assegnatari per Conoscenza',
                 ', '.join([a.department_id.name for a in protocollo.assegnatari_conoscenza_uffici_ids])
             )
-            after['Uffici Assegnatari per Conoscenza'] = self.set_after(after[2], 'Uffici Assegnatari per Conoscenza',
+            after['Uffici Assegnatari per Conoscenza'] = self.set_after(after['Uffici Assegnatari per Conoscenza'], 'Uffici Assegnatari per Conoscenza',
                 ', '.join([aw.department_id.name for aw in wizard.assegnatari_conoscenza_uffici_ids])
             )
             self._salva_assegnatari_ufficio(cr, uid, protocollo.id,
@@ -212,10 +217,10 @@ class protocollo_assegna_wizard(osv.TransientModel):
                                             wizard.assegnatari_conoscenza_uffici_ids, 'conoscenza')
 
         if not protocollo.reserved:
-            before['Dipendenti Assegnatari per Conoscenza'] = self.set_before(before[3], 'Dipendenti Assegnatari per Conoscenza',
+            before['Dipendenti Assegnatari per Conoscenza'] = self.set_before(before['Dipendenti Assegnatari per Conoscenza'], 'Dipendenti Assegnatari per Conoscenza',
                 ', '.join([a.dipendente_id.name for a in protocollo.assegnatari_conoscenza_dipendenti_ids])
             )
-            after['Dipendenti Assegnatari per Conoscenza'] = self.set_after(after[3], 'Dipendenti Assegnatari per Conoscenza',
+            after['Dipendenti Assegnatari per Conoscenza'] = self.set_after(after['Dipendenti Assegnatari per Conoscenza'], 'Dipendenti Assegnatari per Conoscenza',
                 ', '.join([aw.dipendente_id.name for aw in wizard.assegnatari_conoscenza_dipendenti_ids])
             )
             self._salva_assegnatari_dipendente(cr, uid, protocollo.id,
@@ -226,9 +231,10 @@ class protocollo_assegna_wizard(osv.TransientModel):
         body = "<div class='%s'><ul>" % action_class
         for key, before_item in before.items():
             if before[key] != after[key]:
-                body = body + "<li>%s: <span style='color:#990000'> %s</span> " \
-                                u"\u2192" \
-                                "<span style='color:#009900'> %s </span></li>" \
+                body = body + "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#009900'> %s </span></li>" \
+                                % (str(key), str(before_item), str(after[key]))
+            else:
+                body = body + "<li>%s: <span style='color:#999'> %s</span> -> <span style='color:#999'> %s </span></li>" \
                                 % (str(key), str(before_item), str(after[key]))
 
         protocollo_obj.write(cr, uid, [context['active_id']], vals)

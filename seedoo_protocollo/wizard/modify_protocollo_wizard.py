@@ -157,6 +157,9 @@ class wizard(osv.TransientModel):
             if before[key] != after[key]:
                 body = body + "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#009900'> %s </span></li>" \
                                 % (str(key), before_item.encode("utf-8"), after[key].encode("utf-8"))
+            else:
+                body = body + "<li>%s: <span style='color:#666'> %s</span> -> <span style='color:#666'> %s </span></li>" \
+                              % (str(key), before_item.encode("utf-8"), after[key].encode("utf-8"))
         body += "</ul></div>"
 
         post_vars = {'subject': "Modifica dati generali: \'%s\'" % wizard.cause,
