@@ -1254,6 +1254,9 @@ class protocollo_protocollo(orm.Model):
             context = {}
         prot = self.browse(cr, uid, prot_id)
         if prot.type == 'out' and prot.pec:
+
+            self.allega_segnatura_xml(cr, uid, prot.id, prot.xml_signature)
+
             mail_mail = self.pool.get('mail.mail')
             ir_attachment = self.pool.get('ir.attachment')
             mail_server_obj = self.pool.get('ir.mail_server')
@@ -1664,6 +1667,22 @@ class protocollo_protocollo(orm.Model):
 
             return True
 
+    def allega_segnatura_xml(self, cr, uid, protocollo_id, xml_segnatura, context=None):
+        xml_segnatura_datas = base64.b64encode(xml_segnatura)
+        attachment_obj = self.pool.get('ir.attachment')
+        attachment_obj.create(
+            cr, uid,
+            {
+                'name': 'Segnatura.xml',
+                'datas': xml_segnatura_datas,
+                'datas_fname': 'Segnatura.xml',
+                'datas_description': 'Segnatura.xml',
+                'res_model': 'protocollo.protocollo',
+                'is_protocol': True,
+                'res_id': protocollo_id,
+            }
+        )
+
     def carica_documenti_secondari(self, cr, uid, protocollo_id, file_data_list, context=None):
         attachment_obj = self.pool.get('ir.attachment')
 
@@ -1704,7 +1723,7 @@ class protocollo_protocollo(orm.Model):
             action_class = "history_icon upload"
             post_vars = {'subject': "Upload Documento",
                          'body': "<div class='%s'><ul><li>Aggiunt%s %d allegat%s: <i>%s</i></li></ul></div>" % (
-                         action_class, text, len(file_data_list), text, nomi_allegati),
+                             action_class, text, len(file_data_list), text, nomi_allegati),
                          'model': "protocollo.protocollo",
                          'res_id': protocollo_id,
                          }
