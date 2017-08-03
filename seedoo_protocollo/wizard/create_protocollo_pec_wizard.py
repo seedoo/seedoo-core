@@ -199,6 +199,7 @@ class ProtocolloPecWizard(osv.TransientModel):
         for send_rec in wizard.sender_receivers:
             srvals = {
                 'type': send_rec.type,
+                'source': 'sender',
                 'partner_id': send_rec.partner_id and
                               send_rec.partner_id.id or False,
                 'name': send_rec.name,
