@@ -418,7 +418,7 @@ this module contains the full copyright notices and license terms. -->
 
                             <footer>
                                 <div class="oe_edit_only">
-                                    <button name="aggiungi_destinatario_pec_action" string="Aggiungi Destinatario" type="object" class="oe_highlight_positive"
+                                    <button name="aggiungi_destinatario_pec_action" string="Aggiungi Destinatario" type="object" class="oe_highlight"
                                           attrs="{'invisible':[('add_pec_receiver_visibility','=',False)]}"/>
                                     <button string="Cancel" class="oe_link" special="cancel" attrs="{'invisible':[('add_pec_receiver_visibility','=',False)]}" />
                                 </div>
@@ -502,14 +502,13 @@ this module contains the full copyright notices and license terms. -->
                                 class="oe_highlight_positive"/>
 
                         <button name="sent_pec" string="Invia PEC Protocollo"
-                                attrs="{'invisible':[('invio_pec_visibility','=',False)]}"
-                                class="oe_highlight"/>
+                                attrs="{'invisible':[('invio_pec_visibility','=',False)]}"/>
 
-                        <button name="aggiungi_destinatari_pec" string="Aggiungi Destinatario" type="object"
+                        <button name="aggiungi_destinatari_pec" string="Aggiungi - Destinatario" type="object"
                                 attrs="{'invisible':[('aggiungi_pec_visibility','=',False)]}"
                                 class="oe_highlight_positive" context="{'is_add_pec_receiver': True}"/>
 
-                        <button name="action_resend" string="Reinvio Mail" type="object"
+                        <button name="action_resend" string="Reinvio - Mail" type="object"
                                 attrs="{'invisible': [('reinvio_pec_visibility', '=', False)]}"
                                 class="oe_highlight"/>
 
@@ -600,13 +599,11 @@ this module contains the full copyright notices and license terms. -->
                             <field name="pec" invisible="1"/>
                         </group>
                         <group col="4">
-                            <group col="4">
-                                <field name="doc_id" invisible="1"/>
-                                <field name="doc_fname" invisible="1"/>
-                                <field name="doc_content" filename="doc_fname"/>
-                            </group>
-
-                            <group />
+                            <field name="doc_content" filename="doc_fname"/>
+                            <field name="doc_id" invisible="1"/>
+                            <field name="doc_fname" invisible="1"/>
+                        </group>
+                        <group col="4">
                             <newline/>
                             <button string="Carica Documenti" type="action" class="oe_inline oe_stat_button" icon="fa-upload"
                                     attrs="{'invisible':['|',('doc_id','!=',False),('state','not in',('draft','registered'))]}"
