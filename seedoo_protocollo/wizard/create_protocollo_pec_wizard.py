@@ -198,40 +198,11 @@ class ProtocolloPecWizard(osv.TransientModel):
         vals['user_id'] = uid
         sender_receiver = []
 
-        for attach in mail_message.attachment_ids:
-            if attach.name.lower() == 'segnatura.xml':
-                vals_receiver = {}
-                location = self.pool.get('ir.config_parameter').get_param(cr, uid, 'ir_attachment.location')
-                attach_path = protocollo_obj._full_path(cr, uid, location, attach.store_fname)
-                segnatura_xml = SegnaturaXMLParser(attach_path)
-
-                srvals = {
-                    'type': segnatura_xml.getTipoMittente(),
-                    'pa_type': segnatura_xml.getTipoAmministrazione(),
-                    'source': 'sender',
-                    'partner_id': False,
-                    'name': segnatura_xml.getDenominazioneCompleta(),
-                    'street': segnatura_xml.getToponimo(),
-                    'zip': segnatura_xml.getCAP(),
-                    'city': segnatura_xml.getComune(),
-                    'country_id': False,
-                    'email': segnatura_xml.getIndirizzoTelematico(),
-                    'pec_mail': mail_message.email_from,
-                    'phone': segnatura_xml.getTelefono(),
-                    'fax': segnatura_xml.getFax(),
-                }
-
-                tipo = segnatura_xml.getTipoAmministrazione()
-                if tipo == 'uo':
-                    srvals['ipa_code'] = segnatura_xml.getCodiceUnitaOrganizzativa()
-                if tipo == 'aoo':
-                    srvals['ident_code'] = segnatura_xml.getCodiceAOO()
-                if tipo == 'pa':
-                    srvals['amm_code'] = segnatura_xml.getCodiceAmministrazione()
-
-                sender_receiver.append(sender_receiver_obj.create(cr, uid, srvals))
-                vals['sender_receivers'] = [[6, 0, sender_receiver]]
-
+        # Estrai i dati del mittente dalla segnatura
+        srvals = self.checkSegnatura(cr, uid, protocollo_obj, mail_message)
+        if len(srvals)>0:
+            sender_receiver.append(sender_receiver_obj.create(cr, uid, srvals))
+            vals['sender_receivers'] = [[6, 0, sender_receiver]]
 
         protocollo_id = protocollo_obj.create(cr, uid, vals)
         self.pool.get('mail.message').write(
@@ -330,3 +301,45 @@ class ProtocolloPecWizard(osv.TransientModel):
             'type': 'ir.actions.act_window',
             'context': context,
         }
+
+    def checkSegnatura(self, cr, uid, protocollo_obj, mail_message):
+
+        # protocollo_obj = self.pool.get('protocollo.protocollo').browse(cr, uid, prot_id)
+        srvals = {}
+        for attach in mail_message.attachment_ids:
+            if attach.name.lower() == 'segnatura.xml':
+                location = self.pool.get('ir.config_parameter').get_param(cr, uid, 'ir_attachment.location')
+                attach_path = protocollo_obj._full_path(cr, uid, location, attach.store_fname)
+                segnatura_xml = SegnaturaXMLParser(attach_path)
+
+                srvals = self.getDatiSegnatura(segnatura_xml)
+
+                srvals['pec_mail'] = mail_message.email_from,
+
+                tipo = segnatura_xml.getTipoAmministrazione()
+                if tipo == 'uo':
+                    srvals['ipa_code'] = segnatura_xml.getCodiceUnitaOrganizzativa()
+                if tipo == 'aoo':
+                    srvals['ident_code'] = segnatura_xml.getCodiceAOO()
+                if tipo == 'pa':
+                    srvals['amm_code'] = segnatura_xml.getCodiceAmministrazione()
+
+        return srvals
+
+    def getDatiSegnatura(self, segnatura_xml):
+        srvals = {
+            'type': segnatura_xml.getTipoMittente(),
+            'pa_type': segnatura_xml.getTipoAmministrazione(),
+            'source': 'sender',
+            'partner_id': False,
+            'name': segnatura_xml.getDenominazioneCompleta(),
+            'street': segnatura_xml.getToponimo(),
+            'zip': segnatura_xml.getCAP(),
+            'city': segnatura_xml.getComune(),
+            'country_id': False,
+            'email': segnatura_xml.getIndirizzoTelematico(),
+            'phone': segnatura_xml.getTelefono(),
+            'fax': segnatura_xml.getFax(),
+        }
+
+        return srvals
