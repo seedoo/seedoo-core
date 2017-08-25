@@ -7,7 +7,8 @@ import logging
 from openerp import SUPERUSER_ID
 from openerp.osv import fields, osv
 from utility.conversion import ConversionUtility
-
+from lxml import etree
+from ..segnatura.segnatura_xml_parser import SegnaturaXMLParser
 _logger = logging.getLogger(__name__)
 
 
@@ -196,26 +197,42 @@ class ProtocolloPecWizard(osv.TransientModel):
         vals['mail_pec_ref'] = context['active_id']
         vals['user_id'] = uid
         sender_receiver = []
-        for send_rec in wizard.sender_receivers:
-            srvals = {
-                'type': send_rec.type,
-                'source': 'sender',
-                'partner_id': send_rec.partner_id and
-                              send_rec.partner_id.id or False,
-                'name': send_rec.name,
-                'street': send_rec.street,
-                'zip': send_rec.zip,
-                'city': send_rec.city,
-                'country_id': send_rec.country_id and
-                              send_rec.country_id.id or False,
-                'email': send_rec.email,
-                'pec_mail': send_rec.pec_mail,
-                'phone': send_rec.phone,
-                'fax': send_rec.fax,
-                'mobile': send_rec.mobile,
-            }
-            sender_receiver.append(sender_receiver_obj.create(cr, uid, srvals))
-        vals['sender_receivers'] = [[6, 0, sender_receiver]]
+
+        for attach in mail_message.attachment_ids:
+            if attach.name.lower() == 'segnatura.xml':
+                vals_receiver = {}
+                location = self.pool.get('ir.config_parameter').get_param(cr, uid, 'ir_attachment.location')
+                attach_path = protocollo_obj._full_path(cr, uid, location, attach.store_fname)
+                segnatura_xml = SegnaturaXMLParser(attach_path)
+
+                srvals = {
+                    'type': segnatura_xml.getTipoMittente(),
+                    'pa_type': segnatura_xml.getTipoAmministrazione(),
+                    'source': 'sender',
+                    'partner_id': False,
+                    'name': segnatura_xml.getDenominazioneCompleta(),
+                    'street': segnatura_xml.getToponimo(),
+                    'zip': segnatura_xml.getCAP(),
+                    'city': segnatura_xml.getComune(),
+                    'country_id': False,
+                    'email': segnatura_xml.getIndirizzoTelematico(),
+                    'pec_mail': mail_message.email_from,
+                    'phone': segnatura_xml.getTelefono(),
+                    'fax': segnatura_xml.getFax(),
+                }
+
+                tipo = segnatura_xml.getTipoAmministrazione()
+                if tipo == 'uo':
+                    srvals['ipa_code'] = segnatura_xml.getCodiceUnitaOrganizzativa()
+                if tipo == 'aoo':
+                    srvals['ident_code'] = segnatura_xml.getCodiceAOO()
+                if tipo == 'pa':
+                    srvals['amm_code'] = segnatura_xml.getCodiceAmministrazione()
+
+                sender_receiver.append(sender_receiver_obj.create(cr, uid, srvals))
+                vals['sender_receivers'] = [[6, 0, sender_receiver]]
+
+
         protocollo_id = protocollo_obj.create(cr, uid, vals)
         self.pool.get('mail.message').write(
             cr,
