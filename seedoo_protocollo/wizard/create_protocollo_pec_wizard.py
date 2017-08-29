@@ -202,7 +202,29 @@ class ProtocolloPecWizard(osv.TransientModel):
         srvals = self.checkSegnatura(cr, uid, protocollo_obj, mail_message)
         if len(srvals)>0:
             sender_receiver.append(sender_receiver_obj.create(cr, uid, srvals))
-            vals['sender_receivers'] = [[6, 0, sender_receiver]]
+            # vals['sender_receivers'] = [[6, 0, sender_receiver]]
+        else:
+            for send_rec in wizard.sender_receivers:
+                srvals = {
+                    'type': send_rec.type,
+                    'source': 'sender',
+                    'partner_id': send_rec.partner_id and
+                                  send_rec.partner_id.id or False,
+                    'name': send_rec.name,
+                    'street': send_rec.street,
+                    'zip': send_rec.zip,
+                    'city': send_rec.city,
+                    'country_id': send_rec.country_id and
+                                  send_rec.country_id.id or False,
+                    'email': send_rec.email,
+                    'pec_mail': send_rec.pec_mail,
+                    'phone': send_rec.phone,
+                    'fax': send_rec.fax,
+                    'mobile': send_rec.mobile,
+                    'pec_ref': send_rec.pec_mail
+                }
+                sender_receiver.append(sender_receiver_obj.create(cr, uid, srvals))
+        vals['sender_receivers'] = [[6, 0, sender_receiver]]
 
         protocollo_id = protocollo_obj.create(cr, uid, vals)
         self.pool.get('mail.message').write(
@@ -314,8 +336,8 @@ class ProtocolloPecWizard(osv.TransientModel):
 
                 srvals = self.getDatiSegnatura(segnatura_xml)
 
-                srvals['pec_mail'] = mail_message.email_from,
-
+                srvals['pec_mail'] = mail_message.email_from.encode('utf8')
+                srvals['pec_ref'] = mail_message.id
                 tipo = segnatura_xml.getTipoAmministrazione()
                 if tipo == 'uo':
                     srvals['ipa_code'] = segnatura_xml.getCodiceUnitaOrganizzativa()
@@ -339,7 +361,7 @@ class ProtocolloPecWizard(osv.TransientModel):
             'country_id': False,
             'email': segnatura_xml.getIndirizzoTelematico(),
             'phone': segnatura_xml.getTelefono(),
-            'fax': segnatura_xml.getFax(),
+            'fax': segnatura_xml.getFax()
         }
 
         return srvals

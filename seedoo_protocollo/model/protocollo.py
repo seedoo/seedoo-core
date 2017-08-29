@@ -26,7 +26,7 @@ import time
 import logging
 
 from ..segnatura.segnatura_xml import SegnaturaXML
-
+from ..segnatura.conferma_xml import ConfermaXML
 _logger = logging.getLogger(__name__)
 mimetypes.init()
 
@@ -251,6 +251,7 @@ class protocollo_sender_receiver(orm.Model):
             'protocollo.typology', 'Canale di Spedizione'),
         'send_date': fields.date('Data Spedizione'),
         'protocol_state': fields.related('protocollo_id', 'state', type='char', string='State', readonly=True),
+        'protocol_pec': fields.related('protocollo_id', 'pec', type='boolean', string='Tipo PEC', readonly=True),
         'pec_ref': fields.many2one('mail.message', 'Consegna PEC'),
         'pec_accettazione_ref': fields.many2one('mail.message', 'Accettazione PEC', readonly=True),
         'pec_consegna_ref': fields.many2one('mail.message', 'Consegna PEC', readonly=True),
@@ -1195,6 +1196,9 @@ class protocollo_protocollo(orm.Model):
             etree_tostring = etree.tostring(xml, pretty_print=True)
             vals['xml_signature'] = etree_tostring
 
+            # if prot.type == 'in':
+            #     self.action_confirm(cr, uid, ids, *args)
+
             self.write(cr, uid, [prot.id], vals)
 
             action_class = "history_icon registration"
@@ -1230,6 +1234,22 @@ class protocollo_protocollo(orm.Model):
 
     def action_notify_cancel(self, cr, uid, ids, *args):
         return True
+
+    def action_confirm(self, cr, uid, ids, *args):
+
+        for prot in ids:
+            email_template_obj = self.pool.get('email.template')
+            conferma_xml = ConfermaXML(prot, cr, uid)
+            xml = conferma_xml.generate_conferma_root()
+            etree_tostring = etree.tostring(xml, pretty_print=True)
+
+            for prot in self.browse(cr, uid, ids):
+                if prot.assigne_emails:
+                    template_id = \
+                        self.pool.get('ir.model.data').get_object_reference(cr, uid, 'seedoo_protocollo',
+                                                                            'notify_protocol')[1]
+                    email_template_obj.send_mail(cr, uid, template_id, prot.id, force_send=True)
+            return True
 
     def _get_assigne_cc_emails(self, cr, uid, ids, context=None):
         if isinstance(ids, (list, tuple)) and not len(ids):

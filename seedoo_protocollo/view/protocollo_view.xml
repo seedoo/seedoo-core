@@ -390,6 +390,7 @@ this module contains the full copyright notices and license terms. -->
                                 <field name="send_date"/>
                                 <field name="send_type" invisible="1"/>
                                 <field name="protocol_state" invisible="1"/>
+                                <field name="protocol_pec" string="PEC" invisible="1"/>
                             </group>
 
                             <newline/>
@@ -398,15 +399,16 @@ this module contains the full copyright notices and license terms. -->
                             </group>
 
                             <newline/>
-                            <group string="Info PEC" attrs="{'invisible':[('protocol_state','not in',['waiting','sent','error'])]}" colspan="4" col="4">
-                                <field name="pec_ref" string="PEC" attrs="{'invisible':[('protocol_state','not in',['waiting','sent','error'])]}"/>
-                                <field name="pec_ora" attrs="{'invisible':[('protocol_state','not in',['waiting','sent','error'])]}"/>
-                                <field name="pec_accettazione_ref" attrs="{'invisible':[('protocol_state','not in',['waiting','sent','error'])]}"/>
-                                <field name="pec_accettazione_ora" attrs="{'invisible':[('protocol_state','not in',['waiting','sent','error'])]}"/>
-                                <field name="pec_consegna_ref" attrs="{'invisible':[('protocol_state','not in',['waiting','sent','error'])]}"/>
-                                <field name="pec_consegna_ora" attrs="{'invisible':[('protocol_state','not in',['waiting','sent','error'])]}"/>
-                                <field name="pec_errore_consegna_ref" attrs="{'invisible':[('protocol_state','not in',['waiting','sent','error'])]}"/>
-                                <field name="pec_errore_consegna_ora" attrs="{'invisible':[('protocol_state','not in',['waiting','sent','error'])]}"/>
+
+                            <group string="Info PEC" colspan="4" col="4" attrs="{'invisible':[('protocol_pec','!=',True)]}" >
+                                <field name="pec_ref" string="PEC" readonly="1"/>
+                                <field name="pec_ora" readonly="1"/>
+                                <field name="pec_accettazione_ref" attrs="{'invisible':[('protocol_state','not in',['waiting','sent','error'])]}" readonly="1"/>
+                                <field name="pec_accettazione_ora" attrs="{'invisible':[('protocol_state','not in',['waiting','sent','error'])]}" readonly="1"/>
+                                <field name="pec_consegna_ref" attrs="{'invisible':[('protocol_state','not in',['waiting','sent','error'])]}" readonly="1"/>
+                                <field name="pec_consegna_ora" attrs="{'invisible':[('protocol_state','not in',['waiting','sent','error'])]}" readonly="1"/>
+                                <field name="pec_errore_consegna_ref" attrs="{'invisible':[('protocol_state','not in',['waiting','sent','error'])]}" readonly="1"/>
+                                <field name="pec_errore_consegna_ora" attrs="{'invisible':[('protocol_state','not in',['waiting','sent','error'])]}" readonly="1"/>
                             </group>
 
                             <newline/>
@@ -746,17 +748,17 @@ this module contains the full copyright notices and license terms. -->
                                     </group>
                                 </group>
                             </page>
-                            <page string="Info PEC"
-                                  attrs="{'invisible':[('pec','!=',True)]}">
-                                <label for="mail_pec_ref"/>
-                                <field name="mail_pec_ref" context="{'pec_messages': True,'form_view_ref' : 'seedoo_protocollo.protocollo_pec_form'}"/>
-                                <newline/>
-                                <label for="pec_notifications_ids"
-                                       attrs="{'invisible':['|', ('pec','!=',True), ('type','=','in')]}"/>
-                                <field name="pec_notifications_ids"
-                                       context="{'pec_messages': True}"
-                                       attrs="{'invisible':['|', ('pec','!=',True), ('type','=','in')]}"/>
-                            </page>
+                            <!--<page string="Info PEC"-->
+                                  <!--attrs="{'invisible':[('pec','!=',True)]}">-->
+                                <!--<label for="mail_pec_ref"/>-->
+                                <!--<field name="mail_pec_ref" context="{'pec_messages': True,'form_view_ref' : 'seedoo_protocollo.protocollo_pec_form'}"/>-->
+                                <!--<newline/>-->
+                                <!--<label for="pec_notifications_ids"-->
+                                       <!--attrs="{'invisible':['|', ('pec','!=',True), ('type','=','in')]}"/>-->
+                                <!--<field name="pec_notifications_ids"-->
+                                       <!--context="{'pec_messages': True}"-->
+                                       <!--attrs="{'invisible':['|', ('pec','!=',True), ('type','=','in')]}"/>-->
+                            <!--</page>-->
                             <page string="Note">
                                 <label for="notes"/>
                                 <field name="notes" colspan="4"/>
