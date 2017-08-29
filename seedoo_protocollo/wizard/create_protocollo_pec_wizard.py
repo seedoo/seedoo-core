@@ -221,7 +221,7 @@ class ProtocolloPecWizard(osv.TransientModel):
                     'phone': send_rec.phone,
                     'fax': send_rec.fax,
                     'mobile': send_rec.mobile,
-                    'pec_ref': send_rec.pec_mail
+                    'pec_ref': mail_message.id
                 }
                 sender_receiver.append(sender_receiver_obj.create(cr, uid, srvals))
         vals['sender_receivers'] = [[6, 0, sender_receiver]]
