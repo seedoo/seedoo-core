@@ -367,6 +367,22 @@ class protocollo_sender_receiver(orm.Model):
     def aggiungi_destinatario_pec_action(self, cr, uid, ids, context=None):
         return True
 
+    def go_to_pec_action(self, cr, uid, ids, context=None):
+        model_data_obj = self.pool.get('ir.model.data')
+        view_rec = model_data_obj.get_object_reference(cr, uid, 'seedoo_protocollo', 'protocollo_pec_form')
+        view_id = view_rec and view_rec[1] or False
+        return {
+            'name': 'PEC',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'view_id': [view_id],
+            'res_model': 'mail.message',
+            'target': 'new',
+            'res_id': context.get('pec_ref', False),
+            'type': 'ir.actions.act_window',
+            'flags': {'form': {'options': {'mode': 'view'}}}
+        }
+
 
 class protocollo_registry(orm.Model):
     _name = 'protocollo.registry'
