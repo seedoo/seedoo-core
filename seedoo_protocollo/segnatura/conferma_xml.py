@@ -15,8 +15,13 @@ from openerp.tools.translate import _
 class ConfermaXML:
     def __init__(self, protocollo, cr, uid):
         self.protocollo = protocollo
-        # self.prot_number = prot_number
-        # date_object = dateutil.parser.parse(prot_date)
+        self.prot_number = protocollo.name
+        self.creation_date = protocollo.creation_date
+        # date_object = dateutil.parser.parse(protocollo.creation_date)
+        self.sender_prot_number = protocollo.sender_protocol
+        self.sender_register = protocollo.sender_register
+        self.sender_registration_date = protocollo.sender_registration_date
+        self.receiving_date = protocollo.receiving_date
         # self.prot_date = date_object
         self.prot_type = protocollo.type
         self.cr = cr
@@ -40,11 +45,11 @@ class ConfermaXML:
         pass
 
     def generate_conferma_root(self):
-        root = etree.Element("Conferma")
-        intestazione = self.create_intestazione()
-        descrizione = self.createDescrizione()
-        root.append(intestazione)
-        root.append(descrizione)
+        root = etree.Element("ConfermaRicezione")
+        identificatore = self.createIdentificatoreMittente()
+        messaggioRicevuto = self.createMessaggioRicevuto()
+        root.append(identificatore)
+        root.append(messaggioRicevuto)
         if self.validateXml(root):
             return root
         else:
@@ -63,85 +68,75 @@ class ConfermaXML:
 
         return isValid
 
-    def createDescrizione(self):
-        descrizione = etree.Element("Descrizione")
-        testoDelMessaggio = self.createTestoDelMessaggio()
-        descrizione.append(testoDelMessaggio)
-        return descrizione
-
-    def createNote(self, notes=""):
-        note = etree.Element("Note")
-        note.text = notes
-        return note
-
-    def createTestoDelMessaggio(self, body=""):
-        testoDelMessaggio = etree.Element("TestoDelMessaggio")
-        return testoDelMessaggio
-
-    def createDestinatarioFromSenderReceiver(self, senderReceiver):
-        destinatario = etree.Element("Destinatario")
-
-        if senderReceiver.type == "individual":  # Persona fisica
-            denominazione = self.createDenominazione(senderReceiver.name)
-            destinatario.append(denominazione)
-            persona = self.createPersonaFromSenderReceiver(senderReceiver)
-            destinatario.append(persona)
-            indirizzoTelematico = \
-                self.createIndirizzoTelematicoFromSenderReceiver(
-                    senderReceiver)
-            destinatario.append(indirizzoTelematico)
-            indirizzoPostale = self.createIndirizzoPostaleFromSenderReceiver(
-                senderReceiver)
-            destinatario.append(indirizzoPostale)
-        elif senderReceiver.type == "legal":  # Azienda privata
-            azienda = self.createAmministrazioneFakeFromSenderReceiver(
-                senderReceiver)
-            destinatario.append(azienda)
-            aOO = self.createAOO()
-            destinatario.append(aOO)
-            privato = self.createPrivatoFromSenderReceiver(senderReceiver)
-            destinatario.append(privato)
-        elif senderReceiver.type == "government":  # Amministrazione pubblica
-            amministrazione = self.createAmministrazioneFromSenderReceiver(
-                senderReceiver)
-            destinatario.append(amministrazione)
-            aOO = self.createAOO()
-            destinatario.append(aOO)
-
-        return destinatario
+    def createMessaggioRicevuto(self):
+        messaggioRicevuto = etree.Element("MessaggioRicevuto")
+        identificatore = self.createIdentificatore()
+        messaggioRicevuto.append(identificatore)
+        return messaggioRicevuto
 
     def createIdentificatore(self):
         identificatore = etree.Element("Identificatore")
-        # TODO Recuperare da qualche parte il codice amministrazione (codice
-        #  IPA??)
         codiceAmministrazione = self.createCodiceAmministrazione()
         codiceAOO = self.createCodiceAOO(self.codiceAOO)
         numeroRegistrazione = self.createNumeroRegistrazione(self.prot_number)
-        dataRegistrazione = self.createDataRegistrazione(self.prot_date)
+        dataRegistrazione = self.createDataRegistrazione(self.creation_date)
         identificatore.append(codiceAmministrazione)
         identificatore.append(codiceAOO)
         identificatore.append(numeroRegistrazione)
         identificatore.append(dataRegistrazione)
         return identificatore
 
-    def createDataRegistrazione(self, dataRegistrazioneVal):
+    def createIdentificatoreMittente(self):
+        identificatore = etree.Element("Identificatore")
+        codiceAmministrazioneMittente = self.createCodiceAmministrazioneMittente()
+        codiceAOOMittente = self.createCodiceAOOMittente()
+        # codiceRegistroMittente = self.createCodiceRegistro(self.sender_register)
+        numeroRegistrazioneMittente = self.createNumeroRegistrazione(self.sender_prot_number)
+        dataRegistrazioneMittente = self.createDataRegistrazione(self.sender_registration_date)
+        identificatore.append(codiceAmministrazioneMittente)
+        identificatore.append(codiceAOOMittente)
+        # identificatore.append(codiceRegistroMittente)
+        identificatore.append(numeroRegistrazioneMittente)
+        identificatore.append(dataRegistrazioneMittente)
+        return identificatore
+
+    def createCodiceAmministrazioneMittente(self):
+        receivers = self.protocollo.sender_receivers
+        if receivers[0].ammi_code:
+            codiceAmministrazioneMittente = self.createCodiceAmministrazione(receivers[0].ammi_code)
+        else:
+            codiceAmministrazioneMittente = self.createCodiceAmministrazione('')
+        return codiceAmministrazioneMittente
+
+    def createCodiceAOOMittente(self):
+        receivers = self.protocollo.sender_receivers
+        if receivers[0].ident_code:
+            codiceAOOMittente = self.createCodiceAOO(receivers[0].ident_code)
+        else:
+            codiceAOOMittente = self.createCodiceAOO('')
+        return codiceAOOMittente
+
+    def createDataRegistrazione(self, dataRegistrazioneVal=''):
         dataRegistrazione = etree.Element("DataRegistrazione")
-        dataRegistrazione.text = dataRegistrazioneVal.date().isoformat()
+        dataRegistrazione.text = dataRegistrazioneVal if dataRegistrazioneVal else ''
         return dataRegistrazione
 
-    def createNumeroRegistrazione(self, numeroRegistrazioneVal):
+    def createCodiceRegistro(self, codiceRegistroVal=''):
+        codiceRegistro = etree.Element("CodiceRegistro")
+        codiceRegistro.text = codiceRegistroVal if codiceRegistroVal else ''
+        return codiceRegistro
+
+    def createNumeroRegistrazione(self, numeroRegistrazioneVal=''):
         numeroRegistrazione = etree.Element("NumeroRegistrazione")
-        numeroRegistrazione.text = numeroRegistrazioneVal
+        numeroRegistrazione.text = numeroRegistrazioneVal if numeroRegistrazioneVal else ''
         return numeroRegistrazione
 
     def createCodiceAOO(self, codiceAOOVal=""):
         codiceAOO = etree.Element("CodiceAOO")
-        codiceAOO.text = codiceAOOVal
+        codiceAOO.text = codiceAOOVal if codiceAOOVal else ''
         return codiceAOO
 
     def createCodiceAmministrazione(self, code=""):
-        # TODO Recuperare da qualche parte il codice amministrazione (codice
-        #  IPA??)
         codiceAmministrazione = etree.Element("CodiceAmministrazione")
         codiceAmministrazione.text = self.checkNullValue(code)
         return codiceAmministrazione
@@ -149,3 +144,9 @@ class ConfermaXML:
     def create_messaggio_ricevuto(self):
         messaggio_ricevuto = etree.Element("MessaggioRicevuto")
         return messaggio_ricevuto
+
+    def checkNullValue(self, value):
+        tempValue = ""
+        if value:
+            tempValue = value
+        return tempValue

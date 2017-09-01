@@ -27,6 +27,7 @@
     "data":
         [
             'data/protocollo_configuration.xml',
+            'data/protocollo_conferma_template.xml',
             'security/protocollo_security.xml',
             'security/security_rules.xml',
             'security/mail_security.xml',

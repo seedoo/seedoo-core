@@ -473,6 +473,7 @@ this module contains the full copyright notices and license terms. -->
                         <button name="register" string="Registra Protocollo"
                                 attrs="{'invisible':[('registra_visibility','=',False)]}"
                                 class="oe_highlight_positive"/>
+
                         <button name="%(protocollo_cancel_action)d" string="Annulla Protocollo" type="action"
                                 attrs="{'invisible':[('annulla_visibility','=',False)]}"
                                 class="oe_highlight_warning"/>
@@ -748,17 +749,6 @@ this module contains the full copyright notices and license terms. -->
                                     </group>
                                 </group>
                             </page>
-                            <!--<page string="Info PEC"-->
-                                  <!--attrs="{'invisible':[('pec','!=',True)]}">-->
-                                <!--<label for="mail_pec_ref"/>-->
-                                <!--<field name="mail_pec_ref" context="{'pec_messages': True,'form_view_ref' : 'seedoo_protocollo.protocollo_pec_form'}"/>-->
-                                <!--<newline/>-->
-                                <!--<label for="pec_notifications_ids"-->
-                                       <!--attrs="{'invisible':['|', ('pec','!=',True), ('type','=','in')]}"/>-->
-                                <!--<field name="pec_notifications_ids"-->
-                                       <!--context="{'pec_messages': True}"-->
-                                       <!--attrs="{'invisible':['|', ('pec','!=',True), ('type','=','in')]}"/>-->
-                            <!--</page>-->
                             <page string="Note">
                                 <label for="notes"/>
                                 <field name="notes" colspan="4"/>

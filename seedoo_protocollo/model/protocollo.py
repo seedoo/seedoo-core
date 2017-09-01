@@ -772,6 +772,14 @@ class protocollo_protocollo(orm.Model):
                                        readonly=True,
                                        states={'draft': [('readonly', False)]
                                                }),
+        'sender_register': fields.char('Registro Mittente',
+                                       size=64,
+                                       required=False,
+                                       readonly=True),
+        'sender_registration_date': fields.char('Data Registrazione Mittente',
+                                       size=64,
+                                       required=False,
+                                       readonly=True),
         'sender_receivers': fields.one2many('protocollo.sender_receiver', 'protocollo_id', 'Mittenti/Destinatari'),
         'senders': fields.one2many('protocollo.sender_receiver', 'protocollo_id', 'Mittenti', domain=[('source', '=', 'sender')]),
         'receivers': fields.one2many('protocollo.sender_receiver', 'protocollo_id', 'Destinatari', domain=[('source', '=', 'receiver')]),
@@ -1159,6 +1167,7 @@ class protocollo_protocollo(orm.Model):
                 vals['name'] = prot_number
                 vals['registration_date'] = prot_date
                 prot_complete_name = self.calculate_complete_name(prot_date, prot_number)
+
                 if prot.doc_id:
                     if prot.mimetype == 'application/pdf':
                         self._sign_doc(
@@ -1196,10 +1205,10 @@ class protocollo_protocollo(orm.Model):
             etree_tostring = etree.tostring(xml, pretty_print=True)
             vals['xml_signature'] = etree_tostring
 
-            # if prot.type == 'in':
-            #     self.action_confirm(cr, uid, ids, *args)
-
             self.write(cr, uid, [prot.id], vals)
+
+            if prot.type == 'in' and prot.pec:
+                self.action_confirm(cr, uid, ids, *args)
 
             action_class = "history_icon registration"
             post_vars = {'subject': "Registrazione protocollo",
@@ -1222,8 +1231,7 @@ class protocollo_protocollo(orm.Model):
                 raise openerp.exceptions.Warning(_('Errore nella notifica del protocollo, mancano gli assegnatari'))
             if prot.reserved:
                 template_reserved_id = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'seedoo_protocollo',
-                                                                                           'notify_reserved_protocol')[
-                    1]
+                                                                                           'notify_reserved_protocol')[1]
                 email_template_obj.send_mail(cr, uid, template_reserved_id, prot.id, force_send=True)
             if prot.assigne_emails:
                 template_id = \
@@ -1235,21 +1243,61 @@ class protocollo_protocollo(orm.Model):
     def action_notify_cancel(self, cr, uid, ids, *args):
         return True
 
-    def action_confirm(self, cr, uid, ids, *args):
-
-        for prot in ids:
-            email_template_obj = self.pool.get('email.template')
+    def action_confirm(self, cr, uid, ids, context=None, *args):
+        if context is None:
+            context = {}
+        for prot in self.browse(cr, uid, ids):
             conferma_xml = ConfermaXML(prot, cr, uid)
             xml = conferma_xml.generate_conferma_root()
             etree_tostring = etree.tostring(xml, pretty_print=True)
 
-            for prot in self.browse(cr, uid, ids):
-                if prot.assigne_emails:
-                    template_id = \
-                        self.pool.get('ir.model.data').get_object_reference(cr, uid, 'seedoo_protocollo',
-                                                                            'notify_protocol')[1]
-                    email_template_obj.send_mail(cr, uid, template_id, prot.id, force_send=True)
-            return True
+            if etree_tostring:
+                mail_mail = self.pool.get('mail.mail')
+                mail_server = self.get_pec_mail_server(cr, uid, context)
+
+                sender_receivers_pec_mails = []
+                sender_receivers_pec_ids = []
+                if prot.sender_receivers:
+                    for sender_receiver_id in prot.sender_receivers.ids:
+                        sender_receiver_obj = self.pool.get('protocollo.sender_receiver').browse(cr, uid, sender_receiver_id, context=context)
+                        if not sender_receiver_obj.pec_invio_status:
+                            sender_receivers_pec_mails.append(sender_receiver_obj.pec_mail)
+                            sender_receivers_pec_ids.append(sender_receiver_obj.id)
+                attachment = self.pool.get('ir.attachment').create(cr, uid, {'name': 'conferma.xml',
+                                                                             'datas_fname': 'conferma.xml',
+                                                                             'datas': etree_tostring.encode('base64')})
+
+                # vals = {'mail_out_ref': mail.id,
+                #         'mail_pec_ref': mail.mail_message_id.id}
+                # self.write(cr, uid, [prot.id], vals)
+                context['confirm_email_from'] = mail_server.smtp_user
+                context['confirm_email_to'] = ','.join([sr for sr in sender_receivers_pec_mails])
+                email_template_obj = self.pool.get('email.template')
+                template_id = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'seedoo_protocollo', 'confirm_protocol')[1]
+                template = email_template_obj.browse(cr, uid, template_id, context)
+                template.attachment_ids = [(6, 0, [attachment])]
+                template.write({'mail_server_id': mail_server.id})
+                template.send_mail(prot.id, force_send=True)
+
+                # action_class = "history_icon mail"
+                # post_vars = {'subject': "Invio PEC",
+                #              'body': "<div class='%s'><ul><li>PEC protocollo inviato a: %s</li></ul></div>" % (
+                #              action_class, values['email_to']),
+                #              'model': "protocollo.protocollo",
+                #              'res_id': prot.id,
+                #              }
+                #
+                # thread_pool = self.pool.get('protocollo.protocollo')
+                # thread_pool.message_post(cr, uid, prot.id, type="notification", context=context, **post_vars)
+
+                # if res[0]['state'] != 'sent':
+                #     raise openerp.exceptions.Warning(_('Errore nella \
+                #         conferma del protocollo, mail pec non spedita'))
+                # else:
+                #     for sender_receiver_id in sender_receivers_pec_ids:
+                #         sender_receiver_obj = self.pool.get('protocollo.sender_receiver').browse(cr, uid, sender_receiver_id, context=context)
+                #         sender_receiver_obj.write({'pec_ref': mail.mail_message_id.id})
+        return True
 
     def _get_assigne_cc_emails(self, cr, uid, ids, context=None):
         if isinstance(ids, (list, tuple)) and not len(ids):
@@ -1274,24 +1322,14 @@ class protocollo_protocollo(orm.Model):
             context = {}
         prot = self.browse(cr, uid, prot_id)
         if prot.type == 'out' and prot.pec:
+            mail_mail = self.pool.get('mail.mail')
+            ir_attachment = self.pool.get('ir.attachment')
+            sender_receivers_pec_mails = []
+            sender_receivers_pec_ids = []
+            mail_server = self.get_pec_mail_server(cr, uid, context)
 
             self.allega_segnatura_xml(cr, uid, prot.id, prot.xml_signature)
 
-            mail_mail = self.pool.get('mail.mail')
-            ir_attachment = self.pool.get('ir.attachment')
-            mail_server_obj = self.pool.get('ir.mail_server')
-            fetch_server_obj = self.pool.get('fetchmail.server')
-            fetch_server_ids = fetch_server_obj.get_fetch_server_pec(cr, uid, context)
-            if not fetch_server_ids:
-                raise openerp.exceptions.Warning(_('Errore nella \
-                    notifica del protocollo, nessun server pec associato all\'utente'))
-            mail_server_ids = mail_server_obj.get_mail_server_pec(cr, uid, fetch_server_ids[0], context)
-            if not mail_server_ids:
-                raise openerp.exceptions.Warning(_('Errore nella \
-                    notifica del protocollo, manca il server pec in uscita'))
-            mail_server = mail_server_obj.browse(cr, uid, mail_server_ids[0])
-            sender_receivers_pec_mails = []
-            sender_receivers_pec_ids = []
             if prot.sender_receivers:
                 for sender_receiver_id in prot.sender_receivers.ids:
                     sender_receiver_obj = self.pool.get('protocollo.sender_receiver').browse(cr, uid, sender_receiver_id, context=context)
@@ -1375,6 +1413,20 @@ class protocollo_protocollo(orm.Model):
                 wf_service = netsvc.LocalService('workflow')
                 wf_service.trg_validate(uid, 'protocollo.protocollo', prot.id, 'resend', cr)
         return True
+
+    def get_pec_mail_server(self, cr, uid, context=None):
+        mail_server_obj = self.pool.get('ir.mail_server')
+        fetch_server_obj = self.pool.get('fetchmail.server')
+        fetch_server_ids = fetch_server_obj.get_fetch_server_pec(cr, uid, context)
+        if not fetch_server_ids:
+            raise openerp.exceptions.Warning(_('Errore nella \
+                notifica del protocollo, nessun server pec associato all\'utente'))
+        mail_server_ids = mail_server_obj.get_mail_server_pec(cr, uid, fetch_server_ids[0], context)
+        if not mail_server_ids:
+            raise openerp.exceptions.Warning(_('Errore nella \
+                notifica del protocollo, manca il server pec in uscita'))
+        mail_server = mail_server_obj.browse(cr, uid, mail_server_ids[0])
+        return mail_server
 
     def action_pec_send(self, cr, uid, ids, *args):
         context = {'pec_messages': True}
@@ -1592,15 +1644,6 @@ class protocollo_protocollo(orm.Model):
 
         configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
         configurazione = self.pool.get('protocollo.configurazione').browse(cr, uid, configurazione_ids[0])
-
-        # ftype = mimetypes.guess_type(datas_fname)
-        # mimetype = mimetypes.guess_extension(ftype[0])
-        # if mimetype not in ('.pdf'):
-        #     raise orm.except_orm(
-        #         'Attenzione!',
-        #         'Il documento da protocollare deve necessariamente avere estensione .pdf!'
-        #     )
-
         mimetype = magic.from_buffer(base64.b64decode(datas), mime=True)
 
         protocollo_obj = self.pool.get('protocollo.protocollo')

@@ -30,6 +30,27 @@ class SegnaturaXMLParser:
             raise openerp.exceptions.Warning(
                 _('Errore nella validazione xml segnatura'))
 
+    def getNumeroRegistrazione(self):
+        vals = ''
+        element = self._root.find("./Intestazione/Identificatore/NumeroRegistrazione")
+        if element is not None and element.text is not None:
+            vals = element.text
+        return vals
+
+    def getDataRegistrazione(self):
+        vals = ''
+        element = self._root.find("./Intestazione/Identificatore/DataRegistrazione")
+        if element is not None and element.text is not None:
+            vals = element.text
+        return vals
+
+    def getCodiceRegistro(self):
+        vals = ''
+        element = self._root.find("./Intestazione/Identificatore/CodiceRegistro")
+        if element is not None and element.text is not None:
+            vals = element.text
+        return vals
+
     def getTipoMittente(self):
         vals = ''
         element = self._root.find("./Intestazione/Origine/Mittente/Amministrazione")
@@ -89,6 +110,10 @@ class SegnaturaXMLParser:
         element = self._root.find("./Intestazione/Origine/Mittente/Amministrazione/CodiceAmministrazione")
         if element is not None and element.text is not None:
             vals = element.text
+        else:
+            element = self._root.find("./Intestazione/Identificatore/CodiceAmministrazione")
+            if element is not None and element.text is not None:
+                vals = element.text
         return vals
 
     def getCodiceAOO(self):
@@ -96,6 +121,10 @@ class SegnaturaXMLParser:
         element = self._root.find("./Intestazione/Origine/Mittente/AOO/CodiceAOO")
         if element is not None and element.text is not None:
             vals = element.text
+        else:
+            element = self._root.find("./Intestazione/Identificatore/CodiceAOO")
+            if element is not None and element.text is not None:
+                vals = element.text
         return vals
 
     def getCodiceUnitaOrganizzativa(self):

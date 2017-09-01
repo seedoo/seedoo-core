@@ -198,11 +198,10 @@ class ProtocolloPecWizard(osv.TransientModel):
         vals['user_id'] = uid
         sender_receiver = []
 
-        # Estrai i dati del mittente dalla segnatura
-        srvals = self.checkSegnatura(cr, uid, protocollo_obj, mail_message)
-        if len(srvals)>0:
-            sender_receiver.append(sender_receiver_obj.create(cr, uid, srvals))
-            # vals['sender_receivers'] = [[6, 0, sender_receiver]]
+        # Estrae i dati del mittente dalla segnatura
+        srvals = self.elaboraSegnatura(cr, uid, protocollo_obj, mail_message)
+        if len(srvals['mittente'])>0:
+            sender_receiver.append(sender_receiver_obj.create(cr, uid, srvals['mittente']))
         else:
             for send_rec in wizard.sender_receivers:
                 srvals = {
@@ -225,7 +224,10 @@ class ProtocolloPecWizard(osv.TransientModel):
                 }
                 sender_receiver.append(sender_receiver_obj.create(cr, uid, srvals))
         vals['sender_receivers'] = [[6, 0, sender_receiver]]
-
+        if 'protocollo' in srvals:
+            vals['sender_protocol'] = srvals['protocollo']['sender_protocol']
+            vals['sender_register'] = srvals['protocollo']['sender_register']
+            vals['sender_registration_date'] = srvals['protocollo']['sender_registration_date']
         protocollo_id = protocollo_obj.create(cr, uid, vals)
         self.pool.get('mail.message').write(
             cr,
@@ -324,31 +326,28 @@ class ProtocolloPecWizard(osv.TransientModel):
             'context': context,
         }
 
-    def checkSegnatura(self, cr, uid, protocollo_obj, mail_message):
-
-        # protocollo_obj = self.pool.get('protocollo.protocollo').browse(cr, uid, prot_id)
+    def elaboraSegnatura(self, cr, uid, protocollo_obj, mail_message):
         srvals = {}
+        srvals_mittente = {}
+        srvals_protocollo = {}
+
         for attach in mail_message.attachment_ids:
             if attach.name.lower() == 'segnatura.xml':
                 location = self.pool.get('ir.config_parameter').get_param(cr, uid, 'ir_attachment.location')
                 attach_path = protocollo_obj._full_path(cr, uid, location, attach.store_fname)
                 segnatura_xml = SegnaturaXMLParser(attach_path)
 
-                srvals = self.getDatiSegnatura(segnatura_xml)
+                srvals_mittente = self.getDatiSegnaturaMittente(segnatura_xml)
+                srvals_protocollo = self.getDatiSegnaturaProtocollo(segnatura_xml)
 
-                srvals['pec_mail'] = mail_message.email_from.encode('utf8')
-                srvals['pec_ref'] = mail_message.id
-                tipo = segnatura_xml.getTipoAmministrazione()
-                if tipo == 'uo':
-                    srvals['ipa_code'] = segnatura_xml.getCodiceUnitaOrganizzativa()
-                if tipo == 'aoo':
-                    srvals['ident_code'] = segnatura_xml.getCodiceAOO()
-                if tipo == 'pa':
-                    srvals['amm_code'] = segnatura_xml.getCodiceAmministrazione()
+                srvals_mittente['pec_mail'] = mail_message.email_from.encode('utf8')
+                srvals_mittente['pec_ref'] = mail_message.id
 
+        srvals['mittente'] = srvals_mittente
+        srvals['protocollo'] = srvals_protocollo
         return srvals
 
-    def getDatiSegnatura(self, segnatura_xml):
+    def getDatiSegnaturaMittente(self, segnatura_xml):
         srvals = {
             'type': segnatura_xml.getTipoMittente(),
             'pa_type': segnatura_xml.getTipoAmministrazione(),
@@ -361,7 +360,19 @@ class ProtocolloPecWizard(osv.TransientModel):
             'country_id': False,
             'email': segnatura_xml.getIndirizzoTelematico(),
             'phone': segnatura_xml.getTelefono(),
-            'fax': segnatura_xml.getFax()
+            'fax': segnatura_xml.getFax(),
+            'ipa_code': segnatura_xml.getCodiceUnitaOrganizzativa(),
+            'ident_code': segnatura_xml.getCodiceAOO(),
+            'amm_code': segnatura_xml.getCodiceAmministrazione()
+        }
+
+        return srvals
+
+    def getDatiSegnaturaProtocollo(self, segnatura_xml):
+        srvals = {
+            'sender_protocol': segnatura_xml.getNumeroRegistrazione(),
+            'sender_register': segnatura_xml.getCodiceRegistro(),
+            'sender_registration_date': segnatura_xml.getDataRegistrazione()
         }
 
         return srvals
