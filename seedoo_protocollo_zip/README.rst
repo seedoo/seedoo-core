@@ -9,12 +9,7 @@ Seedoo Protocollo Zip
 Modulo per abilitare il download degli allegati del protocollo in formato zip
 
 
-Usage
-=====
 
-.. image:: https://odoo-community.org/website/image/ir.attachment/5784_f2813bd/datas
-   :alt: Try me on Runbot
-   :target: https://runbot.odoo-community.org/runbot/122/8.0
 
 Bug Tracker
 ===========
