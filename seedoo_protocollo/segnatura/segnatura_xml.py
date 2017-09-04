@@ -236,8 +236,8 @@ class SegnaturaXML:
             destinatario.append(azienda)
             aOO = self.createAOO()
             destinatario.append(aOO)
-            privato = self.createPrivatoFromSenderReceiver(senderReceiver)
-            destinatario.append(privato)
+            # privato = self.createPrivatoFromSenderReceiver(senderReceiver)
+            # destinatario.append(privato)
         elif senderReceiver.type == "government":  # Amministrazione pubblica
             amministrazione = self.createAmministrazioneFromSenderReceiver(
                 senderReceiver)
