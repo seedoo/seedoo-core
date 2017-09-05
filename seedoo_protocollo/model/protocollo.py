@@ -194,6 +194,17 @@ class protocollo_sender_receiver(orm.Model):
                 res[sr.id] = True
         return res
 
+    def _get_conferma_status(self, cr, uid, ids, field, arg, context=None):
+        if isinstance(ids, (list, tuple)) and not len(ids):
+            return []
+        if isinstance(ids, (long, int)):
+            ids = [ids]
+        res = dict.fromkeys(ids, False)
+        for sr in self.browse(cr, uid, ids):
+            if sr.pec_conferma_ref.id:
+                res[sr.id] = True
+        return res
+
     def _get_default_protocollo_id(self, cr, uid, context=None):
         if context and 'is_add_pec_receiver' in context and context['is_add_pec_receiver']:
             if context.has_key('protocollo_id') and context['protocollo_id']:
@@ -256,14 +267,17 @@ class protocollo_sender_receiver(orm.Model):
         'pec_accettazione_ref': fields.many2one('mail.message', 'Accettazione PEC', readonly=True),
         'pec_consegna_ref': fields.many2one('mail.message', 'Consegna PEC', readonly=True),
         'pec_errore_consegna_ref': fields.many2one('mail.message', 'Errore Consegna PEC', readonly=True),
+        'pec_conferma_ref': fields.many2one('mail.message', 'Conferma PEC', readonly=True),
         'pec_invio_status': fields.function(_get_invio_status, type='boolean', string='Inviata'),
         'pec_accettazione_status': fields.function(_get_accettazione_status, type='boolean', string='Accettata'),
         'pec_consegna_status': fields.function(_get_consegna_status, type='boolean', string='Consegnata'),
         'pec_errore_consegna_status': fields.function(_get_errore_consegna_status, type='boolean', string='Errore Consegna'),
+        'pec_conferma_status': fields.function(_get_conferma_status, type='boolean', string='Conferma'),
         'pec_ora': fields.related('pec_ref', 'date', type='datetime', string='Orario Invio PEC', readonly=False, store=False),
         'pec_accettazione_ora': fields.related('pec_accettazione_ref', 'cert_datetime', type='datetime', string='Orario PEC Accettazione', readonly=False, store=False),
         'pec_consegna_ora': fields.related('pec_consegna_ref', 'cert_datetime', type='datetime', string='Orario PEC Consegna', readonly=False, store=False),
         'pec_errore_consegna_ora': fields.related('pec_errore_consegna_ref', 'cert_datetime', type='datetime', string='Orario PEC Errore Consegna', readonly=False, store=False),
+        'pec_conferma_ora': fields.related('pec_conferma_ref', 'cert_datetime', type='datetime', string='Orario PEC Conferma', readonly=False, store=False),
         'add_pec_receiver_visibility': fields.boolean('Button Visibility', readonly=True),
 
     }
@@ -366,6 +380,22 @@ class protocollo_sender_receiver(orm.Model):
 
     def aggiungi_destinatario_pec_action(self, cr, uid, ids, context=None):
         return True
+
+    def go_to_pec_action(self, cr, uid, ids, context=None):
+        model_data_obj = self.pool.get('ir.model.data')
+        view_rec = model_data_obj.get_object_reference(cr, uid, 'seedoo_protocollo', 'protocollo_pec_form')
+        view_id = view_rec and view_rec[1] or False
+        return {
+            'name': 'PEC',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'view_id': [view_id],
+            'res_model': 'mail.message',
+            'target': 'new',
+            'res_id': context.get('pec_ref', False),
+            'type': 'ir.actions.act_window',
+            'flags': {'form': {'options': {'mode': 'view'}}}
+        }
 
 
 class protocollo_registry(orm.Model):
@@ -1267,8 +1297,7 @@ class protocollo_protocollo(orm.Model):
                                                                              'datas_fname': 'conferma.xml',
                                                                              'datas': etree_tostring.encode('base64')})
 
-                # vals = {'mail_out_ref': mail.id,
-                #         'mail_pec_ref': mail.mail_message_id.id}
+                # vals = {'pec_conferma_ref': mail.mail_message_id.id}
                 # self.write(cr, uid, [prot.id], vals)
                 context['confirm_email_from'] = mail_server.smtp_user
                 context['confirm_email_to'] = ','.join([sr for sr in sender_receivers_pec_mails])
@@ -1276,8 +1305,17 @@ class protocollo_protocollo(orm.Model):
                 template_id = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'seedoo_protocollo', 'confirm_protocol')[1]
                 template = email_template_obj.browse(cr, uid, template_id, context)
                 template.attachment_ids = [(6, 0, [attachment])]
-                template.write({'mail_server_id': mail_server.id})
-                template.send_mail(prot.id, force_send=True)
+                template.write({
+                    'mail_server_id': mail_server.id,
+                    'pec-type': 'posta-certificata',
+                    'pec_protocol_ref': prot.id,
+                    'pec_state': 'not_protocol'
+                })
+                pec_conferma_ref = template.send_mail(prot.id, force_send=True)
+
+                for sender_id in sender_receivers_pec_ids:
+                    sender_receiver_obj = self.pool.get('protocollo.sender_receiver').browse(cr, uid, sender_id, context = context)
+                    # sender_receiver_obj.write({'pec_conferma_ref': pec_conferma_ref[0]})
 
                 # action_class = "history_icon mail"
                 # post_vars = {'subject': "Invio PEC",
