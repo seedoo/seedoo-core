@@ -1281,7 +1281,7 @@ class protocollo_protocollo(orm.Model):
             if receipt_type == 'conferma':
                 receipt_xml = ConfermaXML(prot, cr, uid)
             if receipt_type == 'annullamento':
-                receipt_xml = AnnullamentoXML(prot, cr, uid)
+                receipt_xml = AnnullamentoXML(cr, uid, prot, context['receipt_cancel_reason'], context['receipt_cancel_author'],context['receipt_cancel_date'])
 
             xml = receipt_xml.generate_receipt_root()
             etree_tostring = etree.tostring(xml, pretty_print=True)

@@ -13,7 +13,7 @@ from openerp.tools.translate import _
 
 
 class AnnullamentoXML:
-    def __init__(self, protocollo, cr, uid):
+    def __init__(self, cr, uid, protocollo, reason, author, date):
         self.protocollo = protocollo
         self.prot_number = protocollo.name
         self.creation_date = protocollo.creation_date
@@ -22,6 +22,9 @@ class AnnullamentoXML:
         self.sender_register = protocollo.sender_register
         self.sender_registration_date = protocollo.sender_registration_date
         self.receiving_date = protocollo.receiving_date
+        self.cancellation_reason = reason
+        self.cancellation_author = author
+        self.cancellation_date = date
         # self.prot_date = date_object
         self.prot_type = protocollo.type
         self.cr = cr
@@ -64,14 +67,17 @@ class AnnullamentoXML:
 
         return isValid
 
-    def createMotivo(self, motivoVal= ''):
+    def createMotivo(self):
         motivo = etree.Element("Motivo")
-        motivo.text = motivoVal if motivoVal else ''
+        motivo.text = self.cancellation_reason if self.cancellation_reason else ''
         return motivo
 
-    def createProvvedimento(self, provvedimentoVal= ''):
+    def createProvvedimento(self):
         provvedimento = etree.Element("Provvedimento")
-        provvedimento.text = provvedimentoVal if provvedimentoVal else ''
+        if self.cancellation_author and self.cancellation_date:
+            provvedimento.text = 'Annullato da %s il %s' % (self.cancellation_author, self.cancellation_date)
+        else:
+            provvedimento.text = ''
         return provvedimento
 
     def createIdentificatore(self):
