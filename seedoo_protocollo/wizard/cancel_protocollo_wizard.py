@@ -55,6 +55,14 @@ class wizard(osv.TransientModel):
             wf_service = netsvc.LocalService('workflow')
             wf_service.trg_validate(uid, 'protocollo.protocollo', context['active_id'], 'cancel', cr)
 
+            protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
+            if protocollo.type == 'in' and protocollo.pec:
+                new_context = dict(context).copy()
+                new_context.update({'receipt_cancel_reason': wizard.name})
+                new_context.update({'receipt_cancel_author': wizard.agent_id.name})
+                new_context.update({'receipt_cancel_date': wizard.date_cancel})
+                self.pool.get('protocollo.protocollo').action_send_receipt(cr, uid, [protocollo.id], 'annullamento', context=new_context)
+
             action_class = "history_icon trash"
             body = "<div class='%s'><ul><li style='color:#990000;'><strong>Annullamento autorizzato da: %s</strong></li></ul></div>" % (action_class, wizard.agent_id.name)
 

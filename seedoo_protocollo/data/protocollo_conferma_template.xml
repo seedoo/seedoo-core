@@ -6,8 +6,8 @@
             <field name="name">Template Conferma</field>
             <field name="model_id" ref="model_protocollo_protocollo"/>
             <!--<field name="pec_type">posta-certificata</field>-->
-            <field name="email_from">${ctx.confirm_email_from}</field>
-            <field name="email_to">${ctx.confirm_email_to}</field>
+            <field name="email_from">${ctx.receipt_email_from}</field>
+            <field name="email_to">${ctx.receipt_email_to}</field>
 
             <field name="subject"><![CDATA[(Prot.N. ${object.name} del ${object.registration_date}) Conferma Vostro Messaggio : ${object.subject}]]></field>
 

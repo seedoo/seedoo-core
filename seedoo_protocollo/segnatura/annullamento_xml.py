@@ -12,7 +12,7 @@ import openerp
 from openerp.tools.translate import _
 
 
-class ConfermaXML:
+class AnnullamentoXML:
     def __init__(self, protocollo, cr, uid):
         self.protocollo = protocollo
         self.prot_number = protocollo.name
@@ -30,31 +30,27 @@ class ConfermaXML:
         self.pooler = protocollo.pool
         self.resUsersObj = self.pooler.get("res.users")
         self.protocolloObj = self.pooler.get("protocollo.protocollo")
-        self.resCompanyObj = self.pooler.get("res.company")
-        self.irAttachmentObj = self.pooler.get("ir.attachment")
-
         self.currentUser = self.resUsersObj.browse(cr, uid, uid)
-        companyId = self.currentUser.company_id.id
-        self.company = self.resCompanyObj.browse(cr, uid, companyId)
 
         if protocollo.aoo_id.ident_code is not False:
             self.codiceAOO = str(protocollo.aoo_id.ident_code)
         else:
             self.codiceAOO = None
-
         pass
 
-    def generate_conferma_root(self):
-        root = etree.Element("ConfermaRicezione")
-        identificatore = self.createIdentificatoreMittente()
-        messaggioRicevuto = self.createMessaggioRicevuto()
+    def generate_receipt_root(self):
+        root = etree.Element("AnnullamentoProtocollazione")
+        identificatore = self.createIdentificatore()
+        motivo = self.createMotivo()
+        provvedimento = self.createProvvedimento()
         root.append(identificatore)
-        root.append(messaggioRicevuto)
+        root.append(motivo)
+        root.append(provvedimento)
         if self.validateXml(root):
             return root
         else:
             raise openerp.exceptions.Warning(
-                _('Errore nella validazione xml conferma'))
+                _('Errore nella validazione xml di annullamento'))
 
     def validateXml(self, root):
         directory_path = os.path.dirname(
@@ -68,11 +64,15 @@ class ConfermaXML:
 
         return isValid
 
-    def createMessaggioRicevuto(self):
-        messaggioRicevuto = etree.Element("MessaggioRicevuto")
-        identificatore = self.createIdentificatore()
-        messaggioRicevuto.append(identificatore)
-        return messaggioRicevuto
+    def createMotivo(self, motivoVal= ''):
+        motivo = etree.Element("Motivo")
+        motivo.text = motivoVal if motivoVal else ''
+        return motivo
+
+    def createProvvedimento(self, provvedimentoVal= ''):
+        provvedimento = etree.Element("Provvedimento")
+        provvedimento.text = provvedimentoVal if provvedimentoVal else ''
+        return provvedimento
 
     def createIdentificatore(self):
         identificatore = etree.Element("Identificatore")
@@ -85,36 +85,6 @@ class ConfermaXML:
         identificatore.append(numeroRegistrazione)
         identificatore.append(dataRegistrazione)
         return identificatore
-
-    def createIdentificatoreMittente(self):
-        identificatore = etree.Element("Identificatore")
-        codiceAmministrazioneMittente = self.createCodiceAmministrazioneMittente()
-        codiceAOOMittente = self.createCodiceAOOMittente()
-        # codiceRegistroMittente = self.createCodiceRegistro(self.sender_register)
-        numeroRegistrazioneMittente = self.createNumeroRegistrazione(self.sender_prot_number)
-        dataRegistrazioneMittente = self.createDataRegistrazione(self.sender_registration_date)
-        identificatore.append(codiceAmministrazioneMittente)
-        identificatore.append(codiceAOOMittente)
-        # identificatore.append(codiceRegistroMittente)
-        identificatore.append(numeroRegistrazioneMittente)
-        identificatore.append(dataRegistrazioneMittente)
-        return identificatore
-
-    def createCodiceAmministrazioneMittente(self):
-        receivers = self.protocollo.sender_receivers
-        if receivers[0].ammi_code:
-            codiceAmministrazioneMittente = self.createCodiceAmministrazione(receivers[0].ammi_code)
-        else:
-            codiceAmministrazioneMittente = self.createCodiceAmministrazione('')
-        return codiceAmministrazioneMittente
-
-    def createCodiceAOOMittente(self):
-        receivers = self.protocollo.sender_receivers
-        if receivers[0].ident_code:
-            codiceAOOMittente = self.createCodiceAOO(receivers[0].ident_code)
-        else:
-            codiceAOOMittente = self.createCodiceAOO('')
-        return codiceAOOMittente
 
     def createDataRegistrazione(self, dataRegistrazioneVal=''):
         dataRegistrazione = etree.Element("DataRegistrazione")
@@ -136,17 +106,7 @@ class ConfermaXML:
         codiceAOO.text = codiceAOOVal if codiceAOOVal else ''
         return codiceAOO
 
-    def createCodiceAmministrazione(self, code=""):
+    def createCodiceAmministrazione(self, codiceAmministrazioneVal=""):
         codiceAmministrazione = etree.Element("CodiceAmministrazione")
-        codiceAmministrazione.text = self.checkNullValue(code)
+        codiceAmministrazione.text = codiceAmministrazioneVal if codiceAmministrazioneVal else ''
         return codiceAmministrazione
-
-    def create_messaggio_ricevuto(self):
-        messaggio_ricevuto = etree.Element("MessaggioRicevuto")
-        return messaggio_ricevuto
-
-    def checkNullValue(self, value):
-        tempValue = ""
-        if value:
-            tempValue = value
-        return tempValue

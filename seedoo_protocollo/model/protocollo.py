@@ -27,6 +27,7 @@ import logging
 
 from ..segnatura.segnatura_xml import SegnaturaXML
 from ..segnatura.conferma_xml import ConfermaXML
+from ..segnatura.annullamento_xml import AnnullamentoXML
 _logger = logging.getLogger(__name__)
 mimetypes.init()
 
@@ -258,8 +259,7 @@ class protocollo_sender_receiver(orm.Model):
         'fax': fields.char('Fax', size=64),
         'mobile': fields.char('Cellulare', size=64),
         'notes': fields.text('Note'),
-        'send_type': fields.many2one(
-            'protocollo.typology', 'Canale di Spedizione'),
+        'send_type': fields.many2one('protocollo.typology', 'Canale di Spedizione'),
         'send_date': fields.date('Data Spedizione'),
         'protocol_state': fields.related('protocollo_id', 'state', type='char', string='State', readonly=True),
         'protocol_pec': fields.related('protocollo_id', 'pec', type='boolean', string='Tipo PEC', readonly=True),
@@ -1238,7 +1238,7 @@ class protocollo_protocollo(orm.Model):
             self.write(cr, uid, [prot.id], vals)
 
             if prot.type == 'in' and prot.pec:
-                self.action_confirm(cr, uid, ids, *args)
+                self.action_send_receipt(cr, uid, ids, 'conferma', context=context)
 
             action_class = "history_icon registration"
             post_vars = {'subject': "Registrazione protocollo",
@@ -1273,12 +1273,17 @@ class protocollo_protocollo(orm.Model):
     def action_notify_cancel(self, cr, uid, ids, *args):
         return True
 
-    def action_confirm(self, cr, uid, ids, context=None, *args):
+    def action_send_receipt(self, cr, uid, ids, receipt_type, context=None, *args):
         if context is None:
             context = {}
         for prot in self.browse(cr, uid, ids):
-            conferma_xml = ConfermaXML(prot, cr, uid)
-            xml = conferma_xml.generate_conferma_root()
+            receipt_xml = None
+            if receipt_type == 'conferma':
+                receipt_xml = ConfermaXML(prot, cr, uid)
+            if receipt_type == 'annullamento':
+                receipt_xml = AnnullamentoXML(prot, cr, uid)
+
+            xml = receipt_xml.generate_receipt_root()
             etree_tostring = etree.tostring(xml, pretty_print=True)
 
             if etree_tostring:
@@ -1287,23 +1292,37 @@ class protocollo_protocollo(orm.Model):
 
                 sender_receivers_pec_mails = []
                 sender_receivers_pec_ids = []
+
                 if prot.sender_receivers:
                     for sender_receiver_id in prot.sender_receivers.ids:
                         sender_receiver_obj = self.pool.get('protocollo.sender_receiver').browse(cr, uid, sender_receiver_id, context=context)
-                        if not sender_receiver_obj.pec_invio_status:
-                            sender_receivers_pec_mails.append(sender_receiver_obj.pec_mail)
-                            sender_receivers_pec_ids.append(sender_receiver_obj.id)
-                attachment = self.pool.get('ir.attachment').create(cr, uid, {'name': 'conferma.xml',
+                        # if not sender_receiver_obj.pec_invio_status:
+                        sender_receivers_pec_mails.append(sender_receiver_obj.pec_mail)
+                        sender_receivers_pec_ids.append(sender_receiver_obj.id)
+
+                if receipt_type == 'conferma':
+                    attachment = self.pool.get('ir.attachment').create(cr, uid, {'name': 'conferma.xml',
                                                                              'datas_fname': 'conferma.xml',
+                                                                             'datas': etree_tostring.encode('base64')})
+                else:
+                    attachment = self.pool.get('ir.attachment').create(cr, uid, {'name': 'annullamento.xml',
+                                                                             'datas_fname': 'annullamento.xml',
                                                                              'datas': etree_tostring.encode('base64')})
 
                 # vals = {'pec_conferma_ref': mail.mail_message_id.id}
                 # self.write(cr, uid, [prot.id], vals)
-                context['confirm_email_from'] = mail_server.smtp_user
-                context['confirm_email_to'] = ','.join([sr for sr in sender_receivers_pec_mails])
+                new_context = dict(context).copy()
+                new_context.update({'receipt_email_from': mail_server.smtp_user})
+                new_context.update({'receipt_email_to': ','.join([sr for sr in sender_receivers_pec_mails])})
+
                 email_template_obj = self.pool.get('email.template')
-                template_id = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'seedoo_protocollo', 'confirm_protocol')[1]
-                template = email_template_obj.browse(cr, uid, template_id, context)
+
+                if receipt_type == 'conferma':
+                    template_id = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'seedoo_protocollo', 'confirm_protocol')[1]
+                if receipt_type == 'annullamento':
+                    template_id = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'seedoo_protocollo', 'cancel_protocol')[1]
+
+                template = email_template_obj.browse(cr, uid, template_id, new_context)
                 template.attachment_ids = [(6, 0, [attachment])]
                 template.write({
                     'mail_server_id': mail_server.id,
@@ -1311,11 +1330,11 @@ class protocollo_protocollo(orm.Model):
                     'pec_protocol_ref': prot.id,
                     'pec_state': 'not_protocol'
                 })
-                pec_conferma_ref = template.send_mail(prot.id, force_send=True)
+                pec_receipt_ref = template.send_mail(prot.id, force_send=True)
 
                 for sender_id in sender_receivers_pec_ids:
-                    sender_receiver_obj = self.pool.get('protocollo.sender_receiver').browse(cr, uid, sender_id, context = context)
-                    # sender_receiver_obj.write({'pec_conferma_ref': pec_conferma_ref[0]})
+                    sender_receiver_obj = self.pool.get('protocollo.sender_receiver').browse(cr, uid, sender_id, context=context)
+                    # sender_receivfer_obj.write({'pec_conferma_ref': pec_conferma_ref[0]})
 
                 # action_class = "history_icon mail"
                 # post_vars = {'subject': "Invio PEC",

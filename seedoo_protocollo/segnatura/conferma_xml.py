@@ -30,21 +30,15 @@ class ConfermaXML:
         self.pooler = protocollo.pool
         self.resUsersObj = self.pooler.get("res.users")
         self.protocolloObj = self.pooler.get("protocollo.protocollo")
-        self.resCompanyObj = self.pooler.get("res.company")
-        self.irAttachmentObj = self.pooler.get("ir.attachment")
-
         self.currentUser = self.resUsersObj.browse(cr, uid, uid)
-        companyId = self.currentUser.company_id.id
-        self.company = self.resCompanyObj.browse(cr, uid, companyId)
 
         if protocollo.aoo_id.ident_code is not False:
             self.codiceAOO = str(protocollo.aoo_id.ident_code)
         else:
             self.codiceAOO = None
-
         pass
 
-    def generate_conferma_root(self):
+    def generate_receipt_root(self):
         root = etree.Element("ConfermaRicezione")
         identificatore = self.createIdentificatoreMittente()
         messaggioRicevuto = self.createMessaggioRicevuto()
