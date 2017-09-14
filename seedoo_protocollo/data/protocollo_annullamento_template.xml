@@ -8,7 +8,7 @@
             <!--<field name="pec_type">posta-certificata</field>-->
             <field name="email_from">${ctx.receipt_email_from}</field>
             <field name="email_to">${ctx.receipt_email_to}</field>
-
+            <field name="auto_delete" eval="False"/>
             <field name="subject"><![CDATA[Annullamento protocollazione: Prot.N. ${object.name} del ${object.registration_date}) - ${object.subject}]]></field>
 
             <field name="body_html">

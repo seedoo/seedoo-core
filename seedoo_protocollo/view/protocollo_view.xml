@@ -400,39 +400,26 @@ this module contains the full copyright notices and license terms. -->
 
                             <newline/>
 
-                            <group string="Info PEC" colspan="4" col="4" attrs="{'invisible':[('protocol_pec','!=',True)]}" >
-                                <group colspan="2" col="3">
-                                    <field name="pec_ref" string="PEC" readonly="1" options="{'no_open': True}"/>
-                                    <button name="go_to_pec_action" type="object" context="{'pec_ref': pec_ref}"
-                                            icon="gtk-go-forward" class="oe_highlight" colspan="1"/>
-                                </group>
-                                <field name="pec_ora" readonly="1"/>
-                                <group colspan="2" col="3">
-                                    <field name="pec_accettazione_ref" attrs="{'invisible':[('protocol_state','not in',['waiting','sent','error'])]}" readonly="1" options="{'no_open': True}"/>
-                                    <button name="go_to_pec_action" type="object" context="{'pec_ref': pec_accettazione_ref}"
-                                            icon="gtk-go-forward" class="oe_highlight" colspan="1"/>
-                                </group>
-                                <field name="pec_accettazione_ora" readonly="1"/>
-                                <group colspan="2" col="3">
-                                    <field name="pec_consegna_ref" attrs="{'invisible':[('protocol_state','not in',['waiting','sent','error'])]}" readonly="1" options="{'no_open': True}"/>
-                                    <button name="go_to_pec_action" type="object" context="{'pec_ref': pec_consegna_ref}"
-                                            icon="gtk-go-forward" class="oe_highlight" colspan="1"/>
-                                </group>
-                                <field name="pec_consegna_ora" readonly="1"/>
-                                <group colspan="2" col="3">
-                                    <field name="pec_errore_consegna_ref" attrs="{'invisible':[('protocol_state','not in',['waiting','sent','error'])]}" readonly="1" options="{'no_open': True}"/>
-                                    <button name="go_to_pec_action" type="object" context="{'pec_ref': pec_errore_consegna_ref}"
-                                            icon="gtk-go-forward" class="oe_highlight" colspan="1"/>
-                                </group>
-                                <field name="pec_errore_consegna_ora" readonly="1"/>
-                                <group colspan="2" col="3">
-                                    <field name="pec_conferma_ref"/>
-                                    <button name="go_to_pec_action" type="object" context="{'pec_ref': pec_conferma_ref}"
-                                            icon="gtk-go-forward" class="oe_highlight" colspan="1"/>
-                                </group>
-                                <field name="pec_conferma_ora" readonly="1"/>
+                            <group string="Info PEC" col="4" attrs="{'invisible':[('protocol_pec','!=',True)]}" >
+                                <field name="pec_messaggio_ids" string="Messaggi PEC">
+                                    <tree>
+                                        <field name="type"/>
+                                        <field name="name" invisible="1" />
+                                        <field name="messaggio_ref" string="Messaggio" invisible="1" readonly="1" options="{'no_open': True}"/>
+                                        <button name="go_to_message_action" col="1" type="object" context="{'pec_ref': messaggio_ref}"
+                                            icon="gtk-go-forward" class="oe_highlight" attrs="{'invisible': [('messaggio_ref', '=', False)]}" />
+                                        <field name="accettazione_ref" string="Accettazione" invisible="1" readonly="1" options="{'no_open': True}"/>
+                                        <button name="go_to_accettazione_action" col="1" type="object" context="{'pec_ref': accettazione_ref}"
+                                            icon="gtk-go-forward" class="oe_highlight" attrs="{'invisible': [('accettazione_ref', '=', False)]}"/>
+                                        <field name="consegna_ref" string="Consegna" invisible="1" readonly="1" options="{'no_open': True}"/>
+                                        <button name="go_to_consegna_action" col="1" type="object" context="{'pec_ref': consegna_ref}"
+                                            icon="gtk-go-forward" class="oe_highlight" attrs="{'invisible': [('consegna_ref', '=', False)]}"/>
+                                        <field name="errore_consegna_ref" string="Errore Consegna" invisible="1" readonly="1" options="{'no_open': True}"/>
+                                        <button name="go_to_errore_consegna_action" col="1" type="object" context="{'pec_ref': errore_consegna_ref}"
+                                            icon="gtk-go-forward" class="oe_highlight" attrs="{'invisible': [('errore_consegna_ref', '=', False)]}"/>
+                                    </tree>
+                                </field>
                             </group>
-
                             <newline/>
                             <group string="Salva contatto nella rubrica" colspan="4" col="4" attrs="{'invisible': [('partner_id','!=',False)]}">
                                 <field name="save_partner" on_change="on_change_save_partner(pec_mail, email, save_partner)"

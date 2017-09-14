@@ -179,6 +179,7 @@ class ProtocolloPecWizard(osv.TransientModel):
         wizard = self.browse(cr, uid, ids[0], context=context)
         protocollo_obj = self.pool.get('protocollo.protocollo')
         sender_receiver_obj = self.pool.get('protocollo.sender_receiver')
+        messaggio_pec_obj = self.pool.get('protocollo.messaggio_pec')
         ir_attachment_obj = self.pool.get('ir.attachment')
         protocollo_typology_obj = self.pool.get('protocollo.typology')
         typology_id = protocollo_typology_obj.search(cr, uid,
@@ -204,6 +205,12 @@ class ProtocolloPecWizard(osv.TransientModel):
             sender_receiver.append(sender_receiver_obj.create(cr, uid, srvals['mittente']))
         else:
             for send_rec in wizard.sender_receivers:
+                msgvals = {
+                    'type': 'messaggio',
+                    'messaggio_ref': mail_message.id
+                }
+                messaggio_pec_id = messaggio_pec_obj.create(cr, uid, msgvals)
+
                 srvals = {
                     'type': send_rec.type,
                     'source': 'sender',
@@ -220,7 +227,7 @@ class ProtocolloPecWizard(osv.TransientModel):
                     'phone': send_rec.phone,
                     'fax': send_rec.fax,
                     'mobile': send_rec.mobile,
-                    'pec_ref': mail_message.id
+                    'pec_ref': messaggio_pec_id
                 }
                 sender_receiver.append(sender_receiver_obj.create(cr, uid, srvals))
         vals['sender_receivers'] = [[6, 0, sender_receiver]]

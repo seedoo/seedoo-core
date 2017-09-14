@@ -11,6 +11,7 @@ from . import company
 from . import protocollo
 from . import protocollo_permissions
 from . import protocollo_aoo
+from . import protocollo_messaggio_pec
 from . import ir_attachment
 from . import mail_message
 from . import res_partner

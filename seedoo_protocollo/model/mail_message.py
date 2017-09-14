@@ -83,6 +83,8 @@ class MailMessage(orm.Model):
         return res
 
     def create(self, cr, uid, vals, context=None):
+        if context is None:
+            context = {}
         mail_obj = self.pool.get('mail.message')
         mail_ids = mail_obj.browse(cr, uid, vals.get('pec_msg_parent_id'))
         author_id = mail_ids.author_id.id
@@ -90,8 +92,6 @@ class MailMessage(orm.Model):
             vals.update({"author_id" : author_id})
         msg_obj = super(MailMessage, self).create(cr, uid, vals, context=context)
         if vals.get("pec_type") in ('accettazione', 'avvenuta-consegna', 'errore-consegna'):
-
-
             protocollo_ids = mail_ids.pec_protocol_ref
             for protocollo in protocollo_ids:
                 if protocollo:
@@ -104,49 +104,48 @@ class MailMessage(orm.Model):
 
                     for receiver_id in receivers_ids:
                         msg_log = None
-                        receiver = self.pool.get('protocollo.sender_receiver')
-                        receiver_obj = receiver.browse(cr, uid, receiver_id, context=context)
+                        receiver_obj = self.pool.get('protocollo.sender_receiver')
+                        pec_messaggio_obj = self.pool.get('protocollo.messaggio_pec')
+                        receiver = receiver_obj.browse(cr, uid, receiver_id, context=context)
+                        for pec_messaggio in receiver.pec_messaggio_ids:
+                            if pec_messaggio.messaggio_ref.ids[0] == vals.get('pec_msg_parent_id'):
+                                # if receivers_obj.pec_mail ==
+                                notification_vals = {}
+                                action_class = "history_icon registration"
 
-                        if receiver_obj.pec_ref.id == vals.get('pec_msg_parent_id'):
-                            # if receivers_obj.pec_mail ==
-                            notification_vals = {}
-                            action_class = "history_icon registration"
+                                if vals.get("pec_type") == 'accettazione':
+                                    msg_log = "<div class='%s'><ul><li>PEC prot. %s inviata a %s e' stata accettata</li></ul></div>" \
+                                                     % (action_class, protocollo.complete_name, receiver.pec_mail)
+                                    notification_vals = {
+                                        'accettazione_ref': msg_obj
+                                    }
+                                elif vals.get("pec_type") == 'avvenuta-consegna':
+                                    msg_log = "<div class='%s'><ul><li>PEC prot. %s inviata a %s e' stata consegnata</li></ul></div>" \
+                                              % (action_class, protocollo.complete_name, receiver.pec_mail)
+                                    notification_vals = {
+                                        'consegna_ref': msg_obj
+                                    }
+                                elif vals.get("pec_type") == 'errore-consegna':
+                                    if vals.get("errore-esteso"):
+                                        msg_log = "<div class='%s'><ul><li>PEC prot. %s inviata a %s non e' stata consegnata per il seguente errore: <strong>%s</strong></li></ul></div>" \
+                                        % (action_class, protocollo.complete_name, receiver.pec_mail, vals.get("errore-esteso"))
+                                    else:
+                                        msg_log = "<div class='%s'><ul><li>PEC prot. %s inviata a %s non e' stata consegnata a causa di un errore</li></ul></div>" \
+                                        % (action_class, protocollo.complete_name, receiver.pec_mail)
+                                    notification_vals = {
+                                        'errore_consegna_ref': msg_obj
+                                    }
 
-                            if vals.get("pec_type") == 'accettazione':
-                                msg_log = "<div class='%s'><ul><li>PEC prot. %s inviata a %s e' stata accettata</li></ul></div>" \
-                                                 % (action_class, protocollo.complete_name, receiver_obj.pec_mail)
-                                notification_vals = {
-                                    'pec_ref': vals.get('pec_msg_parent_id'),
-                                    'pec_accettazione_ref': msg_obj
-                                }
-                            elif vals.get("pec_type") == 'avvenuta-consegna':
-                                msg_log = "<div class='%s'><ul><li>PEC prot. %s inviata a %s e' stata consegnata</li></ul></div>" \
-                                          % (action_class, protocollo.complete_name, receiver_obj.pec_mail)
-                                notification_vals = {
-                                    'pec_ref': vals.get('pec_msg_parent_id'),
-                                    'pec_consegna_ref': msg_obj
-                                }
-                            elif vals.get("pec_type") == 'errore-consegna':
-                                if vals.get("errore-esteso"):
-                                    msg_log = "<div class='%s'><ul><li>PEC prot. %s inviata a %s non e' stata consegnata per il seguente errore: <strong>%s</strong></li></ul></div>" \
-                                    % (action_class, protocollo.complete_name, receiver_obj.pec_mail, vals.get("errore-esteso"))
-                                else:
-                                    msg_log = "<div class='%s'><ul><li>PEC prot. %s inviata a %s non e' stata consegnata a causa di un errore</li></ul></div>" \
-                                    % (action_class, protocollo.complete_name, receiver_obj.pec_mail)
-                                notification_vals = {
-                                    'pec_ref': vals.get('pec_msg_parent_id'),
-                                    'pec_errore_consegna_ref': msg_obj
-                                }
-                            receiver_obj.write(notification_vals)
+                                pec_messaggio_obj.write(cr, uid, pec_messaggio.id, notification_vals)
 
-                            post_vars = {'subject': "Ricevuta di %s" % vals.get("pec_type"),
-                                         'body': str(msg_log),
-                                         'model': "protocollo.protocollo",
-                                         'res_id': protocollo.id,
-                                         }
+                                post_vars = {'subject': "Ricevuta di %s" % vals.get("pec_type"),
+                                             'body': str(msg_log),
+                                             'model': "protocollo.protocollo",
+                                             'res_id': protocollo.id,
+                                             }
 
-                            thread_pool = self.pool.get('protocollo.protocollo')
-                            thread_pool.message_post(cr, uid, protocollo.id, type="notification", context=context, **post_vars)
+                                thread_pool = self.pool.get('protocollo.protocollo')
+                                thread_pool.message_post(cr, uid, protocollo.id, type="notification", context=context, **post_vars)
 
 
         return msg_obj
