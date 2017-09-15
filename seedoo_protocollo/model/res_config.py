@@ -31,7 +31,12 @@ class protocollo_config_settings(osv.osv_memory):
 
         'genera_segnatura': fields.related('config_id', 'genera_segnatura', type='boolean', string='Genera Segnatura nel PDF'),
         'genera_xml_segnatura': fields.related('config_id', 'genera_xml_segnatura', type='boolean', string='Genera XML Segnatura'),
-
+        'segnatura_xml_parse': fields.related('config_id', 'segnatura_xml_parse', type='boolean', string='Leggi Segnatura.xml'),
+        'segnatura_xml_invia': fields.related('config_id', 'segnatura_xml_invia', type='boolean', string='Invia Segnatura.xml'),
+        'conferma_xml_parse': fields.related('config_id', 'conferma_xml_parse', type='boolean', string='Leggi Configurazione.xml relativi ai protocolli in uscita'),
+        'conferma_xml_invia': fields.related('config_id', 'conferma_xml_invia', type='boolean', string='Invia Configurazione.xml nei protocolli in ingresso'),
+        'annullamento_xml_parse': fields.related('config_id', 'annullamento_xml_parse', type='boolean', string='Leggi Annullamento.xml relativi ai protocolli in uscita'),
+        'annullamento_xml_invia': fields.related('config_id', 'annullamento_xml_invia', type='boolean', string='Invia Annullamento.xml nei protocolli in ingresso'),
         'classificazione_required': fields.related('config_id', 'classificazione_required', type='boolean', string='Classificazione'),
         'fascicolazione_required': fields.related('config_id', 'fascicolazione_required', type='boolean', string='Fascicolazione'),
 

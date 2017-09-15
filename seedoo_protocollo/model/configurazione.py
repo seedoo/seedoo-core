@@ -12,7 +12,12 @@ class protocollo_configurazione(orm.Model):
     _columns = {
         'genera_segnatura': fields.boolean('Genera Segnatura nel PDF'),
         'genera_xml_segnatura': fields.boolean('Genera XML Segnatura'),
-
+        'segnatura_xml_parse': fields.boolean('Leggi Segnatura.xml'),
+        'segnatura_xml_invia': fields.boolean('Invia Segnatura.xml'),
+        'conferma_xml_parse': fields.boolean('Leggi Configurazione.xml relativi ai protocolli in uscita'),
+        'conferma_xml_invia': fields.boolean('Invia Configurazione.xml nei protocolli in ingresso'),
+        'annullamento_xml_parse': fields.boolean('Leggi Annullamento.xml in ingresso'),
+        'annullamento_xml_invia': fields.boolean('Invia Annullamento.xml nei protocolli in ingresso'),
         'classificazione_required': fields.boolean('Classificazione Obbligatoria'),
         'fascicolazione_required': fields.boolean('Fascicolazione Obbligatoria'),
 

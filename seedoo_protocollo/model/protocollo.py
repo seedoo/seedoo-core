@@ -1169,6 +1169,9 @@ class protocollo_protocollo(orm.Model):
         return True
 
     def action_register(self, cr, uid, ids, context=None, *args):
+        configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
+        configurazione = self.pool.get('protocollo.configurazione').browse(cr, uid, configurazione_ids[0])
+
         for prot in self.browse(cr, uid, ids):
 
             self.pool.get('protocollo.configurazione').verifica_campi_obbligatori(cr, uid, prot)
@@ -1220,7 +1223,7 @@ class protocollo_protocollo(orm.Model):
 
             self.write(cr, uid, [prot.id], vals)
 
-            if prot.type == 'in' and prot.pec:
+            if prot.type == 'in' and prot.pec and configurazione.conferma_xml_invia:
                 self.action_send_receipt(cr, uid, ids, 'conferma', context=context)
 
             action_class = "history_icon registration"
@@ -1259,7 +1262,6 @@ class protocollo_protocollo(orm.Model):
     def action_send_receipt(self, cr, uid, ids, receipt_type, context=None, *args):
         if context is None:
             context = {}
-
         for prot in self.browse(cr, uid, ids):
             receipt_xml = None
             messaggio_pec_obj = self.pool.get('protocollo.messaggio_pec')
@@ -1318,7 +1320,7 @@ class protocollo_protocollo(orm.Model):
                 for sender_receiver_id in sender_receivers_pec_ids:
                     vals = {}
                     sender_receiver_obj = self.pool.get('protocollo.sender_receiver').browse(cr, uid, sender_receiver_id, context=context)
-                    message_obj = self.pool.get('protocollo.sender_receiver')
+                    message_obj = self.pool.get('mail.message')
                     mail_receipt = self.pool.get('mail.mail').browse(cr, uid, mail_receipt_id[0], context=context)
                     message_receipt = mail_mail.browse(cr, uid, mail_receipt.mail_message_id.id, context=context)
                     valsreceipt={}

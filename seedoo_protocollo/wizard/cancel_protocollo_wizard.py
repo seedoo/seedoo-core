@@ -50,13 +50,15 @@ class wizard(osv.TransientModel):
     }
 
     def action_cancel(self, cr, uid, ids, context=None):
+        configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
+        configurazione = self.pool.get('protocollo.configurazione').browse(cr, uid, configurazione_ids[0])
         wizard = self.browse(cr, uid, ids[0], context)
         if wizard.name and wizard.date_cancel:
             wf_service = netsvc.LocalService('workflow')
             wf_service.trg_validate(uid, 'protocollo.protocollo', context['active_id'], 'cancel', cr)
 
             protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
-            if protocollo.type == 'in' and protocollo.pec:
+            if protocollo.type == 'in' and protocollo.pec and configurazione.annullamento_xml_invia:
                 new_context = dict(context).copy()
                 new_context.update({'receipt_cancel_reason': wizard.name})
                 new_context.update({'receipt_cancel_author': wizard.agent_id.name})

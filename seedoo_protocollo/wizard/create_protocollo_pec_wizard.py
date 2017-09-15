@@ -198,19 +198,19 @@ class ProtocolloPecWizard(osv.TransientModel):
         vals['mail_pec_ref'] = context['active_id']
         vals['user_id'] = uid
         sender_receiver = []
+        messaggio_pec_id = messaggio_pec_obj.create(cr, uid, {'type': 'messaggio', 'messaggio_ref': mail_message.id})
 
         # Estrae i dati del mittente dalla segnatura
-        srvals = self.elaboraSegnatura(cr, uid, protocollo_obj, mail_message)
-        if len(srvals['mittente'])>0:
+        configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
+        configurazione = self.pool.get('protocollo.configurazione').browse(cr, uid, configurazione_ids[0])
+        srvals = {}
+        if configurazione.segnatura_xml_parse:
+            srvals = self.elaboraSegnatura(cr, uid, protocollo_obj, mail_message)
+        if len(srvals) > 0 and len(srvals['mittente'])>0:
+            srvals['mittente']['pec_messaggio_ids'] = [[6, 0, [messaggio_pec_id]]]
             sender_receiver.append(sender_receiver_obj.create(cr, uid, srvals['mittente']))
         else:
             for send_rec in wizard.sender_receivers:
-                msgvals = {
-                    'type': 'messaggio',
-                    'messaggio_ref': mail_message.id
-                }
-                messaggio_pec_id = messaggio_pec_obj.create(cr, uid, msgvals)
-
                 srvals = {
                     'type': send_rec.type,
                     'source': 'sender',
@@ -227,9 +227,10 @@ class ProtocolloPecWizard(osv.TransientModel):
                     'phone': send_rec.phone,
                     'fax': send_rec.fax,
                     'mobile': send_rec.mobile,
-                    'pec_ref': messaggio_pec_id
+                    'pec_messaggio_ids': [[6, 0, [messaggio_pec_id]]]
                 }
                 sender_receiver.append(sender_receiver_obj.create(cr, uid, srvals))
+
         vals['sender_receivers'] = [[6, 0, sender_receiver]]
         if 'protocollo' in srvals:
             vals['sender_protocol'] = srvals['protocollo']['sender_protocol']
@@ -348,7 +349,6 @@ class ProtocolloPecWizard(osv.TransientModel):
                 srvals_protocollo = self.getDatiSegnaturaProtocollo(segnatura_xml)
 
                 srvals_mittente['pec_mail'] = mail_message.email_from.encode('utf8')
-                srvals_mittente['pec_ref'] = mail_message.id
 
         srvals['mittente'] = srvals_mittente
         srvals['protocollo'] = srvals_protocollo

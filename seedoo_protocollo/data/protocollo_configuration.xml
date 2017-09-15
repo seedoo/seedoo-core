@@ -6,6 +6,12 @@
         <record id="configurazione_protocollo_default" model="protocollo.configurazione">
             <field name="genera_segnatura" eval="True"/>
             <field name="genera_xml_segnatura" eval="True"/>
+            <field name="segnatura_xml_parse" eval="True"/>
+            <field name="segnatura_xml_invia" eval="True"/>
+            <field name="conferma_xml_parse" eval="True"/>
+            <field name="conferma_xml_invia" eval="True"/>
+            <field name="annullamento_xml_parse" eval="True"/>
+            <field name="annullamento_xml_invia" eval="True"/>
             <field name="classificazione_required" eval="False"/>
             <field name="fascicolazione_required" eval="False"/>
             <field name="assegnatari_competenza_uffici_required" eval="False"/>

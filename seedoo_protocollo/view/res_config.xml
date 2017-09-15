@@ -31,6 +31,19 @@ this module contains the full copyright notices and license terms. -->
                     <group string="Rubrica">
                         <field name="email_pec_unique"/>
                     </group>
+                    <group string="Interoperabilità">
+                        <field name="segnatura_xml_parse"/>
+                        <newline/>
+                        <field name="segnatura_xml_invia"/>
+                        <newline/>
+                        <field name="conferma_xml_parse"/>
+                        <newline/>
+                        <field name="conferma_xml_invia"/>
+                        <newline/>
+                        <field name="annullamento_xml_parse"/>
+                        <newline/>
+                        <field name="annullamento_xml_invia"/>
+                    </group>
                     <field name="config_id" invisible="True" on_change="on_change_config_id(config_id)"/>
                 </form>
             </field>
