@@ -1,4 +1,4 @@
-#![Seedoo](doc/img/logo.png "Seedoo")
+![Seedoo](doc/img/logo.png "Seedoo")
 
 > La piattaforma software di nuova generazione per la digitalizzazione della PA.
 
