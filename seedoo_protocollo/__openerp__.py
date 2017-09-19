@@ -48,7 +48,6 @@
             'view/res_config.xml',
             'view/partner_view.xml',
             'view/offices_view.xml',
-            'view/company_view.xml',
             'view/ir_attachment_view.xml',
             'view/protocollo_view.xml',
             'view/protocollo_aoo_view.xml',

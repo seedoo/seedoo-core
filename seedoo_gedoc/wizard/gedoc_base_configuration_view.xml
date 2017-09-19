@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This file is part of Seedoo.  The COPYRIGHT file at the top level of
+this module contains the full copyright notices and license terms. -->
+
+<openerp>
+    <data>
+        <record id="view_auto_config_gedoc_form" model="ir.ui.view">
+            <field name="name">Configura Seedoo</field>
+            <field name="model">gedoc.configuration</field>
+            <field name="inherit_id" ref="base.res_config_view_base"/>
+            <field name="arch" type="xml">
+                <data>
+                    <form position="attributes">
+                        <attribute name="string">Configurazione
+                            Organizzazione.
+                        </attribute>
+                    </form>
+                    <group string="res_config_contents" position="replace">
+                        <separator string="Configura Dati Amministrazione"/>
+                        <p>Configura i dati della tua Organizzazione per
+                            consentire il corretto funzionamento della
+                            piattaforma Seedoo. Nel caso non voglia procedere
+                            ora sarà comunque possibile inserire o
+                            modificare tali dati successivamente tramite la
+                            voce di menu Configurazione/Aziende/Aziende.
+                        </p>
+                        <group>
+                            <field name="company_name"/>
+                            <field name="ipa_code"/>
+                            <field name="street"/>
+                            <field name="city"/>
+                            <field name="zip"/>
+                        </group>
+                        <p style="text-align: center; font-size: 20px">Contribuisci allo sviluppo della Community di <span style="color: rgb(103, 155, 65)">S</span>eedoo.</p>
+                        <field name="disclaimer_check" nolabel="1"/>
+                        <span style="font-style: italic; font-size: 11px">
+                            Confermando la procedura di configurazione
+                            partecipi
+                            alla Community di
+                            Seedoo e la informi dell'utilizzo della
+                            piattaforma.
+                        </span>
+
+
+                    </group>
+                </data>
+            </field>
+        </record>
+
+        <record id="action_config_gedoc" model="ir.actions.act_window">
+            <field name="name">Configura Seedoo</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">gedoc.configuration</field>
+            <field name="view_id" ref="view_auto_config_gedoc_form"/>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <record model="ir.actions.todo" id="config_gedoc_auto">
+            <field name="action_id" ref="action_config_gedoc"/>
+            <field name="type">automatic</field>
+        </record>
+    </data>
+</openerp>
