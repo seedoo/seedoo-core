@@ -1,12 +1,12 @@
+[submodule "ocb"]
+	path = ocb
+	url = https://github.com/oca/ocb.git
+	branch = 8.0
 [submodule "addons/seedoo-attivita"]
 	path = addons/seedoo-attivita
 	url = https://github.com/seedoo/seedoo-attivita.git
 	branch = 8.0
-[submodule "addons/l10n-italy"]
-	path = addons/l10n-italy
+[submodule "oca/l10n-italy"]
+	path = oca/l10n-italy
 	url = https://github.com/seedoo/l10n-italy.git
-	branch = 8.0
-[submodule "ocb"]
-	path = ocb
-	url = https://github.com/oca/ocb.git
 	branch = 8.0
