@@ -412,19 +412,25 @@ this module contains the full copyright notices and license terms. -->
                                     <button name="go_to_pec_action" type="object" context="{'pec_ref': pec_accettazione_ref}"
                                             icon="gtk-go-forward" class="oe_highlight" colspan="1"/>
                                 </group>
-                                <field name="pec_accettazione_ora" attrs="{'invisible':[('protocol_state','not in',['waiting','sent','error'])]}" readonly="1"/>
+                                <field name="pec_accettazione_ora" readonly="1"/>
                                 <group colspan="2" col="3">
                                     <field name="pec_consegna_ref" attrs="{'invisible':[('protocol_state','not in',['waiting','sent','error'])]}" readonly="1" options="{'no_open': True}"/>
                                     <button name="go_to_pec_action" type="object" context="{'pec_ref': pec_consegna_ref}"
                                             icon="gtk-go-forward" class="oe_highlight" colspan="1"/>
                                 </group>
-                                <field name="pec_consegna_ora" attrs="{'invisible':[('protocol_state','not in',['waiting','sent','error'])]}" readonly="1"/>
+                                <field name="pec_consegna_ora" readonly="1"/>
                                 <group colspan="2" col="3">
                                     <field name="pec_errore_consegna_ref" attrs="{'invisible':[('protocol_state','not in',['waiting','sent','error'])]}" readonly="1" options="{'no_open': True}"/>
                                     <button name="go_to_pec_action" type="object" context="{'pec_ref': pec_errore_consegna_ref}"
                                             icon="gtk-go-forward" class="oe_highlight" colspan="1"/>
                                 </group>
-                                <field name="pec_errore_consegna_ora" attrs="{'invisible':[('protocol_state','not in',['waiting','sent','error'])]}" readonly="1"/>
+                                <field name="pec_errore_consegna_ora" readonly="1"/>
+                                <group colspan="2" col="3">
+                                    <field name="pec_conferma_ref"/>
+                                    <button name="go_to_pec_action" type="object" context="{'pec_ref': pec_conferma_ref}"
+                                            icon="gtk-go-forward" class="oe_highlight" colspan="1"/>
+                                </group>
+                                <field name="pec_conferma_ora" readonly="1"/>
                             </group>
 
                             <newline/>

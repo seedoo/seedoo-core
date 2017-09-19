@@ -2,14 +2,14 @@
 <openerp>
     <data>
     <!-- Email template for confirm.xml -->
-        <record id="confirm_protocol" model="email.template">
+        <record id="cancel_protocol" model="email.template">
             <field name="name">Template Conferma</field>
             <field name="model_id" ref="model_protocollo_protocollo"/>
             <!--<field name="pec_type">posta-certificata</field>-->
             <field name="email_from">${ctx.receipt_email_from}</field>
             <field name="email_to">${ctx.receipt_email_to}</field>
 
-            <field name="subject"><![CDATA[(Prot.N. ${object.name} del ${object.registration_date}) Conferma Vostro Messaggio : ${object.subject}]]></field>
+            <field name="subject"><![CDATA[Annullamento protocollazione: Prot.N. ${object.name} del ${object.registration_date}) - ${object.subject}]]></field>
 
             <field name="body_html">
                 <![CDATA[
@@ -17,13 +17,16 @@
                         L'Amministrazione [${object.aoo_id.company_id.ammi_code}] ${object.aoo_id.company_id.name}, Area Organizzativa Omogenea [${object.aoo_id.ident_code}] ${object.aoo_id.name} le comunica che la sua email dal titolo:
                     </p>
                     <p>
-                        POSTA CERTIFICATA: ${object.subject}
+                        "${object.subject}" protocollata con N. ${object.name}
                     </p>
                     <p>
-                        è stata registrata con il seguente identificativo: n. ${object.name} del ${object.registration_date}
+                        è stata annullata con provvedimento del ${ctx.receipt_cancel_date}
+                        da ${ctx.receipt_cancel_author}
+                        per il seguente motivo "${ctx.receipt_cancel_reason}"
+
                     </p>
                     <p>
-                       Cordiali saluti"
+                       Cordiali saluti
                     </p>
                 ]]>
 
