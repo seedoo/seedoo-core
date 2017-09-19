@@ -1329,7 +1329,7 @@ class protocollo_protocollo(orm.Model):
                     valsreceipt['pec_type'] = 'posta-certificata'
                     message_obj.write(cr, uid, mail_receipt.mail_message_id.id, valsreceipt)
                     messaggio_pec_id = messaggio_pec_obj.create(cr, uid, {'type': receipt_type, 'messaggio_ref': message_receipt.id})
-                    vals['pec_messaggio_ids'] = [[6, 0, [messaggio_pec_id]]]
+                    vals['pec_messaggio_ids'] = [[4, [messaggio_pec_id]]]
                     sender_receiver_obj.write(vals)
 
                 # action_class = "history_icon mail"
@@ -1446,7 +1446,7 @@ class protocollo_protocollo(orm.Model):
                     msgvals = {}
                     sender_receiver_obj = self.pool.get('protocollo.sender_receiver').browse(cr, uid, sender_receiver_id, context=context)
                     messaggio_pec_id = messaggio_pec_obj.create(cr, uid, {'type': 'messaggio', 'messaggio_ref': mail.mail_message_id.id})
-                    msgvals['pec_messaggio_ids'] = [[6, 0, [messaggio_pec_id]]]
+                    msgvals['pec_messaggio_ids'] = [[4, [messaggio_pec_id]]]
                     sender_receiver_obj.write(msgvals)
         else:
             raise openerp.exceptions.Warning(_('Errore nel \

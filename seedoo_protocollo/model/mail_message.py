@@ -4,7 +4,8 @@
 
 from openerp.osv import fields, orm
 from openerp import SUPERUSER_ID
-
+from lxml import etree
+from ..segnatura.conferma_xml_parser import ConfermaXMLParser
 
 class MailMessage(orm.Model):
     _inherit = "mail.message"
@@ -146,6 +147,25 @@ class MailMessage(orm.Model):
 
                                 thread_pool = self.pool.get('protocollo.protocollo')
                                 thread_pool.message_post(cr, uid, protocollo.id, type="notification", context=context, **post_vars)
-
+        elif 'pec_type' in vals and vals.get("pec_type") in ('posta-certificata'):
+            if "attachment_ids" in vals and len(vals.get("attachment_ids")) > 0:
+                for attachment_id in vals.get("attachment_ids"):
+                    for attach in attachment_id:
+                        if isinstance(attach, dict) and attach.get("datas_fname").lower() == 'conferma.xml' :
+                            tree = etree.fromstring(attach.get("index_content"))
+                            conferma_xml = ConfermaXMLParser(tree)
+                            numero_registrazione = conferma_xml.getNumeroRegistrazioneMessaggioRicevuto()
+                            protocollo_ids = self.pool.get('protocollo.protocollo').search(cr, uid, [('name', '=', numero_registrazione)])
+                            protocollo_obj = self.pool.get('protocollo.protocollo')
+                            messaggio_pec_obj = self.pool.get('protocollo.messaggio_pec')
+                            for protocollo_id in protocollo_ids:
+                                protocollo = protocollo_obj.browse(cr, uid, protocollo_id)
+                                for sender_receiver in protocollo.sender_receivers:
+                                    sender_receiver_obj = self.pool.get('protocollo.sender_receiver')
+                                    if sender_receiver.pec_mail == vals['email_from']:
+                                        msgvals = {}
+                                        messaggio_pec_id = messaggio_pec_obj.create(cr, uid, {'type': 'conferma', 'messaggio_ref': msg_obj})
+                                        msgvals['pec_messaggio_ids'] = [[4, [messaggio_pec_id]]]
+                                        sender_receiver_obj.write(cr, uid, sender_receiver.id, msgvals)
 
         return msg_obj

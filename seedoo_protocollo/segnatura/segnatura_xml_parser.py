@@ -13,9 +13,9 @@ from openerp.tools.translate import _
 
 
 class SegnaturaXMLParser:
-    def __init__(self, attach_path):
-        tree = etree.parse(attach_path)
-        self._root = tree.getroot()
+    def __init__(self, tree):
+        if isinstance(tree, etree._ElementTree):
+            self._root = tree.getroot()
         pass
 
     def generate_segnatura_root(self):

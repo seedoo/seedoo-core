@@ -3,5 +3,6 @@
 # this module contains the full copyright notices and license terms.
 
 from . import segnatura_xml
+from . import conferma_xml
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

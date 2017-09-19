@@ -343,7 +343,8 @@ class ProtocolloPecWizard(osv.TransientModel):
             if attach.name.lower() == 'segnatura.xml':
                 location = self.pool.get('ir.config_parameter').get_param(cr, uid, 'ir_attachment.location')
                 attach_path = protocollo_obj._full_path(cr, uid, location, attach.store_fname)
-                segnatura_xml = SegnaturaXMLParser(attach_path)
+                tree = etree.parse(attach_path)
+                segnatura_xml = SegnaturaXMLParser(tree)
 
                 srvals_mittente = self.getDatiSegnaturaMittente(segnatura_xml)
                 srvals_protocollo = self.getDatiSegnaturaProtocollo(segnatura_xml)
