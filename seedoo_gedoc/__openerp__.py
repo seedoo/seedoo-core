@@ -14,7 +14,9 @@
         [
             'base',
             'document',
-            'hr'],
+            'hr',
+            'l10n_it_ipa'
+        ],
     "data":
         [
             'security/gedoc_security.xml',
@@ -23,8 +25,10 @@
             'data/gedoc_data.xml',
             'data/model_type.xml',
             'data/document_type.xml',
+            'wizard/gedoc_base_configuration_view.xml',
             'wizard/upload_doc_wizard_view.xml',
             'view/gedoc_view.xml',
+            'view/company_view.xml',
             'workflow/gedoc_dossier_workflow.xml',
             ],
     "demo": [],

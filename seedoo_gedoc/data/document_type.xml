@@ -3,7 +3,7 @@
 this module contains the full copyright notices and license terms. -->
 
 <openerp>
-    <data noupdate="1">
+    <data noupdate="0">
         
         <!-- Document Typology -->
     	<record id="gedoc_document_type_contract" model="gedoc.document.type">
