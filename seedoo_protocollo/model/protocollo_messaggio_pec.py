@@ -7,7 +7,7 @@ from openerp.osv import orm, fields, osv
 
 
 class protocollo_messaggio_pec(orm.Model):
-    _name = 'protocollo.messaggio_pec'
+    _name = 'protocollo.messaggio.pec'
 
     def _get_default_name(self, cr, uid, context=None):
         return 'PEC'

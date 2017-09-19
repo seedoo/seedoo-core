@@ -179,7 +179,7 @@ class ProtocolloPecWizard(osv.TransientModel):
         wizard = self.browse(cr, uid, ids[0], context=context)
         protocollo_obj = self.pool.get('protocollo.protocollo')
         sender_receiver_obj = self.pool.get('protocollo.sender_receiver')
-        messaggio_pec_obj = self.pool.get('protocollo.messaggio_pec')
+        messaggio_pec_obj = self.pool.get('protocollo.messaggio.pec')
         ir_attachment_obj = self.pool.get('ir.attachment')
         protocollo_typology_obj = self.pool.get('protocollo.typology')
         typology_id = protocollo_typology_obj.search(cr, uid,

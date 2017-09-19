@@ -12,4 +12,5 @@ access_protocollo_aoo_configurazione_aoo,protocollo.aoo.configurazione.aoo,model
 access_protocollo_assegnatario_ufficio_user,protocollo.assegnatario.ufficio.user,model_protocollo_assegnatario_ufficio,group_protocollo_user,1,1,1,1
 access_protocollo_assegnatario_dipendente_user,protocollo.assegnatario.dipendente.user,model_protocollo_assegnatario_dipendente,group_protocollo_user,1,1,1,1
 access_protocollo_stato_dipendente_user,protocollo.stato.dipendente.user,model_protocollo_stato_dipendente,group_protocollo_user,1,1,1,1
+access_protocollo_messaggio_pec,protocollo.messaggio.pec,model_protocollo_messaggio_pec,group_protocollo_user,1,1,1,1
 access_res_config_user,res.config.user,base.model_res_config,group_protocollo_user,1,1,0,0

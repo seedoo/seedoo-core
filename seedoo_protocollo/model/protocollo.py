@@ -157,7 +157,7 @@ class protocollo_sender_receiver(orm.Model):
             if sr.protocollo_id.id:
                 protocollo_obj = self.pool.get('protocollo.protocollo')
                 for prot in protocollo_obj.browse(cr, uid, sr.protocollo_id.id):
-                    messaggio_pec_obj = self.pool.get("protocollo.messaggio_pec")
+                    messaggio_pec_obj = self.pool.get("protocollo.messaggio.pec")
                     for messaggio_pec_id in sr.pec_messaggio_ids.ids:
                         messaggio_pec = messaggio_pec_obj.browse(cr, uid, messaggio_pec_id)
                         if prot.state in ("waiting", "sent", "error", "notified", "canceled") and messaggio_pec.type in ("messaggio"):
@@ -174,7 +174,7 @@ class protocollo_sender_receiver(orm.Model):
             if sr.protocollo_id.id:
                 protocollo_obj = self.pool.get('protocollo.protocollo')
                 for prot in protocollo_obj.browse(cr, uid, sr.protocollo_id.id):
-                    messaggio_pec_obj = self.pool.get("protocollo.messaggio_pec")
+                    messaggio_pec_obj = self.pool.get("protocollo.messaggio.pec")
                     for messaggio_pec_id in sr.pec_messaggio_ids.ids:
                         messaggio_pec = messaggio_pec_obj.browse(cr, uid, messaggio_pec_id)
                         if prot.state in ("waiting", "sent", "error", "notified", "canceled") and messaggio_pec.type in ("messaggio") and messaggio_pec.accettazione_ref.id:
@@ -192,7 +192,7 @@ class protocollo_sender_receiver(orm.Model):
             if sr.protocollo_id.id:
                 protocollo_obj = self.pool.get('protocollo.protocollo')
                 for prot in protocollo_obj.browse(cr, uid, sr.protocollo_id.id):
-                    messaggio_pec_obj = self.pool.get("protocollo.messaggio_pec")
+                    messaggio_pec_obj = self.pool.get("protocollo.messaggio.pec")
                     for messaggio_pec_id in sr.pec_messaggio_ids.ids:
                         messaggio_pec = messaggio_pec_obj.browse(cr, uid, messaggio_pec_id)
                         if prot.state in ("waiting", "sent", "error", "notified", "canceled") and messaggio_pec.type in ("messaggio") and messaggio_pec.consegna_ref.id:
@@ -209,7 +209,7 @@ class protocollo_sender_receiver(orm.Model):
             if sr.protocollo_id.id:
                 protocollo_obj = self.pool.get('protocollo.protocollo')
                 for prot in protocollo_obj.browse(cr, uid, sr.protocollo_id.id):
-                    messaggio_pec_obj = self.pool.get("protocollo.messaggio_pec")
+                    messaggio_pec_obj = self.pool.get("protocollo.messaggio.pec")
                     for messaggio_pec_id in sr.pec_messaggio_ids.ids:
                         messaggio_pec = messaggio_pec_obj.browse(cr, uid, messaggio_pec_id)
                         if prot.state in ("waiting", "sent", "error", "notified", "canceled") and messaggio_pec.type in ("messaggio") and messaggio_pec.errore_consegna_ref.id:
@@ -273,8 +273,8 @@ class protocollo_sender_receiver(orm.Model):
         'protocol_state': fields.related('protocollo_id', 'state', type='char', string='State', readonly=True),
         'protocol_pec': fields.related('protocollo_id', 'pec', type='boolean', string='Tipo PEC', readonly=True),
         'add_pec_receiver_visibility': fields.boolean('Button Visibility', readonly=True),
-        'pec_ref': fields.many2one('protocollo.messaggio_pec', 'Messaggio PEC'),# campo pec_ref da eliminare
-        'pec_messaggio_ids': fields.many2many('protocollo.messaggio_pec', 'protocollo_sender_receiver_messaggio_pec_rel', 'sender_receiver_id', 'messaggio_pec_id', 'Messaggi PEC'),
+        'pec_ref': fields.many2one('protocollo.messaggio.pec', 'Messaggio PEC'),# campo pec_ref da eliminare
+        'pec_messaggio_ids': fields.many2many('protocollo.messaggio.pec', 'protocollo_sender_receiver_messaggio_pec_rel', 'sender_receiver_id', 'messaggio_pec_id', 'Messaggi PEC'),
         'pec_invio_status': fields.function(_get_invio_status, type='boolean', string='Inviata'),
         'pec_accettazione_status': fields.function(_get_accettazione_status, type='boolean', string='Accettata'),
         'pec_consegna_status': fields.function(_get_consegna_status, type='boolean', string='Consegnata'),
@@ -1264,7 +1264,7 @@ class protocollo_protocollo(orm.Model):
             context = {}
         for prot in self.browse(cr, uid, ids):
             receipt_xml = None
-            messaggio_pec_obj = self.pool.get('protocollo.messaggio_pec')
+            messaggio_pec_obj = self.pool.get('protocollo.messaggio.pec')
             if receipt_type == 'conferma':
                 receipt_xml = ConfermaXML(prot, cr, uid)
             if receipt_type == 'annullamento':
@@ -1329,7 +1329,7 @@ class protocollo_protocollo(orm.Model):
                     valsreceipt['pec_type'] = 'posta-certificata'
                     message_obj.write(cr, uid, mail_receipt.mail_message_id.id, valsreceipt)
                     messaggio_pec_id = messaggio_pec_obj.create(cr, uid, {'type': receipt_type, 'messaggio_ref': message_receipt.id})
-                    vals['pec_messaggio_ids'] = [[4, [messaggio_pec_id]]]
+                    vals['pec_messaggio_ids'] = [(4, [messaggio_pec_id])]
                     sender_receiver_obj.write(vals)
 
                 # action_class = "history_icon mail"
@@ -1373,7 +1373,7 @@ class protocollo_protocollo(orm.Model):
         if prot.type == 'out' and prot.pec:
             mail_mail = self.pool.get('mail.mail')
             ir_attachment = self.pool.get('ir.attachment')
-            messaggio_pec_obj = self.pool.get('protocollo.messaggio_pec')
+            messaggio_pec_obj = self.pool.get('protocollo.messaggio.pec')
             sender_receivers_pec_mails = []
             sender_receivers_pec_ids = []
             mail_server = self.get_pec_mail_server(cr, uid, context)
@@ -1446,7 +1446,7 @@ class protocollo_protocollo(orm.Model):
                     msgvals = {}
                     sender_receiver_obj = self.pool.get('protocollo.sender_receiver').browse(cr, uid, sender_receiver_id, context=context)
                     messaggio_pec_id = messaggio_pec_obj.create(cr, uid, {'type': 'messaggio', 'messaggio_ref': mail.mail_message_id.id})
-                    msgvals['pec_messaggio_ids'] = [[4, [messaggio_pec_id]]]
+                    msgvals['pec_messaggio_ids'] = [(4, [messaggio_pec_id])]
                     sender_receiver_obj.write(msgvals)
         else:
             raise openerp.exceptions.Warning(_('Errore nel \

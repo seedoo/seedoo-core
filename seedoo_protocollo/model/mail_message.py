@@ -106,7 +106,7 @@ class MailMessage(orm.Model):
                     for receiver_id in receivers_ids:
                         msg_log = None
                         receiver_obj = self.pool.get('protocollo.sender_receiver')
-                        pec_messaggio_obj = self.pool.get('protocollo.messaggio_pec')
+                        pec_messaggio_obj = self.pool.get('protocollo.messaggio.pec')
                         receiver = receiver_obj.browse(cr, uid, receiver_id, context=context)
                         for pec_messaggio in receiver.pec_messaggio_ids:
                             if pec_messaggio.messaggio_ref.ids[0] == vals.get('pec_msg_parent_id'):
@@ -151,13 +151,13 @@ class MailMessage(orm.Model):
             if "attachment_ids" in vals and len(vals.get("attachment_ids")) > 0:
                 for attachment_id in vals.get("attachment_ids"):
                     for attach in attachment_id:
-                        if isinstance(attach, dict) and attach.get("datas_fname").lower() == 'conferma.xml' :
+                        if isinstance(attach, dict) and attach.get("datas_fname").lower() == 'conferma.xml':
                             tree = etree.fromstring(attach.get("index_content"))
                             conferma_xml = ConfermaXMLParser(tree)
                             numero_registrazione = conferma_xml.getNumeroRegistrazioneMessaggioRicevuto()
                             protocollo_ids = self.pool.get('protocollo.protocollo').search(cr, uid, [('name', '=', numero_registrazione)])
                             protocollo_obj = self.pool.get('protocollo.protocollo')
-                            messaggio_pec_obj = self.pool.get('protocollo.messaggio_pec')
+                            messaggio_pec_obj = self.pool.get('protocollo.messaggio.pec')
                             for protocollo_id in protocollo_ids:
                                 protocollo = protocollo_obj.browse(cr, uid, protocollo_id)
                                 for sender_receiver in protocollo.sender_receivers:
@@ -165,7 +165,8 @@ class MailMessage(orm.Model):
                                     if sender_receiver.pec_mail == vals['email_from']:
                                         msgvals = {}
                                         messaggio_pec_id = messaggio_pec_obj.create(cr, uid, {'type': 'conferma', 'messaggio_ref': msg_obj})
-                                        msgvals['pec_messaggio_ids'] = [[4, [messaggio_pec_id]]]
+                                        msgvals['pec_messaggio_ids'] = [(4, [messaggio_pec_id])]
                                         sender_receiver_obj.write(cr, uid, sender_receiver.id, msgvals)
+                                        self.write(cr, SUPERUSER_ID, msg_obj, {'pec_state': 'not_protocol'})
 
         return msg_obj
