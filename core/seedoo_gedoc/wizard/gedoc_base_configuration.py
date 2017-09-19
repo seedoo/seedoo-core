@@ -2,10 +2,11 @@
 # This file is part of Seedoo.  The COPYRIGHT file at the top level of
 # this module contains the full copyright notices and license terms.
 import hashlib
-import socket
 import json
+import socket
 
 import requests
+
 from openerp.osv import fields, osv
 
 
@@ -63,7 +64,10 @@ class gedoc_configuration(osv.osv_memory):
             'hash': hash
         }
         url = "http://seedoo-crm.flosslab.com/count/ping"
-        requests.post(url=url, data=json.dumps(data))
-        return
+
+        try:
+            requests.post(url=url, data=json.dumps(data))
+        except:
+            pass
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
