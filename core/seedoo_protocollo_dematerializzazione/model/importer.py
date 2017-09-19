@@ -7,7 +7,7 @@ import os
 import base64
 import pytz
 
-from openerp.addons.seedoo_dematerializzazione.utility.ean import EanUtility
+from ..utility.ean import EanUtility
 from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT as DSDF
 from smb.SMBConnection import SMBConnection
 from smb.smb_constants import SMB_FILE_ATTRIBUTE_READONLY, SMB_FILE_ATTRIBUTE_DIRECTORY, SMB_FILE_ATTRIBUTE_ARCHIVE
