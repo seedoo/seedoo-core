@@ -2,9 +2,9 @@
    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
    :alt: License: AGPL-3
 
-==========================
-Seedoo Dematerializzazione
-==========================
+=====================================
+Seedoo Protocollo Dematerializzazione
+=====================================
 
 Modulo per la gestione dei documenti analogici del Protocollo Seedoo. Funzionalità di importazione massiva documenti (modalità aggancio e creazione), funzionalità stampa etichetta.
 

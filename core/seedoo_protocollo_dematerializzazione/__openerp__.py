@@ -4,7 +4,7 @@
 # this module contains the full copyright notices and license terms.
 
 {
-    'name': 'Seedoo Dematerializzazione',
+    'name': 'Seedoo Protocollo Dematerializzazione',
     'version': '8.0.1.0.2',
     'category': 'Document Management',
     'summary': 'Gestione Documenti Analogici Protocollo',
