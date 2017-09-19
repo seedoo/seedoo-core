@@ -56,16 +56,15 @@ class gedoc_configuration(osv.osv_memory):
             self._track_installation(vals)
 
     def _track_installation(self, company_vals):
-        digest = hashlib.sha256()
-        digest.update(socket.gethostname())
-        hash = digest.digest().encode('hex')
-        data = {
-            'company_vals': company_vals,
-            'hash': hash
-        }
-        url = "http://seedoo-crm.flosslab.com/count/ping"
-
         try:
+            digest = hashlib.sha256()
+            digest.update(socket.gethostname())
+            hash_value = digest.digest().encode('hex')
+            data = {
+                'company_vals': company_vals,
+                'hash': hash_value
+            }
+            url = "http://seedoo-crm.flosslab.com/count/ping"
             requests.post(url=url, data=json.dumps(data))
         except:
             pass
