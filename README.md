@@ -82,19 +82,19 @@ Una volta avviato Odoo collegarsi via browser al backend tramite l'indirizzo `ht
 
 Creare un database di partenza per i moduli Seedoo con i seguenti dati:
 
-Password principale: admin
-Scegli un noem per il database: seedoo
-Lingua Predefinita: Italian/Italiano
-Scegli una password: admin
-Conferma password: admin
+* Password principale: admin
+* Scegli un noem per il database: seedoo
+* Lingua Predefinita: Italian/Italiano
+* Scegli una password: admin
+* Conferma password: admin
 
-Completata la creazione del DB il sistema accederà automaticamente con l'utenza admin appena creata al backend,
+Completata la creazione del DB il sistema accederà automaticamente con l'utenza admin appena creata al backend.
 
 ## Installazione Moduli Seedoo
 
-Accedere al backend con l'utenza admin e procedere quindi con la ricerca dei moduli seedoo, procedere oinfine con la loro installazione.
+Accedere al backend con l'utenza admin e procedere quindi con la ricerca dei moduli seedoo, procedere infine con la loro installazione.
 
-Compilare il form di configurazione proposto post installazione indicando i dati della propria PA.
+Compilare il form di configurazione Seedoo proposto post installazione indicando i dati della propria PA.
 
 In sistema è correttamente installato.
 
@@ -105,7 +105,16 @@ In caso si voglia segnalare un bug è possibile farlo su [GitHub Issues](https:/
 
 # Credits
 
-### Contributors
+## Maintainer
+
+Questo software è mantenuto dalla communità Seedoo.
+
+Seedoo è un prodotto supportato da Agilebg, Flosslab e Innoviù, aziende specializzate nella realizzazione di software
+avanzati per Pubbliche Amministrazioni ed Enti Privati.
+
+Per uteriori informazioni, visitare il sito [www.seedoo.it](www.seedoo.it).
+
+## Contributors
 
 * Alessio Gerace <alessio.gerace@agilebg.com>
 * Lorenzo Battistini <lorenzo.battistini@agilebg.com>
@@ -117,12 +126,3 @@ In caso si voglia segnalare un bug è possibile farlo su [GitHub Issues](https:/
 * Norman Argiolas <norman.argiolas@flosslab.com>
 * Andrea Peruzzu <andrea.peruzzu@flosslab.com>
 * Luca Cireddu <luca.cireddu@flosslab.com>
-
-### Maintainer
-
-Questo software è mantenuto dalla communità Seedoo.
-
-Seedoo è un prodotto supportato da Agilebg, Flosslab e Innoviù, aziende specializzate nella realizzazione di software
-avanzati per Pubbliche Amministrazioni ed Enti Privati.
-
-Per uteriori informazioni, visitare il sito [www.seedoo.it](www.seedoo.it).
