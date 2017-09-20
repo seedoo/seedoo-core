@@ -75,7 +75,7 @@ Una volta avviato Odoo collegarsi al seguente indirizzo :
 
 http://localhost:8069
 
-e creare un database di partenza per i moduli Seedo. 
+e creare un database di partenza per i moduli Seedoo. 
 
 
 
