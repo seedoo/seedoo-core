@@ -25,9 +25,10 @@ apt-get install wkhtmltopdf node-less inkscape pandoc texlive-fonts-recommended 
 ```
 ## Download del codice
 
-Entrare in ~/git e clonare il repository
+Entrare nella cartella del programma e clonare il repository
 
 ```bash
+cd ~/
 git clone https://github.com/seedoo/seedoo.git ~/seedoo
 cd ~/seedoo
 git submodule init
@@ -51,8 +52,12 @@ Creare un utente PostegreSQL dedicato per Seedoo con i diritti per la creazione 
 
 Collegarsi al database PostgreSQL come utente amministratore (utente *postgres*) è possibile effetture la creazione dell'utente *seedoo* con la seguente query:
 
-```postgresplsql
-CREATE ROLE seedoo NOSUPERUSER NOCREATEROLE CREATEDB LOGIN INHERIT NOREPLICATION ENCRYPTED PASSWORD 'seedoo';
+```bash
+sudo bash
+su - postgres
+echo "CREATE ROLE seedoo NOSUPERUSER NOCREATEROLE CREATEDB LOGIN INHERIT NOREPLICATION ENCRYPTED PASSWORD 'seedoo';" | psql
+exit
+exit
 ```
 
 ## Avviare Odoo
@@ -67,16 +72,31 @@ cd ~/seedoo
     --db_host=127.0.0.1 \
     --db_port=5432 \
     --db_user=seedoo \
-    --db_password=seedoo
+    --db_password=seedoo \
+    --logfile=$HOME/seedoo.log &
 ```
+
 ## Creazione Database Odoo
 
-Una volta avviato Odoo collegarsi al seguente indirizzo :
+Una volta avviato Odoo collegarsi via browser al backend tramite l'indirizzo `http://<address>:8069`, dove **address** è l'indirizzo della macchina.
 
-http://localhost:8069
+Creare un database di partenza per i moduli Seedoo con i seguenti dati:
 
-e creare un database di partenza per i moduli Seedoo. 
+Password principale: admin
+Scegli un noem per il database: seedoo
+Lingua Predefinita: Italian/Italiano
+Scegli una password: admin
+Conferma password: admin
 
+Completata la creazione del DB il sistema accederà automaticamente con l'utenza admin appena creata al backend,
+
+## Installazione Moduli Seedoo
+
+Accedere al backend con l'utenza admin e procedere quindi con la ricerca dei moduli seedoo, procedere oinfine con la loro installazione.
+
+Compilare il form di configurazione proposto post installazione indicando i dati della propria PA.
+
+In sistema è correttamente installato.
 
 
 # Bug Tracker
