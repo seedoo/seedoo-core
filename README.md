@@ -10,12 +10,9 @@ governance e trasparenza verso il cittadino.
 # Installazione
 
 Per il funzionamento dell'applicazione è necessario un ambiente GNU/Linux con database PostgreSQL.
-
 La seguente procedura è basata sulla distribuzione GNU/Linux Ubuntu Server 16.04 amd64.
 
-## Configurazione sistema operativo
-
-### Installazione dipendenze di sistema
+## Installazione dipendenze di sistema
 
 Installare da utente root i seguenti pacchetti:
 
@@ -26,31 +23,44 @@ apt-get install wkhtmltopdf node-less inkscape pandoc texlive-fonts-recommended 
     libxslt1-dev libldap2-dev libssl-dev libfreetype6-dev libwebp-dev libdotconf-dev \
     libsasl2-dev libyaml-dev libtiff5-dev postgresql postgresql-client
 ```
+## Download del codice
 
-### Creazione Python virtualenv
+Entrare in ~/git e clonare il repository
+
+```bash
+git clone https://github.com/seedoo/seedoo.git ~/seedoo
+cd ~/seedoo
+git submodule init
+git submodule update
+```
+
+## Creazione Python virtualenv
 
 Creare un virtualenv python ed installare le dipendenze necessarie:
 
 ```bash
+cd ~/seedoo
 virtualenv venv
 ./venv/bin/pip install -r ocb/requirements.txt 
 ./venv/bin/pip install -r requirements.txt
 ```
 
-### Creazione utente PostgreSQL
+## Creazione utente database PostgreSQL
 
-Collegarsi al database PostgreSQL come amministratore (utente *postgres*) ed eseguire la seguente query per la
-creazione di un utente dedicato per Seedoo:
+Creare un utente PostegreSQL dedicato per Seedoo con i diritti per la creazione di database. 
+
+Collegarsi al database PostgreSQL come utente amministratore (utente *postgres*) è possibile effetture la creazione dell'utente *seedoo* con la seguente query:
 
 ```postgresplsql
 CREATE ROLE seedoo NOSUPERUSER NOCREATEROLE CREATEDB LOGIN INHERIT NOREPLICATION ENCRYPTED PASSWORD 'seedoo';
 ```
 
-### Avviare Odoo
+## Avviare Odoo
 
 Avviare Odoo usando il virtualenv:
 
 ```bash
+cd ~/seedoo
 ./venv/bin/python ./ocb/openerp-server \
     --addons-path=ocb/openerp/addons,ocb/addons,core,addons/seedoo-attivita,oca/l10n-italy \
     --xmlrpc-port=8069 \
@@ -59,12 +69,21 @@ Avviare Odoo usando il virtualenv:
     --db_user=seedoo \
     --db_password=seedoo
 ```
+## Creazione Database Odoo
 
-## Bug Tracker
+Una volta avviato Odoo collegarsi al seguente indirizzo :
+
+http://localhost:8069
+
+e creare un database di partenza per i moduli Seedo. 
+
+
+
+# Bug Tracker
 
 In caso si voglia segnalare un bug è possibile farlo su [GitHub Issues](https://github.com/seedoo/seedoo/issues).
 
-## Credits
+# Credits
 
 ### Contributors
 
