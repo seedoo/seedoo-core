@@ -7,7 +7,7 @@ this module contains the full copyright notices and license terms. -->
 
         <template id="dematerializzazione_style" name="Seedoo Style" inherit_id="web.assets_backend">
             <xpath expr="." position="inside">
-                <link rel="stylesheet" href="/seedoo_dematerializzazione/static/src/css/dematerializzazione.css"/>
+                <link rel="stylesheet" href="/seedoo_protocollo_dematerializzazione/static/src/css/dematerializzazione.css"/>
             </xpath>
         </template>
 

@@ -76,7 +76,7 @@ class Etichetta(http.Controller):
             pagesize=pos.get_pagesize_points()
         )
 
-        module_path = get_module_path('seedoo_dematerializzazione')
+        module_path = get_module_path('seedoo_protocollo_dematerializzazione')
         pdfmetrics.registerFont(TTFont("sans", os.path.join(module_path, "fonts", "LiberationSans-Regular.ttf")))
         pdfmetrics.registerFont(TTFont("sans_bold", os.path.join(module_path, "fonts", "LiberationSans-Bold.ttf")))
         pdfmetrics.registerFont(TTFont("monospace", os.path.join(module_path, "fonts", "LiberationMono-Regular.ttf")))
