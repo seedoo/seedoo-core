@@ -21,7 +21,8 @@ apt-get install wkhtmltopdf node-less inkscape pandoc texlive-fonts-recommended 
     build-essential automake autoconf libtool pkg-config python-dev python-virtualenv \
     python-pip python-setuptools libjpeg-dev libgif-dev libpng12-dev libpq-dev libxml2-dev \
     libxslt1-dev libldap2-dev libssl-dev libfreetype6-dev libwebp-dev libdotconf-dev \
-    libsasl2-dev libyaml-dev libtiff5-dev postgresql postgresql-client
+    libsasl2-dev libyaml-dev libtiff5-dev postgresql postgresql-client poppler-utils \
+    default-jre xvfb
 ```
 ## Download del codice
 
