@@ -1027,7 +1027,8 @@ class protocollo_protocollo(orm.Model):
         file_path = self._full_path(cr, uid, location, prot.doc_id.store_fname)
         maintain_orig = False
         strong_encryption = False
-        signature_cmd = os.path.expanduser(signature_jar)
+        # signature_cmd = os.path.expanduser(signature_jar)
+        signature_cmd = os.path.join(os.path.dirname(os.path.abspath(__file__)), "util", signature_jar)
 
         cmd = ["java", "-jar", signature_cmd, file_path, prot_def]
         try:
