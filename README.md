@@ -61,25 +61,17 @@ exit
 exit
 ```
 
-## Avviare Odoo
+## Avvio Odoo
 
-Avviare Odoo usando il virtualenv:
+Avviare Odoo usando lo script run.sh :
 
 ```bash
 cd ~/seedoo
-./venv/bin/python ./ocb/openerp-server \
-    --addons-path=ocb/openerp/addons,ocb/addons,core,addons/seedoo-attivita,oca/l10n-italy \
-    --xmlrpc-port=8069 \
-    --db_host=127.0.0.1 \
-    --db_port=5432 \
-    --db_user=seedoo \
-    --db_password=seedoo \
-    --logfile=$HOME/seedoo.log &
+bash run.sh
 ```
+Una volta avviato Odoo collegarsi via browser al backend tramite l'indirizzo `http://<address>:8069`, dove **address** è l'indirizzo della macchina.
 
 ## Creazione Database Odoo
-
-Una volta avviato Odoo collegarsi via browser al backend tramite l'indirizzo `http://<address>:8069`, dove **address** è l'indirizzo della macchina.
 
 Creare un database di partenza per i moduli Seedoo con i seguenti dati:
 
@@ -89,7 +81,7 @@ Creare un database di partenza per i moduli Seedoo con i seguenti dati:
 * Scegli una password: admin
 * Conferma password: admin
 
-Completata la creazione del DB il sistema accederà automaticamente con l'utenza admin appena creata al backend.
+Completata la creazione del database il sistema accederà automaticamente con l'utenza admin appena creata al backend.
 
 ## Installazione Moduli Seedoo
 
