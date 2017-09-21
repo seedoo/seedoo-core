@@ -85,7 +85,12 @@ Completata la creazione del database il sistema accederà automaticamente con l'
 
 ## Installazione Moduli Seedoo
 
-Accedere al backend con l'utenza admin e procedere quindi con la ricerca dei moduli seedoo, procedere infine con la loro installazione.
+Accedere al backend con l'utenza admin e procedere con la ricerca dei moduli Seedoo in Configurazione > Moduli in locale.
+Procedere l'istallazione dei moduli core:
+
+*Seedoo Gestione Documentale
+*Seedoo Protocollo
+*Seedoo Protocollo Dematerializzazione 
 
 Compilare il form di configurazione Seedoo proposto post installazione indicando i dati della propria PA.
 
@@ -94,8 +99,8 @@ In sistema è correttamente installato.
 Per accedere:
 
 * Indirizzo:`http://<address>:8069`
-* Username: admin
-* Password: <la_tua_password>
+* Username: `admin`
+* Password: `<la_tua_password>`
 
 
 # Bug Tracker
