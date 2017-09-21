@@ -91,11 +91,11 @@ Compilare il form di configurazione Seedoo proposto post installazione indicando
 
 In sistema è correttamente installato.
 
-Per accedere al sistema:
+Per accedere:
 
-Indirizzo:`http://<address>:8069`
-Username: admin
-Password: <la_tua_password>
+* Indirizzo:`http://<address>:8069`
+* Username: admin
+* Password: <la_tua_password>
 
 
 # Bug Tracker
