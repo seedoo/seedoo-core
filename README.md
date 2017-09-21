@@ -75,11 +75,11 @@ Una volta avviato Odoo collegarsi via browser al backend tramite l'indirizzo `ht
 
 Collegarsi via browser al backend e creare un database di partenza per i moduli Seedoo con i seguenti dati:
 
-* Password principale: admin
-* Scegli un nome per il database: seedoo
-* Lingua Predefinita: Italian/Italiano
-* Scegli una password: <la_tua_password> , dove **la_tua_password** è la password che sceglierai per l'utente admin.
-* Conferma password: <la_tua_password> , dove **la_tua_password** è la password che sceglierai per l'utente admin.
+* Password principale: `admin`
+* Scegli un nome per il database: `seedoo`
+* Lingua Predefinita: `Italian/Italiano`
+* Scegli una password: `<la_tua_password>` , dove **la_tua_password** è la password che sceglierai per l'utente admin.
+* Conferma password: `<la_tua_password>` , dove **la_tua_password** è la password che sceglierai per l'utente admin.
 
 Completata la creazione del database il sistema accederà automaticamente con l'utenza admin appena creata al backend.
 
