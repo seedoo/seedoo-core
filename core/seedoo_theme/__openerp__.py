@@ -7,6 +7,7 @@
     'version': '8.0.1.5.1',
     'category': 'Web',
     'summary': 'Tema Grafico Piattaforma Seedoo',
+    'sequence': '1',
     'author': 'Agile Business Group, Flosslab',
     'website': 'http://www.seedoo.it',
     'license': 'AGPL-3',

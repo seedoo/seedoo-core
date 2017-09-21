@@ -8,6 +8,7 @@
     'version': '8.0.1.0.2',
     'category': 'Document Management',
     'summary': 'Gestione Documenti Analogici Protocollo',
+    'sequence': '1',
     'author': 'Flosslab',
     'website': 'http://www.flosslab.com.',
     'license': 'AGPL-3',

@@ -7,6 +7,7 @@
     'version': '8.0.1.5.1',
     'category': 'Document Management',
     'summary': 'Modulo Gestione Documentale',
+    'sequence': '1',
     'author': 'Innoviu, Flosslab',
     'website': 'https://www.seedoo.it',
     'license': 'AGPL-3',
