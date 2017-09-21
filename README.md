@@ -3,7 +3,7 @@
 > La piattaforma software di nuova generazione per la digitalizzazione della PA.
 
 Il software gestisce l'intero iter documentale in maniera personalizzata e integrata,
-**Protocollo informatico**, **Gestione Documentale**, Analisi dei Dati, sono alcuni degli strumenti
+**Protocollo informatico**, **Gestione Documentale**, **Integrazione PEC**, Analisi dei Dati, sono alcuni degli strumenti
 che permettono alla nuova PA di perseguire i propri obiettivi in un'ottica di performance,
 governance e trasparenza verso il cittadino.
 
