@@ -1023,14 +1023,15 @@ class protocollo_protocollo(orm.Model):
         location = self.pool.get('ir.config_parameter').get_param(cr,
                                                                   uid,
                                                                   'ir_attachment.location') + '/protocollazioni'
-        signature_jar = self.pool.get("ir.config_parameter").get_param(cr, uid, "itext.location")
+
         file_path = self._full_path(cr, uid, location, prot.doc_id.store_fname)
         maintain_orig = False
         strong_encryption = False
-        # signature_cmd = os.path.expanduser(signature_jar)
-        signature_cmd = os.path.join(os.path.dirname(os.path.abspath(__file__)), "util", signature_jar)
 
+        signature_jar = "signature.jar"
+        signature_cmd = os.path.join(os.path.dirname(os.path.abspath(__file__)), "util", signature_jar)
         cmd = ["java", "-jar", signature_cmd, file_path, prot_def]
+
         try:
             proc = subprocess.Popen(cmd, stdout=subprocess.PIPE)
             stdoutdata, stderrdata = proc.communicate()
@@ -1044,21 +1045,19 @@ class protocollo_protocollo(orm.Model):
                 os.remove(file_path + '.enc')
             if os.path.isfile(file_path + '.fail'):
                 os.remove(file_path + '.fail')
-                raise orm.except_osv(_('Errore'),
-                                     ('Qualcosa è andato storto \
-                                     nella segnatura con iText!')
-                                     )
+                raise orm.except_osv(_("Errore"), _("Qualcosa è andato storto nella aggiunta della segnatura!"))
         except Exception as e:
             raise Exception(e)
+
         if maintain_orig:
-            self._create_attachment_encryped_file(cr, uid, prot,
-                                                  file_path + '.dec.pdf'
-                                                  )
+            self._create_attachment_encryped_file(cr, uid, prot, file_path + '.dec.pdf')
         elif strong_encryption:
             pass
         else:
             shutil.move(file_path + '.pdf', file_path)
+
         # TODO convert in pdfa here
+
         return sha1OfFile(file_path)
 
     def _create_protocol_attachment(self, cr, uid, prot,
