@@ -75,17 +75,22 @@ Una volta avviato Odoo collegarsi via browser al backend tramite l'indirizzo `ht
 
 Collegarsi via browser al backend e creare un database di partenza per i moduli Seedoo con i seguenti dati:
 
-* Password principale: admin
-* Scegli un nome per il database: seedoo
-* Lingua Predefinita: Italian/Italiano
-* Scegli una password: <la_tua_password> , dove **la_tua_password** è la password che sceglierai per l'utente admin.
-* Conferma password: <la_tua_password> , dove **la_tua_password** è la password che sceglierai per l'utente admin.
+* Password principale: `admin`
+* Scegli un nome per il database: `seedoo`
+* Lingua Predefinita: `Italian/Italiano`
+* Scegli una password: `<la_tua_password>` , dove **la_tua_password** è la password che sceglierai per l'utente admin.
+* Conferma password: `<la_tua_password>` , dove **la_tua_password** è la password che sceglierai per l'utente admin.
 
 Completata la creazione del database il sistema accederà automaticamente con l'utenza admin appena creata al backend.
 
 ## Installazione Moduli Seedoo
 
-Accedere al backend con l'utenza admin e procedere quindi con la ricerca dei moduli seedoo, procedere infine con la loro installazione.
+Accedere al backend con l'utenza admin e procedere con la ricerca dei moduli Seedoo in Configurazione > Moduli in locale.
+Procedere l'istallazione dei moduli core:
+
+* Seedoo Gestione Documentale
+* Seedoo Protocollo
+* Seedoo Protocollo Dematerializzazione 
 
 Compilare il form di configurazione Seedoo proposto post installazione indicando i dati della propria PA.
 
@@ -94,8 +99,8 @@ In sistema è correttamente installato.
 Per accedere:
 
 * Indirizzo:`http://<address>:8069`
-* Username: admin
-* Password: <la_tua_password>
+* Username: `admin`
+* Password: `<la_tua_password>`
 
 
 # Bug Tracker

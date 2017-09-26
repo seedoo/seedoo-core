@@ -69,4 +69,4 @@ ENV/
 pyvenv.cfg
 .venv
 pip-selfcheck.json
-
+cov-int
