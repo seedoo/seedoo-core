@@ -406,6 +406,10 @@ this module contains the full copyright notices and license terms. -->
                                         <field name="messaggio_ref"/>
                                         <field name="accettazione_ref"/>
                                         <field name="consegna_ref"/>
+<<<<<<< HEAD
+=======
+                                        <field name="errore_consegna_ref"/>
+>>>>>>> andrea
                                         <field name="messaggio_id"/>
                                         <field name="messaggio_direction"/>
                                         <templates>
@@ -471,6 +475,27 @@ this module contains the full copyright notices and license terms. -->
                                                                     </table>
                                                                 </div>
                                                             </t>
+<<<<<<< HEAD
+=======
+                                                            <t t-if="record.errore_consegna_ref.raw_value">
+                                                                <div class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_color_border pec_box">
+                                                                    <table class="oe_kanban_table">
+                                                                        <tr>
+                                                                            <td class="oe_kanban_errore_consegna pec_button_col" align="left" valign="middle">
+                                                                                <field name="errore_consegna_ref" invisible="1"/>
+                                                                                <button name="go_to_errore_consegna_action" col="1" type="object"
+                                                                                        t-attf-data-context="{'pec_ref' : {{record.errore_consegna_ref.raw_value[0]}}}"
+                                                                                        icon="gtk-go-forward" class="oe_highlight" attrs="{'invisible': [('errore_consegna_ref', '=', False)]}"/>
+                                                                            </td>
+                                                                            <td>
+                                                                                <h4>Ricevuta di errore consegna</h4>
+                                                                                <p><field name="errore_consegna_ora"/></p>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </div>
+                                                            </t>
+>>>>>>> andrea
                                                         </div>
                                                     </div>
                                                 </div>
@@ -504,7 +529,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="model">protocollo.sender_receiver</field>
             <field name="arch" type="xml">
                 <tree string="Mittenti/Destinatari">
-                    <field name="type"/>
+                    <field name="type" />
                     <field name="ammi_code"
                            attrs="{'required': [('type','=','government')], 'readonly': [('type','in',('legal', 'individual'))]}"
                            width="5%%" string="Cod. iPA"/>
@@ -656,7 +681,11 @@ this module contains the full copyright notices and license terms. -->
                                 <newline/>
                                 <field name="creation_date"/>
                                 <newline/>
+<<<<<<< HEAD
                                 <field name="receiving_date" attrs="{'invisible':[('type','!=','out')]}"/>
+=======
+                                <field name="receiving_date" attrs="{'invisible':[('type','=','out')]}"/>
+>>>>>>> andrea
                             </group>
 
                             <newline/>
