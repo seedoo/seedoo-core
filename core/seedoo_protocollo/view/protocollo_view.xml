@@ -386,7 +386,7 @@ this module contains the full copyright notices and license terms. -->
                             </group>
 
                             <newline/>
-                            <group class="shipping" string="Info di Spedizione" colspan="4" col="4">
+                            <group class="shipping" string="Info di Spedizione" colspan="4" col="4" attrs="{'invisible':[('send_date','=',False)]}">
                                 <field name="send_date"/>
                                 <field name="send_type" invisible="1"/>
                                 <field name="protocol_state" invisible="1"/>
@@ -394,30 +394,89 @@ this module contains the full copyright notices and license terms. -->
                             </group>
 
                             <newline/>
-                            <group class="note" string="Note" colspan="4" col="4">
+                            <group class="note" string="Note" colspan="4" col="4" attrs="{'invisible':[('notes','=',False)]}">
                                 <field name="notes" nolabel="1" colspan="4"/>
                             </group>
 
                             <newline/>
-
-                            <group string="Info PEC" col="4" attrs="{'invisible':[('protocol_pec','!=',True)]}" >
-                                <field name="pec_messaggio_ids" string="Messaggi PEC">
-                                    <tree>
-                                        <field name="type"/>
-                                        <field name="name" invisible="1" />
-                                        <field name="messaggio_ref" string="Messaggio" invisible="1" readonly="1" options="{'no_open': True}"/>
-                                        <button name="go_to_message_action" col="1" type="object" context="{'pec_ref': messaggio_ref}"
-                                            icon="gtk-go-forward" class="oe_highlight" attrs="{'invisible': [('messaggio_ref', '=', False)]}" />
-                                        <field name="accettazione_ref" string="Accettazione" invisible="1" readonly="1" options="{'no_open': True}"/>
-                                        <button name="go_to_accettazione_action" col="1" type="object" context="{'pec_ref': accettazione_ref}"
-                                            icon="gtk-go-forward" class="oe_highlight" attrs="{'invisible': [('accettazione_ref', '=', False)]}"/>
-                                        <field name="consegna_ref" string="Consegna" invisible="1" readonly="1" options="{'no_open': True}"/>
-                                        <button name="go_to_consegna_action" col="1" type="object" context="{'pec_ref': consegna_ref}"
-                                            icon="gtk-go-forward" class="oe_highlight" attrs="{'invisible': [('consegna_ref', '=', False)]}"/>
-                                        <field name="errore_consegna_ref" string="Errore Consegna" invisible="1" readonly="1" options="{'no_open': True}"/>
-                                        <button name="go_to_errore_consegna_action" col="1" type="object" context="{'pec_ref': errore_consegna_ref}"
-                                            icon="gtk-go-forward" class="oe_highlight" attrs="{'invisible': [('errore_consegna_ref', '=', False)]}"/>
-                                    </tree>
+                            <group string="Info PEC" col="4" attrs="{'invisible':[('protocol_pec','!=',True)]}" nolabel="1">
+                                <field name="pec_messaggio_ids" widget="many2many_kanban" nolabel="1">
+                                    <kanban>
+                                        <field name="name"/>
+                                        <field name="messaggio_ref"/>
+                                        <field name="accettazione_ref"/>
+                                        <field name="consegna_ref"/>
+                                        <field name="messaggio_id"/>
+                                        <field name="messaggio_direction"/>
+                                        <templates>
+                                            <t t-name="kanban-box">
+                                                <div style="position: relative">
+                                                    <h2><field name="type"/>
+                                                        <t t-if="record.messaggio_direction.raw_value === 'in'">ricevuto</t>
+                                                        <t t-if="record.messaggio_direction.raw_value === 'out'">inviato</t>
+                                                    </h2>
+                                                    <div class="oe_module_vignette">
+                                                        <div class="oe_module_desc pec_container">
+                                                            <t t-if="record.messaggio_ref.raw_value">
+                                                                <div class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_color_border pec_box" >
+                                                                    <table class="oe_kanban_table">
+                                                                        <tr>
+                                                                            <td class="oe_kanban_messaggio pec_button_col" align="left" valign="middle">
+                                                                                <field name="messaggio_ref" invisible="1"/>
+                                                                                <button name="go_to_messaggio_action" col="1" type="object"
+                                                                                        t-attf-data-context="{'pec_ref' : {{record.messaggio_ref.raw_value[0]}}}"
+                                                                                        icon="gtk-go-forward" class="oe_highlight"/>
+                                                                            </td>
+                                                                            <td>
+                                                                                <h4>Messaggio</h4>
+                                                                                <p><field name="messaggio_ora"/></p>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </div>
+                                                            </t>
+                                                            <t t-if="record.accettazione_ref.raw_value">
+                                                                <div class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_color_border pec_box">
+                                                                    <table class="oe_kanban_table">
+                                                                        <tr>
+                                                                            <td class="oe_kanban_accettazione pec_button_col" align="left" valign="middle">
+                                                                                <field name="accettazione_ref" invisible="1"/>
+                                                                                <button name="go_to_accettazione_action" col="1" type="object"
+                                                                                        t-attf-data-context="{'pec_ref' : {{record.accettazione_ref.raw_value[0]}}}"
+                                                                                        icon="gtk-go-forward" class="oe_highlight" attrs="{'invisible': [('accettazione_ref', '=', False)]}"/>
+                                                                            </td>
+                                                                            <td>
+                                                                                <h4>Ricevuta di accettazione</h4>
+                                                                                <p><field name="accettazione_ora"/></p>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </div>
+                                                            </t>
+                                                            <t t-if="record.consegna_ref.raw_value">
+                                                                <div class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_color_border pec_box">
+                                                                    <table class="oe_kanban_table">
+                                                                        <tr>
+                                                                            <td class="oe_kanban_consegna pec_button_col" align="left" valign="middle">
+                                                                                <field name="consegna_ref" invisible="1"/>
+                                                                                <button name="go_to_consegna_action" col="1" type="object"
+                                                                                        t-attf-data-context="{'pec_ref' : {{record.consegna_ref.raw_value[0]}}}"
+                                                                                        icon="gtk-go-forward" class="oe_highlight" attrs="{'invisible': [('consegna_ref', '=', False)]}"/>
+                                                                            </td>
+                                                                            <td>
+                                                                                <h4>Ricevuta di avvenuta consegna</h4>
+                                                                                <p><field name="consegna_ora"/></p>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </div>
+                                                            </t>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </t>
+                                        </templates>
+                                    </kanban>
                                 </field>
                             </group>
                             <newline/>
@@ -434,8 +493,6 @@ this module contains the full copyright notices and license terms. -->
                                     <button string="Cancel" class="oe_link" special="cancel" attrs="{'invisible':[('add_pec_receiver_visibility','=',False)]}" />
                                 </div>
                             </footer>
-                                <!--attrs="{'invisible':[('registra_visibility','=',False)]}"-->
-
                         </group>
                     </sheet>
                 </form>
@@ -463,10 +520,10 @@ this module contains the full copyright notices and license terms. -->
                     <field name="pec_mail"/>
                     <field name="email"/>
                     <field name="protocol_state" invisible="1"/>
-                    <field name="pec_invio_status" colspan="4" options="{'no_open': True}" attrs="{'invisible':[('protocol_state','not in',['waiting','sent','error'])]}" class="col_inviato_status"/>
-                    <field name="pec_accettazione_status" colspan="4" options="{'no_open': True}" attrs="{'invisible':[('protocol_state','not in',['waiting','sent','error'])]}" class="col_accettato_status"/>
-                    <field name="pec_consegna_status" colspan="4" options="{'no_open': True}" attrs="{'invisible':[('protocol_state','not in',['waiting','sent','error'])]}" class="col_consegnato_status"/>
-                    <field name="pec_errore_consegna_status" colspan="4" options="{'no_open': True}" attrs="{'invisible':[('protocol_state','not in',['waiting','sent','error'])]}" class="col_consegnato_status"/>
+                    <field name="pec_invio_status" colspan="4" options="{'no_open': True}" class="col_inviato_status"/>
+                    <field name="pec_accettazione_status" colspan="4" options="{'no_open': True}" class="col_accettato_status"/>
+                    <field name="pec_consegna_status" colspan="4" options="{'no_open': True}" class="col_consegnato_status"/>
+                    <field name="pec_errore_consegna_status" colspan="4" options="{'no_open': True}" class="col_consegnato_status"/>
                 </tree>
             </field>
         </record>
@@ -514,7 +571,8 @@ this module contains the full copyright notices and license terms. -->
                                 class="oe_highlight_positive"/>
 
                         <button name="sent_pec" string="Invia PEC Protocollo"
-                                attrs="{'invisible':[('invio_pec_visibility','=',False)]}"/>
+                                attrs="{'invisible':[('invio_pec_visibility','=',False)]}"
+                                class="oe_highlight"/>
 
                         <button name="aggiungi_destinatari_pec" string="Aggiungi - Destinatario" type="object"
                                 attrs="{'invisible':[('aggiungi_pec_visibility','=',False)]}"
@@ -598,7 +656,7 @@ this module contains the full copyright notices and license terms. -->
                                 <newline/>
                                 <field name="creation_date"/>
                                 <newline/>
-                                <field name="receiving_date"/>
+                                <field name="receiving_date" attrs="{'invisible':[('type','!=','out')]}"/>
                             </group>
 
                             <newline/>

@@ -272,8 +272,9 @@ class protocollo_sender_receiver(orm.Model):
         'send_date': fields.date('Data Spedizione'),
         'protocol_state': fields.related('protocollo_id', 'state', type='char', string='State', readonly=True),
         'protocol_pec': fields.related('protocollo_id', 'pec', type='boolean', string='Tipo PEC', readonly=True),
+        'protocol_type': fields.related('protocollo_id', 'type', type='char', string='Tipo Protocollo', readonly=True),
         'add_pec_receiver_visibility': fields.boolean('Button Visibility', readonly=True),
-        'pec_ref': fields.many2one('protocollo.messaggio.pec', 'Messaggio PEC'),# campo pec_ref da eliminare
+        # 'pec_ref': fields.many2one('protocollo.messaggio.pec', 'Messaggio PEC'),# campo pec_ref da eliminare
         'pec_messaggio_ids': fields.many2many('protocollo.messaggio.pec', 'protocollo_sender_receiver_messaggio_pec_rel', 'sender_receiver_id', 'messaggio_pec_id', 'Messaggi PEC'),
         'pec_invio_status': fields.function(_get_invio_status, type='boolean', string='Inviata'),
         'pec_accettazione_status': fields.function(_get_accettazione_status, type='boolean', string='Accettata'),
@@ -1284,9 +1285,8 @@ class protocollo_protocollo(orm.Model):
                 if prot.sender_receivers:
                     for sender_receiver_id in prot.sender_receivers.ids:
                         sender_receiver_obj = self.pool.get('protocollo.sender_receiver').browse(cr, uid, sender_receiver_id, context=context)
-                        if not sender_receiver_obj.pec_invio_status:
-                            sender_receivers_pec_mails.append(sender_receiver_obj.pec_mail)
-                            sender_receivers_pec_ids.append(sender_receiver_obj.id)
+                        sender_receivers_pec_mails.append(sender_receiver_obj.pec_mail)
+                        sender_receivers_pec_ids.append(sender_receiver_obj.id)
 
                 if receipt_type == 'conferma':
                     attachment = self.pool.get('ir.attachment').create(cr, uid, {'name': 'conferma.xml',
@@ -1328,6 +1328,7 @@ class protocollo_protocollo(orm.Model):
                     valsreceipt['pec_protocol_ref'] = prot.id
                     valsreceipt['pec_state'] = 'protocol'
                     valsreceipt['pec_type'] = 'posta-certificata'
+                    valsreceipt['direction'] = 'out'
                     message_obj.write(cr, uid, mail_receipt.mail_message_id.id, valsreceipt)
                     messaggio_pec_id = messaggio_pec_obj.create(cr, uid, {'type': receipt_type, 'messaggio_ref': message_receipt.id})
                     vals['pec_messaggio_ids'] = [(4, [messaggio_pec_id])]
@@ -1443,6 +1444,8 @@ class protocollo_protocollo(orm.Model):
                 raise openerp.exceptions.Warning(_('Errore nella \
                     notifica del protocollo, mail pec non spedita'))
             else:
+                mail_message_obj = self.pool.get('mail.message')
+                mail_message_obj.write(cr, uid, mail.mail_message_id.id, {'direction': 'out'})
                 for sender_receiver_id in sender_receivers_pec_ids:
                     msgvals = {}
                     sender_receiver_obj = self.pool.get('protocollo.sender_receiver').browse(cr, uid, sender_receiver_id, context=context)
