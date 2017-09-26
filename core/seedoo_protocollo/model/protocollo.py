@@ -736,7 +736,7 @@ class protocollo_protocollo(orm.Model):
                                      readonly=True,
                                      ),
         'receiving_date': fields.datetime('Data Ricezione',
-                                          required=True,
+                                          required=False,
                                           readonly=True,
                                           states={
                                               'draft': [('readonly', False)]
