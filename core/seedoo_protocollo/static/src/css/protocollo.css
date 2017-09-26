@@ -88,91 +88,111 @@
     text-align: center;
 }
 
+.openerp td[data-field="pec_invio_status"] input,
+.openerp td[data-field="pec_accettazione_status"] input,
+.openerp td[data-field="pec_consegna_status"] input,
+.openerp td[data-field="pec_errore_consegna_status"] input{
+    visibility: hidden;
+    opacity: 1 !important;
+}
+
 .openerp td[data-field="pec_invio_status"] input:checked:after,
-.openerp .oe_form .oe_form_field_many2many td[data-field="go_to_message_action"] button:after {
+.openerp .oe_form button[data-name="go_to_messaggio_action"]:after {
     content: "\f003";
     font-family: "FontAwesome";
-    font-size: 16px;
-    font-weight: bold;
+    font-size: 28px;
     color: #9ac569;
     visibility: visible;
     opacity: 1;
 }
 
 .openerp td[data-field="pec_accettazione_status"] input:checked::after ,
-.openerp .oe_form .oe_form_field_many2many td[data-field="go_to_accettazione_action"] button:after {
+.openerp .oe_form button[data-name="go_to_accettazione_action"]:after {
     content: "\f05d";
     font-family: "FontAwesome";
-    font-size: 16px;
-    font-weight: bold;
+    font-size: 28px;
     color: #679b41;
     visibility: visible;
     opacity: 1;
 }
 
 .openerp td[data-field="pec_consegna_status"] input[type="checkbox"]:checked:after ,
-.openerp .oe_form .oe_form_field_many2many td[data-field="go_to_consegna_action"] button:after {
+.openerp .oe_form button[data-name="go_to_consegna_action"]:after {
     content: "\f05d";
     font-family: "FontAwesome";
-    font-size: 16px;
-    font-weight: bold;
+    font-size: 28px;
     color: #366732;
     visibility: visible;
     opacity: 1;
 }
 
 .openerp td[data-field="pec_errore_consegna_status"] input[type="checkbox"]:checked::after ,
-.openerp .oe_form .oe_form_field_many2many td[data-field="go_to_errore_consegna_action"] button:after {
+.openerp .oe_form button[data-name="go_to_errore_consegna_action"]:after {
     content: "\f06a";
     font-family: "FontAwesome";
-    font-size: 16px;
-    font-weight: bold;
+    font-size: 28px;
     color: darkred;
     visibility: visible;
     opacity: 1;
 }
-.openerp .oe_form td[data-field="pec_invio_status"] input[readonly],
-.openerp .oe_form td[data-field="pec_accettazione_status"] input[readonly],
-.openerp .oe_form td[data-field="pec_consegna_status"] input[readonly],
-.openerp .oe_form td[data-field="pec_errore_consegna_status"] input[readonly]{
-    /*visibility: hidden;*/
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    opacity: 1 !important;
-    background-color: white !important;
-    border: 0 !important;
-}
 
-.openerp .oe_form .oe_form_field_many2many td[data-field="type"] {
-    width:60%;
-}
-.openerp .oe_form td[data-field="go_to_message_action"],
+.openerp .oe_form td[data-field="go_to_messaggio_action"],
 .openerp .oe_form td[data-field="go_to_accettazione_action"],
 .openerp .oe_form td[data-field="go_to_consegna_action"],
 .openerp .oe_form td[data-field="go_to_errore_consegna_action"]{
     width:10%;
 }
 
-.openerp .oe_form td[data-field="go_to_message_action"] button,
-.openerp .oe_form td[data-field="go_to_accettazione_action"] button,
-.openerp .oe_form td[data-field="go_to_consegna_action"] button,
-.openerp .oe_form td[data-field="go_to_errore_consegna_action"] button
+
+.openerp .oe_form button[data-name="go_to_messaggio_action"],
+.openerp .oe_form button[data-name="go_to_accettazione_action"],
+.openerp .oe_form button[data-name="go_to_consegna_action"],
+.openerp .oe_form button[data-name="go_to_errore_consegna_action"]
 {
-    width:100%;
+    width:50px;
     border:1px solid #ccc;
     border-radius: 0;
-    height:20px;
+    height:50px;
+    background: white !important;
 }
 
-.openerp .oe_form td[data-field="go_to_message_action"] button img,
-.openerp .oe_form td[data-field="go_to_accettazione_action"] button img,
-.openerp .oe_form td[data-field="go_to_consegna_action"] button img,
-.openerp .oe_form td[data-field="go_to_errore_consegna_action"] button img
+.openerp .oe_form button[data-name="go_to_messaggio_action"]:hover,
+.openerp .oe_form button[data-name="go_to_accettazione_action"]:hover,
+.openerp .oe_form button[data-name="go_to_consegna_action"]:hover,
+.openerp .oe_form button[data-name="go_to_errore_consegna_action"]:hover {
+    background: #ccc !important;
+}
+
+.openerp .oe_form button[data-name="go_to_messaggio_action"] img,
+.openerp .oe_form button[data-name="go_to_accettazione_action"] img,
+.openerp .oe_form button[data-name="go_to_consegna_action"] img,
+.openerp .oe_form button[data-name="go_to_errore_consegna_action"] img
 {
     display: none;
 }
 
+.openerp .oe_kanban_view .pec_container {
+    width:100% !important;
+    padding: 0 5px 0 0 !important;
+}
+
+.openerp .oe_kanban_view .pec_box {
+    float: left;
+    display: inline;
+    border-left:2px solid #ccc;
+    height:100px;
+    min-width:300px;
+    margin-right:20px;
+    padding:10px !important;
+}
+
+.openerp .oe_kanban_view .pec_box .pec_button_col{
+    width:60px;
+}
+
+.oe_form_group_row .oe_kanban_record {
+    display: block !important;
+}
 /*.openerp .oe_form .oe_form_field_many2many td[data-field="go_to_pec_action"] button:after {*/
     /*font-family: "FontAwesome";*/
     /*font-size: 16px;*/

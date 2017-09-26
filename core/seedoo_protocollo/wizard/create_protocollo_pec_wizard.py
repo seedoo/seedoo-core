@@ -85,7 +85,7 @@ class ProtocolloPecWizard(osv.TransientModel):
         'body': fields.html('Corpo della mail', readonly=True),
         'receiving_date': fields.datetime(
             'Data Ricezione',
-            required=True,
+            required=False,
             readonly=True),
         'message_id': fields.integer('Id',
                                      required=True, readonly=True),
