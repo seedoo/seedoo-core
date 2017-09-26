@@ -406,10 +406,7 @@ this module contains the full copyright notices and license terms. -->
                                         <field name="messaggio_ref"/>
                                         <field name="accettazione_ref"/>
                                         <field name="consegna_ref"/>
-<<<<<<< HEAD
-=======
                                         <field name="errore_consegna_ref"/>
->>>>>>> andrea
                                         <field name="messaggio_id"/>
                                         <field name="messaggio_direction"/>
                                         <templates>
@@ -475,8 +472,6 @@ this module contains the full copyright notices and license terms. -->
                                                                     </table>
                                                                 </div>
                                                             </t>
-<<<<<<< HEAD
-=======
                                                             <t t-if="record.errore_consegna_ref.raw_value">
                                                                 <div class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_color_border pec_box">
                                                                     <table class="oe_kanban_table">
@@ -495,7 +490,6 @@ this module contains the full copyright notices and license terms. -->
                                                                     </table>
                                                                 </div>
                                                             </t>
->>>>>>> andrea
                                                         </div>
                                                     </div>
                                                 </div>
@@ -681,13 +675,9 @@ this module contains the full copyright notices and license terms. -->
                                 <newline/>
                                 <field name="creation_date"/>
                                 <newline/>
-<<<<<<< HEAD
-                                <field name="receiving_date" attrs="{'invisible':[('type','!=','out')]}"/>
-=======
                                 <field name="receiving_date" attrs="{'invisible':[('type','=','out')]}"/>
->>>>>>> andrea
+                                <field name="receiving_date" attrs="{'invisible':[('type','=','out')]}"/>
                             </group>
-
                             <newline/>
                         </group>
                         <group col="8">
