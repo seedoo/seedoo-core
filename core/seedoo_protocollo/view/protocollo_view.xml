@@ -676,7 +676,6 @@ this module contains the full copyright notices and license terms. -->
                                 <field name="creation_date"/>
                                 <newline/>
                                 <field name="receiving_date" attrs="{'invisible':[('type','=','out')]}"/>
-                                <field name="receiving_date" attrs="{'invisible':[('type','=','out')]}"/>
                             </group>
                             <newline/>
                         </group>
