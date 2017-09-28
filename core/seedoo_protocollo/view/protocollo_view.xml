@@ -400,7 +400,7 @@ this module contains the full copyright notices and license terms. -->
 
                             <newline/>
                             <group string="Info PEC" col="4" attrs="{'invisible':[('protocol_pec','!=',True)]}" nolabel="1">
-                                <field name="pec_messaggio_ids" widget="many2many_kanban" nolabel="1">
+                                <field name="pec_messaggio_ids" widget="many2many_kanban" nolabel="1" class="container_messaggi_pec">
                                     <kanban>
                                         <field name="name"/>
                                         <field name="messaggio_ref"/>
@@ -412,14 +412,14 @@ this module contains the full copyright notices and license terms. -->
                                         <templates>
                                             <t t-name="kanban-box">
                                                 <div style="position: relative">
-                                                    <h2><field name="type"/>
+                                                    <h3><field name="type"/>
                                                         <t t-if="record.messaggio_direction.raw_value === 'in'">ricevuto</t>
                                                         <t t-if="record.messaggio_direction.raw_value === 'out'">inviato</t>
-                                                    </h2>
+                                                    </h3>
                                                     <div class="oe_module_vignette">
                                                         <div class="oe_module_desc pec_container">
                                                             <t t-if="record.messaggio_ref.raw_value">
-                                                                <div class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_color_border pec_box" >
+                                                                <div class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_color_border item_box" >
                                                                     <table class="oe_kanban_table">
                                                                         <tr>
                                                                             <td class="oe_kanban_messaggio pec_button_col" align="left" valign="middle">
@@ -427,17 +427,19 @@ this module contains the full copyright notices and license terms. -->
                                                                                 <button name="go_to_messaggio_action" col="1" type="object"
                                                                                         t-attf-data-context="{'pec_ref' : {{record.messaggio_ref.raw_value[0]}}}"
                                                                                         icon="gtk-go-forward" class="oe_highlight"/>
+
                                                                             </td>
-                                                                            <td>
+                                                                            <td class="pec_descr_col">
                                                                                 <h4>Messaggio</h4>
                                                                                 <p><field name="messaggio_ora"/></p>
+                                                                                <span t-att-class="record.messaggio_direction.raw_value"/>
                                                                             </td>
                                                                         </tr>
                                                                     </table>
                                                                 </div>
                                                             </t>
                                                             <t t-if="record.accettazione_ref.raw_value">
-                                                                <div class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_color_border pec_box">
+                                                                <div class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_color_border item_box">
                                                                     <table class="oe_kanban_table">
                                                                         <tr>
                                                                             <td class="oe_kanban_accettazione pec_button_col" align="left" valign="middle">
@@ -446,16 +448,17 @@ this module contains the full copyright notices and license terms. -->
                                                                                         t-attf-data-context="{'pec_ref' : {{record.accettazione_ref.raw_value[0]}}}"
                                                                                         icon="gtk-go-forward" class="oe_highlight" attrs="{'invisible': [('accettazione_ref', '=', False)]}"/>
                                                                             </td>
-                                                                            <td>
+                                                                            <td class="pec_descr_col">
                                                                                 <h4>Ricevuta di accettazione</h4>
                                                                                 <p><field name="accettazione_ora"/></p>
+                                                                                <span class="in"/>
                                                                             </td>
                                                                         </tr>
                                                                     </table>
                                                                 </div>
                                                             </t>
                                                             <t t-if="record.consegna_ref.raw_value">
-                                                                <div class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_color_border pec_box">
+                                                                <div class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_color_border item_box">
                                                                     <table class="oe_kanban_table">
                                                                         <tr>
                                                                             <td class="oe_kanban_consegna pec_button_col" align="left" valign="middle">
@@ -464,16 +467,17 @@ this module contains the full copyright notices and license terms. -->
                                                                                         t-attf-data-context="{'pec_ref' : {{record.consegna_ref.raw_value[0]}}}"
                                                                                         icon="gtk-go-forward" class="oe_highlight" attrs="{'invisible': [('consegna_ref', '=', False)]}"/>
                                                                             </td>
-                                                                            <td>
+                                                                            <td class="pec_descr_col">
                                                                                 <h4>Ricevuta di avvenuta consegna</h4>
                                                                                 <p><field name="consegna_ora"/></p>
+                                                                                <span class="in"/>
                                                                             </td>
                                                                         </tr>
                                                                     </table>
                                                                 </div>
                                                             </t>
                                                             <t t-if="record.errore_consegna_ref.raw_value">
-                                                                <div class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_color_border pec_box">
+                                                                <div class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_color_border item_box">
                                                                     <table class="oe_kanban_table">
                                                                         <tr>
                                                                             <td class="oe_kanban_errore_consegna pec_button_col" align="left" valign="middle">
@@ -482,9 +486,10 @@ this module contains the full copyright notices and license terms. -->
                                                                                         t-attf-data-context="{'pec_ref' : {{record.errore_consegna_ref.raw_value[0]}}}"
                                                                                         icon="gtk-go-forward" class="oe_highlight" attrs="{'invisible': [('errore_consegna_ref', '=', False)]}"/>
                                                                             </td>
-                                                                            <td>
+                                                                            <td class="pec_descr_col">
                                                                                 <h4>Ricevuta di errore consegna</h4>
                                                                                 <p><field name="errore_consegna_ora"/></p>
+                                                                                <span class="in"/>
                                                                             </td>
                                                                         </tr>
                                                                     </table>
@@ -544,6 +549,58 @@ this module contains the full copyright notices and license terms. -->
                     <field name="pec_consegna_status" colspan="4" options="{'no_open': True}" class="col_consegnato_status"/>
                     <field name="pec_errore_consegna_status" colspan="4" options="{'no_open': True}" class="col_consegnato_status"/>
                 </tree>
+            </field>
+        </record>
+
+        <record model='ir.ui.view' id='protocollo_sender_receiver_kanban'>
+            <field name="name">protocollo.sender_receiver.kanban</field>
+            <field name="model">protocollo.sender_receiver</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="type"/>
+                    <field name="pec_invio_status"/>
+                    <field name="pec_accettazione_status"/>
+                    <field name="pec_consegna_status"/>
+                    <field name="pec_errore_consegna_status"/>
+
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_color_border item_box" >
+                                <a t-if="! read_only_mode" type="delete" style="position: absolute; right: 5px; padding: 0 4px; display: inline-block;background: rgba(255,255,255,0.6);">X</a>
+                                <table class="oe_kanban_table">
+                                    <tr>
+                                        <td class="oe_kanban_messaggio pec_button_col" align="left" valign="middle">
+                                            <a type="open" class="icon_receiver_type">
+                                               <div t-att-class="record.type.raw_value">
+                                                   <span>Tipo</span>
+                                               </div>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <h3><field name="name"/></h3>
+                                            <p>
+                                                <field name="email"/>
+                                                <field name="pec_mail"/>
+                                            </p>
+                                            <t t-if="record.pec_invio_status.raw_value">
+                                                <div class="icon_status icon_messaggio_status"><span>Inviato</span></div>
+                                            </t>
+                                            <t t-if="record.pec_accettazione_status.raw_value">
+                                                <div class="icon_status icon_accettazione_status"><span>Accettato</span></div>
+                                            </t>
+                                            <t t-if="record.pec_consegna_status.raw_value">
+                                                <div class="icon_status icon_consegna_status"><span>Consegna</span></div>
+                                            </t>
+                                            <t t-if="record.pec_errore_consegna_status.raw_value">
+                                                <div class="icon_status icon_errore_consegna_status"><span>Errore Consegna</span></div>
+                                            </t>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
             </field>
         </record>
 
@@ -706,12 +763,12 @@ this module contains the full copyright notices and license terms. -->
                         <notebook>
                             <page string="Mittenti" attrs="{'invisible':['|',('type','!=','in')]}">
                                 <group col="4" colspan="4">
-                                    <field name="senders" nolabel="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                    <field name="senders" mode="kanban" nolabel="1" attrs="{'readonly':[('state','!=','draft')]}"/>
                                 </group>
                             </page>
                             <page string="Destinatari" attrs="{'invisible':[('type','!=','out')]}">
                                 <group col="4" colspan="4">
-                                    <field name="receivers" nolabel="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                    <field name="receivers" mode="kanban" nolabel="1" class="container_sr" attrs="{'readonly':[('state','!=','draft')]}"/>
                                 </group>
                             </page>
                             <page string="Documenti">
