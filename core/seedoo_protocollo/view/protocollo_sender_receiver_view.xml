@@ -93,6 +93,7 @@ this module contains the full copyright notices and license terms. -->
                                 <field name="pec_messaggio_ids" widget="many2many_kanban" nolabel="1" class="container_messaggi_pec">
                                     <kanban quick_create="false" create="false">
                                         <field name="name"/>
+                                        <field name="type"/>
                                         <field name="messaggio_ref"/>
                                         <field name="accettazione_ref"/>
                                         <field name="consegna_ref"/>
@@ -103,8 +104,10 @@ this module contains the full copyright notices and license terms. -->
                                             <t t-name="kanban-box">
                                                 <div style="position: relative">
                                                     <h3><field name="type"/>
-                                                        <t t-if="record.messaggio_direction.raw_value === 'in'">ricevuto</t>
-                                                        <t t-if="record.messaggio_direction.raw_value === 'out'">inviato</t>
+                                                        <t t-if="record.type.raw_value != 'conferma' and record.messaggio_direction.raw_value === 'in'">ricevuto</t>
+                                                        <t t-if="record.type.raw_value != 'conferma' and record.messaggio_direction.raw_value === 'out'">inviato</t>
+                                                        <t t-if="record.type.raw_value === 'conferma' and record.messaggio_direction.raw_value === 'in'">ricevuta</t>
+                                                        <t t-if="record.type.raw_value === 'conferma' and record.messaggio_direction.raw_value === 'out'">inviata</t>
                                                     </h3>
                                                     <div class="oe_module_vignette">
                                                         <div class="oe_module_desc pec_container">
