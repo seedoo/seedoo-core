@@ -401,7 +401,7 @@ this module contains the full copyright notices and license terms. -->
                             <newline/>
                             <group string="Info PEC" col="4" attrs="{'invisible':[('protocol_pec','!=',True)]}" nolabel="1">
                                 <field name="pec_messaggio_ids" widget="many2many_kanban" nolabel="1" class="container_messaggi_pec">
-                                    <kanban>
+                                    <kanban quick_create="false" create="false">
                                         <field name="name"/>
                                         <field name="messaggio_ref"/>
                                         <field name="accettazione_ref"/>
