@@ -1,5 +1,5 @@
 .openerp .oe_stat_button {
-    width: 160px !important;
+    width: auto !important;
 }
 
 .openerp .oe_stat_button{
@@ -10,14 +10,17 @@
 .openerp .oe_stat_button:hover{
     background-color: #fff;
     color:#7c7bad;
+    font-size: 14px;
 }
 
 .openerp .oe_stat_button .stat_button_icon {
     color:#fff;
+    font-size: 14px;
 }
 
 .openerp .oe_stat_button:hover .stat_button_icon {
     color:#7c7bad;
+    font-size: 14px;
 }
 
 .openerp .history_icon::after {
@@ -280,7 +283,101 @@
     margin-bottom:20px !important;
 }
 
+.container_sr .oe_kanban_record {
+    margin-bottom:20px !important;
+}
+
+.container_messaggi_pec .oe_kanban_record {
+    display: block !important;
+    margin-bottom:20px !important;
+}
+
 .container_messaggi_pec h3 {
     margin:10px 0 0 0;
     text-transform: uppercase;
+}
+
+.btn_seedoo::before {
+    color:#fff;
+    font-family: "FontAwesome";
+    margin-right:10px;
+}
+
+.btn_registra_protocollo::before {
+    content:"\f0e3";
+}
+
+.btn_annulla_protocollo::before {
+    content:"\f014";
+}
+
+.btn_presa_in_carico::before {
+    content:"\f046";
+}
+
+.btn_rifiuta_presa_in_carico::before {
+    content:"\f147";
+}
+
+.btn_modifica_protocollo::before {
+    content:"\f044";
+}
+
+.btn_classifica::before {
+    content:"\f00b";
+}
+
+.btn_fascicola::before {
+    content:"\f115";
+}
+
+.btn_assegna::before {
+    content:"\f0e8";
+}
+
+.btn_invia_pec::before {
+    content:"\f003";
+}
+
+.btn_aggiungi_destinatario::before {
+    content:"\f067";
+}
+
+.btn_reinvio_pec::before {
+    content:"\f01e";
+}
+
+.btn_invia_protocollo::before {
+    content:"\f003";
+}
+
+.btn_carica_documenti::before {
+    content:"\f0e0";
+}
+
+.protocollo_oggetto .oe_form_text_content{
+    color:steelblue;
+    font-weight:bold;
+}
+
+/**Storico Protocollo**/
+
+.openerp .oe_mail .oe_msg.oe_msg_composer_compact, .openerp .oe_mail .oe_msg.oe_msg_expandable {
+    border: 0;
+    background: none;
+}
+
+.openerp .oe_mail .oe_msg.oe_msg_notification {
+    border:0;
+    -webkit-border-radius:0;
+    -moz-border-radius:0;
+    border-radius:0;
+    background: #eee;
+    margin-bottom: 10px;
+    padding: 8px;
+}
+
+.openerp .oe_mail .oe_msg .oe_msg_content .oe_msg_body * {
+    padding-left: 0;
+    list-style: none;
 }

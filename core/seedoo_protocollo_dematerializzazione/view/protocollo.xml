@@ -16,9 +16,9 @@ this module contains the full copyright notices and license terms. -->
                 <xpath expr="//field[@name='pec']" position="after">
                     <newline/>
                     <group col="2">
-                        <button string="Stampa Etichetta" type="object" icon="fa-barcode"
+                        <button string="Stampa Etichetta" type="object"
                                 attrs="{'invisible':[('state','!=','registered')]}"
-                                name="action_apri_stampa_etichetta" class="oe_inline oe_stat_button"/>
+                                name="action_apri_stampa_etichetta" class="oe_inline oe_button oe_highlight_positive btn_seedoo btn_stampa_etichetta"/>
                     </group>
                 </xpath>
             </field>

@@ -10,6 +10,7 @@ this module contains the full copyright notices and license terms. -->
             <xpath expr="." position="inside">
                 <link rel="stylesheet"
                       href="/seedoo_theme/static/src/css/seedoo.css"/>
+                <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Work+Sans"/>
             </xpath>
         </template>
 

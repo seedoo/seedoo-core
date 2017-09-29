@@ -1215,7 +1215,6 @@ class protocollo_protocollo(orm.Model):
             except Exception as e:
                 _logger.error(e)
                 raise openerp.exceptions.Warning(_('Errore nella registrazione del protocollo'))
-                continue
 
             segnatura_xml = SegnaturaXML(prot, prot_number, prot_date, cr, uid)
             xml = segnatura_xml.generate_segnatura_root()

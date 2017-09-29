@@ -41,7 +41,7 @@
                 </div>
             </t>
             <t t-if="widget.model=='protocollo.protocollo'">
-                <h2 style="text-align:center;">Storico Protocollo</h2>
+                <h2 style="text-align:center;"><span>Storico Protocollo</span></h2>
             </t>
         </t>
     </t>

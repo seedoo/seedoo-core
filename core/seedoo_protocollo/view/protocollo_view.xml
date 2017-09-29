@@ -358,53 +358,53 @@ this module contains the full copyright notices and license terms. -->
                     <header>
                         <button name="register" string="Registra Protocollo"
                                 attrs="{'invisible':[('registra_visibility','=',False)]}"
-                                class="oe_highlight_positive"/>
+                                class="oe_highlight_positive btn_seedoo btn_registra_protocollo"/>
 
-                        <button name="%(protocollo_cancel_action)d" string="Annulla Protocollo" type="action"
+                        <button name="%(protocollo_cancel_action)d" string="Annulla" type="action"
                                 attrs="{'invisible':[('annulla_visibility','=',False)]}"
-                                class="oe_highlight_warning"/>
+                                class="oe_highlight_warning btn_seedoo btn_annulla_protocollo"/>
 
                         <button string="Prendi in Carico"
                                 type="object" name="prendi_in_carico"
                                 attrs="{'invisible':[('prendi_in_carico_visibility','=',False)]}"
-                                class="oe_highlight"/>
+                                class="oe_highlight btn_seedoo btn_presa_in_carico"/>
 
                         <button string="Rifiuta la Presa in Carico"
                                 type="object" name="rifiuta_presa_in_carico"
                                 attrs="{'invisible':[('rifiuta_visibility','=',False)]}"
-                                class="oe_highlight_warning"/>
+                                class="oe_highlight_warning btn_seedoo btn_rifiuta_presa_in_carico"/>
 
-                        <button name="%(protocollo_modify_action)d" string="Modifica Protocollo" type="action"
+                        <button name="%(protocollo_modify_action)d" string="Modifica" type="action"
                                 attrs="{'invisible':[('modifica_dati_generali_visibility','=',False)]}"
-                                class="oe_highlight_positive"/>
+                                class="oe_highlight_positive btn_seedoo btn_modifica_protocollo"/>
 
                         <button name="%(protocollo_classifica_action)d" string="Classifica" type="action"
                                 attrs="{'invisible':[('classifica_visibility','=',False)]}"
-                                class="oe_highlight_positive"/>
+                                class="oe_highlight_positive btn_seedoo btn_classifica"/>
 
                         <button name="%(protocollo_fascicola_action)d" type="action" string="Fascicola"
                                 attrs="{'invisible':[('fascicola_visibility','=',False)]}"
-                                class="oe_highlight_positive"/>
+                                class="oe_highlight_positive btn_seedoo btn_fascicola"/>
 
                         <button name="%(protocollo_assegna_action)d" string="Assegna" type="action"
                                 attrs="{'invisible':[('assegna_visibility','=',False)]}"
-                                class="oe_highlight_positive"/>
+                                class="oe_highlight_positive btn_seedoo btn_assegna"/>
 
                         <button name="sent_pec" string="Invia PEC Protocollo"
                                 attrs="{'invisible':[('invio_pec_visibility','=',False)]}"
-                                class="oe_highlight"/>
+                                class="oe_highlight btn_seedoo btn_invia_pec"/>
 
                         <button name="aggiungi_destinatari_pec" string="Aggiungi - Destinatario" type="object"
                                 attrs="{'invisible':[('aggiungi_pec_visibility','=',False)]}"
-                                class="oe_highlight_positive" context="{'is_add_pec_receiver': True}"/>
+                                class="oe_highlight_positive btn_seedoo btn_aggiungi_destinatario" context="{'is_add_pec_receiver': True}"/>
 
-                        <button name="action_resend" string="Reinvio - Mail" type="object"
+                        <button name="action_resend" string="Reinvio PEC" type="object"
                                 attrs="{'invisible': [('reinvio_pec_visibility', '=', False)]}"
-                                class="oe_highlight"/>
+                                class="oe_highlight btn_seedoo btn_reinvio_pec"/>
 
                         <button name="sent" string="Invia Protocollo"
                                 attrs="{'invisible':[('invio_protocollo_visibility','=',False)]}"
-                                class="oe_highlight"  />
+                                class="oe_highlight btn_seedoo btn_invia_protocollo"  />
 
                         <field name="state" widget="statusbar"
                                statusbar_visible="draft,registered"
@@ -436,13 +436,13 @@ this module contains the full copyright notices and license terms. -->
                                 <field name="type"/>
                             </group>
                         </div>
-                        <group col="2" colspan="2"
+                        <group
                                string="Informazioni Emergenza"
                                attrs="{'invisible':[('emergency_active','=', False)]}">
                             <field name="emergency_active" invisible="1"/>
                             <field name="registration_type"/>
                         </group>
-                        <group col="4" string="Dati Emergenza"
+                        <group string="Dati Emergenza"
                                attrs="{'invisible':[('registration_type','=','normal')]}">
                             <field name="emergency_protocol"
                                    attrs="{'required':[('registration_type','=','emergency')]}"/>
@@ -450,33 +450,27 @@ this module contains the full copyright notices and license terms. -->
                                    attrs="{'required':[('registration_type','=','emergency')]}"
                                    on_change="on_change_emergency_receiving_date(emergency_receiving_date)"/>
                         </group>
-                        <group col="4" string="Informazioni Generali">
-                            <group col="4">
-                                <field name="user_id" readonly="1" colspan="4" options="{'no_open': True}"/>
-                            </group>
-                            <newline/>
-                            <group col="2">
-                                <field name="subject" attrs="{'required':[('state','!=','draft')]}"/>
-                                <newline/>
-                                <field name="sender_protocol"
-                                       attrs="{'invisible':[('type','!=','in')]}"/>
-                                <newline/>
-                                <field name="reserved"  on_change="on_change_reserved(reserved)"
-                                       attrs="{'invisible':[('protocollazione_riservata_visibility','=',False)]}"/>
-                            </group>
-                            <group col="2">
-                                <field name="typology" on_change="on_change_typology(typology)" colspan="2"
-                                           options="{'no_quick_create': True, 'no_create_edit' : True}"/>
-                                <newline/>
-                                <field name="creation_date"/>
-                                <newline/>
-                                <field name="receiving_date" attrs="{'invisible':[('type','=','out')]}"/>
-                            </group>
-                            <newline/>
+                        <group>
+                            <field name="user_id" readonly="1" options="{'no_open': True}"/>
                         </group>
-                        <group col="8">
-                                <field name="body" colspan="8"
-                                       attrs="{'invisible':['|',('pec','!=',True),('type','=','in')],'readonly':['|',('type','=','in'),('state','!=','draft')]}"/>
+                        <newline/>
+                        <group>
+                            <field name="subject" attrs="{'required':[('state','!=','draft')]}" class="protocollo_oggetto"/>
+                            <newline/>
+                            <field name="sender_protocol" attrs="{'invisible':[('type','!=','in')]}"/>
+                            <newline/>
+                            <field name="reserved"  on_change="on_change_reserved(reserved)" attrs="{'invisible':[('protocollazione_riservata_visibility','=',False)]}"/>
+                        </group>
+                        <group>
+                            <field name="typology" on_change="on_change_typology(typology)" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}"/>
+                            <newline/>
+                            <field name="creation_date"/>
+                            <newline/>
+                            <field name="receiving_date" attrs="{'invisible':[('type','=','out')]}"/>
+                        </group>
+                        <newline/>
+                        <group >
+                            <field name="body" attrs="{'invisible':['|',('pec','!=',True),('type','=','in')],'readonly':['|',('type','=','in'),('state','!=','draft')]}"/>
                         </group>
                         <group col="4">
                             <field name="pec" invisible="1"/>
@@ -488,11 +482,11 @@ this module contains the full copyright notices and license terms. -->
                         </group>
                         <group col="4">
                             <newline/>
-                            <button string="Carica Documenti" type="action" class="oe_inline oe_stat_button" icon="fa-upload"
+                            <button string="Carica Documenti" type="action" class="oe_inline oe_highlight_positive oe_button btn_seedoo btn_carica_documenti"
                                     attrs="{'invisible':['|',('doc_id','!=',False),('state','not in',('draft','registered'))]}"
                                     name="%(protocollo_carica_documenti_wizard_action)d"/>
                             <newline/>
-                            <button string="Modifica Documenti" type="action" class="oe_inline oe_stat_button" icon="fa-upload"
+                            <button string="Modifica Documenti" type="action" class="oe_inline oe_button btn_carica_documenti"
                                     attrs="{'invisible':['|',('doc_id','=',False),'&amp;',('doc_id','!=',False),('state','=','registered')]}"
                                     name="%(protocollo_carica_documenti_wizard_action)d"/>
                             <field name="mimetype" invisible="1"/>
@@ -659,7 +653,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="model">protocollo.protocollo</field>
             <field name="arch" type="xml">
                 <tree string="Protocolli" version="7.0" create="0"
-                      colors="blue:state=='registered';green:pec_notifications_sum=='True';green:state=='notified';green:state=='sent';orange:state=='waiting';red:state=='canceled';red:state=='error';">
+                      colors="#7c7bad:state=='registered';green:pec_notifications_sum=='True';green:state=='notified';green:state=='sent';orange:state=='waiting';red:state=='canceled';red:state=='error';">
                     <field name="type"/>
                     <field name="complete_name"/>
                     <field name="name" invisible="1"/>
