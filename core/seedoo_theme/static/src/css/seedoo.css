@@ -1,4 +1,6 @@
-
+body, input, button, select, textarea, .openerp .oe_form .oe_styling_v8,.openerp {
+  font-family: "Work Sans", sans-serif !important;
+}
 .openerp .oe_login {
   background-image: none;
 }
@@ -72,3 +74,193 @@ color: #366732;
 .modal-lg{
   width: 80%!important;
 }
+/* Restyling Seedoo*/
+.openerp .oe_form header {
+    padding: 0 5px;
+    background: none;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+}
+
+.navbar-inverse {
+  border:0;
+}
+
+.openerp .oe_leftbar {
+    border-color: #74a94d;
+    background-color: #fff;
+}
+
+.openerp .oe_view_manager_current > .oe_view_manager_header .oe_header_row td {
+  padding: 4px;
+}
+.openerp .oe_form > :not(.oe_form_nosheet) header .oe_button:first-child {
+  margin:3px 2px 1px;
+}
+
+
+.openerp .oe_view_manager table.oe_view_manager_header {
+  background-image: none;
+  background-color: white;
+  border: 0;
+}
+
+.openerp .oe_view_manager table.oe_view_manager_header h2 {
+  text-shadow: none !important;
+}
+
+.openerp .oe_view_manager table.oe_view_manager_header .oe_view_manager_buttons {
+  margin: 10px 0;
+}
+
+.openerp .oe_application .oe_form_sheetbg {
+  background: none !important;
+}
+
+.openerp .oe_form_sheet.oe_form_sheet_width {
+  box-shadow: none;
+  border-color:#eee;
+}
+
+.openerp .gedoc_header {
+  border:0;
+  padding:5px 20px;
+}
+
+button.oe_button.oe_form_button_edit, button.oe_button.oe_field_button {
+  background-color: #7c7bad;
+}
+
+button.oe_button.oe_form_button_edit::before {
+  content:"\f044";
+  color:#fff;
+  font-family: "FontAwesome";
+  margin-right:10px;
+}
+
+.oe_form_button_save::before {
+  content:"\f0c7";
+  color:#fff;
+  font-family: "FontAwesome";
+  margin-right:10px;
+}
+
+.openerp button.oe_button, button.oe_kanban_button_new {
+  padding: 8px 20px 8px 15px;
+}
+
+.openerp button.oe_button, .openerp button.oe_button:hover,
+.openerp .oe_dropdown_toggle, .openerp .oe_dropdown_toggle:hover,
+.openerp button.oe_kanban_button_new, .openerp button.oe_kanban_button_new:hover,
+.oe_kanban_buttons button.oe_kanban_button_new.oe_highlight
+{
+  font-size:0.85em;
+  background-image: none !important;
+  border:0;
+  border-radius: 0;
+  color: white;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  text-transform: uppercase;
+  text-shadow: none;
+}
+
+.openerp .oe_dropdown_toggle {
+  background-color: #7c7bad;
+  padding: 8px 20px
+}
+
+.openerp .oe_dropdown_toggle:hover {
+  background-color:#999;
+}
+.openerp .oe_dropdown_toggle::before {
+  content:"\f067";
+  color:#fff;
+  font-family: "FontAwesome";
+  margin-right:10px;
+}
+
+.openerp button.oe_button:hover {
+  background-color:#999;
+}
+
+.openerp button.oe_highlight_positive {
+  background-color:steelblue;
+}
+
+.oe_kanban_buttons button.oe_kanban_button_new.oe_highlight {
+  background-color:#679B41 !important;
+  box-shadow: none !important;
+}
+
+button.oe_kanban_button_new::before {
+  content:"\f067";
+  color:#fff;
+  font-family: "FontAwesome";
+  margin-right:10px;
+}
+/*workflow*/
+
+.openerp ul.oe_form_status li span, .openerp ul.oe_form_status_clickable li span {
+  border-radius: 0;
+}
+
+.openerp ul.oe_form_status li, .openerp ul.oe_form_status li.oe_active, .openerp ul.oe_form_status_clickable li.oe_active {
+  background: none !important;
+}
+
+.openerp ul.oe_form_status li > .arrow span, .openerp ul.oe_form_status_clickable li > .arrow span
+{
+  background: #fff !important;
+  -webkit-border-radius:0;
+  -moz-border-radius:0;
+  border-radius:0;
+  width:21px;
+  height: 40px;
+  margin-left: -15px;
+  box-shadow: -1px 1px 2px rgba(255, 255, 255, 0.1), inset -1px 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+.openerp ul.oe_form_status li.oe_active > .label, .openerp ul.oe_form_status_clickable li.oe_active > .label {
+  color: #3465a4;
+  text-shadow: none;
+  font-weight: bold;
+}
+
+.openerp ul.oe_form_status li > .arrow, .openerp ul.oe_form_status_clickable li > .arrow {
+  height:35px;
+}
+
+.openerp ul.oe_form_status li:first-child > .label, .openerp ul.oe_form_status_clickable li:first-child > .label {
+  padding: 10px;
+  border-color: #eee;
+}
+
+/*Schede*/
+
+.openerp .oe_notebook > li > a {
+  border-radius: 0;
+}
+
+.openerp .oe_notebook > li.ui-state-active > a {
+  color: #7c7bad;
+  font-weight:bold;
+}
+
+.openerp .oe_view_manager table.oe_view_manager_header .oe_dropdown_menu {
+  -webkit-border-radius:0;
+  -moz-border-radius:0;
+  border-radius:0;
+  border-color: #ccc;
+}
+
+/*listing*/
+.openerp .oe_list_content > tbody > tr, .openerp .oe_list_content > tfoot {
+  border:1px solid #ededed;
+}
+
+.openerp .oe_form input, .openerp .oe_form textarea, .openerp .oe_form select {
+  border-radius: 0 !important;
+}
+

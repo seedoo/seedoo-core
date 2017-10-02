@@ -2,8 +2,7 @@
 # This file is part of Seedoo.  The COPYRIGHT file at the top level of
 # this module contains the full copyright notices and license terms.
 
-from openerp import SUPERUSER_ID
-from openerp.osv import orm, fields, osv
+from openerp.osv import orm, fields
 
 
 class protocollo_messaggio_pec(orm.Model):
@@ -27,6 +26,11 @@ class protocollo_messaggio_pec(orm.Model):
         'errore_consegna_ref': fields.many2one('mail.message', 'Errore Consegna PEC', readonly=True),
         'messaggio_id': fields.related('messaggio_ref', 'id', type='float', string = 'Id Messaggio', readonly = True),
         'accettazione_id': fields.related('accettazione_ref', 'id', type='float', string = 'Id Accettazione', readonly = True),
+        'messaggio_ora': fields.related('messaggio_ref', 'date', type='datetime', string='Orario Invio PEC', readonly=False, store=False),
+        'accettazione_ora': fields.related('accettazione_ref', 'cert_datetime', type='datetime', string='Orario PEC Accettazione', readonly=False, store=False),
+        'consegna_ora': fields.related('consegna_ref', 'cert_datetime', type='datetime', string='Orario PEC Consegna', readonly=False, store=False),
+        'errore_consegna_ora': fields.related('errore_consegna_ref', 'cert_datetime', type='datetime', string='Orario PEC Errore Consegna', readonly=False, store=False),
+        'messaggio_direction': fields.related('messaggio_ref', 'direction', type='char', string='Direzione Messaggio', readonly=False, store=False),
     }
 
     _defaults = {
@@ -49,7 +53,7 @@ class protocollo_messaggio_pec(orm.Model):
             'flags': {'form': {'options': {'mode': 'view'}}}
         }
 
-    def go_to_message_action(self, cr, uid, ids, context=None):
+    def go_to_messaggio_action(self, cr, uid, ids, context=None):
         return self.go_to_pec_action(cr, uid, context=context)
 
     def go_to_accettazione_action(self, cr, uid, ids, context=None):

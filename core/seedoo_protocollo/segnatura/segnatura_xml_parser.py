@@ -139,7 +139,7 @@ class SegnaturaXMLParser:
         dug = ''
         element = self._root.find("./Intestazione/Origine/Mittente/*/UnitaOrganizzativa/IndirizzoPostale/Toponimo")
         if element is not None and element.text is not None:
-            if element.attrib['dug'] is not None:
+            if 'dug' in element.attrib:
                dug = element.attrib['dug'] + " "
             vals = dug + element.text
             if len(self.getCivico()):

@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file is part of Seedoo.  The COPYRIGHT file at the top level of
+this module contains the full copyright notices and license terms. -->
+
+<openerp>
+    <data>
+        <template id="protocollo_style" name="Seedoo Style" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <link rel="stylesheet" href="/seedoo_protocollo/static/src/css/protocollo.css"/>
+                <!--<script type="text/javascript" src="/seedoo_protocollo/static/src/js/protocollo.js"></script>-->
+            </xpath>
+        </template>
+
+        <record model='ir.ui.view' id='protocollo_sender_receiver_tree'>
+            <field name="name">protocollo.sender_receiver.tree</field>
+            <field name="model">protocollo.sender_receiver</field>
+            <field name="arch" type="xml">
+                <tree string="Mittenti/Destinatari">
+                    <field name="type" />
+                    <field name="ammi_code"
+                           attrs="{'required': [('type','=','government')], 'readonly': [('type','in',('legal', 'individual'))]}"
+                           width="5%%" string="Cod. iPA"/>
+                    <field name="ident_code"
+                           attrs="{'readonly': [('type','in',('legal', 'individual'))]}"
+                           width="5%%"
+                           string="Cod. AOO"/>
+                    <field name="name"
+                           string="Nome Cognome / Ragione Sociale"/>
+                    <field name="street"/>
+                    <field name="zip"/>
+                    <field name="city"/>
+                    <field name="pec_mail"/>
+                    <field name="email"/>
+                    <field name="protocol_state" invisible="1"/>
+                    <field name="pec_invio_status" colspan="4" options="{'no_open': True}" class="col_inviato_status"/>
+                    <field name="pec_accettazione_status" colspan="4" options="{'no_open': True}" class="col_accettato_status"/>
+                    <field name="pec_consegna_status" colspan="4" options="{'no_open': True}" class="col_consegnato_status"/>
+                    <field name="pec_errore_consegna_status" colspan="4" options="{'no_open': True}" class="col_consegnato_status"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model='ir.ui.view' id='protocollo_sender_receiver_form'>
+            <field name="name">protocollo.sender_receiver.form</field>
+            <field name="model">protocollo.sender_receiver</field>
+            <field name="arch" type="xml">
+                <form string="Mittenti/Destinatari">
+                    <sheet>
+                        <group colspan="4" col="4">
+                            <group class="general" string="Info Anagrafiche" colspan="4" col="4">
+                                <field name="type" on_change="on_change_type(type)"/>
+                                <field name="partner_id" on_change="on_change_partner(partner_id)" options="{'no_quick_create': True, 'no_create_edit': True}"/>
+                                <field name="pa_type" placeholder="" attrs="{'invisible': [('type','!=', 'government')]}" on_change="on_change_pa_type(pa_type)"/>
+                                <newline/>
+                                <field name="name"/>
+                                <newline/>
+                                <field name="ammi_code" attrs="{'invisible': ['|', ('type','!=', 'government'), ('pa_type','!=', 'pa')]}"/>
+                                <newline/>
+                                <field name="ident_code" attrs="{'invisible': ['|', ('type','!=', 'government'), ('pa_type','!=', 'aoo')]}"/>
+                                <newline/>
+                                <field name="ipa_code" attrs="{'invisible': ['|', ('type','!=', 'government'), ('pa_type','!=', 'uo')]}"/>
+                            </group>
+
+                            <newline/>
+                            <group class="address" string="Info di Recapito" colspan="4" col="4">
+                                <field name="street"/>
+                                <field name="zip"/>
+                                <field name="city"/>
+                                <field name="country_id"/>
+                                <field name="pec_mail" on_change="on_change_pec_mail(pec_mail, save_partner)"
+                                       attrs="{'required':[('add_pec_receiver_visibility','=',True)]}"/>
+                                <field name="email" on_change="on_change_email(email, save_partner)"/>
+                                <field name="phone"/>
+                                <field name="fax"/>
+                                <field name="mobile"/>
+                            </group>
+
+                            <newline/>
+                            <group class="shipping" string="Info di Spedizione" colspan="4" col="4" attrs="{'invisible':[('send_date','=',False)]}">
+                                <field name="send_date"/>
+                                <field name="send_type" invisible="1"/>
+                                <field name="protocol_state" invisible="1"/>
+                                <field name="protocol_pec" string="PEC" invisible="1"/>
+                            </group>
+
+                            <newline/>
+                            <group class="note" string="Note" colspan="4" col="4" attrs="{'invisible':[('notes','=',False)]}">
+                                <field name="notes" nolabel="1" colspan="4"/>
+                            </group>
+
+                            <newline/>
+                            <group string="Info PEC" col="4" attrs="{'invisible':[('protocol_pec','!=',True)]}" nolabel="1">
+                                <field name="pec_messaggio_ids" widget="many2many_kanban" nolabel="1" class="container_messaggi_pec">
+                                    <kanban quick_create="false" create="false">
+                                        <field name="name"/>
+                                        <field name="type"/>
+                                        <field name="messaggio_ref"/>
+                                        <field name="accettazione_ref"/>
+                                        <field name="consegna_ref"/>
+                                        <field name="errore_consegna_ref"/>
+                                        <field name="messaggio_id"/>
+                                        <field name="messaggio_direction"/>
+                                        <templates>
+                                            <t t-name="kanban-box">
+                                                <div style="position: relative">
+                                                    <h3><field name="type"/>
+                                                        <t t-if="record.type.raw_value != 'conferma' and record.messaggio_direction.raw_value === 'in'">ricevuto</t>
+                                                        <t t-if="record.type.raw_value != 'conferma' and record.messaggio_direction.raw_value === 'out'">inviato</t>
+                                                        <t t-if="record.type.raw_value === 'conferma' and record.messaggio_direction.raw_value === 'in'">ricevuta</t>
+                                                        <t t-if="record.type.raw_value === 'conferma' and record.messaggio_direction.raw_value === 'out'">inviata</t>
+                                                    </h3>
+                                                    <div class="oe_module_vignette">
+                                                        <div class="oe_module_desc pec_container">
+                                                            <t t-if="record.messaggio_ref.raw_value">
+                                                                <div class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_color_border item_box" >
+                                                                    <table class="oe_kanban_table">
+                                                                        <tr>
+                                                                            <td class="oe_kanban_messaggio pec_button_col" align="left" valign="middle">
+                                                                                <field name="messaggio_ref" invisible="1"/>
+                                                                                <button name="go_to_messaggio_action" col="1" type="object"
+                                                                                        t-attf-data-context="{'pec_ref' : {{record.messaggio_ref.raw_value[0]}}}"
+                                                                                        icon="gtk-go-forward" class="oe_highlight"/>
+
+                                                                            </td>
+                                                                            <td class="pec_descr_col">
+                                                                                <h4>Messaggio</h4>
+                                                                                <p><field name="messaggio_ora"/></p>
+                                                                                <span t-att-class="record.messaggio_direction.raw_value"/>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </div>
+                                                            </t>
+                                                            <t t-if="record.accettazione_ref.raw_value">
+                                                                <div class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_color_border item_box">
+                                                                    <table class="oe_kanban_table">
+                                                                        <tr>
+                                                                            <td class="oe_kanban_accettazione pec_button_col" align="left" valign="middle">
+                                                                                <field name="accettazione_ref" invisible="1"/>
+                                                                                <button name="go_to_accettazione_action" col="1" type="object"
+                                                                                        t-attf-data-context="{'pec_ref' : {{record.accettazione_ref.raw_value[0]}}}"
+                                                                                        icon="gtk-go-forward" class="oe_highlight" attrs="{'invisible': [('accettazione_ref', '=', False)]}"/>
+                                                                            </td>
+                                                                            <td class="pec_descr_col">
+                                                                                <h4>Ricevuta di accettazione</h4>
+                                                                                <p><field name="accettazione_ora"/></p>
+                                                                                <span class="in"/>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </div>
+                                                            </t>
+                                                            <t t-if="record.consegna_ref.raw_value">
+                                                                <div class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_color_border item_box">
+                                                                    <table class="oe_kanban_table">
+                                                                        <tr>
+                                                                            <td class="oe_kanban_consegna pec_button_col" align="left" valign="middle">
+                                                                                <field name="consegna_ref" invisible="1"/>
+                                                                                <button name="go_to_consegna_action" col="1" type="object"
+                                                                                        t-attf-data-context="{'pec_ref' : {{record.consegna_ref.raw_value[0]}}}"
+                                                                                        icon="gtk-go-forward" class="oe_highlight" attrs="{'invisible': [('consegna_ref', '=', False)]}"/>
+                                                                            </td>
+                                                                            <td class="pec_descr_col">
+                                                                                <h4>Ricevuta di avvenuta consegna</h4>
+                                                                                <p><field name="consegna_ora"/></p>
+                                                                                <span class="in"/>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </div>
+                                                            </t>
+                                                            <t t-if="record.errore_consegna_ref.raw_value">
+                                                                <div class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_color_border item_box">
+                                                                    <table class="oe_kanban_table">
+                                                                        <tr>
+                                                                            <td class="oe_kanban_errore_consegna pec_button_col" align="left" valign="middle">
+                                                                                <field name="errore_consegna_ref" invisible="1"/>
+                                                                                <button name="go_to_errore_consegna_action" col="1" type="object"
+                                                                                        t-attf-data-context="{'pec_ref' : {{record.errore_consegna_ref.raw_value[0]}}}"
+                                                                                        icon="gtk-go-forward" class="oe_highlight" attrs="{'invisible': [('errore_consegna_ref', '=', False)]}"/>
+                                                                            </td>
+                                                                            <td class="pec_descr_col">
+                                                                                <h4>Ricevuta di errore consegna</h4>
+                                                                                <p><field name="errore_consegna_ora"/></p>
+                                                                                <span class="in"/>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </div>
+                                                            </t>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </t>
+                                        </templates>
+                                    </kanban>
+                                </field>
+                            </group>
+                            <newline/>
+                            <group string="Salva contatto nella rubrica" colspan="4" col="4" attrs="{'invisible': [('partner_id','!=',False)]}">
+                                <field name="save_partner" on_change="on_change_save_partner(pec_mail, email, save_partner)"
+                                       nolabel="1" attrs="{'readonly': [('partner_id','!=',False)], 'invisible': [('partner_id','!=',False)]}"/>
+                            </group>
+                            <field name="add_pec_receiver_visibility" invisible="1"/>
+
+                            <footer>
+                                <div class="oe_edit_only">
+                                    <button name="aggiungi_destinatario_pec_action" string="Aggiungi Destinatario" type="object" class="oe_highlight"
+                                          attrs="{'invisible':[('add_pec_receiver_visibility','=',False)]}"/>
+                                    <button string="Cancel" class="oe_link" special="cancel" attrs="{'invisible':[('add_pec_receiver_visibility','=',False)]}" />
+                                </div>
+                            </footer>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model='ir.ui.view' id='protocollo_sender_receiver_kanban'>
+            <field name="name">protocollo.sender_receiver.kanban</field>
+            <field name="model">protocollo.sender_receiver</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="type"/>
+                    <field name="pec_invio_status"/>
+                    <field name="pec_accettazione_status"/>
+                    <field name="pec_consegna_status"/>
+                    <field name="pec_errore_consegna_status"/>
+
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_color_border item_box" >
+                                <a t-if="! read_only_mode" type="delete" style="position: absolute; right: 5px; padding: 0 4px; display: inline-block;background: rgba(255,255,255,0.6);">X</a>
+                                <table class="oe_kanban_table">
+                                    <tr>
+                                        <td class="oe_kanban_messaggio pec_button_col" align="left" valign="middle">
+                                            <a type="open" class="icon_receiver_type">
+                                               <div t-att-class="record.type.raw_value">
+                                                   <span>Tipo</span>
+                                               </div>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <h3><field name="name"/></h3>
+                                            <p>
+                                                <field name="email"/>
+                                                <field name="pec_mail"/>
+                                            </p>
+                                            <t t-if="record.pec_invio_status.raw_value">
+                                                <div class="icon_status icon_messaggio_status"><span>Inviato</span></div>
+                                            </t>
+                                            <t t-if="record.pec_accettazione_status.raw_value">
+                                                <div class="icon_status icon_accettazione_status"><span>Accettato</span></div>
+                                            </t>
+                                            <t t-if="record.pec_consegna_status.raw_value">
+                                                <div class="icon_status icon_consegna_status"><span>Consegna</span></div>
+                                            </t>
+                                            <t t-if="record.pec_errore_consegna_status.raw_value">
+                                                <div class="icon_status icon_errore_consegna_status"><span>Errore Consegna</span></div>
+                                            </t>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+    </data>
+</openerp>

@@ -347,129 +347,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="view_id" ref="seedoo_gedoc.protocollo_dossier_tree"/>
         </record>
 
-        <!-- Sender / Receiver -->
-
-        <record model='ir.ui.view' id='protocollo_sender_receiver_form'>
-            <field name="name">protocollo.sender_receiver.form</field>
-            <field name="model">protocollo.sender_receiver</field>
-            <field name="arch" type="xml">
-                <form string="Mittenti/Destinatari">
-                    <sheet>
-                        <group colspan="4" col="4">
-                            <group class="general" string="Info Anagrafiche" colspan="4" col="4">
-                                <field name="type" on_change="on_change_type(type)"/>
-                                <field name="partner_id" on_change="on_change_partner(partner_id)" options="{'no_quick_create': True, 'no_create_edit': True}"/>
-
-                                <field name="pa_type" placeholder="" attrs="{'invisible': [('type','!=', 'government')]}" on_change="on_change_pa_type(pa_type)"/>
-                                <newline/>
-                                <field name="name"/>
-                                <newline/>
-                                <field name="ammi_code" attrs="{'invisible': ['|', ('type','!=', 'government'), ('pa_type','!=', 'pa')]}"/>
-                                <newline/>
-                                <field name="ident_code" attrs="{'invisible': ['|', ('type','!=', 'government'), ('pa_type','!=', 'aoo')]}"/>
-                                <newline/>
-                                <field name="ipa_code" attrs="{'invisible': ['|', ('type','!=', 'government'), ('pa_type','!=', 'uo')]}"/>
-                            </group>
-
-                            <newline/>
-                            <group class="address" string="Info di Recapito" colspan="4" col="4">
-                                <field name="street"/>
-                                <field name="zip"/>
-                                <field name="city"/>
-                                <field name="country_id"/>
-                                <field name="pec_mail" on_change="on_change_pec_mail(pec_mail, save_partner)"
-                                       attrs="{'required':[('add_pec_receiver_visibility','=',True)]}"/>
-                                <field name="email" on_change="on_change_email(email, save_partner)"/>
-                                <field name="phone"/>
-                                <field name="fax"/>
-                                <field name="mobile"/>
-                            </group>
-
-                            <newline/>
-                            <group class="shipping" string="Info di Spedizione" colspan="4" col="4">
-                                <field name="send_date"/>
-                                <field name="send_type" invisible="1"/>
-                                <field name="protocol_state" invisible="1"/>
-                                <field name="protocol_pec" string="PEC" invisible="1"/>
-                            </group>
-
-                            <newline/>
-                            <group class="note" string="Note" colspan="4" col="4">
-                                <field name="notes" nolabel="1" colspan="4"/>
-                            </group>
-
-                            <newline/>
-
-                            <group string="Info PEC" col="4" attrs="{'invisible':[('protocol_pec','!=',True)]}" >
-                                <field name="pec_messaggio_ids" string="Messaggi PEC">
-                                    <tree>
-                                        <field name="type"/>
-                                        <field name="name" invisible="1" />
-                                        <field name="messaggio_ref" string="Messaggio" invisible="1" readonly="1" options="{'no_open': True}"/>
-                                        <button name="go_to_message_action" col="1" type="object" context="{'pec_ref': messaggio_ref}"
-                                            icon="gtk-go-forward" class="oe_highlight" attrs="{'invisible': [('messaggio_ref', '=', False)]}" />
-                                        <field name="accettazione_ref" string="Accettazione" invisible="1" readonly="1" options="{'no_open': True}"/>
-                                        <button name="go_to_accettazione_action" col="1" type="object" context="{'pec_ref': accettazione_ref}"
-                                            icon="gtk-go-forward" class="oe_highlight" attrs="{'invisible': [('accettazione_ref', '=', False)]}"/>
-                                        <field name="consegna_ref" string="Consegna" invisible="1" readonly="1" options="{'no_open': True}"/>
-                                        <button name="go_to_consegna_action" col="1" type="object" context="{'pec_ref': consegna_ref}"
-                                            icon="gtk-go-forward" class="oe_highlight" attrs="{'invisible': [('consegna_ref', '=', False)]}"/>
-                                        <field name="errore_consegna_ref" string="Errore Consegna" invisible="1" readonly="1" options="{'no_open': True}"/>
-                                        <button name="go_to_errore_consegna_action" col="1" type="object" context="{'pec_ref': errore_consegna_ref}"
-                                            icon="gtk-go-forward" class="oe_highlight" attrs="{'invisible': [('errore_consegna_ref', '=', False)]}"/>
-                                    </tree>
-                                </field>
-                            </group>
-                            <newline/>
-                            <group string="Salva contatto nella rubrica" colspan="4" col="4" attrs="{'invisible': [('partner_id','!=',False)]}">
-                                <field name="save_partner" on_change="on_change_save_partner(pec_mail, email, save_partner)"
-                                       nolabel="1" attrs="{'readonly': [('partner_id','!=',False)], 'invisible': [('partner_id','!=',False)]}"/>
-                            </group>
-                            <field name="add_pec_receiver_visibility" invisible="1"/>
-
-                            <footer>
-                                <div class="oe_edit_only">
-                                    <button name="aggiungi_destinatario_pec_action" string="Aggiungi Destinatario" type="object" class="oe_highlight"
-                                          attrs="{'invisible':[('add_pec_receiver_visibility','=',False)]}"/>
-                                    <button string="Cancel" class="oe_link" special="cancel" attrs="{'invisible':[('add_pec_receiver_visibility','=',False)]}" />
-                                </div>
-                            </footer>
-                                <!--attrs="{'invisible':[('registra_visibility','=',False)]}"-->
-
-                        </group>
-                    </sheet>
-                </form>
-            </field>
-        </record>
-
-        <record model='ir.ui.view' id='protocollo_sender_receiver_tree'>
-            <field name="name">protocollo.sender_receiver.tree</field>
-            <field name="model">protocollo.sender_receiver</field>
-            <field name="arch" type="xml">
-                <tree string="Mittenti/Destinatari">
-                    <field name="type"/>
-                    <field name="ammi_code"
-                           attrs="{'required': [('type','=','government')], 'readonly': [('type','in',('legal', 'individual'))]}"
-                           width="5%%" string="Cod. iPA"/>
-                    <field name="ident_code"
-                           attrs="{'readonly': [('type','in',('legal', 'individual'))]}"
-                           width="5%%"
-                           string="Cod. AOO"/>
-                    <field name="name"
-                           string="Nome Cognome / Ragione Sociale"/>
-                    <field name="street"/>
-                    <field name="zip"/>
-                    <field name="city"/>
-                    <field name="pec_mail"/>
-                    <field name="email"/>
-                    <field name="protocol_state" invisible="1"/>
-                    <field name="pec_invio_status" colspan="4" options="{'no_open': True}" attrs="{'invisible':[('protocol_state','not in',['waiting','sent','error'])]}" class="col_inviato_status"/>
-                    <field name="pec_accettazione_status" colspan="4" options="{'no_open': True}" attrs="{'invisible':[('protocol_state','not in',['waiting','sent','error'])]}" class="col_accettato_status"/>
-                    <field name="pec_consegna_status" colspan="4" options="{'no_open': True}" attrs="{'invisible':[('protocol_state','not in',['waiting','sent','error'])]}" class="col_consegnato_status"/>
-                    <field name="pec_errore_consegna_status" colspan="4" options="{'no_open': True}" attrs="{'invisible':[('protocol_state','not in',['waiting','sent','error'])]}" class="col_consegnato_status"/>
-                </tree>
-            </field>
-        </record>
 
         <!-- Protocollo -->
 
@@ -481,58 +358,53 @@ this module contains the full copyright notices and license terms. -->
                     <header>
                         <button name="register" string="Registra Protocollo"
                                 attrs="{'invisible':[('registra_visibility','=',False)]}"
-                                class="oe_highlight_positive"/>
+                                class="oe_highlight_positive btn_seedoo btn_registra_protocollo"/>
 
-                        <button name="%(protocollo_cancel_action)d" string="Annulla Protocollo" type="action"
+                        <button name="%(protocollo_cancel_action)d" string="Annulla" type="action"
                                 attrs="{'invisible':[('annulla_visibility','=',False)]}"
-                                class="oe_highlight_warning"/>
+                                class="oe_highlight_warning btn_seedoo btn_annulla_protocollo"/>
 
                         <button string="Prendi in Carico"
                                 type="object" name="prendi_in_carico"
                                 attrs="{'invisible':[('prendi_in_carico_visibility','=',False)]}"
-                                class="oe_highlight"/>
+                                class="oe_highlight btn_seedoo btn_presa_in_carico"/>
 
                         <button string="Rifiuta la Presa in Carico"
                                 type="object" name="rifiuta_presa_in_carico"
                                 attrs="{'invisible':[('rifiuta_visibility','=',False)]}"
-                                class="oe_highlight_warning"/>
+                                class="oe_highlight_warning btn_seedoo btn_rifiuta_presa_in_carico"/>
 
-                        <button name="%(protocollo_modify_action)d" string="Modifica Protocollo" type="action"
+                        <button name="%(protocollo_modify_action)d" string="Modifica" type="action"
                                 attrs="{'invisible':[('modifica_dati_generali_visibility','=',False)]}"
-                                class="oe_highlight_positive"/>
+                                class="oe_highlight_positive btn_seedoo btn_modifica_protocollo"/>
 
                         <button name="%(protocollo_classifica_action)d" string="Classifica" type="action"
                                 attrs="{'invisible':[('classifica_visibility','=',False)]}"
-                                class="oe_highlight_positive"/>
+                                class="oe_highlight_positive btn_seedoo btn_classifica"/>
 
                         <button name="%(protocollo_fascicola_action)d" type="action" string="Fascicola"
                                 attrs="{'invisible':[('fascicola_visibility','=',False)]}"
-                                class="oe_highlight_positive"/>
+                                class="oe_highlight_positive btn_seedoo btn_fascicola"/>
 
                         <button name="%(protocollo_assegna_action)d" string="Assegna" type="action"
                                 attrs="{'invisible':[('assegna_visibility','=',False)]}"
-                                class="oe_highlight_positive"/>
+                                class="oe_highlight_positive btn_seedoo btn_assegna"/>
 
                         <button name="sent_pec" string="Invia PEC Protocollo"
-                                attrs="{'invisible':[('invio_pec_visibility','=',False)]}"/>
+                                attrs="{'invisible':[('invio_pec_visibility','=',False)]}"
+                                class="oe_highlight btn_seedoo btn_invia_pec"/>
 
                         <button name="aggiungi_destinatari_pec" string="Aggiungi - Destinatario" type="object"
                                 attrs="{'invisible':[('aggiungi_pec_visibility','=',False)]}"
-                                class="oe_highlight_positive" context="{'is_add_pec_receiver': True}"/>
+                                class="oe_highlight_positive btn_seedoo btn_aggiungi_destinatario" context="{'is_add_pec_receiver': True}"/>
 
-                        <button name="action_resend" string="Reinvio - Mail" type="object"
+                        <button name="action_resend" string="Reinvio PEC" type="object"
                                 attrs="{'invisible': [('reinvio_pec_visibility', '=', False)]}"
-                                class="oe_highlight"/>
+                                class="oe_highlight btn_seedoo btn_reinvio_pec"/>
 
                         <button name="sent" string="Invia Protocollo"
                                 attrs="{'invisible':[('invio_protocollo_visibility','=',False)]}"
-                                class="oe_highlight"  />
-
-                        <!--<button name="%(protocollo_modify_pec_action)d"-->
-                                <!--type="action" string="Modifica Destinatari PEC"-->
-                                <!--attrs="{'invisible':[('modifica_pec_visibility','=',False)]}"/>-->
-
-
+                                class="oe_highlight btn_seedoo btn_invia_protocollo"  />
 
                         <field name="state" widget="statusbar"
                                statusbar_visible="draft,registered"
@@ -564,13 +436,13 @@ this module contains the full copyright notices and license terms. -->
                                 <field name="type"/>
                             </group>
                         </div>
-                        <group col="2" colspan="2"
+                        <group
                                string="Informazioni Emergenza"
                                attrs="{'invisible':[('emergency_active','=', False)]}">
                             <field name="emergency_active" invisible="1"/>
                             <field name="registration_type"/>
                         </group>
-                        <group col="4" string="Dati Emergenza"
+                        <group string="Dati Emergenza"
                                attrs="{'invisible':[('registration_type','=','normal')]}">
                             <field name="emergency_protocol"
                                    attrs="{'required':[('registration_type','=','emergency')]}"/>
@@ -578,37 +450,36 @@ this module contains the full copyright notices and license terms. -->
                                    attrs="{'required':[('registration_type','=','emergency')]}"
                                    on_change="on_change_emergency_receiving_date(emergency_receiving_date)"/>
                         </group>
-                        <group col="4" string="Informazioni Generali">
-                            <group col="4">
-                                <field name="user_id" readonly="1" colspan="4" options="{'no_open': True}"/>
-                            </group>
-                            <newline/>
-                            <group col="2">
-                                <field name="subject" attrs="{'required':[('state','!=','draft')]}"/>
-                                <newline/>
-                                <field name="sender_protocol"
-                                       attrs="{'invisible':[('type','!=','in')]}"/>
-                                <newline/>
-                                <field name="reserved"  on_change="on_change_reserved(reserved)"
-                                       attrs="{'invisible':[('protocollazione_riservata_visibility','=',False)]}"/>
-                            </group>
-                            <group col="2">
-                                <field name="typology" on_change="on_change_typology(typology)" colspan="2"
-                                           options="{'no_quick_create': True, 'no_create_edit' : True}"/>
-                                <newline/>
-                                <field name="creation_date"/>
-                                <newline/>
-                                <field name="receiving_date"/>
-                            </group>
-
-                            <newline/>
+                        <group>
+                            <field name="user_id" readonly="1" options="{'no_open': True}"/>
                         </group>
-                        <group col="8">
-                                <field name="body" colspan="8"
-                                       attrs="{'invisible':['|',('pec','!=',True),('type','=','in')],'readonly':['|',('type','=','in'),('state','!=','draft')]}"/>
+                        <newline/>
+                        <group>
+                            <field name="state" invisible="1"/>
+                            <field name="subject" attrs="{'required':[('state','!=','draft')]}" class="protocollo_oggetto"/>
+                            <newline/>
+                            <field name="sender_protocol" attrs="{'invisible':[('type','!=','in')]}"/>
+                            <newline/>
+                            <field name="reserved"  on_change="on_change_reserved(reserved)" attrs="{'invisible':[('protocollazione_riservata_visibility','=',False)]}"/>
                         </group>
                         <group col="4">
-                            <field name="pec" invisible="1"/>
+                            <group col="2">
+                                <field name="typology" on_change="on_change_typology(typology)" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}"/>
+                            </group>
+                            <group col="2">
+                            </group>
+                        </group>
+                        <group>
+                            <field name="creation_date"/>
+                            <newline/>
+                            <field name="receiving_date" attrs="{'invisible':[('type','=','out')]}"/>
+                        </group>
+                        <newline/>
+                        <group >
+                            <field name="body" attrs="{'invisible':['|',('pec','!=',True),('type','=','in')],'readonly':['|',('type','=','in'),('state','!=','draft')]}"/>
+                        </group>
+                        <group col="8">
+                            <field name="pec" invisible="1" colspan="2"/>
                         </group>
                         <group col="4">
                             <field name="doc_content" filename="doc_fname"/>
@@ -617,11 +488,11 @@ this module contains the full copyright notices and license terms. -->
                         </group>
                         <group col="4">
                             <newline/>
-                            <button string="Carica Documenti" type="action" class="oe_inline oe_stat_button" icon="fa-upload"
+                            <button string="Carica Documenti" type="action" class="oe_inline oe_highlight_positive oe_button btn_seedoo btn_carica_documenti"
                                     attrs="{'invisible':['|',('doc_id','!=',False),('state','not in',('draft','registered'))]}"
                                     name="%(protocollo_carica_documenti_wizard_action)d"/>
                             <newline/>
-                            <button string="Modifica Documenti" type="action" class="oe_inline oe_stat_button" icon="fa-upload"
+                            <button string="Modifica Documenti" type="action" class="oe_inline oe_button btn_carica_documenti"
                                     attrs="{'invisible':['|',('doc_id','=',False),'&amp;',('doc_id','!=',False),('state','=','registered')]}"
                                     name="%(protocollo_carica_documenti_wizard_action)d"/>
                             <field name="mimetype" invisible="1"/>
@@ -630,12 +501,12 @@ this module contains the full copyright notices and license terms. -->
                         <notebook>
                             <page string="Mittenti" attrs="{'invisible':['|',('type','!=','in')]}">
                                 <group col="4" colspan="4">
-                                    <field name="senders" nolabel="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                    <field name="senders" mode="kanban" nolabel="1" attrs="{'readonly':[('state','!=','draft')]}"/>
                                 </group>
                             </page>
                             <page string="Destinatari" attrs="{'invisible':[('type','!=','out')]}">
                                 <group col="4" colspan="4">
-                                    <field name="receivers" nolabel="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                    <field name="receivers" mode="kanban" nolabel="1" class="container_sr" attrs="{'readonly':[('state','!=','draft')]}"/>
                                 </group>
                             </page>
                             <page string="Documenti">
@@ -788,7 +659,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="model">protocollo.protocollo</field>
             <field name="arch" type="xml">
                 <tree string="Protocolli" version="7.0" create="0"
-                      colors="blue:state=='registered';green:pec_notifications_sum=='True';green:state=='notified';green:state=='sent';orange:state=='waiting';red:state=='canceled';red:state=='error';">
+                      colors="#7c7bad:state=='registered';green:pec_notifications_sum=='True';green:state=='notified';green:state=='sent';orange:state=='waiting';red:state=='canceled';red:state=='error';">
                     <field name="type"/>
                     <field name="complete_name"/>
                     <field name="name" invisible="1"/>

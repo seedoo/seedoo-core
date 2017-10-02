@@ -46,7 +46,7 @@ class wizard(osv.TransientModel):
                 si possono inserire nuove tipologie \
                 dal menu Tipologie."
         ),
-        'receiving_date': fields.datetime('Data Ricezione', required=True,),
+        'receiving_date': fields.datetime('Data Ricezione', required=False,),
         'subject': fields.text('Oggetto', required=True,),
         'classification': fields.many2one('protocollo.classification', 'Titolario di Classificazione', required=False,),
         'sender_protocol': fields.char('Protocollo Mittente', required=False,),

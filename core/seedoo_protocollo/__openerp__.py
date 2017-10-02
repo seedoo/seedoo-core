@@ -51,6 +51,7 @@
             'view/offices_view.xml',
             'view/ir_attachment_view.xml',
             'view/protocollo_view.xml',
+            'view/protocollo_sender_receiver_view.xml',
             'view/protocollo_aoo_view.xml',
             'view/mail_pec_view.xml',
             'view/contact_view.xml',

@@ -13,3 +13,7 @@ span.conn_failed::after {
     font-family: "FontAwesome";
     color: orangered;
 }
+
+.btn_stampa_etichetta::before {
+    content:"\f02a";
+}
