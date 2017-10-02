@@ -36,7 +36,7 @@ class gedoc_configuration(osv.osv_memory):
                            size=5,
                            readonly=False,
                            required=False),
-        'disclaimer_check': fields.boolean('Disclaimer', readonly=True)
+        'disclaimer_check': fields.boolean('Disclaimer')
     }
 
     _defaults = {

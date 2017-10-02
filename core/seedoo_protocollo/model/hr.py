@@ -27,6 +27,10 @@ class hr_department(orm.Model):
         'aoo_id': fields.many2one('protocollo.aoo', 'AOO', required=False),
     }
 
+    _defaults = {
+        'aoo_id': 1
+    }
+
     def write(self, cr, uid, ids, vals, context=None):
         if context is None:
             context = {}

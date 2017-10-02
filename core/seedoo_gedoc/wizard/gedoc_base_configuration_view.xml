@@ -19,10 +19,7 @@ this module contains the full copyright notices and license terms. -->
                         <separator string="Configura Dati Amministrazione"/>
                         <p>Configura i dati della tua Organizzazione per
                             consentire il corretto funzionamento della
-                            piattaforma Seedoo. Nel caso non voglia procedere
-                            ora sarà comunque possibile inserire o
-                            modificare tali dati successivamente tramite la
-                            voce di menu Configurazione/Aziende/Aziende.
+                            piattaforma Seedoo.
                         </p>
                         <group>
                             <field name="company_name"/>
@@ -41,8 +38,10 @@ this module contains the full copyright notices and license terms. -->
                             piattaforma.
                         </span>
 
-
                     </group>
+                    <button name="action_skip" position="replace">
+                        <button name="action_next" type="object" string="Cancel" class="oe_link"/>
+                    </button>
                 </data>
             </field>
         </record>
