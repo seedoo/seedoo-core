@@ -358,7 +358,7 @@ this module contains the full copyright notices and license terms. -->
                     <header>
                         <button name="register" string="Registra Protocollo"
                                 attrs="{'invisible':[('registra_visibility','=',False)]}"
-                                class="oe_highlight_positive btn_seedoo btn_registra_protocollo"/>
+                                class="oe_highlight_positive btn_seedoo btn_registra_protocollo oe_read_only"/>
 
                         <button name="%(protocollo_cancel_action)d" string="Annulla" type="action"
                                 attrs="{'invisible':[('annulla_visibility','=',False)]}"
@@ -492,7 +492,7 @@ this module contains the full copyright notices and license terms. -->
                                     attrs="{'invisible':['|',('doc_id','!=',False),('state','not in',('draft','registered'))]}"
                                     name="%(protocollo_carica_documenti_wizard_action)d"/>
                             <newline/>
-                            <button string="Modifica Documenti" type="action" class="oe_inline oe_button btn_carica_documenti"
+                            <button string="Modifica Documenti" type="action" class="oe_inline oe_highlight_positive oe_button btn_seedoo btn_carica_documenti"
                                     attrs="{'invisible':['|',('doc_id','=',False),'&amp;',('doc_id','!=',False),('state','=','registered')]}"
                                     name="%(protocollo_carica_documenti_wizard_action)d"/>
                             <field name="mimetype" invisible="1"/>

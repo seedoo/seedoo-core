@@ -1371,6 +1371,8 @@ class protocollo_protocollo(orm.Model):
             context = {}
         prot = self.browse(cr, uid, prot_id)
         if prot.type == 'out' and prot.pec:
+            configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
+            configurazione = self.pool.get('protocollo.configurazione').browse(cr, uid, configurazione_ids[0])
             mail_mail = self.pool.get('mail.mail')
             ir_attachment = self.pool.get('ir.attachment')
             messaggio_pec_obj = self.pool.get('protocollo.messaggio.pec')
@@ -1378,7 +1380,8 @@ class protocollo_protocollo(orm.Model):
             sender_receivers_pec_ids = []
             mail_server = self.get_pec_mail_server(cr, uid, context)
 
-            self.allega_segnatura_xml(cr, uid, prot.id, prot.xml_signature)
+            if configurazione.segnatura_xml_invia:
+                self.allega_segnatura_xml(cr, uid, prot.id, prot.xml_signature)
 
             if prot.sender_receivers:
                 for sender_receiver_id in prot.sender_receivers.ids:

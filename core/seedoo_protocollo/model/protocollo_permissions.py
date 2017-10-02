@@ -293,7 +293,7 @@ class protocollo_protocollo(osv.Model):
         for protocollo in protocolli:
             check = False
 
-            if protocollo.state in ('waiting', 'sent', 'error') and protocollo.type == 'out' and protocollo.sender_receivers:
+            if protocollo.state in ('waiting', 'sent', 'error') and protocollo.type == 'out' and protocollo.typology.name == 'PEC' and protocollo.sender_receivers:
                 for sender_receiver_id in protocollo.sender_receivers.ids:
                     sender_receiver_obj = self.pool.get('protocollo.sender_receiver').browse(cr, uid,
                                                                                              sender_receiver_id,
