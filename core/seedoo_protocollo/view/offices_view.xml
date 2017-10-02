@@ -34,6 +34,9 @@ this module contains the full copyright notices and license terms. -->
                     </notebook>
                 </field>
                 -->
+                <field name="parent_id" position="after">
+                    <field name="aoo_id" options="{'no_create': True}"/>
+                </field>
                 <field name="company_id" position="after">
                     <newline/>
                     <field name="assignable"/>

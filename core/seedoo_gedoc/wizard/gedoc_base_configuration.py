@@ -18,8 +18,7 @@ class gedoc_configuration(osv.osv_memory):
     _columns = {
         'company_name': fields.char('Denominazione',
                                     size=256,
-                                    readonly=False,
-                                    required=True),
+                                    readonly=False),
         'ipa_code': fields.char('Codice IPA Amministrazione',
                                 size=10,
                                 readonly=False,
@@ -45,14 +44,16 @@ class gedoc_configuration(osv.osv_memory):
 
     def execute(self, cr, uid, ids, context=None):
         for data in self.browse(cr, uid, ids):
-            company_obj = self.pool.get('res.company')
             vals = {
-                'name': data['company_name'],
-                'ammi_code': data['ipa_code'],
-                'street': data['street'],
-                'city': data['city'],
-                'zip': data['zip']}
-            company_obj.write(cr, uid, 1, vals)
+                'name': data['company_name'] and data['company_name'] or 'Non fornito',
+                'ammi_code': data['ipa_code'] and data['ipa_code'] or '',
+                'street': data['street'] and data['street'] or '',
+                'city': data['city'] and data['city'] or '',
+                'zip': data['zip'] and data['zip'] or ''
+            }
+            if data['company_name']:
+                company_obj = self.pool.get('res.company')
+                company_obj.write(cr, uid, 1, vals)
             self._track_installation(vals)
 
     def _track_installation(self, company_vals):
