@@ -1893,6 +1893,23 @@ class protocollo_protocollo(orm.Model):
 
         return res
 
+    # def fields_view_get(self, cr, uid, view_id=None, view_type=None, context=None, toolbar=False, submenu=False):
+    #     res = super(protocollo_protocollo, self).fields_view_get(cr, uid, view_id=view_id, view_type=view_type, context=context,
+    #                                                    toolbar=toolbar, submenu=submenu)
+    #     context = context or {}
+    #     id = 0
+    #     if 'params' in context and 'id' in context['params']:
+    #         id = context['params']['id']
+    #
+    #     if id != 0 and view_type == 'form':
+    #         protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, id)
+    #         if protocollo.state != 'draft':
+    #             doc = etree.XML(res['arch'])
+    #             for t in doc.xpath("//form[@string='Protocollo']"):
+    #                 t.attrib['edit'] = 'false'
+    #             res['arch'] = etree.tostring(doc)
+    #     return res
+
 class protocollo_journal(orm.Model):
     _name = 'protocollo.journal'
     _description = 'Registro Giornaliero'
