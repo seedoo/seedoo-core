@@ -242,10 +242,18 @@ this module contains the full copyright notices and license terms. -->
                                         </td>
                                         <td>
                                             <h3><field name="name"/></h3>
-                                            <p>
-                                                <field name="email"/>
-                                                <field name="pec_mail"/>
-                                            </p>
+                                            <t t-if="record.email.raw_value">
+                                                <p>
+                                                    <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                                                    <field name="email"/>
+                                                </p>
+                                            </t>
+                                            <t t-if="record.pec_mail.raw_value">
+                                                <p>
+                                                    <i class="fa fa-envelope" aria-hidden="true"></i>
+                                                    <field name="pec_mail"/>
+                                                </p>
+                                            </t>
                                             <t t-if="record.pec_invio_status.raw_value">
                                                 <div class="icon_status icon_messaggio_status"><span>Inviato</span></div>
                                             </t>
