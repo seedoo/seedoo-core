@@ -2,8 +2,79 @@
 <openerp>
     <data>
         <!-- Protocol Typology -->
+        <record id="protocollo_typology_assicurata" model="protocollo.typology">
+            <field name="name">Assicurata</field>
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+        </record>
+
+        <record id="protocollo_typology_corriere" model="protocollo.typology">
+            <field name="name">Corriere</field>
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+        </record>
+
+        <record id="protocollo_typology_email" model="protocollo.typology">
+            <field name="name">Email</field>
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+        </record>
+
+        <record id="protocollo_typology_espresso" model="protocollo.typology">
+            <field name="name">Espresso</field>
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+        </record>
+
         <record id="protocollo_typology_fax" model="protocollo.typology">
             <field name="name">Fax</field>
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+        </record>
+
+        <record id="protocollo_typology_fax_celere" model="protocollo.typology">
+            <field name="name">Fax + Posta Celere</field>
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+        </record>
+
+        <record id="protocollo_typology_fax_prioritaria" model="protocollo.typology">
+            <field name="name">Fax + Posta Prioritaria</field>
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+        </record>
+
+        <record id="protocollo_typology_fax_raccomandata" model="protocollo.typology">
+            <field name="name">Fax + Raccomandata</field>
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+        </record>
+
+        <record id="protocollo_typology_notifica" model="protocollo.typology">
+            <field name="name">Notifica</field>
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+        </record>
+
+        <record id="protocollo_typology_posta_mano" model="protocollo.typology">
+            <field name="name">Posta a mano</field>
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+        </record>
+
+        <record id="protocollo_typology_posta_aerea" model="protocollo.typology">
+            <field name="name">Posta aerea</field>
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+        </record>
+
+        <record id="protocollo_typology_posta_celere" model="protocollo.typology">
+            <field name="name">Posta celere</field>
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+        </record>
+
+        <record id="protocollo_typology_pec" model="protocollo.typology">
+            <field name="name">PEC</field>
+            <field name="pec" eval="True"/>
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+        </record>
+
+        <record id="protocollo_typology_posta_interna" model="protocollo.typology">
+            <field name="name">Posta interna</field>
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+        </record>
+
+        <record id="protocollo_typology_posta_prioritaria" model="protocollo.typology">
+            <field name="name">Posta prioritaria</field>
             <field name="aoo_id" ref="protocollo_aoo_default"/>
         </record>
 
@@ -17,19 +88,18 @@
             <field name="aoo_id" ref="protocollo_aoo_default"/>
         </record>
 
-        <record id="protocollo_typology_pec" model="protocollo.typology">
-            <field name="name">PEC</field>
-            <field name="pec" eval="True"/>
-            <field name="aoo_id" ref="protocollo_aoo_default"/>
-        </record>
-
-        <record id="protocollo_typology_email" model="protocollo.typology">
-            <field name="name">Email</field>
+        <record id="protocollo_typology_rac_ar" model="protocollo.typology">
+            <field name="name">Raccomandata AR</field>
             <field name="aoo_id" ref="protocollo_aoo_default"/>
         </record>
 
         <record id="protocollo_typology_web_request" model="protocollo.typology">
             <field name="name">Richiesta Web</field>
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+        </record>
+
+        <record id="protocollo_typology_telegramma" model="protocollo.typology">
+            <field name="name">Telegramma</field>
             <field name="aoo_id" ref="protocollo_aoo_default"/>
         </record>
     </data>
