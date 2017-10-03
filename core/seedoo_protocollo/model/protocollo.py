@@ -455,6 +455,14 @@ class protocollo_protocollo(orm.Model):
         ('canceled', 'Annullato'),
     ]
 
+    def view_init(self, cr, uid, fields_list, context=None):
+        aoo_ids = self.pool.get('protocollo.aoo').search(cr, uid, [], context=context)
+        for aoo_id in aoo_ids:
+            check = self.pool.get('protocollo.aoo').is_visible_to_protocol_action(cr, uid, aoo_id)
+            if check == False:
+                raise osv.except_osv(_('Warning!'), _('L\'utente corrente non è abilitato alla protocollazione. Deve essere associato al Registro Ufficiale'))
+        pass
+
     def on_change_emergency_receiving_date(self, cr, uid, ids, emergency_receiving_date, context=None):
         values = {}
         if emergency_receiving_date:
@@ -875,6 +883,8 @@ class protocollo_protocollo(orm.Model):
             if check:
                 return aoo_id
         return False
+
+
 
     _defaults = {
         'registration_type': 'normal',
