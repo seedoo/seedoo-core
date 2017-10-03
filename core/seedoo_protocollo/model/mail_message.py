@@ -59,6 +59,7 @@ class MailMessage(orm.Model):
                                         obj='ir.attachment', string='Messaggio PEC'),
         'pec_eml_fname': fields.related('pec_eml', 'datas_fname', type='char', readonly=True),
         'pec_eml_content': fields.related('pec_eml', 'datas', type='binary', string='Messaggio completo', readonly=True),
+        'pec_server_user': fields.related('server_id', 'user', type='char', readonly=True, string='A'),
     }
 
     _defaults = {

@@ -31,7 +31,7 @@ this module contains the full copyright notices and license terms. -->
                                 <newline/>
                                 <field name="email_from"/>
                                 <field name="date"/>
-                                <!--<field name="author_id"/>-->
+                                <field name="pec_server_user"/>
                             </group>
                         </div>
                         <group>
@@ -67,8 +67,9 @@ this module contains the full copyright notices and license terms. -->
             <field name="arch" type="xml">
                 <tree string="Pec da Protocollare" create="false" edit="false" delete="false">
                     <field name="email_from"/>
-                    <field name="date"/>
                     <field name="subject"/>
+                    <field name="date"/>
+                    <field name="pec_server_user"/>
                 </tree>
             </field>
         </record>
