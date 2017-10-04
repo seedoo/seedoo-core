@@ -457,10 +457,20 @@ class protocollo_protocollo(orm.Model):
 
     def view_init(self, cr, uid, fields_list, context=None):
         aoo_ids = self.pool.get('protocollo.aoo').search(cr, uid, [], context=context)
+        if len(aoo_ids) == 0:
+            raise osv.except_osv(_('Warning!'), _(
+                'L\'utente corrente non è abilitato alla protocollazione: deve appartenere ad un ufficio di una AOO'))
         for aoo_id in aoo_ids:
             check = self.pool.get('protocollo.aoo').is_visible_to_protocol_action(cr, uid, aoo_id)
             if check == False:
-                raise osv.except_osv(_('Warning!'), _('L\'utente corrente non è abilitato alla protocollazione. Deve essere associato al Registro Ufficiale'))
+                user = self.pool.get('res.users').browse(cr, uid, uid)
+                aoo = self.pool.get('protocollo.aoo').browse(cr, uid, aoo_id)
+                if aoo and aoo.registry_id.id is False:
+                    raise osv.except_osv(_('Warning!'), _(
+                        'L\'utente corrente non è abilitato alla protocollazione: il suo ufficio deve essere associato alla AOO'))
+                if aoo and aoo.registry_id and aoo.registry_id.allowed_employee_ids.id is False:
+                    raise osv.except_osv(_('Warning!'), _('L\'utente corrente non è abilitato alla protocollazione: deve essere associato al Registro Ufficiale'))
+
         pass
 
     def on_change_emergency_receiving_date(self, cr, uid, ids, emergency_receiving_date, context=None):
