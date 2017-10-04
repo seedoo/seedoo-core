@@ -5,6 +5,32 @@
 from openerp.osv import fields, osv
 from openerp.tools.translate import _
 from openerp import SUPERUSER_ID
+from openerp import tools
+
+
+class res_users(osv.Model):
+    _inherit = "res.users"
+
+    def on_change_login(self, cr, uid, ids, login, context=None):
+        if login and tools.single_email_re.match(login):
+            return {'value': {'email': login}}
+        else:
+            raise osv.except_osv(_('Warning!'), _('Devi inserire un indirizzo e-mail valido'))
+
+    def create(self, cr, uid, vals, context=None):
+        if 'login' in vals and tools.single_email_re.match(vals.get('login')):
+            user_id = super(res_users, self).create(cr, uid, vals, context=context)
+            return user_id
+        else:
+            raise osv.except_osv(_('Warning!'), _('Devi inserire un indirizzo e-mail valido'))
+
+    def write(self, cr, uid, ids, values, context=None):
+        if 'login' in values:
+            if tools.single_email_re.match(values.get('login')) is None:
+                raise osv.except_osv(_('Warning!'), _('Devi inserire un indirizzo e-mail valido'))
+        res = super(res_users, self).write(cr, uid, ids, values, context=context)
+        return res
+
 
 
 class protocollo_classification(osv.Model):
