@@ -171,8 +171,9 @@ this module contains the full copyright notices and license terms. -->
                             <field name="company_id"/>
                             <newline/>
                             <field name="description" colspan="4"/>
-                            <field name="office_ids" colspan="4"/>
-                            <field name="allowed_employee_ids" colspan="4"/>
+                            <!--<field name="office_ids" colspan="4"/>-->
+                            <field name="first_aoo_id" colspan="4" invisible="1"/>
+                            <field name="allowed_employee_ids" colspan="4" domain="[('department_id.aoo_id', '=', first_aoo_id)]"/>
                         </group>
                     </sheet>
                 </form>
