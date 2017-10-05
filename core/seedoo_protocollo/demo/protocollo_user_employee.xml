@@ -6,7 +6,7 @@ this module contains the full copyright notices and license terms. -->
     <data noupdate="1">
         <record model="res.users" id="francesco_alba">
             <field name="name">Francesco Alba</field>
-            <field name="login">francesco.alba</field>
+            <field name="login">francesco.alba@example.com</field>
             <field name="password">seedoo</field>
             <field name="email">francesco.alba@example.com</field>
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_manager')])]"/>
@@ -24,7 +24,7 @@ this module contains the full copyright notices and license terms. -->
 
         <record model="res.users" id="saul_lai">
             <field name="name">Saul Lai</field>
-            <field name="login">saul.lai</field>
+            <field name="login">saul.lai@example.com</field>
             <field name="password">seedoo</field>
             <field name="email">saul.lai@example.com</field>
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_manager')])]"/>
@@ -43,7 +43,7 @@ this module contains the full copyright notices and license terms. -->
 
         <record model="res.users" id="daniele_sanna">
             <field name="name">Daniele Sanna</field>
-            <field name="login">daniele.sanna</field>
+            <field name="login">daniele.sanna@example.com</field>
             <field name="password">seedoo</field>
             <field name="email">daniele.sanna@example.com</field>
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_manager')])]"/>
@@ -62,7 +62,7 @@ this module contains the full copyright notices and license terms. -->
 
         <record model="res.users" id="andrea_peruzzu">
             <field name="name">Andrea Peruzzu</field>
-            <field name="login">andrea.peruzzu</field>
+            <field name="login">andrea.peruzzu@example.com</field>
             <field name="password">seedoo</field>
             <field name="email">andrea.peruzzu@example.com</field>
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_manager')])]"/>
@@ -81,7 +81,7 @@ this module contains the full copyright notices and license terms. -->
 
         <record model="res.users" id="dino_manca">
             <field name="name">Dino Manca</field>
-            <field name="login">dino.manca</field>
+            <field name="login">dino.manca@example.com</field>
             <field name="password">seedoo</field>
             <field name="email">dino.manca@example.com</field>
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_manager')])]"/>
@@ -100,7 +100,7 @@ this module contains the full copyright notices and license terms. -->
 
         <record model="res.users" id="antonio_ariu">
             <field name="name">Antonio Ariu</field>
-            <field name="login">antonio.ariu</field>
+            <field name="login">antonio.ariu@example.com</field>
             <field name="password">seedoo</field>
             <field name="email">antonio.ariu@example.com</field>
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_manager')])]"/>
@@ -119,7 +119,7 @@ this module contains the full copyright notices and license terms. -->
 
         <record model="res.users" id="gianluca_farris">
             <field name="name">Gianluca Farris</field>
-            <field name="login">gianluca.farris</field>
+            <field name="login">gianluca.farris@example.com</field>
             <field name="password">seedoo</field>
             <field name="email">gianluca.farris@example.com</field>
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_manager')])]"/>
@@ -138,7 +138,7 @@ this module contains the full copyright notices and license terms. -->
 
         <record model="res.users" id="samuele_collu">
             <field name="name">Samuele Collu</field>
-            <field name="login">samuele.collu</field>
+            <field name="login">samuele.collu@example.com</field>
             <field name="password">seedoo</field>
             <field name="email">samuele.collu@example.com</field>
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_manager')])]"/>
@@ -157,7 +157,7 @@ this module contains the full copyright notices and license terms. -->
 
         <record model="res.users" id="marco_difrancesco">
             <field name="name">Marco Di Francesco</field>
-            <field name="login">marco.difrancesco</field>
+            <field name="login">marco.difrancesco@example.com</field>
             <field name="password">seedoo</field>
             <field name="email">marco.difrancesco@example.com</field>
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_manager')])]"/>
@@ -176,7 +176,7 @@ this module contains the full copyright notices and license terms. -->
 
         <record model="res.users" id="claudio_melis">
             <field name="name">Claudio Melis</field>
-            <field name="login">claudio.melis</field>
+            <field name="login">claudio.melis@example.com</field>
             <field name="password">seedoo</field>
             <field name="email">claudio.mielis@example.com</field>
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_manager')])]"/>
@@ -195,7 +195,7 @@ this module contains the full copyright notices and license terms. -->
 
         <record model="res.users" id="norman_argiolas">
             <field name="name">Norman Argiolas</field>
-            <field name="login">norman.argiolas</field>
+            <field name="login">norman.argiolas@example.com</field>
             <field name="password">seedoo</field>
             <field name="email">norman.argiolas@example.com</field>
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_manager')])]"/>
@@ -214,7 +214,7 @@ this module contains the full copyright notices and license terms. -->
 
         <record model="res.users" id="pierpaolo_masia">
             <field name="name">Pierpaolo Masia</field>
-            <field name="login">pierpaolo.masia</field>
+            <field name="login">pierpaolo.masia@example.com</field>
             <field name="password">seedoo</field>
             <field name="email">pierpaolo.masia@example.com</field>
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_manager')])]"/>
@@ -233,7 +233,7 @@ this module contains the full copyright notices and license terms. -->
 
         <record model="res.users" id="franco_serreli">
             <field name="name">Franco Serreli</field>
-            <field name="login">franco.serreli</field>
+            <field name="login">franco.serreli@example.com</field>
             <field name="password">seedoo</field>
             <field name="email">franco.serreli@example.com</field>
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_manager')])]"/>
@@ -252,7 +252,7 @@ this module contains the full copyright notices and license terms. -->
 
         <record model="res.users" id="stefano_marras">
             <field name="name">Stefano Marras</field>
-            <field name="login">stefano.marras</field>
+            <field name="login">stefano.marras@example.com</field>
             <field name="password">seedoo</field>
             <field name="email">stefano.marras@example.com</field>
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_manager')])]"/>
@@ -271,7 +271,7 @@ this module contains the full copyright notices and license terms. -->
 
         <record model="res.users" id="paola_bullitta">
             <field name="name">Paola Bullitta</field>
-            <field name="login">paola.bullitta</field>
+            <field name="login">paola.bullitta@example.com</field>
             <field name="password">seedoo</field>
             <field name="email">paola.bullitta@example.com</field>
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_manager')])]"/>
@@ -290,7 +290,7 @@ this module contains the full copyright notices and license terms. -->
 
         <record model="res.users" id="daniela_melis">
             <field name="name">Daniela Melis</field>
-            <field name="login">daniela.melis</field>
+            <field name="login">daniela.melis@example.com</field>
             <field name="password">seedoo</field>
             <field name="email">daniela.melis@example.com</field>
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_manager')])]"/>
@@ -309,7 +309,7 @@ this module contains the full copyright notices and license terms. -->
 
         <record model="res.users" id="ilaria_mura">
             <field name="name">Ilaria Mura</field>
-            <field name="login">ilaria.mura</field>
+            <field name="login">ilaria.mura@example.com</field>
             <field name="password">seedoo</field>
             <field name="email">ilaria.mura@example.com</field>
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_manager')])]"/>
@@ -328,7 +328,7 @@ this module contains the full copyright notices and license terms. -->
 
         <record model="res.users" id="georgia_sanna">
             <field name="name">Georgia Sanna</field>
-            <field name="login">georgia.sanna</field>
+            <field name="login">georgia.sanna@example.com</field>
             <field name="password">seedoo</field>
             <field name="email">georgia.sanna@example.com</field>
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_manager')])]"/>
@@ -347,7 +347,7 @@ this module contains the full copyright notices and license terms. -->
 
         <record model="res.users" id="martina_vitrani">
             <field name="name">Martina Vitrani</field>
-            <field name="login">martina.vitrani</field>
+            <field name="login">martina.vitrani@example.com</field>
             <field name="password">seedoo</field>
             <field name="email">martina.vitrani@example.com</field>
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_manager')])]"/>
@@ -366,7 +366,7 @@ this module contains the full copyright notices and license terms. -->
 
         <record model="res.users" id="fabiana_boi">
             <field name="name">Fabiana Boi</field>
-            <field name="login">fabiana.boi</field>
+            <field name="login">fabiana.boi@example.com</field>
             <field name="password">seedoo</field>
             <field name="email">fabiana.boi@example.com</field>
             <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_manager')])]"/>
