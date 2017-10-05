@@ -131,6 +131,17 @@ this module contains the full copyright notices and license terms. -->
                   parent="protocollo_configuration"
                   id="protocollo_configuration_menu"
                   sequence="5"/>
+
+        <menuitem name="Uffici" action="action_configuration_department"
+                  parent="protocollo_configuration"
+                  id="protocollo_configuration_department"
+                  sequence="6"/>
+
+        <menuitem name="Dipendenti" action="action_configuration_employee"
+                  parent="protocollo_configuration"
+                  id="protocollo_configuration_employee"
+                  sequence="6"/>
+
         <!--
         <menuitem action="protocollo_typology_act"
                   parent="protocollo_configuration"

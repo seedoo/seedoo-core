@@ -22,26 +22,26 @@
                             <newline/>
 
                             <notebook attrs="{'invisible':[('id','=',False)]}" colspan="4">
-                                <page string="Uffici" class="uffici">
-                                    <group col="4">
-                                        <field name="department_ids" colspan="4" nolabel="1" context="{'aoo_id': id}">
-                                            <tree>
-                                                <field name="name"/>
-                                                <field name="manager_id"/>
-                                                <field name="parent_id"/>
-                                                <field name="assignable"/>
-                                            </tree>
-                                            <form>
-                                                <group col="4">
-                                                    <field name="name" required="1"/>
-                                                    <field name="manager_id" domain="[('department_id.aoo_id', '=', context.get('aoo_id', False))]" required="1"/>
-                                                    <field name="parent_id" domain="[('aoo_id', '=', context.get('aoo_id', False))]"/>
-                                                    <field name="assignable"/>
-                                                </group>
-                                            </form>
-                                        </field>
-                                    </group>
-                                </page>
+                                <!--<page string="Uffici" class="uffici">-->
+                                    <!--<group col="4">-->
+                                        <!--<field name="department_ids" colspan="4" nolabel="1" context="{'aoo_id': id}">-->
+                                            <!--<tree>-->
+                                                <!--<field name="name"/>-->
+                                                <!--<field name="manager_id"/>-->
+                                                <!--<field name="parent_id"/>-->
+                                                <!--<field name="assignable"/>-->
+                                            <!--</tree>-->
+                                            <!--<form>-->
+                                                <!--<group col="4">-->
+                                                    <!--<field name="name" required="1"/>-->
+                                                    <!--<field name="manager_id" domain="[('department_id.aoo_id', '=', context.get('aoo_id', False))]" required="1"/>-->
+                                                    <!--<field name="parent_id" domain="[('aoo_id', '=', context.get('aoo_id', False))]"/>-->
+                                                    <!--<field name="assignable"/>-->
+                                                <!--</group>-->
+                                            <!--</form>-->
+                                        <!--</field>-->
+                                    <!--</group>-->
+                                <!--</page>-->
                                 <page string="Mezzi di Trasmissione" class="mezzi">
                                     <group col="4">
                                         <field name="typology_ids" colspan="4" nolabel="1" />
