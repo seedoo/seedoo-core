@@ -4,36 +4,39 @@ this module contains the full copyright notices and license terms. -->
 
 <openerp>
     <data>
-
-        <!--
-        <record id="view_department_collaborator_tree_protocollo"
-                model="ir.ui.view">
-            <field name="name">hr.department.collaborator.tree</field>
-            <field name="model">hr.department.collaborator</field>
-            <field name="arch" type="xml">
-                <tree string="Collaborators" editable="bottom">
-                    <field name="name"/>
-                    <field name="to_notify"/>
-                </tree>
-            </field>
-        </record>
-        -->
-
         <record id="view_department_form_protocollo" model="ir.ui.view">
             <field name="name">hr.department.form.protocollo</field>
             <field name="model">hr.department</field>
+            <field name="mode">primary</field>
             <field name="inherit_id" ref="hr.view_department_form"></field>
             <field name="arch" type="xml">
-                <!--
+                <xpath expr="/form[@string='department']" position="attributes">
+                    <attribute name="create">0</attribute>
+                    <attribute name="edit">0</attribute>
+                </xpath>
+                <field name="parent_id" position="after">
+                    <field name="aoo_id" options="{'no_create': True}"/>
+                </field>
                 <field name="company_id" position="after">
+                    <newline/>
+                    <field name="assignable"/>
+                    <newline/>
+                    <field name="description" colspan="4"/>
                     <notebook colspan="6">
-                        <page string="Collaborators">
-                            <field name="collaborator_ids" colspan="6"
-                                   nolabel="1" string="Collaborators"/>
+                        <page string="Dipendenti">
+                            <field name="member_ids" colspan="6" nolabel="1" readonly="1"/>
                         </page>
                     </notebook>
                 </field>
-                -->
+            </field>
+        </record>
+
+        <record id="view_configuration_department_form" model="ir.ui.view">
+            <field name="name">hr.department.form.protocollo</field>
+            <field name="model">hr.department</field>
+            <field name="mode">primary</field>
+            <field name="inherit_id" ref="hr.view_department_form"></field>
+            <field name="arch" type="xml">
                 <field name="parent_id" position="after">
                     <field name="aoo_id" options="{'no_create': True}"/>
                 </field>
@@ -54,57 +57,40 @@ this module contains the full copyright notices and license terms. -->
         <record id="view_department_tree_protocollo" model="ir.ui.view">
             <field name="name">hr.department.tree.protocollo</field>
             <field name="model">hr.department</field>
+            <field name="mode">primary</field>
             <field name="inherit_id" ref="hr.view_department_tree"></field>
             <field name="arch" type="xml">
-                <tree string="Companies">
-                    <field name="description"/>
-                </tree>
+                <xpath expr="/tree[@string='Companies']" position="attributes">
+                    <attribute name="create">0</attribute>
+                    <attribute name="edit">0</attribute>
+                </xpath>
             </field>
         </record>
 
-        <!--<record id="view_employee_form_protocollo" model="ir.ui.view">-->
-            <!--<field name="name">hr.employee.form.protocollo</field>-->
-            <!--<field name="model">hr.employee</field>-->
-            <!--<field name="inherit_id" ref="hr.view_employee_form"></field>-->
-            <!--<field name="arch" type="xml">-->
-                <!--<field name="department_id" position="after">-->
-                    <!--<field name="name" options="{'no_create': True}"/>-->
-                <!--</field>-->
-            <!--</field>-->
-        <!--</record>-->
-
-        <record id="view_employee_tree_protocollo" model="ir.ui.view">
-            <field name="name">hr.employee.tree.protocollo</field>
-            <field name="model">hr.employee</field>
-            <field name="inherit_id" ref="hr.view_employee_tree"></field>
-            <field name="arch" type="xml">
-                <tree string="Employees">
-                    <field name="name"/>
-                </tree>
-            </field>
-        </record>
-
-        <!--
-        <record id="view_department_protocollo_search" model="ir.ui.view">
-            <field name="name">hr.departmentg.protocollo.search</field>
+        <record id="view_configuration_department_tree" model="ir.ui.view">
+            <field name="name">hr.department.tree.protocollo</field>
             <field name="model">hr.department</field>
-            <field name="inherit_id" ref="hr.view_department_filter"></field>
+            <field name="mode">primary</field>
+            <field name="inherit_id" ref="hr.view_department_tree"></field>
             <field name="arch" type="xml">
-                <field name="manager_id" position="after">
-                    <field name="collaborator_ids"
-                           filter_domain="[('collaborator_ids.name.id','=',self)]"
-                           invisible="True"/>
-                </field>
-
+                <xpath expr="/tree[@string='Companies']" position="attributes">
+                    <attribute name="create">1</attribute>
+                    <attribute name="edit">1</attribute>
+                </xpath>
             </field>
         </record>
-        -->
 
-        <!--
-        <record id="hr.open_module_tree_department" model="ir.actions.act_window">
-            <field name="domain" eval="['!', ('parent_id','child_of',ref('protocollo_dept_root'))]"></field>
+        <record id="view_employee_form_protocollo" model="ir.ui.view">
+            <field name="name">hr.employee.form.protocollo</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.hr_kanban_view_employees"></field>
+            <field name="arch" type="xml">
+                <xpath expr="/kanban" position="attributes">
+                    <attribute name="create">0</attribute>
+                    <attribute name="edit">0</attribute>
+                </xpath>
+            </field>
         </record>
-        -->
 
         <record model="ir.actions.act_window" id="action_mydepartment_protocollo">
             <field name="name">I Miei Uffici</field>
@@ -159,14 +145,14 @@ this module contains the full copyright notices and license terms. -->
         <record id="action_configuration_department_form" model="ir.actions.act_window.view">
             <field name="sequence" eval="4"/>
             <field name="view_mode">form</field>
-            <field name="view_id" ref="view_department_form_protocollo"/>
+            <field name="view_id" ref="view_configuration_department_form"/>
             <field name="act_window_id" ref="action_configuration_department"/>
         </record>
 
         <record id="action_configuration_department_tree" model="ir.actions.act_window.view">
             <field name="sequence" eval="3"/>
             <field name="view_mode">tree</field>
-            <field name="view_id" ref="view_department_tree_protocollo"/>
+            <field name="view_id" ref="view_configuration_department_tree"/>
             <field name="act_window_id" ref="action_configuration_department"/>
         </record>
 

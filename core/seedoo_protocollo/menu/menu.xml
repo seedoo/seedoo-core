@@ -130,17 +130,17 @@ this module contains the full copyright notices and license terms. -->
         <menuitem name="Uffici" action="action_configuration_department"
                   parent="protocollo_configuration"
                   id="protocollo_configuration_department"
-                  sequence="6"/>
+                  sequence="2"/>
 
         <menuitem name="Dipendenti" action="action_configuration_employee"
                   parent="protocollo_configuration"
                   id="protocollo_configuration_employee"
-                  sequence="6"/>
+                  sequence="3"/>
 
         <menuitem name="Parametri Generali" action="protocollo_config_settings_act"
                   parent="protocollo_configuration"
                   id="protocollo_configuration_menu"
-                  sequence="5"/>
+                  sequence="4"/>
 
     </data>
 </openerp>

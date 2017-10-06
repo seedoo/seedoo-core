@@ -27,5 +27,17 @@ this module contains the full copyright notices and license terms. -->
             <field name="perm_create" eval="True"/>
             <field name="perm_unlink" eval="True"/>
         </record>
+
+        <record id="employee_access_aoo_rule" model="ir.rule">
+            <field name="name">Regola Accesso Dipendenti in Base alla AOO</field>
+            <field ref="hr.model_hr_employee" name="model_id"/>
+            <field name="domain_force">[('department_id.aoo_id', 'in', [e.department_id.aoo_id.id for e in user.employee_ids])]</field>
+            <field name="groups" eval="[(4, ref('seedoo_protocollo.group_protocollo_user'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
     </data>
 </openerp>
