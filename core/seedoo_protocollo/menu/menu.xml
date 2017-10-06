@@ -127,11 +127,6 @@ this module contains the full copyright notices and license terms. -->
                   action="protocollo_aoo_action"
                   parent="protocollo_configuration" sequence="1"/>
 
-        <menuitem name="Parametri Generali" action="protocollo_config_settings_act"
-                  parent="protocollo_configuration"
-                  id="protocollo_configuration_menu"
-                  sequence="5"/>
-
         <menuitem name="Uffici" action="action_configuration_department"
                   parent="protocollo_configuration"
                   id="protocollo_configuration_department"
@@ -142,21 +137,10 @@ this module contains the full copyright notices and license terms. -->
                   id="protocollo_configuration_employee"
                   sequence="6"/>
 
-        <!--
-        <menuitem action="protocollo_typology_act"
+        <menuitem name="Parametri Generali" action="protocollo_config_settings_act"
                   parent="protocollo_configuration"
-                  id="protocollo_typology_menu"
-                  sequence="10"/>
+                  id="protocollo_configuration_menu"
+                  sequence="5"/>
 
-        <menuitem action="protocollo_classification_def_act"
-                  parent="protocollo_configuration"
-                  id="protocollo_classification_def_menu"
-                  sequence="20"/>
-
-        <menuitem action="protocollo_dossier_act"
-                  parent="protocollo_configuration"
-                  id="protocollo_dossier_menu"
-                  sequence="30"/>
-        -->
     </data>
 </openerp>

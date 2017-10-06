@@ -62,16 +62,16 @@ this module contains the full copyright notices and license terms. -->
             </field>
         </record>
 
-        <record id="view_employee_form_protocollo" model="ir.ui.view">
-            <field name="name">hr.employee.form.protocollo</field>
-            <field name="model">hr.employee</field>
-            <field name="inherit_id" ref="hr.view_employee_form"></field>
-            <field name="arch" type="xml">
-                <field name="department_id" position="after">
-                    <field name="name" options="{'no_create': True}"/>
-                </field>
-            </field>
-        </record>
+        <!--<record id="view_employee_form_protocollo" model="ir.ui.view">-->
+            <!--<field name="name">hr.employee.form.protocollo</field>-->
+            <!--<field name="model">hr.employee</field>-->
+            <!--<field name="inherit_id" ref="hr.view_employee_form"></field>-->
+            <!--<field name="arch" type="xml">-->
+                <!--<field name="department_id" position="after">-->
+                    <!--<field name="name" options="{'no_create': True}"/>-->
+                <!--</field>-->
+            <!--</field>-->
+        <!--</record>-->
 
         <record id="view_employee_tree_protocollo" model="ir.ui.view">
             <field name="name">hr.employee.tree.protocollo</field>
@@ -177,7 +177,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="res_model">hr.employee</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
-            <!--<field name="domain" eval="[('parent_id','child_of',ref('protocollo_dept_root'))]"></field>-->
             <!--<field name="search_view_id" ref="view_department_protocollo_search"/>-->
         </record>
 
@@ -185,14 +184,14 @@ this module contains the full copyright notices and license terms. -->
         <record id="action_configuration_employee_form" model="ir.actions.act_window.view">
             <field name="sequence" eval="4"/>
             <field name="view_mode">form</field>
-            <field name="view_id" ref="view_employee_form_protocollo"/>
+            <field name="view_id" ref="hr.view_employee_form"/>
             <field name="act_window_id" ref="action_configuration_employee"/>
         </record>
 
         <record id="action_configuration_employee_tree" model="ir.actions.act_window.view">
             <field name="sequence" eval="3"/>
             <field name="view_mode">tree</field>
-            <field name="view_id" ref="view_employee_tree_protocollo"/>
+            <field name="view_id" ref="hr.view_employee_tree"/>
             <field name="act_window_id" ref="action_configuration_employee"/>
         </record>
 
