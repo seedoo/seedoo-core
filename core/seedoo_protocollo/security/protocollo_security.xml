@@ -190,34 +190,41 @@ this module contains the full copyright notices and license terms. -->
         </record>
 
         <!-- Permesso di modifica AOO -->
+        <record id="group_vedi_configurazione_protocollo" model="res.groups">
+            <field name="name">Vedi Menu Configurazione</field>
+            <field name="category_id" ref="module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+
         <record id="group_configurazione_aoo" model="res.groups">
-            <field name="name">Configurazione AOO</field>
+            <field name="name">Configura AOO</field>
             <field name="category_id" ref="module_category_protocollo"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
 
         <record id="group_configurazione_uffici" model="res.groups">
-            <field name="name">Configurazione Uffici</field>
+            <field name="name">Configura Uffici</field>
             <field name="category_id" ref="module_category_protocollo"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
 
         <record id="group_configurazione_dipendenti" model="res.groups">
-            <field name="name">Configurazione Dipendenti</field>
+            <field name="name">Configura Dipendenti</field>
             <field name="category_id" ref="module_category_protocollo"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
 
         <record model="ir.module.category" id="module_protocollo_management">
-            <field name="name">Protocollo</field>
+            <field name="name">Seedoo Protocollo</field>
             <field name="sequence">200</field>
         </record>
         <record id="group_protocollo_user" model="res.groups">
-            <field name="name">Utente</field>
+            <field name="name">Custom</field>
             <field name="category_id" ref="module_protocollo_management"/>
             <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
-            <field name="comment">Profilo su cui selezionare i singoli gruppi</field>
+            <field name="comment">Profilo su cui selezionare i singoli permessi</field>
         </record>
+
         <record id="group_protocollo_manager" model="res.groups">
             <field name="name">Manager</field>
             <field name="category_id" ref="module_protocollo_management"/>
@@ -255,6 +262,7 @@ this module contains the full copyright notices and license terms. -->
                 (4, ref('group_reinvia_protocollo_pec_uscita')),
                 (4, ref('group_modifica_destinatari_pec_uscita')),
                 (4, ref('group_aggiungi_destinatari_pec_uscita')),
+                (4, ref('group_vedi_configurazione_protocollo')),
                 (4, ref('group_configurazione_aoo')),
                 (4, ref('group_configurazione_uffici')),
                 (4, ref('group_configurazione_dipendenti')),

@@ -17,7 +17,8 @@ this module contains the full copyright notices and license terms. -->
                   id="protocollo_protocollo_menu" sequence="30"/>
 
         <menuitem name="Configurazioni" parent="menu_root_protocollo"
-                  id="protocollo_configuration" sequence="40"/>
+                  id="protocollo_configuration" sequence="40"
+                  groups="group_vedi_configurazione_protocollo"/>
 
         <!--<menuitem action="protocollo_protocollo_in_act"-->
                   <!--parent="protocollo_doc_in"-->
