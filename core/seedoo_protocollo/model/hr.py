@@ -21,8 +21,8 @@ class hr_department(orm.Model):
     _inherit = 'hr.department'
 
     _columns = {
-        'description': fields.text('Office Description'),
-        'assignable': fields.boolean('Office Assignable'),
+        'description': fields.text('Descrizione Ufficio'),
+        'assignable': fields.boolean('Assegnabile in Protocollazione'),
         # 'collaborator_ids': fields.one2many('hr.department.collaborator', 'department_id', 'Collaborators'),
         'aoo_id': fields.many2one('protocollo.aoo', 'AOO', required=False),
     }
