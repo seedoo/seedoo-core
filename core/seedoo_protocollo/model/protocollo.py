@@ -478,7 +478,7 @@ class protocollo_protocollo(orm.Model):
                 'Errore di configurazione: nessun Registro associato alla AOO'))
         registry = self.pool.get('protocollo.registry').browse(cr, uid, aoo_ids.registry_id.ids[0])
 
-        if len(registry.allowed_employee_ids) > 0 and employee_ids.id not in registry.allowed_employee_ids.ids:
+        if employee_ids.id not in registry.allowed_employee_ids.ids:
             raise osv.except_osv(_('Warning!'), _(
                 "L'utente %s non e' abilitato alla protocollazione: deve essere associato al Registro della AOO '%s'") % (employee_ids.name, aoo_ids.name))
 
