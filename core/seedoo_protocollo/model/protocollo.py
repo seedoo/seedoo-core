@@ -456,22 +456,33 @@ class protocollo_protocollo(orm.Model):
     ]
 
     def view_init(self, cr, uid, fields_list, context=None):
-        aoo_ids = self.pool.get('protocollo.aoo').search(cr, uid, [], context=context)
-        if len(aoo_ids) == 0:
-            raise osv.except_osv(_('Warning!'), _(
-                'L\'utente corrente non è abilitato alla protocollazione: deve appartenere ad un ufficio di una AOO'))
-        for aoo_id in aoo_ids:
-            check = self.pool.get('protocollo.aoo').is_visible_to_protocol_action(cr, uid, aoo_id)
-            if check == False:
-                user = self.pool.get('res.users').browse(cr, uid, uid)
-                aoo = self.pool.get('protocollo.aoo').browse(cr, uid, aoo_id)
-                if aoo and aoo.registry_id.id is False:
-                    raise osv.except_osv(_('Warning!'), _(
-                        'L\'utente corrente non è abilitato alla protocollazione: il suo ufficio deve essere associato alla AOO'))
-                if aoo and aoo.registry_id and aoo.registry_id.allowed_employee_ids.id is False:
-                    raise osv.except_osv(_('Warning!'), _('L\'utente corrente non è abilitato alla protocollazione: deve essere associato al Registro Ufficiale'))
+        user_ids = self.pool.get('res.users').browse(cr, SUPERUSER_ID, uid)
 
-        pass
+        if len(user_ids.employee_ids.ids) == 0:
+            raise osv.except_osv(_('Warning!'), _(
+                "L'utente %s non e' abilitato alla protocollazione: deve essere configurato come dipendente") % user_ids.name)
+
+        if len(user_ids.employee_ids.department_id.ids) == 0:
+            raise osv.except_osv(_('Warning!'), _(
+                "L'utente %s non e' abilitato alla protocollazione: deve essere associato ad un Ufficio") % user_ids.name)
+
+        employee_ids = self.pool.get('hr.employee').browse(cr, SUPERUSER_ID, user_ids.employee_ids.id)
+        department_ids = self.pool.get('hr.department').browse(cr, uid, user_ids.employee_ids.department_id.id)
+        if len(department_ids.aoo_id.ids) == 0:
+            raise osv.except_osv(_('Warning!'), _(
+                "L'utente %s non e' abilitato alla protocollazione: l'Ufficio '%s' deve essere associato ad una AOO") % (employee_ids.name, department_ids.name))
+        aoo = department_ids.aoo_id.ids[0]
+        aoo_ids = self.pool.get('protocollo.aoo').browse(cr, uid, aoo)
+        if len(aoo_ids.registry_id.ids) == 0:
+            raise osv.except_osv(_('Warning!'), _(
+                'Errore di configurazione: nessun Registro associato alla AOO'))
+        registry = self.pool.get('protocollo.registry').browse(cr, uid, aoo_ids.registry_id.ids[0])
+
+        if len(registry.allowed_employee_ids) > 0 and employee_ids.id not in registry.allowed_employee_ids.ids:
+            raise osv.except_osv(_('Warning!'), _(
+                "L'utente %s non e' abilitato alla protocollazione: deve essere associato al Registro della AOO '%s'") % (employee_ids.name, aoo_ids.name))
+
+    pass
 
     def on_change_emergency_receiving_date(self, cr, uid, ids, emergency_receiving_date, context=None):
         values = {}
