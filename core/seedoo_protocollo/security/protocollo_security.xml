@@ -220,6 +220,12 @@ this module contains the full copyright notices and license terms. -->
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
 
+        <record id="group_configurazione_parametri" model="res.groups">
+            <field name="name">Configura Parametri</field>
+            <field name="category_id" ref="module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+
         <record model="ir.module.category" id="module_protocollo_management">
             <field name="name">Seedoo Protocollo</field>
             <field name="sequence">200</field>
@@ -273,6 +279,7 @@ this module contains the full copyright notices and license terms. -->
                 (4, ref('group_configurazione_aoo')),
                 (4, ref('group_configurazione_uffici')),
                 (4, ref('group_configurazione_dipendenti')),
+                (4, ref('group_configurazione_parametri')),
                 (4, ref('base.group_pec'))
             ]"/>
 
