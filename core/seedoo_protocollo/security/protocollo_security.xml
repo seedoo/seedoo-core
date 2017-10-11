@@ -232,10 +232,19 @@ this module contains the full copyright notices and license terms. -->
         </record>
 
         <record id="group_protocollo_user" model="res.groups">
-            <field name="name">Consultatore</field>
+            <field name="name">Personalizzabile</field>
             <field name="category_id" ref="module_protocollo_management"/>
             <field name="implied_ids" eval="[
                 (4, ref('base.group_user')),
+                ]"/>
+            <field name="comment">Profilo personalizzabile</field>
+        </record>
+
+        <record id="group_protocollo_consultatore" model="res.groups">
+            <field name="name">Consultatore</field>
+            <field name="category_id" ref="module_protocollo_management"/>
+            <field name="implied_ids" eval="[
+                (4, ref('group_protocollo_user')),
                 (4, ref('group_vedi_protocolli_ingresso_registrati')),
                 (4, ref('group_vedi_protocolli_uscita_registrati')),
                 ]"/>
@@ -247,10 +256,11 @@ this module contains the full copyright notices and license terms. -->
             <field name="category_id" ref="module_protocollo_management"/>
             <field name="comment">Profilo dell'Operatore</field>
             <field name="implied_ids" eval="[
-                (4, ref('group_protocollo_user')),
+                (4, ref('group_protocollo_consultatore')),
                 (4, ref('base.group_document_user')),
                 (4, ref('seedoo_gedoc.group_gedoc_user')),
                 (4, ref('seedoo_gedoc.group_gedoc_manager')),
+                (4, ref('group_protocollazione_riservata')),
                 (4, ref('group_crea_protocollo_ingresso')),
                 (4, ref('group_vedi_protocolli_ingresso_registrati')),
                 (4, ref('group_vedi_protocolli_ingresso_bozze')),
@@ -280,7 +290,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="category_id" ref="module_protocollo_management"/>
             <field name="comment">Profilo del Responsabile UOR</field>
             <field name="implied_ids" eval="[
-                (4, ref('group_protocollo_user')),
+                (4, ref('group_protocollo_consultatore')),
                 (4, ref('group_protocollo_operatore')),
                 (4, ref('group_prendi_in_carico_protocollo_ingresso')),
                 (4, ref('group_rifiuta_protocollo_ingresso')),
@@ -294,7 +304,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="category_id" ref="module_protocollo_management"/>
             <field name="comment">Profilo del Responsabile Servizio Protocollo</field>
             <field name="implied_ids" eval="[
-                (4, ref('group_protocollo_user')),
+                (4, ref('group_protocollo_consultatore')),
                 (4, ref('group_protocollo_operatore')),
                 (4, ref('group_protocollo_responsabile_uor')),
                 (4, ref('group_annulla_protocollo_ingresso')),

@@ -37,6 +37,7 @@
             'data/protocollo_sequence.xml',
             'data/protocollo_aoo.xml',
             'data/protocollo_typology.xml',
+            'data/protocollo_admin.xml',
             'gedoc/data/gedoc_data.xml',
             'wizard/cancel_protocollo_wizard_view.xml',
             'wizard/modify_protocollo_wizard_view.xml',
