@@ -460,17 +460,21 @@ class protocollo_protocollo(orm.Model):
 
         if len(user_ids.employee_ids.ids) == 0:
             raise osv.except_osv(_('Warning!'), _(
-                "L'utente %s non e' abilitato alla protocollazione: deve essere configurato come dipendente") % user_ids.name)
+                "L'utente %s non e' abilitato alla protocollazione: deve essere associato ad un dipendente") % user_ids.name)
+
+        if len(user_ids.employee_ids.ids) > 1:
+            raise osv.except_osv(_('Warning!'), _(
+                "L'utente %s non e' configurato correttamente: deve essere associato ad un unico dipendente") % user_ids.name)
 
         if len(user_ids.employee_ids.department_id.ids) == 0:
             raise osv.except_osv(_('Warning!'), _(
-                "L'utente %s non e' abilitato alla protocollazione: deve essere associato ad un Ufficio") % user_ids.name)
+                "Il dipendente %s non e' abilitato alla protocollazione: deve essere associato ad un Ufficio") % user_ids.name)
 
         employee_ids = self.pool.get('hr.employee').browse(cr, SUPERUSER_ID, user_ids.employee_ids.id)
         department_ids = self.pool.get('hr.department').browse(cr, uid, user_ids.employee_ids.department_id.id)
         if len(department_ids.aoo_id.ids) == 0:
             raise osv.except_osv(_('Warning!'), _(
-                "L'utente %s non e' abilitato alla protocollazione: l'Ufficio '%s' deve essere associato ad una AOO") % (employee_ids.name, department_ids.name))
+                "Il dipendente %s non e' abilitato alla protocollazione: l'Ufficio '%s' deve essere associato ad una AOO") % (employee_ids.name, department_ids.name))
         aoo = department_ids.aoo_id.ids[0]
         aoo_ids = self.pool.get('protocollo.aoo').browse(cr, uid, aoo)
         if len(aoo_ids.registry_id.ids) == 0:
@@ -480,7 +484,7 @@ class protocollo_protocollo(orm.Model):
 
         if employee_ids.id not in registry.allowed_employee_ids.ids:
             raise osv.except_osv(_('Warning!'), _(
-                "L'utente %s non e' abilitato alla protocollazione: deve essere associato al Registro della AOO '%s'") % (employee_ids.name, aoo_ids.name))
+                "Il dipendente %s non e' abilitato alla protocollazione: deve essere associato al Registro della AOO '%s'") % (employee_ids.name, aoo_ids.name))
 
     pass
 
