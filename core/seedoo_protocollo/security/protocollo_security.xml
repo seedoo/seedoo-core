@@ -189,6 +189,18 @@ this module contains the full copyright notices and license terms. -->
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
 
+        <record id="group_configurazione_giornaliero" model="res.groups">
+            <field name="name">Vedi e Configura Registro Giornaliero</field>
+            <field name="category_id" ref="module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+
+        <record id="group_configurazione_emergenza" model="res.groups">
+            <field name="name">Vedi e Configura Registro Emergenza</field>
+            <field name="category_id" ref="module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+
         <!-- Permesso di modifica AOO -->
         <record id="group_vedi_configurazione_protocollo" model="res.groups">
             <field name="name">Vedi Menu Configurazione</field>
@@ -281,7 +293,8 @@ this module contains the full copyright notices and license terms. -->
                 (4, ref('group_reinvia_protocollo_pec_uscita')),
                 (4, ref('group_modifica_destinatari_pec_uscita')),
                 (4, ref('group_aggiungi_destinatari_pec_uscita')),
-                (4, ref('base.group_pec'))
+                (4, ref('base.group_pec')),
+                (4, ref('group_configurazione_giornaliero')),
             ]"/>
         </record>
 
@@ -315,6 +328,7 @@ this module contains the full copyright notices and license terms. -->
                 (4, ref('group_configurazione_uffici')),
                 (4, ref('group_configurazione_dipendenti')),
                 (4, ref('group_configurazione_parametri')),
+                (4, ref('group_configurazione_emergenza')),
             ]"/>
         </record>
 

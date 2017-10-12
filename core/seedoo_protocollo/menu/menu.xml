@@ -85,6 +85,7 @@ this module contains the full copyright notices and license terms. -->
         <menuitem action="protocollo_journal_act"
                   parent="protocollo_protocollo_menu"
                   id="protocollo_journal_menu"
+                  groups="group_configurazione_giornaliero"
                   sequence="20"/>
 
         <menuitem
@@ -92,11 +93,13 @@ this module contains the full copyright notices and license terms. -->
                 name="Crea Registro"
                 action="protocollo_journal_action"
                 id="menu_protocollo_journal_create"
+                groups="group_configurazione_giornaliero"
                 parent="protocollo_journal_menu"/>
 
         <menuitem action="protocollo_emergency_registry_act"
                 parent="protocollo_protocollo_menu"
                 id="protocollo_emergency_registry_menu"
+                groups="group_configurazione_emergenza"
                 sequence="30"/>
 
         <menuitem
@@ -104,13 +107,14 @@ this module contains the full copyright notices and license terms. -->
                 name="Crea Registro"
                 action="protocollo_emergency_registry_action"
                 id="menu_protocollo_emergency_registry_create"
+                groups="group_configurazione_emergenza"
                 parent="protocollo_emergency_registry_menu"/>
 
-        <menuitem name="Organigramma"
-                  id="protocollo_menu_organigramma"
-                  parent="protocollo_protocollo_menu"
-                  action="action_organigramma"
-                  sequence="45"/>
+        <!--<menuitem name="Organigramma"-->
+                  <!--id="protocollo_menu_organigramma"-->
+                  <!--parent="protocollo_protocollo_menu"-->
+                  <!--action="action_organigramma"-->
+                  <!--sequence="45"/>-->
 
         <menuitem action="protocollo_classification_act"
                   parent="protocollo_protocollo_menu"
