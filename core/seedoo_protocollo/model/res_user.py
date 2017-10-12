@@ -42,3 +42,47 @@ class res_users(orm.Model):
             wf_service.trg_trigger(uid, 'mail.message',
                                    context['main_message_id'], cr)
         return msg_id
+
+    def write(self, cr, uid, ids, values, context=None):
+        protocollo_profile_selected = True
+        protocollo_custom_selected = False
+        values_copy = values.copy()
+        protocollo_permissions_reset = {}
+        group_obj = self.pool.get('res.groups')
+        permissions_category = self.pool['ir.model.data'].get_object(cr, uid, 'seedoo_protocollo', 'module_category_protocollo')
+        profile_category = self.pool['ir.model.data'].get_object(cr, uid, 'seedoo_protocollo', 'module_protocollo_management')
+        seedoo_protocollo_groups = group_obj.search(cr, uid, [('category_id', 'in', permissions_category.ids)])
+        for group_item in seedoo_protocollo_groups:
+            protocollo_permissions_reset['in_group_' + str(group_item)] = False
+
+        for key, val in values.iteritems():
+            if key.startswith('sel_groups_'):
+                group_ids = group_obj.browse(cr, uid, val)
+                if group_ids.category_id.id != profile_category.id:
+                    protocollo_profile_selected = False
+
+                if group_ids.name == 'Personalizzabile':
+                    protocollo_profile_selected = False
+                    protocollo_custom_selected = True
+
+                if protocollo_profile_selected:
+                    for key_ingroup, val_ingroup in values.iteritems():
+                        if key_ingroup.startswith('in_group_') and key_ingroup in protocollo_permissions_reset:
+                            del values_copy[key_ingroup]
+            else:
+                protocollo_profile_selected = False
+
+        if protocollo_profile_selected:
+            values_copy.update(protocollo_permissions_reset)
+            values = values_copy
+        else:
+            protocollo_custom_preselected = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_protocollo_user')
+            if protocollo_custom_selected is False and protocollo_custom_preselected is False:
+                for key, val in values.iteritems():
+                    if key in protocollo_permissions_reset:
+                        del values_copy[key]
+                values = values_copy
+
+        res = super(res_users, self).write(cr, uid, ids, values, context=context)
+
+        return res
