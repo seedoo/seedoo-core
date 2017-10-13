@@ -27,6 +27,7 @@
         ],
     "data":
         [
+            'data/protocollo_company.xml',
             'data/protocollo_configuration.xml',
             'data/protocollo_conferma_template.xml',
             'data/protocollo_annullamento_template.xml',
