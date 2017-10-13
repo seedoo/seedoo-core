@@ -19,7 +19,7 @@ class protocollo_aoo(orm.Model):
         if uid == SUPERUSER_ID:
             return True
 
-        user = self.pool.get('res.users').browse(cr, uid, uid)
+        user = self.pool.get('res.users').browse(cr, SUPERUSER_ID, uid)
         aoo = self.pool.get('protocollo.aoo').browse(cr, uid, aoo_id)
         if aoo and aoo.registry_id and aoo.registry_id.allowed_employee_ids:
             for employee in aoo.registry_id.allowed_employee_ids:

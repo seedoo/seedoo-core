@@ -59,7 +59,10 @@ class protocollo_classification(osv.Model):
         reads = self.read(cr, uid, ids, ['name', 'code'], context=context)
         res = []
         for record in reads:
-            name = record['code'] + ' - ' + record['name']
+            if record['code']:
+                name = record['code'] + ' - ' + record['name']
+            else:
+                name = 'NO CODE' + ' - ' + record['name']
             res.append((record['id'], name))
         return res
 

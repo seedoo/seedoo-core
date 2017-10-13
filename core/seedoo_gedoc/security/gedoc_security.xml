@@ -21,7 +21,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="name">Manager</field>
             <field name="category_id" ref="module_gedoc_category"/>
             <field name="implied_ids"
-                   eval="[(4, ref('base.group_user')), (4, ref('base.group_document_user')), (4, ref('base.group_sale_salesman'))]"/>
+                   eval="[(4, ref('group_gedoc_user'))]"/>
         </record>
 
     </data>

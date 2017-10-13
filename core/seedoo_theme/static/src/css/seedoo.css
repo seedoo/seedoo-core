@@ -147,6 +147,7 @@ button.oe_button.oe_form_button_edit::before {
 
 .openerp button.oe_button, button.oe_kanban_button_new {
   padding: 8px 20px 8px 15px;
+  background-color:#ccc;
 }
 
 .openerp button.oe_button, .openerp button.oe_button:hover,

@@ -270,8 +270,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="implied_ids" eval="[
                 (4, ref('group_protocollo_consultatore')),
                 (4, ref('base.group_document_user')),
-                (4, ref('seedoo_gedoc.group_gedoc_user')),
-                (4, ref('seedoo_gedoc.group_gedoc_manager')),
                 (4, ref('group_protocollazione_riservata')),
                 (4, ref('group_crea_protocollo_ingresso')),
                 (4, ref('group_vedi_protocolli_ingresso_registrati')),

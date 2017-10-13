@@ -51,7 +51,7 @@
             src_model="protocollo.dossier"/>
         -->
 
-        <menuitem action="protocollo_protocollo_notified_act" parent="seedoo_gedoc.gedoc_document_menu" id="gedoc_protocollo_all_notified_menu" sequence="10"/>
+        <menuitem name="Protocolli Registrati" action="protocollo_protocollo_notified_act" parent="seedoo_gedoc.gedoc_document_menu" id="gedoc_protocollo_all_notified_menu" sequence="10"/>
 
     </data>
 </openerp>

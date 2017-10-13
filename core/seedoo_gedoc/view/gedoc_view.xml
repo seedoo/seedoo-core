@@ -96,10 +96,10 @@ this module contains the full copyright notices and license terms. -->
             </field>
         </record>
 
-        <menuitem action="protocollo_classification_act"
+<!--        <menuitem action="protocollo_classification_act"
                   parent="gedoc_configuration"
                   id="protocollo_classification_menu"
-                  groups="group_gedoc_manager" sequence="10"/>
+                  groups="group_gedoc_manager" sequence="10"/>-->
 
         <!-- Dossier -->
 
