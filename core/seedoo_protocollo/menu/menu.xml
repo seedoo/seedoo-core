@@ -26,11 +26,6 @@ this module contains the full copyright notices and license terms. -->
 
         <!-- Documenti in ingresso-->
 
-        <menuitem name="Crea Protocollo" action="crea_protocollo_ingresso_action"
-                  parent="protocollo_doc_in"
-                  id="crea_protocollo_ingresso_menu" sequence="5"
-                  groups="group_crea_protocollo_ingresso"/>
-
         <menuitem name="Registrati" action="protocollo_protocollo_in_act"
                   parent="protocollo_doc_in"
                   id="protocollo_protocollo_notified_menu" sequence="10"
@@ -41,16 +36,16 @@ this module contains the full copyright notices and license terms. -->
                   id="protocollo_protocollo_in_draft_menu" sequence="20"
                   groups="group_vedi_protocolli_ingresso_bozze"/>
 
+        <menuitem name="Crea Protocollo" action="crea_protocollo_ingresso_action"
+                  parent="protocollo_doc_in"
+                  id="crea_protocollo_ingresso_menu" sequence="30"
+                  groups="group_crea_protocollo_ingresso"/>
+
         <menuitem name="PEC" action="protocollo_pec_act" sequence="40"
                   parent="protocollo_doc_in" id="protocollo_pec_menu"
                   groups="base.group_pec"/>
 
         <!-- Documenti in uscita-->
-        <menuitem name="Crea Protocollo" action="crea_protocollo_uscita_action"
-                  parent="protocollo_doc_out"
-                  id="crea_protocollo_uscita_menu" sequence="5"
-                  groups="group_crea_protocollo_uscita"/>
-
         <menuitem name="Registrati" action="protocollo_protocollo_out_act"
                   parent="protocollo_doc_out"
                   id="protocollo_protocollo_out_menu" sequence="10"
@@ -61,11 +56,15 @@ this module contains the full copyright notices and license terms. -->
                   id="protocollo_protocollo_out_draft_menu" sequence="10"
                   groups="group_vedi_protocolli_uscita_bozze"/>
 
-        <menuitem name="Richieste protocollo" action="protocollo_protocollo_out_draft_others_act"
+        <menuitem name="Crea Protocollo" action="crea_protocollo_uscita_action"
+                  parent="protocollo_doc_out"
+                  id="crea_protocollo_uscita_menu" sequence="15"
+                  groups="group_crea_protocollo_uscita"/>
+
+        <menuitem name="Richieste Protocollo" action="protocollo_protocollo_out_draft_others_act"
                   parent="protocollo_doc_out"
                   id="protocollo_protocollo_out_draft_others_menu"
                   sequence="20"/>
-
         <!--Protocollo-->
         <menuitem action="protocollo_protocollo_not_classified_act"
                   parent="protocollo_protocollo_menu"
