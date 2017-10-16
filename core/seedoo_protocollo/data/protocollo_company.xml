@@ -5,7 +5,7 @@ this module contains the full copyright notices and license terms. -->
 <openerp>
     <data noupdate="1">
         <record id="base.main_company" model="res.company">
-            <field name="ammi_code">AOO</field>
+            <field name="ammi_code">CYC</field>
         </record>
     </data>
 </openerp>
