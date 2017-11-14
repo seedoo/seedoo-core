@@ -24,7 +24,7 @@ Visita la [WIKI](https://github.com/seedoo/seedoo/wiki) per maggiori informazion
 
 [Come Iniziare](https://github.com/seedoo/seedoo/wiki/Come-Iniziare) -  la pagina descrive step-by-step la procedura di installazione di Seedoo in un ambiente linux.
 
-[Sviluppa Seedoo](https://github.com/seedoo/seedoo/wiki/Inizia-a-Sviluppare) - la pagina descrive la procedura di installazione e sviluppo utilizzando l'ultima versione del codice sorgente.
+[Sviluppa Seedoo](https://github.com/seedoo/seedoo/wiki/Inizia-a-Sviluppare) - la pagina descrive la procedura di installazione e configurazione dell'ambiente di sviluppo.
 
 
 ### Bug Tracker
