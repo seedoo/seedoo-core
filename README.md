@@ -1,4 +1,5 @@
 ![Seedoo](doc/img/logo.png "Seedoo")
+
 Seedoo è un sistema open source per la gestione del Protocollo Informatico e la Gestione Documentale a norma.
 
 Il software gestisce l'intero iter documentale in maniera personalizzata e integrata,
