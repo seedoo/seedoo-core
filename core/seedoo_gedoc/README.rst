@@ -28,14 +28,14 @@ Images
 Contributors
 ------------
 
-* Roberto Onnis <roberto.onnis@innoviu.com>
-* Daniele Sanna <daniele.sanna@flosslab.com>
-* Samuele Collu <Samuele.collu@flosslab.com>
-* Saul Lai <saul.lai@flosslab.com>
-* Francesco Alba <francesco.alba@flosslab.com>
-* Norman Argiolas <norman.argiolas@flosslab.com>
-* Andrea Peruzzu <andrea.peruzzu@flosslab.com>
-* Luca Cireddu <luca.cireddu@flosslab.com>
+* Roberto Onnis
+* Daniele Sanna
+* Samuele Collu
+* Saul Lai
+* Francesco Alba
+* Norman Argiolas
+* Andrea Peruzzu
+* Luca Cireddu
 
 
 

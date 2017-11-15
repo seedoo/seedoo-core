@@ -6,7 +6,7 @@
 Seedoo Theme
 ============
 
-Modulo grafico per piattaforma Seedoo: colori , immagini ed altro.
+Tema grafico per piattaforma Seedoo: colori , immagini ed altro.
 
 
 
@@ -29,9 +29,11 @@ Images
 Contributors
 ------------
 
-* Alessio Gerace <alessio.gerace@agilebg.com>
-* Daniele Sanna <daniele.sanna@flosslab.com>
-* Norman Argiolas <norman.argiolas@flosslab.com>
+* Alessio Gerace
+* Daniele Sanna
+* Norman Argiolas
+* Andrea Peruzzu
+* Francesco Alba
 
 
 Maintainer

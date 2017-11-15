@@ -1,133 +1,45 @@
 ![Seedoo](doc/img/logo.png "Seedoo")
 
-> La piattaforma software di nuova generazione per la digitalizzazione della PA.
+Seedoo è un sistema open source per la gestione del Protocollo Informatico e la Gestione Documentale a norma.
 
 Il software gestisce l'intero iter documentale in maniera personalizzata e integrata,
 **Protocollo informatico**, **Gestione Documentale**, **Integrazione PEC**, Analisi dei Dati, sono alcuni degli strumenti
 che permettono alla nuova PA di perseguire i propri obiettivi in un'ottica di performance,
 governance e trasparenza verso il cittadino.
 
-# Installazione
+# Seedoo Core
+**seedoo-core** è il core della piattaforma Seedoo, include i moduli di gestione documentale, il protocollo informatico e la gestione pec, oltre ad altri stumenti di base.
 
-Per il funzionamento dell'applicazione è necessario un ambiente GNU/Linux con database PostgreSQL.
-La seguente procedura è basata sulla distribuzione GNU/Linux Ubuntu Server 16.04 amd64.
+seedoo-core è composto dai seguenti moduli:
+- *seedoo_gedoc*: Modulo per la Gestione Documentale
+- *seedoo_protocollo*: Modulo per la gestione del protocollo informatico anorma  e integrazione PEC.
+- *seedoo_protocollo_dematerializzazione*: Modulo per la gestione dei documenti analogici del Protocollo Seedoo. Funzionalità di importazione massiva documenti (modalità aggancio e creazione), funzionalità stampa etichetta.
+- *seedoo_protocollo_zip*: Modulo per abilitare il download degli allegati del protocollo in formato zip.
+- *seedoo_theme*: Tema grafico per piattaforma Seedoo.
+- *m2o_tree_widget*: Modulo per la gestione della vista ad albero.
+- *web_pdf_widget*: Modulo per abilitare preview pdf dei documenti.
 
-## Installazione dipendenze di sistema
+Visita il [**WIKI**](https://github.com/seedoo/seedoo/wiki) per maggiori informazioni su Seedoo. Al momento le pagine della wiki sono: 
 
-Installare da utente root i seguenti pacchetti:
-
-```bash
-apt-get install wkhtmltopdf node-less inkscape pandoc texlive-fonts-recommended \
-    build-essential automake autoconf libtool pkg-config python-dev python-virtualenv \
-    python-pip python-setuptools libjpeg-dev libgif-dev libpng12-dev libpq-dev libxml2-dev \
-    libxslt1-dev libldap2-dev libssl-dev libfreetype6-dev libwebp-dev libdotconf-dev \
-    libsasl2-dev libyaml-dev libtiff5-dev postgresql postgresql-client poppler-utils \
-    default-jre xvfb
-```
-## Download del codice
-
-Entrare nella cartella del programma e clonare il repository
-
-```bash
-cd ~/
-git clone https://github.com/seedoo/seedoo.git ~/seedoo
-cd ~/seedoo
-git submodule init
-git submodule update
-```
-
-## Creazione Python virtualenv
-
-Creare un virtualenv python ed installare le dipendenze necessarie:
-
-```bash
-cd ~/seedoo
-virtualenv venv
-./venv/bin/pip install -r ocb/requirements.txt 
-./venv/bin/pip install -r requirements.txt
-```
-
-## Creazione utente database PostgreSQL
-
-Creare un utente PostegreSQL dedicato per Seedoo con i diritti per la creazione di database. 
-
-Collegarsi al database PostgreSQL come utente amministratore (utente *postgres*) è possibile effetture la creazione dell'utente *seedoo* con la seguente query:
-
-```bash
-sudo bash
-su - postgres
-echo "CREATE ROLE seedoo NOSUPERUSER NOCREATEROLE CREATEDB LOGIN INHERIT NOREPLICATION ENCRYPTED PASSWORD 'seedoo';" | psql
-exit
-exit
-```
-
-## Avvio Odoo
-
-Avviare Odoo usando lo script run.sh :
-
-```bash
-cd ~/seedoo
-bash run.sh
-```
-Una volta avviato Odoo collegarsi via browser al backend tramite l'indirizzo `http://<address>:8069`, dove **address** è l'indirizzo della macchina.
-
-## Creazione Database Odoo
-
-Collegarsi via browser al backend e creare un database di partenza per i moduli Seedoo con i seguenti dati:
-
-* Password principale: `admin`
-* Scegli un nome per il database: `seedoo`
-* Lingua Predefinita: `Italian/Italiano`
-* Scegli una password: `<la_tua_password>` , dove **la_tua_password** è la password che sceglierai per l'utente admin.
-* Conferma password: `<la_tua_password>` , dove **la_tua_password** è la password che sceglierai per l'utente admin.
-
-Completata la creazione del database il sistema accederà automaticamente con l'utenza admin appena creata al backend.
-
-## Installazione Moduli Seedoo
-
-Accedere al backend con l'utenza admin e procedere con la ricerca dei moduli Seedoo in Configurazione > Moduli in locale.
-Procedere l'istallazione dei moduli core:
-
-* Seedoo Gestione Documentale
-* Seedoo Protocollo
-* Seedoo Protocollo Dematerializzazione 
-
-Compilare il form di configurazione Seedoo proposto post installazione indicando i dati della propria PA.
-
-In sistema è correttamente installato.
-
-Per accedere:
-
-* Indirizzo:`http://<address>:8069`
-* Username: `admin`
-* Password: `<la_tua_password>`
+- [**Come Iniziare**](https://github.com/seedoo/seedoo/wiki/Come-Iniziare) -  la pagina descrive step-by-step la procedura di installazione di Seedoo in un ambiente linux.
+- [**Sviluppa Seedoo**](https://github.com/seedoo/seedoo/wiki/Inizia-a-Sviluppare) - la pagina descrive la procedura di installazione e configurazione dell'ambiente di sviluppo.
 
 
-# Bug Tracker
+### Bug Tracker
 
 In caso si voglia segnalare un bug è possibile farlo su [GitHub Issues](https://github.com/seedoo/seedoo/issues).
 
-
-# Credits
-
-## Maintainer
+### Maintainer
 
 Questo software è mantenuto dalla comunità Seedoo.
 
 Seedoo è un prodotto supportato da Agilebg, Flosslab e Innoviù, aziende specializzate nella realizzazione di software
 avanzati per Pubbliche Amministrazioni ed Enti Privati.
 
-Per uteriori informazioni, visitare il sito [www.seedoo.it](www.seedoo.it).
+Per uteriori informazioni, visita il sito [www.seedoo.it](www.seedoo.it).
 
-## Contributors
+Seedoo Core è rilasciato sotto licenza GNU AFFERO GENERAL PUBLIC LICENSE Version 3
 
-* Alessio Gerace <alessio.gerace@agilebg.com>
-* Lorenzo Battistini <lorenzo.battistini@agilebg.com>
-* Roberto Onnis <roberto.onnis@innoviu.com>
-* Daniele Sanna <daniele.sanna@flosslab.com>
-* Samuele Collu <Samuele.collu@flosslab.com>
-* Saul Lai <saul.lai@flosslab.com>
-* Francesco Alba <francesco.alba@flosslab.com>
-* Norman Argiolas <norman.argiolas@flosslab.com>
-* Andrea Peruzzu <andrea.peruzzu@flosslab.com>
-* Luca Cireddu <luca.cireddu@flosslab.com>
+Enjoy!
+
+The Seedoo Team
