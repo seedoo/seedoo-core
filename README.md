@@ -19,15 +19,15 @@ seedoo-core è composto dai seguenti moduli:
 - *m2o_tree_widget*: Modulo per la gestione della vista ad albero.
 - *web_pdf_widget*: Modulo per abilitare preview pdf dei documenti.
 
-Visita il [**WIKI**](https://github.com/seedoo/seedoo/wiki) per maggiori informazioni su Seedoo. Al momento le pagine della wiki sono: 
+Visita il [**WIKI**](wiki) per maggiori informazioni su Seedoo. Al momento le pagine della wiki sono: 
 
-- [**Come Iniziare**](https://github.com/seedoo/seedoo/wiki/Come-Iniziare) -  la pagina descrive step-by-step la procedura di installazione di Seedoo in un ambiente linux.
-- [**Sviluppa Seedoo**](https://github.com/seedoo/seedoo/wiki/Inizia-a-Sviluppare) - la pagina descrive la procedura di installazione e configurazione dell'ambiente di sviluppo.
+- [**Come Iniziare**](wiki/Come-Iniziare) -  la pagina descrive step-by-step la procedura di installazione di Seedoo in un ambiente linux.
+- [**Sviluppa Seedoo**](wiki/Inizia-a-Sviluppare) - la pagina descrive la procedura di installazione e configurazione dell'ambiente di sviluppo.
 
 
 ### Bug Tracker
 
-In caso si voglia segnalare un bug è possibile farlo su [GitHub Issues](https://github.com/seedoo/seedoo/issues).
+In caso si voglia segnalare un bug è possibile farlo su [GitHub Issues](issues).
 
 ### Maintainer
 
