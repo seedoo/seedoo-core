@@ -62,7 +62,7 @@ class protocollo_classification(osv.Model):
             if record['code']:
                 name = record['code'] + ' - ' + record['name']
             else:
-                name = 'NO CODE' + ' - ' + record['name']
+                name = record['name']
             res.append((record['id'], name))
         return res
 
@@ -74,7 +74,10 @@ class protocollo_classification(osv.Model):
         classification_obj = self.pool.get('protocollo.classification')
         res = []
         for classification in classification_obj.browse(cr, uid, ids, context=context):
-            res.append((classification.id, classification.code + " - " + classification.name))
+            if classification.code:
+                res.append((classification.id, classification.code + " - " + classification.name))
+            else:
+                res.append((classification.id, classification.name))
         return dict(res)
 
     _columns = {
