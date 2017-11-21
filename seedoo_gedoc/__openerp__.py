@@ -3,39 +3,38 @@
 # this module contains the full copyright notices and license terms.
 
 {
-    'name': 'Seedoo Gestione Documentale',
-    'version': '8.0.1.5.1',
-    'category': 'Document Management',
-    'summary': 'Modulo Gestione Documentale',
-    'sequence': '1',
-    'author': 'Innoviu, Flosslab',
-    'website': 'https://www.seedoo.it',
-    'license': 'AGPL-3',
-    "depends":
-        [
-            'base',
-            'document',
-            'hr',
-            'l10n_it_ipa'
-        ],
-    "data":
-        [
-            'security/gedoc_security.xml',
-            'security/gedoc_security_rules.xml',
-            'security/ir.model.access.csv',
-            'data/gedoc_data.xml',
-            'data/model_type.xml',
-            'data/document_type.xml',
-            'wizard/gedoc_base_configuration_view.xml',
-            'wizard/upload_doc_wizard_view.xml',
-            'view/gedoc_view.xml',
-            'view/company_view.xml',
-            'workflow/gedoc_dossier_workflow.xml',
-            ],
-    "demo": [],
-    "css": ['static/src/css/gedoc.css'],
+    "name": "Seedoo Gestione Documentale",
+    "version": "8.0.1.6.0",
+    "category": "Document Management",
+    "summary": "Modulo Gestione Documentale",
+    "sequence": "1",
+    "author": "Innoviu, Flosslab",
+    "website": "https://www.seedoo.it",
+    "license": "AGPL-3",
+    "depends": [
+        "base",
+        "document",
+        "hr",
+        "l10n_it_ipa"
+    ],
+    "data": [
+        "security/gedoc_security.xml",
+        "security/gedoc_security_rules.xml",
+        "security/ir.model.access.csv",
+        "data/gedoc_data.xml",
+        "data/model_type.xml",
+        "data/document_type.xml",
+        "wizard/gedoc_base_configuration_view.xml",
+        "wizard/upload_doc_wizard_view.xml",
+        "view/gedoc_view.xml",
+        "view/company_view.xml",
+        "workflow/gedoc_dossier_workflow.xml"
+    ],
+    "css": [
+        "static/src/css/gedoc.css"
+    ],
     "installable": True,
     "application": True,
-    "active": False,
+    "active": False
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

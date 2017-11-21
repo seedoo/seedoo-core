@@ -20,20 +20,25 @@
 ##############################################################################
 
 {
-    'name': 'M2O Tree Widget',
-    'version': '8.0.1.5.1',
-    'category': 'Usability',
-    'summary': 'Protocollo Informatico PA',
-    'author': 'Agile Business Group, Innoviu, Flosslab',
-    'website': 'http://www.seedoo.it',
-    'license': 'AGPL-3',
-    "depends": ['web'],
-    "data": ['base_data.xml'],
-    "css": [
-        'static/src/css/zTreeStyle.css',
+    "name": "M2O Tree Widget",
+    "version": "8.0.1.6.0",
+    "category": "Usability",
+    "summary": "Protocollo Informatico PA",
+    "author": "Agile Business Group, Innoviu, Flosslab",
+    "website": "http://www.seedoo.it",
+    "license": "AGPL-3",
+    "depends": [
+        "web"
     ],
-    "demo": [],
-    "qweb": ['static/src/xml/m2o_tree_widget.xml'],
+    "data": [
+        "base_data.xml"
+    ],
+    "css": [
+        "static/src/css/zTreeStyle.css",
+    ],
+    "qweb": [
+        "static/src/xml/m2o_tree_widget.xml"
+    ],
     "installable": True,
-    "auto_install": False,
+    "auto_install": False
 }
