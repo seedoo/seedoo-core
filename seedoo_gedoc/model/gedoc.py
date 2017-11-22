@@ -573,6 +573,19 @@ class gedoc_document_type(osv.Model):
         seq_id = sequence_obj.create(cr, SUPERUSER_ID, sequence_vals, context={})
         return seq_id
 
+    def unlink(self, cr, uid, ids, context=None):
+        rep = self.browse(cr, uid, ids, context=context)
+        sequence_obj = self.pool.get('ir.sequence')
+        sequence_type_obj = self.pool.get('ir.sequence.type')
+        seq_id = rep.repertorio_sequence.id
+        seq_code = rep.repertorio_sequence.code
+        res = super(gedoc_document_type, self).unlink(cr, uid, ids, context=context)
+        if res:
+            seq_type = sequence_type_obj.search(cr, uid, [('code', '=', seq_code)])
+            sequence_type_obj.unlink(cr, SUPERUSER_ID, seq_type)
+            sequence_obj.unlink(cr, SUPERUSER_ID, seq_id)
+        return True
+
 
 class gedoc_document(osv.Model):
     _name = 'gedoc.document'

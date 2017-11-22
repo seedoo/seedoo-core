@@ -438,6 +438,19 @@ class protocollo_registry(orm.Model):
         #         return True
         return True
 
+    def unlink(self, cr, uid, ids, context=None):
+        reg = self.browse(cr, uid, ids, context=context)
+        sequence_obj = self.pool.get('ir.sequence')
+        sequence_type_obj = self.pool.get('ir.sequence.type')
+        seq_id = reg.sequence.id
+        seq_code = reg.sequence.code
+        res = super(protocollo_registry, self).unlink(cr, uid, ids, context=context)
+        if res:
+            seq_type = sequence_type_obj.search(cr, uid, [('code', '=', seq_code)])
+            sequence_type_obj.unlink(cr, SUPERUSER_ID, seq_type)
+            sequence_obj.unlink(cr, SUPERUSER_ID, seq_id)
+        return True
+
 
 class protocollo_protocollo(orm.Model):
     _name = 'protocollo.protocollo'
