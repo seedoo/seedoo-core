@@ -11,7 +11,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="city">Roma (RM)</field>
             <field name="zip">00144</field>
             <field name="phone">+1 012 345 6789</field>
-            <field name="email">info@mds.example.com</field>
             <field name="website">www.salute.gov.it</field>
         </record>
     </data>

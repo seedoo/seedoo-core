@@ -115,3 +115,12 @@ class protocollo_aoo(orm.Model):
         })
         self.write(cr, uid, [aoo.id], {'registry_id': registry_id})
         return aoo.id
+
+    def unlink(self, cr, uid, ids, context=None):
+        aoo = self.browse(cr, uid, ids, context=context)
+        reg_obj = self.pool.get('protocollo.registry')
+        reg_id = aoo.registry_id.id
+        res = super(protocollo_aoo, self).unlink(cr, uid, ids, context=context)
+        if res and reg_id:
+            reg_obj.unlink(cr, SUPERUSER_ID, reg_id)
+        return True
