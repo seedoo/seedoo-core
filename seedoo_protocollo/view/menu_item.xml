@@ -6,10 +6,10 @@ this module contains the full copyright notices and license terms. -->
     <data>
 
         <!-- Disable Comunicazioni -->
-        <record id="mail.mail_feeds_main" model="ir.ui.menu">
-            <field name="groups_id"
-                   eval="[(6,0,[ref('base.group_system'), ref('base.group_erp_manager')])]"/>
-        </record>
+        <!--<record id="mail.mail_feeds_main" model="ir.ui.menu">-->
+            <!--<field name="groups_id"-->
+                   <!--eval="[(6,0,[ref('base.group_system'), ref('base.group_erp_manager')])]"/>-->
+        <!--</record>-->
 
         <!-- Disable Vendite -->
         <record id="base.menu_base_partner" model="ir.ui.menu">
@@ -24,6 +24,8 @@ this module contains the full copyright notices and license terms. -->
         </record>
 
         <!-- Set Top Menu Sequences -->
+        <menuitem name="Comunicazioni" id="mail.mail_feeds_main"
+                  sequence="40"/>
         <menuitem name="Rubrica" id="seedoo_protocollo.menu_root_rubrica"
                   sequence="50"/>
         <menuitem name="Gestione Documentale" id="seedoo_gedoc.menu_root_gedoc"

@@ -26,12 +26,16 @@ this module contains the full copyright notices and license terms. -->
                         <field name="pec_type" invisible="1"/>
                     </header>
                     <sheet>
+                        <group>
+                            <newline/>
+                            <field name="pec_server_user" attrs="{'invisible':[('pec_type','!=','posta-certificata')]}" string="Account"/>
+                            <newline/>
+                        </group>
                         <div class="gedoc_header">
                             <group col="4">
                                 <newline/>
-                                <field name="email_from"/>
+                                <field name="email_from" attrs="{'invisible':[('pec_type','!=','posta-certificata')]}"/>
                                 <field name="date"/>
-                                <field name="pec_server_user"/>
                             </group>
                         </div>
                         <group>
@@ -69,7 +73,7 @@ this module contains the full copyright notices and license terms. -->
                     <field name="email_from"/>
                     <field name="subject"/>
                     <field name="date"/>
-                    <field name="pec_server_user"/>
+                    <field name="pec_server_user" string="Account"/>
                 </tree>
             </field>
         </record>
