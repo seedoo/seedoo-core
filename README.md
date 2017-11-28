@@ -12,7 +12,7 @@ governance e trasparenza verso il cittadino.
 
 seedoo-core è composto dai seguenti moduli:
 - *seedoo_gedoc*: Modulo per la Gestione Documentale
-- *seedoo_protocollo*: Modulo per la gestione del protocollo informatico anorma  e integrazione PEC.
+- *seedoo_protocollo*: Modulo per la gestione del protocollo informatico a norma e integrazione PEC.
 - *seedoo_protocollo_dematerializzazione*: Modulo per la gestione dei documenti analogici del Protocollo Seedoo. Funzionalità di importazione massiva documenti (modalità aggancio e creazione), funzionalità stampa etichetta.
 - *seedoo_protocollo_zip*: Modulo per abilitare il download degli allegati del protocollo in formato zip.
 - *seedoo_theme*: Tema grafico per piattaforma Seedoo.
