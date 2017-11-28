@@ -1991,7 +1991,7 @@ class protocollo_journal(orm.Model):
             help="Lo stato del protocollo.",
             select=True,
         ),
-        'aoo_id': fields.many2one('protocollo.aoo', 'AOO', required=True),
+        'aoo_id': fields.many2one('protocollo.aoo', 'AOO', ondelete="cascade", required=True),
     }
 
     _defaults = {
