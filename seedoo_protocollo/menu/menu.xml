@@ -5,7 +5,7 @@ this module contains the full copyright notices and license terms. -->
 <openerp>
     <data>
 
-        <menuitem name="Protocollo" id="menu_root_protocollo" sequence="1" groups="group_protocollo_user"/>
+        <menuitem name="Protocollo" id="menu_root_protocollo" sequence="20" groups="group_protocollo_user"/>
 
         <menuitem name="Documenti in ingresso" parent="menu_root_protocollo"
                   id="protocollo_doc_in" sequence="10"/>

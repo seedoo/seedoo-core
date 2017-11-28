@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- ActWindow collegata a Tile Registrati da me in uscita -->
+        <record model="ir.actions.act_window" id="act_tile_protocollo_uscita_registrati_da_me">
+            <field name="name">Protocolli registrati da me in uscita</field>
+            <field name="res_model">protocollo.protocollo</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="protocollo_protocollo_tree"/>
+            <field name="domain">[('type', '=', 'out'),('user_id', '=', uid),('state', '=', 'registered')]</field>
+        </record>
+
+
+
+        <!-- ActWindow collegata a Tile Registrati da me in ingresso -->
+        <record model="ir.actions.act_window" id="act_tile_protocollo_ingresso_registrati_da_me">
+            <field name="name">Protocolli registrati da me in ingresso</field>
+            <field name="res_model">protocollo.protocollo</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="protocollo_protocollo_tree"/>
+            <field name="domain">[('type', '=', 'in'),('user_id', '=', uid),('state', '=', 'registered')]</field>
+        </record>
+
+        <!-- ActWindow collegata a Tile Protocolli uscita assegnati a me -->
+        <record model="ir.actions.act_window" id="act_tile_protocollo_uscita_assegnati_a_me">
+            <field name="name">Protocolli uscita assegnati a me</field>
+            <field name="res_model">protocollo.protocollo</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="protocollo_protocollo_tree"/>
+            <field name="domain">[('type', '=', 'out'),('assegnatari_competenza_dipendenti_ids.dipendente_id.user_id.id', '=', uid)]</field>
+        </record>
+
+        <!-- ActWindow collegata a Tile Protocolli ingresso assegnati a me -->
+        <record model="ir.actions.act_window" id="act_tile_protocollo_ingresso_assegnati_a_me">
+            <field name="name">Protocolli ingresso assegnati a me</field>
+            <field name="res_model">protocollo.protocollo</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="protocollo_protocollo_tree"/>
+            <field name="domain">[('type', '=', 'in'),('assegnatari_competenza_dipendenti_ids.dipendente_id.user_id.id', '=', uid)]</field>
+        </record>
+
+        <!-- ActWindow collegata a Tile Protocolli uscita assegnati al mio ufficio -->
+        <record model="ir.actions.act_window" id="act_tile_protocollo_uscita_assegnati_mio_ufficio">
+            <field name="name">Protocolli uscita assegnati al mio Ufficio</field>
+            <field name="res_model">protocollo.protocollo</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="protocollo_protocollo_tree"/>
+            <field name="domain">[('type', '=', 'out'),('assegnatari_competenza_uffici_ids.assegnatari_dipendenti_ids.dipendente_id.user_id.id', '=', uid)]</field>
+        </record>
+
+        <!-- ActWindow collegata a Tile Protocolli ingresso assegnati al mio ufficio -->
+        <record model="ir.actions.act_window" id="act_tile_protocollo_ingresso_assegnati_mio_ufficio">
+            <field name="name">Protocolli ingresso assegnati al mio Ufficio</field>
+            <field name="res_model">protocollo.protocollo</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="protocollo_protocollo_tree"/>
+            <field name="domain">[('type', '=', 'in'),('assegnatari_competenza_uffici_ids.assegnatari_dipendenti_ids.dipendente_id.user_id.id', '=', uid)]</field>
+        </record>
+
+        <!--  Tile: PEC-->
+        <record id="tile_protocollo_pec" model="tile.tile">
+            <field name="name">PEC</field>
+            <field name="model_id" ref="mail.model_mail_message"/>
+            <field name="action_id" ref="seedoo_protocollo.protocollo_pec_act"/>
+            <field name="domain">[('server_id.pec','=',True),('pec_type','=','posta-certificata'),('server_id.user_ids','in',uid),('pec_state','=','new')]</field>
+            <field name="font_color">#ffffff</field>
+            <field name="background_color">#9B59B6</field>
+        </record>
+        <!--  Tile: Protocolli non classificati-->
+        <record id="tile_protocollo_non_classificati" model="tile.tile">
+            <field name="name">Non Classificati</field>
+            <field name="model_id" ref="seedoo_protocollo.model_protocollo_protocollo"/>
+            <field name="action_id" ref="seedoo_protocollo.protocollo_protocollo_not_classified_act"/>
+            <field name="domain">[('state','in',('registered','notified','sent','waiting','error')),('classification','=',False)]</field>
+            <field name="font_color">#ffffff</field>
+            <field name="background_color">#34495E</field>
+        </record>
+        <!--  Tile: Protocolli non tile_protocollo_non_fascicolati-->
+        <record id="tile_protocollo_non_fascicolati" model="tile.tile">
+            <field name="name">Non Fascicolati</field>
+            <field name="model_id" ref="seedoo_protocollo.model_protocollo_protocollo"/>
+            <field name="action_id" ref="seedoo_protocollo.protocollo_protocollo_not_dossier_act"/>
+            <field name="domain">[('state','in',('registered','notified','sent','waiting','error')),('dossier_ids','=',False)]</field>
+            <field name="font_color">#ffffff</field>
+            <field name="background_color">#34495E</field>
+        </record>
+        <!--  Tile: Protocolli in bozza in uscita-->
+        <record id="tile_protocollo_uscita_bozza" model="tile.tile">
+            <field name="name">In Bozza</field>
+            <field name="model_id" ref="seedoo_protocollo.model_protocollo_protocollo"/>
+            <field name="action_id" ref="seedoo_protocollo.protocollo_protocollo_out_draft_act"/>
+            <field name="domain">[('type', '=', 'out'),('state','=','draft')]</field>
+            <field name="font_color">#ffffff</field>
+            <field name="background_color">#F1C40F</field>
+        </record>
+        <!--  Tile: Protocolli in bozza in ingresso-->
+        <record id="tile_protocollo_ingresso_bozza" model="tile.tile">
+            <field name="name">In Bozza</field>
+            <field name="model_id" ref="seedoo_protocollo.model_protocollo_protocollo"/>
+            <field name="action_id" ref="seedoo_protocollo.protocollo_protocollo_in_draft_act"/>
+            <field name="domain">[('type', '=', 'in'),('state','=','draft')]</field>
+            <field name="font_color">#ffffff</field>
+            <field name="background_color">#F1C40F</field>
+        </record>
+        <!--  Tile: Protocolli registrati da me in uscita-->
+        <record id="tile_protocollo_uscita_registrati_da_me" model="tile.tile">
+            <field name="name"> Registrati da me</field>
+            <field name="model_id" ref="seedoo_protocollo.model_protocollo_protocollo"/>
+            <field name="action_id" ref="seedoo_protocollo.act_tile_protocollo_uscita_registrati_da_me"/>
+            <field name="domain"> [('type', '=', 'out'),('user_id', '=', uid),('state', '=', 'registered')]</field>
+            <field name="font_color">#ffffff</field>
+            <field name="background_color">#27AE60</field>
+        </record>
+        <!--  Tile: Protocolli registrati da me in ingresso-->
+        <record id="tile_protocollo_ingresso_registrati_da_me" model="tile.tile">
+            <field name="name"> Registrati da me</field>
+            <field name="model_id" ref="seedoo_protocollo.model_protocollo_protocollo"/>
+            <field name="action_id" ref="seedoo_protocollo.act_tile_protocollo_ingresso_registrati_da_me"/>
+            <field name="domain"> [('type', '=', 'in'),('user_id', '=', uid),('state', '=', 'registered')]</field>
+            <field name="font_color">#ffffff</field>
+            <field name="background_color">#27AE60</field>
+        </record>
+        <!--  Tile: Protocolli assegnati a me in uscita-->
+        <record id="tile_protocollo_uscita_assegnati_a_me" model="tile.tile">
+            <field name="name">Assegnati a me</field>
+            <field name="model_id" ref="seedoo_protocollo.model_protocollo_protocollo"/>
+            <field name="action_id" ref="seedoo_protocollo.act_tile_protocollo_uscita_assegnati_a_me"/>
+            <field name="domain">[('type', '=', 'out'),('assegnatari_competenza_dipendenti_ids.dipendente_id.user_id.id', '=', uid)]</field>
+            <field name="font_color">#ffffff</field>
+            <field name="background_color">#3498db</field>
+        </record>
+        <!--  Tile: Protocolli assegnati a me in ingresso-->
+        <record id="tile_protocollo_ingresso_assegnati_a_me" model="tile.tile">
+            <field name="name">Assegnati a me</field>
+            <field name="model_id" ref="seedoo_protocollo.model_protocollo_protocollo"/>
+            <field name="action_id" ref="seedoo_protocollo.act_tile_protocollo_ingresso_assegnati_a_me"/>
+            <field name="domain">[('type', '=', 'in'),('assegnatari_competenza_dipendenti_ids.dipendente_id.user_id.id', '=', uid)]</field>
+            <field name="font_color">#ffffff</field>
+            <field name="background_color">#3498db</field>
+        </record>
+        <!--  Tile: Protocolli registrati al mio ufficio in uscita-->
+        <record id="tile_protocollo_uscita_assegnati_mio_ufficio" model="tile.tile">
+            <field name="name">Assegnati al mio Ufficio</field>
+            <field name="model_id" ref="seedoo_protocollo.model_protocollo_protocollo"/>
+            <field name="action_id" ref="seedoo_protocollo.act_tile_protocollo_uscita_assegnati_mio_ufficio"/>
+            <field name="domain">[('type', '=', 'out'),('assegnatari_competenza_uffici_ids.assegnatari_dipendenti_ids.dipendente_id.user_id.id', '=', uid)] </field>
+            <field name="font_color">#ffffff</field>
+            <field name="background_color">#2980b9</field>
+        </record>
+        <!--  Tile: Protocolli registrati al mio ufficio in ingresso-->
+        <record id="tile_protocollo_ingresso_assegnati_mio_ufficio" model="tile.tile">
+            <field name="name">Assegnati al mio Ufficio</field>
+            <field name="model_id" ref="seedoo_protocollo.model_protocollo_protocollo"/>
+            <field name="action_id" ref="seedoo_protocollo.act_tile_protocollo_ingresso_assegnati_mio_ufficio"/>
+            <field name="domain">[('type', '=', 'in'),('assegnatari_competenza_uffici_ids.assegnatari_dipendenti_ids.dipendente_id.user_id.id', '=', uid)] </field>
+            <field name="font_color">#ffffff</field>
+            <field name="background_color">#2980b9</field>
+        </record>
+
+        <delete id="web_dashboard_tile.installed_modules" model="tile.tile"/>
+        <delete id="web_dashboard_tile.installed_OCA_modules" model="tile.tile"/>
+        <delete id="web_dashboard_tile.all_currency_with_rate" model="tile.tile"/>
+
+    </data>
+</openerp>

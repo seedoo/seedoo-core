@@ -23,7 +23,8 @@
             'l10n_it_pec_messages',
             'l10n_it_ipa',
             'm2o_tree_widget',
-            'web_pdf_widget'
+            'web_pdf_widget',
+            'web_dashboard_tile'
         ],
     "data":
         [
@@ -65,6 +66,8 @@
             'workflow/protocollo_workflow.xml',
             'data/protocollo_report.xml',
             'menu/menu.xml',
+            'data/protocollo_tile.xml',
+            'view/protocollo_dashboard_view.xml'
         ],
     "demo": [
             'demo/hr_delete.xml',

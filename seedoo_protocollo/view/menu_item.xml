@@ -25,7 +25,7 @@ this module contains the full copyright notices and license terms. -->
 
         <!-- Set Top Menu Sequences -->
         <menuitem name="Comunicazioni" id="mail.mail_feeds_main"
-                  sequence="40"/>
+                  sequence="10"/>
         <menuitem name="Rubrica" id="seedoo_protocollo.menu_root_rubrica"
                   sequence="50"/>
         <menuitem name="Gestione Documentale" id="seedoo_gedoc.menu_root_gedoc"
