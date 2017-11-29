@@ -30,9 +30,7 @@ In caso si voglia segnalare un bug è possibile farlo su [GitHub Issues](https:/
 
 ### Maintainer
 
-Questo software è mantenuto dalla comunità Seedoo.
-
-Seedoo è un prodotto supportato da Agilebg, Flosslab e Innoviù, aziende specializzate nella realizzazione di software
+Seedoo è un prodotto mantenuto da AgileBG, Flosslab e Innoviù, aziende specializzate nella realizzazione di software
 avanzati per Pubbliche Amministrazioni ed Enti Privati.
 
 Per uteriori informazioni, visita il sito [www.seedoo.it](www.seedoo.it).
