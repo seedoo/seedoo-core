@@ -65,7 +65,7 @@ class gedoc_configuration(osv.osv_memory):
                 'company_vals': company_vals,
                 'hash': hash_value
             }
-            url = "http://seedoo-crm.flosslab.com/count/ping"
+            url = "https://www.seedoo.it/count/ping"
             requests.post(url=url, data=json.dumps(data))
         except:
             pass
