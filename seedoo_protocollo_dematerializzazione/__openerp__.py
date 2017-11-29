@@ -4,42 +4,42 @@
 # this module contains the full copyright notices and license terms.
 
 {
-    'name': 'Seedoo Protocollo Dematerializzazione',
-    'version': '8.0.1.0.2',
-    'category': 'Document Management',
-    'summary': 'Gestione Documenti Analogici Protocollo',
-    'sequence': '1',
-    'author': 'Flosslab',
-    'website': 'http://www.flosslab.com.',
-    'license': 'AGPL-3',
+    "name": "Seedoo Protocollo Dematerializzazione",
+    "version": "8.0.1.6.0",
+    "category": "Document Management",
+    "summary": "Gestione Documenti Analogici Protocollo",
+    "sequence": "1",
+    "author": "Flosslab",
+    "website": "http://www.flosslab.com.",
+    "license": "AGPL-3",
     "depends": [
         "base",
         "seedoo_protocollo"
     ],
-    "data":
-    [
-        'data/configurazione.xml',
-        'data/cron.xml',
-        'security/ir.model.access.csv',
-        'security/security.xml',
-        'security/security_rules.xml',
-        'view/importer.xml',
-        'view/storico_importazione.xml',
-        'view/storico_importazione_importer.xml',
-        'view/storico_importazione_importer_file.xml',
-        'view/res_config.xml',
-        'view/protocollo.xml',
-        'wizard/importa_documenti_wizard_view.xml',
-        'menu/menu.xml'
+    "data": [
+        "data/configurazione.xml",
+        "data/cron.xml",
+        "security/ir.model.access.csv",
+        "security/security.xml",
+        "security/security_rules.xml",
+        "view/importer.xml",
+        "view/storico_importazione.xml",
+        "view/storico_importazione_importer.xml",
+        "view/storico_importazione_importer_file.xml",
+        "view/res_config.xml",
+        "view/protocollo.xml",
+        "wizard/importa_documenti_wizard_view.xml",
+        "menu/menu.xml"
     ],
-    "demo":
-    [
-        'demo/dematerializzazione_importer.xml',
+    "demo": [
+        "demo/dematerializzazione_importer.xml",
     ],
-    "css": ['static/src/css/dematerializzazione.css'],
+    "css": [
+        "static/src/css/dematerializzazione.css"
+    ],
     "installable": True,
     "application": True,
-    "active": False,
+    "active": False
 }
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

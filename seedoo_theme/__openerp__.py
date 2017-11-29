@@ -3,28 +3,31 @@
 # this module contains the full copyright notices and license terms.
 
 {
-    'name': 'Seedoo Theme',
-    'version': '8.0.1.5.1',
-    'category': 'Web',
-    'summary': 'Tema Grafico Piattaforma Seedoo',
-    'sequence': '1',
-    'author': 'Agile Business Group, Flosslab',
-    'website': 'http://www.seedoo.it',
-    'license': 'AGPL-3',
+    "name": "Seedoo Theme",
+    "version": "8.0.1.6.0",
+    "category": "Web",
+    "summary": "Tema Grafico Piattaforma Seedoo",
+    "sequence": "1",
+    "author": "Agile Business Group, Flosslab",
+    "website": "http://www.seedoo.it",
+    "license": "AGPL-3",
     "depends": [
-        'base', 'web'
+        "base",
+        "web"
     ],
-    "data": ['base_data.xml'],
+    "data": [
+        "base_data.xml"
+    ],
     "js": [
-        'static/src/js/chrome.js',
+        "static/src/js/chrome.js"
     ],
     "css": [
-        'static/src/css/seedoo.css',
+        "static/src/css/seedoo.css"
     ],
     "qweb": [
-        'static/src/xml/seedoo.xml',
+        "static/src/xml/seedoo.xml"
     ],
     "installable": True,
     "application": True,
-    "auto_install": True,
+    "auto_install": True
 }
