@@ -834,6 +834,15 @@ this module contains the full copyright notices and license terms. -->
             <field name="domain">[('classification','in',[active_id])]</field>
         </record>
 
+        <record model="ir.actions.act_window" id="action_protocollo_configuration_classification">
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">protocollo.classification</field>
+            <field name="name">Titolario</field>
+            <field name="view_type">tree</field>
+            <field name="view_id" ref="protocollo_classification_tree2"/>
+            <field name="domain">[('parent_id','=',False)]</field>
+        </record>
+
         <record model="ir.values" id="ir_action_protocollo_protocollo_classification_form">
             <field name="key2" eval="'tree_but_open'"/>
             <field name="model" eval="'protocollo.classification'"/>
