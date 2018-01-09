@@ -22,7 +22,10 @@ this module contains the full copyright notices and license terms. -->
                     <sheet>
                         <group col="4">
                             <field name="name"/>
+                        </group>
+                        <group col="4">
                             <field name="pec"/>
+                            <field name="sharedmail"/>
                         </group>
                     </sheet>
                 </form>
@@ -36,6 +39,7 @@ this module contains the full copyright notices and license terms. -->
                 <tree string="Tipologie">
                     <field name="name"/>
                     <field name="pec"/>
+                    <field name="sharedmail"/>
                 </tree>
             </field>
         </record>
@@ -391,8 +395,12 @@ this module contains the full copyright notices and license terms. -->
                                 attrs="{'invisible':[('assegna_visibility','=',False)]}"
                                 class="oe_highlight_positive btn_seedoo btn_assegna"/>
 
-                        <button name="sent_pec" string="Invia PEC Protocollo"
+                        <button name="sent_mail_pec" string="Invia PEC Protocollo"
                                 attrs="{'invisible':[('invio_pec_visibility','=',False)]}"
+                                class="oe_highlight btn_seedoo btn_invia_pec"/>
+
+                        <button name="sent_mail_pec" string="Invia Mail Protocollo"
+                                attrs="{'invisible':[('invio_sharedmail_visibility','=',False)]}"
                                 class="oe_highlight btn_seedoo btn_invia_pec"/>
 
                         <button name="aggiungi_destinatari_pec" string="Aggiungi - Destinatario" type="object"
@@ -424,6 +432,7 @@ this module contains the full copyright notices and license terms. -->
                             <field name="assegna_visibility"/>
                             <field name="invio_pec_visibility"/>
                             <field name="reinvio_pec_visibility"/>
+                            <field name="invio_sharedmail_visibility"/>
                             <field name="invio_protocollo_visibility"/>
                             <field name="modifica_pec_visibility"/>
                             <field name="aggiungi_pec_visibility"/>
@@ -477,10 +486,11 @@ this module contains the full copyright notices and license terms. -->
                         </group>
                         <newline/>
                         <group >
-                            <field name="body" attrs="{'invisible':['|',('pec','!=',True),('type','=','in')],'readonly':['|',('type','=','in'),('state','!=','draft')]}"/>
+                            <field name="body" attrs="{'invisible':[('pec','!=',True),('sharedmail','!=',True)],'readonly':['|',('type','=','in'),('state','!=','draft')]}"/>
                         </group>
                         <group col="8">
                             <field name="pec" invisible="1" colspan="2"/>
+                            <field name="sharedmail" invisible="1" colspan="2"/>
                         </group>
                         <group col="4">
                             <field name="doc_content" filename="doc_fname"/>

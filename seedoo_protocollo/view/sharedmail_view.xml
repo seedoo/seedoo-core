@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file is part of Seedoo.  The COPYRIGHT file at the top level of
+this module contains the full copyright notices and license terms. -->
+
+<openerp>
+    <data>
+        <record model='ir.ui.view' id='protocollo_sharedmail_form'>
+            <field name="name">protocollo.sharedmail.form</field>
+            <field name="model">mail.message</field>
+            <field name="priority">100</field>
+            <field name="context">{'sharedmail_messages': True}</field>
+            <field name="arch" type="xml">
+                <form string="E-mail da Protocollare" version="7.0" create="false" edit="false" delete="false">
+                    <header>
+                        <button name="%(create_protocollo_mailpec_action)d"
+                                type="action" string="Crea Bozza Protocollo"
+                                context="{'attachment_ids':attachment_ids,'message_type':'mail'}"
+                                attrs="{'invisible':['|',('sharedmail_state','!=','new'),('sharedmail_type','!=','sharedmail')]}"
+                                class="oe_highlight_positive"/>
+                        <button name="action_not_protocol" type='object'
+                                string="Non protocollare"
+                                attrs="{'invisible':['|',('sharedmail_state','!=','new'),('sharedmail_type','!=','sharedmail')]}"
+                                class="oe_highlight_warning"/>
+
+                        <field name="sharedmail_state" widget="statusbar" invisible="1"/>
+                        <field name="sharedmail_type" invisible="1"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <newline/>
+                            <!--<field name="sharedmail_server_user" attrs="{'invisible':[('sharedmail_state','!=','sharedmail')]}" string="Account"/>-->
+                            <newline/>
+                        </group>
+                        <div class="gedoc_header">
+                            <group col="4">
+                                <newline/>
+                                <field name="email_from" attrs="{'invisible':[('sharedmail_state','!=','sharedmail')]}"/>
+                                <field name="date"/>
+                            </group>
+                        </div>
+                        <group>
+                            <newline/>
+                            <field name="subject" colspan="4"/>
+                            <field name="body" colspan="4" string="Testo della e-mail"/>
+                            <field name="attachment_ids" invisible="1"/>
+                            <!--<separator string="Documenti" colspan="4"/>-->
+                            <group>
+                                <!--<field name="pec_eml" invisible="1"/>-->
+                                <!--<field name="pec_eml_fname" invisible="1"/>-->
+                                <!--<field name="pec_eml_content" filename="pec_eml_fname" colspan="4" />-->
+                            </group>
+                            <newline/>
+                            <group>
+                                <!--<field name="sharedmail_attachs">-->
+                                    <!--<tree>-->
+                                        <!--<field name="name"/>-->
+                                        <!--<field name="file_type"/>-->
+                                     <!--</tree>-->
+                                <!--</field>-->
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model='ir.ui.view' id='protocollo_sharedmail_tree'>
+            <field name="name">protocollo.sharedmail.tree</field>
+            <field name="model">mail.message</field>
+            <field name="priority">100</field>
+            <field name="arch" type="xml">
+                <tree string="E-mail da Protocollare" create="false" edit="false" delete="false">
+                    <field name="email_from"/>
+                    <field name="subject"/>
+                    <field name="date"/>
+                    <field name="sharedmail_server_user" string="Account"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record model="ir.actions.act_window" id="protocollo_sharedmail_act">
+            <field name="name">E-mail</field>
+            <field name="res_model">mail.message</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('server_sharedmail_id.sharedmail','=',True),('sharedmail_type','=','sharedmail'),('server_sharedmail_id.user_sharedmail_ids','in',uid),('sharedmail_state','=','new')]</field>
+            <field name="context">{'sharedmail_messages': True}</field>
+        </record>
+
+        <record model="ir.actions.act_window.view"
+                id="protocollo_sharedmail_act_tree">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="protocollo_sharedmail_tree"/>
+            <field name="act_window_id" ref="protocollo_sharedmail_act"/>
+        </record>
+        <record model="ir.actions.act_window.view"
+                id="protocollo_sharedmail_act_form">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="protocollo_sharedmail_form"/>
+            <field name="act_window_id" ref="protocollo_sharedmail_act"/>
+        </record>
+
+    </data>
+</openerp>

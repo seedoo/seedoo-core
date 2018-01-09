@@ -61,7 +61,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="wkf_id" ref="wkf_protocollo"/>
             <field name="name">waiting</field>
             <field name="kind">function</field>
-            <field name="action">action_pec_send()
+            <field name="action">action_mail_pec_send()
                 write({'state':'waiting'})
             </field>
         </record>
@@ -99,7 +99,7 @@ this module contains the full copyright notices and license terms. -->
         <record model="workflow.transition" id="t25">
             <field name="act_from" ref="act_registered"/>
             <field name="act_to" ref="act_waiting"/>
-            <field name="signal">sent_pec</field>
+            <field name="signal">sent_mail_pec</field>
         </record>
 
         <!--
@@ -132,7 +132,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="act_from" ref="act_waiting"/>
             <field name="act_to" ref="act_sent"/>
             <field name="trigger_model">mail.message</field>
-            <field name="trigger_expr_id">mail_message_id_pec_get()</field>
+            <field name="trigger_expr_id">mail_message_id_get()</field>
             <field name="condition">test_mail_message()</field>
         </record>
 
@@ -152,7 +152,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="act_from" ref="act_waiting"/>
             <field name="act_to" ref="act_error"/>
             <field name="trigger_model">mail.message</field>
-            <field name="trigger_expr_id">mail_message_id_pec_get()</field>
+            <field name="trigger_expr_id">mail_message_id_get()</field>
             <field name="condition">test_error_mail_message()</field>
         </record>
 

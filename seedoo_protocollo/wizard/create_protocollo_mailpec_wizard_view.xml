@@ -5,10 +5,10 @@ this module contains the full copyright notices and license terms. -->
 <openerp>
     <data>
         <!-- wizard action on protocollo.protocollo -->
-        <act_window id="create_protocollo_pec_action"
+        <act_window id="create_protocollo_mailpec_action"
                     name="Creazione Bozza Protocollo"
                     src_model="mail.message"
-                    res_model="protocollo.pec.wizard"
+                    res_model="protocollo.mailpec.wizard"
                     view_type="form" view_mode="form"
                     target="new"
                     context="{'pec_messages': True}"/>
@@ -16,7 +16,7 @@ this module contains the full copyright notices and license terms. -->
         <!-- wizard view -->
         <record id="create_protocollo_wizard_view" model="ir.ui.view">
             <field name="name">Protocolla PEC in ingresso</field>
-            <field name="model">protocollo.pec.wizard</field>
+            <field name="model">protocollo.mailpec.wizard</field>
             <field name="arch" type="xml">
                 <form string="Protocollo PEC" version="7.0">
                     <sheet>

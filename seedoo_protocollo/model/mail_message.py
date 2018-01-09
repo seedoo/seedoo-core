@@ -60,10 +60,19 @@ class MailMessage(orm.Model):
         'pec_eml_fname': fields.related('pec_eml', 'datas_fname', type='char', readonly=True),
         'pec_eml_content': fields.related('pec_eml', 'datas', type='binary', string='Messaggio completo', readonly=True),
         'pec_server_user': fields.related('server_id', 'user', type='char', readonly=True, string='Account'),
+        'sharedmail_protocol_ref': fields.many2one('protocollo.protocollo', 'Protocollo'),
+        'sharedmail_state': fields.selection([
+            ('new', 'To Protocol'),
+            ('protocol', 'Protocols'),
+            ('not_protocol', 'No Protocol')
+        ], 'SharedMail State', readonly=True),
+        'sharedmail_server_user': fields.related('server_sharedmail_id', 'user', type='char', readonly=True, string='Account'),
+
     }
 
     _defaults = {
         'pec_state': 'new',
+        'sharedmail_state': 'new',
     }
 
     def action_not_protocol(self, cr, uid, ids, context=None):

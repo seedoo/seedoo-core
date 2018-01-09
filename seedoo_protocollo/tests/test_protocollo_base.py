@@ -127,7 +127,7 @@ class TestProtocolloBase(test_common.SingleTransactionCase):
         self.pecWizard = self.registry('protocollo.pec.wizard')
         self.cancelWizard = self.registry('protocollo.cancel.wizard')
         self.modifyWizard = self.registry('protocollo.modify.wizard')
-        self.pecModifyWizard = self.registry('protocollo.modify.pec.wizard')
+        self.pecModifyWizard = self.registry('protocollo.modify.mailpec.wizard')
         self.pecModifyReceiverWizard = self.registry(
             'protocollo.sender_receiver.pec.wizard'
         )

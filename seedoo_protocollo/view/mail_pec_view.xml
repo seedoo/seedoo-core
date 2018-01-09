@@ -12,9 +12,9 @@ this module contains the full copyright notices and license terms. -->
             <field name="arch" type="xml">
                 <form string="Pec da Protocollare" version="7.0" create="false" edit="false" delete="false">
                     <header>
-                        <button name="%(create_protocollo_pec_action)d"
+                        <button name="%(create_protocollo_mailpec_action)d"
                                 type="action" string="Crea Bozza Protocollo"
-                                context="{'attachment_ids':attachment_ids}"
+                                context="{'attachment_ids':attachment_ids,'message_type':'pec'}"
                                 attrs="{'invisible':['|',('pec_state','!=','new'),('pec_type','!=','posta-certificata')]}"
                                 class="oe_highlight_positive"/>
                         <button name="action_not_protocol" type='object'
@@ -78,7 +78,6 @@ this module contains the full copyright notices and license terms. -->
             </field>
         </record>
 
-
         <record model="ir.actions.act_window" id="protocollo_pec_act">
             <field name="name">PEC</field>
             <field name="res_model">mail.message</field>
@@ -95,6 +94,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="view_id" ref="protocollo_pec_tree"/>
             <field name="act_window_id" ref="protocollo_pec_act"/>
         </record>
+
         <record model="ir.actions.act_window.view"
                 id="protocollo_pec_act_form">
             <field name="sequence" eval="1"/>

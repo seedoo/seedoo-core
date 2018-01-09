@@ -58,6 +58,12 @@ class protocollo_configurazione(orm.Model):
                     campi_obbligatori = campi_obbligatori + '\n- Mail PEC dei Destinatari'
                     break
 
+        if protocollo.type == 'out' and protocollo.sharedmail:
+            for sr in protocollo.sender_receivers:
+                if not sr.email:
+                    campi_obbligatori = campi_obbligatori + '\n- Mail dei Destinatari'
+                    break
+
         if configurazione:
             if configurazione.classificazione_required and not protocollo.classification:
                 campi_obbligatori = campi_obbligatori + '\n- Titolario'

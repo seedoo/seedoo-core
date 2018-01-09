@@ -37,7 +37,7 @@ class protocollo_sender_receiver_wizard(osv.TransientModel):
 
     _columns = {
         # TODO: inserire anche AOO in type?
-        'wizard_id': fields.many2one('protocollo.pec.wizard',
+        'wizard_id': fields.many2one('protocollo.mailpec.wizard',
                                      'Crea Protocollo'),
         'type': fields.selection([
             ('individual', 'Persona Fisica'),
@@ -68,13 +68,13 @@ class protocollo_sender_receiver_wizard(osv.TransientModel):
     }
 
 
-class ProtocolloPecWizard(osv.TransientModel):
+class ProtocolloMailPecWizard(osv.TransientModel):
     """
         A wizard to manage the creation of
-        document protocollo from pec message
+        document protocollo from mail or pec message
     """
-    _name = 'protocollo.pec.wizard'
-    _description = 'Create Protocollo From PEC'
+    _name = 'protocollo.mailpec.wizard'
+    _description = 'Create Protocollo From Mail or PEC'
     _rec_name = 'subject'
 
     DOC_PRINCIPALE_SELECTION = [('testo', 'Testo del messaggio'), ('eml', 'File Eml'), ('allegato', 'Allegato')]
@@ -179,84 +179,84 @@ class ProtocolloPecWizard(osv.TransientModel):
         wizard = self.browse(cr, uid, ids[0], context=context)
         protocollo_obj = self.pool.get('protocollo.protocollo')
         sender_receiver_obj = self.pool.get('protocollo.sender_receiver')
-        messaggio_pec_obj = self.pool.get('protocollo.messaggio.pec')
-        ir_attachment_obj = self.pool.get('ir.attachment')
         protocollo_typology_obj = self.pool.get('protocollo.typology')
-        typology_id = protocollo_typology_obj.search(cr, uid,
-                                                     [('pec', '=', True)]
-                                                     )[0]
         mail_message_obj = self.pool.get('mail.message')
-        mail_message = mail_message_obj.browse(cr, uid,
-                                               context['active_id'],
-                                               context=context)
+        mail_message = mail_message_obj.browse(cr, uid, context['active_id'], context=context)
         vals = {}
         vals['type'] = 'in'
-        vals['typology'] = typology_id
         vals['receiving_date'] = wizard.receiving_date
         vals['subject'] = wizard.subject
         vals['body'] = wizard.body
         vals['mail_pec_ref'] = context['active_id']
         vals['user_id'] = uid
         sender_receiver = []
-        messaggio_pec_id = messaggio_pec_obj.create(cr, uid, {'type': 'messaggio', 'messaggio_ref': mail_message.id})
 
-        # Estrae i dati del mittente dalla segnatura
-        configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
-        configurazione = self.pool.get('protocollo.configurazione').browse(cr, uid, configurazione_ids[0])
-        srvals = {}
-        if configurazione.segnatura_xml_parse:
-            srvals = self.elaboraSegnatura(cr, uid, protocollo_obj, mail_message)
-        if len(srvals) > 0 and len(srvals['mittente'])>0:
-            srvals['mittente']['pec_messaggio_ids'] = [[6, 0, [messaggio_pec_id]]]
-            sender_receiver.append(sender_receiver_obj.create(cr, uid, srvals['mittente']))
+        is_pec = False
+        if 'message_type' in context and context['message_type'] == 'pec':
+            is_pec = True
+        if is_pec:
+            typology_id = protocollo_typology_obj.search(cr, uid, [('PEC', '=', True)])[0]
+            messaggio_pec_obj = self.pool.get('protocollo.messaggio.pec')
+            messaggio_pec_id = messaggio_pec_obj.create(cr, uid, {'type': 'messaggio', 'messaggio_ref': mail_message.id})
+
+            # Estrae i dati del mittente dalla segnatura
+            configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
+            configurazione = self.pool.get('protocollo.configurazione').browse(cr, uid, configurazione_ids[0])
+            srvals = {}
+            if configurazione.segnatura_xml_parse:
+                srvals = self.elaboraSegnatura(cr, uid, protocollo_obj, mail_message)
+            if len(srvals) > 0 and len(srvals['mittente'])>0:
+                srvals['mittente']['pec_messaggio_ids'] = [[6, 0, [messaggio_pec_id]]]
+                sender_receiver.append(sender_receiver_obj.create(cr, uid, srvals['mittente']))
+            else:
+                for send_rec in wizard.sender_receivers:
+                    srvals = {
+                        'type': send_rec.type,
+                        'source': 'sender',
+                        'partner_id': send_rec.partner_id and
+                                      send_rec.partner_id.id or False,
+                        'name': send_rec.name,
+                        'street': send_rec.street,
+                        'zip': send_rec.zip,
+                        'city': send_rec.city,
+                        'country_id': send_rec.country_id and
+                                      send_rec.country_id.id or False,
+                        'email': send_rec.email,
+                        'pec_mail': send_rec.pec_mail,
+                        'phone': send_rec.phone,
+                        'fax': send_rec.fax,
+                        'mobile': send_rec.mobile,
+                        'pec_messaggio_ids': [[6, 0, [messaggio_pec_id]]]
+                    }
+                    sender_receiver.append(sender_receiver_obj.create(cr, uid, srvals))
+            vals['sender_receivers'] = [[6, 0, sender_receiver]]
+            if 'protocollo' in srvals:
+                vals['sender_protocol'] = srvals['protocollo']['sender_protocol']
+                vals['sender_register'] = srvals['protocollo']['sender_register']
+                vals['sender_registration_date'] = srvals['protocollo']['sender_registration_date']
         else:
-            for send_rec in wizard.sender_receivers:
-                srvals = {
-                    'type': send_rec.type,
-                    'source': 'sender',
-                    'partner_id': send_rec.partner_id and
-                                  send_rec.partner_id.id or False,
-                    'name': send_rec.name,
-                    'street': send_rec.street,
-                    'zip': send_rec.zip,
-                    'city': send_rec.city,
-                    'country_id': send_rec.country_id and
-                                  send_rec.country_id.id or False,
-                    'email': send_rec.email,
-                    'pec_mail': send_rec.pec_mail,
-                    'phone': send_rec.phone,
-                    'fax': send_rec.fax,
-                    'mobile': send_rec.mobile,
-                    'pec_messaggio_ids': [[6, 0, [messaggio_pec_id]]]
-                }
-                sender_receiver.append(sender_receiver_obj.create(cr, uid, srvals))
+            typology_id = protocollo_typology_obj.search(cr, uid,[('name', '=', 'Email')])[0]
 
-        vals['sender_receivers'] = [[6, 0, sender_receiver]]
-        if 'protocollo' in srvals:
-            vals['sender_protocol'] = srvals['protocollo']['sender_protocol']
-            vals['sender_register'] = srvals['protocollo']['sender_register']
-            vals['sender_registration_date'] = srvals['protocollo']['sender_registration_date']
+        vals['typology'] = typology_id
+
         protocollo_id = protocollo_obj.create(cr, uid, vals)
-        self.pool.get('mail.message').write(
-            cr,
-            SUPERUSER_ID,
-            context['active_id'],
-            {'pec_state': 'protocol','pec_protocol_ref': protocollo_id},
-            context=context
-        )
+        if is_pec:
+            self.pool.get('mail.message').write(cr, SUPERUSER_ID, context['active_id'], {'pec_state': 'protocol', 'pec_protocol_ref': protocollo_id}, context=context)
+        else:
+            self.pool.get('mail.message').write(cr, SUPERUSER_ID, context['active_id'], {'sharedmail_state': 'protocol', 'sharedmail_protocol_ref': protocollo_id}, context=context)
 
-        new_context = dict(context).copy()
-        new_context.update({'is_pec_to_draft': True})
+        # new_context = dict(context).copy()
+        # new_context.update({'is_pec_to_draft': True})
 
         action_class = "history_icon print"
         post_vars = {'subject': "Creata Bozza Protocollo",
-                     'body': "<div class='%s'><ul><li>Messaggio PEC convertito in bozza di protocollo</li></ul></div>" % action_class,
+                     'body': "<div class='%s'><ul><li>Messaggio convertito in bozza di protocollo</li></ul></div>" % action_class,
                      'model': "protocollo.protocollo",
                      'res_id': context['active_id'],
                      }
 
         thread_pool = self.pool.get('protocollo.protocollo')
-        thread_pool.message_post(cr, uid, protocollo_id, type="notification", context=new_context, **post_vars)
+        thread_pool.message_post(cr, uid, protocollo_id, type="notification", context=context, **post_vars)
 
         # Attachments
         file_data_list = []
