@@ -14,5 +14,6 @@ from . import res_config
 from . import res_partner
 from . import res_user
 from . import util
+from . import tile_tile
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
