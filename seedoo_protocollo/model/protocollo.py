@@ -899,6 +899,8 @@ class protocollo_protocollo(orm.Model):
         'registry': fields.related('aoo_id', 'registry_id', type='many2one', relation='protocollo.registry',
                                    string='Registro', store=True, readonly=True),
         'protocol_request': fields.boolean('Richiesta Protocollo', readonly=True),
+        'server_sharedmail_id': fields.many2one('fetchmail.server', 'Account Email', domain="[('sharedmail', '=', True),('user_sharedmail_ids', 'in', uid)]", required=True),
+        'server_pec_id': fields.many2one('fetchmail.server', 'Account PEC', domain="[('pec', '=', True),('user_ids', 'in', uid)]", required=True),
     }
 
     def _get_default_name(self, cr, uid, context=None):
@@ -936,7 +938,13 @@ class protocollo_protocollo(orm.Model):
                 return aoo_id
         return False
 
+    def _get_def_sharedmail_server(self, cr, uid, context=None):
+        res = self.pool.get('fetchmail.server').search(cr, uid, [('user_sharedmail_ids', 'in', uid), ('sharedmail', '=', True)], context=context)
+        return res and res[0] or False
 
+    def _get_def_pec_server(self, cr, uid, context=None):
+        res = self.pool.get('fetchmail.server').search(cr, uid, [('user_ids', 'in', uid), ('pec', '=', True)], context=context)
+        return res and res[0] or False
 
     _defaults = {
         'registration_type': 'normal',
@@ -951,6 +959,8 @@ class protocollo_protocollo(orm.Model):
         'datas': None,
         'datas_fname': None,
         'aoo_id': _get_default_aoo_id,
+        'server_sharedmail_id': _get_def_sharedmail_server,
+        'server_pec_id': _get_def_pec_server,
     }
 
     _sql_constraints = [
@@ -1337,7 +1347,9 @@ class protocollo_protocollo(orm.Model):
 
             if etree_tostring:
                 mail_mail = self.pool.get('mail.mail')
-                mail_server = self.get_mail_server(cr, uid, context)
+                new_context = dict(context).copy()
+                new_context.update({'pec_messages': True})
+                mail_server = self.get_mail_server(cr, uid, new_context)
 
                 sender_receivers_pec_mails = []
                 sender_receivers_pec_ids = []
@@ -1440,7 +1452,11 @@ class protocollo_protocollo(orm.Model):
             messaggio_pec_obj = self.pool.get('protocollo.messaggio.pec')
             sender_receivers_pec_mails = []
             sender_receivers_pec_ids = []
-            mail_server = self.get_mail_server(cr, uid, context)
+            fetchmail_server_id = prot.server_pec_id.id
+            mail_server_obj = self.pool.get('ir.mail_server')
+            mail_server_ids = mail_server_obj.search(cr, uid, [('in_server_id', '=', fetchmail_server_id)])
+            mail_server = mail_server_obj.browse(cr, uid, mail_server_ids)
+            # mail_server = self.get_mail_server(cr, uid, context)
 
             if configurazione.segnatura_xml_invia:
                 self.allega_segnatura_xml(cr, uid, prot.id, prot.xml_signature)
@@ -1543,8 +1559,10 @@ class protocollo_protocollo(orm.Model):
             ir_attachment = self.pool.get('ir.attachment')
             sender_receivers_mails = []
             sender_receivers_ids = []
-            mail_server = self.get_mail_server(cr, uid, context)
-
+            fetchmail_server_id = prot.server_sharedmail_id.id
+            mail_server_obj = self.pool.get('ir.mail_server')
+            mail_server_ids = mail_server_obj.search(cr, uid, [('in_server_sharedmail_id', '=', fetchmail_server_id)])
+            mail_server = mail_server_obj.browse(cr, uid, mail_server_ids)
 
             if prot.sender_receivers:
                 for sender_receiver_id in prot.sender_receivers.ids:
