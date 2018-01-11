@@ -43,11 +43,11 @@ this module contains the full copyright notices and license terms. -->
 
         <menuitem name="PEC" action="protocollo_pec_act" sequence="40"
                   parent="protocollo_doc_in" id="protocollo_pec_menu"
-                  groups="base.group_pec"/>
+                  groups="group_pec_protocollo"/>
 
         <menuitem name="E-mail" action="protocollo_sharedmail_act" sequence="50"
                   parent="protocollo_doc_in" id="protocollo_sharedmail_menu"
-                  groups="base.group_sharedmail"/>
+                  groups="group_sharedmail_protocollo"/>
 
         <!-- Documenti in uscita-->
         <menuitem name="Registrati" action="protocollo_protocollo_out_act"

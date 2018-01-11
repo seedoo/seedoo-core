@@ -967,7 +967,7 @@ class protocollo_protocollo(orm.Model):
         ('protocol_number_unique', 'unique(name,year,aoo_id)',
          'Elemento già presente nel DB!'),
         ('protocol_mail_pec_ref_unique', 'unique(mail_pec_ref)',
-         'Meggaggio protocollato in precedenza!')
+         'Messaggio protocollato in precedenza!')
     ]
 
     def _get_next_number_normal(self, cr, uid, prot):
