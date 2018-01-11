@@ -14,6 +14,7 @@
 
         <record id="protocollo_typology_email" model="protocollo.typology">
             <field name="name">Email</field>
+            <field name="sharedmail" eval="True"/>
             <field name="aoo_id" ref="protocollo_aoo_default"/>
         </record>
 
