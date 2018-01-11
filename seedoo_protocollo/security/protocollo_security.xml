@@ -295,6 +295,7 @@ this module contains the full copyright notices and license terms. -->
                 (4, ref('group_assegna_protocollo_uscita')),
                 (4, ref('group_invia_protocollo_uscita')),
                 (4, ref('group_invia_protocollo_pec_uscita')),
+                (4, ref('group_invia_protocollo_sharedmail_uscita')),
                 (4, ref('group_reinvia_protocollo_pec_uscita')),
                 (4, ref('group_modifica_destinatari_pec_uscita')),
                 (4, ref('group_aggiungi_destinatari_pec_uscita')),

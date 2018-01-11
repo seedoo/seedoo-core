@@ -195,7 +195,7 @@ class ProtocolloMailPecWizard(osv.TransientModel):
         if 'message_type' in context and context['message_type'] == 'pec':
             is_pec = True
         if is_pec:
-            typology_id = protocollo_typology_obj.search(cr, uid, [('PEC', '=', True)])[0]
+            typology_id = protocollo_typology_obj.search(cr, uid, [('pec', '=', True)])[0]
             messaggio_pec_obj = self.pool.get('protocollo.messaggio.pec')
             messaggio_pec_id = messaggio_pec_obj.create(cr, uid, {'type': 'messaggio', 'messaggio_ref': mail_message.id})
 
