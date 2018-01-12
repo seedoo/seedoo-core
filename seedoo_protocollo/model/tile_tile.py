@@ -11,8 +11,7 @@ class TileTile(models.Model):
     def open_link(self):
         res = super(TileTile, self).open_link()
 
-        if self.action_id:
+        if self.action_id and len(self.action_id.view_ids) == 2:
+            res["views"] = [(self.action_id.view_ids[0].view_id.id, 'tree'), (self.action_id.view_ids[1].view_id.id, 'form')]
 
-            res["view_id"] = [x.view_id.id for x in self.action_id.view_ids]
-            res["view_mode"] = self.action_id.view_mode if len(res["view_id"]) == 1 else "tree"
         return res
