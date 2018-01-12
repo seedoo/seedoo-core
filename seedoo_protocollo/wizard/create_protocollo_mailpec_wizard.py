@@ -192,9 +192,13 @@ class ProtocolloMailPecWizard(osv.TransientModel):
         sender_receiver = []
 
         is_pec = False
+        is_segnatura = False
+
         if 'message_type' in context and context['message_type'] == 'pec':
             is_pec = True
+
         if is_pec:
+            srvals = {}
             typology_id = protocollo_typology_obj.search(cr, uid, [('pec', '=', True)])[0]
             messaggio_pec_obj = self.pool.get('protocollo.messaggio.pec')
             messaggio_pec_id = messaggio_pec_obj.create(cr, uid, {'type': 'messaggio', 'messaggio_ref': mail_message.id})
@@ -202,51 +206,55 @@ class ProtocolloMailPecWizard(osv.TransientModel):
             # Estrae i dati del mittente dalla segnatura
             configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
             configurazione = self.pool.get('protocollo.configurazione').browse(cr, uid, configurazione_ids[0])
-            srvals = {}
+
             if configurazione.segnatura_xml_parse:
                 srvals = self.elaboraSegnatura(cr, uid, protocollo_obj, mail_message)
-            if len(srvals) > 0 and len(srvals['mittente'])>0:
-                srvals['mittente']['pec_messaggio_ids'] = [[6, 0, [messaggio_pec_id]]]
-                sender_receiver.append(sender_receiver_obj.create(cr, uid, srvals['mittente']))
-            else:
-                for send_rec in wizard.sender_receivers:
-                    srvals = {
-                        'type': send_rec.type,
-                        'source': 'sender',
-                        'partner_id': send_rec.partner_id and
-                                      send_rec.partner_id.id or False,
-                        'name': send_rec.name,
-                        'street': send_rec.street,
-                        'zip': send_rec.zip,
-                        'city': send_rec.city,
-                        'country_id': send_rec.country_id and
-                                      send_rec.country_id.id or False,
-                        'email': send_rec.email,
-                        'pec_mail': send_rec.pec_mail,
-                        'phone': send_rec.phone,
-                        'fax': send_rec.fax,
-                        'mobile': send_rec.mobile,
-                        'pec_messaggio_ids': [[6, 0, [messaggio_pec_id]]]
-                    }
-                    sender_receiver.append(sender_receiver_obj.create(cr, uid, srvals))
-            vals['sender_receivers'] = [[6, 0, sender_receiver]]
-            if 'protocollo' in srvals:
-                vals['sender_protocol'] = srvals['protocollo']['sender_protocol']
-                vals['sender_register'] = srvals['protocollo']['sender_register']
-                vals['sender_registration_date'] = srvals['protocollo']['sender_registration_date']
-        else:
+            if len(srvals) > 0 and len(srvals['mittente']) > 0:
+                is_segnatura = True
+
+        if is_pec and is_segnatura:
+            srvals['mittente']['pec_messaggio_ids'] = [[6, 0, [messaggio_pec_id]]]
+            sender_receiver.append(sender_receiver_obj.create(cr, uid, srvals['mittente']))
+
+        if (is_pec and is_segnatura is False) or is_pec is False:
+            for send_rec in wizard.sender_receivers:
+                srvals = {
+                    'type': send_rec.type,
+                    'source': 'sender',
+                    'partner_id': send_rec.partner_id and send_rec.partner_id.id or False,
+                    'name': send_rec.name,
+                    'street': send_rec.street,
+                    'zip': send_rec.zip,
+                    'city': send_rec.city,
+                    'country_id': send_rec.country_id and send_rec.country_id.id or False,
+                    'email': send_rec.email,
+                    'phone': send_rec.phone,
+                    'fax': send_rec.fax,
+                    'mobile': send_rec.mobile,
+                }
+
+                if is_pec:
+                    srvals['pec_mail'] = send_rec.pec_mail
+                    srvals['pec_messaggio_ids'] = [[6, 0, [messaggio_pec_id]]]
+
+                sender_receiver.append(sender_receiver_obj.create(cr, uid, srvals))
+
+        vals['sender_receivers'] = [[6, 0, sender_receiver]]
+        if 'protocollo' in srvals:
+            vals['sender_protocol'] = srvals['protocollo']['sender_protocol']
+            vals['sender_register'] = srvals['protocollo']['sender_register']
+            vals['sender_registration_date'] = srvals['protocollo']['sender_registration_date']
+
+        if is_pec is False:
             typology_id = protocollo_typology_obj.search(cr, uid,[('name', '=', 'Email')])[0]
 
         vals['typology'] = typology_id
-
         protocollo_id = protocollo_obj.create(cr, uid, vals)
+
         if is_pec:
             self.pool.get('mail.message').write(cr, SUPERUSER_ID, context['active_id'], {'pec_state': 'protocol', 'pec_protocol_ref': protocollo_id}, context=context)
         else:
             self.pool.get('mail.message').write(cr, SUPERUSER_ID, context['active_id'], {'sharedmail_state': 'protocol', 'sharedmail_protocol_ref': protocollo_id}, context=context)
-
-        # new_context = dict(context).copy()
-        # new_context.update({'is_pec_to_draft': True})
 
         action_class = "history_icon print"
         post_vars = {'subject': "Creata Bozza Protocollo",
@@ -320,9 +328,7 @@ class ProtocolloMailPecWizard(osv.TransientModel):
             [('model', '=', 'ir.ui.view'),
              ('name', '=', 'protocollo_protocollo_form')]
         )
-        resource_id = obj_model.read(cr, uid,
-                                     model_data_ids,
-                                     fields=['res_id'])[0]['res_id']
+        resource_id = obj_model.read(cr, uid, model_data_ids, fields=['res_id'])[0]['res_id']
 
         return {
             'view_type': 'form',
