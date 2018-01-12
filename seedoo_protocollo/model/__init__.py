@@ -6,6 +6,7 @@ from . import configurazione
 from . import hr
 from . import ir_attachment
 from . import mail_message
+from . import protocollo_sender_receiver
 from . import protocollo
 from . import protocollo_aoo
 from . import protocollo_messaggio_pec
