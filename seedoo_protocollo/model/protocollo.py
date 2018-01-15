@@ -899,8 +899,8 @@ class protocollo_protocollo(orm.Model):
         'registry': fields.related('aoo_id', 'registry_id', type='many2one', relation='protocollo.registry',
                                    string='Registro', store=True, readonly=True),
         'protocol_request': fields.boolean('Richiesta Protocollo', readonly=True),
-        'server_sharedmail_id': fields.many2one('fetchmail.server', 'Account Email', domain="[('sharedmail', '=', True),('user_sharedmail_ids', 'in', uid)]", required=True),
-        'server_pec_id': fields.many2one('fetchmail.server', 'Account PEC', domain="[('pec', '=', True),('user_ids', 'in', uid)]", required=True),
+        'server_sharedmail_id': fields.many2one('fetchmail.server', 'Account Email', domain="[('sharedmail', '=', True),('user_sharedmail_ids', 'in', uid)]"),
+        'server_pec_id': fields.many2one('fetchmail.server', 'Account PEC', domain="[('pec', '=', True),('user_ids', 'in', uid)]"),
     }
 
     def _get_default_name(self, cr, uid, context=None):
