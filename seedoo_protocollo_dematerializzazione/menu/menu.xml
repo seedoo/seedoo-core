@@ -27,7 +27,7 @@ this module contains the full copyright notices and license terms. -->
         <menuitem id="protocollo_protocollo_in_imported_menu" name="Bozze Importate"
                   parent="seedoo_protocollo.protocollo_doc_in"
                   action="protocollo_protocollo_in_imported_act" sequence="30"
-                  groups="group_vedi_protocolli_ingresso_bozze_importate"/>
+                  groups="group_vedi_menu_protocolli_ingresso_bozze_importate"/>
 
     </data>
 </openerp>

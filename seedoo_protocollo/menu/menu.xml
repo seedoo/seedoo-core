@@ -29,12 +29,12 @@ this module contains the full copyright notices and license terms. -->
         <menuitem name="Registrati" action="protocollo_protocollo_in_act"
                   parent="protocollo_doc_in"
                   id="protocollo_protocollo_notified_menu" sequence="10"
-                  groups="group_vedi_protocolli_ingresso_registrati"/>
+                  groups="group_vedi_menu_protocolli_ingresso_registrati"/>
 
         <menuitem name="Bozze" action="protocollo_protocollo_in_draft_act"
                   parent="protocollo_doc_in"
                   id="protocollo_protocollo_in_draft_menu" sequence="20"
-                  groups="group_vedi_protocolli_ingresso_bozze"/>
+                  groups="group_vedi_menu_protocolli_ingresso_bozze"/>
 
         <menuitem name="Crea Protocollo" action="crea_protocollo_ingresso_action"
                   parent="protocollo_doc_in"
@@ -53,12 +53,12 @@ this module contains the full copyright notices and license terms. -->
         <menuitem name="Registrati" action="protocollo_protocollo_out_act"
                   parent="protocollo_doc_out"
                   id="protocollo_protocollo_out_menu" sequence="10"
-                  groups="group_vedi_protocolli_uscita_registrati"/>
+                  groups="group_vedi_menu_protocolli_uscita_registrati"/>
 
         <menuitem name="Bozze" action="protocollo_protocollo_out_draft_act"
                   parent="protocollo_doc_out"
                   id="protocollo_protocollo_out_draft_menu" sequence="10"
-                  groups="group_vedi_protocolli_uscita_bozze"/>
+                  groups="group_vedi_menu_protocolli_uscita_bozze"/>
 
         <menuitem name="Crea Protocollo" action="crea_protocollo_uscita_action"
                   parent="protocollo_doc_out"
