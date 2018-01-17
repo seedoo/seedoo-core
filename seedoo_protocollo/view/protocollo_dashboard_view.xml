@@ -9,7 +9,7 @@
             <field name="view_type">form</field>
             <field name="view_mode">kanban</field>
             <field name="view_id" ref="web_dashboard_tile.dashboard_tile_tile_tree_view"/>
-            <field name="domain">[("domain","not like","('type', '=', 'out')"),("domain","not like","('type', '=', 'in')")]</field>
+            <field name="domain">[('tag_tile','=','generale')]</field>
             <field name="context">{'sharedmail_messages': True, 'pec_messages': True}</field>
         </record>
 
@@ -20,7 +20,7 @@
             <field name="view_type">form</field>
             <field name="view_mode">kanban</field>
             <field name="view_id" ref="web_dashboard_tile.dashboard_tile_tile_tree_view"/>
-            <field name="domain">[("domain","like","('type', '=', 'out')")]</field>
+            <field name="domain">[('tag_tile','=','uscita')]</field>
         </record>
 
         <!-- ActWindow Protocollo Board Ingresso -->
@@ -30,7 +30,27 @@
             <field name="view_type">form</field>
             <field name="view_mode">kanban</field>
             <field name="view_id" ref="web_dashboard_tile.dashboard_tile_tile_tree_view"/>
-            <field name="domain">[("domain","like","('type', '=', 'in')")]</field>
+            <field name="domain">[('tag_tile','=','ingresso')]</field>
+        </record>
+
+        <!-- ActWindow Protocollo Board Assegnazioni Ingresso -->
+        <record model="ir.actions.act_window" id="protocollo_board_uscita_assegnazioni_act">
+            <field name="name">Board Protocollo Assegnazioni Uscita</field>
+            <field name="res_model">tile.tile</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban</field>
+            <field name="view_id" ref="web_dashboard_tile.dashboard_tile_tile_tree_view"/>
+            <field name="domain">[('tag_tile','=','uscita_assegnazioni')]</field>
+        </record>
+
+        <!-- ActWindow Protocollo Board Assegnazioni Ingresso -->
+        <record model="ir.actions.act_window" id="protocollo_board_ingresso_assegnazioni_act">
+            <field name="name">Board Protocollo Assegnazioni Ingresso</field>
+            <field name="res_model">tile.tile</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban</field>
+            <field name="view_id" ref="web_dashboard_tile.dashboard_tile_tile_tree_view"/>
+            <field name="domain">[('tag_tile','=','ingresso_assegnazioni')]</field>
         </record>
 
         <!-- Vista Protocollo Dashboard -->
@@ -39,13 +59,31 @@
             <field name="model">board.board</field>
             <field name="arch" type="xml">
                 <form string="Seedoo Dashboard" version="8.0">
-                    <board style="1">
+                    <!--<board style="1-1-1">-->
+                        <!--<column>-->
+                            <!--<action string="Generale" name="%(protocollo_board_generale_act)d"/>-->
+                        <!--</column>-->
+                    <!--</board>-->
+                    <board style="2-1">
                         <column>
                             <action string="Generale" name="%(protocollo_board_generale_act)d"/>
                             <action string="Ingresso" name="%(protocollo_board_ingresso_act)d"/>
                             <action string="Uscita" name="%(protocollo_board_uscita_act)d"/>
                         </column>
+                        <column>
+                            <action string="I miei dati" name="%(act_employee_protocollo_kanban)d"/>
+                            <action string="Assegnazioni Ingresso" name="%(protocollo_board_ingresso_assegnazioni_act)d"/>
+                            <action string="Assegnazioni Uscita" name="%(protocollo_board_uscita_assegnazioni_act)d"/>
+                        </column>
                     </board>
+                    <!--<board style="2-1">-->
+                        <!--<column>-->
+                            <!--<action string="Uscita" name="%(protocollo_board_uscita_act)d"/>-->
+                        <!--</column>-->
+                        <!--<column>-->
+                            <!--<action string="Assegnazioni Uscita" name="%(protocollo_board_uscita_assegnazioni_act)d"/>-->
+                        <!--</column>-->
+                    <!--</board>-->
                 </form>
             </field>
         </record>

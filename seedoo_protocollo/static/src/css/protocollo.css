@@ -381,3 +381,60 @@
     padding-left: 0;
     list-style: none;
 }
+
+.openerp .oe_kanban_view .icon_tile {
+    display: block;
+    padding-top: 5px;
+    font-size: 25px;
+    text-align: center;
+    padding-bottom: 5px;
+}
+
+.openerp .oe_kanban_view .oe_dashboard_tile .tile_label {
+    padding: 5px;
+    font-size: 13px !important;
+    line-height: 16px;
+}
+
+.openerp .oe_kanban_view .oe_dashboard_tile .tile_primary_value {
+    font-size: 40px !important;
+}
+
+.openerp .oe_kanban_view .oe_dashboard_tile {
+    width:130px !important;
+    height:130px !important;
+    min-height:130px !important;
+}
+
+
+/*.oe_dashboard_column div.oe_action:nth-child(2), .oe_dashboard_column div.oe_action:nth-child(3),*/
+/*.oe_dashboard_column div.oe_action:nth-child(4), .oe_dashboard_column div.oe_action:nth-child(5){*/
+    /*display: inline-block;*/
+    /*float: left;*/
+/*}*/
+
+.oe_dashboard_column.index_1 div.oe_action:nth-child(1) {
+    min-height:195px;
+}
+
+.oe_dashboard_column div.oe_action:nth-child(1) {
+    display: block !important;
+    float: none !important;;
+}
+
+.oe_dashboard_column .oe_employee_details {
+    width:310px;
+    min-height:110px;
+}
+
+.oe_dashboard_column .oe_employee_details .employee_data_list li {
+    margin-bottom:4px !important;
+}
+
+.oe_dashboard_column .oe_employee_details .employee_data_list li strong{
+    text-transform: uppercase;
+}
+
+.oe_employee_vignette {
+    padding:auto;
+}

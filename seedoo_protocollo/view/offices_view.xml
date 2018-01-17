@@ -83,17 +83,15 @@ this module contains the full copyright notices and license terms. -->
             </field>
         </record>
 
-        <!--<record id="view_employee_kanban_protocollo" model="ir.ui.view">-->
-            <!--<field name="name">hr.employee.kanban.protocollo</field>-->
-            <!--<field name="model">hr.employee</field>-->
-            <!--<field name="inherit_id" ref="hr.hr_kanban_view_employees"></field>-->
-            <!--<field name="arch" type="xml">-->
-                <!--<xpath expr="/kanban" position="attributes">-->
-                    <!--<attribute name="create">0</attribute>-->
-                    <!--<attribute name="edit">0</attribute>-->
-                <!--</xpath>-->
-            <!--</field>-->
-        <!--</record>-->
+        <!-- INIZIO Scheda dati utente corrente per Dashboard -->
+        <record model="ir.actions.act_window" id="act_employee_protocollo_kanban">
+            <field name="name">La mia scheda</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.employee</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban</field>
+            <field name="domain">[('user_id','=',uid)]</field>
+        </record>
 
         <record id="view_employee_form_protocollo" model="ir.ui.view">
             <field name="name">hr.employee.form.protocollo</field>
@@ -107,6 +105,42 @@ this module contains the full copyright notices and license terms. -->
             </field>
         </record>
 
+        <record id="view_employee_protocollo_kanban" model="ir.ui.view">
+            <field name="name">hr.employee.protocollo.kanban</field>
+            <field name="model">hr.employee</field>
+            <field name="mode">primary</field>
+            <field name="inherit_id" ref="hr.hr_kanban_view_employees"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@class='oe_followers']" position="replace">
+                    <ul class="employee_data_list">
+                        <li>
+                            <strong>AOO:</strong> <field name="aoo"/>
+                        </li>
+                        <li>
+                            <strong>Ufficio:</strong> <field name="department_id"/>
+                        </li>
+                        <li>
+                            <strong>Ruolo:</strong> <field name="gruppo"/>
+                        </li>
+                    </ul>
+                </xpath>
+                <xpath expr="//div[@class='oe_employee_details']/ul" position="replace">
+                </xpath>
+                <xpath expr="//div[@class='oe_kanban_footer_left']" position="replace">
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="act_view_employee_protocollo_kanban" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">kanban</field>
+            <field name="view_id" ref="view_employee_protocollo_kanban"/>
+            <field name="act_window_id" ref="act_employee_protocollo_kanban"/>
+        </record>
+
+        <!-- FINE Scheda dati utente corrente per Dashboard -->
+
         <record model="ir.actions.act_window" id="action_mydepartment_protocollo">
             <field name="name">I Miei Uffici</field>
             <field name="type">ir.actions.act_window</field>
@@ -117,6 +151,7 @@ this module contains the full copyright notices and license terms. -->
             <!--<field name="context">{"search_default_collaborator_ids": uid}</field>-->
             <!--<field name="search_view_id" ref="view_department_protocollo_search"/>-->
         </record>
+
 
         <record model="ir.actions.act_window" id="action_dept_manage_office_protocollo">
             <field name="name">Uffici</field>
