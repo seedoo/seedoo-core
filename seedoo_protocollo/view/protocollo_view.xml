@@ -444,6 +444,7 @@ this module contains the full copyright notices and license terms. -->
                                 <field name="registration_date"/>
                                 <field name="registry" options="{'no_open': True}"/>
                                 <field name="type"/>
+                                <field name="registration_employee_id" readonly="1" options="{'no_open': True}"/>
                             </group>
                         </div>
                         <group
@@ -460,9 +461,8 @@ this module contains the full copyright notices and license terms. -->
                                    attrs="{'required':[('registration_type','=','emergency')]}"
                                    on_change="on_change_emergency_receiving_date(emergency_receiving_date)"/>
                         </group>
-                        <group col="4">
+                        <group>
                             <field name="user_id" readonly="1" options="{'no_open': True}"/>
-                            <field name="registration_employee_id" readonly="1" options="{'no_open': True}"/>
                         </group>
                         <newline/>
                         <group>
