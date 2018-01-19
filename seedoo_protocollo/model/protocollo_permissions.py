@@ -191,6 +191,15 @@ class protocollo_protocollo(osv.Model):
                 if employee and employee.department_id and self._is_assigned_to_child_departments(cr, uid, user_department, employee.department_id):
                     return True
 
+        # un utente deve poter vedere i protocolli (IN e OUT) REGISTRATI, ASSEGNATI e RIFIUTATI da un UTENTE del suo UFFICIO
+        check_gruppo = False
+        if protocollo.type == 'in':
+            check_gruppo = self.user_has_groups(cr, user.id, 'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ass_rif_ut_uff')
+        elif protocollo.type == 'out':
+            check_gruppo = self.user_has_groups(cr, user.id, 'seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ass_rif_ut_uff')
+        if check_gruppo and registration_employee and is_protocollo_rifiutato_by_department:
+            return True
+
         return False
 
     # def clear_cache(self):

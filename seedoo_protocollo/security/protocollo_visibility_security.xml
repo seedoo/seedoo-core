@@ -102,6 +102,20 @@ this module contains the full copyright notices and license terms. -->
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
 
+
+        <!-- Gruppo per la visualizzazione dei protocollo in ingresso registrati, assegnati e rifiutati da un utente dal proprio ufficio -->
+        <record id="group_vedi_protocolli_ingresso_registrati_ass_rif_ut_uff" model="res.groups">
+            <field name="name">Vedi Protocolli in Ingresso Registrati, Assegnati e Rifiutati da un Utente del Mio Ufficio</field>
+            <field name="category_id" ref="module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+        <!-- Gruppo per la visualizzazione dei protocollo in uscita registrati, assegnati e rifiutati da un utente dal proprio ufficio -->
+        <record id="group_vedi_protocolli_uscita_registrati_ass_rif_ut_uff" model="res.groups">
+            <field name="name">Vedi Protocolli in Uscita Registrati, Assegnati e Rifiutati da un Utente del Mio Ufficio</field>
+            <field name="category_id" ref="module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+
     </data>
 
 </openerp>
