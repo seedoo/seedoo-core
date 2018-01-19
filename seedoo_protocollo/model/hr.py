@@ -25,6 +25,7 @@ class hr_department(orm.Model):
         'assignable': fields.boolean('Assegnabile in Protocollazione'),
         # 'collaborator_ids': fields.one2many('hr.department.collaborator', 'department_id', 'Collaborators'),
         'aoo_id': fields.many2one('protocollo.aoo', 'AOO', required=False),
+        'aoo_name': fields.related('aoo_id', 'name', type='char', string='Nome AOO', readonly=1),
     }
 
     def write(self, cr, uid, ids, vals, context=None):
@@ -81,7 +82,10 @@ class hr_employee(orm.Model):
 
     _columns = {
         'protocollo_registry_ids': fields.many2many('protocollo.registry', 'protocollo_registry_hr_employee_rel',
-                                                    'employee_id', 'registry_id', 'Dipendenti Abilitati')
+                                                    'employee_id', 'registry_id', 'Dipendenti Abilitati'),
+        'aoo': fields.related('department_id', 'aoo_name', type='char', string='AOO', readonly=1),
+        'gruppo': fields.related('user_id', 'group', type='char', string='Gruppo', readonly=1),
+
     }
 
     def create(self, cr, uid, vals, context=None):

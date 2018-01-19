@@ -12,12 +12,22 @@ _logger = logging.getLogger(__name__)
 class res_users(orm.Model):
     _inherit = 'res.users'
 
-    # def get_user_offices(self, cr, uid, context=None):
-    #     cr.execute("select department_id \
-    #                 from \
-    #                 hr_department_collaborator \
-    #                 where name = %d" % uid)
-    #     return [ids[0] for ids in cr.fetchall()]
+    def _get_protocollo_group(self, cr, uid, ids, name, args, context=None):
+        result = {}
+        if not ids:
+            return result
+        result = dict.fromkeys(ids, False)
+        cr.execute(
+            "SELECT g.name from res_groups g WHERE g.id in (SELECT MAX(gr.id) from ir_module_category cat JOIN res_groups  gr ON cat.id = gr.category_id JOIN res_groups_users_rel rgu ON rgu.gid = gr.id where cat.name = 'Seedoo Protocollo' AND rgu.uid IN %s)",(tuple(ids),))
+        res = cr.fetchone()
+        if res:
+            result[ids[0]] = res[0]
+        return result
+
+    _columns = {
+        'group': fields.function(_get_protocollo_group, type='char', size=256, string='Gruppo Protocollo', readonly=1),
+    }
+
     
     def get_users_from_group(self, cr, uid, group, context=None):
         group_obj = self.pool.get('res.groups')

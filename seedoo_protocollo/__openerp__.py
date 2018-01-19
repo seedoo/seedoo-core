@@ -68,7 +68,8 @@
         "data/protocollo_report.xml",
         "menu/menu.xml",
         "data/protocollo_tile.xml",
-        "view/protocollo_dashboard_view.xml"
+        "view/protocollo_dashboard_view.xml",
+        "view/tile.xml"
     ],
     "demo": [
         "demo/hr_delete.xml",

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file is part of Seedoo.  The COPYRIGHT file at the top level of
+this module contains the full copyright notices and license terms. -->
+
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="dashboard_tile_tile_form_view_protocol">
+            <field name="name">tile.tile.protocol_form</field>
+            <field name="model">tile.tile</field>
+            <field name="priority" eval="1"/>
+            <field name="inherit_id" ref="web_dashboard_tile.dashboard_tile_tile_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='font_color']" position="after">
+                    <field name="sequence_tile"/>
+                    <field name="icon_tile"/>
+                    <field name="tag_tile"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="dashboard_tile_tile_kanban_view_protocol">
+            <field name="name">tile.tile.protocol_kanban</field>
+            <field name="model">tile.tile</field>
+            <field name="priority" eval="1"/>
+            <field name="inherit_id" ref="web_dashboard_tile.dashboard_tile_tile_kanban_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@class='oe_kanban_content']" position="replace">
+                    <a type="object" name="open_link" args="[]" t-attf-style="color:#{record.font_color.raw_value};">
+                        <div style="height:100%;" t-att-class="record.secondary_function.raw_value and 'with_secondary' or 'simple'">
+                            <div class="tile_label">
+                                <field name="icon_tile" invisible="1"/>
+                                <div class="icon_tile">
+                                    <span t-att-class="record.icon_tile.raw_value"></span>
+                                </div>
+                                <field name="name"/>
+                            </div>
+                            <div class="tile_primary_value" t-att-title="record.primary_helper.raw_value">
+                                <t t-set="l" t-value="record.primary_value.raw_value.length" />
+                                <t t-set="s" t-value="l>=12 and 35 or l>=10 and 45 or l>=8 and 55 or l>=6 and 75 or l>4 and 85 or 100"/>
+                                <span t-attf-style="font-size: #{s}%;"><field name="primary_value"/></span>
+                            </div>
+                            <div class="tile_secondary_value" t-att-title="record.secondary_helper.raw_value">
+                                <span><field name="secondary_value"/></span>
+                            </div>
+                        </div>
+                    </a>
+                </xpath>
+            </field>
+        </record>
+
+
+    </data>
+</openerp>
