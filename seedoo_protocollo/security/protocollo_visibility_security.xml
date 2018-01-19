@@ -62,13 +62,13 @@ this module contains the full copyright notices and license terms. -->
 
 
         <!-- Gruppo per la visualizzazione dei protocollo in ingresso registrati e assegnati ad un utente dal proprio ufficio -->
-        <record id="group_vedi_protocolli_ingresso_registrati_assegnati_utente_ufficio" model="res.groups">
+        <record id="group_vedi_protocolli_ingresso_registrati_ass_ut_uff" model="res.groups">
             <field name="name">Vedi Protocolli in Ingresso Registrati e Assegnati ad un Utente del Mio Ufficio</field>
             <field name="category_id" ref="module_category_protocollo"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
         <!-- Gruppo per la visualizzazione dei protocollo in uscita registrati e assegnati ad un utente dal proprio ufficio -->
-        <record id="group_vedi_protocolli_uscita_registrati_assegnati_utente_ufficio" model="res.groups">
+        <record id="group_vedi_protocolli_uscita_registrati_ass_ut_uff" model="res.groups">
             <field name="name">Vedi Protocolli in Uscita Registrati e Assegnati ad un Utente del Mio Ufficio</field>
             <field name="category_id" ref="module_category_protocollo"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
@@ -76,13 +76,13 @@ this module contains the full copyright notices and license terms. -->
 
 
         <!-- Gruppo per la visualizzazione dei protocollo in ingresso registrati e assegnati ad un ufficio figlio del proprio ufficio -->
-        <record id="group_vedi_protocolli_ingresso_registrati_assegnati_ufficio_figlio" model="res.groups">
+        <record id="group_vedi_protocolli_ingresso_registrati_ass_uff_fig" model="res.groups">
             <field name="name">Vedi Protocolli in Ingresso Registrati e Assegnati ai Miei Uffici Figli</field>
             <field name="category_id" ref="module_category_protocollo"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
         <!-- Gruppo per la visualizzazione dei protocollo in uscita registrati e assegnati ad un ufficio figlio del proprio ufficio -->
-        <record id="group_vedi_protocolli_uscita_registrati_assegnati_ufficio_figlio" model="res.groups">
+        <record id="group_vedi_protocolli_uscita_registrati_ass_uff_fig" model="res.groups">
             <field name="name">Vedi Protocolli in Uscita Registrati e Assegnati ai Miei Uffici Figli</field>
             <field name="category_id" ref="module_category_protocollo"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
@@ -90,13 +90,13 @@ this module contains the full copyright notices and license terms. -->
 
 
         <!-- Gruppo per la visualizzazione dei protocollo in ingresso registrati e assegnati ad un utente di un ufficio figlio del proprio ufficio -->
-        <record id="group_vedi_protocolli_ingresso_registrati_assegnati_utente_ufficio_figlio" model="res.groups">
+        <record id="group_vedi_protocolli_ingresso_registrati_ass_ut_uff_fig" model="res.groups">
             <field name="name">Vedi Protocolli in Ingresso Registrati e Assegnati ad un Utente dei Miei Uffici Figli</field>
             <field name="category_id" ref="module_category_protocollo"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
         <!-- Gruppo per la visualizzazione dei protocollo in uscita registrati e assegnati ad un utente di un ufficio figlio del proprio ufficio -->
-        <record id="group_vedi_protocolli_uscita_registrati_assegnati_utente_ufficio_figlio" model="res.groups">
+        <record id="group_vedi_protocolli_uscita_registrati_ass_ut_uff_fig" model="res.groups">
             <field name="name">Vedi Protocolli in Uscita Registrati e Assegnati ad un Utente dei Miei Uffici Figli</field>
             <field name="category_id" ref="module_category_protocollo"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>

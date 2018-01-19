@@ -146,9 +146,9 @@ class protocollo_protocollo(osv.Model):
         # un utente deve poter vedere i protocolli (IN e OUT) REGISTRATI e ASSEGNATI ad un UTENTE del suo UFFICIO di appartenenza
         check_gruppo = False
         if protocollo.type == 'in':
-            check_gruppo = self.user_has_groups(cr, user.id, 'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_assegnati_utente_ufficio')
+            check_gruppo = self.user_has_groups(cr, user.id, 'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ass_ut_uff')
         elif protocollo.type == 'out':
-            check_gruppo = self.user_has_groups(cr, user.id, 'seedoo_protocollo.group_vedi_protocolli_uscita_registrati_assegnati_utente_ufficio')
+            check_gruppo = self.user_has_groups(cr, user.id, 'seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ass_ut_uff')
         if check_gruppo and registration_employee and user_department:
             for assegnatari_competenza_dipendente in protocollo.assegnatari_competenza_dipendenti_ids:
                 employee = assegnatari_competenza_dipendente.dipendente_id
@@ -162,9 +162,9 @@ class protocollo_protocollo(osv.Model):
         # un utente deve poter vedere i protocolli (IN e OUT) REGISTRATI e ASSEGNATI ad un suo UFFICIO FIGLIO
         check_gruppo = False
         if protocollo.type == 'in':
-            check_gruppo = self.user_has_groups(cr, user.id, 'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_assegnati_ufficio_figlio')
+            check_gruppo = self.user_has_groups(cr, user.id, 'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ass_uff_fig')
         elif protocollo.type == 'out':
-            check_gruppo = self.user_has_groups(cr, user.id, 'seedoo_protocollo.group_vedi_protocolli_uscita_registrati_assegnati_ufficio_figlio')
+            check_gruppo = self.user_has_groups(cr, user.id, 'seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ass_uff_fig')
         if check_gruppo and registration_employee and user_department:
             for assegnatari_competenza_ufficio in protocollo.assegnatari_competenza_uffici_ids:
                 department = assegnatari_competenza_ufficio.department_id
@@ -178,9 +178,9 @@ class protocollo_protocollo(osv.Model):
         # un utente deve poter vedere i protocolli (IN e OUT) REGISTRATI e ASSEGNATI ad un UTENTE di un suo UFFICIO FIGLIO
         check_gruppo = False
         if protocollo.type == 'in':
-            check_gruppo = self.user_has_groups(cr, user.id, 'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_assegnati_utente_ufficio_figlio')
+            check_gruppo = self.user_has_groups(cr, user.id, 'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ass_ut_uff_fig')
         elif protocollo.type == 'out':
-            check_gruppo = self.user_has_groups(cr, user.id, 'seedoo_protocollo.group_vedi_protocolli_uscita_registrati_assegnati_utente_ufficio_figlio')
+            check_gruppo = self.user_has_groups(cr, user.id, 'seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ass_ut_uff_fig')
         if check_gruppo and registration_employee and user_department:
             for assegnatari_competenza_dipendente in protocollo.assegnatari_competenza_dipendenti_ids:
                 employee = assegnatari_competenza_dipendente.dipendente_id
