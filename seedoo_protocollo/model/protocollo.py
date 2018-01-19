@@ -731,8 +731,8 @@ class protocollo_protocollo(orm.Model):
                                                 method=True,
                                                 type='date',
                                                 string="Fine  Data Ricerca"),
-        'user_id': fields.many2one('res.users',
-                                   'Protocollatore', readonly=True),
+        'user_id': fields.many2one('res.users', 'Protocollatore', readonly=True),
+        'registration_employee_id': fields.many2one('hr.employee', 'Autore della Registrazione', readonly=True),
         'registration_type': fields.selection(
             [
                 ('normal', 'Normale'),
@@ -1255,6 +1255,10 @@ class protocollo_protocollo(orm.Model):
                 prot_date = fields.datetime.now()
                 vals['name'] = prot_number
                 vals['registration_date'] = prot_date
+                employee_ids = self.pool.get('hr.employee').search(cr, uid, [('user_id', '=', uid)])
+                if employee_ids:
+                    vals['registration_employee_id'] = employee_ids[0]
+
                 prot_complete_name = self.calculate_complete_name(prot_date, prot_number)
 
                 if prot.doc_id:
