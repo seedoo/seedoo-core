@@ -226,7 +226,6 @@ this module contains the full copyright notices and license terms. -->
                     <field name="pec_accettazione_status"/>
                     <field name="pec_consegna_status"/>
                     <field name="pec_errore_consegna_status"/>
-
                     <templates>
                         <t t-name="kanban-box">
                             <div class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_color_border item_box" >

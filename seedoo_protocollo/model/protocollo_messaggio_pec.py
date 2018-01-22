@@ -30,7 +30,7 @@ class protocollo_messaggio_pec(orm.Model):
         'accettazione_ora': fields.related('accettazione_ref', 'cert_datetime', type='datetime', string='Orario PEC Accettazione', readonly=False, store=False),
         'consegna_ora': fields.related('consegna_ref', 'cert_datetime', type='datetime', string='Orario PEC Consegna', readonly=False, store=False),
         'errore_consegna_ora': fields.related('errore_consegna_ref', 'cert_datetime', type='datetime', string='Orario PEC Errore Consegna', readonly=False, store=False),
-        'messaggio_direction': fields.related('messaggio_ref', 'direction', type='char', string='Direzione Messaggio', readonly=False, store=False),
+        'messaggio_direction': fields.related('messaggio_ref', 'direction', type='char', string='Direzione Messaggio', readonly=False, store=False)
     }
 
     _defaults = {

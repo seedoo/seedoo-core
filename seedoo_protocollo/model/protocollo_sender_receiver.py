@@ -126,8 +126,8 @@ class protocollo_sender_receiver(orm.Model):
                 protocollo_obj = self.pool.get('protocollo.protocollo')
                 for prot in protocollo_obj.browse(cr, uid, sr.protocollo_id.id):
                     messaggio_pec_obj = self.pool.get("protocollo.messaggio.pec")
-                    for messaggio_pec_id in sr.pec_messaggio_ids.ids:
-                        messaggio_pec = messaggio_pec_obj.browse(cr, uid, messaggio_pec_id)
+                    if len(sr.pec_messaggio_ids.ids) > 0:
+                        messaggio_pec = messaggio_pec_obj.browse(cr, uid, max(sr.pec_messaggio_ids.ids))
                         if prot.state in ("waiting", "sent", "error", "notified", "canceled") and messaggio_pec.type in ("messaggio"):
                             res[sr.id] = True
         return res
@@ -143,8 +143,8 @@ class protocollo_sender_receiver(orm.Model):
                 protocollo_obj = self.pool.get('protocollo.protocollo')
                 for prot in protocollo_obj.browse(cr, uid, sr.protocollo_id.id):
                     messaggio_pec_obj = self.pool.get("protocollo.messaggio.pec")
-                    for messaggio_pec_id in sr.pec_messaggio_ids.ids:
-                        messaggio_pec = messaggio_pec_obj.browse(cr, uid, messaggio_pec_id)
+                    if len(sr.pec_messaggio_ids.ids) > 0:
+                        messaggio_pec = messaggio_pec_obj.browse(cr, uid, max(sr.pec_messaggio_ids.ids))
                         if prot.state in ("waiting", "sent", "error", "notified", "canceled") and messaggio_pec.type in ("messaggio") and messaggio_pec.accettazione_ref.id:
                             res[sr.id] = True
         return res
@@ -161,13 +161,30 @@ class protocollo_sender_receiver(orm.Model):
                 protocollo_obj = self.pool.get('protocollo.protocollo')
                 for prot in protocollo_obj.browse(cr, uid, sr.protocollo_id.id):
                     messaggio_pec_obj = self.pool.get("protocollo.messaggio.pec")
-                    for messaggio_pec_id in sr.pec_messaggio_ids.ids:
-                        messaggio_pec = messaggio_pec_obj.browse(cr, uid, messaggio_pec_id)
+                    if len(sr.pec_messaggio_ids.ids) > 0:
+                        messaggio_pec = messaggio_pec_obj.browse(cr, uid, max(sr.pec_messaggio_ids.ids))
                         if prot.state in ("waiting", "sent", "error", "notified", "canceled") and messaggio_pec.type in ("messaggio") and messaggio_pec.consegna_ref.id:
                             res[sr.id] = True
         return res
 
     def _get_errore_consegna_status(self, cr, uid, ids, field, arg, context=None):
+        if isinstance(ids, (list, tuple)) and not len(ids):
+            return []
+        if isinstance(ids, (long, int)):
+            ids = [ids]
+        res = dict.fromkeys(ids, False)
+        for sr in self.browse(cr, uid, ids):
+            if sr.protocollo_id.id:
+                protocollo_obj = self.pool.get('protocollo.protocollo')
+                for prot in protocollo_obj.browse(cr, uid, sr.protocollo_id.id):
+                    messaggio_pec_obj = self.pool.get("protocollo.messaggio.pec")
+                    if len(sr.pec_messaggio_ids.ids) > 0:
+                        messaggio_pec = messaggio_pec_obj.browse(cr, uid, max(sr.pec_messaggio_ids.ids))
+                        if prot.state in ("waiting", "sent", "error", "notified", "canceled") and messaggio_pec.type in ("messaggio") and messaggio_pec.errore_consegna_ref.id:
+                            res[sr.id] = True
+        return res
+
+    def _get_ultimo_invio_status(self, cr, uid, ids, field, arg, context=None):
         if isinstance(ids, (list, tuple)) and not len(ids):
             return []
         if isinstance(ids, (long, int)):
@@ -248,6 +265,8 @@ class protocollo_sender_receiver(orm.Model):
         'pec_accettazione_status': fields.function(_get_accettazione_status, type='boolean', string='Accettata'),
         'pec_consegna_status': fields.function(_get_consegna_status, type='boolean', string='Consegnata'),
         'pec_errore_consegna_status': fields.function(_get_errore_consegna_status, type='boolean', string='Errore Consegna'),
+        'pec_ultimo_invio_status': fields.function(_get_ultimo_invio_status, type='boolean',
+                                                      string='Stato Ultimo Invio'),
     }
 
     _defaults = {

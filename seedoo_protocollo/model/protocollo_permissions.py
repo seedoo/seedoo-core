@@ -595,6 +595,26 @@ class protocollo_protocollo(osv.Model):
 
         return dict(res)
 
+    def _correggi_destinatario_errato_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
+        res = []
+
+        protocolli = self._get_protocolli(cr, uid, ids)
+        for protocollo in protocolli:
+            check = False
+            if protocollo.type == 'out' and protocollo.pec is True and protocollo.state in ['waiting', 'sent', 'error']:
+                if protocollo.sender_receivers:
+                    for sender_receiver_id in protocollo.sender_receivers.ids:
+                        sender_receiver_obj = self.pool.get('protocollo.sender_receiver').browse(cr, uid, sender_receiver_id, context=context)
+                        if sender_receiver_obj.pec_errore_consegna_status:
+                            check = True
+
+            if check:
+                check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_aggiungi_destinatari_pec_uscita')
+                check = check and check_gruppi
+
+            res.append((protocollo.id, check))
+
+        return dict(res)
 
     def _protocollazione_riservata_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
@@ -626,6 +646,7 @@ class protocollo_protocollo(osv.Model):
         'invio_protocollo_visibility': fields.function(_invio_protocollo_visibility, type='boolean', string='Invio Protocollo'),
         'modifica_pec_visibility': fields.function(_modifica_pec_visibility, type='boolean', string='Modifica PEC'),
         'aggiungi_pec_visibility': fields.function(_aggiungi_pec_visibility, type='boolean', string='Aggiungi PEC'),
+        'correggi_destinatario_errato_visibility': fields.function(_correggi_destinatario_errato_visibility, type='boolean', string='Correggi destinaraio errato'),
         'protocollazione_riservata_visibility': fields.function(_protocollazione_riservata_visibility, type='boolean', string='Protocollazione Riservata'),
     }
 
