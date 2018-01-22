@@ -7,6 +7,7 @@ this module contains the full copyright notices and license terms. -->
         <record id="protocol_access_rule" model="ir.rule">
             <field name="name">Regola Accesso Protocolli</field>
             <field ref="model_protocollo_protocollo" name="model_id"/>
+            <!--
             <field name="domain_force">[
                 '|', '|', '|', '|', '|', '|',
                 ('user_id', '=', user.id),
@@ -20,7 +21,8 @@ this module contains the full copyright notices and license terms. -->
                 ('aoo_id.reserved_employee_id.user_id.id', '=', user.id),
             ]
             </field>
-
+            -->
+            <field name="domain_force">[('is_visible', '=', True)]</field>
             <field name="groups" eval="[(4, ref('group_protocollo_user'))]"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_write" eval="True"/>

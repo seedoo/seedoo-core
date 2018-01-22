@@ -390,8 +390,8 @@ class protocollo_protocollo(orm.Model):
                                                 method=True,
                                                 type='date',
                                                 string="Fine  Data Ricerca"),
-        'user_id': fields.many2one('res.users',
-                                   'Protocollatore', readonly=True),
+        'user_id': fields.many2one('res.users', 'Protocollatore', readonly=True),
+        'registration_employee_id': fields.many2one('hr.employee', 'Autore della Registrazione', readonly=True),
         'registration_type': fields.selection(
             [
                 ('normal', 'Normale'),
@@ -914,6 +914,10 @@ class protocollo_protocollo(orm.Model):
                 prot_date = fields.datetime.now()
                 vals['name'] = prot_number
                 vals['registration_date'] = prot_date
+                employee_ids = self.pool.get('hr.employee').search(cr, uid, [('user_id', '=', uid)])
+                if employee_ids:
+                    vals['registration_employee_id'] = employee_ids[0]
+
                 prot_complete_name = self.calculate_complete_name(prot_date, prot_number)
 
                 if prot.doc_id:
@@ -1384,7 +1388,6 @@ class protocollo_protocollo(orm.Model):
         return False
 
     def prendi_in_carico(self, cr, uid, ids, context=None):
-        self.pool.get('protocollo.stato.dipendente').modifica_stato_dipendente(cr, uid, ids, 'preso')
         rec = self.pool.get('res.users').browse(cr, uid, uid)
 
         action_class = "history_icon taken"
@@ -1398,10 +1401,13 @@ class protocollo_protocollo(orm.Model):
         thread_pool = self.pool.get('protocollo.protocollo')
         thread_pool.message_post(cr, uid, ids[0], type="notification", context=context, **post_vars)
 
+        # l'invio della notifica avviene prima della modifica dello stato, perchè se fatta dopo, in alcuni casi,
+        # potrebbe non avere più i permessi di scrittura sul protocollo
+        self.pool.get('protocollo.stato.dipendente').modifica_stato_dipendente(cr, uid, ids, 'preso')
+
         return True
 
     def rifiuta_presa_in_carico(self, cr, uid, ids, context=None):
-        self.pool.get('protocollo.stato.dipendente').modifica_stato_dipendente(cr, uid, ids, 'rifiutato')
         rec = self.pool.get('res.users').browse(cr, uid, uid)
 
         action_class = "history_icon refused"
@@ -1414,6 +1420,10 @@ class protocollo_protocollo(orm.Model):
 
         thread_pool = self.pool.get('protocollo.protocollo')
         thread_pool.message_post(cr, uid, ids[0], type="notification", context=context, **post_vars)
+
+        # l'invio della notifica avviene prima della modifica dello stato, perchè se fatta dopo, in alcuni casi,
+        # potrebbe non avere più i permessi di scrittura sul protocollo
+        self.pool.get('protocollo.stato.dipendente').modifica_stato_dipendente(cr, uid, ids, 'rifiutato')
 
         return True
 

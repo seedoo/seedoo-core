@@ -95,4 +95,6 @@ class res_users(orm.Model):
 
         res = super(res_users, self).write(cr, uid, ids, values, context=context)
 
+        #self.pool.get('protocollo.protocollo').clear_cache()
+
         return res

@@ -449,6 +449,7 @@ this module contains the full copyright notices and license terms. -->
                                 <field name="registration_date"/>
                                 <field name="registry" options="{'no_open': True}"/>
                                 <field name="type"/>
+                                <field name="registration_employee_id" readonly="1" options="{'no_open': True}"/>
                             </group>
                         </div>
                         <group
