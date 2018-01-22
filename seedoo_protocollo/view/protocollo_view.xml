@@ -399,6 +399,10 @@ this module contains the full copyright notices and license terms. -->
                                 attrs="{'invisible':[('invio_pec_visibility','=',False)]}"
                                 class="oe_highlight btn_seedoo btn_invia_pec"/>
 
+                        <button name="%(protocollo_modify_pec_action)d" string="Correggi Destinatario" type="action"
+                                attrs="{'invisible':[('aggiungi_pec_visibility','=',False)]}"
+                                class="oe_highlight_positive btn_seedoo btn_modifica_protocollo"/>
+
                         <button name="sent_mail_pec" string="Invia Mail Protocollo"
                                 attrs="{'invisible':[('invio_sharedmail_visibility','=',False)]}"
                                 class="oe_highlight btn_seedoo btn_invia_pec"/>
@@ -435,6 +439,7 @@ this module contains the full copyright notices and license terms. -->
                             <field name="invio_sharedmail_visibility"/>
                             <field name="invio_protocollo_visibility"/>
                             <field name="modifica_pec_visibility"/>
+                            <field name="correggi_destinatario_errato_visibility"/>
                             <field name="aggiungi_pec_visibility"/>
                             <field name="protocollazione_riservata_visibility"/>
                         </div>
@@ -482,9 +487,9 @@ this module contains the full copyright notices and license terms. -->
                             </group>
                         </group>
                         <group>
-                            <field name="creation_date"/>
+                            <field name="creation_date" class="seedoocustom_protocollo_creation_date"/>
                             <newline/>
-                            <field name="receiving_date" attrs="{'invisible':[('type','=','out')]}"/>
+                            <field name="receiving_date" attrs="{'invisible':[('type','=','out')]}" class="seedoocustom_protocollo_receiving_date"/>
                         </group>
                         <newline/>
                         <group >

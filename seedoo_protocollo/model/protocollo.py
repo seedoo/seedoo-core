@@ -1123,7 +1123,8 @@ class protocollo_protocollo(orm.Model):
             if prot.sender_receivers:
                 for sender_receiver_id in prot.sender_receivers.ids:
                     sender_receiver_obj = self.pool.get('protocollo.sender_receiver').browse(cr, uid, sender_receiver_id, context=context)
-                    if not sender_receiver_obj.pec_invio_status:
+                    # if not sender_receiver_obj.pec_invio_status:
+                    if sender_receiver_obj.pec_errore_consegna_status or not sender_receiver_obj.pec_invio_status:
                         sender_receivers_pec_mails.append(sender_receiver_obj.pec_mail)
                         sender_receivers_pec_ids.append(sender_receiver_obj.id)
 

@@ -109,8 +109,9 @@ class wizard(osv.TransientModel):
 
     def action_save(self, cr, uid, ids, context=None):
         wizard = self.browse(cr, uid, ids[0], context)
-        before = ''
-        after = ''
+        vals = {}
+        before = {}
+        after = {}
         if not wizard.cause:
             raise osv.except_osv(
                 _('Attenzione!'),
@@ -126,39 +127,39 @@ class wizard(osv.TransientModel):
                 'name': send_rec.name,
                 'pec_mail': send_rec.pec_mail,
                 })
-        vals = {}
-        before = self.set_before(
-            before,
-            'Destinatari',
-            '/n'.join(['pec_mail: ' + str(r['pec_mail']) for r in res])
-            )
-        after += 'Destinatari \n'
+        # before['Destinatari'] = self.set_before(before['pec_mail'], 'pec_mail', protocollo.classification.name)
+        # before = self.set_before(
+        #     before,
+        #     'Destinatari',
+        #     '/n'.join(['pec_mail: ' + str(r['pec_mail']) for r in res])
+        #     )
+        # after += 'Destinatari \n'
         for send_rec in wizard.sender_receivers:
             srvals = {'name': send_rec.name, 'pec_mail': send_rec.pec_mail}
-            after = self.set_after(after, '', 'pec_mail: ' +
-                                   send_rec.pec_mail + ', ')
+            # after = self.set_after(after, '', 'pec_mail: ' +
+            #                        send_rec.pec_mail + ', ')
             sender_receiver_obj.write(cr, uid,
-                                      send_rec.sender_receiver_id.id,
+                                      [send_rec.sender_receiver_id.id],
                                       srvals)
 
         protocollo_obj.write(cr, uid, [context['active_id']], vals)
 
         action_class = "history_icon update"
-        body = "<div class='%s'><ul><li><span style='color:#990000'> %s</span> " \
-                u"\u2192" \
-                "<span style='color:#009900'>%s</span></li></ul></div>" \
-                % (action_class, str(before), str(after))
+        # body = "<div class='%s'><ul><li><span style='color:#990000'> %s</span> " \
+        #         u"\u2192" \
+        #         "<span style='color:#009900'>%s</span></li></ul></div>" \
+        #         % (action_class, str(before), str(after))
 
-        post_vars = {'subject': "Modificati  mittenti/destinatari: \'%s\'" % wizard.cause,
-                     'body': body,
-                     'model': "protocollo.protocollo",
-                     'res_id': context['active_id'],
-                    }
+        # post_vars = {'subject': "Modificati  mittenti/destinatari: \'%s\'" % wizard.cause,
+        #              'body': body,
+        #              'model': "protocollo.protocollo",
+        #              'res_id': context['active_id'],
+        #             }
 
-        thread_pool = self.pool.get('protocollo.protocollo')
-        thread_pool.message_post(cr, uid, context['active_id'], type="notification", context=context, **post_vars)
+        # thread_pool = self.pool.get('protocollo.protocollo')
+        # thread_pool.message_post(cr, uid, context['active_id'], type="notification", context=context, **post_vars)
 
-        # self._process_mail(cr, uid, ids, protocollo_obj, context)
+        self._process_mail(cr, uid, ids, protocollo_obj, context)
         return {'type': 'ir.actions.act_window_close'}
 
     def action_resend(self, cr, uid, ids, context=None):
