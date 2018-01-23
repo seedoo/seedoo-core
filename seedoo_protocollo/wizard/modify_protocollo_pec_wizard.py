@@ -33,14 +33,6 @@ class wizard(osv.TransientModel):
     _name = 'protocollo.modify.pec.wizard'
     _description = 'Modify Protocollo PEC Management'
 
-    def set_before(self, before, label, value):
-        before += label + ': ' + value + '\n'
-        return before
-
-    def set_after(self, after, label, value):
-        after += label + ': ' + value + '\n'
-        return after
-
     _columns = {
         'name': fields.char('Numero Protocollo',
                             size=256,
@@ -121,42 +113,30 @@ class wizard(osv.TransientModel):
         protocollo_obj = self.pool.get('protocollo.protocollo')
         sender_receiver_obj = self.pool.get('protocollo.sender_receiver')
         protocollo = protocollo_obj.browse(cr, uid, context['active_id'])
-        res = []
         for send_rec in protocollo.sender_receivers:
-            res.append({
-                'sender_receiver_id': send_rec.id,
-                'name': send_rec.name,
-                'pec_mail': send_rec.pec_mail,
-                })
-        # before['Destinatari'] = self.set_before(before['pec_mail'], 'pec_mail', protocollo.classification.name)
-        # before = self.set_before(
-        #     before,
-        #     'Destinatari',
-        #     '/n'.join(['pec_mail: ' + str(r['pec_mail']) for r in res])
-        #     )
-        # after += 'Destinatari \n'
+            before[send_rec.id] = {'name': send_rec.name, 'mail': send_rec.pec_mail}
 
         for send_rec in wizard.sender_receivers:
-            srvals = {'name': send_rec.name, 'pec_mail': send_rec.pec_mail, 'to_resend': True}
-            # after = self.set_after(after, '', 'pec_mail: ' + send_rec.pec_mail + ', ')
+            srvals = {'pec_mail': send_rec.pec_mail, 'to_resend': True}
+            after[send_rec.sender_receiver_id.id] = {'name': send_rec.name, 'mail': send_rec.pec_mail}
             sender_receiver_obj.write(cr, uid, [send_rec.sender_receiver_id.id], srvals)
 
         protocollo_obj.write(cr, uid, [context['active_id']], vals)
 
         action_class = "history_icon update"
-        # body = "<div class='%s'><ul><li><span style='color:#990000'> %s</span> " \
-        #         u"\u2192" \
-        #         "<span style='color:#009900'>%s</span></li></ul></div>" \
-        #         % (action_class, str(before), str(after))
+        body = "<div class='%s'><ul>" % action_class
+        for key, after_item in after.items():
+            body = body + "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#009900'> %s </span></li>" \
+                              % (after_item['name'], before[key]['mail'].encode("utf-8"), after_item['mail'].encode("utf-8"))
+        body += "</ul></div>"
+        post_vars = {'subject': "Modificato indirizzo PEC: \'%s\'" % wizard.cause,
+                     'body': body,
+                     'model': "protocollo.protocollo",
+                     'res_id': context['active_id'],
+                    }
 
-        # post_vars = {'subject': "Modificati  mittenti/destinatari: \'%s\'" % wizard.cause,
-        #              'body': body,
-        #              'model': "protocollo.protocollo",
-        #              'res_id': context['active_id'],
-        #             }
-
-        # thread_pool = self.pool.get('protocollo.protocollo')
-        # thread_pool.message_post(cr, uid, context['active_id'], type="notification", context=context, **post_vars)
+        thread_pool = self.pool.get('protocollo.protocollo')
+        thread_pool.message_post(cr, uid, context['active_id'], type="notification", context=context, **post_vars)
 
         self._process_mail(cr, uid, ids, protocollo_obj, context)
         return {'type': 'ir.actions.act_window_close'}

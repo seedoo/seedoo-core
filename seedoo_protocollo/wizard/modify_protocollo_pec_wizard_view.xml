@@ -30,7 +30,7 @@ this module contains the full copyright notices and license terms. -->
                             <group col="4" colspan="4">
                                 <field name="sender_receivers" nolabel="1">
                                     <tree editable="bottom" create="false">
-                                        <field name="name"
+                                        <field name="name" readonly="1"
                                                string="Nome Cognome/Ragione Sociale"/>
                                         <field name="pec_mail"/>
                                     </tree>
@@ -43,9 +43,6 @@ this module contains the full copyright notices and license terms. -->
                             <field name="protocol_sent" invisible="1"/>
                         </div>
                     </sheet>
-                    <!--<separator-->
-                            <!--string=" Premendo su Modifica verra' inviata una nuova pec con gli indirizzi inseriti"-->
-                            <!--attrs="{'invisible': [('protocol_sent', '=', False)]}"/>-->
                     <footer>
                         <button string="Salva e Invia" name="action_save"
                                 type="object" class="oe_highlight"/>
@@ -53,7 +50,6 @@ this module contains the full copyright notices and license terms. -->
                                 <!--type="object"-->
                                 <!--attrs="{'invisible': [('protocol_sent', '=', False)]}"-->
                                 <!--class="oe_highlight"/>-->
-                        o
                         <button string="Abbandona" class="oe_link"
                                 special="cancel"/>
                     </footer>
