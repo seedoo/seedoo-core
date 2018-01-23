@@ -197,6 +197,19 @@
     opacity: 1;
 }
 
+.openerp div.icon_numero_invii {
+    float: right;
+    background: #333;
+    border-radius: 10px;
+    width: 20px;
+    height: 20px;
+    padding: 2px;
+    text-align: center;
+    font-weight: bold;
+    color: #ccc;
+    margin: 2px;
+}
+
 .openerp .oe_form td[data-field="go_to_messaggio_action"],
 .openerp .oe_form td[data-field="go_to_accettazione_action"],
 .openerp .oe_form td[data-field="go_to_consegna_action"],
@@ -236,6 +249,15 @@
     padding: 0 5px 0 0 !important;
 }
 
+.openerp .oe_kanban_view a.protocollo_sr_box div{
+    transition: all 0.3s linear;
+    -webkit-transition: all 0.3s linear;
+    -moz-transition: all 0.3s linear;
+}
+.openerp .oe_kanban_view a.protocollo_sr_box:hover > div {
+    background-color: #ccc;
+}
+
 .openerp .oe_kanban_view .item_box {
     float: left;
     display: inline;
@@ -246,6 +268,10 @@
     margin: 0 20px 0 0;
     padding:10px !important;
     position: relative;
+}
+
+.openerp .oe_kanban_view .item_box h3, .openerp .oe_kanban_view .item_box p {
+    color:#666;
 }
 
 .item_box .pec_button_col{

@@ -184,6 +184,16 @@ class protocollo_sender_receiver(orm.Model):
                             res[sr.id] = True
         return res
 
+    def _get_pec_numero_invii(self, cr, uid, ids, field, arg, context=None):
+        if isinstance(ids, (list, tuple)) and not len(ids):
+            return []
+        if isinstance(ids, (long, int)):
+            ids = [ids]
+        res = dict.fromkeys(ids, False)
+        for sr in self.browse(cr, uid, ids):
+            res[sr.id] = len(sr.pec_messaggio_ids)
+        return res
+
     def _get_default_protocollo_id(self, cr, uid, context=None):
         if context and 'is_add_pec_receiver' in context and context['is_add_pec_receiver']:
             if context.has_key('protocollo_id') and context['protocollo_id']:
@@ -248,6 +258,7 @@ class protocollo_sender_receiver(orm.Model):
         'pec_accettazione_status': fields.function(_get_accettazione_status, type='boolean', string='Accettata'),
         'pec_consegna_status': fields.function(_get_consegna_status, type='boolean', string='Consegnata'),
         'pec_errore_consegna_status': fields.function(_get_errore_consegna_status, type='boolean', string='Errore Consegna'),
+        'pec_numero_invii': fields.function(_get_pec_numero_invii, type='char', string='PEC Numero invii'),
     }
 
     _defaults = {
