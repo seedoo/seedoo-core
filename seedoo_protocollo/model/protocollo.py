@@ -1128,7 +1128,7 @@ class protocollo_protocollo(orm.Model):
                 for sender_receiver_id in prot.sender_receivers.ids:
                     sender_receiver_obj = self.pool.get('protocollo.sender_receiver').browse(cr, uid, sender_receiver_id, context=context)
                     # if not sender_receiver_obj.pec_invio_status:
-                    if sender_receiver_obj.pec_errore_consegna_status or not sender_receiver_obj.pec_invio_status:
+                    if (sender_receiver_obj.pec_errore_consegna_status and sender_receiver_obj.to_resend) or not sender_receiver_obj.pec_invio_status:
                         sender_receivers_pec_mails.append(sender_receiver_obj.pec_mail)
                         sender_receivers_pec_ids.append(sender_receiver_obj.id)
 
@@ -1194,6 +1194,7 @@ class protocollo_protocollo(orm.Model):
                     sender_receiver_obj = self.pool.get('protocollo.sender_receiver').browse(cr, uid, sender_receiver_id, context=context)
                     messaggio_pec_id = messaggio_pec_obj.create(cr, uid, {'type': 'messaggio', 'messaggio_ref': mail.mail_message_id.id})
                     msgvals['pec_messaggio_ids'] = [(4, [messaggio_pec_id])]
+                    msgvals['to_resend'] = False
                     sender_receiver_obj.write(msgvals)
         else:
             raise openerp.exceptions.Warning(_('Errore nel \
@@ -1361,6 +1362,21 @@ class protocollo_protocollo(orm.Model):
         ok = mail_message.message_ok and not \
             mail_message.error
         return ok
+
+    def check_all_mail_messages(self, cr, uid, ids, *args):
+        _logger.info('check_all_mail_messages')
+        res = self.mail_message_id_get(cr, SUPERUSER_ID, ids)
+        if not res:
+            return False
+        mail_message_obj = self.pool.get('mail.message')
+        mail_message = mail_message_obj.browse(cr, SUPERUSER_ID, res[0])
+        protocollo_obj = self.pool.get('protocollo.protocollo')
+        protocollo = protocollo_obj.browse(cr, SUPERUSER_ID, mail_message.pec_protocol_ref.id)
+        for sr in protocollo.sender_receivers.ids:
+            sender_receiver_obj = self.pool.get('protocollo.sender_receiver').browse(cr, SUPERUSER_ID, sr)
+            if not sender_receiver_obj.pec_consegna_status:
+                return False
+        return True
 
     def test_error_mail_message(self, cr, uid, ids, *args):
         _logger.info('test_error_mail_message')

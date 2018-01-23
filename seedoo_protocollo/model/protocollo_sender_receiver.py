@@ -259,6 +259,7 @@ class protocollo_sender_receiver(orm.Model):
         'pec_consegna_status': fields.function(_get_consegna_status, type='boolean', string='Consegnata'),
         'pec_errore_consegna_status': fields.function(_get_errore_consegna_status, type='boolean', string='Errore Consegna'),
         'pec_numero_invii': fields.function(_get_pec_numero_invii, type='char', string='PEC Numero invii'),
+        'to_resend': fields.boolean("Da reinviare", help="Destinatario modificato, da reinviare")
     }
 
     _defaults = {
@@ -266,6 +267,7 @@ class protocollo_sender_receiver(orm.Model):
         'protocollo_id':_get_default_protocollo_id,
         'source':_get_default_source,
         'add_pec_receiver_visibility': _get_add_pec_receiver_visibility,
+        'to_resend': False
     }
 
     def check_field_in_create(self, cr, uid, vals):
