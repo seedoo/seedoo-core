@@ -71,11 +71,12 @@ class wizard(osv.TransientModel):
             )
         res = []
         for send_rec in protocollo.sender_receivers:
-            res.append({
-                'sender_receiver_id': send_rec.id,
-                'name': send_rec.name,
-                'pec_mail': send_rec.pec_mail,
-                })
+            if send_rec.pec_errore_consegna_status:
+                res.append({
+                    'sender_receiver_id': send_rec.id,
+                    'name': send_rec.name,
+                    'pec_mail': send_rec.pec_mail,
+                    })
         return res
 
     def _default_protocol_sent(self, cr, uid, context):
@@ -121,6 +122,7 @@ class wizard(osv.TransientModel):
         sender_receiver_obj = self.pool.get('protocollo.sender_receiver')
         protocollo = protocollo_obj.browse(cr, uid, context['active_id'])
         res = []
+        sr_updated = []
         for send_rec in protocollo.sender_receivers:
             res.append({
                 'sender_receiver_id': send_rec.id,
@@ -134,14 +136,17 @@ class wizard(osv.TransientModel):
         #     '/n'.join(['pec_mail: ' + str(r['pec_mail']) for r in res])
         #     )
         # after += 'Destinatari \n'
+
         for send_rec in wizard.sender_receivers:
             srvals = {'name': send_rec.name, 'pec_mail': send_rec.pec_mail}
             # after = self.set_after(after, '', 'pec_mail: ' +
             #                        send_rec.pec_mail + ', ')
-            sender_receiver_obj.write(cr, uid,
-                                      [send_rec.sender_receiver_id.id],
-                                      srvals)
+            sender_receiver_obj.write(cr, uid, [send_rec.sender_receiver_id.id], srvals)
+            sr_updated.append(send_rec.sender_receiver_id.id)
 
+        context.update({
+                'sr_corretti': sr_updated,
+        })
         protocollo_obj.write(cr, uid, [context['active_id']], vals)
 
         action_class = "history_icon update"
