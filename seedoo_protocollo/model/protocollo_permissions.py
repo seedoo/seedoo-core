@@ -595,7 +595,7 @@ class protocollo_protocollo(osv.Model):
 
         return dict(res)
 
-    def _correggi_destinatario_errato_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
+    def _correggi_destinatario_errato_pec_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
 
         protocolli = self._get_protocolli(cr, uid, ids)
@@ -609,7 +609,7 @@ class protocollo_protocollo(osv.Model):
                             check = True
 
             if check:
-                check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_aggiungi_destinatari_pec_uscita')
+                check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_correggi_destinatario_errato_pec')
                 check = check and check_gruppi
 
             res.append((protocollo.id, check))
@@ -646,7 +646,7 @@ class protocollo_protocollo(osv.Model):
         'invio_protocollo_visibility': fields.function(_invio_protocollo_visibility, type='boolean', string='Invio Protocollo'),
         'modifica_pec_visibility': fields.function(_modifica_pec_visibility, type='boolean', string='Modifica PEC'),
         'aggiungi_pec_visibility': fields.function(_aggiungi_pec_visibility, type='boolean', string='Aggiungi PEC'),
-        'correggi_destinatario_errato_visibility': fields.function(_correggi_destinatario_errato_visibility, type='boolean', string='Correggi destinaraio errato'),
+        'correggi_destinatario_errato_pec_visibility': fields.function(_correggi_destinatario_errato_pec_visibility, type='boolean', string='Correggi destinaraio errato'),
         'protocollazione_riservata_visibility': fields.function(_protocollazione_riservata_visibility, type='boolean', string='Protocollazione Riservata'),
     }
 

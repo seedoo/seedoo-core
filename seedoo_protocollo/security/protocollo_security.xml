@@ -196,6 +196,13 @@ this module contains the full copyright notices and license terms. -->
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
 
+        <!-- Button "Correggi destinatario PEC" nella vista form protocollo in uscita -->
+        <record id="group_correggi_destinatario_errato_pec" model="res.groups">
+            <field name="name">Correggi Destinatario PEC</field>
+            <field name="category_id" ref="module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+
         <!-- Button "Invia E-mail Protocollo" nella vista form protocollo in uscita -->
         <record id="group_invia_protocollo_sharedmail_uscita" model="res.groups">
             <field name="name">Invia Protocollo E-mail in Uscita</field>

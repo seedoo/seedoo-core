@@ -400,7 +400,7 @@ this module contains the full copyright notices and license terms. -->
                                 class="oe_highlight btn_seedoo btn_invia_pec"/>
 
                         <button name="%(protocollo_modify_pec_action)d" string="Correggi Destinatario" type="action"
-                                attrs="{'invisible':[('correggi_destinatario_errato_visibility','=',False)]}"
+                                attrs="{'invisible':[('correggi_destinatario_errato_pec_visibility','=',False)]}"
                                 class="oe_highlight_positive btn_seedoo btn_modifica_protocollo"/>
 
                         <button name="sent_mail_pec" string="Invia Mail Protocollo"
@@ -439,7 +439,7 @@ this module contains the full copyright notices and license terms. -->
                             <field name="invio_sharedmail_visibility"/>
                             <field name="invio_protocollo_visibility"/>
                             <field name="modifica_pec_visibility"/>
-                            <field name="correggi_destinatario_errato_visibility"/>
+                            <field name="correggi_destinatario_errato_pec_visibility"/>
                             <field name="aggiungi_pec_visibility"/>
                             <field name="protocollazione_riservata_visibility"/>
                         </div>

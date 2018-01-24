@@ -172,13 +172,8 @@ class protocollo_assegna_wizard(osv.TransientModel):
 
 
     def action_save(self, cr, uid, ids, context=None):
-        before = {
-                    'Uffici Assegnatari per Competenza': '',
-                    'Dipendenti Assegnatari per Competenza': '',
-                    'Uffici Assegnatari per Conoscenza': '',
-                    'Dipendenti Assegnatari per Conoscenza': ''
-                  }
-        after = before
+        before = {'Uffici Assegnatari per Competenza': '', 'Dipendenti Assegnatari per Competenza': '', 'Uffici Assegnatari per Conoscenza': '', 'Dipendenti Assegnatari per Conoscenza': ''}
+        after = {'Uffici Assegnatari per Competenza': '', 'Dipendenti Assegnatari per Competenza': '', 'Uffici Assegnatari per Conoscenza': '', 'Dipendenti Assegnatari per Conoscenza': ''}
         wizard = self.browse(cr, uid, ids[0], context)
         protocollo_obj = self.pool.get('protocollo.protocollo')
         protocollo = protocollo_obj.browse(cr, uid, context['active_id'], context=context)
