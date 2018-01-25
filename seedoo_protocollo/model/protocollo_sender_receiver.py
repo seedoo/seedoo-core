@@ -258,7 +258,8 @@ class protocollo_sender_receiver(orm.Model):
         'pec_accettazione_status': fields.function(_get_accettazione_status, type='boolean', string='Accettata'),
         'pec_consegna_status': fields.function(_get_consegna_status, type='boolean', string='Consegnata'),
         'pec_errore_consegna_status': fields.function(_get_errore_consegna_status, type='boolean', string='Errore Consegna'),
-        'pec_numero_invii': fields.function(_get_pec_numero_invii, type='char', string='PEC Numero invii'),
+        'pec_numero_invii': fields.function(_get_pec_numero_invii, type='integer', string='PEC - Numero invii'),
+        'sharedmail_numero_invii': fields.integer('Sharedmail - Numero invii', readonly=True, required=False),
         'to_resend': fields.boolean("Da reinviare", help="Destinatario modificato, da reinviare")
     }
 
@@ -267,7 +268,8 @@ class protocollo_sender_receiver(orm.Model):
         'protocollo_id':_get_default_protocollo_id,
         'source':_get_default_source,
         'add_pec_receiver_visibility': _get_add_pec_receiver_visibility,
-        'to_resend': False
+        'to_resend': False,
+        'sharedmail_numero_invii': 0
     }
 
     def check_field_in_create(self, cr, uid, vals):
@@ -359,5 +361,5 @@ class protocollo_sender_receiver(orm.Model):
         self.check_field_in_write(cr, uid, ids, vals)
         return super(protocollo_sender_receiver, self).write(cr, uid, ids, vals, context=context)
 
-    def aggiungi_destinatario_pec_action(self, cr, uid, ids, context=None):
-        return True
+    # def aggiungi_destinatario_pec_action(self, cr, uid, ids, context=None):
+    #     return True

@@ -3,7 +3,7 @@
 this module contains the full copyright notices and license terms. -->
 
 <openerp>
-    <data noupdate="1">
+    <data noupdate="0">
         <record model="res.users" id="francesco_alba">
             <field name="name">Francesco Alba</field>
             <field name="login">francesco.alba@example.com</field>

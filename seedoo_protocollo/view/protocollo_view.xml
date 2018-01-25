@@ -399,8 +399,12 @@ this module contains the full copyright notices and license terms. -->
                                 attrs="{'invisible':[('invio_pec_visibility','=',False)]}"
                                 class="oe_highlight btn_seedoo btn_invia_pec"/>
 
-                        <button name="%(protocollo_modify_pec_action)d" string="Correggi Destinatario" type="action"
-                                attrs="{'invisible':[('correggi_destinatario_errato_pec_visibility','=',False)]}"
+                        <button name="%(protocollo_modify_pec_action)d" string="Modifica PEC Destinatario" type="action"
+                                attrs="{'invisible':[('modifica_pec_visibility','=',False)]}"
+                                class="oe_highlight_positive btn_seedoo btn_modifica_protocollo"/>
+
+                        <button name="%(protocollo_modify_email_action)d" string="Modifica E-mail Destinatario" type="action"
+                                attrs="{'invisible':[('modifica_email_visibility','=',False)]}"
                                 class="oe_highlight_positive btn_seedoo btn_modifica_protocollo"/>
 
                         <button name="sent_mail_pec" string="Invia Mail Protocollo"
@@ -439,11 +443,11 @@ this module contains the full copyright notices and license terms. -->
                             <field name="invio_sharedmail_visibility"/>
                             <field name="invio_protocollo_visibility"/>
                             <field name="modifica_pec_visibility"/>
-                            <field name="correggi_destinatario_errato_pec_visibility"/>
-                            <field name="aggiungi_pec_visibility"/>
+                            <field name="modifica_email_visibility"/>
+                            <!--<field name="aggiungi_pec_visibility"/>-->
                             <field name="protocollazione_riservata_visibility"/>
                         </div>
-                        <div class="gedoc_header">
+                        <div class="gedoc_header" attrs="{'invisible':[('state','=','draft')]}">
                             <group col="4">
                                 <field name="complete_name"/>
                                 <field name="registration_date"/>

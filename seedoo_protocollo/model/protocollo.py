@@ -1232,7 +1232,7 @@ class protocollo_protocollo(orm.Model):
             if prot.sender_receivers:
                 for sender_receiver_id in prot.sender_receivers.ids:
                     sender_receiver_obj = self.pool.get('protocollo.sender_receiver').browse(cr, uid, sender_receiver_id, context=context)
-                    if not sender_receiver_obj.pec_invio_status:
+                    if (sender_receiver_obj.sharedmail_numero_invii == 0) or (sender_receiver_obj.sharedmail_numero_invii > 0 and sender_receiver_obj.to_resend):
                         sender_receivers_mails.append(sender_receiver_obj.email)
                         sender_receivers_ids.append(sender_receiver_obj.id)
 
@@ -1296,7 +1296,10 @@ class protocollo_protocollo(orm.Model):
                 for sender_receiver_id in sender_receivers_ids:
                     msgvals = {}
                     sender_receiver_obj = self.pool.get('protocollo.sender_receiver').browse(cr, uid, sender_receiver_id, context=context)
+                    msgvals['to_resend'] = False
+                    msgvals['sharedmail_numero_invii'] = int(sender_receiver_obj.sharedmail_numero_invii) + 1
                     sender_receiver_obj.write(msgvals)
+
         else:
             raise openerp.exceptions.Warning(_('Errore nel \
                     protocollo, si sta cercando di inviare una pec \
@@ -1739,29 +1742,29 @@ class protocollo_protocollo(orm.Model):
                 content_subtype=content_subtype, **kwargs)
 
 
-    def aggiungi_destinatari_pec(self, cr, uid, ids, context=None):
-        prot_id = ids[0]
-        view_ref = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'seedoo_protocollo', 'protocollo_sender_receiver_form')
-        view_id = view_ref[1] if view_ref else False
-        context.update({
-                'protocollo_id': prot_id,
-        })
-
-        if 'default_type' in context:
-            del context['default_type']
-
-        res = {
-            'type': 'ir.actions.act_window',
-            'name': _('Aggiungi Destinatario'),
-            'res_model': 'protocollo.sender_receiver',
-            'view_type': 'form',
-            'view_mode': 'form',
-            'view_id': view_id,
-            'target': 'new',
-            'context': context
-        }
-
-        return res
+    # def aggiungi_destinatari_pec(self, cr, uid, ids, context=None):
+    #     prot_id = ids[0]
+    #     view_ref = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'seedoo_protocollo', 'protocollo_sender_receiver_form')
+    #     view_id = view_ref[1] if view_ref else False
+    #     context.update({
+    #             'protocollo_id': prot_id,
+    #     })
+    #
+    #     if 'default_type' in context:
+    #         del context['default_type']
+    #
+    #     res = {
+    #         'type': 'ir.actions.act_window',
+    #         'name': _('Aggiungi Destinatario'),
+    #         'res_model': 'protocollo.sender_receiver',
+    #         'view_type': 'form',
+    #         'view_mode': 'form',
+    #         'view_id': view_id,
+    #         'target': 'new',
+    #         'context': context
+    #     }
+    #
+    #     return res
 
     # def fields_view_get(self, cr, uid, view_id=None, view_type=None, context=None, toolbar=False, submenu=False):
     #     res = super(protocollo_protocollo, self).fields_view_get(cr, uid, view_id=view_id, view_type=view_type, context=context,

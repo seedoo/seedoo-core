@@ -11,15 +11,15 @@ _logger = logging.getLogger(__name__)
 
 
 class protocollo_sender_receiver_wizard(osv.TransientModel):
-    _name = 'protocollo.sender_receiver.pec.wizard'
+    _name = 'protocollo.sender_receiver.email.wizard'
 
     _columns = {
-        'wizard_id': fields.many2one('protocollo.modify.pec.wizard',
+        'wizard_id': fields.many2one('protocollo.modify.email.wizard',
                                      'Modifica Protocollo'),
         'name': fields.char('Nome Cognome/Ragione Sociale',
                             size=512,
                             required=True),
-        'pec_mail': fields.char('PEC', size=240, required=True),
+        'email': fields.char('E-mail', size=240, required=True),
         'sender_receiver_id': fields.many2one('protocollo.sender_receiver',
                                               'Destinatario',
                                               required=False)
@@ -30,16 +30,8 @@ class wizard(osv.TransientModel):
     """
         A wizard to manage the modification of document protocollo
     """
-    _name = 'protocollo.modify.pec.wizard'
-    _description = 'Modify Protocollo PEC Management'
-
-    def set_before(self, before, label, value):
-        before += label + ': ' + value + '\n'
-        return before
-
-    def set_after(self, after, label, value):
-        after += label + ': ' + value + '\n'
-        return after
+    _name = 'protocollo.modify.email.wizard'
+    _description = 'Modify Protocollo E-mail Management'
 
     _columns = {
         'name': fields.char('Numero Protocollo',
@@ -47,7 +39,7 @@ class wizard(osv.TransientModel):
                             required=True,
                             readonly=True),
         'sender_receivers': fields.one2many(
-            'protocollo.sender_receiver.pec.wizard',
+            'protocollo.sender_receiver.email.wizard',
             'wizard_id',
             'Destinatari',
             required=True,),
@@ -71,12 +63,11 @@ class wizard(osv.TransientModel):
             )
         res = []
         for send_rec in protocollo.sender_receivers:
-            if send_rec.pec_errore_consegna_status:
-                res.append({
-                    'sender_receiver_id': send_rec.id,
-                    'name': send_rec.name,
-                    'pec_mail': send_rec.pec_mail,
-                    })
+           res.append({
+                'sender_receiver_id': send_rec.id,
+                'name': send_rec.name,
+                'email': send_rec.email,
+                })
         return res
 
     def _default_protocol_sent(self, cr, uid, context):
@@ -97,15 +88,11 @@ class wizard(osv.TransientModel):
 
     def _process_mail(self, cr, uid, ids,
                       protocollo_obj, context=None):
-        # check if waiting then resend pec mail
+        # check if waiting then resend e-mail
         protocollo = protocollo_obj.browse(cr, uid, context['active_id'],
                                            context=context)
-        if protocollo.state in ('waiting', 'error'):
-            wf_service = netsvc.LocalService('workflow')
-            wf_service.trg_validate(uid, 'protocollo.protocollo',
-                                    context['active_id'],
-                                    'resend',
-                                    cr)
+        if protocollo.state in ('sent'):
+            protocollo.action_mail_pec_send()
         return True
 
     def action_save(self, cr, uid, ids, context=None):
@@ -122,12 +109,11 @@ class wizard(osv.TransientModel):
         sender_receiver_obj = self.pool.get('protocollo.sender_receiver')
         protocollo = protocollo_obj.browse(cr, uid, context['active_id'])
         for send_rec in protocollo.sender_receivers:
-            before[send_rec.id] = {'name': send_rec.name, 'mail': send_rec.pec_mail}
+            before[send_rec.id] = {'name': send_rec.name, 'mail': send_rec.email}
 
         for send_rec in wizard.sender_receivers:
-            srvals = {'pec_mail': send_rec.pec_mail, 'to_resend': True}
-            after[send_rec.sender_receiver_id.id] = {'name': send_rec.name, 'mail': send_rec.pec_mail}
-            # after = self.set_after(after, '', 'pec_mail: ' + send_rec.pec_mail + ', ')
+            srvals = {'email': send_rec.email, 'to_resend': True}
+            after[send_rec.sender_receiver_id.id] = {'name': send_rec.name, 'mail': send_rec.email}
             sender_receiver_obj.write(cr, uid, [send_rec.sender_receiver_id.id], srvals)
 
         protocollo_obj.write(cr, uid, [context['active_id']], vals)
@@ -138,7 +124,7 @@ class wizard(osv.TransientModel):
             body = body + "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#009900'> %s </span></li>" \
                               % (after_item['name'], before[key]['mail'].encode("utf-8"), after_item['mail'].encode("utf-8"))
         body += "</ul></div>"
-        post_vars = {'subject': "Modificato indirizzo PEC: \'%s\'" % wizard.cause,
+        post_vars = {'subject': "Modificato indirizzo E-mail: \'%s\'" % wizard.cause,
                      'body': body,
                      'model': "protocollo.protocollo",
                      'res_id': context['active_id'],
@@ -149,7 +135,3 @@ class wizard(osv.TransientModel):
 
         self._process_mail(cr, uid, ids, protocollo_obj, context)
         return {'type': 'ir.actions.act_window_close'}
-
-    def action_resend(self, cr, uid, ids, context=None):
-        protocollo_obj = self.pool.get('protocollo.protocollo')
-        self._process_mail(cr, uid, ids, protocollo_obj, context)

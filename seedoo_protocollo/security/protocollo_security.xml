@@ -184,21 +184,21 @@ this module contains the full copyright notices and license terms. -->
         </record>
         <!-- Button "Modifica Destinatari PEC" nella vista form protocollo in uscita -->
         <record id="group_modifica_destinatari_pec_uscita" model="res.groups">
-            <field name="name">Modifica Destinatari PEC in Uscita</field>
+            <field name="name">Modifica PEC Destinatario</field>
             <field name="category_id" ref="module_category_protocollo"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
 
         <!-- Button "Aggiungi Destinatari PEC" nella vista form protocollo in uscita -->
-        <record id="group_aggiungi_destinatari_pec_uscita" model="res.groups">
-            <field name="name">Aggiungi Destinatari PEC in Uscita</field>
-            <field name="category_id" ref="module_category_protocollo"/>
-            <field name="users" eval="[(4, ref('base.user_root'))]"/>
-        </record>
+        <!--<record id="group_aggiungi_destinatari_pec_uscita" model="res.groups">-->
+            <!--<field name="name">Aggiungi Destinatari PEC in Uscita</field>-->
+            <!--<field name="category_id" ref="module_category_protocollo"/>-->
+            <!--<field name="users" eval="[(4, ref('base.user_root'))]"/>-->
+        <!--</record>-->
 
-        <!-- Button "Correggi destinatario PEC" nella vista form protocollo in uscita -->
-        <record id="group_correggi_destinatario_errato_pec" model="res.groups">
-            <field name="name">Correggi Destinatario PEC</field>
+        <!-- Button "Modifica destinatario E-mail" nella vista form protocollo in uscita -->
+        <record id="group_modifica_destinatari_email_uscita" model="res.groups">
+            <field name="name">Modifica E-mail Destinatario</field>
             <field name="category_id" ref="module_category_protocollo"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
@@ -318,7 +318,7 @@ this module contains the full copyright notices and license terms. -->
                 (4, ref('group_invia_protocollo_sharedmail_uscita')),
                 (4, ref('group_reinvia_protocollo_pec_uscita')),
                 (4, ref('group_modifica_destinatari_pec_uscita')),
-                (4, ref('group_aggiungi_destinatari_pec_uscita')),
+                (4, ref('group_modifica_destinatari_email_uscita')),
                 (4, ref('group_pec_protocollo')),
                 (4, ref('group_sharedmail_protocollo')),
                 (4, ref('group_configurazione_giornaliero')),

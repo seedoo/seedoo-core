@@ -558,16 +558,18 @@ class protocollo_protocollo(osv.Model):
 
         return dict(res)
 
-
     def _modifica_pec_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
 
         protocolli = self._get_protocolli(cr, uid, ids)
         for protocollo in protocolli:
             check = False
-
-            if protocollo.type=='out' and protocollo.pec==True and protocollo.state in ['waiting', 'error']:
-                check = True
+            if protocollo.type == 'out' and protocollo.pec is True and protocollo.state in ['waiting', 'sent', 'error']:
+                if protocollo.sender_receivers:
+                    for sender_receiver_id in protocollo.sender_receivers.ids:
+                        sender_receiver_obj = self.pool.get('protocollo.sender_receiver').browse(cr, uid, sender_receiver_id, context=context)
+                        if sender_receiver_obj.pec_errore_consegna_status:
+                            check = True
 
             if check:
                 check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_modifica_destinatari_pec_uscita')
@@ -577,6 +579,23 @@ class protocollo_protocollo(osv.Model):
 
         return dict(res)
 
+    def _modifica_email_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
+        res = []
+
+        protocolli = self._get_protocolli(cr, uid, ids)
+        for protocollo in protocolli:
+            check = False
+
+            if protocollo.type=='out' and protocollo.sharedmail==True and protocollo.state in ['sent', 'waiting', 'error']:
+                check = True
+
+            if check:
+                check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_modifica_destinatari_email_uscita')
+                check = check and check_gruppi
+
+            res.append((protocollo.id, check))
+
+        return dict(res)
 
     def _aggiungi_pec_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
@@ -595,26 +614,6 @@ class protocollo_protocollo(osv.Model):
 
         return dict(res)
 
-    def _correggi_destinatario_errato_pec_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
-        res = []
-
-        protocolli = self._get_protocolli(cr, uid, ids)
-        for protocollo in protocolli:
-            check = False
-            if protocollo.type == 'out' and protocollo.pec is True and protocollo.state in ['waiting', 'sent', 'error']:
-                if protocollo.sender_receivers:
-                    for sender_receiver_id in protocollo.sender_receivers.ids:
-                        sender_receiver_obj = self.pool.get('protocollo.sender_receiver').browse(cr, uid, sender_receiver_id, context=context)
-                        if sender_receiver_obj.pec_errore_consegna_status:
-                            check = True
-
-            if check:
-                check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_correggi_destinatario_errato_pec')
-                check = check and check_gruppi
-
-            res.append((protocollo.id, check))
-
-        return dict(res)
 
     def _protocollazione_riservata_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
@@ -645,8 +644,8 @@ class protocollo_protocollo(osv.Model):
         'invio_sharedmail_visibility': fields.function(_invio_sharedmail_visibility, type='boolean', string='Invio E-mail'),
         'invio_protocollo_visibility': fields.function(_invio_protocollo_visibility, type='boolean', string='Invio Protocollo'),
         'modifica_pec_visibility': fields.function(_modifica_pec_visibility, type='boolean', string='Modifica PEC'),
-        'aggiungi_pec_visibility': fields.function(_aggiungi_pec_visibility, type='boolean', string='Aggiungi PEC'),
-        'correggi_destinatario_errato_pec_visibility': fields.function(_correggi_destinatario_errato_pec_visibility, type='boolean', string='Correggi destinaraio errato'),
+        # 'aggiungi_pec_visibility': fields.function(_aggiungi_pec_visibility, type='boolean', string='Aggiungi PEC'),
+        'modifica_email_visibility': fields.function(_modifica_email_visibility, type='boolean', string='Modifica e-mail'),
         'protocollazione_riservata_visibility': fields.function(_protocollazione_riservata_visibility, type='boolean', string='Protocollazione Riservata'),
     }
 

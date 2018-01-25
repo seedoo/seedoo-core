@@ -203,13 +203,13 @@ this module contains the full copyright notices and license terms. -->
                             </group>
                             <field name="add_pec_receiver_visibility" invisible="1"/>
 
-                            <footer>
-                                <div class="oe_edit_only">
-                                    <button name="aggiungi_destinatario_pec_action" string="Aggiungi Destinatario" type="object" class="oe_highlight"
-                                          attrs="{'invisible':[('add_pec_receiver_visibility','=',False)]}"/>
-                                    <button string="Cancel" class="oe_link" special="cancel" attrs="{'invisible':[('add_pec_receiver_visibility','=',False)]}" />
-                                </div>
-                            </footer>
+                            <!--<footer>-->
+                                <!--<div class="oe_edit_only">-->
+                                    <!--<button name="aggiungi_destinatario_pec_action" string="Aggiungi Destinatario" type="object" class="oe_highlight"-->
+                                          <!--attrs="{'invisible':[('add_pec_receiver_visibility','=',False)]}"/>-->
+                                    <!--<button string="Cancel" class="oe_link" special="cancel" attrs="{'invisible':[('add_pec_receiver_visibility','=',False)]}" />-->
+                                <!--</div>-->
+                            <!--</footer>-->
                         </group>
                     </sheet>
                 </form>
@@ -267,8 +267,11 @@ this module contains the full copyright notices and license terms. -->
                                                 <t t-if="record.pec_errore_consegna_status.raw_value">
                                                     <div class="icon_status icon_errore_consegna_status"><span>Errore Consegna</span></div>
                                                 </t>
-                                                <t t-if="record.pec_numero_invii.raw_value">
+                                                <t t-if="record.pec_numero_invii.raw_value and record.pec_numero_invii.raw_value > 1">
                                                     <div class="icon_numero_invii"><field name="pec_numero_invii"/></div>
+                                                </t>
+                                                <t t-if="record.sharedmail_numero_invii.raw_value and record.sharedmail_numero_invii.raw_value > 1">
+                                                    <div class="icon_numero_invii"><field name="sharedmail_numero_invii"/></div>
                                                 </t>
                                             </td>
                                         </tr>
