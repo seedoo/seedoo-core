@@ -487,8 +487,10 @@ this module contains the full copyright notices and license terms. -->
                                 <field name="typology" on_change="on_change_typology(typology)" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}"/>
                             </group>
                             <group col="2">
-                                <field name="server_sharedmail_id" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}" attrs="{'invisible':[('sharedmail','!=',True)]}"/>
-                                <field name="server_pec_id" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}" attrs="{'invisible':[('pec','!=',True)]}"/>
+                                <field name="server_sharedmail_id" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}" attrs="{'invisible':['|',('sharedmail','!=',True),('type','=','in')],
+                                                                                            'required': [('sharedmail','=',True),('type','=','out')], 'readonly':[('state','!=','draft')]}"/>
+                                <field name="server_pec_id" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}" attrs="{'invisible':['|',('pec','!=',True),('type','=','in')],
+                                                                                            'required': [('pec','=',True),('type','=','out')], 'readonly':[('state','!=','draft')]}"/>
                             </group>
                         </group>
                         <group>
