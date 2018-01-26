@@ -11,4 +11,5 @@ export DISPLAY=":10"
     --db_port=5432 \
     --db_user=seedoo \
     --db_password=seedoo \
+    --data-dir=~/seedoo/data \
     --logfile=$HOME/seedoo.log &
