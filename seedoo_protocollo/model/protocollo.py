@@ -186,10 +186,12 @@ class protocollo_protocollo(orm.Model):
             typology = typology_obj.browse(cr, uid, typology_id)
             if typology.pec:
                 values = {
-                    'pec': True
+                    'pec': True,
+                    'sharedmail': False
                 }
             if typology.sharedmail:
                 values = {
+                    'pec': False,
                     'sharedmail': True
                 }
         return {'value': values}
@@ -391,7 +393,7 @@ class protocollo_protocollo(orm.Model):
                                                 type='date',
                                                 string="Fine  Data Ricerca"),
         'user_id': fields.many2one('res.users', 'Protocollatore', readonly=True),
-        'registration_employee_id': fields.many2one('hr.employee', 'Autore della Registrazione', readonly=True),
+        'registration_employee_id': fields.many2one('hr.employee', 'Protocollatore', readonly=True),
         'registration_type': fields.selection(
             [
                 ('normal', 'Normale'),
@@ -512,7 +514,7 @@ class protocollo_protocollo(orm.Model):
         'sender_registration_date': fields.char('Data Registrazione Mittente',
                                        size=64,
                                        required=False,
-                                       readonly=True),
+                                       ),
         'sender_receivers': fields.one2many('protocollo.sender_receiver', 'protocollo_id', 'Mittenti/Destinatari'),
         'senders': fields.one2many('protocollo.sender_receiver', 'protocollo_id', 'Mittenti', domain=[('source', '=', 'sender')]),
         'receivers': fields.one2many('protocollo.sender_receiver', 'protocollo_id', 'Destinatari', domain=[('source', '=', 'receiver')]),

@@ -1,5 +1,4 @@
 openerp.seedoo_protocollo = function(instance) {
-    console.log('gianni');
 
     instance.web.form.One2ManyList.include({
 
