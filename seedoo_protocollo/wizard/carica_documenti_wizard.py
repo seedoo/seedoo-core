@@ -9,7 +9,7 @@ import mimetypes
 
 class protocollo_carica_documenti_step1_wizard(osv.TransientModel):
     _name = 'protocollo.carica.documenti.step1.wizard'
-    _description = 'Wizard di Caricamento dei Documenti del Protocollo'
+    _description = 'Wizard di Caricamento del Documento del Protocollo'
 
     _columns = {
         'datas_fname': fields.char('Nome Documento Principale', size=256, readonly=False),

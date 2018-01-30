@@ -235,7 +235,7 @@ this module contains the full copyright notices and license terms. -->
                                     <table class="oe_kanban_table">
                                         <tr>
                                             <td class="oe_kanban_messaggio pec_button_col" align="left" valign="middle">
-                                                <div class="icon_receiver_type">
+                                                <div class="icon_item_type">
                                                    <div t-att-class="record.type.raw_value">
                                                        <span>Tipo</span>
                                                    </div>

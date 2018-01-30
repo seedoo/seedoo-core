@@ -5,7 +5,7 @@ this module contains the full copyright notices and license terms. -->
 <openerp>
     <data>
 
-        <template id="protocollo_accordion" name="seedoo_protocollo assets" inherit_id="web.assets_backend">
+        <template id="protocollo-accordion" name="seedoo_protocollo assets" inherit_id="web.assets_backend">
             <xpath expr="." position="inside">
                 <link rel="stylesheet" href="/seedoo_protocollo/static/src/css/protocollo.css"/>
                 <link rel="stylesheet" href="/seedoo_protocollo/static/src/css/protocollo_accordion.css"/>
@@ -447,10 +447,13 @@ this module contains the full copyright notices and license terms. -->
                             <field name="modifica_email_visibility"/>
                             <!--<field name="aggiungi_pec_visibility"/>-->
                             <field name="protocollazione_riservata_visibility"/>
+                            <field name="state" invisible="1"/>
+                            <field name="doc_id" invisible="1"/>
+                            <field name="doc_fname" invisible="1"/>
                         </div>
-                        <div id="protocollo_accordion">
-                            <div class="dati_protocollo_container">
-                                <div class="protocollo_accordion_toggle">
+                        <div id="protocollo-accordion">
+                            <div class="dati-protocollo-container protocollo-container">
+                                <div class="protocollo-accordion-toggle">
                                     <h4 class="accordion-toggle">Dati Protocollo</h4>
                                 </div>
                                 <div class="accordion-content accordion-open">
@@ -464,28 +467,26 @@ this module contains the full copyright notices and license terms. -->
                                     </group>
                                 </div>
                             </div>
-                            <div class="dati_protocollo_container">
-                                <div class="protocollo_accordion_toggle">
+                            <div class="dati-protocollo-container documento-container">
+                                <div class="protocollo-accordion-toggle">
                                     <h4 class="accordion-toggle">Dati Documento</h4>
                                 </div>
                                 <div class="accordion-content accordion-open">
                                     <group col="4">
                                         <field name="typology" on_change="on_change_typology(typology)" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}"/>
                                         <field name="receiving_date" attrs="{'invisible':[('type','=','out')]}" class="seedoocustom_protocollo_receiving_date"/>
-                                        <field name="state" invisible="1"/>
                                         <field name="subject" attrs="{'required':[('state','!=','draft')]}" class="protocollo_oggetto"/>
+                                        <field name="body" attrs="{'invisible':['|',('type','=','in'),'&amp;',('sharedmail','=',False),('pec','=',False)],'readonly':[('state','!=','draft')]}"/>
                                         <field name="creation_date" class="seedoocustom_protocollo_creation_date" invisible="1"/>
                                         <field name="doc_content" filename="doc_fname"/>
-                                        <field name="doc_id" invisible="1"/>
-                                        <field name="doc_fname" invisible="1"/>
+                                        <field name="doc_description"/>
                                     </group>
                                     <group col="4">
-                                        <newline/>
-                                        <button string="Carica Documenti" type="action" class="oe_inline oe_highlight_positive oe_button btn_seedoo btn_carica_documenti"
+                                        <button string="Carica Documento" type="action" class="oe_inline oe_highlight_positive oe_button btn_seedoo btn_carica_documenti"
                                                 attrs="{'invisible':['|',('doc_id','!=',False),('state','not in',('draft','registered'))]}"
                                                 name="%(protocollo_carica_documenti_wizard_action)d"/>
                                         <newline/>
-                                        <button string="Modifica Documenti" type="action" class="oe_inline oe_highlight_positive oe_button btn_seedoo btn_carica_documenti"
+                                        <button string="Modifica Documento" type="action" class="oe_inline oe_highlight_positive oe_button btn_seedoo btn_carica_documenti"
                                                 attrs="{'invisible':['|',('doc_id','=',False),'&amp;',('doc_id','!=',False),('state','=','registered')]}"
                                                 name="%(protocollo_carica_documenti_wizard_action)d"/>
                                         <field name="mimetype" invisible="1"/>
@@ -493,8 +494,23 @@ this module contains the full copyright notices and license terms. -->
                                 </div>
                             </div>
 
-                            <div class="dati_protocollo_container">
-                                <div class="protocollo_accordion_toggle">
+                            <div class="dati-protocollo-container anteprima-container" attrs="{'invisible':[('mimetype','!=','application/pdf')]}">
+                                <div class="protocollo-accordion-toggle" >
+                                    <h4 class="accordion-toggle">Anteprima</h4>
+                                </div>
+                                <div class="accordion-content">
+                                    <group>
+                                        <field name="preview" noupload="True"
+                                           nolabel="1"
+                                           options="{'uploadbutton':false}"
+                                           attrs="{'readonly':True}"
+                                           widget="pdfviewer"/>
+                                    </group>
+                                </div>
+                            </div>
+
+                            <div class="dati-protocollo-container mittente-container">
+                                <div class="protocollo-accordion-toggle">
                                     <h4 class="accordion-toggle accordion-open">Dati Protocollo Mittente</h4>
                                 </div>
                                 <div class="accordion-content">
@@ -536,42 +552,75 @@ this module contains the full copyright notices and license terms. -->
                         </group>
 
                         <newline/>
-                        <group >
-                            <field name="body" attrs="{'invisible':['|',('type','=','in'),'&amp;',('sharedmail','=',False),('pec','=',False)],'readonly':[('state','!=','draft')]}"/>
-                        </group>
                         <group col="8">
                             <field name="pec" colspan="2" invisible="1"/>
                             <field name="sharedmail" colspan="2" invisible="1"/>
                         </group>
 
-                        <notebook>
-                            <page string="Mittenti" attrs="{'invisible':['|',('type','!=','in')]}">
+                        <notebook class="protocollo_form_tabs">
+                            <page string="Mittenti" attrs="{'invisible':['|',('type','!=','in')]}" class="tab-mittente">
                                 <group col="4" colspan="4">
                                     <field name="senders" mode="kanban" nolabel="1" attrs="{'readonly':[('state','!=','draft')]}"/>
                                 </group>
                             </page>
-                            <page string="Destinatari" attrs="{'invisible':[('type','!=','out')]}">
+                            <page string="Destinatari" attrs="{'invisible':[('type','!=','out')]}" class="tab-destintari">
                                 <group col="4" colspan="4">
                                     <field name="receivers" mode="kanban" nolabel="1" class="container_sr" attrs="{'readonly':[('state','!=','draft')]}"/>
                                 </group>
                             </page>
-                            <page string="Documenti">
-                                <field name="attachment_ids" colspan="4">
-                                    <tree default_order='is_main' string="is_main" fonts="bold:is_main==True;">
-                                        <field name="name" string="Nome"/>
+                            <page string="Allegati" class="tab-allegati">
+                                <button string="Carica Documento" type="action" class="oe_inline oe_highlight_positive oe_button btn_seedoo btn_carica_documenti"
+                                                attrs="{'invisible':['|',('doc_id','!=',False),('state','not in',('draft','registered'))]}"
+                                                name="%(protocollo_carica_documenti_wizard_action)d"/>
+                                <field name="attachment_ids" colspan="4" widget="many2many_kanban" nolabel="1" class="container_allegati">
+                                    <kanban quick_create="false" create="false">
+                                        <field name="type"/>
+                                        <field name="name"/>
                                         <field name="datas_description"/>
-                                        <!--<field name="user_id"/>-->
-                                        <field name="is_main"/>
-                                    </tree>
+                                        <templates>
+                                            <t t-name="kanban-box">
+                                                <a type="open" class="protocollo_attachments_box">
+                                                    <div class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_color_border item_box" >
+                                                        <a t-if="! read_only_mode" type="delete" style="position: absolute; right: 5px; padding: 0 4px; display: inline-block;background: rgba(255,255,255,0.6);">X</a>
+                                                        <table class="oe_kanban_table">
+                                                            <tr>
+                                                                <td class="oe_kanban_messaggio pec_button_col" align="left" valign="middle">
+                                                                    <div class="icon_item_type">
+                                                                       <div t-att-class="record.type.raw_value">
+                                                                           <i class="fa fa-paperclip" aria-hidden="true"></i>
+                                                                       </div>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <h3><field name="name"/></h3>
+                                                                    <t t-if="record.datas_description.raw_value">
+                                                                        <p>
+                                                                            <field name="datas_description"/>
+                                                                        </p>
+                                                                    </t>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                </a>
+                                            </t>
+                                        </templates>
+                                    </kanban>
+                                    <!--<tree default_order='is_main' string="is_main" fonts="bold:is_main==True;">-->
+                                        <!--<field name="name" string="Nome"/>-->
+                                        <!--<field name="datas_description"/>-->
+                                        <!--&lt;!&ndash;<field name="user_id"/>&ndash;&gt;-->
+                                        <!--<field name="is_main"/>-->
+                                    <!--</tree>-->
                                 </field>
                             </page>
-                            <page string="Preview" attrs="{'invisible':[('mimetype','!=','application/pdf')]}">
-                                <field name="preview" noupload="True"
-                                       nolabel="1"
-                                       options="{'uploadbutton':false}"
-                                       attrs="{'readonly':True}"
-                                       widget="pdfviewer"/>
-                            </page>
+                            <!--<page string="Preview" attrs="{'invisible':[('mimetype','!=','application/pdf')]}">-->
+                                <!--<field name="preview" noupload="True"-->
+                                       <!--nolabel="1"-->
+                                       <!--options="{'uploadbutton':false}"-->
+                                       <!--attrs="{'readonly':True}"-->
+                                       <!--widget="pdfviewer"/>-->
+                            <!--</page>-->
                             <page string="Classificazione">
                                 <group col="4">
                                     <field name="classification" nolabel="1"

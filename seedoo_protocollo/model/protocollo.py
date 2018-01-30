@@ -477,7 +477,8 @@ class protocollo_protocollo(orm.Model):
         'doc_id': fields.many2one(
             'ir.attachment', 'Documento Principale', readonly=True,
             domain="[('res_model', '=', 'protocollo.protocollo')]"),
-        'doc_content': fields.related('doc_id', 'datas', type='binary', string='Documento principale', readonly=True),
+        'doc_content': fields.related('doc_id', 'datas', type='binary', string='Documento', readonly=True),
+        'doc_description': fields.related('doc_id', 'datas_description', type='char', string='Descrizione', readonly=True),
         'doc_fname': fields.related('doc_id', 'datas_fname', type="char", readonly=True),
         'fingerprint': fields.char('Impronta Documento', size=256),
         'classification': fields.many2one('protocollo.classification',
@@ -516,7 +517,7 @@ class protocollo_protocollo(orm.Model):
                                        required=False,
                                        ),
         'sender_receivers': fields.one2many('protocollo.sender_receiver', 'protocollo_id', 'Mittenti/Destinatari'),
-        'senders': fields.one2many('protocollo.sender_receiver', 'protocollo_id', 'Mittenti', domain=[('source', '=', 'sender')]),
+        'senders': fields.one2many('protocollo.sender_receiver', 'protocollo_id', 'Mittente', domain=[('source', '=', 'sender')]),
         'receivers': fields.one2many('protocollo.sender_receiver', 'protocollo_id', 'Destinatari', domain=[('source', '=', 'receiver')]),
 
         'sender_receivers_summary': fields.function(

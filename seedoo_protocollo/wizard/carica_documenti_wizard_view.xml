@@ -12,7 +12,7 @@ this module contains the full copyright notices and license terms. -->
                 <form string="Wizard di Caricamento Documenti">
                     <group col="4">
                         <group col="2">
-                            <separator string="Documento principale" colspan="4"/>
+                            <separator string="Documento da protocollare" colspan="4"/>
                             <field name="datas" filename="datas_fname"/>
                             <field name="datas_fname" invisible="1"/>
                         </group>
@@ -49,7 +49,7 @@ this module contains the full copyright notices and license terms. -->
 
 
         <act_window id="protocollo_carica_documenti_wizard_action"
-                    name="Carica Documenti"
+                    name="Carica Documento"
                     res_model="protocollo.carica.documenti.step1.wizard"
                     view_type="form" view_mode="form"
                     target="new"/>

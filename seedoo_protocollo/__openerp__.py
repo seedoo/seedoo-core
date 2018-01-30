@@ -87,7 +87,6 @@
     ],
     "css": [
         "static/src/css/protocollo.css",
-        "static/src/css/protocollo_accordion.css"
     ],
     "js": [
         "static/src/js/protocollo_accordion.js"

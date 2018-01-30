@@ -1,6 +1,6 @@
-    $(document).on('click', '#protocollo_accordion .protocollo_accordion_toggle', function() {
+    $(document).on('click', '#protocollo-accordion .protocollo-accordion-toggle', function() {
          //Expand or collapse this panel
-      $("#protocollo_accordion .protocollo_accordion_toggle").removeClass("accordion-selected");
+      $("#protocollo-accordion .protocollo-accordion-toggle").removeClass("accordion-selected");
       $(this).next().slideToggle('fast');
       $(this).addClass("accordion-selected");
 
