@@ -447,6 +447,7 @@ this module contains the full copyright notices and license terms. -->
                             <field name="modifica_email_visibility"/>
                             <!--<field name="aggiungi_pec_visibility"/>-->
                             <field name="protocollazione_riservata_visibility"/>
+                            <field name="aggiungi_allegati_post_registrazione_visibility"/>
                             <field name="state" invisible="1"/>
                             <field name="doc_id" invisible="1"/>
                             <field name="doc_fname" invisible="1"/>
@@ -476,6 +477,7 @@ this module contains the full copyright notices and license terms. -->
                                         <field name="typology" on_change="on_change_typology(typology)" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}"/>
                                         <field name="receiving_date" attrs="{'invisible':[('type','=','out')]}" class="seedoocustom_protocollo_receiving_date"/>
                                         <field name="subject" attrs="{'required':[('state','!=','draft')]}" class="protocollo_oggetto"/>
+                                        <newline/>
                                         <field name="body" attrs="{'invisible':['|',('type','=','in'),'&amp;',('sharedmail','=',False),('pec','=',False)],'readonly':[('state','!=','draft')]}"/>
                                         <field name="creation_date" class="seedoocustom_protocollo_creation_date" invisible="1"/>
                                         <field name="doc_content" filename="doc_fname"/>
@@ -516,8 +518,8 @@ this module contains the full copyright notices and license terms. -->
                                 <div class="accordion-content">
                                     <newline/>
                                     <group col="4">
-                                        <field name="sender_registration_date" attrs="{'invisible':[('type','!=','in')]}"/>
-                                        <field name="sender_protocol" attrs="{'invisible':[('type','!=','in')]}"/>
+                                        <field name="sender_registration_date" attrs="{'invisible':[('type','!=','in')],'readonly':[('state','!=','draft')]}"/>
+                                        <field name="sender_protocol" attrs="{'invisible':[('type','!=','in')], 'readonly':[('state','!=','draft')]}"/>
                                     </group>
                                 </div>
                             </div>
@@ -569,40 +571,42 @@ this module contains the full copyright notices and license terms. -->
                                 </group>
                             </page>
                             <page string="Allegati" class="tab-allegati">
-                                <button string="Carica Documento" type="action" class="oe_inline oe_highlight_positive oe_button btn_seedoo btn_carica_documenti"
-                                                attrs="{'invisible':['|',('doc_id','!=',False),('state','not in',('draft','registered'))]}"
-                                                name="%(protocollo_carica_documenti_wizard_action)d"/>
+                                <button string="Carica Allegati" type="action" class="oe_inline oe_highlight_positive oe_button btn_seedoo btn_carica_documenti"
+                                                attrs="{'invisible':['|',('state','not in',('draft','registered')),'&amp;',('state','in',('registered')),('aggiungi_allegati_post_registrazione_visibility','=',False)]}"
+                                                name="%(protocollo_carica_allegati_wizard_action)d"/>
                                 <field name="attachment_ids" colspan="4" widget="many2many_kanban" nolabel="1" class="container_allegati">
                                     <kanban quick_create="false" create="false">
                                         <field name="type"/>
                                         <field name="name"/>
                                         <field name="datas_description"/>
+                                        <field name="is_main"/>
                                         <templates>
                                             <t t-name="kanban-box">
-                                                <a type="open" class="protocollo_attachments_box">
-                                                    <div class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_color_border item_box" >
-                                                        <a t-if="! read_only_mode" type="delete" style="position: absolute; right: 5px; padding: 0 4px; display: inline-block;background: rgba(255,255,255,0.6);">X</a>
-                                                        <table class="oe_kanban_table">
-                                                            <tr>
-                                                                <td class="oe_kanban_messaggio pec_button_col" align="left" valign="middle">
-                                                                    <div class="icon_item_type">
-                                                                       <div t-att-class="record.type.raw_value">
-                                                                           <i class="fa fa-paperclip" aria-hidden="true"></i>
-                                                                       </div>
-                                                                    </div>
-                                                                </td>
-                                                                <td>
-                                                                    <h3><field name="name"/></h3>
-                                                                    <t t-if="record.datas_description.raw_value">
-                                                                        <p>
-                                                                            <field name="datas_description"/>
-                                                                        </p>
-                                                                    </t>
-                                                                </td>
-                                                            </tr>
-                                                        </table>
-                                                    </div>
-                                                </a>
+                                                <t t-if="!record.is_main.raw_value">
+                                                    <a type="open" class="protocollo_attachments_box">
+                                                        <div class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_color_border item_box" >
+                                                            <table class="oe_kanban_table">
+                                                                <tr>
+                                                                    <td class="oe_kanban_messaggio pec_button_col" align="left" valign="middle">
+                                                                        <div class="icon_item_type">
+                                                                           <div t-att-class="record.type.raw_value">
+                                                                               <i class="fa fa-paperclip" aria-hidden="true"></i>
+                                                                           </div>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <h3><field name="name"/></h3>
+                                                                        <t t-if="record.datas_description.raw_value">
+                                                                            <p>
+                                                                                <field name="datas_description"/>
+                                                                            </p>
+                                                                        </t>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                    </a>
+                                                </t>
                                             </t>
                                         </templates>
                                     </kanban>

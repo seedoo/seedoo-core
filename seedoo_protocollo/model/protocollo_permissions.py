@@ -627,6 +627,20 @@ class protocollo_protocollo(osv.Model):
 
         return dict(res)
 
+    def _aggiungi_allegati_post_registrazione_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
+        res = []
+        check = False
+        configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
+        configurazione = self.pool.get('protocollo.configurazione').browse(cr, uid, configurazione_ids[0])
+        protocolli = self._get_protocolli(cr, uid, ids)
+        for protocollo in protocolli:
+
+            if configurazione.aggiungi_allegati_post_registrazione:
+                check = True
+
+            res.append((protocollo.id, check))
+
+        return dict(res)
 
     _columns = {
         'is_visible': fields.function(_is_visible, fnct_search=_is_visible_search, type='boolean', string='Visibile'),
@@ -647,6 +661,7 @@ class protocollo_protocollo(osv.Model):
         # 'aggiungi_pec_visibility': fields.function(_aggiungi_pec_visibility, type='boolean', string='Aggiungi PEC'),
         'modifica_email_visibility': fields.function(_modifica_email_visibility, type='boolean', string='Modifica e-mail'),
         'protocollazione_riservata_visibility': fields.function(_protocollazione_riservata_visibility, type='boolean', string='Protocollazione Riservata'),
+        'aggiungi_allegati_post_registrazione_visibility': fields.function(_aggiungi_allegati_post_registrazione_visibility, type='boolean', string='Aggiungi Allegati Post Registrazione')
     }
 
     def _default_protocollazione_riservata_visibility(self, cr, uid, context):
