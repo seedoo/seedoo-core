@@ -10,6 +10,7 @@ this module contains the full copyright notices and license terms. -->
                 <link rel="stylesheet" href="/seedoo_protocollo/static/src/css/protocollo.css"/>
                 <link rel="stylesheet" href="/seedoo_protocollo/static/src/css/protocollo_accordion.css"/>
                 <script type="text/javascript" src="/seedoo_protocollo/static/src/js/protocollo_accordion.js"/>
+                <script type="text/javascript" src="/seedoo_protocollo/static/src/js/protocollo_patch.js"/>
             </xpath>
         </template>
 
@@ -448,9 +449,14 @@ this module contains the full copyright notices and license terms. -->
                             <!--<field name="aggiungi_pec_visibility"/>-->
                             <field name="protocollazione_riservata_visibility"/>
                             <field name="aggiungi_allegati_post_registrazione_visibility"/>
-                            <field name="state" invisible="1"/>
                             <field name="doc_id" invisible="1"/>
                             <field name="doc_fname" invisible="1"/>
+                            <field name="pec" colspan="2" invisible="1"/>
+                            <field name="sharedmail" colspan="2" invisible="1"/>
+                            <field name="creation_date" class="seedoocustom_protocollo_creation_date" invisible="1"/>
+                        </div>
+                        <div id="stato-protocollo">
+                            <field name="state" invisible="1"/>
                         </div>
                         <div id="protocollo-accordion">
                             <div class="dati-protocollo-container protocollo-container">
@@ -473,25 +479,32 @@ this module contains the full copyright notices and license terms. -->
                                     <h4 class="accordion-toggle">Dati Documento</h4>
                                 </div>
                                 <div class="accordion-content accordion-open">
-                                    <group col="4">
-                                        <field name="typology" on_change="on_change_typology(typology)" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}"/>
-                                        <field name="receiving_date" attrs="{'invisible':[('type','=','out')]}" class="seedoocustom_protocollo_receiving_date"/>
-                                        <field name="subject" attrs="{'required':[('state','!=','draft')]}" class="protocollo_oggetto"/>
-                                        <newline/>
-                                        <field name="body" attrs="{'invisible':['|',('type','=','in'),'&amp;',('sharedmail','=',False),('pec','=',False)],'readonly':[('state','!=','draft')]}"/>
-                                        <field name="creation_date" class="seedoocustom_protocollo_creation_date" invisible="1"/>
-                                        <field name="doc_content" filename="doc_fname"/>
-                                        <field name="doc_description"/>
-                                    </group>
-                                    <group col="4">
-                                        <button string="Carica Documento" type="action" class="oe_inline oe_highlight_positive oe_button btn_seedoo btn_carica_documenti"
-                                                attrs="{'invisible':['|',('doc_id','!=',False),('state','not in',('draft','registered'))]}"
-                                                name="%(protocollo_carica_documenti_wizard_action)d"/>
-                                        <newline/>
-                                        <button string="Modifica Documento" type="action" class="oe_inline oe_highlight_positive oe_button btn_seedoo btn_carica_documenti"
-                                                attrs="{'invisible':['|',('doc_id','=',False),'&amp;',('doc_id','!=',False),('state','=','registered')]}"
-                                                name="%(protocollo_carica_documenti_wizard_action)d"/>
-                                        <field name="mimetype" invisible="1"/>
+                                    <group col="8">
+                                        <group>
+                                            <field name="typology" on_change="on_change_typology(typology)" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}"/>
+                                            <field name="subject" attrs="{'required':[('state','!=','draft')]}" class="protocollo_oggetto"/>
+                                            <field name="doc_content" filename="doc_fname"/>
+                                            <field name="doc_description"/>
+                                            <newline/>
+                                            <group colspan="2">
+                                                <button string="Carica Documento" type="action" class="oe_inline oe_highlight_positive oe_button btn_seedoo btn_carica_documenti"
+                                                    attrs="{'invisible':['|',('doc_id','!=',False),('state','not in',('draft','registered'))]}"
+                                                    name="%(protocollo_carica_documenti_wizard_action)d"/>
+                                                <newline/>
+                                                <button string="Modifica Documento" type="action" class="oe_inline oe_highlight_positive oe_button btn_seedoo btn_carica_documenti"
+                                                        attrs="{'invisible':['|',('doc_id','=',False),'&amp;',('doc_id','!=',False),('state','!=','draft')]}"
+                                                        name="%(protocollo_carica_documenti_wizard_action)d"/>
+                                                <field name="mimetype" invisible="1"/>
+                                            </group>
+                                        </group>
+                                        <group>
+                                            <field name="server_sharedmail_id" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}" attrs="{'invisible':['|',('sharedmail','!=',True),('type','=','in')],
+                                                                                            'required': [('sharedmail','=',True),('type','=','out')], 'readonly':[('state','!=','draft')]}"/>
+                                            <field name="server_pec_id" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}" attrs="{'invisible':['|',('pec','!=',True),('type','=','in')],
+                                                                                                'required': [('pec','=',True),('type','=','out')], 'readonly':[('state','!=','draft')]}"/>
+                                            <field name="receiving_date" attrs="{'invisible':[('type','=','out')]}" class="seedoocustom_protocollo_receiving_date"/>
+                                            <field name="body" attrs="{'invisible':['|',('type','=','in'),'&amp;',('sharedmail','=',False),('pec','=',False)],'readonly':[('state','!=','draft')]}"/>
+                                        </group>
                                     </group>
                                 </div>
                             </div>
@@ -511,7 +524,7 @@ this module contains the full copyright notices and license terms. -->
                                 </div>
                             </div>
 
-                            <div class="dati-protocollo-container mittente-container">
+                            <div class="dati-protocollo-container mittente-container" attrs="{'invisible':[('type','!=','in')]}">
                                 <div class="protocollo-accordion-toggle">
                                     <h4 class="accordion-toggle accordion-open">Dati Protocollo Mittente</h4>
                                 </div>
@@ -542,22 +555,6 @@ this module contains the full copyright notices and license terms. -->
                         <group>
                             <field name="user_id" readonly="1" options="{'no_open': True}" invisible="1"/>
                         </group>
-                        <group col="4">
-                            <group col="2">
-                            </group>
-                            <group col="2">
-                                <field name="server_sharedmail_id" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}" attrs="{'invisible':['|',('sharedmail','!=',True),('type','=','in')],
-                                                                                            'required': [('sharedmail','=',True),('type','=','out')], 'readonly':[('state','!=','draft')]}"/>
-                                <field name="server_pec_id" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}" attrs="{'invisible':['|',('pec','!=',True),('type','=','in')],
-                                                                                            'required': [('pec','=',True),('type','=','out')], 'readonly':[('state','!=','draft')]}"/>
-                            </group>
-                        </group>
-
-                        <newline/>
-                        <group col="8">
-                            <field name="pec" colspan="2" invisible="1"/>
-                            <field name="sharedmail" colspan="2" invisible="1"/>
-                        </group>
 
                         <notebook class="protocollo_form_tabs">
                             <page string="Mittenti" attrs="{'invisible':['|',('type','!=','in')]}" class="tab-mittente">
@@ -571,10 +568,11 @@ this module contains the full copyright notices and license terms. -->
                                 </group>
                             </page>
                             <page string="Allegati" class="tab-allegati">
-                                <button string="Carica Allegati" type="action" class="oe_inline oe_highlight_positive oe_button btn_seedoo btn_carica_documenti"
-                                                attrs="{'invisible':['|',('state','not in',('draft','registered')),'&amp;',('state','in',('registered')),('aggiungi_allegati_post_registrazione_visibility','=',False)]}"
-                                                name="%(protocollo_carica_allegati_wizard_action)d"/>
-                                <field name="attachment_ids" colspan="4" widget="many2many_kanban" nolabel="1" class="container_allegati">
+                                <group col="4" colspan="4">
+                                    <button string="Carica Allegati" type="action" class="oe_inline oe_highlight_positive oe_button btn_seedoo btn_carica_documenti"
+                                                    attrs="{'invisible':['|',('state','not in',('draft','registered')),'&amp;',('state','in',('registered')),('aggiungi_allegati_post_registrazione_visibility','=',False)]}"
+                                                    name="%(protocollo_carica_allegati_wizard_action)d"/>
+                                    <field name="attachment_ids" colspan="4" widget="many2many_kanban" nolabel="1" class="container_allegati">
                                     <kanban quick_create="false" create="false">
                                         <field name="type"/>
                                         <field name="name"/>
@@ -617,6 +615,7 @@ this module contains the full copyright notices and license terms. -->
                                         <!--<field name="is_main"/>-->
                                     <!--</tree>-->
                                 </field>
+                                </group>
                             </page>
                             <!--<page string="Preview" attrs="{'invisible':[('mimetype','!=','application/pdf')]}">-->
                                 <!--<field name="preview" noupload="True"-->

@@ -801,6 +801,8 @@ class protocollo_protocollo(orm.Model):
             import hashlib
             with open(filepath, 'rb') as f:
                 return hashlib.sha1(f.read()).hexdigest()
+        configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
+        configurazione = self.pool.get('protocollo.configurazione').browse(cr, uid, configurazione_ids[0])
 
         parent_id = 0
         ruid = 0
@@ -809,13 +811,17 @@ class protocollo_protocollo(orm.Model):
         attachment_obj = self.pool.get('ir.attachment')
         old_attachment_id = prot.doc_id.id
         attachment = attachment_obj.browse(cr, uid, old_attachment_id)
-        prot_date = datetime.datetime.strptime(prot_date.split(' ')[0], DSDT)
-        gext = '.' + attachment.datas_fname.split('.')[-1]
-        ext = gext in mimetypes.types_map and gext or ''
+        file_name = attachment.datas_fname
+        if configurazione.rinomina_documento_principale:
+            # prot_date = datetime.datetime.strptime(prot_date.split(' ')[0], DSDT)
+            gext = '.' + attachment.datas_fname.split('.')[-1]
+            ext = gext in mimetypes.types_map and gext or ''
+            file_name = 'Protocollo_' + prot_number + '_' + str(prot.year) + ext
+
         attach_vals = {
-            'name': 'Protocollo_' + prot_number + '_' + str(prot.year) + ext,
+            'name': file_name,
             'datas': attachment.datas,
-            'datas_fname': 'Protocollo_' + prot_number + '_' + str(prot.year) + ext,
+            'datas_fname': file_name,
             'datas_description': attachment.datas_description,
             'res_model': 'protocollo.protocollo',
             'is_protocol': True,
