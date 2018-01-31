@@ -10,6 +10,7 @@ from openerp.tools.translate import _
 class protocollo_configurazione(orm.Model):
     _name = 'protocollo.configurazione'
     _columns = {
+        'rinomina_documento_principale': fields.boolean('Rinomina documento principale'),
         'genera_segnatura': fields.boolean('Genera Segnatura nel PDF'),
         'genera_xml_segnatura': fields.boolean('Genera XML Segnatura'),
         'segnatura_xml_parse': fields.boolean('Leggi Segnatura.xml'),
@@ -33,6 +34,7 @@ class protocollo_configurazione(orm.Model):
     }
 
     _defaults = {
+        'rinomina_documento_principale': False,
         'genera_segnatura': True,
         'genera_xml_segnatura': True,
         'classificazione_required': False,

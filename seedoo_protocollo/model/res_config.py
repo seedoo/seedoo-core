@@ -28,7 +28,7 @@ class protocollo_config_settings(osv.osv_memory):
 
     _columns = {
         'config_id': fields.many2one('protocollo.configurazione', string='Configurazione', required=True),
-
+        'rinomina_documento_principale': fields.related('config_id', 'rinomina_documento_principale', type='boolean', string='Rinomina Documento principale'),
         'genera_segnatura': fields.related('config_id', 'genera_segnatura', type='boolean', string='Genera Segnatura nel PDF'),
         'genera_xml_segnatura': fields.related('config_id', 'genera_xml_segnatura', type='boolean', string='Genera XML Segnatura'),
         'segnatura_xml_parse': fields.related('config_id', 'segnatura_xml_parse', type='boolean', string='Leggi Segnatura.xml'),
