@@ -484,8 +484,8 @@ this module contains the full copyright notices and license terms. -->
                                         <group>
                                             <field name="typology" on_change="on_change_typology(typology)" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}"/>
                                             <field name="subject" attrs="{'required':[('state','!=','draft')]}" class="protocollo_oggetto"/>
-                                            <field name="doc_content" filename="doc_fname"/>
-                                            <field name="doc_description"/>
+                                            <field name="doc_content" filename="doc_fname" attrs="{'invisible':[('doc_id','=',False)]}"/>
+                                            <field name="doc_description" attrs="{'invisible':[('doc_id','=',False)]}"/>
                                             <newline/>
                                             <group colspan="2">
                                                 <button string="Carica Documento" type="action" class="oe_inline oe_highlight_positive oe_button btn_seedoo btn_carica_documenti button-form-protocollo"
