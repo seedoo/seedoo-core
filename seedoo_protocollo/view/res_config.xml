@@ -25,6 +25,8 @@ this module contains the full copyright notices and license terms. -->
                         <field name="documento_required"/>
                     </group>
                     <group string="Azioni Post Registrazione Protocollo">
+                        <field name="inserisci_testo_mailpec"/>
+                        <newline/>
                         <field name="rinomina_documento_principale"/>
                         <newline/>
                         <field name="genera_segnatura"/>

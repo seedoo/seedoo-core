@@ -797,6 +797,21 @@ class protocollo_protocollo(osv.Model):
 
         return dict(res)
 
+    def _inserisci_testo_mailpec_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
+        res = []
+        check = False
+        configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
+        configurazione = self.pool.get('protocollo.configurazione').browse(cr, uid, configurazione_ids[0])
+        protocolli = self._get_protocolli(cr, uid, ids)
+        for protocollo in protocolli:
+
+            if configurazione.inserisci_testo_mailpec:
+                check = True
+
+            res.append((protocollo.id, check))
+
+        return dict(res)
+
     def _aggiungi_allegati_post_registrazione_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
         check = False
@@ -844,12 +859,14 @@ class protocollo_protocollo(osv.Model):
         # 'aggiungi_pec_visibility': fields.function(_aggiungi_pec_visibility, type='boolean', string='Aggiungi PEC'),
         'modifica_email_visibility': fields.function(_modifica_email_visibility, type='boolean', string='Modifica e-mail'),
         'protocollazione_riservata_visibility': fields.function(_protocollazione_riservata_visibility, type='boolean', string='Protocollazione Riservata'),
-        'aggiungi_allegati_post_registrazione_visibility': fields.function(_aggiungi_allegati_post_registrazione_visibility, type='boolean', string='Aggiungi Allegati Post Registrazione')
+        'aggiungi_allegati_post_registrazione_visibility': fields.function(_aggiungi_allegati_post_registrazione_visibility, type='boolean', string='Aggiungi Allegati Post Registrazione'),
+        'inserisci_testo_mailpec_visibility': fields.function(_inserisci_testo_mailpec_visibility, type='boolean', string='Abilita testo PEC')
+
     }
 
     def _default_protocollazione_riservata_visibility(self, cr, uid, context):
         return self.user_has_groups(cr, uid, 'seedoo_protocollo.group_protocollazione_riservata')
 
     _defaults = {
-        'protocollazione_riservata_visibility': _default_protocollazione_riservata_visibility
+        'protocollazione_riservata_visibility': _default_protocollazione_riservata_visibility,
     }
