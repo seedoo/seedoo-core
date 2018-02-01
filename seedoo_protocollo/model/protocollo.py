@@ -180,19 +180,23 @@ class protocollo_protocollo(orm.Model):
         return {'value': values}
 
     def on_change_typology(self, cr, uid, ids, typology_id, context=None):
-        values = {'pec': False, 'sharedmail': False}
+        values = {'pec': False, 'sharedmail': False, 'inserisci_testo_mailpec_visibility': False}
         if typology_id:
             typology_obj = self.pool.get('protocollo.typology')
             typology = typology_obj.browse(cr, uid, typology_id)
+            configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
+            configurazione = self.pool.get('protocollo.configurazione').browse(cr, uid, configurazione_ids[0])
+            body = configurazione.inserisci_testo_mailpec
+            values['inserisci_testo_mailpec_visibility'] = body
             if typology.pec:
                 values = {
                     'pec': True,
-                    'sharedmail': False
+                    'sharedmail': False,
                 }
             if typology.sharedmail:
                 values = {
                     'pec': False,
-                    'sharedmail': True
+                    'sharedmail': True,
                 }
         return {'value': values}
 

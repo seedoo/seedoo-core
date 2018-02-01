@@ -90,7 +90,8 @@
         "static/src/css/protocollo.css",
     ],
     "js": [
-        "static/src/js/protocollo_accordion.js"
+        "static/src/js/protocollo_accordion.js",
+        "static/src/js/protocollo_patch.js"
     ],
     "installable": True,
     "application": True,

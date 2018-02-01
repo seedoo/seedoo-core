@@ -10,6 +10,7 @@ from openerp.tools.translate import _
 class protocollo_configurazione(orm.Model):
     _name = 'protocollo.configurazione'
     _columns = {
+        'inserisci_testo_mailpec': fields.boolean('Abilita testo E-mail/PEC'),
         'rinomina_documento_principale': fields.boolean('Rinomina documento principale'),
         'genera_segnatura': fields.boolean('Genera Segnatura nel PDF'),
         'genera_xml_segnatura': fields.boolean('Genera XML Segnatura'),
@@ -34,6 +35,7 @@ class protocollo_configurazione(orm.Model):
     }
 
     _defaults = {
+        'inserisci_testo_mailpec': False,
         'rinomina_documento_principale': False,
         'genera_segnatura': True,
         'genera_xml_segnatura': True,

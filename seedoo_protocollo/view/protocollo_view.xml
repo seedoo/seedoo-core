@@ -449,6 +449,7 @@ this module contains the full copyright notices and license terms. -->
                             <!--<field name="aggiungi_pec_visibility"/>-->
                             <field name="protocollazione_riservata_visibility"/>
                             <field name="aggiungi_allegati_post_registrazione_visibility"/>
+                            <field name="inserisci_testo_mailpec_visibility"/>
                             <field name="doc_id" invisible="1"/>
                             <field name="doc_fname" invisible="1"/>
                             <field name="pec" colspan="2" invisible="1"/>
@@ -503,7 +504,7 @@ this module contains the full copyright notices and license terms. -->
                                             <field name="server_pec_id" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}" attrs="{'invisible':['|',('pec','!=',True),('type','=','in')],
                                                                                                 'required': [('pec','=',True),('type','=','out')], 'readonly':[('state','!=','draft')]}"/>
                                             <field name="receiving_date" attrs="{'invisible':[('type','=','out')]}" class="seedoocustom_protocollo_receiving_date"/>
-                                            <field name="body" attrs="{'invisible':['|',('type','=','in'),'&amp;',('sharedmail','=',False),('pec','=',False)],'readonly':[('state','!=','draft')]}"/>
+                                            <field name="body" attrs="{'invisible':['|','|',('type','=','in'),('body','=',False),'&amp;',('sharedmail','=',False),('pec','=',False)],'readonly':[('state','!=','draft')]}"/>
                                         </group>
                                     </group>
                                 </div>
