@@ -3,7 +3,7 @@
     text-transform: uppercase;
     color: #666;
     border-bottom: 1px solid #ccc;
-    font-size: 16px !important;
+    font-size: 16px;
     position: relative;
     padding: 5px 10px 5px 0;
 
@@ -15,7 +15,7 @@
       display: block;
       width: 3em;
       height: 3em;
-      line-height: 3;
+      line-height: 2;
       text-align: center;
       -webkit-transition: all .35s;
       -o-transition: all .35s;
@@ -27,37 +27,36 @@
     }
   }
 
-  .dati-protocollo-container {
+
+  div.dati-protocollo-container {
+    margin-bottom:30px;
+
     h4:before {
         font-family: FontAwesome;
         margin-right:10px;
     }
   }
 
-  .protocollo-container {
+  #protocollo-container {
       h4:before {
         content:"\f0e3";
       }
   }
 
-  .documento-container {
+  #documento-container {
+      margin-bottom:0;
+
       h4:before {
         content:"\f0f6";
       }
   }
 
-  .anteprima-container {
+  #anteprima-container {
 
-      margin-top:20px;
+      margin:0 0 30px 0;
 
       .protocollo-accordion-toggle {
-          width: 190px;
-          border: 1px solid #ccc;
-          background-color: #eee;
-          font-size: 12px !important;
-          color: #999;
-          padding: 2px;
-          text-align: center;
+
       }
 
       .protocollo-accordion-toggle:hover {
@@ -66,6 +65,8 @@
 
       h4 {
           line-height: 20px;
+          margin: 0;
+          font-weight: normal;
       }
 
       h4:before {
@@ -78,7 +79,7 @@
       }
   }
 
-  .mittente-container {
+  #mittente-container {
       h4:before {
         content:"\f007";
       }

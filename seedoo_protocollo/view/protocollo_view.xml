@@ -460,7 +460,7 @@ this module contains the full copyright notices and license terms. -->
                             <field name="state" invisible="1"/>
                         </div>
                         <div id="protocollo-accordion">
-                            <div class="dati-protocollo-container protocollo-container">
+                            <div class="dati-protocollo-container" id="protocollo-container">
                                 <div class="protocollo-accordion-toggle">
                                     <h4 class="accordion-toggle">Dati Protocollo</h4>
                                 </div>
@@ -475,7 +475,7 @@ this module contains the full copyright notices and license terms. -->
                                     </group>
                                 </div>
                             </div>
-                            <div class="dati-protocollo-container documento-container">
+                            <div class="dati-protocollo-container" id="documento-container">
                                 <div class="protocollo-accordion-toggle">
                                     <h4 class="accordion-toggle">Dati Documento</h4>
                                 </div>
@@ -488,11 +488,11 @@ this module contains the full copyright notices and license terms. -->
                                             <field name="doc_description"/>
                                             <newline/>
                                             <group colspan="2">
-                                                <button string="Carica Documento" type="action" class="oe_inline oe_highlight_positive oe_button btn_seedoo btn_carica_documenti"
+                                                <button string="Carica Documento" type="action" class="oe_inline oe_highlight_positive oe_button btn_seedoo btn_carica_documenti button-form-protocollo"
                                                     attrs="{'invisible':['|',('doc_id','!=',False),('state','not in',('draft','registered'))]}"
                                                     name="%(protocollo_carica_documenti_wizard_action)d"/>
                                                 <newline/>
-                                                <button string="Modifica Documento" type="action" class="oe_inline oe_highlight_positive oe_button btn_seedoo btn_carica_documenti"
+                                                <button string="Modifica Documento" type="action" class="oe_inline oe_highlight_positive oe_button btn_seedoo btn_carica_documenti button-form-protocollo"
                                                         attrs="{'invisible':['|',('doc_id','=',False),'&amp;',('doc_id','!=',False),('state','!=','draft')]}"
                                                         name="%(protocollo_carica_documenti_wizard_action)d"/>
                                                 <field name="mimetype" invisible="1"/>
@@ -510,8 +510,8 @@ this module contains the full copyright notices and license terms. -->
                                 </div>
                             </div>
 
-                            <div class="dati-protocollo-container anteprima-container" attrs="{'invisible':[('mimetype','!=','application/pdf')]}">
-                                <div class="protocollo-accordion-toggle" >
+                            <div class="dati-protocollo-container" id="anteprima-container" attrs="{'invisible':[('mimetype','!=','application/pdf')]}">
+                                <div class="protocollo-accordion-toggle button-form-protocollo">
                                     <h4 class="accordion-toggle">Anteprima</h4>
                                 </div>
                                 <div class="accordion-content">
@@ -525,7 +525,7 @@ this module contains the full copyright notices and license terms. -->
                                 </div>
                             </div>
 
-                            <div class="dati-protocollo-container mittente-container" attrs="{'invisible':[('type','!=','in')]}">
+                            <div class="dati-protocollo-container" id="mittente-container" attrs="{'invisible':[('type','!=','in')]}">
                                 <div class="protocollo-accordion-toggle">
                                     <h4 class="accordion-toggle accordion-open">Dati Protocollo Mittente</h4>
                                 </div>
@@ -558,19 +558,19 @@ this module contains the full copyright notices and license terms. -->
                         </group>
 
                         <notebook class="protocollo_form_tabs">
-                            <page string="Mittenti" attrs="{'invisible':['|',('type','!=','in')]}" class="tab-mittente">
+                            <page string="Mittente" attrs="{'invisible':['|',('type','!=','in')]}" class="tab-mittente tab-sr">
                                 <group col="4" colspan="4">
                                     <field name="senders" mode="kanban" nolabel="1" attrs="{'readonly':[('state','!=','draft')]}"/>
                                 </group>
                             </page>
-                            <page string="Destinatari" attrs="{'invisible':[('type','!=','out')]}" class="tab-destintari">
+                            <page string="Destinatari" attrs="{'invisible':[('type','!=','out')]}" class="tab-destintari tab-sr">
                                 <group col="4" colspan="4">
                                     <field name="receivers" mode="kanban" nolabel="1" class="container_sr" attrs="{'readonly':[('state','!=','draft')]}"/>
                                 </group>
                             </page>
                             <page string="Allegati" class="tab-allegati">
                                 <group col="4" colspan="4">
-                                    <button string="Carica Allegati" type="action" class="oe_inline oe_highlight_positive oe_button btn_seedoo btn_carica_documenti"
+                                    <button string="Carica Allegati" type="action" class="oe_inline oe_highlight_positive oe_button btn_seedoo btn_carica_documenti button-form-protocollo"
                                                     attrs="{'invisible':['|',('state','not in',('draft','registered')),'&amp;',('state','in',('registered')),('aggiungi_allegati_post_registrazione_visibility','=',False)]}"
                                                     name="%(protocollo_carica_allegati_wizard_action)d"/>
                                     <field name="attachment_ids" colspan="4" widget="many2many_kanban" nolabel="1" class="container_allegati">
