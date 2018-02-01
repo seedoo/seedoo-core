@@ -14,6 +14,10 @@ span.conn_failed::after {
     color: orangered;
 }
 
+.btn_stampa_etichetta {
+    margin:20px 0;
+}
+
 .btn_stampa_etichetta::before {
     content:"\f02a";
 }

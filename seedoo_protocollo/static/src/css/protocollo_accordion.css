@@ -1,0 +1,66 @@
+.protocollo-accordion-toggle {
+  cursor: pointer;
+  text-transform: uppercase;
+  color: #666;
+  border-bottom: 1px solid #ccc;
+  font-size: 16px !important;
+  position: relative;
+  padding: 5px 10px;
+}
+.protocollo-accordion-toggle h4::after {
+  content: "+";
+  position: absolute;
+  right: 0;
+  top: 0;
+  display: block;
+  width: 3em;
+  height: 3em;
+  line-height: 3;
+  text-align: center;
+  -webkit-transition: all .35s;
+  -o-transition: all .35s;
+  transition: all .35s;
+}
+.protocollo-accordion-toggle .accordion-selected h4::after {
+  transform: rotate(315deg);
+}
+.dati-protocollo-container h4:before {
+  font-family: FontAwesome;
+  margin-right: 10px;
+}
+.protocollo-container h4:before {
+  content: "\f0e3";
+}
+.documento-container h4:before {
+  content: "\f0f6";
+}
+.anteprima-container {
+  margin-bottom: 20px;
+}
+.anteprima-container .protocollo-accordion-toggle {
+  width: 190px;
+  border: 1px solid #aaa;
+  font-size: 12px !important;
+  color: #999;
+  padding: 2px;
+  text-align: center;
+}
+.anteprima-container h4 {
+  line-height: 20px;
+}
+.anteprima-container h4:before {
+  content: "\f1c1";
+  color: #f00;
+}
+.anteprima-container h4:after {
+  content: "";
+}
+.mittente-container h4:before {
+  content: "\f007";
+}
+.accordion-content {
+  display: none;
+}
+.accordion-content.accordion-open {
+  display: block;
+}

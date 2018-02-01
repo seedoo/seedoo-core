@@ -50,6 +50,7 @@
         "wizard/modify_protocollo_email_wizard_view.xml",
         "wizard/modify_protocollo_pec_wizard_view.xml",
         "wizard/carica_documenti_wizard_view.xml",
+        "wizard/carica_allegati_wizard_view.xml",
         "view/res_config.xml",
         "view/partner_view.xml",
         "view/offices_view.xml",
@@ -86,7 +87,10 @@
         "static/src/xml/mail.xml"
     ],
     "css": [
-        "static/src/css/protocollo.css"
+        "static/src/css/protocollo.css",
+    ],
+    "js": [
+        "static/src/js/protocollo_accordion.js"
     ],
     "installable": True,
     "application": True,

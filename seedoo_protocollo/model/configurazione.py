@@ -26,6 +26,9 @@ class protocollo_configurazione(orm.Model):
         'assegnatari_conoscenza_uffici_required': fields.boolean('Uffici Assegnatari per Conoscenza Obbligatori'),
         'assegnatari_conoscenza_dipendenti_required': fields.boolean('Dipendenti Assegnatari per Conoscenza Obbligatori'),
 
+        'documento_required': fields.boolean('Documento Obbligatorio'),
+        'aggiungi_allegati_post_registrazione': fields.boolean('Aggiungi allegati post registrazione'),
+
         'email_pec_unique': fields.boolean('PEC/Email Univoca'),
     }
 
@@ -38,6 +41,8 @@ class protocollo_configurazione(orm.Model):
         'assegnatari_competenza_dipendenti_required': False,
         'assegnatari_conoscenza_uffici_required': False,
         'assegnatari_conoscenza_dipendenti_required': False,
+        'documento_required': False,
+        'aggiungi_allegati_post_registrazione': False,
         'email_pec_unique': True,
     }
 
@@ -77,6 +82,8 @@ class protocollo_configurazione(orm.Model):
                 campi_obbligatori = campi_obbligatori + '\n- Uffici Assegnatari per Conoscenza'
             if configurazione.assegnatari_conoscenza_dipendenti_required and not protocollo.assegnatari_conoscenza_dipendenti_ids:
                 campi_obbligatori = campi_obbligatori + '\n- Dipendenti Assegnatari per Conoscenza'
+            if configurazione.documento_required and not protocollo.doc_id:
+                campi_obbligatori = campi_obbligatori + '\n- Documento principale'
 
         if campi_obbligatori:
             raise exceptions.Warning('Prima di procedere con la registrazione è necessario valorizzare i seguenti campi: ' + campi_obbligatori)

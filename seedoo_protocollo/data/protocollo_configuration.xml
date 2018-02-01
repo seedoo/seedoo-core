@@ -18,6 +18,8 @@
             <field name="assegnatari_competenza_dipendenti_required" eval="False"/>
             <field name="assegnatari_conoscenza_uffici_required" eval="False"/>
             <field name="assegnatari_conoscenza_dipendenti_required" eval="False"/>
+            <field name="documento_required" eval="False"/>
+            <field name="aggiungi_allegati_post_registrazione" eval="False"/>
             <field name="email_pec_unique" eval="True"/>
         </record>
 

@@ -89,7 +89,7 @@ class ProtocolloMailPecWizard(osv.TransientModel):
             readonly=True),
         'message_id': fields.integer('Id',
                                      required=True, readonly=True),
-        'select_doc_principale': fields.selection(DOC_PRINCIPALE_SELECTION, 'Seleziona il documento principale',
+        'select_doc_principale': fields.selection(DOC_PRINCIPALE_SELECTION, 'Seleziona il documento da protocollare',
                                                   select=True,
                                                   required=True),
         'doc_principale': fields.many2one('ir.attachment', 'Allegato',

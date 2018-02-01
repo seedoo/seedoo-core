@@ -5,22 +5,11 @@ this module contains the full copyright notices and license terms. -->
 <openerp>
     <data>
 
-        <record id="protocollo_carica_documenti_step1_wizard_view" model="ir.ui.view">
-            <field name="name">Wizard di Caricamento Documenti</field>
-            <field name="model">protocollo.carica.documenti.step1.wizard</field>
+        <record id="protocollo_carica_allegati_step1_wizard_view" model="ir.ui.view">
+            <field name="name">Wizard di Caricamento Allegati</field>
+            <field name="model">protocollo.carica.allegati.step1.wizard</field>
             <field name="arch" type="xml">
-                <form string="Wizard di Caricamento Documenti">
-                    <group col="4">
-                        <group col="2">
-                            <separator string="Documento da protocollare" colspan="4"/>
-                            <field name="datas" filename="datas_fname"/>
-                            <field name="datas_fname" invisible="1"/>
-                        </group>
-                        <newline/>
-                        <group col="2">
-                            <field colspan="2" name="datas_description" required="1"/>
-                        </group>
-                    </group>
+                <form string="Wizard di Caricamento Allegati">
                     <group>
                         <separator string="Allegati" colspan="4"/>
                         <field name="document_ids" nolabel="1" colspan="4" class="taballegati">
@@ -48,9 +37,9 @@ this module contains the full copyright notices and license terms. -->
         </record>
 
 
-        <act_window id="protocollo_carica_documenti_wizard_action"
-                    name="Carica Documento"
-                    res_model="protocollo.carica.documenti.step1.wizard"
+        <act_window id="protocollo_carica_allegati_wizard_action"
+                    name="Carica Allegati"
+                    res_model="protocollo.carica.allegati.step1.wizard"
                     view_type="form" view_mode="form"
                     target="new"/>
 

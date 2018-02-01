@@ -1,0 +1,106 @@
+.openerp .oe_notebook > li.ui-state-active > a.ui-tabs-anchor {
+  color:#666 !important;
+}
+
+.openerp .oe_kanban_view {
+  a.protocollo_sr_box, a.protocollo_attachments_box {
+    &>div{
+      transition: all 0.3s linear;
+      -webkit-transition: all 0.3s linear;
+      -moz-transition: all 0.3s linear;
+    }
+  }
+
+  a.protocollo_sr_box:hover, a.protocollo_attachments_box:hover {
+    & > div {
+      background-color: #ccc;
+    }
+  }
+
+  a.protocollo_attachments_box {
+    .item_box {
+        width: 200px;
+
+        h3 {
+          font-size:12px;
+          margin-bottom:0;
+          padding-bottom:0;
+        }
+
+        p{
+          margin:0;
+          padding:0;
+        }
+    }
+
+    .icon_item_type {
+      i.fa {
+        font-size:32px;
+        line-height: 44px;
+      }
+    }
+  }
+}
+
+
+.protocollo_form_tabs  {
+  ul.ui-tabs-nav {
+
+    li a {
+      text-transform: uppercase;
+      font-size:14px;
+    }
+
+    li a:before {
+      font-family: FontAwesome;
+    }
+
+    li:nth-child(2) a:before {
+      content:"\f007";
+    }
+
+    li:nth-child(3) a:before {
+      content:"\f0c6";
+    }
+
+    li:nth-child(4) a:before {
+      content:"\f00b";
+    }
+
+    li:nth-child(5) a:before {
+      content:"\f115";
+    }
+
+    li:nth-child(6) a:before {
+      content:"\f0e8";
+    }
+
+    li:nth-child(7) a:before {
+      content:"\f044";
+    }
+
+    li:nth-child(8) a:before {
+      content:"\f121";
+    }
+  }
+}
+
+.container_messaggi_pec {
+    .oe_module_vignette{
+        padding: 0;
+    }
+
+    .oe_kanban_record {
+        display: block !important;
+        margin-bottom:20px !important;
+    }
+
+    h3 {
+        margin:10px 0 0 0;
+        text-transform: uppercase;
+    }
+}
+
+.container_allegati {
+
+}

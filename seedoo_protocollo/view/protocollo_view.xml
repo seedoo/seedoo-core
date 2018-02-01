@@ -5,10 +5,11 @@ this module contains the full copyright notices and license terms. -->
 <openerp>
     <data>
 
-        <template id="protocollo_style" name="Seedoo Style" inherit_id="web.assets_backend">
+        <template id="protocollo-accordion" name="seedoo_protocollo assets" inherit_id="web.assets_backend">
             <xpath expr="." position="inside">
                 <link rel="stylesheet" href="/seedoo_protocollo/static/src/css/protocollo.css"/>
-                <!--<script type="text/javascript" src="/seedoo_protocollo/static/src/js/protocollo.js"></script>-->
+                <link rel="stylesheet" href="/seedoo_protocollo/static/src/css/protocollo_accordion.css"/>
+                <script type="text/javascript" src="/seedoo_protocollo/static/src/js/protocollo_accordion.js"/>
             </xpath>
         </template>
 
@@ -446,21 +447,89 @@ this module contains the full copyright notices and license terms. -->
                             <field name="modifica_email_visibility"/>
                             <!--<field name="aggiungi_pec_visibility"/>-->
                             <field name="protocollazione_riservata_visibility"/>
+                            <field name="aggiungi_allegati_post_registrazione_visibility"/>
+                            <field name="state" invisible="1"/>
+                            <field name="doc_id" invisible="1"/>
+                            <field name="doc_fname" invisible="1"/>
                         </div>
-                        <div class="gedoc_header" attrs="{'invisible':[('state','=','draft')]}">
-                            <group col="4">
-                                <field name="complete_name"/>
-                                <field name="registration_date"/>
-                                <field name="registry" options="{'no_open': True}"/>
-                                <field name="type"/>
-                                <field name="registration_employee_id" readonly="1" options="{'no_open': True}"/>
-                            </group>
+                        <div id="protocollo-accordion">
+                            <div class="dati-protocollo-container protocollo-container">
+                                <div class="protocollo-accordion-toggle">
+                                    <h4 class="accordion-toggle">Dati Protocollo</h4>
+                                </div>
+                                <div class="accordion-content accordion-open">
+                                    <group col="4">
+                                        <field name="complete_name"/>
+                                        <field name="type"/>
+                                        <field name="registration_date"/>
+                                        <field name="registry" options="{'no_open': True}"/>
+                                        <field name="registration_employee_id" readonly="1" options="{'no_open': True}"/>
+                                        <field name="reserved" on_change="on_change_reserved(reserved)" attrs="{'invisible':[('protocollazione_riservata_visibility','=',False)]}"/>
+                                    </group>
+                                </div>
+                            </div>
+                            <div class="dati-protocollo-container documento-container">
+                                <div class="protocollo-accordion-toggle">
+                                    <h4 class="accordion-toggle">Dati Documento</h4>
+                                </div>
+                                <div class="accordion-content accordion-open">
+                                    <group col="4">
+                                        <field name="typology" on_change="on_change_typology(typology)" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}"/>
+                                        <field name="receiving_date" attrs="{'invisible':[('type','=','out')]}" class="seedoocustom_protocollo_receiving_date"/>
+                                        <field name="subject" attrs="{'required':[('state','!=','draft')]}" class="protocollo_oggetto"/>
+                                        <newline/>
+                                        <field name="body" attrs="{'invisible':['|',('type','=','in'),'&amp;',('sharedmail','=',False),('pec','=',False)],'readonly':[('state','!=','draft')]}"/>
+                                        <field name="creation_date" class="seedoocustom_protocollo_creation_date" invisible="1"/>
+                                        <field name="doc_content" filename="doc_fname"/>
+                                        <field name="doc_description"/>
+                                    </group>
+                                    <group col="4">
+                                        <button string="Carica Documento" type="action" class="oe_inline oe_highlight_positive oe_button btn_seedoo btn_carica_documenti"
+                                                attrs="{'invisible':['|',('doc_id','!=',False),('state','not in',('draft','registered'))]}"
+                                                name="%(protocollo_carica_documenti_wizard_action)d"/>
+                                        <newline/>
+                                        <button string="Modifica Documento" type="action" class="oe_inline oe_highlight_positive oe_button btn_seedoo btn_carica_documenti"
+                                                attrs="{'invisible':['|',('doc_id','=',False),'&amp;',('doc_id','!=',False),('state','=','registered')]}"
+                                                name="%(protocollo_carica_documenti_wizard_action)d"/>
+                                        <field name="mimetype" invisible="1"/>
+                                    </group>
+                                </div>
+                            </div>
+
+                            <div class="dati-protocollo-container anteprima-container" attrs="{'invisible':[('mimetype','!=','application/pdf')]}">
+                                <div class="protocollo-accordion-toggle" >
+                                    <h4 class="accordion-toggle">Anteprima</h4>
+                                </div>
+                                <div class="accordion-content">
+                                    <group>
+                                        <field name="preview" noupload="True"
+                                           nolabel="1"
+                                           options="{'uploadbutton':false}"
+                                           attrs="{'readonly':True}"
+                                           widget="pdfviewer"/>
+                                    </group>
+                                </div>
+                            </div>
+
+                            <div class="dati-protocollo-container mittente-container">
+                                <div class="protocollo-accordion-toggle">
+                                    <h4 class="accordion-toggle accordion-open">Dati Protocollo Mittente</h4>
+                                </div>
+                                <div class="accordion-content">
+                                    <newline/>
+                                    <group col="4">
+                                        <field name="sender_registration_date" attrs="{'invisible':[('type','!=','in')],'readonly':[('state','!=','draft')]}"/>
+                                        <field name="sender_protocol" attrs="{'invisible':[('type','!=','in')], 'readonly':[('state','!=','draft')]}"/>
+                                    </group>
+                                </div>
+                            </div>
                         </div>
+
                         <group
                                string="Informazioni Emergenza"
-                               attrs="{'invisible':[('emergency_active','=', False)]}">
-                            <field name="emergency_active" invisible="1"/>
-                            <field name="registration_type"/>
+                                   attrs="{'invisible':[('emergency_active','=', False)]}">
+                                <field name="emergency_active" invisible="1"/>
+                                <field name="registration_type"/>
                         </group>
                         <group string="Dati Emergenza"
                                attrs="{'invisible':[('registration_type','=','normal')]}">
@@ -471,20 +540,10 @@ this module contains the full copyright notices and license terms. -->
                                    on_change="on_change_emergency_receiving_date(emergency_receiving_date)"/>
                         </group>
                         <group>
-                            <field name="user_id" readonly="1" options="{'no_open': True}"/>
-                        </group>
-                        <newline/>
-                        <group>
-                            <field name="state" invisible="1"/>
-                            <field name="subject" attrs="{'required':[('state','!=','draft')]}" class="protocollo_oggetto"/>
-                            <newline/>
-                            <field name="sender_protocol" attrs="{'invisible':[('type','!=','in')]}"/>
-                            <newline/>
-                            <field name="reserved"  on_change="on_change_reserved(reserved)" attrs="{'invisible':[('protocollazione_riservata_visibility','=',False)]}"/>
+                            <field name="user_id" readonly="1" options="{'no_open': True}" invisible="1"/>
                         </group>
                         <group col="4">
                             <group col="2">
-                                <field name="typology" on_change="on_change_typology(typology)" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}"/>
                             </group>
                             <group col="2">
                                 <field name="server_sharedmail_id" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}" attrs="{'invisible':['|',('sharedmail','!=',True),('type','=','in')],
@@ -493,64 +552,79 @@ this module contains the full copyright notices and license terms. -->
                                                                                             'required': [('pec','=',True),('type','=','out')], 'readonly':[('state','!=','draft')]}"/>
                             </group>
                         </group>
-                        <group>
-                            <field name="creation_date" class="seedoocustom_protocollo_creation_date"/>
-                            <newline/>
-                            <field name="receiving_date" attrs="{'invisible':[('type','=','out')]}" class="seedoocustom_protocollo_receiving_date"/>
-                        </group>
+
                         <newline/>
-                        <group >
-                            <field name="body" attrs="{'invisible':[('pec','!=',True),('sharedmail','!=',True)],'readonly':['|',('type','=','in'),('state','!=','draft')]}"/>
-                        </group>
                         <group col="8">
-                            <field name="pec" invisible="1" colspan="2"/>
-                            <field name="sharedmail" invisible="1" colspan="2"/>
-                        </group>
-                        <group col="4">
-                            <field name="doc_content" filename="doc_fname"/>
-                            <field name="doc_id" invisible="1"/>
-                            <field name="doc_fname" invisible="1"/>
-                        </group>
-                        <group col="4">
-                            <newline/>
-                            <button string="Carica Documenti" type="action" class="oe_inline oe_highlight_positive oe_button btn_seedoo btn_carica_documenti"
-                                    attrs="{'invisible':['|',('doc_id','!=',False),('state','not in',('draft','registered'))]}"
-                                    name="%(protocollo_carica_documenti_wizard_action)d"/>
-                            <newline/>
-                            <button string="Modifica Documenti" type="action" class="oe_inline oe_highlight_positive oe_button btn_seedoo btn_carica_documenti"
-                                    attrs="{'invisible':['|',('doc_id','=',False),'&amp;',('doc_id','!=',False),('state','=','registered')]}"
-                                    name="%(protocollo_carica_documenti_wizard_action)d"/>
-                            <field name="mimetype" invisible="1"/>
+                            <field name="pec" colspan="2" invisible="1"/>
+                            <field name="sharedmail" colspan="2" invisible="1"/>
                         </group>
 
-                        <notebook>
-                            <page string="Mittenti" attrs="{'invisible':['|',('type','!=','in')]}">
+                        <notebook class="protocollo_form_tabs">
+                            <page string="Mittenti" attrs="{'invisible':['|',('type','!=','in')]}" class="tab-mittente">
                                 <group col="4" colspan="4">
                                     <field name="senders" mode="kanban" nolabel="1" attrs="{'readonly':[('state','!=','draft')]}"/>
                                 </group>
                             </page>
-                            <page string="Destinatari" attrs="{'invisible':[('type','!=','out')]}">
+                            <page string="Destinatari" attrs="{'invisible':[('type','!=','out')]}" class="tab-destintari">
                                 <group col="4" colspan="4">
                                     <field name="receivers" mode="kanban" nolabel="1" class="container_sr" attrs="{'readonly':[('state','!=','draft')]}"/>
                                 </group>
                             </page>
-                            <page string="Documenti">
-                                <field name="attachment_ids" colspan="4">
-                                    <tree default_order='is_main' string="is_main" fonts="bold:is_main==True;">
-                                        <field name="name" string="Nome"/>
+                            <page string="Allegati" class="tab-allegati">
+                                <button string="Carica Allegati" type="action" class="oe_inline oe_highlight_positive oe_button btn_seedoo btn_carica_documenti"
+                                                attrs="{'invisible':['|',('state','not in',('draft','registered')),'&amp;',('state','in',('registered')),('aggiungi_allegati_post_registrazione_visibility','=',False)]}"
+                                                name="%(protocollo_carica_allegati_wizard_action)d"/>
+                                <field name="attachment_ids" colspan="4" widget="many2many_kanban" nolabel="1" class="container_allegati">
+                                    <kanban quick_create="false" create="false">
+                                        <field name="type"/>
+                                        <field name="name"/>
                                         <field name="datas_description"/>
-                                        <!--<field name="user_id"/>-->
                                         <field name="is_main"/>
-                                    </tree>
+                                        <templates>
+                                            <t t-name="kanban-box">
+                                                <t t-if="!record.is_main.raw_value">
+                                                    <a type="open" class="protocollo_attachments_box">
+                                                        <div class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_color_border item_box" >
+                                                            <table class="oe_kanban_table">
+                                                                <tr>
+                                                                    <td class="oe_kanban_messaggio pec_button_col" align="left" valign="middle">
+                                                                        <div class="icon_item_type">
+                                                                           <div t-att-class="record.type.raw_value">
+                                                                               <i class="fa fa-paperclip" aria-hidden="true"></i>
+                                                                           </div>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <h3><field name="name"/></h3>
+                                                                        <t t-if="record.datas_description.raw_value">
+                                                                            <p>
+                                                                                <field name="datas_description"/>
+                                                                            </p>
+                                                                        </t>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                    </a>
+                                                </t>
+                                            </t>
+                                        </templates>
+                                    </kanban>
+                                    <!--<tree default_order='is_main' string="is_main" fonts="bold:is_main==True;">-->
+                                        <!--<field name="name" string="Nome"/>-->
+                                        <!--<field name="datas_description"/>-->
+                                        <!--&lt;!&ndash;<field name="user_id"/>&ndash;&gt;-->
+                                        <!--<field name="is_main"/>-->
+                                    <!--</tree>-->
                                 </field>
                             </page>
-                            <page string="Preview" attrs="{'invisible':[('mimetype','!=','application/pdf')]}">
-                                <field name="preview" noupload="True"
-                                       nolabel="1"
-                                       options="{'uploadbutton':false}"
-                                       attrs="{'readonly':True}"
-                                       widget="pdfviewer"/>
-                            </page>
+                            <!--<page string="Preview" attrs="{'invisible':[('mimetype','!=','application/pdf')]}">-->
+                                <!--<field name="preview" noupload="True"-->
+                                       <!--nolabel="1"-->
+                                       <!--options="{'uploadbutton':false}"-->
+                                       <!--attrs="{'readonly':True}"-->
+                                       <!--widget="pdfviewer"/>-->
+                            <!--</page>-->
                             <page string="Classificazione">
                                 <group col="4">
                                     <field name="classification" nolabel="1"

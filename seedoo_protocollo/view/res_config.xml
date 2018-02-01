@@ -22,11 +22,14 @@ this module contains the full copyright notices and license terms. -->
                         <field name="assegnatari_competenza_dipendenti_required"/>
                         <field name="assegnatari_conoscenza_uffici_required"/>
                         <field name="assegnatari_conoscenza_dipendenti_required"/>
+                        <field name="documento_required"/>
                     </group>
                     <group string="Azioni Post Registrazione Protocollo">
                         <field name="genera_segnatura"/>
                         <newline/>
                         <field name="genera_xml_segnatura"/>
+                        <newline/>
+                        <field name="aggiungi_allegati_post_registrazione"/>
                     </group>
                     <group string="Rubrica">
                         <field name="email_pec_unique"/>

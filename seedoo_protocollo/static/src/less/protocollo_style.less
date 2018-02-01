@@ -1,0 +1,537 @@
+
+.openerp .oe_stat_button {
+    width: auto !important;
+}
+
+.openerp .oe_stat_button{
+    background-color: #7c7bad;
+    color:#fff;
+}
+
+.openerp .oe_stat_button:hover{
+    background-color: #fff;
+    color:#7c7bad;
+    font-size: 14px;
+}
+
+.openerp .oe_stat_button .stat_button_icon {
+    color:#fff;
+    font-size: 14px;
+}
+
+.openerp .oe_stat_button:hover .stat_button_icon {
+    color:#7c7bad;
+    font-size: 14px;
+}
+
+.openerp .history_icon::after {
+    position:absolute;
+    right:10px;
+    top:10px;
+    font-size:24px;
+    color:#7c7bad;
+    font-family: "FontAwesome";
+}
+
+.openerp .history_icon.print::after {
+    content:"\f02a";
+}
+
+.openerp .history_icon.registration::after {
+    content:"\f0a3";
+}
+
+.openerp .history_icon.update::after {
+    content:"\f044";
+}
+
+.openerp .history_icon.upload::after {
+    content:"\f093";
+}
+
+.openerp .history_icon.taken::after {
+    content:"\f087";
+}
+
+.openerp .history_icon.refused::after {
+    content:"\f05e";
+}
+
+.openerp .history_icon.mail::after {
+    content:"\f003";
+}
+
+.openerp .history_icon.trash::after {
+    content:"\f014";
+}
+
+.openerp .taballegati .oe_button {
+    height:28px;
+}
+
+.openerp .taballegati .oe_form_binary_form button span {
+    display: none;
+}
+
+.openerp .taballegati .oe_form_binary_file_save_data button span {
+    display: none;
+}
+
+.openerp .taballegati .oe_form_binary_file_clear span {
+    display: none;
+}
+
+.openerp th[data-id="pec_invio_status"],
+.openerp th[data-id="pec_accettazione_status"],
+.openerp th[data-id="pec_consegna_status"],
+.openerp th[data-id="pec_errore_consegna_status"],
+.openerp td[data-field="pec_invio_status"],
+.openerp td[data-field="pec_accettazione_status"],
+.openerp td[data-field="pec_consegna_status"],
+.openerp td[data-field="pec_errore_consegna_status"]{
+    text-align: center;
+}
+
+.openerp td[data-field="pec_invio_status"] input,
+.openerp td[data-field="pec_accettazione_status"] input,
+.openerp td[data-field="pec_consegna_status"] input,
+.openerp td[data-field="pec_errore_consegna_status"] input{
+    visibility: hidden;
+    opacity: 1 !important;
+}
+
+.openerp .icon_status {
+    width:30px;
+    float: left;
+}
+
+.openerp div.icon_status::after{
+    font-size: 18px !important;
+}
+
+.openerp .icon_item_type div {
+    color:#ccc;
+    background-color: white;
+    border:1px solid #eee;
+    height: 50px;
+    width: 50px;
+    line-height: 50px;
+    overflow: hidden;
+}
+
+.openerp .icon_item_type div {
+    color:#ccc;
+    background-color:white;
+    text-align:center;
+}
+
+.openerp .icon_item_type div:hover {
+    color:white;
+    background-color: #aaa;
+}
+
+.openerp .icon_status span,
+.openerp .icon_item_type span {
+    display: none;
+}
+
+.openerp .icon_item_type div::after {
+    font-family: "FontAwesome";
+    font-size: 28px;
+    visibility: visible;
+    opacity: 1;
+}
+
+.openerp .icon_item_type div.individual::after {
+    content:"\f007";
+}
+
+.openerp .icon_item_type div.legal::after {
+    content:"\f0c0";
+}
+
+.openerp .icon_item_type div.government::after {
+    content:"\f19c";
+}
+
+.openerp div.icon_messaggio_status:after,
+.openerp td[data-field="pec_invio_status"] input:checked:after,
+.openerp .oe_form button[data-name="go_to_messaggio_action"]:after {
+    content: "\f003";
+    font-family: "FontAwesome";
+    font-size: 28px;
+    color: #9ac569;
+    visibility: visible;
+    opacity: 1;
+}
+
+.openerp div.icon_accettazione_status:after,
+.openerp td[data-field="pec_accettazione_status"] input:checked::after ,
+.openerp .oe_form button[data-name="go_to_accettazione_action"]:after {
+    content: "\f05d";
+    font-family: "FontAwesome";
+    font-size: 28px;
+    color: #679b41;
+    visibility: visible;
+    opacity: 1;
+}
+
+.openerp div.icon_consegna_status:after,
+.openerp td[data-field="pec_consegna_status"] input[type="checkbox"]:checked:after ,
+.openerp .oe_form button[data-name="go_to_consegna_action"]:after {
+    content: "\f05d";
+    font-family: "FontAwesome";
+    font-size: 28px;
+    color: #366732;
+    visibility: visible;
+    opacity: 1;
+}
+
+.openerp div.icon_errore_consegna_status:after,
+.openerp td[data-field="pec_errore_consegna_status"] input[type="checkbox"]:checked::after ,
+.openerp .oe_form button[data-name="go_to_errore_consegna_action"]:after {
+    content: "\f06a";
+    font-family: "FontAwesome";
+    font-size: 28px;
+    color: darkred;
+    visibility: visible;
+    opacity: 1;
+}
+
+.openerp div.icon_numero_invii {
+    float: right;
+    background: #333;
+    border-radius: 10px;
+    width: 20px;
+    height: 20px;
+    padding: 2px;
+    text-align: center;
+    font-weight: bold;
+    color: #ccc;
+    margin: 2px;
+}
+
+.openerp .oe_form td[data-field="go_to_messaggio_action"],
+.openerp .oe_form td[data-field="go_to_accettazione_action"],
+.openerp .oe_form td[data-field="go_to_consegna_action"],
+.openerp .oe_form td[data-field="go_to_errore_consegna_action"]{
+    width:10%;
+}
+
+.openerp .oe_form button[data-name="go_to_messaggio_action"],
+.openerp .oe_form button[data-name="go_to_accettazione_action"],
+.openerp .oe_form button[data-name="go_to_consegna_action"],
+.openerp .oe_form button[data-name="go_to_errore_consegna_action"]
+{
+    width:50px;
+    border:1px solid #ccc;
+    border-radius: 0;
+    height:50px;
+    background: white !important;
+}
+
+.openerp .oe_form button[data-name="go_to_messaggio_action"]:hover,
+.openerp .oe_form button[data-name="go_to_accettazione_action"]:hover,
+.openerp .oe_form button[data-name="go_to_consegna_action"]:hover,
+.openerp .oe_form button[data-name="go_to_errore_consegna_action"]:hover {
+    background: #ccc !important;
+}
+
+.openerp .oe_form button[data-name="go_to_messaggio_action"] img,
+.openerp .oe_form button[data-name="go_to_accettazione_action"] img,
+.openerp .oe_form button[data-name="go_to_consegna_action"] img,
+.openerp .oe_form button[data-name="go_to_errore_consegna_action"] img
+{
+    display: none;
+}
+
+.openerp .oe_kanban_view .pec_container {
+    width:100% !important;
+    padding: 0 5px 0 0 !important;
+}
+
+
+
+.openerp .oe_kanban_view .item_box {
+    float: left;
+    display: inline;
+    height:100px;
+    background-color:#f3f3f3;
+    border:0;
+    min-width:300px;
+    margin: 0 20px 0 0;
+    padding:10px !important;
+    position: relative;
+}
+
+.openerp .oe_kanban_view .item_box h3, .openerp .oe_kanban_view .item_box p {
+    color:#666;
+}
+
+.item_box .pec_button_col{
+    width:60px;
+}
+
+.item_box .pec_descr_col span{
+    width: 50px;
+    text-align: center;
+    position: absolute;
+    top: 10px;
+    right: 0;
+}
+
+.item_box .pec_descr_col span::after {
+    font-family: "FontAwesome";
+    color: #666;
+    font-size:18px;
+}
+
+.item_box .pec_descr_col span.in::after {
+    content: "\f112";
+}
+
+.item_box .pec_descr_col span.out::after {
+    content: "\f064";
+}
+
+.container_sr {
+    .oe_kanban_record {
+        margin-bottom:20px !important;
+    }
+}
+
+.btn_seedoo::before {
+    color:#fff;
+    font-family: "FontAwesome";
+    margin-right:10px;
+}
+
+.btn_registra_protocollo::before {
+    content:"\f0e3";
+}
+
+.btn_annulla_protocollo::before {
+    content:"\f014";
+}
+
+.btn_presa_in_carico::before {
+    content:"\f046";
+}
+
+.btn_rifiuta_presa_in_carico::before {
+    content:"\f147";
+}
+
+.btn_modifica_protocollo::before {
+    content:"\f044";
+}
+
+.btn_classifica::before {
+    content:"\f00b";
+}
+
+.btn_fascicola::before {
+    content:"\f115";
+}
+
+.btn_assegna::before {
+    content:"\f0e8";
+}
+
+.btn_invia_pec::before {
+    content:"\f003";
+}
+
+.btn_aggiungi_destinatario::before {
+    content:"\f067";
+}
+
+.btn_reinvio_pec::before {
+    content:"\f01e";
+}
+
+.btn_invia_protocollo::before {
+    content:"\f003";
+}
+
+.btn_carica_documenti::before {
+    content:"\f093";
+}
+
+.protocollo_oggetto .oe_form_text_content{
+    color:steelblue;
+    font-weight:bold;
+}
+
+/**Storico Protocollo**/
+
+.openerp .oe_mail .oe_msg.oe_msg_composer_compact, .openerp .oe_mail .oe_msg.oe_msg_expandable {
+    border: 0;
+    background: none;
+}
+
+.openerp .oe_mail .oe_msg.oe_msg_notification {
+    border:0;
+    -webkit-border-radius:0;
+    -moz-border-radius:0;
+    border-radius:0;
+    background: #eee;
+    margin-bottom: 10px;
+    padding: 8px;
+}
+
+.openerp .oe_mail .oe_msg .oe_msg_content .oe_msg_body * {
+    padding-left: 0;
+    list-style: none;
+}
+
+.openerp .oe_kanban_view .icon_tile {
+    display: block;
+    padding-top: 5px;
+    font-size: 25px;
+    text-align: center;
+    padding-bottom: 5px;
+}
+
+.openerp .oe_kanban_view .oe_dashboard_tile .tile_label {
+    padding: 5px;
+    font-size: 13px !important;
+    line-height: 16px;
+}
+
+.openerp .oe_kanban_view .oe_dashboard_tile .tile_primary_value {
+    font-size: 40px !important;
+}
+
+.openerp .oe_kanban_view .oe_dashboard_tile {
+    width:130px !important;
+    height:130px !important;
+    min-height:130px !important;
+}
+
+
+/*.oe_dashboard_column div.oe_action:nth-child(2), .oe_dashboard_column div.oe_action:nth-child(3),*/
+/*.oe_dashboard_column div.oe_action:nth-child(4), .oe_dashboard_column div.oe_action:nth-child(5){*/
+/*display: inline-block;*/
+/*float: left;*/
+/*}*/
+
+.oe_dashboard_column.index_1 div.oe_action:nth-child(1) {
+    min-height:195px;
+}
+
+.oe_dashboard_column div.oe_action:nth-child(1) {
+    display: block !important;
+    float: none !important;;
+}
+
+.oe_dashboard_column .oe_employee_details {
+    width:310px;
+    min-height:110px;
+}
+
+.oe_dashboard_column .oe_employee_details .employee_data_list li {
+    margin-bottom:4px !important;
+}
+
+.oe_dashboard_column .oe_employee_details .employee_data_list li strong{
+    text-transform: uppercase;
+}
+
+.oe_employee_vignette {
+    padding:auto;
+}
+
+/* Acordeon styles */
+
+.heading-primary {
+    font-size:2em;
+    padding:2em;
+    text-align:center;
+}
+.accordion dl,
+.accordion-list {
+    border:1px solid #ddd;
+}
+.accordion dl:after,
+.accordion-list:after {
+    content: "";
+    display:block;
+    height:1em;
+    width:100%;
+    /*background-color:darken(#38cc70, 10%);*/
+}
+.accordion dd,
+.accordion__panel {
+    background-color:#eee;
+    font-size:1em;
+    line-height:1.5em;
+}
+.accordion p {
+    padding:1em 2em 1em 2em;
+}
+
+.accordion {
+    position:relative;
+    background-color:#eee;
+}
+.container {
+    max-width:960px;
+    margin:0 auto;
+    padding:2em 0 2em 0;
+}
+.accordionTitle,
+.accordion__Heading {
+    background-color:#ccc;
+    text-align:center;
+    font-weight:700;
+    padding:2em;
+    display:block;
+    text-decoration:none;
+    color:#fff;
+    transition:background-color 0.5s ease-in-out;
+    /*border-bottom:1px solid darken(#38cc70, 5%);*/
+
+}
+.accordionTitle:before,
+.accordion__Heading:before {
+    content: "+";
+    font-size:1.5em;
+    line-height:0.5em;
+    float:left;
+    transition: transform 0.3s ease-in-out;
+}
+/*.accordionTitle:hover,.accordion__Heading: {*/
+/*background-color:darken(#38cc70, 10%);*/
+/*}*/
+.accordionTitleActive,
+.accordionTitle.is-expanded {
+    /*background-color:darken(#38cc70, 10%);*/
+}
+.accordionTitleActive:before,.accordionTitle.is-expanded:before {
+    transform:rotate(-225deg);
+}
+.accordionItem {
+    height:auto;
+    overflow:hidden;
+    /*//SHAME: magic number to allow the accordion to animate*/
+    max-height:50em;
+    transition:max-height 1s;
+    /*max-height:15em;*/
+    /*transition:max-height 0.5s*/
+
+}
+
+.accordionItem.is-collapsed {
+    max-height:0;
+}
+
+.no-js .accordionItem.is-collapsed {
+    max-height: inherit;
+}
+.animateIn {
+    animation: accordionIn 0.45s normal ease-in-out both 1;
+}
+.animateOut {
+    animation: accordionOut 0.45s alternate ease-in-out both 1;
+}
