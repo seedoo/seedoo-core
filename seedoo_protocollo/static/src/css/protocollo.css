@@ -517,12 +517,39 @@
   margin: 10px 0 0 0;
   text-transform: uppercase;
 }
+.button-form-protocollo,
+.tab-sr .oe_kanban_buttons .oe_kanban_button_new.oe_highlight {
+  background: #fff !important;
+  color: #666;
+  border: 1px solid #999 !important;
+  width: 180px;
+  font-size: 12px !important;
+  padding: 2px !important;
+  text-align: center;
+  font-weight: normal !important;
+  line-height: 24px !important;
+  height: 30px !important;
+}
+.button-form-protocollo:hover,
+.tab-sr .oe_kanban_buttons .oe_kanban_button_new.oe_highlight:hover {
+  background-color: #ccc !important;
+  color: #333 !important;
+}
+.oe_highlight_positive.button-form-protocollo,
+.tab-sr .oe_kanban_buttons .oe_kanban_button_new.oe_highlight {
+  width: 180px !important;
+  color: #666 !important;
+}
+.oe_highlight_positive.button-form-protocollo:before,
+.tab-sr .oe_kanban_buttons .oe_kanban_button_new.oe_highlight:before {
+  color: #666;
+}
 .protocollo-accordion-toggle {
   cursor: pointer;
   text-transform: uppercase;
   color: #666;
   border-bottom: 1px solid #ccc;
-  font-size: 16px !important;
+  font-size: 16px;
   position: relative;
   padding: 5px 10px 5px 0;
 }
@@ -534,7 +561,7 @@
   display: block;
   width: 3em;
   height: 3em;
-  line-height: 3;
+  line-height: 2;
   text-align: center;
   -webkit-transition: all .35s;
   -o-transition: all .35s;
@@ -543,42 +570,41 @@
 .protocollo-accordion-toggle .accordion-selected h4::after {
   transform: rotate(315deg);
 }
-.dati-protocollo-container h4:before {
+div.dati-protocollo-container {
+  margin-bottom: 30px;
+}
+div.dati-protocollo-container h4:before {
   font-family: FontAwesome;
   margin-right: 10px;
 }
-.protocollo-container h4:before {
+#protocollo-container h4:before {
   content: "\f0e3";
 }
-.documento-container h4:before {
+#documento-container {
+  margin-bottom: 0;
+}
+#documento-container h4:before {
   content: "\f0f6";
 }
-.anteprima-container {
-  margin-top: 20px;
+#anteprima-container {
+  margin: 0 0 30px 0;
 }
-.anteprima-container .protocollo-accordion-toggle {
-  width: 190px;
-  border: 1px solid #ccc;
-  background-color: #eee;
-  font-size: 12px !important;
-  color: #999;
-  padding: 2px;
-  text-align: center;
-}
-.anteprima-container .protocollo-accordion-toggle:hover {
+#anteprima-container .protocollo-accordion-toggle:hover {
   background-color: #666;
 }
-.anteprima-container h4 {
+#anteprima-container h4 {
   line-height: 20px;
+  margin: 0;
+  font-weight: normal;
 }
-.anteprima-container h4:before {
+#anteprima-container h4:before {
   content: "\f1c1";
   color: #f00;
 }
-.anteprima-container h4:after {
+#anteprima-container h4:after {
   content: "";
 }
-.mittente-container h4:before {
+#mittente-container h4:before {
   content: "\f007";
 }
 .accordion-content {
