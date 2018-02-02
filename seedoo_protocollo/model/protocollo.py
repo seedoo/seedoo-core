@@ -516,7 +516,7 @@ class protocollo_protocollo(orm.Model):
                                        size=64,
                                        required=False,
                                        readonly=True),
-        'sender_registration_date': fields.char('Data Registrazione Mittente',
+        'sender_registration_date': fields.date('Data Registrazione Mittente',
                                        size=64,
                                        required=False,
                                        ),
