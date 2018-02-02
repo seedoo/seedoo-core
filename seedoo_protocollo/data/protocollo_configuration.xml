@@ -4,7 +4,7 @@
     <data noupdate="1">
         <!-- Config Param -->
         <record id="configurazione_protocollo_default" model="protocollo.configurazione">
-            <field name="rinomina_documento_principale" eval="False"/>
+            <field name="rinomina_documento_allegati" eval="False"/>
             <field name="inserisci_testo_mailpec" eval="False"/>
             <field name="genera_segnatura" eval="True"/>
             <field name="genera_xml_segnatura" eval="True"/>

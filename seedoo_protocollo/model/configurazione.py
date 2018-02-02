@@ -11,7 +11,7 @@ class protocollo_configurazione(orm.Model):
     _name = 'protocollo.configurazione'
     _columns = {
         'inserisci_testo_mailpec': fields.boolean('Abilita testo E-mail/PEC'),
-        'rinomina_documento_principale': fields.boolean('Rinomina documento principale'),
+        'rinomina_documento_allegati': fields.boolean('Rinomina documento principale e allegati'),
         'genera_segnatura': fields.boolean('Genera Segnatura nel PDF'),
         'genera_xml_segnatura': fields.boolean('Genera XML Segnatura'),
         'segnatura_xml_parse': fields.boolean('Leggi Segnatura.xml'),
@@ -36,7 +36,7 @@ class protocollo_configurazione(orm.Model):
 
     _defaults = {
         'inserisci_testo_mailpec': False,
-        'rinomina_documento_principale': False,
+        'rinomina_documento_allegati': False,
         'genera_segnatura': True,
         'genera_xml_segnatura': True,
         'classificazione_required': False,

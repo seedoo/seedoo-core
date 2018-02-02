@@ -816,11 +816,9 @@ class protocollo_protocollo(orm.Model):
         old_attachment_id = prot.doc_id.id
         attachment = attachment_obj.browse(cr, uid, old_attachment_id)
         file_name = attachment.datas_fname
-        if configurazione.rinomina_documento_principale:
-            # prot_date = datetime.datetime.strptime(prot_date.split(' ')[0], DSDT)
-            gext = '.' + attachment.datas_fname.split('.')[-1]
-            ext = gext in mimetypes.types_map and gext or ''
-            file_name = 'Protocollo_' + prot_number + '_' + str(prot.year) + ext
+
+        if configurazione.rinomina_documento_allegati:
+            file_name = self._rinomina_documento_allegati(cr, uid, [prot.id], prot_number, 'Prot', True)
 
         attach_vals = {
             'name': file_name,
@@ -834,6 +832,9 @@ class protocollo_protocollo(orm.Model):
         }
         if parent_id:
             attach_vals['parent_id'] = parent_id
+
+
+
         user_id = ruid or uid
         attachment_id = attachment_obj.create(cr, user_id, attach_vals)
         self.write(cr, uid, prot.id, {'doc_id': attachment_id, 'datas': 0})
@@ -915,6 +916,7 @@ class protocollo_protocollo(orm.Model):
 
     def action_register(self, cr, uid, ids, context=None, *args):
         configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
+        configurazione = self.pool.get('protocollo.configurazione').browse(cr, uid, configurazione_ids[0])
 
         for prot in self.browse(cr, uid, ids):
 
@@ -964,12 +966,17 @@ class protocollo_protocollo(orm.Model):
                     xml = segnatura_xml.generate_segnatura_root()
                     etree_tostring = etree.tostring(xml, pretty_print=True)
                     vals['xml_signature'] = etree_tostring
-
                     self.write(cr, uid, [prot.id], vals)
-
                 except Exception as e:
                     _logger.error(e)
                     raise openerp.exceptions.Warning(_('Errore nella generazione della segnatura'))
+
+                try:
+                    if configurazione.rinomina_documento_allegati:
+                        self._rinomina_documento_allegati(cr, uid, [prot.id], prot_number, 'Prot', False)
+                except Exception as e:
+                    _logger.error(e)
+                    raise openerp.exceptions.Warning(_('Errore nella ridenominazione degli allegati'))
 
                 action_class = "history_icon registration"
                 post_vars = {'subject': "Registrazione protocollo",
@@ -1753,6 +1760,32 @@ class protocollo_protocollo(orm.Model):
             thread_pool = self.pool.get('protocollo.protocollo')
             thread_pool.message_post(cr, uid, protocollo_id, type="notification", context=context,
                                      **post_vars)
+
+    def _rinomina_documento_allegati(self, cr, uid, protocollo_id, prot_number, prefix, is_main):
+
+        attachment_obj = self.pool.get('ir.attachment')
+        attachment_ids = attachment_obj.search(cr, uid, [('res_model', '=', 'protocollo.protocollo'), ('res_id', '=', protocollo_id), ('is_protocol', '=', True)])
+        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, protocollo_id)
+        reg_date = fields.datetime.now()[0:10]
+        doc_type = 'Documento' if is_main else 'Allegato'
+        if attachment_ids:
+            attachments = attachment_obj.browse(cr, uid, attachment_ids)
+            for attachment in attachments:
+                if attachment.is_main == is_main:
+                    att_name = attachment.datas_fname.split('.')[0]
+                    gext = '.' + attachment.datas_fname.split('.')[-1]
+                    att_ext = gext in mimetypes.types_map and gext or ''
+                    file_name = prefix + '_' + prot_number + '_' + reg_date + '_' + doc_type + "_" + att_name + att_ext
+                    if is_main == False:
+                        attach_vals = {
+                            'name': file_name,
+                            'datas_fname': file_name,
+                        }
+                        attachment.write(attach_vals)
+                    else:
+                        return file_name
+
+        return True
 
     # @api.cr_uid_ids_context
     # Gestione dello Storico attraverso Mail Thread

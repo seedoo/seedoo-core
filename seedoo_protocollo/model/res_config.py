@@ -29,7 +29,7 @@ class protocollo_config_settings(osv.osv_memory):
     _columns = {
         'config_id': fields.many2one('protocollo.configurazione', string='Configurazione', required=True),
         'inserisci_testo_mailpec': fields.related('config_id', 'inserisci_testo_mailpec', type='boolean', string='Abilita testo E-mail/PEC protocollo'),
-        'rinomina_documento_principale': fields.related('config_id', 'rinomina_documento_principale', type='boolean', string='Rinomina Documento principale'),
+        'rinomina_documento_allegati': fields.related('config_id', 'rinomina_documento_allegati', type='boolean', string='Rinomina Documento principale e allegati'),
         'genera_segnatura': fields.related('config_id', 'genera_segnatura', type='boolean', string='Genera Segnatura nel PDF'),
         'genera_xml_segnatura': fields.related('config_id', 'genera_xml_segnatura', type='boolean', string='Genera XML Segnatura'),
         'segnatura_xml_parse': fields.related('config_id', 'segnatura_xml_parse', type='boolean', string='Leggi Segnatura.xml'),
