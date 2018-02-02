@@ -915,7 +915,6 @@ class protocollo_protocollo(orm.Model):
 
     def action_register(self, cr, uid, ids, context=None, *args):
         configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
-        configurazione = self.pool.get('protocollo.configurazione').browse(cr, uid, configurazione_ids[0])
 
         for prot in self.browse(cr, uid, ids):
 
@@ -960,32 +959,51 @@ class protocollo_protocollo(orm.Model):
                 # if prot.typology.name == 'PEC':
                 new_context.update({'pec_messages': True})
 
+                try:
+                    segnatura_xml = SegnaturaXML(prot, prot_number, prot_date, cr, uid)
+                    xml = segnatura_xml.generate_segnatura_root()
+                    etree_tostring = etree.tostring(xml, pretty_print=True)
+                    vals['xml_signature'] = etree_tostring
+
+                    self.write(cr, uid, [prot.id], vals)
+
+                except Exception as e:
+                    _logger.error(e)
+                    raise openerp.exceptions.Warning(_('Errore nella generazione della segnatura'))
+
+                action_class = "history_icon registration"
+                post_vars = {'subject': "Registrazione protocollo",
+                             'body': "<div class='%s'><ul><li>Creato protocollo %s</li></ul></div>" % (
+                                 action_class, prot_complete_name),
+                             'model': "protocollo.protocollo",
+                             'res_id': prot.id,
+                             }
+
+                thread_pool = self.pool.get('protocollo.protocollo')
+                thread_pool.message_post(cr, uid, prot.id, type="notification", context=new_context, **post_vars)
+
             except Exception as e:
                 _logger.error(e)
                 raise openerp.exceptions.Warning(_('Errore nella registrazione del protocollo'))
 
-            segnatura_xml = SegnaturaXML(prot, prot_number, prot_date, cr, uid)
-            xml = segnatura_xml.generate_segnatura_root()
-            etree_tostring = etree.tostring(xml, pretty_print=True)
-            vals['xml_signature'] = etree_tostring
+        return True
 
-            self.write(cr, uid, [prot.id], vals)
+    def action_send_conferma(self, cr, uid, ids, context=None, *args):
 
-            if prot.type == 'in' and prot.pec and len(prot.mail_pec_ref.ids)>0 and configurazione.conferma_xml_invia:
-                self.action_send_receipt(cr, uid, ids, 'conferma', context=context)
+        configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
+        configurazione = self.pool.get('protocollo.configurazione').browse(cr, uid, configurazione_ids[0])
 
-            action_class = "history_icon registration"
-            post_vars = {'subject': "Registrazione protocollo",
-                         'body': "<div class='%s'><ul><li>Creato protocollo %s</li></ul></div>" % (
-                         action_class, prot_complete_name),
-                         'model': "protocollo.protocollo",
-                         'res_id': prot.id,
-                         }
-
-            thread_pool = self.pool.get('protocollo.protocollo')
-            thread_pool.message_post(cr, uid, prot.id, type="notification", context=new_context, **post_vars)
+        try:
+            for prot in self.browse(cr, uid, ids):
+                if prot.type == 'in' and prot.pec and configurazione.conferma_xml_invia:
+                        self.action_send_receipt(cr, uid, ids, 'conferma', context=context)
+        except Exception as e:
+            _logger.error(e)
+            # return {'value': {}, 'warning': {'title': 'warning', 'message': 'Errore nell\'invio della Conferma'}}
+            # openerp.exceptions.Warning(_('Errore nell\'invio della Conferma'))
 
         return True
+
 
     def action_notify(self, cr, uid, ids, *args):
         email_template_obj = self.pool.get('email.template')
