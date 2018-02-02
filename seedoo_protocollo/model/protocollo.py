@@ -971,7 +971,7 @@ class protocollo_protocollo(orm.Model):
 
             self.write(cr, uid, [prot.id], vals)
 
-            if prot.type == 'in' and prot.pec and configurazione.conferma_xml_invia:
+            if prot.type == 'in' and prot.pec and len(prot.mail_pec_ref.ids)>0 and configurazione.conferma_xml_invia:
                 self.action_send_receipt(cr, uid, ids, 'conferma', context=context)
 
             action_class = "history_icon registration"
