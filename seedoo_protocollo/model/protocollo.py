@@ -2008,7 +2008,7 @@ class protocollo_assegnatario_ufficio(orm.Model):
 
             if preso_count > 0:
                 res.append((record['id'], 'preso'))
-            elif rifiutato_count > 0 and rifiutato_count == len(assegnatario_ufficio.assegnatari_dipendenti_ids):
+            elif rifiutato_count > 0:
                 res.append((record['id'], 'rifiutato'))
             else:
                 res.append((record['id'], 'assegnato'))
