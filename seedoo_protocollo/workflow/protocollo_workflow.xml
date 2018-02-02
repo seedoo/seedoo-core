@@ -30,6 +30,7 @@ this module contains the full copyright notices and license terms. -->
                 action_create_partners()
                 action_register()
                 write({'state':'registered'})
+                action_send_conferma()
             </field>
         </record>
 
