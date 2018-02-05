@@ -570,6 +570,9 @@
 .protocollo-accordion-toggle .accordion-selected h4::after {
   transform: rotate(315deg);
 }
+.oe_form_accordion_tab_invalid {
+  color: #c00;
+}
 div.dati-protocollo-container {
   margin-bottom: 30px;
 }
