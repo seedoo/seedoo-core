@@ -69,17 +69,23 @@ class protocollo_carica_allegati_step1_wizard(osv.TransientModel):
         wizard = self.browse(cr, uid, ids[0], context)
 
         # if wizard.datas and wizard.datas_fname and wizard.datas_description:
-
+        configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
+        configurazione = self.pool.get('protocollo.configurazione').browse(cr, uid, configurazione_ids[0])
         protocollo_obj = self.pool.get('protocollo.protocollo')
+        protocollo = protocollo_obj.browse(cr, uid, context['active_id'])
 
         # protocollo_obj.carica_documento_principale(cr, uid, context['active_id'], wizard.datas, wizard.datas_fname, wizard.datas_description)
 
         file_data_list = []
         if wizard.document_ids:
             for document in wizard.document_ids:
+                filename = document.datas_fname
+                if protocollo.state not in ['draft'] and configurazione.rinomina_documento_allegati:
+                    filename = protocollo_obj._get_name_documento_allegato(cr, uid, document.datas_fname, protocollo.name, 'Prot', False)
+
                 file_data_list.append({
                     'datas': document.datas,
-                    'datas_fname': document.datas_fname,
+                    'datas_fname': filename,
                     'datas_description': document.datas_description
                 })
         protocollo_obj.carica_documenti_secondari(cr, uid, context['active_id'], file_data_list)

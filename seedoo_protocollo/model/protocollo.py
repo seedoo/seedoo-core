@@ -805,20 +805,20 @@ class protocollo_protocollo(orm.Model):
             import hashlib
             with open(filepath, 'rb') as f:
                 return hashlib.sha1(f.read()).hexdigest()
-        configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
-        configurazione = self.pool.get('protocollo.configurazione').browse(cr, uid, configurazione_ids[0])
 
         parent_id = 0
         ruid = 0
         #if prot.reserved:
         #    parent_id, ruid = self._create_protocol_security_folder(cr, SUPERUSER_ID, prot, prot_number)
         attachment_obj = self.pool.get('ir.attachment')
+        configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
+        configurazione = self.pool.get('protocollo.configurazione').browse(cr, uid, configurazione_ids[0])
         old_attachment_id = prot.doc_id.id
         attachment = attachment_obj.browse(cr, uid, old_attachment_id)
         file_name = attachment.datas_fname
 
-        if configurazione.rinomina_documento_allegati:
-            file_name = self._rinomina_documento_allegati(cr, uid, [prot.id], prot_number, 'Prot', True)
+        if file_name and configurazione.rinomina_documento_allegati:
+            file_name = self._get_name_documento_allegato(cr, uid, file_name, prot_number, 'Prot', True)
 
         attach_vals = {
             'name': file_name,
@@ -929,6 +929,8 @@ class protocollo_protocollo(orm.Model):
                 vals['name'] = prot_number
                 vals['registration_date'] = prot_date
                 employee_ids = self.pool.get('hr.employee').search(cr, uid, [('user_id', '=', uid)])
+                attachment_obj = self.pool.get('ir.attachment')
+
                 if employee_ids:
                     vals['registration_employee_id'] = employee_ids[0]
 
@@ -973,7 +975,15 @@ class protocollo_protocollo(orm.Model):
 
                 try:
                     if configurazione.rinomina_documento_allegati:
-                        self._rinomina_documento_allegati(cr, uid, [prot.id], prot_number, 'Prot', False)
+                        attachment_ids = attachment_obj.search(cr, uid, [('res_model', '=', 'protocollo.protocollo'),
+                                                                         ('res_id', '=', prot.id),
+                                                                         ('is_protocol', '=', True)])
+                        if attachment_ids:
+                            attachments = attachment_obj.browse(cr, uid, attachment_ids)
+                            for attachment in attachments:
+                                if attachment.is_main is False:
+                                    filename = self._get_name_documento_allegato(cr, uid, attachment.datas_fname, prot_number, 'Prot', False)
+                                    attachment_obj.write(cr, uid, [attachment.id], {'name':filename, 'datas_fname':filename})
                 except Exception as e:
                     _logger.error(e)
                     raise openerp.exceptions.Warning(_('Errore nella ridenominazione degli allegati'))
@@ -1761,31 +1771,19 @@ class protocollo_protocollo(orm.Model):
             thread_pool.message_post(cr, uid, protocollo_id, type="notification", context=context,
                                      **post_vars)
 
-    def _rinomina_documento_allegati(self, cr, uid, protocollo_id, prot_number, prefix, is_main):
+    def _get_name_documento_allegato(self, cr, uid, attachment_name, prot_number, prefix, is_main):
 
-        attachment_obj = self.pool.get('ir.attachment')
-        attachment_ids = attachment_obj.search(cr, uid, [('res_model', '=', 'protocollo.protocollo'), ('res_id', '=', protocollo_id), ('is_protocol', '=', True)])
-        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, protocollo_id)
         reg_date = fields.datetime.now()[0:10]
         doc_type = 'Documento' if is_main else 'Allegato'
-        if attachment_ids:
-            attachments = attachment_obj.browse(cr, uid, attachment_ids)
-            for attachment in attachments:
-                if attachment.is_main == is_main:
-                    att_name = attachment.datas_fname.split('.')[0]
-                    gext = '.' + attachment.datas_fname.split('.')[-1]
-                    att_ext = gext in mimetypes.types_map and gext or ''
-                    file_name = prefix + '_' + prot_number + '_' + reg_date + '_' + doc_type + "_" + att_name + att_ext
-                    if is_main == False:
-                        attach_vals = {
-                            'name': file_name,
-                            'datas_fname': file_name,
-                        }
-                        attachment.write(attach_vals)
-                    else:
-                        return file_name
-
-        return True
+        att_name = attachment_name.split('.')[0]
+        gext = '.' + attachment_name.split('.')[-1]
+        att_ext = gext in mimetypes.types_map and gext or ''
+        complete_prefix = prefix + '_' + prot_number + '_' + reg_date + '_' + doc_type
+        if attachment_name.find(complete_prefix) == -1:
+            file_name = complete_prefix + "_" + att_name + att_ext
+        else:
+            return attachment_name
+        return file_name
 
     # @api.cr_uid_ids_context
     # Gestione dello Storico attraverso Mail Thread
