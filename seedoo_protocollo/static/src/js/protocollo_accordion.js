@@ -2,7 +2,6 @@ $(document).on('click', '#protocollo-accordion .protocollo-accordion-toggle', fu
 
     //Close "Anteprima Panel" if is closing "Documento Panel"
     if ($(this).parent().attr("id") == "documento-container") {
-        console.log("elem" + $(this).next().attr("class"))
         if ($(this).next().css("display") == "block") {
             $("#anteprima-container").css("display", "none")
         }
@@ -18,4 +17,5 @@ $(document).on('click', '#protocollo-accordion .protocollo-accordion-toggle', fu
     //Hide the other panels
     // $(".accordion-content").not($(this).next()).slideUp('fast');
 });
+
 
