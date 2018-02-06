@@ -1180,8 +1180,12 @@ class protocollo_protocollo(orm.Model):
                         sender_receivers_pec_mails.append(sender_receiver_obj.pec_mail)
                         sender_receivers_pec_ids.append(sender_receiver_obj.id)
 
+            subject = self._get_oggetto_mail_pec(cr, uid, prot.subject, prot.name, prot.registration_date)
+            if configurazione.lunghezza_massima_oggetto_pec > 0:
+                subject = subject[:configurazione.lunghezza_massima_oggetto_pec]
+
             values = {}
-            values['subject'] = prot.subject
+            values['subject'] = subject
             values['body_html'] = prot.body
             values['body'] = prot.body
             values['email_from'] = mail_server.smtp_user
@@ -1268,6 +1272,8 @@ class protocollo_protocollo(orm.Model):
             context = {}
         prot = self.browse(cr, uid, prot_id)
         if prot.type == 'out' and prot.typology.name == 'Email':
+            configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
+            configurazione = self.pool.get('protocollo.configurazione').browse(cr, uid, configurazione_ids[0])
             mail_mail = self.pool.get('mail.mail')
             ir_attachment = self.pool.get('ir.attachment')
             sender_receivers_mails = []
@@ -1284,8 +1290,12 @@ class protocollo_protocollo(orm.Model):
                         sender_receivers_mails.append(sender_receiver_obj.email)
                         sender_receivers_ids.append(sender_receiver_obj.id)
 
+            subject = self._get_oggetto_mail_pec(cr, uid, prot.subject, prot.name, prot.registration_date)
+            if configurazione.lunghezza_massima_oggetto_mail > 0:
+                subject = subject[:configurazione.lunghezza_massima_oggetto_mail]
+
             values = {}
-            values['subject'] = prot.subject
+            values['subject'] = subject
             values['body_html'] = prot.body
             values['body'] = prot.body
             values['email_from'] = mail_server.smtp_user
@@ -1770,6 +1780,11 @@ class protocollo_protocollo(orm.Model):
             thread_pool = self.pool.get('protocollo.protocollo')
             thread_pool.message_post(cr, uid, protocollo_id, type="notification", context=context,
                                      **post_vars)
+
+    def _get_oggetto_mail_pec(self, cr, uid, subject, prot_name, prot_registration_date):
+        prefix = "Prot. n. " + prot_name + " del " + prot_registration_date + " - "
+        subject_text = prefix + subject
+        return subject_text
 
     def _get_name_documento_allegato(self, cr, uid, attachment_name, prot_number, prefix, is_main):
 

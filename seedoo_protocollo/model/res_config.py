@@ -54,6 +54,8 @@ class protocollo_config_settings(osv.osv_memory):
         'aggiungi_allegati_post_registrazione': fields.related('config_id', 'aggiungi_allegati_post_registrazione',
                                              type='boolean', string='Aggiungi allegato post registrazione'),
         'email_pec_unique': fields.related('config_id', 'email_pec_unique', type='boolean', string='PEC/Email Univoca'),
+        'lunghezza_massima_oggetto_mail': fields.related('config_id', 'lunghezza_massima_oggetto_mail', type='integer', string='Lunghezza massima dell\'oggetto della mail', help='Inserire 0 per non limitare l\'oggetto'),
+        'lunghezza_massima_oggetto_pec': fields.related('config_id', 'lunghezza_massima_oggetto_pec', type='integer', string='Lunghezza massima dell\'oggetto della pec', help='Inserire 0 per non limitare l\'oggetto'),
     }
 
     def _default_config_id(self, cr, uid, context):
