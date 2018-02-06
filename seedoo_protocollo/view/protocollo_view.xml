@@ -466,7 +466,7 @@ this module contains the full copyright notices and license terms. -->
                                 </div>
                                 <div class="accordion-content accordion-open">
                                     <group col="4">
-                                        <field name="complete_name"/>
+                                        <field name="name"/>
                                         <field name="type"/>
                                         <field name="registration_date"/>
                                         <field name="registry" options="{'no_open': True}"/>
@@ -760,7 +760,7 @@ this module contains the full copyright notices and license terms. -->
                 <tree string="Protocolli" version="7.0" create="0"
                       colors="#7c7bad:state=='registered';green:pec_notifications_sum=='True';green:state=='notified';green:state=='sent';orange:state=='waiting';red:state=='canceled';red:state=='error';">
                     <field name="type"/>
-                    <field name="complete_name"/>
+                    <field name="name"/>
                     <field name="name" invisible="1"/>
                     <field name="sender_receivers" invisible="1"/>
                     <field name="registration_date_from" invisible="1"/>

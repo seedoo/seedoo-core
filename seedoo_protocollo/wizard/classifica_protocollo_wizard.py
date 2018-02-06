@@ -28,16 +28,16 @@ class wizard(osv.TransientModel):
         return after
 
     _columns = {
-        'complete_name': fields.char('Numero Protocollo', size=256, required=True, readonly=True),
+        'name': fields.char('Numero Protocollo', size=256, required=True, readonly=True),
         'registration_date': fields.datetime('Data Registrazione', readonly=True),
         'type': fields.selection([('out', 'Uscita'), ('in', 'Ingresso'), ('internal', 'Interno')], 'Tipo', size=32, required=True, readonly=True),
         'cause': fields.text('Motivo della Modifica', required=True),
         'classification': fields.many2one('protocollo.classification', 'Titolario di Classificazione', required=False),
     }
 
-    def _default_complete_name(self, cr, uid, context):
+    def _default_name(self, cr, uid, context):
         protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
-        return protocollo.complete_name
+        return protocollo.name
 
     def _default_registration_date(self, cr, uid, context):
         protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
@@ -52,7 +52,7 @@ class wizard(osv.TransientModel):
         return protocollo.classification.id
 
     _defaults = {
-        'complete_name': _default_complete_name,
+        'name': _default_name,
         'registration_date': _default_registration_date,
         'type': _default_type,
         'classification': _default_classification
