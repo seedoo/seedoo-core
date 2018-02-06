@@ -517,6 +517,9 @@
   margin: 10px 0 0 0;
   text-transform: uppercase;
 }
+.tab-allegati .btn_carica_documenti {
+  margin: 12px 0 10px 2px !important;
+}
 .button-form-protocollo,
 .tab-sr .oe_kanban_buttons .oe_kanban_button_new.oe_highlight {
   background: #fff !important;
@@ -529,6 +532,7 @@
   font-weight: normal !important;
   line-height: 24px !important;
   height: 30px !important;
+  margin-left: 2px;
 }
 .button-form-protocollo:hover,
 .tab-sr .oe_kanban_buttons .oe_kanban_button_new.oe_highlight:hover {
@@ -572,9 +576,6 @@
 }
 .oe_form_accordion_tab_invalid {
   color: #c00;
-}
-div.dati-protocollo-container {
-  margin-bottom: 30px;
 }
 div.dati-protocollo-container h4:before {
   font-family: FontAwesome;
