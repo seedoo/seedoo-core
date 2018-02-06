@@ -750,7 +750,7 @@ class protocollo_protocollo(orm.Model):
         else:
             prot_dir = ""
 
-        prot_def = "%s %s - %s - %s - %s - %s" % (
+        prot_def = "%s %s - %s - %s - Prot. n. %s del %s" % (
             prot.registry.company_id.ammi_code,
             prot.aoo_id.ident_code,
             prot.registry.code,
@@ -934,13 +934,13 @@ class protocollo_protocollo(orm.Model):
                 if employee_ids:
                     vals['registration_employee_id'] = employee_ids[0]
 
-                prot_complete_name = self.calculate_complete_name(prot_date, prot_number)
+                # prot_complete_name = self.calculate_complete_name(prot_date, prot_number)
 
                 if prot.doc_id:
                     if prot.mimetype == 'application/pdf':
                         self._sign_doc(
                             cr, uid, prot,
-                            prot_complete_name, prot_date
+                            prot_number, prot_date
                         )
                     fingerprint = self._create_protocol_attachment(
                         cr,
@@ -991,7 +991,7 @@ class protocollo_protocollo(orm.Model):
                 action_class = "history_icon registration"
                 post_vars = {'subject': "Registrazione protocollo",
                              'body': "<div class='%s'><ul><li>Creato protocollo %s</li></ul></div>" % (
-                                 action_class, prot_complete_name),
+                                 action_class, prot_number),
                              'model': "protocollo.protocollo",
                              'res_id': prot.id,
                              }
@@ -1657,7 +1657,7 @@ class protocollo_protocollo(orm.Model):
                     vals = {}
                     prot_number = prot.name
                     # prot_number = self.name_get(cr, uid, protocollo_id, context=None)
-                    prot_complete_name = prot.complete_name
+                    prot_complete_name = prot.name
                     prot_date = fields.datetime.now()
                     if prot.doc_id:
                         if prot.mimetype == 'application/pdf' and configurazione.genera_segnatura:
