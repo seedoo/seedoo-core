@@ -19,7 +19,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="arch" type="xml">
                 <form string="Protocollo" version="7.0">
                     <sheet>
-                        <field name="complete_name" invisible="1"/>
+                        <field name="name" invisible="1"/>
                         <field name="registration_date" invisible="1"/>
                         <field name="type" invisible="1"/>
                         <separator string="Causa della modifica" colspan="4"/>
