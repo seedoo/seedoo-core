@@ -1180,7 +1180,8 @@ class protocollo_protocollo(orm.Model):
                         sender_receivers_pec_mails.append(sender_receiver_obj.pec_mail)
                         sender_receivers_pec_ids.append(sender_receiver_obj.id)
 
-            subject = self._get_oggetto_mail_pec(cr, uid, prot.subject, prot.name, prot.registration_date)
+            subject = self._get_oggetto_mail_pec(cr, uid, prot.subject, prot.name,
+                                                 prot.registration_date) if configurazione.rinomina_oggetto_mail_pec else prot.subject
             if configurazione.lunghezza_massima_oggetto_pec > 0:
                 subject = subject[:configurazione.lunghezza_massima_oggetto_pec]
 
@@ -1290,7 +1291,7 @@ class protocollo_protocollo(orm.Model):
                         sender_receivers_mails.append(sender_receiver_obj.email)
                         sender_receivers_ids.append(sender_receiver_obj.id)
 
-            subject = self._get_oggetto_mail_pec(cr, uid, prot.subject, prot.name, prot.registration_date)
+            subject = self._get_oggetto_mail_pec(cr, uid, prot.subject, prot.name, prot.registration_date) if configurazione.rinomina_oggetto_mail_pec else prot.subject
             if configurazione.lunghezza_massima_oggetto_mail > 0:
                 subject = subject[:configurazione.lunghezza_massima_oggetto_mail]
 
