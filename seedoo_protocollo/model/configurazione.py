@@ -30,7 +30,8 @@ class protocollo_configurazione(orm.Model):
 
         'documento_required': fields.boolean('Documento Obbligatorio'),
         'aggiungi_allegati_post_registrazione': fields.boolean('Aggiungi allegati post registrazione'),
-
+        'lunghezza_massima_oggetto_mail': fields.integer('Lunghezza massima dell\'oggetto della mail'),
+        'lunghezza_massima_oggetto_pec': fields.integer('Lunghezza massima dell\'oggetto della PEC'),
         'email_pec_unique': fields.boolean('PEC/Email Univoca'),
     }
 
@@ -47,6 +48,8 @@ class protocollo_configurazione(orm.Model):
         'assegnatari_conoscenza_dipendenti_required': False,
         'documento_required': False,
         'aggiungi_allegati_post_registrazione': False,
+        'lunghezza_massima_oggetto_mail': 256,
+        'lunghezza_massima_oggetto_pec': 256,
         'email_pec_unique': True,
     }
 
