@@ -29,6 +29,8 @@ this module contains the full copyright notices and license terms. -->
                         <newline/>
                         <field name="rinomina_documento_allegati"/>
                         <newline/>
+                        <field name="rinomina_oggetto_mail_pec"/>
+                        <newline/>
                         <field name="genera_segnatura"/>
                         <newline/>
                         <field name="genera_xml_segnatura"/>
