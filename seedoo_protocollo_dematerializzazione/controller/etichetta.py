@@ -56,7 +56,7 @@ class Etichetta(http.Controller):
 
         barcode_text = "%04d0%s" % (year, number)
         type_str = "Ingresso" if type == "in" else "Uscita"
-        prot_str = "%04d%s" % (year, number)
+        prot_str = "%s" % (number)
         datetime_str = date_obj_dest.strftime("%Y-%m-%d %H:%M:%S")
 
         filename = re.sub(r"[^\w\s]", "", number)
