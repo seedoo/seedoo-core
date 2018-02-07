@@ -484,7 +484,7 @@ class protocollo_protocollo(orm.Model):
         'doc_content': fields.related('doc_id', 'datas', type='binary', string='Documento', readonly=True),
         'doc_description': fields.related('doc_id', 'datas_description', type='char', string='Descrizione', readonly=True),
         'doc_fname': fields.related('doc_id', 'datas_fname', type="char", readonly=True),
-        'fingerprint': fields.char('Impronta Documento', size=256),
+        'fingerprint': fields.char(string="Impronta Documento", size=256),
         'classification': fields.many2one('protocollo.classification',
                                           'Titolario di Classificazione',
                                           required=False,
