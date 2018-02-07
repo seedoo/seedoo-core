@@ -486,6 +486,7 @@ this module contains the full copyright notices and license terms. -->
                                             <field name="subject" attrs="{'required':[('state','!=','draft')]}" class="protocollo_oggetto"/>
                                             <field name="doc_content" filename="doc_fname" attrs="{'invisible':[('doc_id','=',False)]}"/>
                                             <field name="doc_description" attrs="{'invisible':[('doc_id','=',False)]}"/>
+                                            <field name="fingerprint" attrs="{'invisible':['|', ('state','=','draft'),('doc_id','=',False)]}" readonly="1"/>
                                             <newline/>
                                             <group colspan="2">
                                                 <button string="Carica Documento" type="action" class="oe_inline oe_highlight_positive oe_button btn_seedoo btn_carica_documenti button-form-protocollo"
@@ -734,8 +735,8 @@ this module contains the full copyright notices and license terms. -->
                             </page>
                             <page string="Segnatura XML"
                                   groups="base.group_system">
-                                <label for="fingerprint"/>
-                                <field name="fingerprint" readonly="1" colspan="4"/>
+                                <!--<label for="fingerprint"/>-->
+                                <!--<field name="fingerprint" readonly="1" colspan="4"/>-->
                                 <newline/>
                                 <label for="xml_signature"/>
                                 <field name="xml_signature" readonly="1" colspan="4"/>
