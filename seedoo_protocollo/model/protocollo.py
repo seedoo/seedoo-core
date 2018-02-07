@@ -750,8 +750,9 @@ class protocollo_protocollo(orm.Model):
         else:
             prot_dir = ""
 
+        ammi_code = prot.registry.company_id.ammi_code if prot.registry.company_id.ammi_code else ""
         prot_def = "%s %s - %s - %s - Prot. n. %s del %s" % (
-            prot.registry.company_id.ammi_code,
+            ammi_code,
             prot.aoo_id.ident_code,
             prot.registry.code,
             prot_dir,
