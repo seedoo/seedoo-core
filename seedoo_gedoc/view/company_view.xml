@@ -11,7 +11,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="inherit_id" ref="base.view_company_form"/>
             <field name="arch" type="xml">
 	                <xpath expr="//page[@string='General Information']/group/group/field[@name='company_registry']" position="after">
-	                    <field name="ammi_code" required="1"/>
+	                    <field name="ammi_code"/>
                         <!--<field name="ident_code" required="1" />-->
 	                    <!--<field name="reserved_user_id" />-->
 	                </xpath>
