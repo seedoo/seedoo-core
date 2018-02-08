@@ -3,7 +3,6 @@
 # this module contains the full copyright notices and license terms.
 
 from openerp import SUPERUSER_ID
-from openerp import tools
 from openerp.osv import orm, fields, osv
 
 
@@ -62,7 +61,7 @@ class protocollo_protocollo(osv.Model):
         registration_department = registration_employee.department_id if registration_employee and registration_employee.department_id else None
 
         ################################################################################################################
-        # Visibilità dei protocolli stabilita dai casi base
+        # Visibilità dei protocolli: casi base
         ################################################################################################################
 
         # un utente deve poter vedere i protocolli in bozza (IN e OUT) creati da lui
@@ -73,38 +72,39 @@ class protocollo_protocollo(osv.Model):
         if registration_employee and registration_employee.id == user_employee.id:
             return True
 
-        # un utente deve poter vedere i protocolli (IN e OUT) assegnati a lui
+        # un utente deve poter vedere i protocolli registrati (IN e OUT) assegnati a lui
         # purchè lui o un dipendente del suo ufficio non abbia rifiutato la presa in carico
-        stato_dipendente_obj = self.pool.get('protocollo.stato.dipendente')
-
         is_assegnatario = False
         is_protocollo_rifiutato_by_department = False
 
-        employees = self._get_assegnatari_competenza(cr, uid, protocollo)
-        for employee in employees:
-            if employee.id == user_employee.id:
-                is_assegnatario = True
+        if registration_employee:
+            stato_dipendente_obj = self.pool.get('protocollo.stato.dipendente')
 
-            if employee.department_id and user_department and employee.department_id.id == user_department.id:
-                stato_dipendente_ids = stato_dipendente_obj.search(cr, uid, [
-                    ('dipendente_id', '=', employee.id),
-                    ('protocollo_id', '=', protocollo.id),
-                    ('state', '=', 'rifiutato')
-                ])
-                if len(stato_dipendente_ids) > 0:
-                    is_protocollo_rifiutato_by_department = True
-
-        if not is_assegnatario:
-            employees = self._get_assegnatari_conoscenza(cr, uid, protocollo)
+            employees = self._get_assegnatari_competenza(cr, uid, protocollo)
             for employee in employees:
                 if employee.id == user_employee.id:
                     is_assegnatario = True
 
-        if is_assegnatario and not is_protocollo_rifiutato_by_department:
-            return True
+                if employee.department_id and user_department and employee.department_id.id == user_department.id:
+                    stato_dipendente_ids = stato_dipendente_obj.search(cr, uid, [
+                        ('dipendente_id', '=', employee.id),
+                        ('protocollo_id', '=', protocollo.id),
+                        ('state', '=', 'rifiutato')
+                    ])
+                    if len(stato_dipendente_ids) > 0:
+                        is_protocollo_rifiutato_by_department = True
+
+            if not is_assegnatario:
+                employees = self._get_assegnatari_conoscenza(cr, uid, protocollo)
+                for employee in employees:
+                    if employee.id == user_employee.id:
+                        is_assegnatario = True
+
+            if is_assegnatario and not is_protocollo_rifiutato_by_department:
+                return True
 
         ################################################################################################################
-        # Visibilità dei protocolli stabilita tramite i permessi in configurazione
+        # Visibilità dei protocolli: permessi in configurazione
         ################################################################################################################
 
         # un utente deve poter vedere i protocolli (IN e OUT) REGISTRATI dal suo UFFICIO di appartenenza
@@ -247,6 +247,176 @@ class protocollo_protocollo(osv.Model):
 
     ####################################################################################################################
 
+
+
+    ####################################################################################################################
+    # Visibilità dei protocolli nella dashboard
+    ####################################################################################################################
+
+    def _bozza_creato_da_me_visibility(self, cr, uid, ids, name, arg, context=None):
+        return {}
+    def _bozza_creato_da_me_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
+        protocollo_visible_ids = self.search(cr, uid, [('state', '=', 'draft'),('user_id', '=', uid)])
+        return [('id', 'in', protocollo_visible_ids)]
+
+
+    def _assegnato_a_me_visibility(self, cr, uid, ids, name, arg, context=None):
+        return {}
+    def _assegnato_a_me_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
+        protocollo_visible_ids = []
+
+        protocollo_ids = self.search(cr, uid, [])
+        for protocollo_id in protocollo_ids:
+            assegnatario_ids = self.pool.get('protocollo.assegnatario.dipendente').search(cr, uid, [
+                ('protocollo_id', '=', protocollo_id),
+                ('dipendente_id.user_id.id', '=', uid),
+                ('stato_dipendente_id.state', '=', 'assegnato'),
+                ('tipo', '=', 'competenza')
+            ])
+            if assegnatario_ids:
+                protocollo_visible_ids.append(protocollo_id)
+
+        return [('id', 'in', protocollo_visible_ids)]
+
+
+    def _assegnato_a_me_cc_visibility(self, cr, uid, ids, name, arg, context=None):
+        return {}
+    def _assegnato_a_me_cc_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
+        protocollo_visible_ids = []
+
+        protocollo_ids = self.search(cr, uid, [])
+        for protocollo_id in protocollo_ids:
+            assegnatario_ids = self.pool.get('protocollo.assegnatario.dipendente').search(cr, uid, [
+                ('protocollo_id', '=', protocollo_id),
+                ('dipendente_id.user_id.id', '=', uid),
+                ('stato_dipendente_id.state', '=', 'assegnato'),
+                ('tipo', '=', 'conoscenza')
+            ])
+            if assegnatario_ids:
+                protocollo_visible_ids.append(protocollo_id)
+
+        return [('id', 'in', protocollo_visible_ids)]
+
+
+    def _assegnato_a_mio_ufficio_visibility(self, cr, uid, ids, name, arg, context=None):
+        return {}
+    def _assegnato_a_mio_ufficio_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
+        protocollo_visible_ids = []
+        assegnatario_ufficio_obj = self.pool.get('protocollo.assegnatario.ufficio')
+        department_ids = self.pool.get('hr.department').search(cr, uid, [('member_ids.user_id.id', '=', uid)])
+
+        if department_ids:
+            protocollo_ids = self.search(cr, uid, [])
+            for protocollo_id in protocollo_ids:
+                assegnatario_ids = assegnatario_ufficio_obj.search(cr, uid, [
+                    ('protocollo_id', '=', protocollo_id),
+                    ('department_id', '=', department_ids[0]),
+                    ('tipo', '=', 'competenza')
+                ])
+                if assegnatario_ids:
+                    assegnatario_ufficio = assegnatario_ufficio_obj.browse(cr, uid, assegnatario_ids[0])
+                    if assegnatario_ufficio.state == 'assegnato':
+                        protocollo_visible_ids.append(protocollo_id)
+
+        return [('id', 'in', protocollo_visible_ids)]
+
+
+    def _assegnato_a_mio_ufficio_cc_visibility(self, cr, uid, ids, name, arg, context=None):
+        return {}
+    def _assegnato_a_mio_ufficio_cc_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
+        protocollo_visible_ids = []
+        assegnatario_ufficio_obj = self.pool.get('protocollo.assegnatario.ufficio')
+        department_ids = self.pool.get('hr.department').search(cr, uid, [('member_ids.user_id.id', '=', uid)])
+
+        if department_ids:
+            protocollo_ids = self.search(cr, uid, [])
+            for protocollo_id in protocollo_ids:
+                assegnatario_ids = assegnatario_ufficio_obj.search(cr, uid, [
+                    ('protocollo_id', '=', protocollo_id),
+                    ('department_id', '=', department_ids[0]),
+                    ('tipo', '=', 'conoscenza')
+                ])
+                if assegnatario_ids:
+                    assegnatario_ufficio = assegnatario_ufficio_obj.browse(cr, uid, assegnatario_ids[0])
+                    if assegnatario_ufficio.state == 'assegnato':
+                        protocollo_visible_ids.append(protocollo_id)
+
+        return [('id', 'in', protocollo_visible_ids)]
+
+
+    def _assegnato_da_me_in_attesa_visibility(self, cr, uid, ids, name, arg, context=None):
+        return {}
+    def _assegnato_da_me_in_attesa_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
+        protocollo_visible_ids = []
+        assegnatario_ufficio_obj = self.pool.get('protocollo.assegnatario.ufficio')
+
+        protocollo_ids = self.search(cr, uid, [])
+        for protocollo_id in protocollo_ids:
+            assegnatario_dipendente_ids = self.pool.get('protocollo.assegnatario.dipendente').search(cr, uid, [
+                ('protocollo_id', '=', protocollo_id),
+                ('protocollo_id.user_id.id', '=', uid),
+                ('stato_dipendente_id.state', '=', 'assegnato'),
+                ('tipo', '=', 'competenza')
+            ])
+            if assegnatario_dipendente_ids:
+                protocollo_visible_ids.append(protocollo_id)
+                continue
+
+            assegnatario_ufficio_ids = assegnatario_ufficio_obj.search(cr, uid, [
+                ('protocollo_id', '=', protocollo_id),
+                ('protocollo_id.user_id.id', '=', uid),
+                ('tipo', '=', 'competenza')
+            ])
+            if assegnatario_ufficio_ids:
+                for assegnatario_ufficio_id in assegnatario_ufficio_ids:
+                    assegnatario_ufficio = assegnatario_ufficio_obj.browse(cr, uid, assegnatario_ufficio_id)
+                    if assegnatario_ufficio.state == 'assegnato':
+                        protocollo_visible_ids.append(protocollo_id)
+                        break
+
+        return [('id', 'in', protocollo_visible_ids)]
+
+
+    def _assegnato_da_me_in_rifiutato_visibility(self, cr, uid, ids, name, arg, context=None):
+        return {}
+    def _assegnato_da_me_in_rifiutato_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
+        protocollo_visible_ids = []
+        assegnatario_ufficio_obj = self.pool.get('protocollo.assegnatario.ufficio')
+
+        protocollo_ids = self.search(cr, uid, [])
+        for protocollo_id in protocollo_ids:
+            assegnatario_dipendente_ids = self.pool.get('protocollo.assegnatario.dipendente').search(cr, uid, [
+                ('protocollo_id', '=', protocollo_id),
+                ('protocollo_id.user_id.id', '=', uid),
+                ('stato_dipendente_id.state', '=', 'rifiutato'),
+                ('tipo', '=', 'competenza')
+            ])
+            if assegnatario_dipendente_ids:
+                protocollo_visible_ids.append(protocollo_id)
+                continue
+
+            assegnatario_ufficio_ids = assegnatario_ufficio_obj.search(cr, uid, [
+                ('protocollo_id', '=', protocollo_id),
+                ('protocollo_id.user_id.id', '=', uid),
+                ('tipo', '=', 'competenza')
+            ])
+            if assegnatario_ufficio_ids:
+                for assegnatario_ufficio_id in assegnatario_ufficio_ids:
+                    assegnatario_ufficio = assegnatario_ufficio_obj.browse(cr, uid, assegnatario_ufficio_id)
+                    if assegnatario_ufficio.state == 'rifiutato':
+                        protocollo_visible_ids.append(protocollo_id)
+                        break
+
+        return [('id', 'in', protocollo_visible_ids)]
+
+    ####################################################################################################################
+
+
+
+    ####################################################################################################################
+    # Visibilità dei button sui protocolli
+    ####################################################################################################################
+
     def _registra_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
 
@@ -308,7 +478,7 @@ class protocollo_protocollo(osv.Model):
         for protocollo in protocolli:
             check = False
 
-            if protocollo.state == 'registered':
+            if protocollo.state in ('registered', 'notified', 'waiting', 'sent', 'error'):
                 check = True
 
             if check:
@@ -335,7 +505,7 @@ class protocollo_protocollo(osv.Model):
         for protocollo in protocolli:
             check = False
 
-            if protocollo.state == 'registered':
+            if protocollo.state in ('registered', 'notified', 'waiting', 'sent', 'error'):
                 check = True
 
             if check:
@@ -657,9 +827,22 @@ class protocollo_protocollo(osv.Model):
 
         return dict(res)
 
+    ####################################################################################################################
+
     _columns = {
+        # Visibilità dei protocolli
         'is_visible': fields.function(_is_visible, fnct_search=_is_visible_search, type='boolean', string='Visibile'),
 
+        # Visibilità dei protocolli nella dashboard
+        'bozza_creato_da_me_visibility': fields.function(_bozza_creato_da_me_visibility, fnct_search=_bozza_creato_da_me_visibility_search, type='boolean', string='Visibile'),
+        'assegnato_a_me_visibility': fields.function(_assegnato_a_me_visibility, fnct_search=_assegnato_a_me_visibility_search, type='boolean', string='Visibile'),
+        'assegnato_a_me_cc_visibility': fields.function(_assegnato_a_me_cc_visibility, fnct_search=_assegnato_a_me_cc_visibility_search, type='boolean', string='Visibile'),
+        'assegnato_a_mio_ufficio_visibility': fields.function(_assegnato_a_mio_ufficio_visibility, fnct_search=_assegnato_a_mio_ufficio_visibility_search, type='boolean', string='Visibile'),
+        'assegnato_a_mio_ufficio_cc_visibility': fields.function(_assegnato_a_mio_ufficio_cc_visibility, fnct_search=_assegnato_a_mio_ufficio_cc_visibility_search, type='boolean', string='Visibile'),
+        'assegnato_da_me_in_attesa_visibility': fields.function(_assegnato_da_me_in_attesa_visibility, fnct_search=_assegnato_da_me_in_attesa_visibility_search, type='boolean', string='Visibile'),
+        'assegnato_da_me_in_rifiutato_visibility': fields.function(_assegnato_da_me_in_rifiutato_visibility, fnct_search=_assegnato_da_me_in_rifiutato_visibility_search, type='boolean', string='Visibile'),
+
+        # Visibilità dei button sui protocolli
         'registra_visibility': fields.function(_registra_visibility, type='boolean', string='Registra'),
         'annulla_visibility': fields.function(_annulla_visibility, type='boolean', string='Annulla'),
         'prendi_in_carico_visibility': fields.function(_prendi_in_carico_visibility, type='boolean', string='Prendi in Carico'),
