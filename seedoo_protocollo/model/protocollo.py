@@ -943,7 +943,7 @@ class protocollo_protocollo(orm.Model):
                             self._sign_doc(cr, uid, prot, prot_number, prot_date)
                     except Exception as e:
                         _logger.error(e)
-                        raise Warning(_('Errore nella ridenominazione degli allegati'))
+                        # raise Warning(_('Errore nella ridenominazione degli allegati'))
                     fingerprint = self._create_protocol_attachment(cr, uid, prot, prot_number, prot_date)
                     vals['fingerprint'] = fingerprint
                     vals['datas'] = 0
