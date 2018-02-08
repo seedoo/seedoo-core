@@ -32,10 +32,22 @@ class SegnaturaXML:
         companyId = self.currentUser.company_id.id
         self.company = self.resCompanyObj.browse(cr, uid, companyId)
 
+        if protocollo.server_pec_id.user is not False:
+            self.accountPecProtocollo = protocollo.server_pec_id.user
+        else:
+            self.accountPecProtocollo = None
+
+        if self.currentUser.employee_ids.department_id.name is not False:
+            self.ufficioProtocollatore = self.currentUser.employee_ids.department_id.name
+        else:
+            self.ufficioProtocollatore = None
+
         if protocollo.aoo_id.ident_code is not False:
             self.codiceAOO = str(protocollo.aoo_id.ident_code)
+            self.denominazioneAOO = str(protocollo.aoo_id.name)
         else:
             self.codiceAOO = None
+            self.denominazioneAOO = None
 
         pass
 
@@ -477,8 +489,8 @@ class SegnaturaXML:
 
     def createAOO(self):
         aOO = etree.Element("AOO")
-        denominazione = self.createDenominazione()
-        codiceAOO = self.createCodiceAOO()
+        denominazione = self.createDenominazione(self.denominazioneAOO)
+        codiceAOO = self.createCodiceAOO(self.codiceAOO)
 
         aOO.append(denominazione)
         aOO.append(codiceAOO)
@@ -508,8 +520,7 @@ class SegnaturaXML:
         # TODO Recuperare da qualche parte il codice amministrazione (codice
         #  IPA??)
         codiceAmministrazione = self.createCodiceAmministrazione()
-        unitaOrganizzativa = self.createUnitaOrganizzativaFromCompany(
-            self.company)
+        unitaOrganizzativa = self.createUnitaOrganizzativaFromDepartment(self.ufficioProtocollatore, self.accountPecProtocollo)
 
         amministrazione.append(denominazione)
         amministrazione.append(codiceAmministrazione)
@@ -585,9 +596,21 @@ class SegnaturaXML:
         unitaOrganizzativa.append(fax)
         return unitaOrganizzativa
 
-    def createUnitaOrganizzativaFromDepartment(self, department):
-        return self.createUnitaOrganizzativaFromCompany(self.company,
-                                                        department.name)
+    def createUnitaOrganizzativaFromDepartment(self, department, accountPec):
+        unitaOrganizzativa = etree.Element("UnitaOrganizzativa",
+                                           tipo="permanente")
+
+        if department is not None:
+            denominazione = self.createDenominazione(department)
+            indirizzoPostale = self.createIndirizzoPostaleFromDepartment(self.company)
+            indirizzoTelematico = self.createIndirizzoTelematico(accountPec)
+            unitaOrganizzativa.append(denominazione)
+            unitaOrganizzativa.append(indirizzoPostale)
+            unitaOrganizzativa.append(indirizzoTelematico)
+        else:
+            return self.createUnitaOrganizzativaFromCompany(self.company, "")
+
+        return unitaOrganizzativa
 
     def createUnitaOrganizzativaFromCompany(self, company, name=""):
         unitaOrganizzativa = etree.Element("UnitaOrganizzativa",
@@ -598,8 +621,7 @@ class SegnaturaXML:
             denominazione = self.createDenominazione(name)
 
         indirizzoPostale = self.createIndirizzoPostaleFromCompany(company)
-        indirizzoTelematico = self.createIndirizzoTelematicoFromCompany(
-            company)
+        indirizzoTelematico = self.createIndirizzoTelematicoFromCompany(company)
         telefono = self.createTelefono(company)
         fax = etree.Element("Fax")
 
@@ -622,6 +644,27 @@ class SegnaturaXML:
         # TODO recuperare la provincia da qualche parte o modellarla
         provincia = etree.Element("Provincia")
         nazione = self.createNazione(senderReceiver.country_id)
+
+        indirizzoPostale.append(toponimo)
+        indirizzoPostale.append(civico)
+        indirizzoPostale.append(cap)
+        indirizzoPostale.append(comune)
+        indirizzoPostale.append(provincia)
+        indirizzoPostale.append(nazione)
+        return indirizzoPostale
+
+    def createIndirizzoPostaleFromDepartment(self, company):
+        indirizzoPostale = etree.Element("IndirizzoPostale")
+        toponimo = etree.Element("Toponimo")
+        # toponimo.text = self.checkNullValue(company.street)
+        # # TODO inserire anagrafica anche per gli Uffici
+        civico = etree.Element("Civico")
+        cap = self.createCap("")
+        comune = self.createComune("")
+        #
+        # # TODO recuperare la provincia da qualche parte o modellarla
+        provincia = etree.Element("Provincia")
+        nazione = self.createNazione(company.country_id)
 
         indirizzoPostale.append(toponimo)
         indirizzoPostale.append(civico)
