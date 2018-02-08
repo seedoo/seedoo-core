@@ -127,7 +127,7 @@ class SegnaturaXML:
         for attachment in attachments:
             attachmentObj = self.irAttachmentObj.browse(self.cr, self.uid,
                                                         attachment)
-            if attachmentObj is not None:
+            if attachmentObj is not None and attachmentObj.is_main is False:
                 documento = self.createDocumentoFromIrAttachment(attachmentObj)
                 allegati.append(documento)
         return allegati
