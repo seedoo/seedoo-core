@@ -964,15 +964,17 @@ class protocollo_protocollo(orm.Model):
                 # if prot.typology.name == 'PEC':
                 new_context.update({'pec_messages': True})
 
-                try:
-                    segnatura_xml = SegnaturaXML(prot, prot_number, prot_date, cr, uid)
-                    xml = segnatura_xml.generate_segnatura_root()
-                    etree_tostring = etree.tostring(xml, pretty_print=True)
-                    vals['xml_signature'] = etree_tostring
-                    self.write(cr, uid, [prot.id], vals)
-                except Exception as e:
-                    _logger.error(e)
-                    raise openerp.exceptions.Warning(_('Errore nella generazione della segnatura'))
+                # Generazione della segnatura spostata al momento dell'invio della PEC
+                # try:
+                #     segnatura_xml = SegnaturaXML(prot, prot_number, prot_date, cr, uid)
+                #     xml = segnatura_xml.generate_segnatura_root()
+                #     etree_tostring = etree.tostring(xml, pretty_print=True)
+                #     vals['xml_signature'] = etree_tostring
+                # except Exception as e:
+                #     _logger.error(e)
+                #     raise openerp.exceptions.Warning(_('Errore nella generazione della segnatura'))
+
+                self.write(cr, uid, [prot.id], vals)
 
                 try:
                     if configurazione.rinomina_documento_allegati:
@@ -1171,7 +1173,16 @@ class protocollo_protocollo(orm.Model):
             # mail_server = self.get_mail_server(cr, uid, context)
 
             if configurazione.segnatura_xml_invia:
-                self.allega_segnatura_xml(cr, uid, prot.id, prot.xml_signature)
+                vals = {}
+                try:
+                    segnatura_xml = SegnaturaXML(prot, prot.name, prot.registration_date, cr, uid)
+                    xml = segnatura_xml.generate_segnatura_root()
+                    etree_tostring = etree.tostring(xml, pretty_print=True)
+                    vals['xml_signature'] = etree_tostring
+                    self.write(cr, uid, [prot.id], vals)
+                    self.allega_segnatura_xml(cr, uid, prot.id, prot.xml_signature)
+                except Exception as e:
+                    _logger.error(e)
 
             if prot.sender_receivers:
                 for sender_receiver_id in prot.sender_receivers.ids:
@@ -1692,11 +1703,12 @@ class protocollo_protocollo(orm.Model):
                     vals['year'] = now.year
                     esito = self.write(cr, uid, [prot.id], vals)
 
-                    if configurazione.genera_xml_segnatura:
-                        segnatura_xml = SegnaturaXML(prot, prot_number, prot_date, cr, uid)
-                        xml = segnatura_xml.generate_segnatura_root()
-                        etree_tostring = etree.tostring(xml, pretty_print=True)
-                        vals['xml_signature'] = etree_tostring
+                    # Generazione della segnatura spostata al momento dell'invio della PEC
+                    # if configurazione.genera_xml_segnatura:
+                    #     segnatura_xml = SegnaturaXML(prot, prot_number, prot_date, cr, uid)
+                    #     xml = segnatura_xml.generate_segnatura_root()
+                    #     etree_tostring = etree.tostring(xml, pretty_print=True)
+                    #     vals['xml_signature'] = etree_tostring
 
                     action_class = "history_icon upload"
                     post_vars = {'subject': "Upload Documento",

@@ -8,7 +8,6 @@
             <field name="rinomina_oggetto_mail_pec" eval="False"/>
             <field name="inserisci_testo_mailpec" eval="False"/>
             <field name="genera_segnatura" eval="True"/>
-            <field name="genera_xml_segnatura" eval="True"/>
             <field name="segnatura_xml_parse" eval="True"/>
             <field name="segnatura_xml_invia" eval="True"/>
             <field name="conferma_xml_parse" eval="True"/>

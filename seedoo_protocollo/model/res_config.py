@@ -32,7 +32,6 @@ class protocollo_config_settings(osv.osv_memory):
         'rinomina_documento_allegati': fields.related('config_id', 'rinomina_documento_allegati', type='boolean', string='Rinomina Documento principale e allegati'),
         'rinomina_oggetto_mail_pec': fields.related('config_id', 'rinomina_oggetto_mail_pec', type='boolean', string='Rinomina oggetto mail/PEC'),
         'genera_segnatura': fields.related('config_id', 'genera_segnatura', type='boolean', string='Genera Segnatura nel PDF'),
-        'genera_xml_segnatura': fields.related('config_id', 'genera_xml_segnatura', type='boolean', string='Genera XML Segnatura'),
         'segnatura_xml_parse': fields.related('config_id', 'segnatura_xml_parse', type='boolean', string='Leggi Segnatura.xml'),
         'segnatura_xml_invia': fields.related('config_id', 'segnatura_xml_invia', type='boolean', string='Invia Segnatura.xml'),
         'conferma_xml_parse': fields.related('config_id', 'conferma_xml_parse', type='boolean', string='Leggi Configurazione.xml relativi ai protocolli in uscita'),
