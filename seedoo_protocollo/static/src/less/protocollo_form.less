@@ -3,7 +3,7 @@
 }
 
 .openerp .oe_kanban_view {
-  a.protocollo_sr_box, a.protocollo_attachments_box {
+  a.protocollo_attachments_box {
     &>div{
       transition: all 0.3s linear;
       -webkit-transition: all 0.3s linear;
@@ -11,12 +11,27 @@
     }
   }
 
-  a.protocollo_sr_box:hover, a.protocollo_attachments_box:hover {
+  a.protocollo_attachments_box:hover {
     & > div {
       background-color: #ccc;
     }
   }
 
+  a.protocollo_sr_box {
+    display: block;
+    .oe_kanban_table {
+      min-height: 85px;
+    }
+  }
+  
+  a.protocollo_sr_box:hover {
+    background-color: #ccc;
+    transition: all 0.3s linear;
+    -webkit-transition: all 0.3s linear;
+    -moz-transition: all 0.3s linear;
+  }
+
+  
   a.protocollo_attachments_box {
     .item_box {
         width: 200px;

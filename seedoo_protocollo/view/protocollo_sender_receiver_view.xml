@@ -229,9 +229,9 @@ this module contains the full copyright notices and license terms. -->
                     <field name="pec_numero_invii"/>
                     <templates>
                         <t t-name="kanban-box">
-                            <a type="open" class="protocollo_sr_box">
-                                <div class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_color_border item_box" >
-                                    <a t-if="! read_only_mode" type="delete" style="position: absolute; right: 5px; padding: 0 4px; display: inline-block;background: rgba(255,255,255,0.6);">X</a>
+                            <div class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_color_border item_box" >
+                                <a t-if="! read_only_mode" type="delete" style="position: absolute; right: 5px; padding: 0 4px; display: inline-block;background: rgba(255,255,255,0.6);">X</a>
+                                <a type="open" class="protocollo_sr_box">
                                     <table class="oe_kanban_table">
                                         <tr>
                                             <td class="oe_kanban_messaggio pec_button_col" align="left" valign="middle">
@@ -276,8 +276,8 @@ this module contains the full copyright notices and license terms. -->
                                             </td>
                                         </tr>
                                     </table>
-                                </div>
-                            </a>
+                                </a>
+                            </div>
                         </t>
                     </templates>
                 </kanban>

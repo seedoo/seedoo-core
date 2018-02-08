@@ -450,15 +450,25 @@
 .openerp .oe_notebook > li.ui-state-active > a.ui-tabs-anchor {
   color: #666 !important;
 }
-.openerp .oe_kanban_view a.protocollo_sr_box > div,
 .openerp .oe_kanban_view a.protocollo_attachments_box > div {
   transition: all 0.3s linear;
   -webkit-transition: all 0.3s linear;
   -moz-transition: all 0.3s linear;
 }
-.openerp .oe_kanban_view a.protocollo_sr_box:hover > div,
 .openerp .oe_kanban_view a.protocollo_attachments_box:hover > div {
   background-color: #ccc;
+}
+.openerp .oe_kanban_view a.protocollo_sr_box {
+  display: block;
+}
+.openerp .oe_kanban_view a.protocollo_sr_box .oe_kanban_table {
+  min-height: 85px;
+}
+.openerp .oe_kanban_view a.protocollo_sr_box:hover {
+  background-color: #ccc;
+  transition: all 0.3s linear;
+  -webkit-transition: all 0.3s linear;
+  -moz-transition: all 0.3s linear;
 }
 .openerp .oe_kanban_view a.protocollo_attachments_box .item_box {
   width: 200px;
