@@ -756,8 +756,8 @@ class protocollo_protocollo(orm.Model):
             prot.aoo_id.ident_code,
             prot.registry.code,
             prot_dir,
-            prot_date.strftime(DSDT),
-            prot_number
+            prot_number,
+            prot_date.strftime(DSDT)
         )
 
         location = self.pool.get('ir.config_parameter').get_param(cr,
@@ -938,18 +938,13 @@ class protocollo_protocollo(orm.Model):
                 # prot_complete_name = self.calculate_complete_name(prot_date, prot_number)
 
                 if prot.doc_id:
-                    if prot.mimetype == 'application/pdf':
-                        self._sign_doc(
-                            cr, uid, prot,
-                            prot_number, prot_date
-                        )
-                    fingerprint = self._create_protocol_attachment(
-                        cr,
-                        uid,
-                        prot,
-                        prot_number,
-                        prot_date
-                    )
+                    try:
+                        if prot.mimetype == 'application/pdf':
+                            self._sign_doc(cr, uid, prot, prot_number, prot_date)
+                    except Exception as e:
+                        _logger.error(e)
+                        raise Warning(_('Errore nella ridenominazione degli allegati'))
+                    fingerprint = self._create_protocol_attachment(cr, uid, prot, prot_number, prot_date)
                     vals['fingerprint'] = fingerprint
                     vals['datas'] = 0
 
