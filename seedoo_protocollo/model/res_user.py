@@ -24,7 +24,7 @@ class res_groups(orm.Model):
 class res_users(orm.Model):
     _inherit = 'res.users'
 
-    def _get_protocollo_group(self, cr, uid, ids):
+    def _get_protocollo_group(self, cr, uid, ids, name, args, context=None):
         result = {}
         if not ids:
             return result
@@ -104,7 +104,7 @@ class res_users(orm.Model):
             #         del values_copy[key]
             values = values_copy
         else:
-            protocollo_profile_preselected = self._get_protocollo_group(cr, uid, ids)
+            protocollo_profile_preselected = self._get_protocollo_group(cr, uid, ids, "", "", context=None)
             if len(protocollo_profile_preselected) > 0:
                 protocollo_custom_preselected = True if "Personalizzabile" in protocollo_profile_preselected.values() else False
                 if protocollo_custom_preselected is False:
