@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This file is part of Seedoo.  The COPYRIGHT file at the top level of
+this module contains the full copyright notices and license terms. -->
+
+<openerp>
+    <data>
+        <record id="view_groups_protocollo_form" model="ir.ui.view">
+            <field name="model">res.groups</field>
+            <field name="inherit_id" ref="base.view_groups_form" />
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="is_protocollo_profile"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>

@@ -8,6 +8,18 @@ import logging
 
 _logger = logging.getLogger(__name__)
 
+class res_groups(orm.Model):
+    _inherit = 'res.groups'
+
+    _columns = {
+        'is_protocollo_profile': fields.boolean('Profilo Seedoo Protocollo')
+    }
+
+    _defaults = {
+        'is_protocollo_profile': False
+    }
+
+
 
 class res_users(orm.Model):
     _inherit = 'res.users'
@@ -18,7 +30,7 @@ class res_users(orm.Model):
             return result
         result = dict.fromkeys(ids, False)
         cr.execute(
-            "SELECT g.name from res_groups g WHERE g.id in (SELECT MAX(gr.id) from ir_module_category cat JOIN res_groups  gr ON cat.id = gr.category_id JOIN res_groups_users_rel rgu ON rgu.gid = gr.id where cat.name = 'Seedoo Protocollo' AND rgu.uid IN %s)",(tuple(ids),))
+            "SELECT g.name from res_groups g WHERE g.id in (SELECT MAX(gr.id) from ir_module_category cat JOIN res_groups  gr ON cat.id = gr.category_id JOIN res_groups_users_rel rgu ON rgu.gid = gr.id where cat.name = 'Seedoo Protocollo' AND is_protocollo_profile=True AND rgu.uid IN %s)",(tuple(ids),))
         res = cr.fetchone()
         if res:
             result[ids[0]] = res[0]

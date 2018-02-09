@@ -274,6 +274,7 @@ this module contains the full copyright notices and license terms. -->
         <record id="group_protocollo_user" model="res.groups">
             <field name="name">Personalizzabile</field>
             <field name="category_id" ref="module_protocollo_management"/>
+            <field name="is_protocollo_profile">True</field>
             <field name="implied_ids" eval="[
                 (4, ref('base.group_user')),
                 ]"/>
@@ -283,6 +284,7 @@ this module contains the full copyright notices and license terms. -->
         <record id="group_protocollo_consultatore" model="res.groups">
             <field name="name">Consultatore</field>
             <field name="category_id" ref="module_protocollo_management"/>
+            <field name="is_protocollo_profile">True</field>
             <field name="implied_ids" eval="[
                 (4, ref('group_protocollo_user')),
                 (4, ref('group_vedi_menu_protocolli_ingresso_registrati')),
@@ -295,6 +297,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="name">Operatore</field>
             <field name="category_id" ref="module_protocollo_management"/>
             <field name="comment">Profilo dell'Operatore</field>
+            <field name="is_protocollo_profile">True</field>
             <field name="implied_ids" eval="[
                 (4, ref('group_protocollo_consultatore')),
                 (4, ref('base.group_document_user')),
@@ -329,6 +332,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="name">Responsabile UOR</field>
             <field name="category_id" ref="module_protocollo_management"/>
             <field name="comment">Profilo del Responsabile UOR</field>
+            <field name="is_protocollo_profile">True</field>
             <field name="implied_ids" eval="[
                 (4, ref('group_protocollo_consultatore')),
                 (4, ref('group_protocollo_operatore')),
@@ -343,6 +347,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="name">Responsabile del Servizio Protocollo</field>
             <field name="category_id" ref="module_protocollo_management"/>
             <field name="comment">Profilo del Responsabile Servizio Protocollo</field>
+            <field name="is_protocollo_profile">True</field>
             <field name="implied_ids" eval="[
                 (4, ref('group_protocollo_consultatore')),
                 (4, ref('group_protocollo_operatore')),
