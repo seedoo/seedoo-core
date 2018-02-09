@@ -24,7 +24,7 @@ class res_groups(orm.Model):
 class res_users(orm.Model):
     _inherit = 'res.users'
 
-    def _get_protocollo_group(self, cr, uid, ids, name, args, context=None):
+    def _get_protocollo_group(self, cr, uid, ids):
         result = {}
         if not ids:
             return result
@@ -91,19 +91,24 @@ class res_users(orm.Model):
                     for key_ingroup, val_ingroup in values.iteritems():
                         if key_ingroup.startswith('in_group_') and key_ingroup in protocollo_permissions_reset:
                             del values_copy[key_ingroup]
+
             else:
                 protocollo_profile_selected = False
 
         if protocollo_profile_selected:
             values_copy.update(protocollo_permissions_reset)
             values = values_copy
+        elif protocollo_custom_selected:
+            # for key, val in values.iteritems():
+            #     if key in protocollo_permissions_reset:
+            #         del values_copy[key]
+            values = values_copy
         else:
-            protocollo_custom_preselected = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_protocollo_user')
-            if protocollo_custom_selected is False and protocollo_custom_preselected is False:
-                for key, val in values.iteritems():
-                    if key in protocollo_permissions_reset:
-                        del values_copy[key]
-                values = values_copy
+            protocollo_profile_preselected = self._get_protocollo_group(cr, uid, ids)
+            if len(protocollo_profile_preselected) > 0:
+                protocollo_custom_preselected = True if "Personalizzabile" in protocollo_profile_preselected.values() else False
+                if protocollo_custom_preselected is False:
+                    values.update(protocollo_permissions_reset)
 
         res = super(res_users, self).write(cr, uid, ids, values, context=context)
 
