@@ -51,6 +51,7 @@
         "wizard/modify_protocollo_pec_wizard_view.xml",
         "wizard/carica_documenti_wizard_view.xml",
         "wizard/carica_allegati_wizard_view.xml",
+        "wizard/registration_protocollo_wizard_view.xml",
         "view/res_config.xml",
         "view/partner_view.xml",
         "view/offices_view.xml",

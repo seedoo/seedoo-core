@@ -4,7 +4,7 @@
 
 from lxml import etree
 
-from openerp import SUPERUSER_ID, api
+from openerp import SUPERUSER_ID, api, models
 from openerp.osv import orm, fields, osv
 from openerp.tools.translate import _
 from openerp.tools import DEFAULT_SERVER_DATE_FORMAT as DSDT
@@ -915,9 +915,38 @@ class protocollo_protocollo(orm.Model):
                     send_rec_obj.write(cr, uid, [send_rec.id], {'partner_id': partner_id})
         return True
 
+    def action_register_process(self, cr, uid, ids, context=None, *args):
+        res = []
+        self.check_journal(cr, uid, ids)
+        self.action_create_attachment(cr, uid, ids)
+        self.action_create_partners(cr, uid, ids)
+        res_registrazione = self.action_register(cr, uid, ids)
+        self.write(cr, uid, ids, {'state': 'registered'}, context=context)
+        res_conferma = self.action_send_conferma(cr, uid, ids)
+
+        for item_res_registrazione in res_registrazione:
+            res.append(item_res_registrazione)
+        res.append(res_conferma)
+        context.update({'registration_message': res})
+
+        res = {
+            'type': 'ir.actions.act_window',
+            'name': 'Registrazione Protocollo',
+            'res_model': 'protocollo.registration.wizard',
+            'view_mode': 'form',
+            'view_type': 'form',
+            'target': 'new',
+            'context': context
+        }
+
+        return res
+
     def action_register(self, cr, uid, ids, context=None, *args):
         configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
         configurazione = self.pool.get('protocollo.configurazione').browse(cr, uid, configurazione_ids[0])
+        res = []
+        res_registrazione = []
+        res_segnatura = []
 
         for prot in self.browse(cr, uid, ids):
 
@@ -941,9 +970,11 @@ class protocollo_protocollo(orm.Model):
                     try:
                         if prot.mimetype == 'application/pdf':
                             self._sign_doc(cr, uid, prot, prot_number, prot_date)
+                        res_segnatura = {"Segnatura": {"Res": True, "Msg": "Segnatura generata correttamente"}}
                     except Exception as e:
                         _logger.error(e)
-                        # raise Warning(_('Errore nella ridenominazione degli allegati'))
+                        res_segnatura = {"Segnatura": {"Res": False, "Msg": "Non è stato possibile generare la segnatura PDF"}}
+
                     fingerprint = self._create_protocol_attachment(cr, uid, prot, prot_number, prot_date)
                     vals['fingerprint'] = fingerprint
                     vals['datas'] = 0
@@ -958,17 +989,6 @@ class protocollo_protocollo(orm.Model):
 
                 # if prot.typology.name == 'PEC':
                 new_context.update({'pec_messages': True})
-
-                # Generazione della segnatura spostata al momento dell'invio della PEC
-                # try:
-                #     segnatura_xml = SegnaturaXML(prot, prot_number, prot_date, cr, uid)
-                #     xml = segnatura_xml.generate_segnatura_root()
-                #     etree_tostring = etree.tostring(xml, pretty_print=True)
-                #     vals['xml_signature'] = etree_tostring
-                # except Exception as e:
-                #     _logger.error(e)
-                #     raise openerp.exceptions.Warning(_('Errore nella generazione della segnatura'))
-
                 self.write(cr, uid, [prot.id], vals)
 
                 try:
@@ -987,37 +1007,41 @@ class protocollo_protocollo(orm.Model):
                     raise openerp.exceptions.Warning(_('Errore nella ridenominazione degli allegati'))
 
                 action_class = "history_icon registration"
-                post_vars = {'subject': "Registrazione protocollo",
-                             'body': "<div class='%s'><ul><li>Creato protocollo %s</li></ul></div>" % (
-                                 action_class, prot_number),
-                             'model': "protocollo.protocollo",
-                             'res_id': prot.id,
+                post_vars = {
+                                'subject': "Registrazione protocollo",
+                                'body': "<div class='%s'><ul><li>Creato protocollo %s</li></ul></div>" % (action_class, prot_number),
+                                'model': "protocollo.protocollo",
+                                'res_id': prot.id,
                              }
-
                 thread_pool = self.pool.get('protocollo.protocollo')
                 thread_pool.message_post(cr, uid, prot.id, type="notification", context=new_context, **post_vars)
-
+                res_registrazione = {"Registrazione":
+                                         {"Res": True, "Msg": "Protocollo registrato correttamente con Nr. %s del " % (prot_number)}
+                                    }
             except Exception as e:
                 _logger.error(e)
                 raise openerp.exceptions.Warning(_('Errore nella registrazione del protocollo'))
 
-        return True
+            res.append(res_registrazione)
+            if len(res_segnatura) > 0:
+                res.append(res_segnatura)
+        return res
 
     def action_send_conferma(self, cr, uid, ids, context=None, *args):
-
+        res_conferma = {"Invio Conferma": {"Res": False, "Msg": None}}
         configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
         configurazione = self.pool.get('protocollo.configurazione').browse(cr, uid, configurazione_ids[0])
 
         try:
             for prot in self.browse(cr, uid, ids):
                 if prot.type == 'in' and prot.pec and len(prot.mail_pec_ref.ids) > 0 and configurazione.conferma_xml_invia:
-                        self.action_send_receipt(cr, uid, ids, 'conferma', context=context)
+                    self.action_send_receipt(cr, uid, ids, 'conferma', context=context)
+                    res_conferma = {"Invio Conferma": {"Res": True, "Msg": "Conferma inviata correttamente"}}
         except Exception as e:
             _logger.error(e)
-            # return {'value': {}, 'warning': {'title': 'warning', 'message': 'Errore nell\'invio della Conferma'}}
-            # openerp.exceptions.Warning(_('Errore nell\'invio della Conferma'))
+            res_conferma = {"Invio Conferma": {"Res": False, "Msg": "Non è stato possibile inviare la conferma"}}
 
-        return True
+        return res_conferma
 
 
     def action_notify(self, cr, uid, ids, *args):
@@ -1105,7 +1129,7 @@ class protocollo_protocollo(orm.Model):
                     message_obj = self.pool.get('mail.message')
                     mail_receipt = self.pool.get('mail.mail').browse(cr, uid, mail_receipt_id[0], context=context)
                     message_receipt = mail_mail.browse(cr, uid, mail_receipt.mail_message_id.id, context=context)
-                    valsreceipt={}
+                    valsreceipt = {}
                     valsreceipt['pec_protocol_ref'] = prot.id
                     valsreceipt['pec_state'] = 'protocol'
                     valsreceipt['pec_type'] = 'posta-certificata'

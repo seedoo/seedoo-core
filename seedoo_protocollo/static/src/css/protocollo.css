@@ -559,6 +559,32 @@
 .tab-sr .oe_kanban_buttons .oe_kanban_button_new.oe_highlight:before {
   color: #666;
 }
+.protocollo_registration_container {
+  margin: 0 30%;
+}
+.protocollo_registration_container ul {
+  list-style: none;
+  padding: 10px;
+}
+.protocollo_registration_container ul li {
+  margin-bottom: 20px;
+  margin-top: 10px;
+}
+.protocollo_registration_container strong {
+  text-transform: uppercase;
+}
+.protocollo_registration_container .fa {
+  min-width: 20px;
+}
+.protocollo_registration_container .fa-check-circle {
+  color: green;
+}
+.protocollo_registration_container .fa-exclamation-triangle {
+  color: darkorange;
+}
+.protocollo_registration_container footer {
+  text-align: center;
+}
 .protocollo-accordion-toggle {
   cursor: pointer;
   text-transform: uppercase;

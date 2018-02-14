@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This file is part of Seedoo.  The COPYRIGHT file at the top level of
+this module contains the full copyright notices and license terms. -->
+
+<openerp>
+    <data>
+        <!-- wizard action on protocollo.protocollo -->
+        <act_window id="protocollo_registration_action"
+                    name="Registrazione del protocollo"
+                    res_model="protocollo.registration.wizard"
+                    view_type="form" view_mode="form"
+                    target="new"/>
+
+        <record id="protocollo_registration_wizard" model="ir.ui.view">
+            <field name="name">Protocollo Registration Wizard</field>
+            <field name="model">protocollo.registration.wizard</field>
+            <field name="arch" type="xml">
+            <form string="Esito Registrazione" class="protocollo_registration_container">
+                <group>
+                    <field name="message" nolabel="1"/>
+                </group>
+                <footer>
+                    <button string="OK" special="cancel" class="oe_highlight"/>
+                </footer>
+            </form>
+            </field>
+        </record>
+    </data>
+</openerp>

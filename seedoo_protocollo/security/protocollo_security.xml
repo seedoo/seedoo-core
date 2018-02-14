@@ -289,6 +289,10 @@ this module contains the full copyright notices and license terms. -->
                 (4, ref('group_protocollo_user')),
                 (4, ref('group_vedi_menu_protocolli_ingresso_registrati')),
                 (4, ref('group_vedi_menu_protocolli_uscita_registrati')),
+                (4, ref('group_vedi_protocolli_ingresso_registrati_ufficio')),
+                (4, ref('group_vedi_protocolli_uscita_registrati_ufficio')),
+                (4, ref('group_vedi_protocolli_ingresso_registrati_ufficio_figlio')),
+                (4, ref('group_vedi_protocolli_uscita_registrati_ufficio_figlio'))
                 ]"/>
             <field name="comment">Profilo del Consultatore</field>
         </record>
