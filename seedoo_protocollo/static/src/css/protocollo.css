@@ -50,6 +50,10 @@
 .openerp .history_icon.trash::after {
   content: "\f014";
 }
+.openerp .history_icon.warning::after {
+  content: "\f071";
+  color: darkorange;
+}
 .openerp .taballegati .oe_button {
   height: 28px;
 }
@@ -485,6 +489,9 @@
 .openerp .oe_kanban_view a.protocollo_attachments_box .icon_item_type i.fa {
   font-size: 32px;
   line-height: 44px;
+}
+.oe_protocollo_chatter .oe_msg_email {
+  display: none !important;
 }
 .protocollo_form_tabs ul.ui-tabs-nav li a {
   text-transform: uppercase;

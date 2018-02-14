@@ -226,6 +226,10 @@ button.oe_button.oe_form_button_edit::before {
   background-color:#679B41 !important;
 }
 
+.openerp button.btn_presa_in_carico {
+  background-color:#679B41 !important;
+}
+
 .oe_kanban_buttons button.oe_kanban_button_new.oe_highlight {
   background-color:#679B41 !important;
   box-shadow: none !important;

@@ -950,6 +950,7 @@ class protocollo_protocollo(orm.Model):
         res = []
         res_registrazione = []
         res_segnatura = []
+        err_segnatura = False
 
         for prot in self.browse(cr, uid, ids):
 
@@ -976,6 +977,7 @@ class protocollo_protocollo(orm.Model):
                         res_segnatura = {"Segnatura": {"Res": True, "Msg": "Segnatura generata correttamente"}}
                     except Exception as e:
                         _logger.error(e)
+                        err_segnatura = True
                         res_segnatura = {"Segnatura": {"Res": False, "Msg": "Non è stato possibile generare la segnatura PDF"}}
 
                     fingerprint = self._create_protocol_attachment(cr, uid, prot, prot_number, prot_date)
@@ -1001,6 +1003,7 @@ class protocollo_protocollo(orm.Model):
                     _logger.error(e)
                     raise openerp.exceptions.Warning(_('Errore nella ridenominazione degli allegati'))
 
+                thread_pool = self.pool.get('protocollo.protocollo')
                 action_class = "history_icon registration"
                 post_vars = {
                                 'subject': "Registrazione protocollo",
@@ -1008,17 +1011,17 @@ class protocollo_protocollo(orm.Model):
                                 'model': "protocollo.protocollo",
                                 'res_id': prot.id,
                              }
-                action_class = "history_icon warning"
-                post_vars_segnatura = {
-                    'subject': "Errore Generazione Segnatura",
-                    'body': "<div class='%s'><ul><li>Impossibile generare la segnatura PDF</li></ul></div>" % action_class,
-                    'model': "protocollo.protocollo",
-                    'res_id': prot.id,
-                }
-                thread_pool = self.pool.get('protocollo.protocollo')
-
                 thread_pool.message_post(cr, uid, prot.id, type="notification", context=context, **post_vars)
-                thread_pool.message_post(cr, uid, prot.id, type="notification", context=context, **post_vars_segnatura)
+
+                if err_segnatura:
+                    action_class = "history_icon warning"
+                    post_vars_segnatura = {
+                        'subject': "Errore Generazione Segnatura",
+                        'body': "<div class='%s'><ul><li>Impossibile generare la segnatura PDF</li></ul></div>" % action_class,
+                        'model': "protocollo.protocollo",
+                        'res_id': prot.id,
+                    }
+                    thread_pool.message_post(cr, uid, prot.id, type="notification", context=context, **post_vars_segnatura)
 
                 res_registrazione = {"Registrazione":
                                          {"Res": True, "Msg": "Protocollo Nr. %s del %s registrato correttamente" % (prot_number, prot.registration_date)}
@@ -1040,8 +1043,11 @@ class protocollo_protocollo(orm.Model):
         try:
             for prot in self.browse(cr, uid, ids):
                 if prot.type == 'in' and prot.pec and len(prot.mail_pec_ref.ids) > 0 and configurazione.conferma_xml_invia:
-                    self.action_send_receipt(cr, uid, ids, 'conferma', context=context)
-                    res_conferma = {"Invio Conferma": {"Res": True, "Msg": "Conferma inviata correttamente"}}
+                    res = self.action_send_receipt(cr, uid, ids, 'conferma', context=context)
+                    if res == 'sent':
+                        res_conferma = {"Invio Conferma": {"Res": True, "Msg": "Conferma inviata correttamente"}}
+                    elif res == '':
+                        res_conferma = {"Invio Conferma": {"Res": False, "Msg": "Non è stato possibile inviare la conferma"}}
         except Exception as e:
             _logger.error(e)
             res_conferma = {"Invio Conferma": {"Res": False, "Msg": "Non è stato possibile inviare la conferma"}}
@@ -1072,6 +1078,8 @@ class protocollo_protocollo(orm.Model):
     def action_send_receipt(self, cr, uid, ids, receipt_type, context=None, *args):
         if context is None:
             context = {}
+
+        res = None
         for prot in self.browse(cr, uid, ids):
             receipt_xml = None
             messaggio_pec_obj = self.pool.get('protocollo.messaggio.pec')
@@ -1144,21 +1152,29 @@ class protocollo_protocollo(orm.Model):
                     vals['pec_messaggio_ids'] = [(4, [messaggio_pec_id])]
                     sender_receiver_obj.write(vals)
 
-                # action_class = "history_icon mail"
-                # post_vars = {'subject': "Invio PEC",
-                #              'body': "<div class='%s'><ul><li>PEC protocollo inviato a: %s</li></ul></div>" % (
-                #              action_class, values['email_to']),
-                #              'model': "protocollo.protocollo",
-                #              'res_id': prot.id,
-                #              }
-                #
-                # thread_pool = self.pool.get('protocollo.protocollo')
-                # thread_pool.message_post(cr, uid, prot.id, type="notification", context=context, **post_vars)
+                res_mail_receipt = self.pool.get('mail.mail').browse(cr, uid, mail_receipt_id, context=context)
+                thread_pool = self.pool.get('protocollo.protocollo')
+                if res_mail_receipt.state == "sent":
+                    action_class = "history_icon mail"
+                    post_vars = {
+                        'subject': "Ricevuta di %s inviata" % receipt_type,
+                        'body': "<div class='%s'><ul><li>Conferma.xml inviata correttamente</li></ul></div>" % (action_class),
+                        'model': "protocollo.protocollo",
+                        'res_id': prot.id,
+                    }
+                elif res_mail_receipt.state == "exception":
+                    action_class = "history_icon warning"
+                    post_vars = {
+                        'subject': "Ricevuta di %s non inviata" % receipt_type,
+                        'body': "<div class='%s'><ul><li>Non è stato possibile inviare la conferma</li></ul></div>" % (action_class),
+                        'model': "protocollo.protocollo",
+                        'res_id': prot.id,
+                    }
 
-                # for sender_receiver_id in sender_receivers_pec_ids:
-                #     sender_receiver_obj = self.pool.get('protocollo.sender_receiver').browse(cr, uid, sender_receiver_id, context=context)
-                #     sender_receiver_obj.write({'pec_ref': mail.mail_message_id.id})
-        return True
+                if res_mail_receipt.state in ['sent', 'exception']:
+                    thread_pool.message_post(cr, uid, prot.id, type="notification", context=context, **post_vars)
+                    res = res_mail_receipt.state
+        return res
 
     def _get_assigne_cc_emails(self, cr, uid, ids, context=None):
         if isinstance(ids, (list, tuple)) and not len(ids):
