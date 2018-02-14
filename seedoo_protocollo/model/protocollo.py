@@ -924,6 +924,9 @@ class protocollo_protocollo(orm.Model):
         self.write(cr, uid, ids, {'state': 'registered'}, context=context)
         res_conferma = self.action_send_conferma(cr, uid, ids)
 
+        wf_service = netsvc.LocalService('workflow')
+        wf_service.trg_validate(uid, 'protocollo.protocollo', ids[0], 'register', cr)
+
         for item_res_registrazione in res_registrazione:
             res.append(item_res_registrazione)
         res.append(res_conferma)

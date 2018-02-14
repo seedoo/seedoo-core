@@ -25,13 +25,13 @@ this module contains the full copyright notices and license terms. -->
             <field name="wkf_id" ref="wkf_protocollo"/>
             <field name="name">registered</field>
             <field name="kind">function</field>
-            <field name="action">check_journal()
-                action_create_attachment()
-                action_create_partners()
-                action_register()
-                write({'state':'registered'})
-                action_send_conferma()
-            </field>
+            <!--<field name="action">check_journal()-->
+                <!--action_create_attachment()-->
+                <!--action_create_partners()-->
+                <!--action_register()-->
+                <!--write({'state':'registered'})-->
+                <!--action_send_conferma()-->
+            <!--</field>-->
         </record>
 
         <!-- In Protocol -->
