@@ -981,14 +981,6 @@ class protocollo_protocollo(orm.Model):
 
                 now = datetime.datetime.now()
                 vals['year'] = now.year
-
-                if context == None:
-                    new_context = {}
-                else:
-                    new_context = dict(context).copy()
-
-                # if prot.typology.name == 'PEC':
-                new_context.update({'pec_messages': True})
                 self.write(cr, uid, [prot.id], vals)
 
                 try:
@@ -1013,8 +1005,18 @@ class protocollo_protocollo(orm.Model):
                                 'model': "protocollo.protocollo",
                                 'res_id': prot.id,
                              }
+                action_class = "history_icon warning"
+                post_vars_segnatura = {
+                    'subject': "Errore Generazione Segnatura",
+                    'body': "<div class='%s'><ul><li>Impossibile generare la segnatura PDF</li></ul></div>" % action_class,
+                    'model': "protocollo.protocollo",
+                    'res_id': prot.id,
+                }
                 thread_pool = self.pool.get('protocollo.protocollo')
-                thread_pool.message_post(cr, uid, prot.id, type="notification", context=new_context, **post_vars)
+
+                thread_pool.message_post(cr, uid, prot.id, type="notification", context=context, **post_vars)
+                thread_pool.message_post(cr, uid, prot.id, type="notification", context=context, **post_vars_segnatura)
+
                 res_registrazione = {"Registrazione":
                                          {"Res": True, "Msg": "Protocollo Nr. %s del %s registrato correttamente" % (prot_number, prot.registration_date)}
                                     }
@@ -1811,8 +1813,7 @@ class protocollo_protocollo(orm.Model):
                          }
 
             thread_pool = self.pool.get('protocollo.protocollo')
-            thread_pool.message_post(cr, uid, protocollo_id, type="notification", context=context,
-                                     **post_vars)
+            thread_pool.message_post(cr, uid, protocollo_id, type="notification", context=context, **post_vars)
 
     def _get_oggetto_mail_pec(self, cr, uid, subject, prot_name, prot_registration_date):
         prefix = "Prot. n. " + prot_name + " del " + prot_registration_date + " - "
@@ -1841,7 +1842,7 @@ class protocollo_protocollo(orm.Model):
         if not context:
             context = {}
         protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, thread_id)
-        if protocollo.state == 'draft' and str(subject).find('Registrazione') != 0 and context.has_key('is_mailpec_to_draft') == False :
+        if protocollo.state == 'draft' and str(subject).find('Registrazione') != 0 and str(subject).find('Errore Generazione') != 0 and context.has_key('is_mailpec_to_draft') == False :
             pass
         else:
             return super(protocollo_protocollo, self).message_post(
