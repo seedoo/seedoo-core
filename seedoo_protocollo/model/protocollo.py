@@ -1016,7 +1016,7 @@ class protocollo_protocollo(orm.Model):
                 thread_pool = self.pool.get('protocollo.protocollo')
                 thread_pool.message_post(cr, uid, prot.id, type="notification", context=new_context, **post_vars)
                 res_registrazione = {"Registrazione":
-                                         {"Res": True, "Msg": "Protocollo registrato correttamente con Nr. %s del " % (prot_number)}
+                                         {"Res": True, "Msg": "Protocollo Nr. %s del %s registrato correttamente" % (prot_number, prot.registration_date)}
                                     }
             except Exception as e:
                 _logger.error(e)
