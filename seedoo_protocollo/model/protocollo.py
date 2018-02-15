@@ -865,22 +865,27 @@ class protocollo_protocollo(orm.Model):
         return directory_id, ruid
 
     def action_create_attachment(self, cr, uid, ids, *args):
-        for prot in self.browse(cr, uid, ids):
-            if prot.datas and prot.datas_fname:
-                attach_vals = {
-                    'name': prot.datas_fname,
-                    'datas': prot.datas,
-                    'datas_fname': prot.datas_fname,
-                    'res_model': 'protocollo.protocollo',
-                    'is_protocol': True,
-                    'res_id': prot.id,
-                }
-                protocollo_obj = self.pool.get('protocollo.protocollo')
-                attachment_obj = self.pool.get('ir.attachment')
-                attachment_id = attachment_obj.create(cr, uid, attach_vals)
-                protocollo_obj.write(
-                    cr, uid, prot.id,
-                    {'doc_id': attachment_id, 'datas': 0})
+        try:
+            for prot in self.browse(cr, uid, ids):
+                if prot.datas and prot.datas_fname:
+                    attach_vals = {
+                        'name': prot.datas_fname,
+                        'datas': prot.datas,
+                        'datas_fname': prot.datas_fname,
+                        'res_model': 'protocollo.protocollo',
+                        'is_protocol': True,
+                        'res_id': prot.id,
+                    }
+                    protocollo_obj = self.pool.get('protocollo.protocollo')
+                    attachment_obj = self.pool.get('ir.attachment')
+                    attachment_id = attachment_obj.create(cr, uid, attach_vals)
+                    protocollo_obj.write(
+                        cr, uid, prot.id,
+                        {'doc_id': attachment_id, 'datas': 0})
+        except Exception as e:
+            raise Exception(e)
+
+        return True
 
     def get_partner_values(self, cr, uid, send_rec):
         values = {
@@ -917,19 +922,30 @@ class protocollo_protocollo(orm.Model):
 
     def action_register_process(self, cr, uid, ids, context=None, *args):
         res = []
-        self.check_journal(cr, uid, ids)
-        self.action_create_attachment(cr, uid, ids)
-        self.action_create_partners(cr, uid, ids)
-        res_registrazione = self.action_register(cr, uid, ids)
-        self.write(cr, uid, ids, {'state': 'registered'}, context=context)
-        res_conferma = self.action_send_conferma(cr, uid, ids)
+        res_registrazione = None
+        res_conferma = None
+        check = self.check_journal(cr, uid, ids)
+        if check:
+            check = self.action_create_attachment(cr, uid, ids)
+        if check:
+            check = self.action_create_partners(cr, uid, ids)
+        if check:
+            res_registrazione = self.action_register(cr, uid, ids)
+            check = True if res_registrazione is not None and len(res_registrazione) > 0 and 'Registrazione' in \
+                                 res_registrazione[0] and 'Res' in res_registrazione[0]['Registrazione'] and res_registrazione[0]['Registrazione']['Res'] else False
 
-        wf_service = netsvc.LocalService('workflow')
-        wf_service.trg_validate(uid, 'protocollo.protocollo', ids[0], 'register', cr)
+        if check:
+            wf_service = netsvc.LocalService('workflow')
+            wf_service.trg_validate(uid, 'protocollo.protocollo', ids[0], 'register', cr)
+            res_conferma = self.action_send_conferma(cr, uid, ids)
 
-        for item_res_registrazione in res_registrazione:
-            res.append(item_res_registrazione)
-        res.append(res_conferma)
+        if res_registrazione is not None:
+            for item_res_registrazione in res_registrazione:
+                res.append(item_res_registrazione)
+
+        if check and res_conferma is not None:
+            res.append(res_conferma)
+
         context.update({'registration_message': res})
 
         res = {
@@ -1023,13 +1039,11 @@ class protocollo_protocollo(orm.Model):
                     }
                     thread_pool.message_post(cr, uid, prot.id, type="notification", context=context, **post_vars_segnatura)
 
-                res_registrazione = {"Registrazione":
-                                         {"Res": True, "Msg": "Protocollo Nr. %s del %s registrato correttamente" % (prot_number, prot.registration_date)}
-                                    }
+                res_registrazione = {"Registrazione":{"Res": True, "Msg": "Protocollo Nr. %s del %s registrato correttamente" % (prot_number, prot.registration_date)}}
             except Exception as e:
                 _logger.error(e)
+                # res_registrazione = {"Registrazione":{"Res": False, "Msg": "Errore nella registrazione del protocollo"}}
                 raise openerp.exceptions.Warning(_('Errore nella registrazione del protocollo'))
-
             res.append(res_registrazione)
             if len(res_segnatura) > 0:
                 res.append(res_segnatura)
@@ -1046,7 +1060,7 @@ class protocollo_protocollo(orm.Model):
                     res = self.action_send_receipt(cr, uid, ids, 'conferma', context=context)
                     if res == 'sent':
                         res_conferma = {"Invio Conferma": {"Res": True, "Msg": "Conferma inviata correttamente"}}
-                    elif res == '':
+                    elif res == 'exception':
                         res_conferma = {"Invio Conferma": {"Res": False, "Msg": "Non è stato possibile inviare la conferma"}}
         except Exception as e:
             _logger.error(e)
@@ -1509,6 +1523,7 @@ class protocollo_protocollo(orm.Model):
                 _('Attenzione!'),
                 _('Registro Giornaliero di protocollo chiuso! Non e\' possibile inserire nuovi protocolli')
             )
+        return True
 
     def has_offices(self, cr, uid, ids, *args):
         for protocol in self.browse(cr, uid, ids):
