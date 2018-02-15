@@ -1541,8 +1541,8 @@ class protocollo_protocollo(orm.Model):
         rec = self.pool.get('res.users').browse(cr, uid, uid)
 
         action_class = "history_icon refused"
-        post_vars = {'subject': "Rifiuto presa in carico",
-                     'body': "<div class='%s'><ul><li>Presa in carico rifiutata da <span style='color:#009900;'>%s</span></li></ul></div>" % (
+        post_vars = {'subject': "Rifiuto assegnazione",
+                     'body': "<div class='%s'><ul><li>Assegnazione rifiutata da <span style='color:#009900;'>%s</span></li></ul></div>" % (
                      action_class, rec.login),
                      'model': "protocollo.protocollo",
                      'res_id': ids[0],

@@ -378,7 +378,7 @@ this module contains the full copyright notices and license terms. -->
                                 attrs="{'invisible':[('prendi_in_carico_visibility','=',False)]}"
                                 class="oe_highlight btn_seedoo btn_presa_in_carico"/>
 
-                        <button string="Rifiuta la Presa in Carico"
+                        <button string="Rifiuta Assegnazione"
                                 type="object" name="rifiuta_presa_in_carico"
                                 attrs="{'invisible':[('rifiuta_visibility','=',False)]}"
                                 class="oe_highlight_warning btn_seedoo btn_rifiuta_presa_in_carico"/>
