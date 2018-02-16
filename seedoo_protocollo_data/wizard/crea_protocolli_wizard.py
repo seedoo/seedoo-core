@@ -134,7 +134,7 @@ class crea_protocolli_wizard(osv.TransientModel):
                 continue
 
             # il protocollo viene registrato dall'operatore_id
-            workflow.trg_validate(operatore_id, 'protocollo.protocollo', protocollo_id, 'register', cr)
+            protocollo_obj.action_register_process(cr, operatore_id, [protocollo_id], {})
 
             if count_registrati<wizard.count_registrati:
                 count_registrati = count_registrati + 1
