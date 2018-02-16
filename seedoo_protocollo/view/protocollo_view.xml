@@ -800,6 +800,32 @@ this module contains the full copyright notices and license terms. -->
                     <field name="typology"/>
                     <field name="dossier_ids"/>
                     <field name="state"/>
+                    <separator/>
+                    <group string="Mezzo di trasmissione">
+                        <filter string="E-mail" name="sharedmail" domain="[('sharedmail','=',True)]"/>
+                        <filter string="PEC" name="pec" domain="[('pec','=',True)]"/>
+                        <filter string="Altro" name="pec" domain="[('pec','=',False), ('sharedmail','=',False)]"/>
+                    </group>
+                    <group string="Stato">
+                        <filter string="Registrati da me" name="registrato_da_me" domain="[('user_id','=',uid),('state','!=','draft')]"/>
+                        <filter string="Annullati" name="annullati" domain="[('state','=','canceled')]"/>
+                        <filter string="Non Classificati" name="non_classificato" domain="[('state','in',('registered','notified','sent','waiting','error')),('classification','=',False)]"/>
+                        <filter string="Non Fascicolati" name="non_fascicolato" domain="[('state','in',('registered','notified','sent','waiting','error')),('dossier_ids','=',False)]"/>
+                    </group>
+                    <group string="PEC">
+                        <filter string="In attesa" name="waiting" domain="[('state','=','waiting')]"/>
+                        <filter string="Errore" name="error" domain="[('state','=','error')]"/>
+                    </group>
+                    <group string="Assegnati a me">
+                        <filter string="Assegnati a me" name="assegnato_a_me" domain="[('assegnato_a_me_visibility', '=', True)]"/>
+                        <filter string="Assegnati a me per cc" name="assegnato_a_me_cc" domain="[('assegnato_a_me_cc_visibility', '=', True)]"/>
+                        <filter string="Assegnati al mio ufficio" name="assegnato_a_mio_ufficio_visibility" domain="[('assegnato_a_mio_ufficio_visibility', '=', True)]"/>
+                        <filter string="Assegnati al mio ufficio per cc" name="assegnato_a_mio_ufficio_cc_visibility" domain="[('assegnato_a_mio_ufficio_cc_visibility', '=', True)]"/>
+                    </group>
+                    <group string="Assegnati da me">
+                        <filter string="Assegnati da me in attesa" name="assegnato_da_me_in_attesa" domain="[('assegnato_da_me_in_attesa_visibility', '=', True)]"/>
+                        <filter string="Assegnati da me rifiutati" name="assegnato_da_me_in_rifiutato" domain="[('assegnato_da_me_in_rifiutato_visibility', '=', True)]"/>
+                    </group>
                 </search>
             </field>
         </record>

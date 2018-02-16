@@ -567,6 +567,7 @@ class protocollo_protocollo(orm.Model):
         'protocol_request': fields.boolean('Richiesta Protocollo', readonly=True),
         'server_sharedmail_id': fields.many2one('fetchmail.server', 'Account Email', domain="[('sharedmail', '=', True),('user_sharedmail_ids', 'in', uid)]"),
         'server_pec_id': fields.many2one('fetchmail.server', 'Account PEC', domain="[('pec', '=', True),('user_ids', 'in', uid)]"),
+
     }
 
     def _get_default_name(self, cr, uid, context=None):
@@ -1886,47 +1887,6 @@ class protocollo_protocollo(orm.Model):
                 attachments=attachments, context=context,
                 content_subtype=content_subtype, **kwargs)
 
-
-    # def aggiungi_destinatari_pec(self, cr, uid, ids, context=None):
-    #     prot_id = ids[0]
-    #     view_ref = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'seedoo_protocollo', 'protocollo_sender_receiver_form')
-    #     view_id = view_ref[1] if view_ref else False
-    #     context.update({
-    #             'protocollo_id': prot_id,
-    #     })
-    #
-    #     if 'default_type' in context:
-    #         del context['default_type']
-    #
-    #     res = {
-    #         'type': 'ir.actions.act_window',
-    #         'name': _('Aggiungi Destinatario'),
-    #         'res_model': 'protocollo.sender_receiver',
-    #         'view_type': 'form',
-    #         'view_mode': 'form',
-    #         'view_id': view_id,
-    #         'target': 'new',
-    #         'context': context
-    #     }
-    #
-    #     return res
-
-    # def fields_view_get(self, cr, uid, view_id=None, view_type=None, context=None, toolbar=False, submenu=False):
-    #     res = super(protocollo_protocollo, self).fields_view_get(cr, uid, view_id=view_id, view_type=view_type, context=context,
-    #                                                    toolbar=toolbar, submenu=submenu)
-    #     context = context or {}
-    #     id = 0
-    #     if 'params' in context and 'id' in context['params']:
-    #         id = context['params']['id']
-    #
-    #     if id != 0 and view_type == 'form':
-    #         protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, id)
-    #         if protocollo.state != 'draft':
-    #             doc = etree.XML(res['arch'])
-    #             for t in doc.xpath("//form[@string='Protocollo']"):
-    #                 t.attrib['edit'] = 'false'
-    #             res['arch'] = etree.tostring(doc)
-    #     return res
 
 class protocollo_journal(orm.Model):
     _name = 'protocollo.journal'

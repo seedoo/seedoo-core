@@ -451,6 +451,10 @@
 .animateOut {
   animation: accordionOut 0.45s alternate ease-in-out both 1;
 }
+.oe_searchview_section li {
+  padding: 0 10px !important;
+  border: 1px solid #aaa;
+}
 .openerp .oe_notebook > li.ui-state-active > a.ui-tabs-anchor {
   color: #666 !important;
 }
