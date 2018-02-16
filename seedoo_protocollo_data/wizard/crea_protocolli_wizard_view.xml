@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This file is part of Seedoo.  The COPYRIGHT file at the top level of
+this module contains the full copyright notices and license terms. -->
+
+<openerp>
+    <data>
+
+        <!-- wizard view -->
+        <record id="crea_protocolli_view" model="ir.ui.view">
+            <field name="name">Crea Protocolli</field>
+            <field name="model">crea.protocolli.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Protocollo" version="7.0">
+                    <sheet>
+                        <group col="2">
+                            <field name="count_bozza"/>
+                            <field name="count_registrati"/>
+                            <field name="count_presi_in_carico"/>
+                            <field name="count_rifiutati"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button string="Ok" name="action_create" type="object" class="oe_highlight"/>
+                        o
+                        <button string="Abbandona" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="crea_protocolli_action"
+                    name="Crea Protocolli"
+                    res_model="crea.protocolli.wizard"
+                    view_type="form"
+                    view_mode="form"/>
+
+        <menuitem id="crea_protocolli_menu"
+                  name="Crea Protocolli di Test"
+                  action="crea_protocolli_action"
+                  parent="menu_protocollo_data_wizards"
+                  groups="group_crea_protocolli_test"
+                  sequence="1"/>
+
+    </data>
+</openerp>

@@ -1645,7 +1645,7 @@ class protocollo_protocollo(orm.Model):
             vals['assegnatari_conoscenza_uffici_ids'] = self._verifica_dati_assegnatari_uffici(cr, uid, vals[
                 'assegnatari_conoscenza_uffici_ids'], 'conoscenza')
         if vals and vals.has_key('assegnatari_conoscenza_dipendenti_ids'):
-            vals['assegnatari_competenza_conoscenza_ids'] = self._verifica_dati_assegnatari_dipendenti(cr, uid, vals[
+            vals['assegnatari_conoscenza_dipendenti_ids'] = self._verifica_dati_assegnatari_dipendenti(cr, uid, vals[
                 'assegnatari_conoscenza_dipendenti_ids'], 'conoscenza')
         return vals
 
