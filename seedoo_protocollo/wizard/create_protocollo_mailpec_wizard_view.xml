@@ -33,6 +33,7 @@ this module contains the full copyright notices and license terms. -->
                                    context="{'message_id': message_id}"
                                    options="{'no_create_edit': 1, 'no_create': 1}"
                                    />
+                            <field name="doc_description" required="1"/>
                         </group>
                     </sheet>
                     <footer>

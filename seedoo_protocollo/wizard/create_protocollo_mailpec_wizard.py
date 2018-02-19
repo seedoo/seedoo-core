@@ -98,6 +98,7 @@ class ProtocolloMailPecWizard(osv.TransientModel):
         'is_attach_message': fields.related('ir.attachment', 'doc_principale', type='boolean',
                                             string="Author's Avatar"),
         'doc_fname': fields.related('doc_principale', 'datas_fname', type='char', readonly=True),
+        'doc_description': fields.char('Descrizione documento', size=256, readonly=False),
         'sender_receivers': fields.one2many(
             'protocollo.sender_receiver.wizard',
             'wizard_id',
@@ -280,7 +281,7 @@ class ProtocolloMailPecWizard(osv.TransientModel):
                                                                protocollo_id,
                                                                body_pdf_content,
                                                                body_pdf_name,
-                                                               "")
+                                                               wizard.doc_description)
                 else:
                     file_data_list.append({
                         'datas': body_pdf_content,
@@ -294,7 +295,7 @@ class ProtocolloMailPecWizard(osv.TransientModel):
                                                                protocollo_id,
                                                                attach.datas,
                                                                attach.name,
-                                                               "")
+                                                               wizard.doc_description)
                 else:
                     file_data_list.append({
                         'datas': attach.datas,
@@ -310,7 +311,7 @@ class ProtocolloMailPecWizard(osv.TransientModel):
                                                                    protocollo_id,
                                                                    attach.datas,
                                                                    attach.name,
-                                                                   "")
+                                                                   wizard.doc_description)
                 else:
                     file_data_list.append({
                         'datas': attach.datas,
