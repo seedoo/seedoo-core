@@ -9,6 +9,7 @@ from openerp.osv import fields, osv
 from utility.conversion import ConversionUtility
 from lxml import etree
 from ..segnatura.segnatura_xml_parser import SegnaturaXMLParser
+import re
 _logger = logging.getLogger(__name__)
 
 
@@ -219,11 +220,12 @@ class ProtocolloMailPecWizard(osv.TransientModel):
 
         if (is_pec and is_segnatura is False) or is_pec is False:
             for send_rec in wizard.sender_receivers:
+                srname = re.sub('<[^>]+>', '', send_rec.name)
                 srvals = {
                     'type': send_rec.type,
                     'source': 'sender',
                     'partner_id': send_rec.partner_id and send_rec.partner_id.id or False,
-                    'name': send_rec.name,
+                    'name': srname,
                     'street': send_rec.street,
                     'zip': send_rec.zip,
                     'city': send_rec.city,
