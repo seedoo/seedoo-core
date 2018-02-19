@@ -51,6 +51,8 @@ class protocollo_config_settings(osv.osv_memory):
                  type='boolean', string='Dipendenti Assegnatari per Conoscenza'),
         'documento_required': fields.related('config_id', 'documento_required',
                  type='boolean', string='Documento Principale'),
+        'allegati_descrizione_required': fields.related('config_id', 'allegati_descrizione_required',
+                                             type='boolean', string='Descrizione allegati'),
         'aggiungi_allegati_post_registrazione': fields.related('config_id', 'aggiungi_allegati_post_registrazione',
                                              type='boolean', string='Aggiungi allegato post registrazione'),
         'email_pec_unique': fields.related('config_id', 'email_pec_unique', type='boolean', string='PEC/Email Univoca'),
