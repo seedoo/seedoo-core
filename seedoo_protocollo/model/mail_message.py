@@ -10,7 +10,7 @@ from ..segnatura.conferma_xml_parser import ConfermaXMLParser
 class MailMessage(orm.Model):
     _inherit = "mail.message"
 
-    def _get_pec_attachs(self, cr, uid, ids, field_name, arg, context=None):
+    def _get_message_attachs(self, cr, uid, ids, field_name, arg, context=None):
         if isinstance(ids, (list, tuple)) and not len(ids):
             return []
         if isinstance(ids, (long, int)):
@@ -53,8 +53,8 @@ class MailMessage(orm.Model):
             ('protocol', 'Protocols'),
             ('not_protocol', 'No Protocol')
             ], 'Pec State', readonly=True),
-        'pec_attachs': fields.function(_get_pec_attachs, type='one2many',
-                                        obj='ir.attachment', string='Allegati alla PEC'),
+        'message_attachs': fields.function(_get_message_attachs, type='one2many',
+                                        obj='ir.attachment', string='Allegati al messaggio'),
         'pec_eml': fields.function(_get_pec_eml, type='one2many',
                                         obj='ir.attachment', string='Messaggio PEC'),
         'pec_eml_fname': fields.related('pec_eml', 'datas_fname', type='char', readonly=True),

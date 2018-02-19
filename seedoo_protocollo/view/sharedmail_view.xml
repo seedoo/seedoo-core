@@ -28,13 +28,13 @@ this module contains the full copyright notices and license terms. -->
                     <sheet>
                         <group>
                             <newline/>
-                            <!--<field name="sharedmail_server_user" attrs="{'invisible':[('sharedmail_state','!=','sharedmail')]}" string="Account"/>-->
+                            <field name="sharedmail_server_user" attrs="{'invisible':[('sharedmail_type','!=','sharedmail')]}" string="Account"/>
                             <newline/>
                         </group>
                         <div class="gedoc_header">
                             <group col="4">
                                 <newline/>
-                                <field name="email_from" attrs="{'invisible':[('sharedmail_state','!=','sharedmail')]}"/>
+                                <field name="email_from" attrs="{'invisible':[('sharedmail_type','!=','sharedmail')]}"/>
                                 <field name="date"/>
                             </group>
                         </div>
@@ -51,12 +51,12 @@ this module contains the full copyright notices and license terms. -->
                             </group>
                             <newline/>
                             <group>
-                                <!--<field name="sharedmail_attachs">-->
-                                    <!--<tree>-->
-                                        <!--<field name="name"/>-->
-                                        <!--<field name="file_type"/>-->
-                                     <!--</tree>-->
-                                <!--</field>-->
+                                <field name="message_attachs">
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="file_type"/>
+                                     </tree>
+                                </field>
                             </group>
                         </group>
                     </sheet>
