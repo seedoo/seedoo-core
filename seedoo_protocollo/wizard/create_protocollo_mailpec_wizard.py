@@ -273,6 +273,14 @@ class ProtocolloMailPecWizard(osv.TransientModel):
         body_pdf_content = base64.b64encode(ConversionUtility.html_to_pdf(wizard.body))
         body_pdf_name = "mailbody.pdf"
 
+        if is_pec is False and wizard.select_doc_principale == 'testo':
+            protocollo_obj.carica_documento_principale(cr,
+                                                       uid,
+                                                       protocollo_id,
+                                                       body_pdf_content,
+                                                       body_pdf_name,
+                                                       wizard.doc_description)
+
         for attach in mail_message.attachment_ids:
             if attach.name == 'original_email.eml':
                 if wizard.select_doc_principale == 'testo':
