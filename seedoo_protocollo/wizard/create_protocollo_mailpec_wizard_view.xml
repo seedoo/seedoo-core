@@ -21,6 +21,7 @@ this module contains the full copyright notices and license terms. -->
                 <form string="Protocollo PEC" version="7.0">
                     <sheet>
                         <group col="4">
+                            <field name="sender_receivers" invisible="1"/>
                             <separator string="Documento da Protocollare" colspan="4"/>
                             <field name="select_doc_principale" />
 

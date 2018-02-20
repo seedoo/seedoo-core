@@ -57,14 +57,12 @@ class protocollo_sender_receiver_wizard(osv.TransientModel):
         'city': fields.char('Citta\'', size=128),
         'country_id': fields.many2one('res.country', 'Paese'),
         'email': fields.char('Email', size=240),
-        'pec_mail': fields.char('PEC', size=240, required=True, readonly=True),
+        'pec_mail': fields.char('PEC', size=240),
         'phone': fields.char('Telefono', size=64),
         'fax': fields.char('Fax', size=64),
         'mobile': fields.char('Cellulare', size=64),
         'notes': fields.text('Note'),
-        'send_type': fields.many2one('protocollo.typology',
-                                     'Mezzo di Spedizione'
-                                     ),
+        'send_type': fields.many2one('protocollo.typology', 'Mezzo di Spedizione'),
         'send_date': fields.date('Data Spedizione'),
     }
 
@@ -144,6 +142,13 @@ class ProtocolloMailPecWizard(osv.TransientModel):
         mail_message = self.pool.get('mail.message').browse(cr, uid, context['active_id'], context=context)
         partner = mail_message.author_id
         res = []
+        sr_substring = re.findall('<[^>]+>', mail_message.email_from)
+        if len(sr_substring):
+            sr_email = sr_substring[0].strip('<>')
+            sr_name = mail_message.email_from.replace(sr_substring[0], '')
+        else:
+            sr_name = sr_email = mail_message.email_from
+
         if partner:
             res.append({
                 'partner_id': partner.id,
@@ -157,12 +162,18 @@ class ProtocolloMailPecWizard(osv.TransientModel):
                 'phone': partner.phone,
                 'fax': partner.fax,
                 'mobile': partner.mobile,
-                'pec_mail': mail_message.email_from
+                'pec_mail': partner.pec_mail
             })
-        else:
+        elif 'message_type' in context and context['message_type'] == 'mail':
             res.append({
-                'name': mail_message.email_from,
-                'pec_mail': mail_message.email_from,
+                'name': sr_name,
+                'email': sr_email,
+                'type': 'individual',
+            })
+        elif 'message_type' in context and context['message_type'] == 'pec':
+            res.append({
+                'name': sr_name,
+                'pec_mail': sr_email,
                 'type': 'individual',
             })
         return res
@@ -220,17 +231,15 @@ class ProtocolloMailPecWizard(osv.TransientModel):
 
         if (is_pec and is_segnatura is False) or is_pec is False:
             for send_rec in wizard.sender_receivers:
-                srname = re.sub('<[^>]+>', '', send_rec.name)
                 srvals = {
                     'type': send_rec.type,
                     'source': 'sender',
                     'partner_id': send_rec.partner_id and send_rec.partner_id.id or False,
-                    'name': srname,
+                    'name': send_rec.name,
                     'street': send_rec.street,
                     'zip': send_rec.zip,
                     'city': send_rec.city,
                     'country_id': send_rec.country_id and send_rec.country_id.id or False,
-                    'email': send_rec.email,
                     'phone': send_rec.phone,
                     'fax': send_rec.fax,
                     'mobile': send_rec.mobile,
@@ -239,6 +248,9 @@ class ProtocolloMailPecWizard(osv.TransientModel):
                 if is_pec:
                     srvals['pec_mail'] = send_rec.pec_mail
                     srvals['pec_messaggio_ids'] = [[6, 0, [messaggio_pec_id]]]
+                else:
+                    srvals['pec_mail'] = ''
+                    srvals['email'] = send_rec.email
 
                 sender_receiver.append(sender_receiver_obj.create(cr, uid, srvals))
 
