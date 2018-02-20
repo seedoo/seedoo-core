@@ -189,15 +189,11 @@ class protocollo_protocollo(orm.Model):
             body = configurazione.inserisci_testo_mailpec
             values['inserisci_testo_mailpec_visibility'] = body
             if typology.pec:
-                values = {
-                    'pec': True,
-                    'sharedmail': False,
-                }
+                values['pec'] = True
+                values['sharedmail'] = False
             if typology.sharedmail:
-                values = {
-                    'pec': False,
-                    'sharedmail': True,
-                }
+                values['pec'] = False
+                values['sharedmail'] = True
         return {'value': values}
 
     def on_change_reserved(self, cr, uid, ids, reserved, context=None):
