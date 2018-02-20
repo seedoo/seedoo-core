@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<!-- This file is part of Seedoo.  The COPYRIGHT file at the top level of
+this module contains the full copyright notices and license terms. -->
+
+<openerp>
+    <data noupdate="0">
+
+        <record id="group_crea_protocolli_test" model="res.groups">
+            <field name="name">Crea Protocolli di Test</field>
+            <field name="category_id" ref="seedoo_protocollo.module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+
+    </data>
+
+</openerp>
