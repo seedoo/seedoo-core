@@ -32,9 +32,28 @@ this module contains the full copyright notices and license terms. -->
                                    domain="[('name','!=','original_email.eml'),('is_message_attach','=',True)]"
                                    attrs="{'invisible':[('select_doc_principale', 'in', ('testo','eml'))],'required':[('select_doc_principale', '=', 'allegato')]}"
                                    context="{'message_id': message_id}"
-                                   options="{'no_create_edit': 1, 'no_create': 1}"
+                                   options="{'no_create_edit': 1, 'no_create': 1, 'no_open': True}"
+                                   on_change="on_change_attachment(doc_principale)"
                                    />
+                            <newline/>
                             <field name="doc_description" required="1"/>
+                            <newline/>
+                            <group colspan="4">
+                                <div id="protocollo-accordion">
+                                    <div class="dati-protocollo-container" id="anteprima-container" attrs="{'invisible':[('preview','=',False)]}">
+                                        <div class="protocollo-accordion-toggle button-form-protocollo">
+                                            <h4 class="accordion-toggle">Anteprima</h4>
+                                        </div>
+                                        <div class="accordion-content" style="margin-top: 30px;">
+                                            <field name="preview" string="Anteprima Allegato" noupload="True" colspan="4"
+                                               nolabel="1"
+                                               options="{'uploadbutton':false}"
+                                               attrs="{'invisible':[('preview', '=' , False)], 'readonly':True}"
+                                               widget="pdfviewer"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </group>
                         </group>
                     </sheet>
                     <footer>

@@ -78,6 +78,20 @@ class ProtocolloMailPecWizard(osv.TransientModel):
 
     DOC_PRINCIPALE_SELECTION = [('testo', 'Testo del messaggio'), ('eml', 'File Eml'), ('allegato', 'Allegato')]
 
+
+    def on_change_attachment(self, cr, uid, ids, attachment_id, context=None):
+        values = {'preview': False}
+        if attachment_id:
+            ir_attachment = self.pool.get('ir.attachment').browse(cr, uid, attachment_id)
+            for attach in ir_attachment:
+                if attach.file_type == 'application/pdf':
+                    values = {
+                        'preview': attach.datas,
+                    }
+                return {'value': values}
+        else:
+            return None
+
     _columns = {
         'subject': fields.text('Oggetto',
                                required=True, readonly=True),
@@ -98,6 +112,7 @@ class ProtocolloMailPecWizard(osv.TransientModel):
                                             string="Author's Avatar"),
         'doc_fname': fields.related('doc_principale', 'datas_fname', type='char', readonly=True),
         'doc_description': fields.char('Descrizione documento', size=256, readonly=False),
+        'preview': fields.binary('Anteprima allegato PDF'),
         'sender_receivers': fields.one2many(
             'protocollo.sender_receiver.wizard',
             'wizard_id',
