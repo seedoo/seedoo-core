@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This file is part of Seedoo.  The COPYRIGHT file at the top level of
+this module contains the full copyright notices and license terms. -->
+
+<openerp>
+    <data noupdate="0">
+        
+    	<record id="gedoc_document_type_imported" model="gedoc.document.type">
+            <field name="name">Documento Importato</field>
+            <field name="tipologia_repertorio">none</field>
+        </record>
+    
+    </data>
+</openerp>

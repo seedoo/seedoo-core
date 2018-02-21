@@ -43,11 +43,12 @@ this module contains the full copyright notices and license terms. -->
                                domain="[('aoo_id','=',aoo_id)]"
                                attrs="{'invisible':['|',('tipologia_importazione', '=', 'aggancio'),('tipologia_importazione', '=', False)],
                                'required':[('tipologia_importazione', '=', 'creazione')]}"/>
-                        <field name="employee_id" colspan="4"
+                        <field name="employee_ids" colspan="4"
                                domain="[('department_id.aoo_id','=',aoo_id)]"
                                options="{'no_quick_create': True, 'no_create_edit' : True}"
                                attrs="{'invisible':['|',('tipologia_importazione', '=', 'aggancio'),('tipologia_importazione', '=', False)],
-                               'required':[('tipologia_importazione', '=', 'creazione')]}"/>
+                               'required':[('tipologia_importazione', '=', 'creazione')]}">
+                        </field>
                     </group>
                     <group string="Configurazione Repository" col="4">
                         <field name="address"/>

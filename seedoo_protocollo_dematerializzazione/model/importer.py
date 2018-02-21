@@ -27,7 +27,7 @@ class dematerializzazione_importer(orm.Model):
             values = {
                 #'aoo_id': False,
                 'tipologia_protocollo': False,
-                'employee_id': False
+                'employee_ids': []
             }
         return {'value': values}
 
@@ -36,7 +36,7 @@ class dematerializzazione_importer(orm.Model):
         if aoo_id:
             values = {
                 'tipologia_protocollo': False,
-                'employee_id': False
+                'employee_ids': []
             }
         return {'value': values}
 
@@ -48,8 +48,8 @@ class dematerializzazione_importer(orm.Model):
         'tipologia_importazione': fields.selection(TIPOLOGIA_SELECTION, 'Tipologia Importazione', select=True, required=True),
         'tipologia_protocollo': fields.many2one('protocollo.typology', 'Tipologia Protocollo'),
         'aoo_id': fields.many2one('protocollo.aoo', 'AOO', required=True),
-        'employee_id': fields.many2one('hr.employee', 'Protocollatore'),
-        #'user_id': fields.many2one('res.users', 'Protocollatore'),
+        #'employee_id': fields.many2one('hr.employee', 'Protocollatore'),
+        'employee_ids': fields.many2many('hr.employee', 'dematerializzazione_importer_employee_rel', 'importer_id', 'employee_id', 'Protocollatori'),
         'address': fields.char('Indirizzo', char=256, required=True),
         'port': fields.integer('Porta'),
         'share': fields.char('Cartella Condivisa', char=256, required=True),
@@ -166,22 +166,51 @@ class dematerializzazione_importer(orm.Model):
             data_encoded = base64.encodestring(temp_fh.getvalue())
 
             if filesize > 0:
+                # now = datetime.datetime.now().strftime(DSDF)
+                # name = 'Nuovo Protocollo del ' + now + ' (%s) ' % import_counter
+                # vals = {
+                #     'name': name,
+                #     'typology': importer.tipologia_protocollo.id,
+                #     'creation_date': datetime.datetime.now().strftime('%Y%m%d %H:%M:%S'),
+                #     'receiving_date': datetime.datetime.now().strftime('%Y%m%d %H:%M:%S'),
+                #     'type': 'in',
+                #     'aoo_id': importer.aoo_id.id,
+                #     'user_id': importer.employee_id.user_id.id,
+                #     'mimetype': 'application/pdf',
+                #     'importer_id': storico_importer_id
+                # }
+                # protocollo_obj = self.pool.get('protocollo.protocollo')
+                # protocollo_id = protocollo_obj.create(cr, uid, vals, context={})
+                # protocollo_obj.carica_documento_principale(cr, uid, protocollo_id, data_encoded, file_to_import.filename, "")
+
                 now = datetime.datetime.now().strftime(DSDF)
-                name = 'Nuovo Protocollo del ' + now + ' (%s) ' % import_counter
+                name = 'Nuovo Documento del ' + now + ' (%s) ' % import_counter
+                document_type = self.pool.get('ir.model.data').get_object(cr, uid, 'seedoo_protocollo_dematerializzazione', 'gedoc_document_type_imported')
                 vals = {
                     'name': name,
-                    'typology': importer.tipologia_protocollo.id,
-                    'creation_date': datetime.datetime.now().strftime('%Y%m%d %H:%M:%S'),
-                    'receiving_date': datetime.datetime.now().strftime('%Y%m%d %H:%M:%S'),
-                    'type': 'in',
+                    'subject': name,
+                    'document_type': document_type.id,
+                    'main_doc_id': False,
+                    'user_id': uid,
+                    'data_doc': datetime.datetime.now().strftime('%Y%m%d %H:%M:%S'),
+                    'employee_comp_ids': [(6, 0, [importer.employee_ids.id])],
                     'aoo_id': importer.aoo_id.id,
-                    'user_id': importer.employee_id.user_id.id,
-                    'mimetype': 'application/pdf',
-                    'importer_id': storico_importer_id
+
+                    #'typology': importer.tipologia_protocollo.id,
+                    #'mimetype': 'application/pdf',
+                    #'importer_id': storico_importer_id
                 }
-                protocollo_obj = self.pool.get('protocollo.protocollo')
-                protocollo_id = protocollo_obj.create(cr, uid, vals, context={})
-                protocollo_obj.carica_documento_principale(cr, uid, protocollo_id, data_encoded, file_to_import.filename, "")
+                gedoc_document_id = self.pool.get('gedoc.document').create(cr, uid, vals)
+
+                attachment_obj = self.pool.get('ir.attachment')
+                main_doc_id = attachment_obj.create(cr, uid, {
+                    'name': file_to_import.filename,
+                    'datas': data_encoded,
+                    'datas_fname': file_to_import.filename,
+                    'res_model': 'gedoc.document',
+                    'res_id': gedoc_document_id,
+                })
+
             else:
                 errore = 'Errore nel caricamento del file'
                 esito = False
