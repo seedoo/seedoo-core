@@ -76,8 +76,16 @@ class ProtocolloMailPecWizard(osv.TransientModel):
     _description = 'Create Protocollo From Mail or PEC'
     _rec_name = 'subject'
 
-    DOC_PRINCIPALE_SELECTION = [('testo', 'Testo del messaggio'), ('eml', 'File Eml'), ('allegato', 'Allegato')]
-
+    def _get_doc_principale_option(self, cr, uid, context=None):
+        options = []
+        attach_lower_limit = 0
+        options.append(('testo', 'Corpo del messaggio'))
+        if 'message_type' in context and context['message_type'] is 'pec':
+            options.append(('eml', 'Intero messaggio (file EML)'))
+            attach_lower_limit = 1 #al momento le PEC si includono anche l'attachment EML quindi il controllo parte da 1
+        if 'attachment_ids' in context and len(context['attachment_ids'][0][2]) > attach_lower_limit:
+            options.append(('allegato', 'Allegato'))
+        return options
 
     def on_change_attachment(self, cr, uid, ids, attachment_id, context=None):
         values = {'preview': False}
@@ -102,7 +110,7 @@ class ProtocolloMailPecWizard(osv.TransientModel):
             readonly=True),
         'message_id': fields.integer('Id',
                                      required=True, readonly=True),
-        'select_doc_principale': fields.selection(DOC_PRINCIPALE_SELECTION, 'Seleziona il documento da protocollare',
+        'select_doc_principale': fields.selection(_get_doc_principale_option, 'Seleziona il documento da protocollare',
                                                   select=True,
                                                   required=True),
         'doc_principale': fields.many2one('ir.attachment', 'Allegato',
