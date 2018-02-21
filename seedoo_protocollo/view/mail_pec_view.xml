@@ -26,30 +26,19 @@ this module contains the full copyright notices and license terms. -->
                         <field name="pec_type" invisible="1"/>
                     </header>
                     <sheet>
-                        <group>
-                            <newline/>
-                            <field name="pec_server_user" attrs="{'invisible':[('pec_type','!=','posta-certificata')]}" string="Account"/>
-                            <newline/>
-                        </group>
                         <div class="gedoc_header">
                             <group col="4">
+                                <field name="pec_server_user" attrs="{'invisible':[('pec_type','!=','posta-certificata')]}" string="Account"/>
                                 <newline/>
                                 <field name="email_from" attrs="{'invisible':[('pec_type','!=','posta-certificata')]}"/>
                                 <field name="date"/>
                             </group>
                         </div>
                         <group>
-                            <newline/>
                             <field name="subject" colspan="4"/>
-                            <field name="body" colspan="4" string="Testo della PEC"/>
+                            <field name="body" colspan="4" string="Messaggio"/>
                             <field name="attachment_ids" invisible="1"/>
                             <!--<separator string="Documenti" colspan="4"/>-->
-                            <group>
-                                <field name="pec_eml" invisible="1"/>
-                                <field name="pec_eml_fname" invisible="1"/>
-                                <field name="pec_eml_content" filename="pec_eml_fname" colspan="4" />
-                            </group>
-                            <newline/>
                             <group>
                                 <field name="message_attachs">
                                     <tree>
@@ -58,6 +47,11 @@ this module contains the full copyright notices and license terms. -->
                                      </tree>
                                 </field>
                             </group>
+                        </group>
+                        <group>
+                            <field name="pec_eml" invisible="1"/>
+                            <field name="pec_eml_fname" invisible="1"/>
+                            <field name="pec_eml_content" filename="pec_eml_fname" colspan="4" />
                         </group>
                     </sheet>
                 </form>
