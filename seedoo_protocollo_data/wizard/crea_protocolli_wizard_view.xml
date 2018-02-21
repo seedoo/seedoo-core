@@ -32,7 +32,9 @@ this module contains the full copyright notices and license terms. -->
                     name="Crea Protocolli"
                     res_model="crea.protocolli.wizard"
                     view_type="form"
-                    view_mode="form"/>
+                    view_mode="form"
+                    target="new"
+        />
 
         <menuitem id="crea_protocolli_menu"
                   name="Crea Protocolli di Test"
