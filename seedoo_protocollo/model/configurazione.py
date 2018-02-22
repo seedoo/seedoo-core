@@ -10,9 +10,9 @@ from openerp.tools.translate import _
 class protocollo_configurazione(orm.Model):
     _name = 'protocollo.configurazione'
     _columns = {
-        'inserisci_testo_mailpec': fields.boolean('Abilita testo E-mail/PEC'),
+        'inserisci_testo_mailpec': fields.boolean('Abilita testo e-mail/PEC'),
         'rinomina_documento_allegati': fields.boolean('Rinomina documento principale e allegati'),
-        'rinomina_oggetto_mail_pec': fields.boolean('Rinomina oggetto mail/PEC'),
+        'rinomina_oggetto_mail_pec': fields.boolean('Rinomina oggetto e-mail/PEC'),
         'genera_segnatura': fields.boolean('Genera Segnatura nel PDF'),
         'segnatura_xml_parse': fields.boolean('Leggi Segnatura.xml'),
         'segnatura_xml_invia': fields.boolean('Invia Segnatura.xml'),
@@ -23,17 +23,17 @@ class protocollo_configurazione(orm.Model):
         'classificazione_required': fields.boolean('Classificazione Obbligatoria'),
         'fascicolazione_required': fields.boolean('Fascicolazione Obbligatoria'),
 
-        'assegnatari_competenza_uffici_required': fields.boolean('Uffici Assegnatari per Competenza Obbligatori'),
-        'assegnatari_competenza_dipendenti_required': fields.boolean('Dipendenti Assegnatari per Competenza Obbligatori'),
-        'assegnatari_conoscenza_uffici_required': fields.boolean('Uffici Assegnatari per Conoscenza Obbligatori'),
-        'assegnatari_conoscenza_dipendenti_required': fields.boolean('Dipendenti Assegnatari per Conoscenza Obbligatori'),
+        'assegnatari_competenza_uffici_required': fields.boolean('Uffici assegnatari per competenza Obbligatori'),
+        'assegnatari_competenza_dipendenti_required': fields.boolean('Dipendenti assegnatari per competenza Obbligatori'),
+        'assegnatari_conoscenza_uffici_required': fields.boolean('Uffici assegnatari per conoscenza Obbligatori'),
+        'assegnatari_conoscenza_dipendenti_required': fields.boolean('Dipendenti assegnatari per conoscenza Obbligatori'),
 
         'documento_required': fields.boolean('Documento Obbligatorio'),
-        'allegati_descrizione_required': fields.boolean('Descrizione Allegati Obbligatoria'),
+        'allegati_descrizione_required': fields.boolean('Descrizione allegati Obbligatoria'),
 
-        'aggiungi_allegati_post_registrazione': fields.boolean('Aggiungi allegati post registrazione'),
-        'lunghezza_massima_oggetto_mail': fields.integer('Lunghezza massima dell\'oggetto della mail'),
-        'lunghezza_massima_oggetto_pec': fields.integer('Lunghezza massima dell\'oggetto della PEC'),
+        'aggiungi_allegati_post_registrazione': fields.boolean('Aggiungi allegati Post Registrazione'),
+        'lunghezza_massima_oggetto_mail': fields.integer('Lunghezza massima oggetto e-mail'),
+        'lunghezza_massima_oggetto_pec': fields.integer('Lunghezza massima oggetto PEC'),
         'email_pec_unique': fields.boolean('PEC/Email Univoca'),
     }
 
