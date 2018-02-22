@@ -54,7 +54,7 @@ class MailMessage(orm.Model):
             ('not_protocol', 'No Protocol')
             ], 'Pec State', readonly=True),
         'message_attachs': fields.function(_get_message_attachs, type='one2many',
-                                        obj='ir.attachment', string='Allegati al messaggio'),
+                                        obj='ir.attachment', string='Allegati'),
         'pec_eml': fields.function(_get_pec_eml, type='one2many',
                                         obj='ir.attachment', string='Messaggio PEC'),
         'pec_eml_fname': fields.related('pec_eml', 'datas_fname', type='char', readonly=True),

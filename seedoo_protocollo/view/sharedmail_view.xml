@@ -26,7 +26,7 @@ this module contains the full copyright notices and license terms. -->
                         <field name="sharedmail_type" invisible="1"/>
                     </header>
                     <sheet>
-                        <div class="gedoc_header">
+                        <div class="message_header">
                             <group col="4">
                                 <field name="sharedmail_server_user" attrs="{'invisible':[('sharedmail_type','!=','sharedmail')]}" string="Account"/>
                                 <newline/>
@@ -34,9 +34,11 @@ this module contains the full copyright notices and license terms. -->
                                 <field name="date"/>
                             </group>
                         </div>
-                        <group>
+                        <group class="message_data">
                             <field name="subject" colspan="4"/>
-                            <field name="body" colspan="4" string="Messaggio"/>
+                            <group class="body-message-container">
+                                <field name="body" colspan="4" string="Corpo del messaggio"/>
+                            </group>
                             <field name="attachment_ids" invisible="1"/>
                             <!--<separator string="Documenti" colspan="4"/>-->
                             <!--<group>-->
