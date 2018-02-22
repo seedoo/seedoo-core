@@ -67,6 +67,13 @@ class protocollo_configurazione(orm.Model):
         if not protocollo.sender_receivers:
             send_rec = protocollo.type == 'in' and '\n- Mittenti' or '\n- Destinatari'
             campi_obbligatori = campi_obbligatori + send_rec
+
+        if protocollo.type == 'in' and (protocollo.pec or protocollo.sharedmail):
+            for sr in protocollo.sender_receivers:
+                if not sr.name:
+                    campi_obbligatori = campi_obbligatori + '\n- Nome del Mittente'
+                    break
+
         if protocollo.type == 'out' and protocollo.pec:
             for sr in protocollo.sender_receivers:
                 if not sr.pec_mail:

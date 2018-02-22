@@ -170,7 +170,8 @@ class ProtocolloMailPecWizard(osv.TransientModel):
             sr_email = sr_substring[0].strip('<>')
             sr_name = mail_message.email_from.replace(sr_substring[0], '')
         else:
-            sr_name = sr_email = mail_message.email_from
+            sr_name = ''
+            sr_email = mail_message.email_from
 
         if partner:
             res.append({
