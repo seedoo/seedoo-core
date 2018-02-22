@@ -61,7 +61,7 @@ class protocollo_carica_documenti_step1_wizard(osv.TransientModel):
         'datas_fname': _default_datas_fname,
         'datas': _default_datas,
         'datas_description': _default_datas_description,
-        'document_ids': _default_document_ids
+        'document_ids': _default_document_ids,
     }
 
 
@@ -90,9 +90,21 @@ class protocollo_carica_documenti_step1_wizard(osv.TransientModel):
 
 class protocollo_carica_documenti_secondari_step1_wizard(osv.TransientModel):
     _name = 'protocollo.carica.documenti.secondari.step1.wizard'
+
     _columns = {
         'wizard_id': fields.many2one('protocollo.carica.documenti.step1.wizard'),
         'datas_fname': fields.char('Nome Documento', size=256, readonly=False),
         'datas': fields.binary('File Documento', required=True),
-        'datas_description': fields.char('Descrizione Documento', size=256, required=True),
+        'datas_description': fields.char('Descrizione Documento', size=256),
+        'allegati_descrizione_required_wizard': fields.boolean('Descrizione allegato obbligatorio', readonly=1)
     }
+
+    def _default_allegati_descrizione_wizard_required(self, cr, uid, context):
+        configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
+        configurazione = self.pool.get('protocollo.configurazione').browse(cr, uid, configurazione_ids[0])
+        return configurazione.allegati_descrizione_required
+
+    _defaults = {
+        'allegati_descrizione_required_wizard': _default_allegati_descrizione_wizard_required
+    }
+

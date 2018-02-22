@@ -97,8 +97,7 @@ class protocollo_configurazione(orm.Model):
             if configurazione.allegati_descrizione_required:
                 for attach in protocollo.attachment_ids:
                     if len(attach.datas_description) == 0:
-                        campi_obbligatori = campi_obbligatori + '\n- Descrizione allegato: ' + str(attach.name)
-
+                        campi_obbligatori = campi_obbligatori + '\n- Descrizione allegato: ' + attach.name.encode('utf-8')
 
         if campi_obbligatori:
             raise exceptions.Warning('Prima di procedere con la registrazione è necessario valorizzare i seguenti campi: ' + campi_obbligatori)
