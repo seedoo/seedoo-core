@@ -76,7 +76,29 @@ class ProtocolloMailPecWizard(osv.TransientModel):
     _description = 'Create Protocollo From Mail or PEC'
     _rec_name = 'subject'
 
-    DOC_PRINCIPALE_SELECTION = [('testo', 'Testo del messaggio'), ('eml', 'File Eml'), ('allegato', 'Allegato')]
+    def _get_doc_principale_option(self, cr, uid, context=None):
+        options = []
+        attach_lower_limit = 0
+        options.append(('testo', 'Corpo del messaggio'))
+        if 'message_type' in context and context['message_type'] == 'pec':
+            options.append(('eml', 'Intero messaggio (file EML)'))
+            attach_lower_limit = 1 #al momento le PEC si includono anche l'attachment EML quindi il controllo parte da 1
+        if 'attachment_ids' in context and len(context['attachment_ids'][0][2]) > attach_lower_limit:
+            options.append(('allegato', 'Allegato'))
+        return options
+
+    def on_change_attachment(self, cr, uid, ids, attachment_id, context=None):
+        values = {'preview': False}
+        if attachment_id:
+            ir_attachment = self.pool.get('ir.attachment').browse(cr, uid, attachment_id)
+            for attach in ir_attachment:
+                if attach.file_type == 'application/pdf':
+                    values = {
+                        'preview': attach.datas,
+                    }
+                return {'value': values}
+        else:
+            return None
 
     _columns = {
         'subject': fields.text('Oggetto',
@@ -88,7 +110,7 @@ class ProtocolloMailPecWizard(osv.TransientModel):
             readonly=True),
         'message_id': fields.integer('Id',
                                      required=True, readonly=True),
-        'select_doc_principale': fields.selection(DOC_PRINCIPALE_SELECTION, 'Seleziona il documento da protocollare',
+        'select_doc_principale': fields.selection(_get_doc_principale_option, 'Seleziona il documento da protocollare',
                                                   select=True,
                                                   required=True),
         'doc_principale': fields.many2one('ir.attachment', 'Allegato',
@@ -98,6 +120,7 @@ class ProtocolloMailPecWizard(osv.TransientModel):
                                             string="Author's Avatar"),
         'doc_fname': fields.related('doc_principale', 'datas_fname', type='char', readonly=True),
         'doc_description': fields.char('Descrizione documento', size=256, readonly=False),
+        'preview': fields.binary('Anteprima allegato PDF'),
         'sender_receivers': fields.one2many(
             'protocollo.sender_receiver.wizard',
             'wizard_id',
@@ -287,44 +310,29 @@ class ProtocolloMailPecWizard(osv.TransientModel):
         body_pdf_content = base64.b64encode(ConversionUtility.html_to_pdf(wizard.body))
         body_pdf_name = "mailbody.pdf"
 
-        if is_pec is False and wizard.select_doc_principale == 'testo':
+        if wizard.select_doc_principale == 'testo':
             protocollo_obj.carica_documento_principale(cr,
                                                        uid,
                                                        protocollo_id,
                                                        body_pdf_content,
                                                        body_pdf_name,
                                                        wizard.doc_description)
+        else:
+            file_data_list.append({
+                'datas': body_pdf_content,
+                'datas_fname': body_pdf_name,
+                'datas_description': ''
+            })
 
         for attach in mail_message.attachment_ids:
             if attach.name == 'original_email.eml':
-                if wizard.select_doc_principale == 'testo':
-                    protocollo_obj.carica_documento_principale(cr,
-                                                               uid,
-                                                               protocollo_id,
-                                                               body_pdf_content,
-                                                               body_pdf_name,
-                                                               wizard.doc_description)
-                else:
-                    file_data_list.append({
-                        'datas': body_pdf_content,
-                        'datas_fname': body_pdf_name,
-                        'datas_description': ''
-                    })
-
                 if wizard.select_doc_principale == 'eml':
                     protocollo_obj.carica_documento_principale(cr,
-                                                               uid,
-                                                               protocollo_id,
-                                                               attach.datas,
-                                                               attach.name,
-                                                               wizard.doc_description)
-                else:
-                    file_data_list.append({
-                        'datas': attach.datas,
-                        'datas_fname': attach.name,
-                        'datas_description': ''
-                    })
-
+                                                           uid,
+                                                           protocollo_id,
+                                                           attach.datas,
+                                                           attach.name,
+                                                           wizard.doc_description)
             else:
                 if wizard.select_doc_principale == 'allegato' and attach.id == wizard.doc_principale.id:
                     if attach.datas and attach.name:

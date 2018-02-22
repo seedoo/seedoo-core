@@ -26,30 +26,24 @@ this module contains the full copyright notices and license terms. -->
                         <field name="sharedmail_type" invisible="1"/>
                     </header>
                     <sheet>
-                        <group>
-                            <newline/>
-                            <field name="sharedmail_server_user" attrs="{'invisible':[('sharedmail_type','!=','sharedmail')]}" string="Account"/>
-                            <newline/>
-                        </group>
                         <div class="gedoc_header">
                             <group col="4">
+                                <field name="sharedmail_server_user" attrs="{'invisible':[('sharedmail_type','!=','sharedmail')]}" string="Account"/>
                                 <newline/>
                                 <field name="email_from" attrs="{'invisible':[('sharedmail_type','!=','sharedmail')]}"/>
                                 <field name="date"/>
                             </group>
                         </div>
                         <group>
-                            <newline/>
                             <field name="subject" colspan="4"/>
-                            <field name="body" colspan="4" string="Testo della e-mail"/>
+                            <field name="body" colspan="4" string="Messaggio"/>
                             <field name="attachment_ids" invisible="1"/>
                             <!--<separator string="Documenti" colspan="4"/>-->
-                            <group>
+                            <!--<group>-->
                                 <!--<field name="pec_eml" invisible="1"/>-->
                                 <!--<field name="pec_eml_fname" invisible="1"/>-->
                                 <!--<field name="pec_eml_content" filename="pec_eml_fname" colspan="4" />-->
-                            </group>
-                            <newline/>
+                            <!--</group>-->
                             <group>
                                 <field name="message_attachs">
                                     <tree>
