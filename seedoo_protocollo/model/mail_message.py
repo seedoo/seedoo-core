@@ -78,7 +78,10 @@ class MailMessage(orm.Model):
     def action_not_protocol(self, cr, uid, ids, context=None):
         if context is None:
             context = {}
-        self.write(cr, SUPERUSER_ID, ids[0], {'pec_state': 'not_protocol'})
+        if 'sharedmail_messages' in context and context['sharedmail_messages']:
+            self.write(cr, SUPERUSER_ID, ids[0], {'sharedmail_state': 'not_protocol'})
+        if 'pec_messages' in context and context['pec_messages']:
+            self.write(cr, SUPERUSER_ID, ids[0], {'pec_state': 'not_protocol'})
         return True
 
     def name_get(self, cr, user, ids, context=None):
