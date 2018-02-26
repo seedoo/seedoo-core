@@ -784,7 +784,6 @@ class protocollo_protocollo(osv.Model):
 
         return dict(res)
 
-
     def _protocollazione_riservata_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
 
@@ -870,3 +869,4 @@ class protocollo_protocollo(osv.Model):
     _defaults = {
         'protocollazione_riservata_visibility': _default_protocollazione_riservata_visibility,
     }
+

@@ -812,7 +812,7 @@ this module contains the full copyright notices and license terms. -->
                         <filter string="Non Classificati" name="non_classificato" domain="[('state','in',('registered','notified','sent','waiting','error')),('classification','=',False)]"/>
                         <filter string="Non Fascicolati" name="non_fascicolato" domain="[('state','in',('registered','notified','sent','waiting','error')),('dossier_ids','=',False)]"/>
                     </group>
-                    <group string="PEC">
+                    <group string="PEC in uscita">
                         <filter string="In attesa" name="waiting" domain="[('state','=','waiting')]"/>
                         <filter string="Errore" name="error" domain="[('state','=','error')]"/>
                     </group>
