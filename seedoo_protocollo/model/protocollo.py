@@ -1060,10 +1060,10 @@ class protocollo_protocollo(orm.Model):
                     if res == 'sent':
                         res_conferma = {"Invio Conferma": {"Res": True, "Msg": "Conferma inviata correttamente"}}
                     elif res == 'exception':
-                        res_conferma = {"Invio Conferma": {"Res": False, "Msg": "Non è stato possibile inviare la conferma"}}
+                        res_conferma = {"Invio Conferma": {"Res": False, "Msg": "Non è stato possibile inviare la Conferma di Protocollazione al Mittente"}}
         except Exception as e:
             _logger.error(e)
-            res_conferma = {"Invio Conferma": {"Res": False, "Msg": "Non è stato possibile inviare la conferma"}}
+            res_conferma = {"Invio Conferma": {"Res": False, "Msg": "Non è stato possibile inviare la Conferma di Protocollazione al Mittente"}}
 
         return res_conferma
 
@@ -1179,7 +1179,7 @@ class protocollo_protocollo(orm.Model):
                     action_class = "history_icon warning"
                     post_vars = {
                         'subject': "Ricevuta di %s non inviata" % receipt_type,
-                        'body': "<div class='%s'><ul><li>Non è stato possibile inviare la conferma</li></ul></div>" % (action_class),
+                        'body': "<div class='%s'><ul><li>Non è stato possibile inviare la Conferma di Protocollazione al Mittente</li></ul></div>" % (action_class),
                         'model': "protocollo.protocollo",
                         'res_id': prot.id,
                     }
@@ -1537,7 +1537,7 @@ class protocollo_protocollo(orm.Model):
         action_class = "history_icon taken"
         post_vars = {'subject': "Presa in carico",
                      'body': "<div class='%s'><ul><li>Protocollo preso in carico da <span style='color:#009900;'>%s</span></li></ul></div>" % (
-                     action_class, rec.login),
+                     action_class, rec.name),
                      'model': "protocollo.protocollo",
                      'res_id': ids[0],
                      }
@@ -1557,7 +1557,7 @@ class protocollo_protocollo(orm.Model):
         action_class = "history_icon refused"
         post_vars = {'subject': "Rifiuto assegnazione",
                      'body': "<div class='%s'><ul><li>Assegnazione rifiutata da <span style='color:#009900;'>%s</span></li></ul></div>" % (
-                     action_class, rec.login),
+                     action_class, rec.name),
                      'model': "protocollo.protocollo",
                      'res_id': ids[0],
                      }
