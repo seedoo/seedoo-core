@@ -46,10 +46,6 @@ this module contains the full copyright notices and license terms. -->
                     <footer>
                         <button string="Salva e Invia" name="action_save"
                                 type="object" class="oe_highlight"/>
-                        <!--<button string="Reinvio Mail" name="action_resend"-->
-                                <!--type="object"-->
-                                <!--attrs="{'invisible': [('protocol_sent', '=', False)]}"-->
-                                <!--class="oe_highlight"/>-->
                         <button string="Abbandona" class="oe_link"
                                 special="cancel"/>
                     </footer>

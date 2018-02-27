@@ -286,9 +286,6 @@
 .btn_aggiungi_destinatario::before {
   content: "\f067";
 }
-.btn_reinvio_pec::before {
-  content: "\f01e";
-}
 .btn_invia_protocollo::before {
   content: "\f003";
 }
@@ -454,6 +451,26 @@
 .oe_searchview_section li {
   padding: 0 10px !important;
   border: 1px solid #aaa;
+}
+.message_header {
+  border: dotted 1px #aaa;
+  padding: 10px 20px;
+}
+.body-message-container .oe_form_embedded_html {
+  padding: 20px !important;
+  background-color: #eee;
+}
+.openerp .oe_form .oe_form_group .oe_form_group_cell.oe_group_right {
+  padding-left: 0 !important;
+}
+.message_data .oe_form_group_cell {
+  border: 0px !important;
+}
+.message_data .oe_view_manager_header {
+  display: none;
+}
+.message_data .openerp .oe_form_sheet .oe_list {
+  overflow-x: initial !important;
 }
 .openerp .oe_notebook > li.ui-state-active > a.ui-tabs-anchor {
   color: #666 !important;

@@ -6,6 +6,8 @@ from openerp.osv import fields, orm
 from openerp import SUPERUSER_ID
 from lxml import etree
 from ..segnatura.conferma_xml_parser import ConfermaXMLParser
+from openerp.osv import orm, fields
+from openerp.tools.translate import _
 
 class MailMessage(orm.Model):
     _inherit = "mail.message"
@@ -49,12 +51,12 @@ class MailMessage(orm.Model):
     _columns = {
         'pec_protocol_ref': fields.many2one('protocollo.protocollo', 'Protocollo'),
         'pec_state': fields.selection([
-            ('new', 'To Protocol'),
-            ('protocol', 'Protocols'),
-            ('not_protocol', 'No Protocol')
-            ], 'Pec State', readonly=True),
+            ('new', 'Da protocollare'),
+            ('protocol', 'Protocollato'),
+            ('not_protocol', 'Non protocollato')
+            ], 'Stato PEC', readonly=True),
         'message_attachs': fields.function(_get_message_attachs, type='one2many',
-                                        obj='ir.attachment', string='Allegati al messaggio'),
+                                        obj='ir.attachment', string='Allegati'),
         'pec_eml': fields.function(_get_pec_eml, type='one2many',
                                         obj='ir.attachment', string='Messaggio PEC'),
         'pec_eml_fname': fields.related('pec_eml', 'datas_fname', type='char', readonly=True),
@@ -62,11 +64,12 @@ class MailMessage(orm.Model):
         'pec_server_user': fields.related('server_id', 'user', type='char', readonly=True, string='Account'),
         'sharedmail_protocol_ref': fields.many2one('protocollo.protocollo', 'Protocollo'),
         'sharedmail_state': fields.selection([
-            ('new', 'To Protocol'),
-            ('protocol', 'Protocols'),
-            ('not_protocol', 'No Protocol')
+            ('new', 'Da protocollare'),
+            ('protocol', 'Protocollato'),
+            ('not_protocol', 'Non protocollato')
         ], 'SharedMail State', readonly=True),
         'sharedmail_server_user': fields.related('server_sharedmail_id', 'user', type='char', readonly=True, string='Account'),
+        'recovered_message_parent': fields.many2one('mail.message', 'Messaggio originale ripristino per protocollazione', readonly=True),
 
     }
 
@@ -78,7 +81,10 @@ class MailMessage(orm.Model):
     def action_not_protocol(self, cr, uid, ids, context=None):
         if context is None:
             context = {}
-        self.write(cr, SUPERUSER_ID, ids[0], {'pec_state': 'not_protocol'})
+        if 'sharedmail_messages' in context and context['sharedmail_messages']:
+            self.write(cr, SUPERUSER_ID, ids[0], {'sharedmail_state': 'not_protocol'})
+        if 'pec_messages' in context and context['pec_messages']:
+            self.write(cr, SUPERUSER_ID, ids[0], {'pec_state': 'not_protocol'})
         return True
 
     def name_get(self, cr, user, ids, context=None):
@@ -102,7 +108,7 @@ class MailMessage(orm.Model):
         if author_id:
             vals.update({"author_id" : author_id})
         msg_obj = super(MailMessage, self).create(cr, uid, vals, context=context)
-        if vals.get("pec_type") in ('accettazione', 'avvenuta-consegna', 'errore-consegna'):
+        if 'pec_type' in vals and vals.get("pec_type") in ('accettazione', 'avvenuta-consegna', 'errore-consegna'):
             protocollo_ids = mail_ids.pec_protocol_ref
             for protocollo in protocollo_ids:
                 if protocollo:
@@ -164,7 +170,7 @@ class MailMessage(orm.Model):
 
                                 thread_pool = self.pool.get('protocollo.protocollo')
                                 thread_pool.message_post(cr, uid, protocollo.id, type="notification", context=context, **post_vars)
-        elif 'pec_type' in vals and vals.get("pec_type") in ('posta-certificata'):
+        elif 'pec_type' in vals and vals.get("pec_type") and vals.get("pec_type") in ('posta-certificata'):
             if "attachment_ids" in vals and len(vals.get("attachment_ids")) > 0:
                 for attachment_id in vals.get("attachment_ids"):
                     for attach in attachment_id:
@@ -187,3 +193,29 @@ class MailMessage(orm.Model):
                                         self.write(cr, SUPERUSER_ID, msg_obj, {'pec_state': 'not_protocol'})
 
         return msg_obj
+
+    def recovery_message_to_protocol_action(self, cr, uid, ids, context=None):
+
+        vals = {}
+        for message in self.browse(cr, uid, ids):
+            if message.type != 'email' or message.direction != 'in':
+                raise orm.except_orm(_("Errore"), _("Non è possibile ripristinare questo tipo di messaggio"))
+            if message.pec_type:
+                    vals = {
+                        'pec_state': 'new',
+                        'pec_protocol_ref': '',
+                        'recovered_message_parent': message.id
+                    }
+            elif message.sharedmail_type:
+                vals = {
+                        'sharedmail_state': 'new',
+                        'sharedmail_protocol_ref': None,
+                        'recovered_message_parent': message.id
+                    }
+            if vals:
+                try:
+                    message_copy_id = self.pool.get('mail.message').copy(cr, uid, message.id, vals, context=context)
+                except Exception as e:
+                    raise orm.except_orm(_("Errore"), _("Non è possibile ripristinare questo messaggio"))
+
+        return True

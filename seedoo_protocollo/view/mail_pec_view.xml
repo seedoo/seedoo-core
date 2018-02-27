@@ -26,7 +26,7 @@ this module contains the full copyright notices and license terms. -->
                         <field name="pec_type" invisible="1"/>
                     </header>
                     <sheet>
-                        <div class="gedoc_header">
+                        <div class="message_header">
                             <group col="4">
                                 <field name="pec_server_user" attrs="{'invisible':[('pec_type','!=','posta-certificata')]}" string="Account"/>
                                 <newline/>
@@ -34,9 +34,11 @@ this module contains the full copyright notices and license terms. -->
                                 <field name="date"/>
                             </group>
                         </div>
-                        <group>
+                        <group class="message_data">
                             <field name="subject" colspan="4"/>
-                            <field name="body" colspan="4" string="Messaggio"/>
+                            <group class="body-message-container">
+                                <field name="body" colspan="4" string="Corpo del messaggio"/>
+                            </group>
                             <field name="attachment_ids" invisible="1"/>
                             <!--<separator string="Documenti" colspan="4"/>-->
                             <group>
@@ -77,7 +79,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="res_model">mail.message</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
-            <field name="domain">[('server_id.pec','=',True),('pec_type','=','posta-certificata'),('server_id.user_ids','in',uid),('pec_state','=','new')]</field>
+            <field name="domain">[('server_id.pec','=',True),('pec_type','=','posta-certificata'),('parent_id','=',False),('server_id.user_ids','in',uid),('pec_state','=','new')]</field>
             <field name="context">{'pec_messages': True}</field>
         </record>
 
@@ -97,5 +99,135 @@ this module contains the full copyright notices and license terms. -->
             <field name="act_window_id" ref="protocollo_pec_act"/>
         </record>
 
+        <record model="ir.ui.view" id="view_document_file_protocol_form">
+            <field name="name">mail.message</field>
+            <field name="model">ir.attachment</field>
+            <field name="priority" eval="1"/>
+            <field name="inherit_id" ref="document.view_document_file_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='url']" position="after">
+                    <field name="datas_description"/>
+                </xpath>
+                <field name="index_content" position="replace">
+                    <field name="reserved" invisible="1"/>
+                    <field name="is_pdf" invisible="1"/>
+                    <notebook>
+                        <page string="Preview" attrs="{'invisible':[('is_pdf','=',False)]}">
+                            <field name="preview"
+                                   nolabel="1"
+                                   widget="pdfviewer" attrs="{'invisible':[('is_pdf','=',False)]}"/>
+                        </page>
+                        <page string="Contenuto Indicizzato">
+                            <field name="index_content" nolabel="1" />
+                        </page>
+                    </notebook>
+                </field>
+            </field>
+        </record>
+
+        <record model='ir.actions.act_window' id='action_mail_pec_protocol'>
+            <field name="name">Read PEC</field>
+            <field name="inherit_id" ref="l10n_it_pec_messages.action_mail_pec"/>
+            <field name="domain">[
+                  ('server_id.pec','=',True),('parent_id','=',False),('direction', '=', 'in'),
+                  ('pec_type','!=', False),('server_id.user_ids','in',uid), (''recovered_message_parent', '=', False)]</field>
+        </record>
+
+        <record model='ir.ui.view' id='pec_message_search_view_protocol'>
+            <field name="name">message.search.form.protocol</field>
+            <field name="model">mail.message</field>
+            <field name="inherit_id" ref="l10n_it_pec_messages.pec_message_search_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='date']" position="after">
+                    <group string="Stato">
+                        <filter string="Protocollato" name="protocollato" domain="[('pec_state','=','protocol')]"/>
+                        <filter string="Da protocollare" name="da_protocollare" domain="[('pec_state','=','new')]"/>
+                        <filter string="Non protocollato" name="non_protocollato" domain="[('pec_state','=','not_protocol')]"/>
+                    </group>
+                    <group string="Tipologia PEC">
+                        <filter string="PEC" name="pec" domain="[('pec_type','=','posta-certificata')]"/>
+                        <filter string="Ricevuta Accettazione" name="accettazione" domain="[('pec_type','=','accettazione')]"/>
+                        <filter string="Ricevuta Consegna" name="avvenuta_consegna" domain="[('pec_type','=','avvenuta-consegna')]"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+        <record model='ir.ui.view' id='message_pec_tree_protocol'>
+            <field name="name">message.pec.tree.protocol</field>
+            <field name="model">mail.message</field>
+            <field name="inherit_id" ref="l10n_it_pec_messages.message_pec_tree"/>
+            <field name="priority">100</field>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='pec_server_user']" position="after">
+                    <field name="pec_state"/>
+                    <field name="recovered_message_parent" invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record model='ir.ui.view' id='message_pec_form_protocol'>
+            <field name="name">message.pec.form.protocol</field>
+            <field name="model">mail.message</field>
+            <field name="inherit_id" ref="l10n_it_pec_messages.message_pec_form"/>
+            <field name="priority">100</field>
+            <field name="arch" type="xml">
+                <xpath expr="//header" position="inside">
+                    <field name="ripristina_per_protocollazione_visibility" invisible="1"/>
+                    <button name="recovery_message_to_protocol_action" string="Ripristina per protocollazione" type="object"
+                            attrs="{'invisible':[('ripristina_per_protocollazione_visibility','=',False)]}"
+                            class="oe_highlight_warning btn_seedoo btn_ripristina_messaggio"/>
+                </xpath>
+                <xpath expr="//field[@name='author_id']" position="after">
+                    <field name="pec_state"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record model='ir.ui.view' id='sharedmail_message_search_view_protocol'>
+            <field name="name">message.sharedmail.search.protocol</field>
+            <field name="model">mail.message</field>
+            <field name="inherit_id" ref="sharedmail.sharedmail_message_search_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='date']" position="after">
+                    <group string="Stato">
+                        <filter string="Protocollato" name="protocollato" domain="[('sharedmail_state','=','protocol')]"/>
+                        <filter string="Da protocollare" name="da_protocollare" domain="[('sharedmail_state','=','new')]"/>
+                        <filter string="Non protocollato" name="non_protocollato" domain="[('sharedmail_state','=','not_protocol')]"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+        <record model='ir.ui.view' id='message_sharedmail_tree_protocol'>
+            <field name="name">message.sharedmail.tree.protocol</field>
+            <field name="model">mail.message</field>
+            <field name="inherit_id" ref="sharedmail.message_sharedmail_tree"/>
+            <field name="priority">100</field>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='server_sharedmail_user']" position="after">
+                    <field name="sharedmail_state"/>
+                    <field name="recovered_message_parent" invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record model='ir.ui.view' id='message_sharedmail_form_protocol'>
+            <field name="name">message.sharedmail.form.protocol</field>
+            <field name="model">mail.message</field>
+            <field name="inherit_id" ref="sharedmail.message_sharedmail_form"/>
+            <field name="priority">100</field>
+            <field name="arch" type="xml">
+                <xpath expr="//header" position="inside">
+                    <field name="ripristina_per_protocollazione_visibility" invisible="1"/>
+                    <button name="recovery_message_to_protocol_action" string="Ripristina per protocollazione" type="object"
+                            attrs="{'invisible':[('ripristina_per_protocollazione_visibility','=',False)]}"
+                            class="oe_highlight_warning btn_seedoo btn_ripristina_messaggio"/>
+                </xpath>
+                <xpath expr="//field[@name='author_id']" position="after">
+                    <field name="sharedmail_state"/>
+                </xpath>
+            </field>
+        </record>
     </data>
 </openerp>

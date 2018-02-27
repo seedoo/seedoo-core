@@ -15,7 +15,15 @@ this module contains the full copyright notices and license terms. -->
                         or
                         <button string="Annulla" type="object" name="cancel" class="oe_link"/>
                     </header>
-                    <group string="Campi Obbligatori per la Registrazione Protocollo">
+                    <group string="Generale">
+                        <field name="genera_segnatura"/>
+                        <newline/>
+                        <field name="aggiungi_allegati_post_registrazione"/>
+                        <newline/>
+                        <field name="rinomina_documento_allegati"/>
+                        <newline/>
+                    </group>
+                    <group string="Campi obbligatori per Registrazione Protocollo">
                         <field name="classificazione_required"/>
                         <field name="fascicolazione_required"/>
                         <field name="assegnatari_competenza_uffici_required"/>
@@ -25,16 +33,10 @@ this module contains the full copyright notices and license terms. -->
                         <field name="documento_required"/>
                         <field name="allegati_descrizione_required"/>
                     </group>
-                    <group string="Azioni Post Registrazione Protocollo">
+                    <group string="E-mail/PEC">
                         <field name="inserisci_testo_mailpec"/>
                         <newline/>
-                        <field name="rinomina_documento_allegati"/>
-                        <newline/>
                         <field name="rinomina_oggetto_mail_pec"/>
-                        <newline/>
-                        <field name="genera_segnatura"/>
-                        <newline/>
-                        <field name="aggiungi_allegati_post_registrazione"/>
                         <newline/>
                         <field name="lunghezza_massima_oggetto_mail" required="1"/>
                         <newline/>

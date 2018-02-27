@@ -968,82 +968,84 @@ class protocollo_protocollo(orm.Model):
         for prot in self.browse(cr, uid, ids):
 
             self.pool.get('protocollo.configurazione').verifica_campi_obbligatori(cr, uid, prot)
+            if prot.state == 'draft':
+                try:
+                    vals = {}
+                    prot_number = self._get_next_number(cr, uid, prot)
+                    prot_date = fields.datetime.now()
+                    vals['name'] = prot_number
+                    vals['registration_date'] = prot_date
+                    employee_ids = self.pool.get('hr.employee').search(cr, uid, [('user_id', '=', uid)])
+                    attachment_obj = self.pool.get('ir.attachment')
 
-            try:
-                vals = {}
-                prot_number = self._get_next_number(cr, uid, prot)
-                prot_date = fields.datetime.now()
-                vals['name'] = prot_number
-                vals['registration_date'] = prot_date
-                employee_ids = self.pool.get('hr.employee').search(cr, uid, [('user_id', '=', uid)])
-                attachment_obj = self.pool.get('ir.attachment')
+                    if employee_ids:
+                        vals['registration_employee_id'] = employee_ids[0]
 
-                if employee_ids:
-                    vals['registration_employee_id'] = employee_ids[0]
+                    # prot_complete_name = self.calculate_complete_name(prot_date, prot_number)
 
-                # prot_complete_name = self.calculate_complete_name(prot_date, prot_number)
+                    if prot.doc_id:
+                        try:
+                            if prot.mimetype == 'application/pdf':
+                                self._sign_doc(cr, uid, prot, prot_number, prot_date)
+                            res_segnatura = {"Segnatura": {"Res": True, "Msg": "Segnatura generata correttamente"}}
+                        except Exception as e:
+                            _logger.error(e)
+                            err_segnatura = True
+                            res_segnatura = {"Segnatura": {"Res": False, "Msg": "Non è stato possibile generare la segnatura PDF"}}
 
-                if prot.doc_id:
+                        fingerprint = self._create_protocol_attachment(cr, uid, prot, prot_number, prot_date)
+                        vals['fingerprint'] = fingerprint
+                        vals['datas'] = 0
+
+                    now = datetime.datetime.now()
+                    vals['year'] = now.year
+                    self.write(cr, uid, [prot.id], vals)
+
                     try:
-                        if prot.mimetype == 'application/pdf':
-                            self._sign_doc(cr, uid, prot, prot_number, prot_date)
-                        res_segnatura = {"Segnatura": {"Res": True, "Msg": "Segnatura generata correttamente"}}
+                        if configurazione.rinomina_documento_allegati:
+                            attachment_ids = attachment_obj.search(cr, uid, [('res_model', '=', 'protocollo.protocollo'),
+                                                                             ('res_id', '=', prot.id),
+                                                                             ('is_protocol', '=', True)])
+                            if attachment_ids:
+                                attachments = attachment_obj.browse(cr, uid, attachment_ids)
+                                for attachment in attachments:
+                                    if attachment.is_main is False:
+                                        filename = self._get_name_documento_allegato(cr, uid, attachment.datas_fname, prot_number, 'Prot', False)
+                                        attachment_obj.write(cr, uid, [attachment.id], {'name':filename, 'datas_fname':filename})
                     except Exception as e:
                         _logger.error(e)
-                        err_segnatura = True
-                        res_segnatura = {"Segnatura": {"Res": False, "Msg": "Non è stato possibile generare la segnatura PDF"}}
+                        raise openerp.exceptions.Warning(_('Errore nella ridenominazione degli allegati'))
 
-                    fingerprint = self._create_protocol_attachment(cr, uid, prot, prot_number, prot_date)
-                    vals['fingerprint'] = fingerprint
-                    vals['datas'] = 0
+                    thread_pool = self.pool.get('protocollo.protocollo')
+                    action_class = "history_icon registration"
+                    post_vars = {
+                                    'subject': "Registrazione protocollo",
+                                    'body': "<div class='%s'><ul><li>Creato protocollo %s</li></ul></div>" % (action_class, prot_number),
+                                    'model': "protocollo.protocollo",
+                                    'res_id': prot.id,
+                                 }
+                    thread_pool.message_post(cr, uid, prot.id, type="notification", context=context, **post_vars)
 
-                now = datetime.datetime.now()
-                vals['year'] = now.year
-                self.write(cr, uid, [prot.id], vals)
+                    if err_segnatura:
+                        action_class = "history_icon warning"
+                        post_vars_segnatura = {
+                            'subject': "Errore Generazione Segnatura",
+                            'body': "<div class='%s'><ul><li>Impossibile generare la segnatura PDF</li></ul></div>" % action_class,
+                            'model': "protocollo.protocollo",
+                            'res_id': prot.id,
+                        }
+                        thread_pool.message_post(cr, uid, prot.id, type="notification", context=context, **post_vars_segnatura)
 
-                try:
-                    if configurazione.rinomina_documento_allegati:
-                        attachment_ids = attachment_obj.search(cr, uid, [('res_model', '=', 'protocollo.protocollo'),
-                                                                         ('res_id', '=', prot.id),
-                                                                         ('is_protocol', '=', True)])
-                        if attachment_ids:
-                            attachments = attachment_obj.browse(cr, uid, attachment_ids)
-                            for attachment in attachments:
-                                if attachment.is_main is False:
-                                    filename = self._get_name_documento_allegato(cr, uid, attachment.datas_fname, prot_number, 'Prot', False)
-                                    attachment_obj.write(cr, uid, [attachment.id], {'name':filename, 'datas_fname':filename})
+                    res_registrazione = {"Registrazione": {"Res": True, "Msg": "Protocollo Nr. %s del %s registrato correttamente" % (prot_number, prot.registration_date)}}
                 except Exception as e:
                     _logger.error(e)
-                    raise openerp.exceptions.Warning(_('Errore nella ridenominazione degli allegati'))
-
-                thread_pool = self.pool.get('protocollo.protocollo')
-                action_class = "history_icon registration"
-                post_vars = {
-                                'subject': "Registrazione protocollo",
-                                'body': "<div class='%s'><ul><li>Creato protocollo %s</li></ul></div>" % (action_class, prot_number),
-                                'model': "protocollo.protocollo",
-                                'res_id': prot.id,
-                             }
-                thread_pool.message_post(cr, uid, prot.id, type="notification", context=context, **post_vars)
-
-                if err_segnatura:
-                    action_class = "history_icon warning"
-                    post_vars_segnatura = {
-                        'subject': "Errore Generazione Segnatura",
-                        'body': "<div class='%s'><ul><li>Impossibile generare la segnatura PDF</li></ul></div>" % action_class,
-                        'model': "protocollo.protocollo",
-                        'res_id': prot.id,
-                    }
-                    thread_pool.message_post(cr, uid, prot.id, type="notification", context=context, **post_vars_segnatura)
-
-                res_registrazione = {"Registrazione":{"Res": True, "Msg": "Protocollo Nr. %s del %s registrato correttamente" % (prot_number, prot.registration_date)}}
-            except Exception as e:
-                _logger.error(e)
-                # res_registrazione = {"Registrazione":{"Res": False, "Msg": "Errore nella registrazione del protocollo"}}
-                raise openerp.exceptions.Warning(_('Errore nella registrazione del protocollo'))
-            res.append(res_registrazione)
-            if len(res_segnatura) > 0:
-                res.append(res_segnatura)
+                    # res_registrazione = {"Registrazione":{"Res": False, "Msg": "Errore nella registrazione del protocollo"}}
+                    raise openerp.exceptions.Warning(_('Errore nella registrazione del protocollo'))
+                res.append(res_registrazione)
+                if len(res_segnatura) > 0:
+                    res.append(res_segnatura)
+            else:
+                raise openerp.exceptions.Warning(_('Protocollo già registrato'))
         return res
 
     def action_send_conferma(self, cr, uid, ids, context=None, *args):
@@ -1058,10 +1060,10 @@ class protocollo_protocollo(orm.Model):
                     if res == 'sent':
                         res_conferma = {"Invio Conferma": {"Res": True, "Msg": "Conferma inviata correttamente"}}
                     elif res == 'exception':
-                        res_conferma = {"Invio Conferma": {"Res": False, "Msg": "Non è stato possibile inviare la conferma"}}
+                        res_conferma = {"Invio Conferma": {"Res": False, "Msg": "Non è stato possibile inviare la Conferma di Protocollazione al Mittente"}}
         except Exception as e:
             _logger.error(e)
-            res_conferma = {"Invio Conferma": {"Res": False, "Msg": "Non è stato possibile inviare la conferma"}}
+            res_conferma = {"Invio Conferma": {"Res": False, "Msg": "Non è stato possibile inviare la Conferma di Protocollazione al Mittente"}}
 
         return res_conferma
 
@@ -1177,7 +1179,7 @@ class protocollo_protocollo(orm.Model):
                     action_class = "history_icon warning"
                     post_vars = {
                         'subject': "Ricevuta di %s non inviata" % receipt_type,
-                        'body': "<div class='%s'><ul><li>Non è stato possibile inviare la conferma</li></ul></div>" % (action_class),
+                        'body': "<div class='%s'><ul><li>Non è stato possibile inviare la Conferma di Protocollazione al Mittente</li></ul></div>" % (action_class),
                         'model': "protocollo.protocollo",
                         'res_id': prot.id,
                     }
@@ -1535,7 +1537,7 @@ class protocollo_protocollo(orm.Model):
         action_class = "history_icon taken"
         post_vars = {'subject': "Presa in carico",
                      'body': "<div class='%s'><ul><li>Protocollo preso in carico da <span style='color:#009900;'>%s</span></li></ul></div>" % (
-                     action_class, rec.login),
+                     action_class, rec.name),
                      'model': "protocollo.protocollo",
                      'res_id': ids[0],
                      }
@@ -1555,7 +1557,7 @@ class protocollo_protocollo(orm.Model):
         action_class = "history_icon refused"
         post_vars = {'subject': "Rifiuto assegnazione",
                      'body': "<div class='%s'><ul><li>Assegnazione rifiutata da <span style='color:#009900;'>%s</span></li></ul></div>" % (
-                     action_class, rec.login),
+                     action_class, rec.name),
                      'model': "protocollo.protocollo",
                      'res_id': ids[0],
                      }

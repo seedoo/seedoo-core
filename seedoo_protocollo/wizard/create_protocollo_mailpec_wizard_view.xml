@@ -7,7 +7,6 @@ this module contains the full copyright notices and license terms. -->
         <!-- wizard action on protocollo.protocollo -->
         <act_window id="create_protocollo_mailpec_action"
                     name="Creazione Bozza Protocollo"
-                    src_model="mail.message"
                     res_model="protocollo.mailpec.wizard"
                     view_type="form" view_mode="form"
                     target="new"
