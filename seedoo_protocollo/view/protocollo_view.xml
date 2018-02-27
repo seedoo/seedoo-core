@@ -841,7 +841,7 @@ this module contains the full copyright notices and license terms. -->
         </record>
 
         <record model="ir.actions.act_window" id="crea_protocollo_ingresso_action">
-            <field name="name">Crea Protocollo Ingresso</field>
+            <field name="name">Crea Protocollo in Ingresso</field>
             <field name="res_model">protocollo.protocollo</field>
             <field name="view_type">form</field>
             <field name="view_mode">form</field>
@@ -873,7 +873,7 @@ this module contains the full copyright notices and license terms. -->
         </record>
 
         <record model="ir.actions.act_window" id="crea_protocollo_uscita_action">
-            <field name="name">Crea Protocollo Uscita</field>
+            <field name="name">Crea Protocollo in Uscita</field>
             <field name="res_model">protocollo.protocollo</field>
             <field name="view_type">form</field>
             <field name="view_mode">form</field>
