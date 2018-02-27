@@ -197,7 +197,8 @@ class dematerializzazione_importer(orm.Model):
                     'employee_comp_ids': [(6, 0, importer.employee_ids.ids)],
                     'aoo_id': importer.aoo_id.id,
                     'imported': True,
-                    'importer_id': storico_importer_id
+                    'importer_id': storico_importer_id,
+                    'typology_id': importer.tipologia_protocollo.id
                 }
                 gedoc_document_id = self.pool.get('gedoc.document').create(cr, uid, vals)
 
@@ -218,8 +219,6 @@ class dematerializzazione_importer(orm.Model):
         except Exception as exception:
             esito = False
             errore = exception
-            if gedoc_document_id:
-                self.pool.get('gedoc.document').unlink(cr, uid, [gedoc_document_id])
 
         return esito, errore, gedoc_document_id
 

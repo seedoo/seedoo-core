@@ -13,7 +13,6 @@ class CreaProtocolloDaDocumentoWizard(osv.TransientModel):
     _description = 'Create Protocollo da Documento'
 
     _columns = {
-        'typology_id': fields.many2one('protocollo.typology', 'Tipologia'),
         'doc_principale': fields.many2one('ir.attachment', 'Allegato', readonly=True),
         'doc_fname': fields.related('doc_principale', 'datas_fname', type='char', readonly=True),
         'doc_description': fields.char('Descrizione documento', size=256, readonly=False),
@@ -47,10 +46,12 @@ class CreaProtocolloDaDocumentoWizard(osv.TransientModel):
         wizard = self.browse(cr, uid, ids[0], context=context)
         protocollo_obj = self.pool.get('protocollo.protocollo')
 
+        document = self.pool.get('gedoc.document').browse(cr, uid, context.get('active_id'))
+
         vals = {}
         vals['type'] = 'in'
         vals['user_id'] = uid
-        vals['typology'] = wizard.typology_id.id
+        vals['typology'] = document.typology_id.id
         protocollo_id = protocollo_obj.create(cr, uid, vals)
 
         protocollo_obj.carica_documento_principale(cr, uid, protocollo_id, wizard.preview, wizard.doc_fname, wizard.doc_description)

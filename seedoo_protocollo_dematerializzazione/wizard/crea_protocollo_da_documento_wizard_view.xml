@@ -14,8 +14,6 @@ this module contains the full copyright notices and license terms. -->
                     <sheet>
                         <group col="4">
                             <separator string="Documento da Protocollare" colspan="4"/>
-                            <field name="typology_id" required="1"/>
-                            <newline/>
                             <field name="doc_principale" options="{'no_create_edit': 1, 'no_create': 1, 'no_open': True}"/>
                             <newline/>
                             <field name="doc_description" required="1"/>
