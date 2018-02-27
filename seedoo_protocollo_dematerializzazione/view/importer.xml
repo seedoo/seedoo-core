@@ -7,7 +7,8 @@ this module contains the full copyright notices and license terms. -->
 
         <template id="dematerializzazione_style" name="Seedoo Style" inherit_id="web.assets_backend">
             <xpath expr="." position="inside">
-                <link rel="stylesheet" href="/seedoo_protocollo_dematerializzazione/static/src/css/dematerializzazione.css"/>
+                <link rel="stylesheet"
+                      href="/seedoo_protocollo_dematerializzazione/static/src/css/dematerializzazione.css"/>
             </xpath>
         </template>
 
@@ -22,7 +23,8 @@ this module contains the full copyright notices and license terms. -->
                         <newline/>
                         <field name="title" colspan="4"/>
                         <field name="description" colspan="4"/>
-                        <field name="tipologia_importazione" on_change="on_change_tipologia_importazione(tipologia_importazione)" colspan="4"/>
+                        <field name="tipologia_importazione"
+                               on_change="on_change_tipologia_importazione(tipologia_importazione)" colspan="4"/>
                         <!--
                         <field name="aoo_id"
                                options="{'no_quick_create': True, 'no_create_edit' : True}"
@@ -49,22 +51,32 @@ this module contains the full copyright notices and license terms. -->
                                required="True">
                         </field>
                     </group>
-                    <group string="Configurazione Repository" col="4">
+                    <group string="Configurazione Repository" col="6">
                         <field name="address"/>
-                        <field name="port"/>
                         <field name="share"/>
+                        <field name="path"/>
                         <newline/>
                         <field name="processed_folder"/>
                         <field name="failed_folder"/>
                     </group>
-                    <group string="Autenticazione" col="4">
+                    <group string="Autenticazione" col="6">
                         <field name="auth"/>
                         <newline/>
-                        <field name="user" attrs="{'invisible':[('auth', '=', False)],'required':[('auth', '=', True)]}" />
-                        <field name="password" password="True" attrs="{'invisible':[('auth', '=', False)],'required':[('auth', '=', True)]}"/>
+                        <field name="smb_domain"
+                               attrs="{'invisible': [('auth', '=', False)]}"
+                               style="width: 50%"/>
+                        <newline/>
+                        <field name="user"
+                               attrs="{'invisible': [('auth', '=', False)], 'required': [('auth', '=', True)]}"
+                               style="width: 50%"/>
+                        <newline/>
+                        <field name="password" password="True"
+                               attrs="{'invisible': [('auth', '=', False)]}"
+                               style="width: 50%"/>
                     </group>
                     <group string="Verifica connessione" col="4">
-                        <button string="Verifica connessione" name="action_verifica_connessione" type="object" class="oe_highlight"/>
+                        <button string="Verifica connessione" name="action_verifica_connessione" type="object"
+                                class="oe_highlight"/>
                         <field name="test_connessione"/>
                     </group>
                 </form>
