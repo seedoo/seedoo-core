@@ -419,10 +419,6 @@ this module contains the full copyright notices and license terms. -->
                                 <!--attrs="{'invisible':[('aggiungi_pec_visibility','=',False)]}"-->
                                 <!--class="oe_highlight_positive btn_seedoo btn_aggiungi_destinatario" context="{'is_add_pec_receiver': True}"/>-->
 
-                        <button name="action_resend" string="Reinvio PEC" type="object"
-                                attrs="{'invisible': [('reinvio_pec_visibility', '=', False)]}"
-                                class="oe_highlight btn_seedoo btn_reinvio_pec"/>
-
                         <button name="sent" string="Invia Protocollo"
                                 attrs="{'invisible':[('invio_protocollo_visibility','=',False)]}"
                                 class="oe_highlight btn_seedoo btn_invia_protocollo"  />
@@ -443,7 +439,6 @@ this module contains the full copyright notices and license terms. -->
                             <field name="fascicola_visibility"/>
                             <field name="assegna_visibility"/>
                             <field name="invio_pec_visibility"/>
-                            <field name="reinvio_pec_visibility"/>
                             <field name="invio_sharedmail_visibility"/>
                             <field name="invio_protocollo_visibility"/>
                             <field name="modifica_pec_visibility"/>

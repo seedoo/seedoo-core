@@ -667,31 +667,6 @@ class protocollo_protocollo(osv.Model):
 
         return dict(res)
 
-
-    def _reinvio_pec_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
-        res = []
-
-        protocolli = self._get_protocolli(cr, uid, ids)
-        for protocollo in protocolli:
-            check = False
-
-            if protocollo.state in ('waiting', 'sent', 'error') and protocollo.type == 'out' and protocollo.typology.name == 'PEC' and protocollo.sender_receivers:
-                for sender_receiver_id in protocollo.sender_receivers.ids:
-                    sender_receiver_obj = self.pool.get('protocollo.sender_receiver').browse(cr, uid,
-                                                                                             sender_receiver_id,
-                                                                                             context=context)
-                    if not sender_receiver_obj.pec_invio_status:
-                        check = True
-
-            if check:
-                check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_reinvia_protocollo_pec_uscita')
-                check = check and check_gruppi
-
-            res.append((protocollo.id, check))
-
-        return dict(res)
-
-
     def _invio_sharedmail_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
 
@@ -851,7 +826,6 @@ class protocollo_protocollo(osv.Model):
         'fascicola_visibility': fields.function(_fascicola_visibility, type='boolean', string='Fascicola'),
         'assegna_visibility': fields.function(_assegna_visibility, type='boolean', string='Assegna'),
         'invio_pec_visibility': fields.function(_invio_pec_visibility, type='boolean', string='Invio PEC'),
-        'reinvio_pec_visibility': fields.function(_reinvio_pec_visibility, type='boolean', string='Invio PEC'),
         'invio_sharedmail_visibility': fields.function(_invio_sharedmail_visibility, type='boolean', string='Invio E-mail'),
         'invio_protocollo_visibility': fields.function(_invio_protocollo_visibility, type='boolean', string='Invio Protocollo'),
         'modifica_pec_visibility': fields.function(_modifica_pec_visibility, type='boolean', string='Modifica PEC'),
