@@ -408,7 +408,7 @@ class protocollo_protocollo(orm.Model):
                 ('internal', 'Interno')
             ], 'Tipo', size=32, required=True, readonly=True),
         'typology': fields.many2one(
-            'protocollo.typology', 'Mezzo Trasmissione', readonly=True, required=True,
+            'protocollo.typology', 'Mezzo Trasmissione', readonly=True, required=False,
             states={'draft': [('readonly', False)]},
             help="Tipologia invio/ricevimento: \
                         Raccomandata, Fax, PEC, etc. \

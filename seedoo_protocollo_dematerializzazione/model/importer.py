@@ -214,7 +214,7 @@ class dematerializzazione_importer(orm.Model):
                     'aoo_id': importer.aoo_id.id,
                     'imported': True,
                     'importer_id': storico_importer_id,
-                    'typology_id': importer.tipologia_protocollo.id
+                    'typology_id': importer.tipologia_protocollo.id if importer.tipologia_protocollo else False
                 }
                 gedoc_document_id = gedoc_document_obj.create(cr, uid, vals)
 
