@@ -62,6 +62,8 @@ class protocollo_configurazione(orm.Model):
 
         campi_obbligatori = ''
 
+        if not protocollo.typology:
+            campi_obbligatori = campi_obbligatori + '\n- Mezzo Trasmissione'
         if not protocollo.subject:
             campi_obbligatori = campi_obbligatori + '\n- Oggetto'
         if not protocollo.sender_receivers:

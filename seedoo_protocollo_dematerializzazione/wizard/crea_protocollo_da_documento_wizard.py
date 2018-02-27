@@ -51,7 +51,7 @@ class CreaProtocolloDaDocumentoWizard(osv.TransientModel):
         vals = {}
         vals['type'] = 'in'
         vals['user_id'] = uid
-        vals['typology'] = document.typology_id.id
+        vals['typology'] = document.typology_id.id if document.typology_id else False
         protocollo_id = protocollo_obj.create(cr, uid, vals)
 
         protocollo_obj.carica_documento_principale(cr, uid, protocollo_id, wizard.preview, wizard.doc_fname, wizard.doc_description)
