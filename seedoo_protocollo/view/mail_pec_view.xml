@@ -125,19 +125,13 @@ this module contains the full copyright notices and license terms. -->
             </field>
         </record>
 
-        <!--<record model='ir.actions.act_window' id='action_mail_pec_protocol'>-->
-            <!--<field name="name">Read PEC Protocol</field>-->
-            <!--<field name="res_model">mail.message</field>-->
-            <!--<field name="inherit_id" ref="l10n_it_pec_messages.action_mail_pec"/>-->
-            <!--<field name="search_view_id" ref="message_pec_search"/>-->
-        <!--</record>-->
-
-        <!--<record model="ir.actions.act_window.view" id="message_pec_act_tree_protocol">-->
-            <!--<field name="sequence" eval="1"/>-->
-            <!--<field name="view_mode">tree</field>-->
-            <!--<field name="view_id" ref="message_pec_tree"/>-->
-            <!--<field name="act_window_id" ref="action_mail_pec"/>-->
-        <!--</record>-->
+        <record model='ir.actions.act_window' id='action_mail_pec_protocol'>
+            <field name="name">Read PEC</field>
+            <field name="inherit_id" ref="l10n_it_pec_messages.action_mail_pec"/>
+            <field name="domain">[
+                  ('server_id.pec','=',True),('parent_id','=',False),('direction', '=', 'in'),
+                  ('pec_type','!=', False),('server_id.user_ids','in',uid), (''recovered_message_parent', '=', False)]</field>
+        </record>
 
         <record model='ir.ui.view' id='pec_message_search_view_protocol'>
             <field name="name">message.search.form.protocol</field>
@@ -167,7 +161,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='pec_server_user']" position="after">
                     <field name="pec_state"/>
-                    <field name="is_recovered_in_protocol"/>
+                    <field name="recovered_message_parent" invisible="1"/>
                 </xpath>
             </field>
         </record>
@@ -197,9 +191,9 @@ this module contains the full copyright notices and license terms. -->
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='date']" position="after">
                     <group string="Stato">
-                        <filter string="Protocollato" name="protocollato" domain="[('pec_state','=','protocol')]"/>
-                        <filter string="Da protocollare" name="da_protocollare" domain="[('pec_state','=','new')]"/>
-                        <filter string="Non protocollato" name="non_protocollato" domain="[('pec_state','=','not_protocol')]"/>
+                        <filter string="Protocollato" name="protocollato" domain="[('sharedmail_state','=','protocol')]"/>
+                        <filter string="Da protocollare" name="da_protocollare" domain="[('sharedmail_state','=','new')]"/>
+                        <filter string="Non protocollato" name="non_protocollato" domain="[('sharedmail_state','=','not_protocol')]"/>
                     </group>
                 </xpath>
             </field>
@@ -213,7 +207,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='server_sharedmail_user']" position="after">
                     <field name="sharedmail_state"/>
-                    <field name="is_recovered_in_protocol"/>
+                    <field name="recovered_message_parent" invisible="1"/>
                 </xpath>
             </field>
         </record>

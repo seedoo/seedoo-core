@@ -69,7 +69,7 @@ class MailMessage(orm.Model):
             ('not_protocol', 'Non protocollato')
         ], 'SharedMail State', readonly=True),
         'sharedmail_server_user': fields.related('server_sharedmail_id', 'user', type='char', readonly=True, string='Account'),
-        'is_recovered_in_protocol': fields.boolean('Ripristinato per protocllazione', readonly=True)
+        'recovered_message_parent': fields.many2one('mail.message', 'Messaggio originale ripristino per protocollazione', readonly=True),
 
     }
 
@@ -204,13 +204,13 @@ class MailMessage(orm.Model):
                     vals = {
                         'pec_state': 'new',
                         'pec_protocol_ref': '',
-                        'is_recovered_in_protocol': True
+                        'recovered_message_parent': message.id
                     }
             elif message.sharedmail_type:
                 vals = {
                         'sharedmail_state': 'new',
                         'sharedmail_protocol_ref': None,
-                        'is_recovered_in_protocol': True
+                        'recovered_message_parent': message.id
                     }
             if vals:
                 try:

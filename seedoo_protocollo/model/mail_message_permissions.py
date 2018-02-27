@@ -3,7 +3,7 @@
 # this module contains the full copyright notices and license terms.
 
 from openerp.osv import orm, fields, osv
-
+from openerp import SUPERUSER_ID
 
 
 class MailMessage(osv.Model):
@@ -22,7 +22,10 @@ class MailMessage(osv.Model):
                 check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_ripristina_per_protocollazione')
                 check = check and check_gruppi
 
-            #To DO nascondere button dopo il ripristino
+            if check:
+                message_recovered_parents = self.pool.get('mail.message').search(cr, SUPERUSER_ID, [('recovered_message_parent', 'in', ids)])
+                check = check and len(message_recovered_parents) == 0
+
             message_id = protocollo.mail_pec_ref.id if protocollo.mail_pec_ref.id else protocollo.mail_sharedmail_ref.id
             res.append((message_id, check))
 
