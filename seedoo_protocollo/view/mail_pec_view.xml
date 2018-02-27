@@ -130,7 +130,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="inherit_id" ref="l10n_it_pec_messages.action_mail_pec"/>
             <field name="domain">[
                   ('server_id.pec','=',True),('parent_id','=',False),('direction', '=', 'in'),
-                  ('pec_type','!=', False),('server_id.user_ids','in',uid), (''recovered_message_parent', '=', False)]</field>
+                  ('pec_type','!=', False),('server_id.user_ids','in',uid), ('recovered_message_parent', '=', False)]</field>
         </record>
 
         <record model='ir.ui.view' id='pec_message_search_view_protocol'>
