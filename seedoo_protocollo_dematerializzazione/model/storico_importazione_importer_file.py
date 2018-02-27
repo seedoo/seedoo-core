@@ -15,4 +15,5 @@ class dematerializzazione_storico_importazione_importer_file(orm.Model):
         'errore': fields.text('Errore'),
         'storico_importazione_importer_id': fields.many2one('dematerializzazione.storico.importazione.importer', 'Storico Importazione Sorgenti', ondelete='cascade'),
         'protocollo_id': fields.many2one('protocollo.protocollo', 'Protocollo associato', ondelete='set null'),
+        'document_id': fields.many2one('gedoc.document', 'Documento associato', ondelete='set null'),
     }

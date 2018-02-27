@@ -8,6 +8,7 @@ import base64
 import pytz
 
 from ..utility.ean import EanUtility
+from openerp import SUPERUSER_ID
 from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT as DSDF
 from smb.SMBConnection import SMBConnection
 from smb.smb_constants import SMB_FILE_ATTRIBUTE_READONLY, SMB_FILE_ATTRIBUTE_DIRECTORY, SMB_FILE_ATTRIBUTE_ARCHIVE
@@ -49,7 +50,7 @@ class dematerializzazione_importer(orm.Model):
         'tipologia_protocollo': fields.many2one('protocollo.typology', 'Tipologia Protocollo'),
         'aoo_id': fields.many2one('protocollo.aoo', 'AOO', required=True),
         #'employee_id': fields.many2one('hr.employee', 'Protocollatore'),
-        'employee_ids': fields.many2many('hr.employee', 'dematerializzazione_importer_employee_rel', 'importer_id', 'employee_id', 'Protocollatori'),
+        'employee_ids': fields.many2many('hr.employee', 'dematerializzazione_importer_employee_rel', 'importer_id', 'employee_id', 'Utenti', required=True),
         'address': fields.char('Indirizzo', char=256, required=True),
         'port': fields.integer('Porta'),
         'share': fields.char('Cartella Condivisa', char=256, required=True),
@@ -125,7 +126,7 @@ class dematerializzazione_importer(orm.Model):
             errore = 'Nome del file non valido - Anno e numero protocollo non conformi'
             return esito, errore, protocollo_id
 
-        protocol_ids = protocollo_obj.search(cr, uid,[
+        protocol_ids = protocollo_obj.search(cr, SUPERUSER_ID, [
             ('year', '=', protocollo_rif[1]), ('name', '=', protocollo_rif[2]), ('aoo_id', '=', importer.aoo_id.id)])
 
         if not len(protocol_ids):
@@ -133,9 +134,9 @@ class dematerializzazione_importer(orm.Model):
             errore = 'Protocollo in ingresso %s - %s non esistente' % (protocollo_rif[1], protocollo_rif[2])
             return esito, errore, protocollo_id
 
-        prot = self.pool.get('protocollo.protocollo').browse(cr, uid, protocol_ids[0])
+        prot = self.pool.get('protocollo.protocollo').browse(cr, SUPERUSER_ID, protocol_ids[0])
         attachment_obj = self.pool.get('ir.attachment')
-        attachment_ids = attachment_obj.search(cr, uid, [('res_model', '=', 'protocollo.protocollo'), ('res_id', '=', prot.id)])
+        attachment_ids = attachment_obj.search(cr, SUPERUSER_ID, [('res_model', '=', 'protocollo.protocollo'), ('res_id', '=', prot.id)])
 
         if attachment_ids:
             esito = False
@@ -151,14 +152,14 @@ class dematerializzazione_importer(orm.Model):
             errore = 'Errore nel caricamento del file'
             return esito, errore, protocollo_id
 
-        protocollo_obj.carica_documento_principale(cr, uid, prot.id, data_encoded, file_to_import.filename,"")
-        protocollo_obj.associa_importer_protocollo(cr, uid, prot.id, storico_importer_id)
+        protocollo_obj.carica_documento_principale(cr, SUPERUSER_ID, prot.id, data_encoded, file_to_import.filename,"")
+        protocollo_obj.associa_importer_protocollo(cr, SUPERUSER_ID, prot.id, storico_importer_id)
         return esito, errore, prot.id
 
     def _process_protocol_creazione(self, cr, uid, conn, importer, file_to_import, storico_importer_id, import_counter):
         esito = True
         errore = ''
-        protocollo_id = None
+        gedoc_document_id = None
 
         try:
             temp_fh = StringIO()
@@ -193,12 +194,10 @@ class dematerializzazione_importer(orm.Model):
                     'main_doc_id': False,
                     'user_id': uid,
                     'data_doc': datetime.datetime.now().strftime('%Y%m%d %H:%M:%S'),
-                    'employee_comp_ids': [(6, 0, [importer.employee_ids.id])],
+                    'employee_comp_ids': [(6, 0, importer.employee_ids.ids)],
                     'aoo_id': importer.aoo_id.id,
-
-                    #'typology': importer.tipologia_protocollo.id,
-                    #'mimetype': 'application/pdf',
-                    #'importer_id': storico_importer_id
+                    'imported': True,
+                    'importer_id': storico_importer_id
                 }
                 gedoc_document_id = self.pool.get('gedoc.document').create(cr, uid, vals)
 
@@ -210,6 +209,7 @@ class dematerializzazione_importer(orm.Model):
                     'res_model': 'gedoc.document',
                     'res_id': gedoc_document_id,
                 })
+                self.pool.get('gedoc.document').write(cr, uid, [gedoc_document_id], {'main_doc_id': main_doc_id})
 
             else:
                 errore = 'Errore nel caricamento del file'
@@ -218,8 +218,10 @@ class dematerializzazione_importer(orm.Model):
         except Exception as exception:
             esito = False
             errore = exception
+            if gedoc_document_id:
+                self.pool.get('gedoc.document').unlink(cr, uid, [gedoc_document_id])
 
-        return esito, errore, protocollo_id
+        return esito, errore, gedoc_document_id
 
 
     def _process_protocol(self, cr, uid, conn, importer, file_to_import, storico_importer_id, doc_counter):
@@ -260,7 +262,10 @@ class dematerializzazione_importer(orm.Model):
                 esito_valori = {}
                 esito_valori['esito'] = 'ok'
                 if protocollo_id:
-                    esito_valori['protocollo_id'] = protocollo_id
+                    if importer.tipologia_importazione == 'aggancio':
+                        esito_valori['protocollo_id'] = protocollo_id
+                    else:
+                        esito_valori['document_id'] = protocollo_id
                 storico_importer_file_obj.write(cr, uid, [storico_importer_file_id], esito_valori)
             else:
                 self._log_file_error(cr, uid, conn, importer, file_to_import, today_folder, storico_importer_file_id, errore)

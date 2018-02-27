@@ -24,10 +24,10 @@ this module contains the full copyright notices and license terms. -->
                   parent="seedoo_protocollo.protocollo_configuration"
                   sequence="100"/>
 
-        <menuitem id="protocollo_protocollo_in_imported_menu" name="Bozze Importate"
+        <menuitem id="dematerializzazione_document_menu" name="Documenti Importati"
                   parent="seedoo_protocollo.protocollo_doc_in"
-                  action="protocollo_protocollo_in_imported_act" sequence="30"
-                  groups="group_vedi_menu_protocolli_ingresso_bozze_importate"/>
+                  action="gedoc_document_in_imported_act" sequence="50"
+                  groups="group_vedi_menu_documenti_ingresso_importati"/>
 
     </data>
 </openerp>

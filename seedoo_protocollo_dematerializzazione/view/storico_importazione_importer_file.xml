@@ -13,9 +13,14 @@ this module contains the full copyright notices and license terms. -->
                     <sheet>
                         <group col="4">
                             <field name="name"/>
+                            <newline/>
                             <field name="esito"/>
+                            <newline/>
                             <field name="errore" attrs="{'invisible':[('esito', '=', 'ok')]}" colpsan="4"/>
-                            <field name="protocollo_id" colpsan="4"/>
+                            <newline/>
+                            <field name="protocollo_id" attrs="{'invisible':[('protocollo_id', '=', False)]}"/>
+                            <newline/>
+                            <field name="document_id" attrs="{'invisible':[('document_id', '=', False)]}"/>
                         </group>
                     </sheet>
                 </form>
@@ -30,7 +35,8 @@ this module contains the full copyright notices and license terms. -->
                     <field name="name"/>
                     <field name="esito"/>
                     <field name="errore"/>
-                    <field name="protocollo_id" colpsan="4"/>
+                    <field name="protocollo_id"/>
+                    <field name="document_id"/>
                 </tree>
             </field>
         </record>

@@ -3,5 +3,6 @@
 # this module contains the full copyright notices and license terms.
 
 from . import importa_documenti_wizard
+from . import crea_protocollo_da_documento_wizard
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
