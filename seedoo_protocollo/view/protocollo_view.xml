@@ -403,11 +403,11 @@ this module contains the full copyright notices and license terms. -->
                                 attrs="{'invisible':[('invio_pec_visibility','=',False)]}"
                                 class="oe_highlight btn_seedoo btn_invia_pec"/>
 
-                        <button name="%(protocollo_modify_pec_action)d" string="Modifica PEC Destinatario" type="action"
+                        <button name="%(protocollo_modify_pec_action)d" string="Modifica Destinatari PEC" type="action"
                                 attrs="{'invisible':[('modifica_pec_visibility','=',False)]}"
                                 class="oe_highlight_positive btn_seedoo btn_modifica_protocollo"/>
 
-                        <button name="%(protocollo_modify_email_action)d" string="Modifica E-mail Destinatario" type="action"
+                        <button name="%(protocollo_modify_email_action)d" string="Modifica Destinatari E-mail" type="action"
                                 attrs="{'invisible':[('modifica_email_visibility','=',False)]}"
                                 class="oe_highlight_positive btn_seedoo btn_modifica_protocollo"/>
 
