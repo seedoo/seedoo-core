@@ -78,7 +78,8 @@ this module contains the full copyright notices and license terms. -->
             <field name="arch" type="xml">
                 <page string="Documenti" position="before">
                     <page string="Protocolli" >
-                        <field name="protocollo_ids" domain="[('state','in',('notified','sent'))]" nolabel="1"/>
+                        <field name="protocollo_ids" domain="[('state','in',('notified','sent'))]" nolabel="1"
+                                options="{'no_create': True, 'no_create_edit': True}"/>
                         <newline/>
                     </page>
                 </page>
