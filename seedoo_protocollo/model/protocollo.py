@@ -34,11 +34,19 @@ mimetypes.init()
 
 class protocollo_typology(orm.Model):
     _name = 'protocollo.typology'
+
+    _order = 'display_order, name'
+
     _columns = {
         'name': fields.char('Nome', size=256, required=True),
         'sharedmail': fields.boolean('Shared Mail'),
         'pec': fields.boolean('PEC'),
         'aoo_id': fields.many2one('protocollo.aoo', 'AOO', required=True),
+        'display_order': fields.integer('Ordine visualizzazione')
+    }
+
+    _defaults = {
+        'display_order': 100
     }
 
 

@@ -24,6 +24,7 @@ this module contains the full copyright notices and license terms. -->
                     <sheet>
                         <group col="4">
                             <field name="name"/>
+                            <field name="display_order"/>
                         </group>
                         <group col="4">
                             <field name="pec"/>
@@ -42,6 +43,7 @@ this module contains the full copyright notices and license terms. -->
                     <field name="name"/>
                     <field name="pec"/>
                     <field name="sharedmail"/>
+                    <field name="display_order"/>
                 </tree>
             </field>
         </record>
