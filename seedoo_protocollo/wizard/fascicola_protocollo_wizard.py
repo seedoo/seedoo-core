@@ -35,9 +35,9 @@ class wizard(osv.TransientModel):
         'dossier_ids': fields.many2many('protocollo.dossier', 'protocollo_fascicola_wizard_dossier_rel', 'wizard_id', 'dossier_id', 'Fascicoli'),
     }
 
-    def _default_complete_name(self, cr, uid, context):
+    def _default_name(self, cr, uid, context):
         protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
-        return protocollo.complete_name
+        return protocollo.name
 
     def _default_registration_date(self, cr, uid, context):
         protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
@@ -55,7 +55,7 @@ class wizard(osv.TransientModel):
         return [(6, 0, dossier_ids)]
 
     _defaults = {
-        'complete_name': _default_complete_name,
+        'name': _default_name,
         'registration_date': _default_registration_date,
         'type': _default_type,
         'dossier_ids': _default_dossier_ids,
