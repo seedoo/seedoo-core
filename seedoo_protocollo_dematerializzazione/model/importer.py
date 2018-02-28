@@ -80,12 +80,18 @@ class dematerializzazione_importer(orm.Model):
     directory_search = SMB_FILE_ATTRIBUTE_READONLY | SMB_FILE_ATTRIBUTE_ARCHIVE | SMB_FILE_ATTRIBUTE_DIRECTORY
 
     def _directory_check(self, conn, share, path, directory):
-        entries = conn.listPath(share, path, self.directory_search)
-        directories = map(lambda e: e.filename, entries)
         relpath = os.path.relpath(directory, path)
-        if relpath not in directories:
-            path_directory = os.path.join(path, directory)
-            conn.createDirectory(share, path_directory)
+        complete_path = path
+
+        for dirname in os.path.normpath(relpath).split(os.sep):
+            if len(dirname) == 0:
+                continue
+
+            entries = conn.listPath(share, complete_path, self.directory_search)
+            directories = map(lambda e: e.filename, entries)
+            complete_path = os.path.join(complete_path, dirname)
+            if dirname not in directories:
+                conn.createDirectory(share, complete_path)
 
     def _log_file_error(self, cr, uid, conn, importer, file_to_import, today_folder, storico_importer_file_id, error):
         share = importer.share
@@ -102,8 +108,7 @@ class dematerializzazione_importer(orm.Model):
         today_failed_folder_path = os.path.join(failed_folder_path, today_folder)
         new_path = os.path.join(today_failed_folder_path, file_to_import.filename)
 
-        self._directory_check(conn, share, importer.path, failed_folder_path)
-        self._directory_check(conn, share, failed_folder_path, today_folder)
+        self._directory_check(conn, share, importer.path, today_failed_folder_path)
 
         failed_files_entries = conn.listPath(share, today_failed_folder_path)
         failed_files = map(lambda e: e.filename, failed_files_entries)
@@ -116,7 +121,8 @@ class dematerializzazione_importer(orm.Model):
         attachment_obj = self.pool.get('ir.attachment')
 
         # Verifica la correttezza del nome del file rispetto alla sintassi dell'Ean13
-        ean = os.path.splitext(os.path.basename(file_to_import.filename.encode('utf-8')))[0]
+        file_abspath = file_to_import.filename
+        ean = os.path.splitext(os.path.basename(file_abspath.encode('utf-8')))[0]
         errore = ''
         protocollo_id = None
         esito = EanUtility.ean_verify(ean)
@@ -156,7 +162,7 @@ class dematerializzazione_importer(orm.Model):
             return esito, errore, protocollo_id
 
         temp_fh = StringIO()
-        file_attributes, filesize = conn.retrieveFile(importer.share, file_to_import.filename, temp_fh)
+        file_attributes, filesize = conn.retrieveFile(importer.share, file_abspath, temp_fh)
         data_encoded = base64.encodestring(temp_fh.getvalue())
 
         if not filesize:
@@ -164,7 +170,8 @@ class dematerializzazione_importer(orm.Model):
             errore = 'Errore nel caricamento del file'
             return esito, errore, protocollo_id
 
-        protocollo_obj.carica_documento_principale(cr, SUPERUSER_ID, prot.id, data_encoded, file_to_import.filename, "")
+        protocollo_obj.carica_documento_principale(cr, SUPERUSER_ID, prot.id, data_encoded,
+                                                   os.path.basename(file_abspath), "")
         protocollo_obj.associa_importer_protocollo(cr, SUPERUSER_ID, prot.id, storico_importer_id)
         return esito, errore, prot.id
 
@@ -265,7 +272,7 @@ class dematerializzazione_importer(orm.Model):
             'storico_importazione_importer_id': storico_importer_id,
         })
 
-        ext = file_to_import.filename.split('.')[-1]
+        ext = file_to_import.filename.split('.')[-1]  # TODO usare funzione apposita per ottenere estensione
         if ext.lower() != 'pdf':
             self._log_file_error(cr, uid, conn, importer, file_to_import, today_folder, storico_importer_file_id,
                                  'Il file deve avere estensione pdf')
@@ -359,8 +366,7 @@ class dematerializzazione_importer(orm.Model):
                     processed_folder_path = os.path.join(importer.path, importer.processed_folder)
                     today_processed_folder_path = os.path.join(processed_folder_path, today_folder)
 
-                    self._directory_check(conn, importer.share, importer.path, processed_folder_path)
-                    self._directory_check(conn, importer.share, processed_folder_path, today_folder)
+                    self._directory_check(conn, importer.share, importer.path, today_processed_folder_path)
 
                     files_to_import = conn.listPath(importer.share, importer.path)
 
@@ -424,6 +430,7 @@ class dematerializzazione_importer(orm.Model):
             password = rec.auth and rec.password or ''
             local_name = rec.title.encode('ascii', 'ignore')
             remote_name = rec.address.encode('ascii', 'ignore')
+            path = rec.path
 
             try:
                 conn = SMBConnection(
@@ -434,8 +441,7 @@ class dematerializzazione_importer(orm.Model):
                     remote_name=remote_name
                 )
                 esito_test = conn.connect(remote_name)
-                path = "/"
-                self._directory_check(conn, rec.share, path, rec.processed_folder)
+                self._directory_check(conn, rec.share, "/", path)
             except Exception as exception:
                 esito_test = False
 
