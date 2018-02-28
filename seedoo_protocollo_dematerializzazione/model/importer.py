@@ -82,7 +82,8 @@ class dematerializzazione_importer(orm.Model):
     def _directory_check(self, conn, share, path, directory):
         entries = conn.listPath(share, path, self.directory_search)
         directories = map(lambda e: e.filename, entries)
-        if directory not in directories:
+        relpath = os.path.relpath(directory, path)
+        if relpath not in directories:
             path_directory = os.path.join(path, directory)
             conn.createDirectory(share, path_directory)
 
@@ -101,6 +102,7 @@ class dematerializzazione_importer(orm.Model):
         today_failed_folder_path = os.path.join(failed_folder_path, today_folder)
         new_path = os.path.join(today_failed_folder_path, file_to_import.filename)
 
+        self._directory_check(conn, share, importer.path, failed_folder_path)
         self._directory_check(conn, share, failed_folder_path, today_folder)
 
         failed_files_entries = conn.listPath(share, today_failed_folder_path)
@@ -177,7 +179,8 @@ class dematerializzazione_importer(orm.Model):
 
         try:
             temp_fh = StringIO()
-            file_attributes, filesize = conn.retrieveFile(importer.share, file_to_import.filename, temp_fh)
+            file_fullpath = os.path.join(importer.path, file_to_import.filename)
+            file_attributes, filesize = conn.retrieveFile(importer.share, file_fullpath, temp_fh)
             data_encoded = base64.encodestring(temp_fh.getvalue())
 
             if filesize > 0:
@@ -218,10 +221,11 @@ class dematerializzazione_importer(orm.Model):
                 }
                 gedoc_document_id = gedoc_document_obj.create(cr, uid, vals)
 
+                file_basename = os.path.basename(file_fullpath)
                 main_doc_id = attachment_obj.create(cr, uid, {
-                    'name': file_to_import.filename,
+                    'name': file_basename,
                     'datas': data_encoded,
-                    'datas_fname': file_to_import.filename,
+                    'datas_fname': file_basename,
                     'res_model': 'gedoc.document',
                     'res_id': gedoc_document_id,
                 })
@@ -262,7 +266,7 @@ class dematerializzazione_importer(orm.Model):
         })
 
         ext = file_to_import.filename.split('.')[-1]
-        if ext != 'pdf' and ext != 'PDF':
+        if ext.lower() != 'pdf':
             self._log_file_error(cr, uid, conn, importer, file_to_import, today_folder, storico_importer_file_id,
                                  'Il file deve avere estensione pdf')
             return esito
@@ -338,7 +342,6 @@ class dematerializzazione_importer(orm.Model):
                     storico_importer_id = storico_importer_obj.create(cr, uid, {
                         'name': importer.title,
                         'indirizzo': importer.address,
-                        'porta': 0,
                         'cartella': importer.share,
                         'esito': 'ok',
                         'storico_importazione_id': storico_id,
@@ -356,6 +359,7 @@ class dematerializzazione_importer(orm.Model):
                     processed_folder_path = os.path.join(importer.path, importer.processed_folder)
                     today_processed_folder_path = os.path.join(processed_folder_path, today_folder)
 
+                    self._directory_check(conn, importer.share, importer.path, processed_folder_path)
                     self._directory_check(conn, importer.share, processed_folder_path, today_folder)
 
                     files_to_import = conn.listPath(importer.share, importer.path)
