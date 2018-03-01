@@ -65,13 +65,13 @@ this module contains the full copyright notices and license terms. -->
                         <div class="gedoc_header">
                             <group col="4">
                                 <field name="name" readonly="1"/>
-                                <field name="document_type" readonly="1"/>
+                                <field name="document_type" readonly="1" invisible="1"/>
                                 <newline/>
-                                <field name="repertorio" />
-                                <field name="numero_repertorio" readonly="1"/>
+                                <field name="repertorio" invisible="1"/>
+                                <field name="numero_repertorio" invisible="1" readonly="1"/>
                                 <field name="subject" readonly="1"/>
                                 <newline/>
-                                <field name="imported"/>
+                                <field name="imported" invisible="1"/>
                                 <field name="importer_id" attrs="{'invisible':[('importer_id', '=', False)]}"/>
                                 <newline/>
                                 <field name="protocollo_id" attrs="{'invisible':[('protocollo_id', '=', False)]}"/>
