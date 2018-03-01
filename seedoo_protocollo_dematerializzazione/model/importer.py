@@ -121,7 +121,7 @@ class dematerializzazione_importer(orm.Model):
         attachment_obj = self.pool.get('ir.attachment')
 
         # Verifica la correttezza del nome del file rispetto alla sintassi dell'Ean13
-        file_abspath = file_to_import.filename
+        file_abspath = os.path.join(importer.path, file_to_import.filename)
         ean = os.path.splitext(os.path.basename(file_abspath.encode('utf-8')))[0]
         errore = ''
         protocollo_id = None
