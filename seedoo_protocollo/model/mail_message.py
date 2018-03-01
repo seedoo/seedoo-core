@@ -7,7 +7,7 @@ from openerp import SUPERUSER_ID
 from lxml import etree
 from ..segnatura.conferma_xml_parser import ConfermaXMLParser
 from openerp.osv import orm, fields
-from openerp.tools.translate import _
+
 
 class MailMessage(orm.Model):
     _inherit = "mail.message"

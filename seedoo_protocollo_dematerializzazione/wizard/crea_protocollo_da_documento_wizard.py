@@ -55,6 +55,7 @@ class CreaProtocolloDaDocumentoWizard(osv.TransientModel):
         protocollo_id = protocollo_obj.create(cr, uid, vals)
 
         protocollo_obj.carica_documento_principale(cr, uid, protocollo_id, wizard.preview, wizard.doc_fname, wizard.doc_description)
+        protocollo_obj.associa_importer_protocollo(cr, SUPERUSER_ID, protocollo_id, document.importer_id.id)
 
         action_class = "history_icon print"
         post_vars = {
@@ -66,7 +67,10 @@ class CreaProtocolloDaDocumentoWizard(osv.TransientModel):
         thread_pool = self.pool.get('protocollo.protocollo')
         thread_pool.message_post(cr, uid, protocollo_id, type="notification", context=context, **post_vars)
 
-        self.pool.get('gedoc.document').write(cr, uid, [context.get('active_id')], {'protocollo_id': protocollo_id})
+        self.pool.get('gedoc.document').write(cr, uid, [context.get('active_id')], {
+                                                                                        'protocollo_id': protocollo_id,
+                                                                                        'doc_protocol_state': 'protocol'
+                                                                                    })
 
         obj_model = self.pool.get('ir.model.data')
         model_data_ids = obj_model.search(cr, uid, [('model', '=', 'ir.ui.view'), ('name', '=', 'protocollo_protocollo_form')])
