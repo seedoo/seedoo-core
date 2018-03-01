@@ -5,9 +5,9 @@ this module contains the full copyright notices and license terms. -->
 <openerp>
     <data noupdate="0">
 
-        <!-- Gruppo per la visualizzazione del menu "Bozze Importate" figlio di "Documenti in Ingresso" -->
-        <record id="group_vedi_menu_protocolli_ingresso_bozze_importate" model="res.groups">
-            <field name="name">Vedi Menu Bozze Importate Protocolli in Ingresso</field>
+        <!-- Gruppo per la visualizzazione del menu "Documenti Importati" figlio di "Documenti in Ingresso" -->
+        <record id="group_vedi_menu_documenti_ingresso_importati" model="res.groups">
+            <field name="name">Vedi Menu Documenti Importati</field>
             <field name="category_id" ref="seedoo_protocollo.module_category_protocollo"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
@@ -19,9 +19,9 @@ this module contains the full copyright notices and license terms. -->
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
 
-        <record id="seedoo_protocollo.group_protocollo_manager" model="res.groups">
+        <record id="seedoo_protocollo.group_protocollo_operatore" model="res.groups">
             <field name="implied_ids" eval="[
-                (4, ref('group_vedi_menu_protocolli_ingresso_bozze_importate')),
+                (4, ref('group_vedi_menu_documenti_ingresso_importati')),
                 (4, ref('group_carica_documenti_da_importer')),
             ]">
             </field>

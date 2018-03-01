@@ -21,35 +21,6 @@ this module contains the full copyright notices and license terms. -->
             </field>
         </record>
 
-        <record model="ir.actions.act_window" id="protocollo_protocollo_in_imported_act">
-            <field name="name">Bozze Importate</field>
-            <field name="res_model">protocollo.protocollo</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="seedoo_protocollo.protocollo_protocollo_tree"/>
-            <field name="search_view_id" ref="seedoo_protocollo.protocollo_protocollo_search"/>
-            <field name="domain">[('type','=','in'),('state','=','draft'),('importer_id','!=',False)]
-            </field>
-            <field name="context">{'default_type':'in'}</field>
-            <field name="help" type="html">
-                <p class="oe_view_nocontent_create">
-                    Premi qui per creare un nuovo protocollo in ingresso
-                </p>
-            </field>
-        </record>
-
-        <record model="ir.actions.act_window" id="seedoo_protocollo.protocollo_protocollo_in_draft_act">
-            <field name="name">Bozze</field>
-            <field name="res_model">protocollo.protocollo</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="seedoo_protocollo.protocollo_protocollo_tree"/>
-            <field name="search_view_id" ref="seedoo_protocollo.protocollo_protocollo_search"/>
-            <field name="domain">[('type','=','in'),('state','=','draft'),('importer_id','=',False)]</field>
-            <field name="context">{'default_type':'in'}</field>
-        </record>
-
-
         <record model='ir.ui.view' id='protocollo_aoo_importer_form'>
             <field name="name">protocollo.aoo.form</field>
             <field name="model">protocollo.aoo</field>

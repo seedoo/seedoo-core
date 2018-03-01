@@ -17,6 +17,7 @@
         "seedoo_protocollo"
     ],
     "data": [
+        "data/document_type.xml",
         "data/configurazione.xml",
         "data/cron.xml",
         "security/ir.model.access.csv",
@@ -29,6 +30,8 @@
         "view/res_config.xml",
         "view/protocollo.xml",
         "wizard/importa_documenti_wizard_view.xml",
+        "wizard/crea_protocollo_da_documento_wizard_view.xml",
+        "view/gedoc_document.xml",
         "menu/menu.xml"
     ],
     "demo": [

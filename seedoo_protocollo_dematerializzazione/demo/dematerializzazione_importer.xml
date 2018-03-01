@@ -5,14 +5,15 @@ this module contains the full copyright notices and license terms. -->
 <openerp>
     <data>
         <record id="importer_creazione" model="dematerializzazione.importer">
-            <field name="title">Importer - Creazione Bozze Protocolli</field>
+            <field name="title">Importer - Creazione Documenti</field>
             <field name="import_attivo" eval="False"></field>
             <field name="tipologia_protocollo" ref="seedoo_protocollo.protocollo_typology_fax"></field>
-            <field name="description">Importer che crea delle bozze di protocollo partendo dai pdf presenti nel repository</field>
+            <field name="description">Importer che crea dei documenti partendo dai pdf presenti nel repository</field>
             <field name="tipologia_importazione">creazione</field>
             <field name="aoo_id" ref="seedoo_protocollo.protocollo_aoo_default"></field>
-            <field name="employee_id" ref="seedoo_protocollo.hr_saul_lai"></field>
-            <field name="user_id" ref="seedoo_protocollo.saul_lai"></field>
+            <!--<field name="employee_id" ref="seedoo_protocollo.hr_saul_lai"></field>-->
+            <!--<field name="user_id" ref="seedoo_protocollo.saul_lai"></field>-->
+            <field name="employee_ids" eval="[(6, 0,[ref('seedoo_protocollo.hr_saul_lai')])]"/>
             <field name="address">nas.flosslab.local</field>
             <field name="port">139</field>
             <field name="share">importerprivate</field>
@@ -33,6 +34,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Importer che preleva i documenti pdf e li allega ai rispettivi protocolli esistenti</field>
             <field name="tipologia_importazione">aggancio</field>
             <field name="aoo_id" ref="seedoo_protocollo.protocollo_aoo_default"></field>
+            <field name="employee_ids" eval="[(6, 0,[ref('seedoo_protocollo.hr_saul_lai')])]"/>
             <field name="address">nas.flosslab.local</field>
             <field name="port">139</field>
             <field name="share">importer</field>

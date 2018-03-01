@@ -35,11 +35,19 @@ mimetypes.init()
 
 class protocollo_typology(orm.Model):
     _name = 'protocollo.typology'
+
+    _order = 'display_order, name'
+
     _columns = {
         'name': fields.char('Nome', size=256, required=True),
         'sharedmail': fields.boolean('Shared Mail'),
         'pec': fields.boolean('PEC'),
         'aoo_id': fields.many2one('protocollo.aoo', 'AOO', required=True),
+        'display_order': fields.integer('Ordine visualizzazione')
+    }
+
+    _defaults = {
+        'display_order': 100
     }
 
 
@@ -90,8 +98,8 @@ class protocollo_registry(orm.Model):
 
         # if aoo and aoo.registry_id and aoo.registry_id.allowed_employee_ids:
         self.write(cr, uid, [aoo.registry_id.id], {'allowed_employee_ids':
-                                                       [(6, 0, [employee_id[0]])],
-                                                   })
+                                           [(6, 0, [employee_id[0]])],
+                                       })
         # self.write(cr, uid, [aoo.id], {'ident_code': '1'
         # })
         # for employee in aoo.registry_id.allowed_employee_ids:
@@ -148,7 +156,7 @@ class protocollo_protocollo(orm.Model):
         department_ids = self.pool.get('hr.department').browse(cr, uid, user_ids.employee_ids.department_id.id)
         if len(department_ids.aoo_id.ids) == 0:
             raise osv.except_osv(_('Warning!'), _(
-                "Il dipendente %s non e' abilitato alla protocollazione: l'Ufficio '%s' deve essere associato ad una AOO") % (
+                "Il dipendente %s non e' abilitato alla protocollazione: l'Ufficio '%s' deve essere associato ad una AOO") % (employee_ids.name, department_ids.name))
                                  employee_ids.name, department_ids.name))
         aoo = department_ids.aoo_id.ids[0]
         aoo_ids = self.pool.get('protocollo.aoo').browse(cr, uid, aoo)
@@ -159,7 +167,7 @@ class protocollo_protocollo(orm.Model):
 
         if employee_ids.id not in registry.allowed_employee_ids.ids:
             raise osv.except_osv(_('Warning!'), _(
-                "Il dipendente %s non e' abilitato alla protocollazione: deve essere associato al Registro della AOO '%s'") % (
+                "Il dipendente %s non e' abilitato alla protocollazione: deve essere associato al Registro della AOO '%s'") % (employee_ids.name, aoo_ids.name))
                                  employee_ids.name, aoo_ids.name))
 
     pass
@@ -249,7 +257,7 @@ class protocollo_protocollo(orm.Model):
             if prot.sender_receivers:
                 check_notifications = 0
                 for sender_receiver_id in prot.sender_receivers.ids:
-                    sender_receiver_obj = self.pool.get('protocollo.sender_receiver').browse(cr, uid,
+                    sender_receiver_obj = self.pool.get('protocollo.sender_receiver').browse(cr, uid, sender_receiver_id, context=context)
                                                                                              sender_receiver_id,
                                                                                              context=context)
                     # if sender_receiver_obj.pec_accettazione_status and sender_receiver_obj.pec_consegna_status:
@@ -425,7 +433,7 @@ class protocollo_protocollo(orm.Model):
                 ('internal', 'Interno')
             ], 'Tipo', size=32, required=True, readonly=True, index=True),
         'typology': fields.many2one(
-            'protocollo.typology', 'Mezzo Trasmissione', readonly=True, required=True,
+            'protocollo.typology', 'Mezzo Trasmissione', readonly=True, required=False,
             states={'draft': [('readonly', False)]},
             help="Tipologia invio/ricevimento: \
                         Raccomandata, Fax, PEC, etc. \
@@ -444,18 +452,18 @@ class protocollo_protocollo(orm.Model):
                               readonly=False,
                               store=False),
         'sharedmail': fields.related('typology',
-                                     'sharedmail',
-                                     type='boolean',
-                                     string='Sharedmail',
-                                     readonly=False,
-                                     store=False),
+                              'sharedmail',
+                              type='boolean',
+                              string='Sharedmail',
+                              readonly=False,
+                              store=False),
         'body': fields.html('Corpo della mail', readonly=True),
         'mail_pec_ref': fields.many2one('mail.message',
                                         'Riferimento PEC',
                                         readonly=True),
         'mail_sharedmail_ref': fields.many2one('mail.message',
-                                               'Riferimento Mail',
-                                               readonly=True),
+                                        'Riferimento Mail',
+                                        readonly=True),
         'mail_out_ref': fields.many2one('mail.mail',
                                         'Riferimento mail in uscita',
                                         readonly=True),
@@ -466,9 +474,9 @@ class protocollo_protocollo(orm.Model):
                                                 string='Notification Messages',
                                                 readonly=True),
         'pec_notifications_sum': fields.function(_get_pec_notifications_sum,
-                                                 type="char",
-                                                 string="PEC Status",
-                                                 store=False),
+                                    type="char",
+                                    string="PEC Status",
+                                    store=False),
         'creation_date': fields.date('Data Creazione',
                                      required=True,
                                      readonly=True,
@@ -496,7 +504,7 @@ class protocollo_protocollo(orm.Model):
             'ir.attachment', 'Documento Principale', readonly=True,
             domain="[('res_model', '=', 'protocollo.protocollo')]"),
         'doc_content': fields.related('doc_id', 'datas', type='binary', string='Documento', readonly=True),
-        'doc_description': fields.related('doc_id', 'datas_description', type='char', string='Descrizione',
+        'doc_description': fields.related('doc_id', 'datas_description', type='char', string='Descrizione', readonly=True),
                                           readonly=True),
         'doc_fname': fields.related('doc_id', 'datas_fname', type="char", readonly=True),
         'fingerprint': fields.char(string="Impronta Documento", size=256),
@@ -532,13 +540,13 @@ class protocollo_protocollo(orm.Model):
                                        required=False,
                                        readonly=True),
         'sender_registration_date': fields.date('Data Registrazione Mittente',
-                                                size=64,
-                                                required=False,
-                                                ),
+                                       size=64,
+                                       required=False,
+                                       ),
         'sender_receivers': fields.one2many('protocollo.sender_receiver', 'protocollo_id', 'Mittenti/Destinatari'),
         'senders': fields.one2many('protocollo.sender_receiver', 'protocollo_id', 'Mittente',
-                                   domain=[('source', '=', 'sender')]),
-        'receivers': fields.one2many('protocollo.sender_receiver', 'protocollo_id', 'Destinatari',
+        'senders': fields.one2many('protocollo.sender_receiver', 'protocollo_id', 'Mittente', domain=[('source', '=', 'sender')]),
+        'receivers': fields.one2many('protocollo.sender_receiver', 'protocollo_id', 'Destinatari', domain=[('source', '=', 'receiver')]),
                                      domain=[('source', '=', 'receiver')]),
 
         'sender_receivers_summary': fields.function(
@@ -583,8 +591,8 @@ class protocollo_protocollo(orm.Model):
                                    string='Registro', store=True, readonly=True),
         'protocol_request': fields.boolean('Richiesta Protocollo', readonly=True),
         'server_sharedmail_id': fields.many2one('fetchmail.server', 'Account Email',
-                                                domain="[('sharedmail', '=', True),('user_sharedmail_ids', 'in', uid)]"),
-        'server_pec_id': fields.many2one('fetchmail.server', 'Account PEC',
+        'server_sharedmail_id': fields.many2one('fetchmail.server', 'Account Email', domain="[('sharedmail', '=', True),('user_sharedmail_ids', 'in', uid)]"),
+        'server_pec_id': fields.many2one('fetchmail.server', 'Account PEC', domain="[('pec', '=', True),('user_ids', 'in', uid)]"),
                                          domain="[('pec', '=', True),('user_ids', 'in', uid)]"),
 
     }
@@ -626,12 +634,12 @@ class protocollo_protocollo(orm.Model):
 
     def _get_def_sharedmail_server(self, cr, uid, context=None):
         res = self.pool.get('fetchmail.server').search(cr, uid,
-                                                       [('user_sharedmail_ids', 'in', uid), ('sharedmail', '=', True)],
+        res = self.pool.get('fetchmail.server').search(cr, uid, [('user_sharedmail_ids', 'in', uid), ('sharedmail', '=', True)], context=context)
                                                        context=context)
         return res and res[0] or False
 
     def _get_def_pec_server(self, cr, uid, context=None):
-        res = self.pool.get('fetchmail.server').search(cr, uid, [('user_ids', 'in', uid), ('pec', '=', True)],
+        res = self.pool.get('fetchmail.server').search(cr, uid, [('user_ids', 'in', uid), ('pec', '=', True)], context=context)
                                                        context=context)
         return res and res[0] or False
 
@@ -857,11 +865,13 @@ class protocollo_protocollo(orm.Model):
         if parent_id:
             attach_vals['parent_id'] = parent_id
 
+
+
         user_id = ruid or uid
         attachment_id = attachment_obj.create(cr, user_id, attach_vals)
         self.write(cr, uid, prot.id, {'doc_id': attachment_id, 'datas': 0})
         attachment_obj.unlink(cr, SUPERUSER_ID, old_attachment_id)
-        location = self.pool.get('ir.config_parameter').get_param(cr, uid,
+        location = self.pool.get('ir.config_parameter').get_param(cr, uid, 'ir_attachment.location') + '/protocollazioni'
                                                                   'ir_attachment.location') + '/protocollazioni'
         new_attachment = attachment_obj.browse(cr, user_id, attachment_id)
         file_path = self._full_path(
@@ -869,11 +879,11 @@ class protocollo_protocollo(orm.Model):
         return sha1OfFile(file_path)
 
     def _create_protocol_security_folder(self, cr, uid, prot, prot_number):
-        group_reserved_id = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'seedoo_protocollo',
+        group_reserved_id = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'seedoo_protocollo', 'group_protocollazione_riservata')[1]
                                                                                 'group_protocollazione_riservata')[1]
         directory_obj = self.pool.get('document.directory')
         directory_root_id = \
-        self.pool.get('ir.model.data').get_object_reference(cr, uid, 'seedoo_protocollo', 'dir_protocol')[1]
+        directory_root_id = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'seedoo_protocollo', 'dir_protocol')[1]
         ruid = None
         if prot.aoo_id.reserved_employee_id and prot.aoo_id.reserved_employee_id.user_id:
             ruid = prot.aoo_id.reserved_employee_id.user_id.id
@@ -936,7 +946,7 @@ class protocollo_protocollo(orm.Model):
         for prot in self.browse(cr, uid, ids):
             for send_rec in prot.sender_receivers:
                 if send_rec.save_partner and not send_rec.partner_id:
-                    # if send_rec.partner_id:
+                    #if send_rec.partner_id:
                     #    raise orm.except_orm('Attenzione!', 'Si sta tentando di salvare un\' anagrafica già presente nel sistema')
                     partner_obj = self.pool.get('res.partner')
                     values = self.get_partner_values(cr, uid, send_rec)
@@ -956,7 +966,7 @@ class protocollo_protocollo(orm.Model):
         if check:
             res_registrazione = self.action_register(cr, uid, ids)
             check = True if res_registrazione is not None and len(res_registrazione) > 0 and 'Registrazione' in \
-                            res_registrazione[0] and 'Res' in res_registrazione[0]['Registrazione'] and \
+                                 res_registrazione[0] and 'Res' in res_registrazione[0]['Registrazione'] and res_registrazione[0]['Registrazione']['Res'] else False
                             res_registrazione[0]['Registrazione']['Res'] else False
 
         if check:
@@ -996,89 +1006,84 @@ class protocollo_protocollo(orm.Model):
         for prot in self.browse(cr, uid, ids):
 
             self.pool.get('protocollo.configurazione').verifica_campi_obbligatori(cr, uid, prot)
+            if prot.state == 'draft':
+                try:
+                    vals = {}
+                    prot_number = self._get_next_number(cr, uid, prot)
+                    prot_date = fields.datetime.now()
+                    vals['name'] = prot_number
+                    vals['registration_date'] = prot_date
+                    employee_ids = self.pool.get('hr.employee').search(cr, uid, [('user_id', '=', uid)])
+                    attachment_obj = self.pool.get('ir.attachment')
 
-            try:
-                vals = {}
-                prot_number = self._get_next_number(cr, uid, prot)
-                prot_date = fields.datetime.now()
-                vals['name'] = prot_number
-                vals['registration_date'] = prot_date
-                employee_ids = self.pool.get('hr.employee').search(cr, uid, [('user_id', '=', uid)])
-                attachment_obj = self.pool.get('ir.attachment')
+                    if employee_ids:
+                        vals['registration_employee_id'] = employee_ids[0]
 
-                if employee_ids:
-                    vals['registration_employee_id'] = employee_ids[0]
+                    # prot_complete_name = self.calculate_complete_name(prot_date, prot_number)
 
-                # prot_complete_name = self.calculate_complete_name(prot_date, prot_number)
+                    if prot.doc_id:
+                        try:
+                            if prot.mimetype == 'application/pdf':
+                                self._sign_doc(cr, uid, prot, prot_number, prot_date)
+                            res_segnatura = {"Segnatura": {"Res": True, "Msg": "Segnatura generata correttamente"}}
+                        except Exception as e:
+                            _logger.error(e)
+                            err_segnatura = True
+                            res_segnatura = {"Segnatura": {"Res": False, "Msg": "Non è stato possibile generare la segnatura PDF"}}
 
-                if prot.doc_id:
+                        fingerprint = self._create_protocol_attachment(cr, uid, prot, prot_number, prot_date)
+                        vals['fingerprint'] = fingerprint
+                        vals['datas'] = 0
+
+                    now = datetime.datetime.now()
+                    vals['year'] = now.year
+                    self.write(cr, uid, [prot.id], vals)
+
                     try:
-                        if prot.mimetype == 'application/pdf':
-                            self._sign_doc(cr, uid, prot, prot_number, prot_date)
-                        res_segnatura = {"Segnatura": {"Res": True, "Msg": "Segnatura generata correttamente"}}
+                        if configurazione.rinomina_documento_allegati:
+                            attachment_ids = attachment_obj.search(cr, uid, [('res_model', '=', 'protocollo.protocollo'),
+                                                                             ('res_id', '=', prot.id),
+                                                                             ('is_protocol', '=', True)])
+                            if attachment_ids:
+                                attachments = attachment_obj.browse(cr, uid, attachment_ids)
+                                for attachment in attachments:
+                                    if attachment.is_main is False:
+                                        filename = self._get_name_documento_allegato(cr, uid, attachment.datas_fname, prot_number, 'Prot', False)
+                                        attachment_obj.write(cr, uid, [attachment.id], {'name':filename, 'datas_fname':filename})
                     except Exception as e:
                         _logger.error(e)
-                        err_segnatura = True
-                        res_segnatura = {
-                            "Segnatura": {"Res": False, "Msg": "Non è stato possibile generare la segnatura PDF"}}
+                        raise openerp.exceptions.Warning(_('Errore nella ridenominazione degli allegati'))
 
-                    fingerprint = self._create_protocol_attachment(cr, uid, prot, prot_number, prot_date)
-                    vals['fingerprint'] = fingerprint
-                    vals['datas'] = 0
+                    thread_pool = self.pool.get('protocollo.protocollo')
+                    action_class = "history_icon registration"
+                    post_vars = {
+                                    'subject': "Registrazione protocollo",
+                                    'body': "<div class='%s'><ul><li>Creato protocollo %s</li></ul></div>" % (action_class, prot_number),
+                                    'model': "protocollo.protocollo",
+                                    'res_id': prot.id,
+                                 }
+                    thread_pool.message_post(cr, uid, prot.id, type="notification", context=context, **post_vars)
 
-                now = datetime.datetime.now()
-                vals['year'] = now.year
-                self.write(cr, uid, [prot.id], vals)
+                    if err_segnatura:
+                        action_class = "history_icon warning"
+                        post_vars_segnatura = {
+                            'subject': "Errore Generazione Segnatura",
+                            'body': "<div class='%s'><ul><li>Impossibile generare la segnatura PDF</li></ul></div>" % action_class,
+                            'model': "protocollo.protocollo",
+                            'res_id': prot.id,
+                        }
+                        thread_pool.message_post(cr, uid, prot.id, type="notification", context=context, **post_vars_segnatura)
 
-                try:
-                    if configurazione.rinomina_documento_allegati:
-                        attachment_ids = attachment_obj.search(cr, uid, [('res_model', '=', 'protocollo.protocollo'),
-                                                                         ('res_id', '=', prot.id),
-                                                                         ('is_protocol', '=', True)])
-                        if attachment_ids:
-                            attachments = attachment_obj.browse(cr, uid, attachment_ids)
-                            for attachment in attachments:
-                                if attachment.is_main is False:
-                                    filename = self._get_name_documento_allegato(cr, uid, attachment.datas_fname,
-                                                                                 prot_number, 'Prot', False)
-                                    attachment_obj.write(cr, uid, [attachment.id],
-                                                         {'name': filename, 'datas_fname': filename})
+                    res_registrazione = {"Registrazione": {"Res": True, "Msg": "Protocollo Nr. %s del %s registrato correttamente" % (prot_number, prot.registration_date)}}
                 except Exception as e:
                     _logger.error(e)
-                    raise openerp.exceptions.Warning(_('Errore nella ridenominazione degli allegati'))
-
-                thread_pool = self.pool.get('protocollo.protocollo')
-                action_class = "history_icon registration"
-                post_vars = {
-                    'subject': "Registrazione protocollo",
-                    'body': "<div class='%s'><ul><li>Creato protocollo %s</li></ul></div>" % (
-                    action_class, prot_number),
-                    'model': "protocollo.protocollo",
-                    'res_id': prot.id,
-                }
-                thread_pool.message_post(cr, uid, prot.id, type="notification", context=context, **post_vars)
-
-                if err_segnatura:
-                    action_class = "history_icon warning"
-                    post_vars_segnatura = {
-                        'subject': "Errore Generazione Segnatura",
-                        'body': "<div class='%s'><ul><li>Impossibile generare la segnatura PDF</li></ul></div>" % action_class,
-                        'model': "protocollo.protocollo",
-                        'res_id': prot.id,
-                    }
-                    thread_pool.message_post(cr, uid, prot.id, type="notification", context=context,
-                                             **post_vars_segnatura)
-
-                res_registrazione = {"Registrazione": {"Res": True,
-                                                       "Msg": "Protocollo Nr. %s del %s registrato correttamente" % (
-                                                       prot_number, prot.registration_date)}}
-            except Exception as e:
-                _logger.error(e)
-                # res_registrazione = {"Registrazione":{"Res": False, "Msg": "Errore nella registrazione del protocollo"}}
-                raise openerp.exceptions.Warning(_('Errore nella registrazione del protocollo'))
-            res.append(res_registrazione)
-            if len(res_segnatura) > 0:
-                res.append(res_segnatura)
+                    # res_registrazione = {"Registrazione":{"Res": False, "Msg": "Errore nella registrazione del protocollo"}}
+                    raise openerp.exceptions.Warning(_('Errore nella registrazione del protocollo'))
+                res.append(res_registrazione)
+                if len(res_segnatura) > 0:
+                    res.append(res_segnatura)
+            else:
+                raise openerp.exceptions.Warning(_('Protocollo già registrato'))
         return res
 
     def action_send_conferma(self, cr, uid, ids, context=None, *args):
@@ -1094,11 +1099,10 @@ class protocollo_protocollo(orm.Model):
                     if res == 'sent':
                         res_conferma = {"Invio Conferma": {"Res": True, "Msg": "Conferma inviata correttamente"}}
                     elif res == 'exception':
-                        res_conferma = {
-                            "Invio Conferma": {"Res": False, "Msg": "Non è stato possibile inviare la conferma"}}
+                        res_conferma = {"Invio Conferma": {"Res": False, "Msg": "Non è stato possibile inviare la Conferma di Protocollazione al Mittente"}}
         except Exception as e:
             _logger.error(e)
-            res_conferma = {"Invio Conferma": {"Res": False, "Msg": "Non è stato possibile inviare la conferma"}}
+            res_conferma = {"Invio Conferma": {"Res": False, "Msg": "Non è stato possibile inviare la Conferma di Protocollazione al Mittente"}}
 
         return res_conferma
 
@@ -1225,8 +1229,7 @@ class protocollo_protocollo(orm.Model):
                     action_class = "history_icon warning"
                     post_vars = {
                         'subject': "Ricevuta di %s non inviata" % receipt_type,
-                        'body': "<div class='%s'><ul><li>Non è stato possibile inviare la conferma</li></ul></div>" % (
-                            action_class),
+                        'body': "<div class='%s'><ul><li>Non è stato possibile inviare la Conferma di Protocollazione al Mittente</li></ul></div>" % (action_class),
                         'model': "protocollo.protocollo",
                         'res_id': prot.id,
                     }
@@ -1286,7 +1289,7 @@ class protocollo_protocollo(orm.Model):
 
             if prot.sender_receivers:
                 for sender_receiver_id in prot.sender_receivers.ids:
-                    sender_receiver_obj = self.pool.get('protocollo.sender_receiver').browse(cr, uid,
+                    sender_receiver_obj = self.pool.get('protocollo.sender_receiver').browse(cr, uid, sender_receiver_id, context=context)
                                                                                              sender_receiver_id,
                                                                                              context=context)
                     # if not sender_receiver_obj.pec_invio_status:
@@ -1343,7 +1346,7 @@ class protocollo_protocollo(orm.Model):
 
             action_class = "history_icon mail"
             post_vars = {'subject': "Invio PEC",
-                         'body': "<div class='%s'><ul><li>PEC protocollo inviato a: %s</li></ul></div>" % (
+                         'body': "<div class='%s'><ul><li>PEC protocollo inviato a: %s</li></ul></div>" % (action_class, values['email_to']),
                          action_class, values['email_to']),
                          'model': "protocollo.protocollo",
                          'res_id': prot_id,
@@ -1360,10 +1363,10 @@ class protocollo_protocollo(orm.Model):
                 mail_message_obj.write(cr, uid, mail.mail_message_id.id, {'direction': 'out'})
                 for sender_receiver_id in sender_receivers_pec_ids:
                     msgvals = {}
-                    sender_receiver_obj = self.pool.get('protocollo.sender_receiver').browse(cr, uid,
+                    sender_receiver_obj = self.pool.get('protocollo.sender_receiver').browse(cr, uid, sender_receiver_id, context=context)
                                                                                              sender_receiver_id,
                                                                                              context=context)
-                    messaggio_pec_id = messaggio_pec_obj.create(cr, uid, {'type': 'messaggio',
+                    messaggio_pec_id = messaggio_pec_obj.create(cr, uid, {'type': 'messaggio', 'messaggio_ref': mail.mail_message_id.id})
                                                                           'messaggio_ref': mail.mail_message_id.id})
                     msgvals['pec_messaggio_ids'] = [(4, [messaggio_pec_id])]
                     msgvals['to_resend'] = False
@@ -1405,15 +1408,15 @@ class protocollo_protocollo(orm.Model):
 
             if prot.sender_receivers:
                 for sender_receiver_id in prot.sender_receivers.ids:
-                    sender_receiver_obj = self.pool.get('protocollo.sender_receiver').browse(cr, uid,
+                    sender_receiver_obj = self.pool.get('protocollo.sender_receiver').browse(cr, uid, sender_receiver_id, context=context)
                                                                                              sender_receiver_id,
                                                                                              context=context)
-                    if (sender_receiver_obj.sharedmail_numero_invii == 0) or (
+                    if (sender_receiver_obj.sharedmail_numero_invii == 0) or (sender_receiver_obj.sharedmail_numero_invii > 0 and sender_receiver_obj.to_resend):
                             sender_receiver_obj.sharedmail_numero_invii > 0 and sender_receiver_obj.to_resend):
                         sender_receivers_mails.append(sender_receiver_obj.email)
                         sender_receivers_ids.append(sender_receiver_obj.id)
 
-            subject = self._get_oggetto_mail_pec(cr, uid, prot.subject, prot.name,
+            subject = self._get_oggetto_mail_pec(cr, uid, prot.subject, prot.name, prot.registration_date) if configurazione.rinomina_oggetto_mail_pec else prot.subject
                                                  prot.registration_date) if configurazione.rinomina_oggetto_mail_pec else prot.subject
             if configurazione.lunghezza_massima_oggetto_mail > 0:
                 subject = subject[:configurazione.lunghezza_massima_oggetto_mail]
@@ -1461,7 +1464,7 @@ class protocollo_protocollo(orm.Model):
 
             action_class = "history_icon mail"
             post_vars = {'subject': "Invio E-mail",
-                         'body': "<div class='%s'><ul><li>E-mail protocollo inviata a: %s</li></ul></div>" % (
+                         'body': "<div class='%s'><ul><li>E-mail protocollo inviata a: %s</li></ul></div>" % (action_class, values['email_to']),
                          action_class, values['email_to']),
                          'model': "protocollo.protocollo",
                          'res_id': prot_id,
@@ -1478,7 +1481,7 @@ class protocollo_protocollo(orm.Model):
                 mail_message_obj.write(cr, uid, mail.mail_message_id.id, {'sharedmail_direction': 'out'})
                 for sender_receiver_id in sender_receivers_ids:
                     msgvals = {}
-                    sender_receiver_obj = self.pool.get('protocollo.sender_receiver').browse(cr, uid,
+                    sender_receiver_obj = self.pool.get('protocollo.sender_receiver').browse(cr, uid, sender_receiver_id, context=context)
                                                                                              sender_receiver_id,
                                                                                              context=context)
                     msgvals['to_resend'] = False
@@ -1588,7 +1591,7 @@ class protocollo_protocollo(orm.Model):
     def has_offices(self, cr, uid, ids, *args):
         for protocol in self.browse(cr, uid, ids):
             if (
-                    protocol.assegnatari_competenza_uffici_ids or protocol.assegnatari_competenza_dipendenti_ids) and protocol.type == 'in':
+                        protocol.assegnatari_competenza_uffici_ids or protocol.assegnatari_competenza_dipendenti_ids) and protocol.type == 'in':
                 return True
         return False
 
@@ -1598,7 +1601,7 @@ class protocollo_protocollo(orm.Model):
         action_class = "history_icon taken"
         post_vars = {'subject': "Presa in carico",
                      'body': "<div class='%s'><ul><li>Protocollo preso in carico da <span style='color:#009900;'>%s</span></li></ul></div>" % (
-                         action_class, rec.login),
+                     action_class, rec.name),
                      'model': "protocollo.protocollo",
                      'res_id': ids[0],
                      }
@@ -1618,7 +1621,7 @@ class protocollo_protocollo(orm.Model):
         action_class = "history_icon refused"
         post_vars = {'subject': "Rifiuto assegnazione",
                      'body': "<div class='%s'><ul><li>Assegnazione rifiutata da <span style='color:#009900;'>%s</span></li></ul></div>" % (
-                         action_class, rec.login),
+                     action_class, rec.name),
                      'model': "protocollo.protocollo",
                      'res_id': ids[0],
                      }
@@ -1828,7 +1831,7 @@ class protocollo_protocollo(orm.Model):
                     action_class = "history_icon upload"
                     post_vars = {'subject': "Upload Documento",
                                  'body': "<div class='%s'><ul><li>Aggiunto documento principale: %s</li></ul></div>" % (
-                                     action_class, datas_fname),
+                                 action_class, datas_fname),
                                  'model': "protocollo.protocollo",
                                  'res_id': prot.id,
                                  }
@@ -1936,7 +1939,7 @@ class protocollo_protocollo(orm.Model):
         if not context:
             context = {}
         protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, thread_id)
-        if protocollo.state == 'draft' and str(subject).find('Registrazione') != 0 and str(subject).find(
+        if protocollo.state == 'draft' and str(subject).find('Registrazione') != 0 and str(subject).find('Errore Generazione') != 0 and context.has_key('is_mailpec_to_draft') == False :
                 'Errore Generazione') != 0 and context.has_key('is_mailpec_to_draft') == False:
             pass
         else:
@@ -2178,13 +2181,13 @@ class protocollo_assegnatario_ufficio(orm.Model):
         return dict(res)
 
     _columns = {
-        'department_id': fields.many2one('hr.department', 'Ufficio', required=True, index=True),
-        'protocollo_id': fields.many2one('protocollo.protocollo', 'Protocollo', required=True, index=True),
-        'tipo': fields.selection(TIPO_SELECTION, 'Tipo', required=True, readonly=True, index=True),
+        'department_id': fields.many2one('hr.department', 'Ufficio', required=True),
+        'protocollo_id': fields.many2one('protocollo.protocollo', 'Protocollo', required=True),
+        'tipo': fields.selection(TIPO_SELECTION, 'Tipo', required=True, readonly=True),
         'assegnatari_dipendenti_ids': fields.one2many('protocollo.assegnatario.dipendente', 'ufficio_assegnatario_id',
                                                       'Dipendenti'),
         'state': fields.function(_get_state, type='selection', selection=STATE_ASSEGNATARIO_SELECTION, string='Stato',
-                                 readonly=True, index=True),
+                                 readonly=True),
     }
 
     def _verifica_dati_ufficio_assegnatari(self, cr, uid, vals, tipo, old_assegnatari_dipendenti):
@@ -2232,12 +2235,12 @@ class protocollo_assegnatario_dipendente(orm.Model):
     _name = 'protocollo.assegnatario.dipendente'
 
     _columns = {
-        'dipendente_id': fields.many2one('hr.employee', 'Dipendente', required=True, index=True),
-        'protocollo_id': fields.many2one('protocollo.protocollo', 'Protocollo', ondelete='cascade', index=True),
-        'ufficio_assegnatario_id': fields.many2one('protocollo.assegnatario.ufficio', 'Ufficio', ondelete='cascade', index=True),
-        'tipo': fields.selection(TIPO_ASSEGNAZIONE_SELECTION, 'Tipo', required=True, readonly=True, index=True),
+        'dipendente_id': fields.many2one('hr.employee', 'Dipendente', required=True),
+        'protocollo_id': fields.many2one('protocollo.protocollo', 'Protocollo', ondelete='cascade'),
+        'ufficio_assegnatario_id': fields.many2one('protocollo.assegnatario.ufficio', 'Ufficio', ondelete='cascade'),
+        'tipo': fields.selection(TIPO_ASSEGNAZIONE_SELECTION, 'Tipo', required=True, readonly=True),
 
-        'stato_dipendente_id': fields.many2one('protocollo.stato.dipendente', 'Stato Dipendente', required=True, index=True,
+        'stato_dipendente_id': fields.many2one('protocollo.stato.dipendente', 'Stato Dipendente', required=True,
                                                ondelete='cascade'),
         'state': fields.related('stato_dipendente_id', 'state', type='selection',
                                 selection=STATE_ASSEGNATARIO_SELECTION, string='Stato', readonly=True),

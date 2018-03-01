@@ -599,7 +599,7 @@ class gedoc_document(osv.Model):
         'document_type': fields.many2one(
             'gedoc.document.type',
             'Tipologia Documento',
-            required=True
+            required=False
         ),
         'repertorio': fields.selection(
                         [('none', 'Non repertoriato'),

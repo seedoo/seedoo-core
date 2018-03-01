@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This file is part of Seedoo.  The COPYRIGHT file at the top level of
+this module contains the full copyright notices and license terms. -->
+
+<openerp>
+    <data>
+
+        <!-- wizard view -->
+        <record id="crea_protocollo_da_documento_wizard_view" model="ir.ui.view">
+            <field name="name">Crea Protocollo da Documento</field>
+            <field name="model">dematerializzazione.crea.protocollo.da.documento.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Crea Protocollo da Documento">
+                    <sheet>
+                        <group col="4">
+                            <separator string="Documento da Protocollare" colspan="4"/>
+                            <field name="doc_principale" options="{'no_create_edit': 1, 'no_create': 1, 'no_open': True}"/>
+                            <newline/>
+                            <field name="doc_description" required="1"/>
+                            <newline/>
+                            <group colspan="4">
+                                <div id="protocollo-accordion">
+                                    <div class="dati-protocollo-container" id="anteprima-container" attrs="{'invisible':[('preview','=',False)]}">
+                                        <div class="protocollo-accordion-toggle button-form-protocollo">
+                                            <h4 class="accordion-toggle">Anteprima</h4>
+                                        </div>
+                                        <div class="accordion-content" style="margin-top: 30px;">
+                                            <field name="preview" string="Anteprima Allegato" noupload="True" colspan="4"
+                                               nolabel="1"
+                                               options="{'uploadbutton':false}"
+                                               attrs="{'invisible':[('preview', '=' , False)], 'readonly':True}"
+                                               widget="pdfviewer"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </group>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button string="Ok" name="action_save" type="object"
+                                class="oe_highlight"/>
+                        o
+                        <button string="Abbandona" class="oe_link"
+                                special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- wizard action on protocollo.protocollo -->
+        <act_window id="crea_protocollo_da_documento_action"
+                    name="Crea Bozza Protocollo da Documento"
+                    res_model="dematerializzazione.crea.protocollo.da.documento.wizard"
+                    view_type="form"
+                    view_mode="form"
+                    target="new"
+        />
+
+    </data>
+</openerp>

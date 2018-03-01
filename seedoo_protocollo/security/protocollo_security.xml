@@ -14,7 +14,7 @@ this module contains the full copyright notices and license terms. -->
         <!-- Menu "Documenti in Ingresso" -->
         <!-- Gruppo per la visualizzazione del menu "Crea Protocollo" -->
         <record id="group_crea_protocollo_ingresso" model="res.groups">
-            <field name="name">Crea Protocollo Ingresso</field>
+            <field name="name">Crea Protocollo in Ingresso</field>
             <field name="category_id" ref="module_category_protocollo"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
@@ -34,7 +34,7 @@ this module contains the full copyright notices and license terms. -->
         <!-- Menu "Documenti in Uscita" -->
         <!-- Gruppo per la visualizzazione del menu "Crea Protocollo" -->
         <record id="group_crea_protocollo_uscita" model="res.groups">
-            <field name="name">Crea Protocollo Uscita</field>
+            <field name="name">Crea Protocollo in Uscita</field>
             <field name="category_id" ref="module_category_protocollo"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
@@ -158,14 +158,14 @@ this module contains the full copyright notices and license terms. -->
         </record>
         <!-- Menu "PEC" nel menu principale Protocollo -->
         <record id="group_pec_protocollo" model="res.groups">
-            <field name="name">Vedi PEC</field>
+            <field name="name">Vedi Menù PEC</field>
             <field name="category_id" ref="module_category_protocollo"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
             <!--<field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>-->
         </record>
         <!-- Menu "Sharedmail" nel menu principale Protocollo -->
         <record id="group_sharedmail_protocollo" model="res.groups">
-            <field name="name">Vedi E-mail</field>
+            <field name="name">Vedi Menù E-mail</field>
             <field name="category_id" ref="module_category_protocollo"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
             <!--<field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>-->
@@ -173,12 +173,6 @@ this module contains the full copyright notices and license terms. -->
         <!-- Button "Invia PEC Protocollo" nella vista form protocollo in uscita -->
         <record id="group_invia_protocollo_pec_uscita" model="res.groups">
             <field name="name">Invia Protocollo PEC in Uscita</field>
-            <field name="category_id" ref="module_category_protocollo"/>
-            <field name="users" eval="[(4, ref('base.user_root'))]"/>
-        </record>
-        <!-- Button "Reinvia PEC Protocollo" nella vista form protocollo in uscita -->
-        <record id="group_reinvia_protocollo_pec_uscita" model="res.groups">
-            <field name="name">Reinvia Protocollo PEC in Uscita</field>
             <field name="category_id" ref="module_category_protocollo"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
@@ -198,7 +192,14 @@ this module contains the full copyright notices and license terms. -->
 
         <!-- Button "Modifica destinatario E-mail" nella vista form protocollo in uscita -->
         <record id="group_modifica_destinatari_email_uscita" model="res.groups">
-            <field name="name">Modifica E-mail Destinatario</field>
+            <field name="name">Modifica Destinatari E-mail in uscita</field>
+            <field name="category_id" ref="module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+
+        <!-- Button "Ripristina messaggio per protocollazione" nella vista Messaggio di posta -->
+        <record id="group_ripristina_per_protocollazione" model="res.groups">
+            <field name="name">Ripristina per protocollazione</field>
             <field name="category_id" ref="module_category_protocollo"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
@@ -319,9 +320,9 @@ this module contains the full copyright notices and license terms. -->
                 (4, ref('group_invia_protocollo_uscita')),
                 (4, ref('group_invia_protocollo_pec_uscita')),
                 (4, ref('group_invia_protocollo_sharedmail_uscita')),
-                (4, ref('group_reinvia_protocollo_pec_uscita')),
                 (4, ref('group_modifica_destinatari_pec_uscita')),
                 (4, ref('group_modifica_destinatari_email_uscita')),
+                (4, ref('group_ripristina_per_protocollazione')),
                 (4, ref('group_pec_protocollo')),
                 (4, ref('group_sharedmail_protocollo')),
                 (4, ref('group_configurazione_giornaliero')),
