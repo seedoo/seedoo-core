@@ -15,7 +15,6 @@ this module contains the full copyright notices and license terms. -->
                             <field name="name"/>
                             <newline/>
                             <field name="indirizzo"/>
-                            <field name="porta"/>
                             <field name="cartella"/>
                             <newline/>
                             <field name="esito"/>
@@ -38,7 +37,6 @@ this module contains the full copyright notices and license terms. -->
                 <tree string="Storico Importazioni Sorgenti" create="0" edit="0">
                     <field name="name"/>
                     <field name="indirizzo"/>
-                    <field name="porta"/>
                     <field name="cartella"/>
                     <field name="esito"/>
                 </tree>

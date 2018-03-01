@@ -12,7 +12,6 @@ class dematerializzazione_storico_importazione_importer(orm.Model):
     _columns = {
         'name': fields.char('Nome Repository', char=80, required=True),
         'indirizzo': fields.char('Indirizzo', char=256, required=True),
-        'porta': fields.integer('Porta', required=True),
         'cartella': fields.char('Cartella', char=256, required=True),
         'esito': fields.selection(ESITO_SELECTION, 'Esito', select=True),
         'errore': fields.text('Errore'),
