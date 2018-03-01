@@ -294,31 +294,31 @@ class protocollo_protocollo(orm.Model):
 
     def _get_assegnatari_competenza(self, cr, uid, protocollo):
 
-        employees = self.pool.get("protocollo.assegnatario.dipendente").search(cr, uid, [
-            ('protocollo_id', '=', protocollo.id), ("tipo", '=', 'competenza')])
+        # employees = self.pool.get("protocollo.assegnatario.dipendente").search(cr, uid, [
+        #     ('protocollo_id', '=', protocollo.id), ("tipo", '=', 'competenza')])
 
-        # employees = [x.dipendente_id.id for x in protocollo.assegnatari_competenza_uffici_ids.assegnatari_dipendenti_ids if x.dipendente_id and x.dipendente_id.user_id]
-        # employees.extend([e.dipendente_id.id for e in protocollo.assegnatari_competenza_dipendenti_ids if e.dipendente_id and e.dipendente_id.user_id])
+        employees = [x.dipendente_id for x in protocollo.assegnatari_competenza_uffici_ids.assegnatari_dipendenti_ids if x.dipendente_id and x.dipendente_id.user_id]
+        employees.extend([e.dipendente_id for e in protocollo.assegnatari_competenza_dipendenti_ids if e.dipendente_id and e.dipendente_id.user_id])
         employees = list(set(employees))
-        return_list = []
-        for e in employees:
-            pad = self.pool.get("protocollo.assegnatario.dipendente").browse(cr,uid, e)
-            return_list.append(pad.dipendente_id.id)
-        return return_list
+        # return_list = []
+        # for e in employees:
+        #     pad = self.pool.get("protocollo.assegnatario.dipendente").browse(cr,uid, e)
+        #     return_list.append(pad.dipendente_id)
+        return employees
 
     def _get_assegnatari_conoscenza(self, cr, uid, protocollo):
-        employees = self.pool.get("protocollo.assegnatario.dipendente").search(cr, uid, [
-            ('protocollo_id', '=', protocollo.id), ("tipo", '=', 'conoscenza')])
-        # employees = [x.dipendente_id.id for x in protocollo.assegnatari_conoscenza_uffici_ids.assegnatari_dipendenti_ids
-        #              if x.dipendente_id and x.dipendente_id.user_id]
-        # employees.extend([e.dipendente_id.id for e in protocollo.assegnatari_conoscenza_dipendenti_ids if
-        #                   e.dipendente_id and e.dipendente_id.user_id])
+        # employees = self.pool.get("protocollo.assegnatario.dipendente").search(cr, uid, [
+        #     ('protocollo_id', '=', protocollo.id), ("tipo", '=', 'conoscenza')])
+        employees = [x.dipendente_id for x in protocollo.assegnatari_conoscenza_uffici_ids.assegnatari_dipendenti_ids
+                     if x.dipendente_id and x.dipendente_id.user_id]
+        employees.extend([e.dipendente_id for e in protocollo.assegnatari_conoscenza_dipendenti_ids if
+                          e.dipendente_id and e.dipendente_id.user_id])
         employees = list(set(employees))
-        return_list = []
-        for e in employees:
-            pad = self.pool.get("protocollo.assegnatario.dipendente").browse(cr,uid, e)
-            return_list.append(pad.dipendente_id.id)
-        return return_list
+        # return_list = []
+        # for e in employees:
+        #     pad = self.pool.get("protocollo.assegnatario.dipendente").browse(cr,uid, e)
+        #     return_list.append(pad.dipendente_id)
+        return employees
 
     def _get_assigne_emails(self, cr, uid, ids, field, arg, context=None):
         if isinstance(ids, (list, tuple)) and not len(ids):
@@ -398,7 +398,8 @@ class protocollo_protocollo(orm.Model):
         'name': fields.char('Numero Protocollo',
                             size=256,
                             required=True,
-                            readonly=True),
+                            readonly=True,
+                            index=True),
         'registration_date': fields.datetime('Data Registrazione',
                                              readonly=True),
         'registration_date_from': fields.function(
@@ -408,8 +409,8 @@ class protocollo_protocollo(orm.Model):
                                                 method=True,
                                                 type='date',
                                                 string="Fine  Data Ricerca"),
-        'user_id': fields.many2one('res.users', 'Protocollatore', readonly=True),
-        'registration_employee_id': fields.many2one('hr.employee', 'Protocollatore', readonly=True),
+        'user_id': fields.many2one('res.users', 'Protocollatore', readonly=True, index=True),
+        'registration_employee_id': fields.many2one('hr.employee', 'Protocollatore', readonly=True, index=True),
         'registration_type': fields.selection(
             [
                 ('normal', 'Normale'),
@@ -422,7 +423,7 @@ class protocollo_protocollo(orm.Model):
                 ('out', 'Uscita'),
                 ('in', 'Ingresso'),
                 ('internal', 'Interno')
-            ], 'Tipo', size=32, required=True, readonly=True),
+            ], 'Tipo', size=32, required=True, readonly=True, index=True),
         'typology': fields.many2one(
             'protocollo.typology', 'Mezzo Trasmissione', readonly=True, required=True,
             states={'draft': [('readonly', False)]},
@@ -471,6 +472,7 @@ class protocollo_protocollo(orm.Model):
         'creation_date': fields.date('Data Creazione',
                                      required=True,
                                      readonly=True,
+                                     index=True,
                                      ),
         'receiving_date': fields.datetime('Data Ricezione',
                                           required=False,
@@ -504,7 +506,7 @@ class protocollo_protocollo(orm.Model):
                                           readonly=True,
                                           states={
                                               'draft': [('readonly', False)]
-                                          }),
+                                          }, index=True),
         'classification_code': fields.related('classification',
                                               'code',
                                               type="char",
@@ -571,12 +573,12 @@ class protocollo_protocollo(orm.Model):
         # 'is_visible': fields.function(_is_visible, fnct_search=_is_visible_search, type='boolean', string='Visibile'),
         'state': fields.selection(
             STATE_SELECTION, 'Stato', readonly=True,
-            help="Lo stato del protocollo.", select=True),
+            help="Lo stato del protocollo.", select=True, index=True),
         'year': fields.integer('Anno', required=True),
         'attachment_ids': fields.one2many('ir.attachment', 'res_id', 'Allegati', readonly=True,
                                           domain=[('res_model', '=', 'protocollo.protocollo')]),
         'xml_signature': fields.text('Segnatura xml'),
-        'aoo_id': fields.many2one('protocollo.aoo', 'AOO', required=True),
+        'aoo_id': fields.many2one('protocollo.aoo', 'AOO', required=True, index=True),
         'registry': fields.related('aoo_id', 'registry_id', type='many2one', relation='protocollo.registry',
                                    string='Registro', store=True, readonly=True),
         'protocol_request': fields.boolean('Richiesta Protocollo', readonly=True),
@@ -2176,13 +2178,13 @@ class protocollo_assegnatario_ufficio(orm.Model):
         return dict(res)
 
     _columns = {
-        'department_id': fields.many2one('hr.department', 'Ufficio', required=True),
-        'protocollo_id': fields.many2one('protocollo.protocollo', 'Protocollo', required=True),
-        'tipo': fields.selection(TIPO_SELECTION, 'Tipo', required=True, readonly=True),
+        'department_id': fields.many2one('hr.department', 'Ufficio', required=True, index=True),
+        'protocollo_id': fields.many2one('protocollo.protocollo', 'Protocollo', required=True, index=True),
+        'tipo': fields.selection(TIPO_SELECTION, 'Tipo', required=True, readonly=True, index=True),
         'assegnatari_dipendenti_ids': fields.one2many('protocollo.assegnatario.dipendente', 'ufficio_assegnatario_id',
                                                       'Dipendenti'),
         'state': fields.function(_get_state, type='selection', selection=STATE_ASSEGNATARIO_SELECTION, string='Stato',
-                                 readonly=True),
+                                 readonly=True, index=True),
     }
 
     def _verifica_dati_ufficio_assegnatari(self, cr, uid, vals, tipo, old_assegnatari_dipendenti):
@@ -2230,12 +2232,12 @@ class protocollo_assegnatario_dipendente(orm.Model):
     _name = 'protocollo.assegnatario.dipendente'
 
     _columns = {
-        'dipendente_id': fields.many2one('hr.employee', 'Dipendente', required=True),
-        'protocollo_id': fields.many2one('protocollo.protocollo', 'Protocollo', ondelete='cascade'),
-        'ufficio_assegnatario_id': fields.many2one('protocollo.assegnatario.ufficio', 'Ufficio', ondelete='cascade'),
-        'tipo': fields.selection(TIPO_ASSEGNAZIONE_SELECTION, 'Tipo', required=True, readonly=True),
+        'dipendente_id': fields.many2one('hr.employee', 'Dipendente', required=True, index=True),
+        'protocollo_id': fields.many2one('protocollo.protocollo', 'Protocollo', ondelete='cascade', index=True),
+        'ufficio_assegnatario_id': fields.many2one('protocollo.assegnatario.ufficio', 'Ufficio', ondelete='cascade', index=True),
+        'tipo': fields.selection(TIPO_ASSEGNAZIONE_SELECTION, 'Tipo', required=True, readonly=True, index=True),
 
-        'stato_dipendente_id': fields.many2one('protocollo.stato.dipendente', 'Stato Dipendente', required=True,
+        'stato_dipendente_id': fields.many2one('protocollo.stato.dipendente', 'Stato Dipendente', required=True, index=True,
                                                ondelete='cascade'),
         'state': fields.related('stato_dipendente_id', 'state', type='selection',
                                 selection=STATE_ASSEGNATARIO_SELECTION, string='Stato', readonly=True),
@@ -2284,7 +2286,7 @@ class protocollo_stato_dipendente(orm.Model):
     _columns = {
         'dipendente_id': fields.many2one('hr.employee', 'Dipendente', required=True, ondelete='cascade'),
         'protocollo_id': fields.many2one('protocollo.protocollo', 'Protocollo', required=True, ondelete='cascade'),
-        'state': fields.selection(STATE_ASSEGNATARIO_SELECTION, 'Stato', required=True),
+        'state': fields.selection(STATE_ASSEGNATARIO_SELECTION, 'Stato', required=True, index=True),
     }
 
     _defaults = {

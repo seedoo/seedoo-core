@@ -14,6 +14,9 @@ _logger = logging.getLogger(__name__)
 class protocollo_protocollo(osv.Model):
     _inherit = 'protocollo.protocollo'
 
+    first_call = True
+    call_counter = 0
+
     def _get_protocolli(self, cr, uid, ids):
         if isinstance(ids, (list, tuple)) and not len(ids):
             return []
@@ -27,8 +30,8 @@ class protocollo_protocollo(osv.Model):
         if not assegnatario_uid:
             assegnatario_uid = uid
         stato_dipendente_obj = self.pool.get('protocollo.stato.dipendente')
-        employees_ids = self._get_assegnatari_competenza(cr, uid, protocollo)
-        employees = self.browse(cr, uid, employees_ids)
+        employees = self._get_assegnatari_competenza(cr, uid, protocollo)
+        # employees = self.browse(cr, uid, employees_ids)
         for employee in employees:
             if employee.user_id and employee.user_id.id == assegnatario_uid:
                 stato_dipendente_ids = stato_dipendente_obj.search(cr, uid, [
@@ -194,44 +197,57 @@ class protocollo_protocollo(osv.Model):
     # @tools.ormcache()
     def _get_protocollo_visibile_ids(self, cr, uid, current_user_id):
         protocollo_visible_ids = []
-        start_time = time.time()
+        uid = SUPERUSER_ID
+        start_time_total = time.time()
         employee_obj = self.pool.get('hr.employee')
         department_obj = self.pool.get('hr.department')
         employee_ids = employee_obj.search(cr, uid, [('user_id', '=', current_user_id)])
         if len(employee_ids) > 0:
             employee = employee_obj.browse(cr, uid, employee_ids[0])
-            record_list = []
 
             # un utente deve poter vedere i protocolli in bozza (IN e OUT) creati da lui
+            start_time = time.time()
+
             protocollo_ids_drafts = self.search(cr, uid,
                                                 [('state', '=', 'draft'), ('user_id.id', '=', employee.user_id.id)])
+            _logger.info("---Query draft %s seconds ---" % (time.time() - start_time))
 
             # un utente deve poter vedere i protocolli (IN e OUT) registrati da lui
+            start_time = time.time()
+
             protocollo_ids_created = self.search(cr, uid, [('registration_employee_id.id', '=', employee.id)])
+            _logger.info("---Query created %s seconds ---" % (time.time() - start_time))
 
             # un utente deve poter vedere i protocolli registrati (IN e OUT) assegnati a lui
             # purchè lui o un dipendente del suo ufficio non abbia rifiutato la presa in carico
+            start_time = time.time()
 
             cr.execute('''
                     SELECT DISTINCT(pad.protocollo_id) FROM protocollo_assegnatario_dipendente pad JOIN hr_employee e ON pad.dipendente_id = e.id 
-                    WHERE e.department_id = %s AND pad.protocollo_id IS NOT NULL AND pad.protocollo_id NOT IN (
+                    WHERE pad.protocollo_id NOT IN (
                     SELECT pad.protocollo_id FROM protocollo_assegnatario_dipendente pad JOIN hr_employee e ON pad.dipendente_id = e.id
                     JOIN protocollo_stato_dipendente s ON s.id = pad.stato_dipendente_id
-                     WHERE pad.tipo IN ('competenza', 'conoscenza')
-                    AND e.department_id = %s AND pad.protocollo_id IS NOT NULL AND s.state = 'rifiutato') 
-            ''', (employee.department_id.id, employee.department_id.id,))
+                     WHERE
+                    e.department_id = %s AND pad.protocollo_id IS NOT NULL AND s.state = 'rifiutato') 
+            ''', (employee.department_id.id,))
 
             protocollo_ids_assigned_not_refused = [res[0] for res in cr.fetchall()]
+            _logger.info("---Query assigned_not_refused %s seconds ---" % (time.time() - start_time))
 
             # un utente deve poter vedere i protocolli (IN e OUT) REGISTRATI dal suo UFFICIO di appartenenza
+            start_time = time.time()
+
             check_gruppo = self.user_has_groups(cr, current_user_id,
                                                 'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ufficio,seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ufficio')
             if check_gruppo:
                 protocollo_ids_department = self.search(cr, uid, [
                     ('registration_employee_id.department_id.id', '=', employee.department_id.id)])
                 protocollo_visible_ids.extend(protocollo_ids_department)
+                _logger.info("---Query department  %s seconds ---" % (time.time() - start_time))
 
-            # un utente deve poter vedere i protocolli (IN e OUT) REGISTRATI da un UFFICIO FIGLIO del suo ufficio di appartenenza
+            # un utente deve poter vedere i protocolli (IN e OUT) REGISTRATI da un UFFICIO FIGLIO del suo ufficio di appartenenza.
+            start_time = time.time()
+
             check_gruppo = self.user_has_groups(cr, current_user_id,
                                                 'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ufficio_figlio,seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ufficio_figlio')
             if check_gruppo:
@@ -239,23 +255,32 @@ class protocollo_protocollo(osv.Model):
                 protocollo_ids_department_childs = self.search(cr, uid, [
                     ('registration_employee_id.department_id.id', 'in', deps)])
                 protocollo_visible_ids.extend(protocollo_ids_department_childs)
+                _logger.info("---Query ids_department_childs  %s seconds ---" % (time.time() - start_time))
 
             # un utente deve poter vedere QUALUNQUE protocollo (IN e OUT) in stato BOZZA appartenente alla sua AOO
+            start_time = time.time()
+
             check_gruppo = self.user_has_groups(cr, current_user_id,
                                                 'seedoo_protocollo.group_vedi_protocolli_ingresso_bozza, seedoo_protocollo.group_vedi_protocolli_uscita_bozza')
             if check_gruppo:
                 protocollo_ids_aoo = self.search(
                     [('state', '=', 'draft'), ('aoo_id', '=', employee.department_id.aoo_id.id)])
                 protocollo_visible_ids.extend(protocollo_ids_aoo)
+                _logger.info("---Query aoo  %s seconds ---" % (time.time() - start_time))
 
             # un utente deve poter vedere QUALUNQUE protocollo (IN e OUT) REGISTRATO da un utente della sua AOO
+            start_time = time.time()
+
             check_gruppo = self.user_has_groups(cr, current_user_id,
                                                 'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati,seedoo_protocollo.group_vedi_protocolli_uscita_registrati')
             if check_gruppo:
                 protocollo_ids_aoo = self.search([('aoo_id', '=', employee.department_id.aoo_id.id)])
                 protocollo_visible_ids.extend(protocollo_ids_aoo)
+                _logger.info("---Query aoo 2  %s seconds ---" % (time.time() - start_time))
 
             # un utente deve poter vedere i protocolli (IN e OUT) REGISTRATI e ASSEGNATI ad un UTENTE del suo UFFICIO di appartenenza
+            start_time = time.time()
+
             check_gruppo = self.user_has_groups(cr, current_user_id,
                                                 'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ass_ut_uff,seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ass_ut_uff')
             if check_gruppo:
@@ -265,8 +290,11 @@ class protocollo_protocollo(osv.Model):
                 protocollo_visible_ids.extend(self.search(cr, uid[(
                 'assegnatari_conoscenza_dipendenti_ids.dipendente_id.department_id.id', '=',
                 employee.department_id.id)]))
+                _logger.info("---Query registrati_ass_ut_uff  %s seconds ---" % (time.time() - start_time))
 
             # un utente deve poter vedere i protocolli (IN e OUT) REGISTRATI e ASSEGNATI ad un suo UFFICIO FIGLIO
+            start_time = time.time()
+
             check_gruppo = self.user_has_groups(cr, current_user_id,
                                                 'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ass_uff_fig,seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ass_uff_fig')
             if check_gruppo:
@@ -274,8 +302,11 @@ class protocollo_protocollo(osv.Model):
                     ('assegnatari_competenza_uffici_ids.department_id.parent_id.id', '=', employee.department_id.id)]))
                 protocollo_visible_ids.extend(self.search(cr, uid[
                     ('assegnatari_conoscenza_uffici_ids.department_id.parent_id.id', '=', employee.department_id.id)]))
+                _logger.info("---Query _ass_uff_fig  %s seconds ---" % (time.time() - start_time))
 
             # un utente deve poter vedere i protocolli (IN e OUT) REGISTRATI e ASSEGNATI ad un UTENTE di un suo UFFICIO FIGLIO
+            start_time = time.time()
+
             check_gruppo = self.user_has_groups(cr, current_user_id,
                                                 'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ass_ut_uff_fig,seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ass_ut_uff_fig')
             if check_gruppo:
@@ -285,19 +316,20 @@ class protocollo_protocollo(osv.Model):
                 protocollo_visible_ids.extend(self.search(cr, uid[(
                 'assegnatari_conoscenza_dipendenti_ids.dipendente_id.department_id.parent_id.id', '=',
                 employee.department_id.id)]))
+                _logger.info("---Query ass_ut_uff_fig  %s seconds ---" % (time.time() - start_time))
 
             protocollo_visible_ids.extend(protocollo_ids_drafts)
             protocollo_visible_ids.extend(protocollo_ids_created)
             protocollo_visible_ids.extend(protocollo_ids_assigned_not_refused)
 
             # tutti gli altri
-            protocollo_ids = self.search(cr, uid, [('id', 'not in', protocollo_visible_ids)])
+            # protocollo_ids = self.search(cr, uid, [('id', 'not in', protocollo_visible_ids)])
 
-            _logger.info("--- %s len protocollo_ids ---" % (len(protocollo_ids)))
+            # _logger.info("--- %s len protocollo_ids ---" % (len(protocollo_ids)))
 
             protocollo_visible_ids = list(set(protocollo_visible_ids))
 
-        _logger.info("--- %s seconds ---" % (time.time() - start_time))
+        _logger.info("--- %s seconds ---" % (time.time() - start_time_total))
         _logger.info("--- %s start ---" % (start_time))
         _logger.info("--- %s len ---" % (len(protocollo_visible_ids)))
 
@@ -308,15 +340,31 @@ class protocollo_protocollo(osv.Model):
 
     def _is_visible_search(self, cr, uid, obj, name, args, domain=None, context=None):
 
+        # if self.call_counter == 4:
+        #     self.call_counter = 1
+        # else:
+        #     self.call_counter = self.call_counter + 1
+        # if 'first_call' in context:
+        #     if context['first_call'] and self.first_call:
+        #         self.first_call = True
+        #
+        # if not self.first_call:
+        #     self.first_call = not self.first_call
+
         if 'params' not in context:
             return []
 
+        if context['params']['action'] in [255, 254, 253, 252]:
+            return []
+
         protocollo_visible_ids = []
+        # if self.call_counter == 1:
         if context and context.has_key('uid') and context['uid']:
             current_user_id = context['uid']
             protocollo_visible_ids = self._get_protocollo_visibile_ids(cr, uid, current_user_id)
 
         return [('id', 'in', protocollo_visible_ids)]
+
 
     # def write(self, cr, uid, ids, vals, context=None):
     #     protocollo_ids = super(protocollo_protocollo, self).write(cr, uid, ids, vals, context=context)
@@ -350,14 +398,15 @@ class protocollo_protocollo(osv.Model):
         return {}
 
     def _assegnato_a_me_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
-        protocollo_visible_ids = []
+        cr.execute('''
+            SELECT p.protocollo_id FROM protocollo_assegnatario_dipendente p, protocollo_protocollo pp, resource_resource r, hr_employee e, protocollo_stato_dipendente s 
+            WHERE p.dipendente_id = e.id AND e.resource_id = r.id and pp.id = p.protocollo_id and pp.state != 'draft'
 
-        protocollo_visible_ids.extend(self.pool.get('protocollo.assegnatario.dipendente').search(cr, 1, [
-            ('dipendente_id.user_id.id', '=', uid),
-            ('stato_dipendente_id.state', '=', 'assegnato'),
-            ('tipo', '=', 'competenza'),
-            ('protocollo_id.state', '!=', 'draft')
-        ]))
+            AND r.user_id = %s AND p.tipo = 'competenza' AND p.stato_dipendente_id = s.id AND s.state = 'assegnato' '''
+                   , (uid,))
+
+        protocollo_visible_ids = [res[0] for res in cr.fetchall()]
+
         return [('id', 'in', protocollo_visible_ids)]
 
     def _assegnato_a_me_cc_visibility(self, cr, uid, ids, name, arg, context=None):
@@ -367,6 +416,7 @@ class protocollo_protocollo(osv.Model):
         cr.execute('''
             SELECT p.protocollo_id FROM protocollo_assegnatario_dipendente p, protocollo_protocollo pp, resource_resource r, hr_employee e, protocollo_stato_dipendente s 
             WHERE p.dipendente_id = e.id AND e.resource_id = r.id and pp.id = p.protocollo_id and pp.state != 'draft'
+
             AND r.user_id = %s AND p.tipo = 'conoscenza' AND p.stato_dipendente_id = s.id AND s.state = 'assegnato' '''
         , (uid,))
 
