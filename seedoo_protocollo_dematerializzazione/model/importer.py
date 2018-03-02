@@ -210,13 +210,10 @@ class dematerializzazione_importer(orm.Model):
 
                 now = datetime.datetime.now().strftime(DSDF)
                 name = 'Nuovo Documento del ' + now + ' (%s) ' % import_counter
-                document_type = ir_model_data_obj.get_object(cr, uid,
-                                                             'seedoo_protocollo_dematerializzazione',
-                                                             'gedoc_document_type_imported')
+
                 vals = {
                     'name': name,
                     'subject': name,
-                    'document_type': document_type.id,
                     'main_doc_id': False,
                     'user_id': uid,
                     'data_doc': datetime.datetime.now().strftime('%Y%m%d %H:%M:%S'),

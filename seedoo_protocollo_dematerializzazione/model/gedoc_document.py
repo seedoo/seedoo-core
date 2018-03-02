@@ -33,6 +33,27 @@ class gedoc_document(osv.Model):
         return dict(res)
 
 
+    def _get_preview_datas(self, cr, uid, ids, field, arg, context=None):
+        if isinstance(ids, (list, tuple)) and not len(ids):
+            return []
+        if isinstance(ids, (long, int)):
+            ids = [ids]
+        res = dict.fromkeys(ids, False)
+        for doc in self.browse(cr, uid, ids):
+            res[doc.id] = doc.main_doc_id.datas
+        return res
+
+    def _get_index_content(self, cr, uid, ids, field, arg, context=None):
+        if isinstance(ids, (list, tuple)) and not len(ids):
+            return []
+        if isinstance(ids, (long, int)):
+            ids = [ids]
+        res = dict.fromkeys(ids, False)
+        for doc in self.browse(cr, uid, ids):
+            res[doc.id] = doc.main_doc_id.index_content
+        return res
+
+
     _columns = {
         'importer_id': fields.many2one('dematerializzazione.storico.importazione.importer', 'Importer', readonly=True),
         'imported': fields.boolean('Importato', readonly=True),
@@ -43,6 +64,8 @@ class gedoc_document(osv.Model):
                         ('protocol', 'Protocollato'),
                         ('not_protocol', 'Non protocollato')
                     ], 'Stato in Protocollo', readonly=True),
+        'preview': fields.function(_get_preview_datas, type='binary', string='Anteprima'),
+        'index_content': fields.function(_get_index_content, type='text', string='Contenuto indicizzato'),
         'recovered_document_parent': fields.many2one('mail.message',
                                                     'Documento originale ripristino per protocollazione',
                                                     readonly=True),
