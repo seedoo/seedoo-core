@@ -24,6 +24,10 @@ class gedoc_document(osv.Model):
                 check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_ripristina_per_protocollazione')
                 check = check and check_gruppi
 
+            if check:
+                document_recovered_parents = self.pool.get('gedoc.document').search(cr, SUPERUSER_ID, [('recovered_document_parent', 'in', ids)])
+                check = check and len(document_recovered_parents) == 0
+
             res.append((doc_obj.id, check))
 
         return dict(res)
@@ -39,9 +43,13 @@ class gedoc_document(osv.Model):
                         ('protocol', 'Protocollato'),
                         ('not_protocol', 'Non protocollato')
                     ], 'Stato in Protocollo', readonly=True),
+        'recovered_document_parent': fields.many2one('mail.message',
+                                                    'Documento originale ripristino per protocollazione',
+                                                    readonly=True),
         'ripristina_per_protocollazione_visibility': fields.function(_ripristina_per_protocollazione_visibility,
                                                                      type='boolean',
-                                                                     string='Ripristina per protocollazione')
+                                                                     string='Ripristina per protocollazione'),
+
     }
 
     _defaults = {
@@ -57,18 +65,28 @@ class gedoc_document(osv.Model):
 
     def recovery_document_to_protocol_action(self, cr, uid, ids, context=None):
 
-        vals = {}
+        attachment_obj = self.pool.get('ir.attachment')
+        doc_obj = self.pool.get('gedoc.document')
         for document in self.browse(cr, uid, ids):
-            vals = {
-                    # 'sharedmail_state': 'new',
-                    'protocollo_id': None,
-                    'doc_protocol_state': 'new'
-                    # 'recovered_message_parent': document.id
+            try:
+                vals_attach = {
+                    'res_id': False,
                 }
-            if vals:
-                try:
-                    doc_copy_id = self.pool.get('gedoc.document').write(cr, uid, document.id, vals, context=context)
-                except Exception as e:
-                    raise orm.except_orm(_("Errore"), _("Non è possibile ripristinare questo documento"))
+                attach_copy_id = attachment_obj.copy(cr, uid, document.main_doc_id.id, vals_attach, context=context)
+            except Exception as e:
+                raise orm.except_orm(_("Errore"), _("Non è stato possibile creare il file"))
+
+            try:
+                vals_doc = {
+                    'protocollo_id': None,
+                    'doc_protocol_state': 'new',
+                    'main_doc_id': attach_copy_id,
+                    'recovered_document_parent': document.id
+                }
+                doc_copy_id = doc_obj.copy(cr, uid, document.id, vals_doc, context=context)
+                if doc_copy_id:
+                    attachment_obj.write(cr, uid, attach_copy_id, {'res_id': doc_copy_id})
+            except Exception as e:
+                raise orm.except_orm(_("Errore"), _("Non è stato possibile ripristinare questo documento"))
 
         return True
