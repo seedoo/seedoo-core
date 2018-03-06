@@ -2,56 +2,68 @@
 <openerp>
     <data>
 
-        <!-- Titolario -->
-        <!--
-        <record model='ir.ui.view' id='protocollo_classification_form'>
-            <field name="name">protocollo.classification.form</field>
-            <field name="model">protocollo.classification</field>
-            <field name="inherit_id" ref="seedoo_gedoc.protocollo_classification_form"/>
+         <record id="view_documento_protocollato_tree" model="ir.ui.view">
+            <field name="name">Documenti Protocollati</field>
+            <field name="model">documento.protocollato</field>
             <field name="arch" type="xml">
-                <field name="class_type" position="after">
-                    <field name="aoo_id" attrs="{'readonly':[('is_aoo_id_editable','=',False)]}"
-                           on_change="on_change_aoo_id(aoo_id)"
-                           options="{'no_quick_create': True, 'no_create_edit' : True}"/>
-                    <group colspan="4"></group>
-                    <field name="is_aoo_id_editable" invisible="1"/>
-                    <newline/>
-                </field>
-                <field name="parent_id" position="attributes">
-                    <attribute name="domain">[('aoo_id','=',aoo_id)]</attribute>
-                </field>
-                <field name="assigne" position="attributes">
-                    <attribute name="domain">[('aoo_id','=',aoo_id)]</attribute>
-                </field>
-                <field name="dossier_ids" position="attributes">
-                    <attribute name="domain">[('aoo_id','=',aoo_id)]</attribute>
-                </field>
+                <tree string="Documenti protocollati">
+                    <field name="doc_id" invisible="1"/>
+                    <field name="protocol_doc_id" invisible="1"/>
+                    <field name="protocol_name"/>
+                    <field name="registration_date"/>
+                    <field name="doc_name"/>
+                    <field name="doc_protocol_type"/>
+                    <field name="doc_file_type" />
+                    <field name="protocol_state"/>
+                </tree>
             </field>
         </record>
-        -->
 
-        <!--
-        <record model='ir.ui.view' id='protocollo_dossier_tree'>
-            <field name="name">protocollo.dossier.tree</field>
-            <field name="model">protocollo.dossier</field>
-            <field name="inherit_id" ref="seedoo_gedoc.protocollo_dossier_tree"/>
+        <record model="ir.ui.view" id="documento_protocollato_search">
+            <field name="name">documento.protocollato.search</field>
+            <field name="model">documento.protocollato</field>
             <field name="arch" type="xml">
-                <field name="user_id" position="after">
-                    <field name="aoo_id"/>
-                </field>
+                <search string="Documenti">
+                    <group string="Formato">
+                        <filter string="Pdf" name="format_pdf" domain="[('doc_file_type','like','pdf')]"/>
+                        <filter string="Immagine" name="format_image" domain="[('doc_file_type','like','image')]"/>
+                        <filter string="Testo" name="format_text" domain="[('doc_file_type','like','text')]"/>
+                        <filter string="Altro" name="format_other" domain="[
+                                                                        ('doc_file_type','not like','pdf'),
+                                                                        ('doc_file_type','not like','image'),
+                                                                        ('doc_file_type','not like','text'),
+                                                                        ]"/>
+                    </group>
+                    <group string="Stato">
+                        <filter string="Bozza" name="bozza" domain="[('protocol_state','!=','draft')]"/>
+                        <filter string="Registrato" name="registrato" domain="[('protocol_state','!=','draft')]"/>
+                    </group>
+                </search>
             </field>
         </record>
-        -->
-        <!--
-        <act_window
-            domain="[('dossier_ids', 'in', [active_id])]"
-            context="{'default_dossier_ids': active_id}"
-            id="zoom_protocollo_document" name="Protocolli Collegati"
-            res_model="protocollo.protocollo"
-            src_model="protocollo.dossier"/>
-        -->
+
+        <record model="ir.actions.act_window" id="protocollo_protocollo_notified_act">
+            <field name="name">Registrati</field>
+            <field name="res_model">protocollo.protocollo</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="protocollo_protocollo_tree"/>
+            <field name="search_view_id" ref="protocollo_protocollo_search"/>
+            <field name="domain">[('state','in',('registered','notified','sent','waiting','error'))]</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="documenti_protocollati_act">
+            <field name="name">Documenti Protocollati</field>
+            <field name="res_model">documento.protocollato</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_documento_protocollato_tree"/>
+            <field name="search_view_id" ref="documento_protocollato_search"/>
+            <!--<field name="domain">[('name','=', True)]</field>-->
+        </record>
 
         <menuitem name="Protocolli Registrati" action="protocollo_protocollo_notified_act" parent="seedoo_gedoc.gedoc_document_menu" id="gedoc_protocollo_all_notified_menu" sequence="10"/>
+        <menuitem name="Documenti Protocollati" action="documenti_protocollati_act" parent="seedoo_gedoc.gedoc_document_menu" id="gedoc_protocollo_document_menu" sequence="20"/>
 
     </data>
 </openerp>

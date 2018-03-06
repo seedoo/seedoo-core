@@ -3,7 +3,7 @@
 # this module contains the full copyright notices and license terms.
 
 from openerp.osv import fields, osv
-
+from openerp import tools
 
 class protocollo_classification(osv.Model):
     _inherit = 'protocollo.classification'
@@ -126,3 +126,57 @@ class DocumentSearch(osv.TransientModel):
             return search_domain
         else:
             return search_domain
+
+class documento_protocollato(osv.osv):
+    _name = "documento.protocollato"
+    _auto = False
+    _order = 'registration_date desc'
+
+    def _get_doc_protocol_type(self, cr, uid, ids, field, arg, context=None):
+        if isinstance(ids, (list, tuple)) and not len(ids):
+            return []
+        if isinstance(ids, (long, int)):
+            ids = [ids]
+        res = dict.fromkeys(ids, False)
+        for doc in self.browse(cr, uid, ids):
+            res[doc.doc_id] = doc.protocol_doc_id == doc.doc_id
+        return res
+
+    _columns = {
+        'doc_id': fields.integer('Id documento', readonly=True),
+        'doc_name': fields.char('Nome documento', readonly=True),
+        'protocol_name': fields.char('Numero Protocollo', readonly=True),
+        'registration_date': fields.char('Data Registrazione', readonly=True),
+        'protocol_doc_id': fields.integer('Documento principale', readonly=True),
+        'doc_protocol_type': fields.function(_get_doc_protocol_type, string='Tipo documento', type='boolean', readonly=True),
+        'doc_file_type': fields.char('Tipo di file', readonly=True),
+        'protocol_state': fields.char('Stato Protocollo', readonly=True),
+
+    }
+
+    def init(self, cr):
+        tools.sql.drop_view_if_exists(cr, 'documento_protocollato')
+        cr.execute("""
+            CREATE view documento_protocollato as
+              (
+                SELECT
+                    a.id,
+                    a.id as doc_id,
+                    a.name as doc_name, 
+                    p.name as protocol_name, 
+                    p.registration_date as registration_date, 
+                    p.doc_id as protocol_doc_id, 
+                    p.state as protocol_state,
+                    p.type,
+                    a.file_type as doc_file_type,
+                    t.name
+                FROM ir_attachment a 
+                JOIN protocollo_protocollo p
+                  ON a.res_id = p.id
+                JOIN protocollo_typology t
+                  ON p.typology = t.id
+                WHERE a.res_model = 'protocollo.protocollo'
+                
+              )
+              
+        """)
