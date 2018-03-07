@@ -52,6 +52,7 @@ class CreaProtocolloDaDocumentoWizard(osv.TransientModel):
         vals['type'] = 'in'
         vals['user_id'] = uid
         vals['typology'] = document.typology_id.id if document.typology_id else False
+        vals['doc_imported_ref'] = context.get('active_id')
         protocollo_id = protocollo_obj.create(cr, uid, vals)
 
         protocollo_obj.carica_documento_principale(cr, uid, protocollo_id, wizard.preview, wizard.doc_fname, wizard.doc_description)
