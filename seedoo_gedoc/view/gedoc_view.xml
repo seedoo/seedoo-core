@@ -614,7 +614,7 @@ this module contains the full copyright notices and license terms. -->
         </record>
 
         <record model='ir.actions.act_window' id='gedoc_document_act'>
-            <field name="name">Altri Documenti</field>
+            <field name="name">Altri</field>
             <field name="res_model">gedoc.document</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
@@ -638,7 +638,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="name">gedoc.document.search.form</field>
             <field name="model">gedoc.document.search</field>
             <field name="arch" type="xml">
-                <form string="Ricerca Documenti" version="7.0">
+                <form string="Documenti" version="7.0">
                     <group>
                         <field name="name"/>
                     </group>

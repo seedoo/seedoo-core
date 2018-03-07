@@ -89,7 +89,6 @@ this module contains the full copyright notices and license terms. -->
                             </group>
                             <group col="4">
                                 <field name="name" readonly="1"/>
-                                <field name="typology_id" string="Mezzo di trasmissione" options='{"no_open": true}'/>
                                 <newline/>
                                 <field name="subject" readonly="1"/>
                                 <field name="importer_id" attrs="{'invisible':[('importer_id', '=', False)]}"/>
@@ -105,6 +104,9 @@ this module contains the full copyright notices and license terms. -->
                             <field name="user_id" string="Autore importazione" options='{"no_open": true}'/>
                         </group>
                         <notebook>
+                            <page string="Anteprima">
+                                <field name="preview" nolabel="1" widget="pdfviewer"/>
+                            </page>
                             <page string="Visibilità">
                                 <field name="employee_comp_ids" string="Visibilità Documento" readonly="1" colspan="4">
                                     <tree>
@@ -112,9 +114,6 @@ this module contains the full copyright notices and license terms. -->
                                         <field name="department_id"/>
                                      </tree>
                                 </field>
-                            </page>
-                            <page string="Anteprima">
-                                <field name="preview" nolabel="1" widget="pdfviewer"/>
                             </page>
                             <page string="Contenuto Indicizzato">
                                 <field name="index_content" nolabel="1"/>
