@@ -225,6 +225,7 @@ class protocollo_protocollo(osv.Model):
 
     def _is_visible_search(self, cr, uid, obj, name, args, domain=None, context=None):
         protocollo_visible_ids = []
+
         if context and context.has_key('uid') and context['uid']:
             current_user_id = context['uid']
             protocollo_visible_ids = self._get_protocollo_visibile_ids(cr, uid, current_user_id)

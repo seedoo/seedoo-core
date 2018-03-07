@@ -130,28 +130,26 @@ class DocumentSearch(osv.TransientModel):
 class documento_protocollato(osv.osv):
     _name = "documento.protocollato"
     _auto = False
-    _order = 'registration_date desc'
-
-    def _get_doc_protocol_type(self, cr, uid, ids, field, arg, context=None):
-        if isinstance(ids, (list, tuple)) and not len(ids):
-            return []
-        if isinstance(ids, (long, int)):
-            ids = [ids]
-        res = dict.fromkeys(ids, False)
-        for doc in self.browse(cr, uid, ids):
-            res[doc.doc_id] = doc.protocol_doc_id == doc.doc_id
-        return res
+    _order = 'protocol_registration_date desc'
 
     _columns = {
-        'doc_id': fields.integer('Id documento', readonly=True),
+        'doc_id': fields.many2one('ir.attachment', 'Allegato', readonly=True),
+        'protocol_id': fields.many2one('protocollo.protocollo', 'Protocollo', readonly=True),
+        'protocol_subject': fields.char('Oggetto', readonly=True),
+        'doc_protocol_preview': fields.related('doc_id', 'datas', type='binary', string='Anteprima documento', readonly=True),
+        'doc_protocol_download': fields.related('doc_id', 'datas', type='binary', string='Download documento', readonly=True),
+        'doc_is_main': fields.related('doc_id', 'is_main', type='boolean', string='Documento principale', readonly=True),
+        'doc_is_pdf': fields.related('doc_id', 'is_pdf', type='boolean', string='PDF', readonly=True),
         'doc_name': fields.char('Nome documento', readonly=True),
+        'doc_description': fields.char('Descrizione documento', readonly=True),
         'protocol_name': fields.char('Numero Protocollo', readonly=True),
-        'registration_date': fields.char('Data Registrazione', readonly=True),
+        'protocol_registration_date': fields.char('Data Registrazione', readonly=True),
         'protocol_doc_id': fields.integer('Documento principale', readonly=True),
-        'doc_protocol_type': fields.function(_get_doc_protocol_type, string='Tipo documento', type='boolean', readonly=True),
+        'doc_index_content': fields.text('Contenuto indicizzato', readonly=True),
         'doc_file_type': fields.char('Tipo di file', readonly=True),
         'protocol_state': fields.char('Stato Protocollo', readonly=True),
-
+        'protocol_state_related': fields.related('protocol_id', 'state', type='char', string='Stato Protocollo Related', readonly=True),
+        'is_visible': fields.related('protocol_id', 'is_visible', type='boolean', string='Visibile', readonly=True),
     }
 
     def init(self, cr):
@@ -163,12 +161,16 @@ class documento_protocollato(osv.osv):
                     a.id,
                     a.id as doc_id,
                     a.name as doc_name, 
+                    a.datas_description as doc_description,
+                    a.index_content as doc_index_content,
+                    a.file_type as doc_file_type,
+                    p.id as protocol_id,
                     p.name as protocol_name, 
-                    p.registration_date as registration_date, 
+                    p.subject as protocol_subject,
+                    p.registration_date as protocol_registration_date, 
                     p.doc_id as protocol_doc_id, 
                     p.state as protocol_state,
                     p.type,
-                    a.file_type as doc_file_type,
                     t.name
                 FROM ir_attachment a 
                 JOIN protocollo_protocollo p
