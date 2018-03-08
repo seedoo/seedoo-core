@@ -83,7 +83,12 @@ class gedoc_document(osv.Model):
     def action_not_protocol(self, cr, uid, ids, context=None):
         if context is None:
             context = {}
-        self.write(cr, SUPERUSER_ID, ids[0], {'doc_protocol_state': 'not_protocol'})
+        document = self.pool.get('gedoc.document').browse(cr, SUPERUSER_ID, ids[0])
+        if document.doc_protocol_state == 'new':
+            self.write(cr, SUPERUSER_ID, ids[0], {'doc_protocol_state': 'not_protocol'})
+        else:
+            raise orm.except_orm(_("Avviso"), _("Il documento è già stato archiviato in precedenza: aggiorna la pagina"))
+
         return True
 
     def recovery_document_to_protocol_action(self, cr, uid, ids, context=None):
