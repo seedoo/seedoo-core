@@ -7,7 +7,7 @@ from openerp import SUPERUSER_ID
 from lxml import etree
 from ..segnatura.conferma_xml_parser import ConfermaXMLParser
 from openerp.osv import orm, fields
-
+from openerp.tools.translate import _
 
 class MailMessage(orm.Model):
     _inherit = "mail.message"
@@ -81,10 +81,17 @@ class MailMessage(orm.Model):
     def action_not_protocol(self, cr, uid, ids, context=None):
         if context is None:
             context = {}
+        message = self.pool.get('mail.message').browse(cr, SUPERUSER_ID, ids[0])
         if 'sharedmail_messages' in context and context['sharedmail_messages']:
-            self.write(cr, SUPERUSER_ID, ids[0], {'sharedmail_state': 'not_protocol'})
+            if message.sharedmail_state == 'new':
+                self.write(cr, SUPERUSER_ID, ids[0], {'sharedmail_state': 'not_protocol'})
+            else:
+                raise orm.except_orm(_("Avviso"), _("Il messaggio è già stato archiviato in precedenza: aggiorna la pagina"))
         if 'pec_messages' in context and context['pec_messages']:
-            self.write(cr, SUPERUSER_ID, ids[0], {'pec_state': 'not_protocol'})
+            if message.pec_state == 'new':
+                self.write(cr, SUPERUSER_ID, ids[0], {'pec_state': 'not_protocol'})
+            else:
+                raise orm.except_orm(_("Avviso"), _("Il messaggio è già stato archiviato in precedenza: aggiorna la pagina"))
         return True
 
     def name_get(self, cr, user, ids, context=None):
