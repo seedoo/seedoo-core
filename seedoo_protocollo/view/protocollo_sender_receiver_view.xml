@@ -52,7 +52,7 @@ this module contains the full copyright notices and license terms. -->
                                 <field name="partner_id" on_change="on_change_partner(partner_id)" options="{'no_quick_create': True, 'no_create_edit': True}"/>
                                 <field name="pa_type" placeholder="" attrs="{'invisible': [('type','!=', 'government')]}" on_change="on_change_pa_type(pa_type)"/>
                                 <newline/>
-                                <field name="name"/>
+                                <field name="name" class="name_protocollo_sender_receiver_form"/>
                                 <newline/>
                                 <field name="ammi_code" attrs="{'invisible': ['|', ('type','!=', 'government'), ('pa_type','!=', 'pa')]}"/>
                                 <newline/>
@@ -63,16 +63,16 @@ this module contains the full copyright notices and license terms. -->
 
                             <newline/>
                             <group class="address" string="Info di Recapito" colspan="4" col="4">
-                                <field name="street"/>
-                                <field name="zip"/>
-                                <field name="city"/>
-                                <field name="country_id"/>
+                                <field name="street" class="street_protocollo_sender_receiver_form"/>
+                                <field name="zip" class="zip_protocollo_sender_receiver_form"/>
+                                <field name="city" class="city_protocollo_sender_receiver_form"/>
+                                <field name="country_id" class="country_id_protocollo_sender_receiver_form"/>
                                 <field name="pec_mail" on_change="on_change_pec_mail(pec_mail, save_partner)"
-                                       attrs="{'required':[('add_pec_receiver_visibility','=',True)]}"/>
-                                <field name="email" on_change="on_change_email(email, save_partner)"/>
-                                <field name="phone"/>
-                                <field name="fax"/>
-                                <field name="mobile"/>
+                                       attrs="{'required':[('add_pec_receiver_visibility','=',True)]}" class="pec_mail_protocollo_sender_receiver_form"/>
+                                <field name="email" on_change="on_change_email(email, save_partner)" class="email_protocollo_sender_receiver_form"/>
+                                <field name="phone" class="phone_protocollo_sender_receiver_form"/>
+                                <field name="fax" class="faxe_protocollo_sender_receiver_form"/>
+                                <field name="mobile" class="mobile_protocollo_sender_receiver_form"/>
                             </group>
 
                             <newline/>

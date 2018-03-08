@@ -18,7 +18,7 @@ this module contains the full copyright notices and license terms. -->
                         </group>
                         <newline/>
                         <group col="2">
-                            <field colspan="2" name="datas_description" required="1"/>
+                            <field colspan="2" name="datas_description" required="1" class="datas_description_add_documents"/>
                         </group>
                     </group>
                     <group>
