@@ -664,6 +664,14 @@ class protocollo_protocollo(osv.Model):
                 check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_invia_protocollo_pec_uscita')
                 check = check and check_gruppi
 
+            if uid == protocollo.user_id.id or uid == SUPERUSER_ID:
+                check = check and True
+            else:
+                check_assegnatari = False
+                if check:
+                    check_assegnatari = self._check_stato_assegnatario_competenza(cr, uid, protocollo, 'preso')
+                check = check and check_assegnatari
+
             res.append((protocollo.id, check))
 
         return dict(res)
@@ -681,6 +689,14 @@ class protocollo_protocollo(osv.Model):
             if check:
                 check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_invia_protocollo_sharedmail_uscita')
                 check = check and check_gruppi
+
+            if uid == protocollo.user_id.id or uid == SUPERUSER_ID:
+                check = check and True
+            else:
+                check_assegnatari = False
+                if check:
+                    check_assegnatari = self._check_stato_assegnatario_competenza(cr, uid, protocollo, 'preso')
+                check = check and check_assegnatari
 
             res.append((protocollo.id, check))
 
