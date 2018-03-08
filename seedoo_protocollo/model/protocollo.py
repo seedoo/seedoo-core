@@ -1462,6 +1462,8 @@ class protocollo_protocollo(orm.Model):
 
         for prot_id in ids:
             prot = self.pool.get('protocollo.protocollo').browse(cr, uid, prot_id)
+            # if prot.state == 'sent': SOLUZIONE NON APPLICABILE. CREA PROBLEMI NEL REINVIO
+            #     raise openerp.exceptions.Warning(_('Il messaggio è già stato inviato in precedenza: ricaricare la pagina'))
             if prot.pec:
                 context = {'pec_messages': True}
                 self._create_outgoing_pec(cr, uid, prot_id, context=context)
