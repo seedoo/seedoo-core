@@ -202,11 +202,16 @@ class MailMessage(orm.Model):
         return msg_obj
 
     def recovery_message_to_protocol_action(self, cr, uid, ids, context=None):
-
+        message_obj = self.pool.get('mail.message')
         vals = {}
         for message in self.browse(cr, uid, ids):
+            check_message = message_obj.search(cr, SUPERUSER_ID, [('recovered_message_parent', '=', message.id)])
+            if check_message:
+                raise orm.except_orm(_("Avviso"), _("Messaggio già ripristinato in precedenza"))
+
             if message.type != 'email' or message.direction != 'in':
                 raise orm.except_orm(_("Errore"), _("Non è possibile ripristinare questo tipo di messaggio"))
+
             if message.pec_type:
                     vals = {
                         'pec_state': 'new',
