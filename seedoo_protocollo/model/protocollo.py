@@ -951,18 +951,6 @@ class protocollo_protocollo(orm.Model):
         if check and res_conferma is not None:
             res.append(res_conferma)
 
-        context.update({'registration_message': res})
-
-        res = {
-            'type': 'ir.actions.act_window',
-            'name': 'Registrazione Protocollo',
-            'res_model': 'protocollo.registration.wizard',
-            'view_mode': 'form',
-            'view_type': 'form',
-            'target': 'new',
-            'context': context
-        }
-
         return res
 
     def action_register(self, cr, uid, ids, context=None, *args):
@@ -1462,6 +1450,8 @@ class protocollo_protocollo(orm.Model):
 
         for prot_id in ids:
             prot = self.pool.get('protocollo.protocollo').browse(cr, uid, prot_id)
+            # if prot.state == 'sent': SOLUZIONE NON APPLICABILE. CREA PROBLEMI NEL REINVIO
+            #     raise openerp.exceptions.Warning(_('Il messaggio è già stato inviato in precedenza: ricaricare la pagina'))
             if prot.pec:
                 context = {'pec_messages': True}
                 self._create_outgoing_pec(cr, uid, prot_id, context=context)

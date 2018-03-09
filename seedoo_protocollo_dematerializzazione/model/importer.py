@@ -6,7 +6,8 @@ import base64
 import datetime
 import os
 from StringIO import StringIO
-
+from openerp.osv import fields, osv, orm
+from openerp.tools.translate import _
 import pytz
 from smb.SMBConnection import SMBConnection
 from smb.smb_constants import SMB_FILE_ATTRIBUTE_READONLY, SMB_FILE_ATTRIBUTE_DIRECTORY, SMB_FILE_ATTRIBUTE_ARCHIVE
@@ -63,6 +64,7 @@ class dematerializzazione_importer(orm.Model):
         'user': fields.char('Username', char=100),
         'password': fields.char('Password', char=100),
         'test_connessione': fields.char('Verify connection', readonly=True),
+        'locking_user_id': fields.many2one('res.users', 'Utente importazione in corso')
     }
 
     def _get_default_aoo_id(self, cr, uid, context=None):
@@ -73,7 +75,8 @@ class dematerializzazione_importer(orm.Model):
         'import_attivo': False,
         'aoo_id': _get_default_aoo_id,
         'path': '/',
-        'smb_domain': ''
+        'smb_domain': '',
+        'locking_user_id': False
     }
 
     file_search = SMB_FILE_ATTRIBUTE_READONLY | SMB_FILE_ATTRIBUTE_ARCHIVE
@@ -210,13 +213,10 @@ class dematerializzazione_importer(orm.Model):
 
                 now = datetime.datetime.now().strftime(DSDF)
                 name = 'Nuovo Documento del ' + now + ' (%s) ' % import_counter
-                document_type = ir_model_data_obj.get_object(cr, uid,
-                                                             'seedoo_protocollo_dematerializzazione',
-                                                             'gedoc_document_type_imported')
+
                 vals = {
                     'name': name,
                     'subject': name,
-                    'document_type': document_type.id,
                     'main_doc_id': False,
                     'user_id': uid,
                     'data_doc': datetime.datetime.now().strftime('%Y%m%d %H:%M:%S'),
@@ -224,7 +224,8 @@ class dematerializzazione_importer(orm.Model):
                     'aoo_id': importer.aoo_id.id,
                     'imported': True,
                     'importer_id': storico_importer_id,
-                    'typology_id': importer.tipologia_protocollo.id if importer.tipologia_protocollo else False
+                    'typology_id': importer.tipologia_protocollo.id if importer.tipologia_protocollo else False,
+                    'doc_protocol_state': 'new'
                 }
                 gedoc_document_id = gedoc_document_obj.create(cr, uid, vals)
 
@@ -277,7 +278,6 @@ class dematerializzazione_importer(orm.Model):
             self._log_file_error(cr, uid, conn, importer, file_to_import, today_folder, storico_importer_file_id,
                                  'Il file deve avere estensione pdf')
             return esito
-
         try:
             esito, errore, protocollo_id = self._process_protocol(cr, uid, conn, importer, file_to_import,
                                                                   storico_importer_id, doc_counter)
@@ -296,7 +296,6 @@ class dematerializzazione_importer(orm.Model):
                         esito_valori['protocollo_id'] = protocollo_id
                     else:
                         esito_valori['document_id'] = protocollo_id
-
                 storico_importer_file_obj.write(cr, uid, [storico_importer_file_id], esito_valori)
             else:
                 self._log_file_error(cr, uid, conn, importer, file_to_import, today_folder, storico_importer_file_id,
@@ -334,10 +333,14 @@ class dematerializzazione_importer(orm.Model):
         importers = importer_obj.browse(cr, uid, importer_ids)
 
         for importer in importers:
+            if importer.locking_user_id.id > 0:
+                raise orm.except_orm(_("Avviso"),
+                                     _("Importazione già attivata dall'utente: " + str(importer.locking_user_id.name)))
 
-            if importer.import_attivo:
+            if not importer.locking_user_id.id and importer.import_attivo:
                 esito_importer = True
                 conn = None
+                importer.lock_importer()
 
                 smb_domain = importer.auth and importer.smb_domain or ''
                 user = importer.auth and importer.user or ''
@@ -367,9 +370,7 @@ class dematerializzazione_importer(orm.Model):
                     today_processed_folder_path = os.path.join(processed_folder_path, today_folder)
 
                     self._directory_check(conn, importer.share, importer.path, today_processed_folder_path)
-
                     files_to_import = conn.listPath(importer.share, importer.path)
-
                     esito_documents = True
                     notempty_documents = True
                     doc_counter = 1
@@ -381,6 +382,7 @@ class dematerializzazione_importer(orm.Model):
                                                                     today_folder,
                                                                     storico_importer_id,
                                                                     doc_counter)
+
                             doc_counter = doc_counter + 1
                             esito_documents = esito_documents and esito_document
 
@@ -408,15 +410,16 @@ class dematerializzazione_importer(orm.Model):
                         'errore': exception
                     })
                 finally:
+                    importer.unlock_importer()
                     if conn:
                         conn.close()
                     esito = esito and esito_importer
+
 
         storico_obj.write(cr, uid, [storico_id], {'fine': datetime.datetime.now()})
 
         if esito:
             storico_obj.write(cr, uid, [storico_id], {'esito': 'ok'})
-
         return storico_id
 
     def action_verifica_connessione(self, cr, uid, ids, context=None):
@@ -451,3 +454,15 @@ class dematerializzazione_importer(orm.Model):
             else:
                 self.write(cr, uid, ids[0], {'test_connessione': 'Fallito'}, context)
                 conn.close()
+
+
+    def lock_importer(self, cr, uid, ids):
+        importer = self.write(cr, uid, ids, {'locking_user_id': uid})
+        cr.commit()
+        return True
+
+    def unlock_importer(self, cr, uid, ids):
+        importer = self.write(cr, uid, ids, {'locking_user_id': False})
+        cr.commit()
+        return True
+

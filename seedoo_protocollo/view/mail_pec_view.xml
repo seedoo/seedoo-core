@@ -208,7 +208,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="priority">100</field>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='server_sharedmail_user']" position="after">
-                    <field name="sharedmail_state"/>
+                    <field name="sharedmail_state" string="Stato in protocollo"/>
                     <field name="recovered_message_parent" invisible="1"/>
                 </xpath>
             </field>

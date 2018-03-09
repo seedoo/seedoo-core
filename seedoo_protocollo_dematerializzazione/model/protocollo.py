@@ -12,7 +12,13 @@ class protocollo_protocollo(osv.Model):
 
     _columns = {
         'importer_id': fields.many2one('dematerializzazione.storico.importazione.importer', 'Importer', readonly=True),
+        'doc_imported_ref': fields.many2one('gedoc.document', 'Riferimento documento importato', readonly=True),
     }
+
+    _sql_constraints = [
+        ('protocol_doc_imported_ref_unique', 'unique(doc_imported_ref)',
+         'Documento protocollato in precedenza!')
+    ]
 
     def associa_importer_protocollo(self, cr, uid, prot_id, storico_importer_id):
 

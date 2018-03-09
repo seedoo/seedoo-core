@@ -17,7 +17,6 @@
         "seedoo_protocollo"
     ],
     "data": [
-        "data/document_type.xml",
         "data/configurazione.xml",
         "data/cron.xml",
         "security/ir.model.access.csv",
