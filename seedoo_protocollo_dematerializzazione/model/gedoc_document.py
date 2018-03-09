@@ -96,6 +96,10 @@ class gedoc_document(osv.Model):
         attachment_obj = self.pool.get('ir.attachment')
         doc_obj = self.pool.get('gedoc.document')
         for document in self.browse(cr, uid, ids):
+            check_document = attachment_obj.search(cr, SUPERUSER_ID, [('recovered_document_parent', '=', document.id)])
+            if check_document:
+                raise orm.except_orm(_("Avviso"), _("Documento già ripristinato in precedenza"))
+
             try:
                 vals_attach = {
                     'res_id': False,
