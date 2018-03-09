@@ -20,23 +20,28 @@ this module contains the full copyright notices and license terms. -->
                                 <field name="title"/>
                                 <field name="address"/>
                                 <field name="description"/>
+                                <field name="locking_user_id"/>
                             </tree>
                             <form>
                                 <group col="4">
                                     <field name="title"/>
                                     <field name="description"/>
                                     <field name="address"/>
+                                    <field name="locking_user_id"/>
                                 </group>
                             </form>
                         </field>
                     </group>
                     <group>
                         <field name="verifica_importer" invisible="True"/>
+                        <field name="verifica_locked_importer" invisible="True"/>
                     </group>
                     <footer>
                         <div>
                             <button string="Procedi con l'Importazione" name="step2" type="object" class="oe_highlight"
-                             attrs="{'invisible':[('verifica_importer', '=', False)]}"/>
+                                    attrs="{'invisible':[('verifica_importer', '=', False)]}"/>
+                            <button string="Sblocca importazione" name="unlock_blocked_importer" type="object" class="oe_highlight"
+                                    attrs="{'invisible':[('verifica_locked_importer', '=', False)]}"/>
                             <button string="Abbandona" class="oe_link" special="cancel"/>
                         </div>
                     </footer>
