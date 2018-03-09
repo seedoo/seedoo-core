@@ -951,18 +951,6 @@ class protocollo_protocollo(orm.Model):
         if check and res_conferma is not None:
             res.append(res_conferma)
 
-        context.update({'registration_message': res})
-
-        res = {
-            'type': 'ir.actions.act_window',
-            'name': 'Registrazione Protocollo',
-            'res_model': 'protocollo.registration.wizard',
-            'view_mode': 'form',
-            'view_type': 'form',
-            'target': 'new',
-            'context': context
-        }
-
         return res
 
     def action_register(self, cr, uid, ids, context=None, *args):

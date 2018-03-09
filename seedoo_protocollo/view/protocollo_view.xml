@@ -366,10 +366,8 @@ this module contains the full copyright notices and license terms. -->
             <field name="arch" type="xml">
                 <form string="Protocollo" create="0" version="7.0">
                     <header>
-                        <button
-                                string="Registra Protocollo"
+                        <button name="%(protocollo_registration_confirmation_action)d" string="Registra Protocollo" type="action"
                                 attrs="{'invisible':[('registra_visibility','=',False)]}"
-                                type="object" name="action_register_process"
                                 class="oe_highlight_positive btn_seedoo btn_registra_protocollo oe_read_only"/>
 
                         <button name="%(protocollo_cancel_action)d" string="Annulla" type="action"
