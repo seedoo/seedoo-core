@@ -7,6 +7,11 @@ TIPO_ASSEGNAZIONE_SELECTION = [
     ('conoscenza', 'Per Conoscenza')
 ]
 
+TIPO_ASSEGNATARIO_SELECTION = [
+    ('employee', 'Dipendente'),
+    ('department', 'Ufficio')
+]
+
 STATE_ASSEGNATARIO_SELECTION = [
     ('assegnato', 'Assegnato'),
     ('preso', 'Preso In Carico'),

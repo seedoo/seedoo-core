@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- Assegnatario -->
+        <record id="protocollo_assegnatario_form" model="ir.ui.view">
+            <field name="name">protocollo.assegnatario.form</field>
+            <field name="model">protocollo.assegnatario</field>
+            <field name="arch" type="xml">
+                <form string="Assegnatario" create="0" edit="0">
+                    <sheet>
+                        <group col="2">
+                            <field name="name"/>
+                            <field name="tipologia"/>
+                            <field name="parent_id"/>
+                            <field name="child_ids"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="protocollo_assegnatario_tree" model="ir.ui.view">
+            <field name="name">protocollo.assegnatario.tree</field>
+            <field name="model">protocollo.assegnatario</field>
+            <field name="arch" type="xml">
+                <tree string="Assegnatari" create="0" edit="0"
+                      colors="black:tipologia=='employee';green:tipologia=='department' and parent_id==False;blue:tipologia=='department'" >
+                    <field name="name"/>
+                    <field name="tipologia"/>
+                    <field name="parent_id" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="protocollo_assegnatario_search" model="ir.ui.view">
+            <field name="name">protocollo.assegnatario.search</field>
+            <field name="model">protocollo.assegnatario</field>
+            <field name="arch" type="xml">
+                <search string="Assegnatari">
+                    <field name="nome"/>
+                    <field name="tipologia"/>
+                    <field name="parent_id"/>
+                </search>
+            </field>
+        </record>
+
+
+        <!-- Assegnazione -->
+        <record id="protocollo_assegnazione_form" model="ir.ui.view">
+            <field name="name">protocollo.assegnazione.form</field>
+            <field name="model">protocollo.assegnazione</field>
+            <field name="arch" type="xml">
+                <form string="Assegnazione" create="0" edit="0">
+                    <sheet>
+                        <group col="4">
+                            <field name="assegnatario_id" options="{'no_open': true}"/>
+                            <field name="tipologia_assegnatario"/>
+                            <field name="tipologia_assegnazione"/>
+                            <field name="state"/>
+                            <newline/>
+                            <separator string="Dipendenti Ufficio" attrs="{'invisible':[('child_ids','=',[])]}" colspan="4"/>
+                            <field name="child_ids" attrs="{'invisible':[('child_ids','=',[])]}" nolabel="1" colspan="4"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="protocollo_assegnazione_tree" model="ir.ui.view">
+            <field name="name">protocollo.assegnazione.tree</field>
+            <field name="model">protocollo.assegnazione</field>
+            <field name="arch" type="xml">
+                <tree string="Assegnazione" create="0" edit="0">
+                    <field name="assegnatario_id"/>
+                    <field name="tipologia_assegnatario"/>
+                    <field name="tipologia_assegnazione"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+    </data>
+</openerp>

@@ -200,9 +200,7 @@ class protocollo_protocollo(orm.Model):
         values = {}
         if reserved:
             values = {
-                'assegnatari_competenza_uffici_ids': False,
-                'assegnatari_conoscenza_uffici_ids': False,
-                'assegnatari_conoscenza_dipendenti_ids': False,
+                'assegnazione_ids': False,
             }
         return {'value': values}
 
@@ -253,54 +251,25 @@ class protocollo_protocollo(orm.Model):
                     res[prot.id] = True
         return res
 
-    # def _is_visible(self, cr, uid, ids, name, arg, context=None):
-    #     return {}
-    #
-    # def _is_visible_search(self, cursor, user, obj, name, args, domain=None, context=None):
-    #     office_ids = self.pool.get('res.users').get_user_offices(cursor, user, context)
-    #     offices = ', '.join(map(str, office_ids)) or str(0)
-    #     cursor.execute('''
-    #         select p.id
-    #         from protocollo_protocollo p join protocollo_offices_rel r on p.id = r.protocollo_id
-    #         where p.state in ('notified', 'sent', 'waiting', 'error') and r.office_id in (%s)
-    #     ''' % offices)
-    #     office_protocol_ids = [ids[0] for ids in cursor.fetchall()]
-    #     cursor.execute('''
-    #         select p.id
-    #         from protocollo_protocollo p join protocollo_user_rel pur on p.id = pur.protocollo_id
-    #         where p.state in ('notified', 'sent', 'waiting', 'error') and pur.user_id = %s
-    #     ''' % user)
-    #     assignee_protocol_ids = [ids[0] for ids in cursor.fetchall()]
-    #     if assignee_protocol_ids:
-    #         office_protocol_ids.extend(assignee_protocol_ids)
-    #     protocol_ids = list(set(office_protocol_ids))
-    #     return [('id', 'in', protocol_ids)]
-
     def _get_assegnatari_competenza(self, cr, uid, protocollo):
         employees = []
-        for assegnatari_competenza_ufficio in protocollo.assegnatari_competenza_uffici_ids:
-            for assegnatari_dipendente in assegnatari_competenza_ufficio.assegnatari_dipendenti_ids:
-                dipendente = assegnatari_dipendente.dipendente_id
-                if dipendente and dipendente.user_id:
-                    employees.append(dipendente)
-        for assegnatari_competenza_dipendente in protocollo.assegnatari_competenza_dipendenti_ids:
-            dipendente = assegnatari_competenza_dipendente.dipendente_id
-            if dipendente and dipendente.user_id:
-                employees.append(dipendente)
+        for assegnazione_competenza in protocollo.assegnazione_competenza_ids:
+            if assegnazione_competenza.tipologia_assegnatario=='department':
+                for assegnazione_competenza_child in assegnazione_competenza.child_ids:
+                    employees.append(assegnazione_competenza_child.assegnatario_employee_id)
+            else:
+                employees.append(assegnazione_competenza.assegnatario_employee_id)
         employees = list(set(employees))
         return employees
 
     def _get_assegnatari_conoscenza(self, cr, uid, protocollo):
         employees = []
-        for assegnatari_conoscenza_ufficio in protocollo.assegnatari_conoscenza_uffici_ids:
-            for assegnatari_dipendente in assegnatari_conoscenza_ufficio.assegnatari_dipendenti_ids:
-                dipendente = assegnatari_dipendente.dipendente_id
-                if dipendente:
-                    employees.append(dipendente)
-        for assegnatari_conoscenza_dipendente in protocollo.assegnatari_conoscenza_dipendenti_ids:
-            dipendente = assegnatari_conoscenza_dipendente.dipendente_id
-            if dipendente:
-                employees.append(dipendente)
+        for assegnazione_conoscenza in protocollo.assegnazione_conoscenza_ids:
+            if assegnazione_conoscenza.tipologia_assegnatario=='department':
+                for assegnazione_conoscenza_child in assegnazione_conoscenza.child_ids:
+                    employees.append(assegnazione_conoscenza_child.assegnatario_employee_id)
+            else:
+                employees.append(assegnazione_conoscenza.assegnatario_employee_id)
         employees = list(set(employees))
         return employees
 
@@ -525,31 +494,22 @@ class protocollo_protocollo(orm.Model):
             type="char",
             string="Mittenti/Destinatari",
             store=False),
-        # 'assigne': fields.many2many('hr.department',
-        #                            'protocollo_offices_rel',
-        #                            'protocollo_id', 'office_id',
-        #                            'Uffici di Competenza'),
-        # 'assigne_users': fields.many2many('res.users', 'protocollo_user_rel', 'protocollo_id', 'user_id', 'Utenti Assegnatari'),
         'assigne_emails': fields.function(_get_assigne_emails, type='char', string='Email Destinatari'),
         'assigne_cc': fields.boolean('Inserisci gli Assegnatari in CC'),
         'dossier_ids': fields.many2many('protocollo.dossier', 'dossier_protocollo_rel', 'protocollo_id', 'dossier_id',
                                         'Fascicoli'),
 
-        'assegnatari_competenza_uffici_ids': fields.one2many('protocollo.assegnatario.ufficio', 'protocollo_id',
-                                                             'Uffici Assegnatari per Competenza',
-                                                             domain=[('tipo', '=', 'competenza')]),
-        'assegnatari_competenza_dipendenti_ids': fields.one2many('protocollo.assegnatario.dipendente', 'protocollo_id',
-                                                                 'Dipendenti Assegnatari per Competenza',
-                                                                 domain=[('tipo', '=', 'competenza')]),
-        'assegnatari_conoscenza_uffici_ids': fields.one2many('protocollo.assegnatario.ufficio', 'protocollo_id',
-                                                             'Uffici Assegnatari per Conoscenza',
-                                                             domain=[('tipo', '=', 'conoscenza')]),
-        'assegnatari_conoscenza_dipendenti_ids': fields.one2many('protocollo.assegnatario.dipendente', 'protocollo_id',
-                                                                 'Dipendenti Assegnatari per Conoscenza',
-                                                                 domain=[('tipo', '=', 'conoscenza')]),
+        'assegnazione_ids': fields.one2many('protocollo.assegnazione', 'protocollo_id', 'Assegnatari', readonly=True),
+        'assegnazione_first_level_ids': fields.one2many('protocollo.assegnazione', 'protocollo_id', 'Assegnatari',
+                                                        domain=[('parent_id', '=', False)], readonly=True),
+        'assegnazione_competenza_ids': fields.one2many('protocollo.assegnazione', 'protocollo_id', 'Assegnatari',
+                                       domain=[('parent_id', '=', False),('tipologia_assegnazione', '=', 'competenza')],
+                                       readonly=True),
+        'assegnazione_conoscenza_ids': fields.one2many('protocollo.assegnazione', 'protocollo_id', 'Assegnatari',
+                                       domain=[('parent_id', '=', False), ('tipologia_assegnazione', '=', 'competenza')],
+                                       readonly=True),
 
         'notes': fields.text('Note'),
-        # 'is_visible': fields.function(_is_visible, fnct_search=_is_visible_search, type='boolean', string='Visibile'),
         'state': fields.selection(
             STATE_SELECTION, 'Stato', readonly=True,
             help="Lo stato del protocollo.", select=True),
@@ -1547,7 +1507,8 @@ class protocollo_protocollo(orm.Model):
 
         # l'invio della notifica avviene prima della modifica dello stato, perchè se fatta dopo, in alcuni casi,
         # potrebbe non avere più i permessi di scrittura sul protocollo
-        self.pool.get('protocollo.stato.dipendente').modifica_stato_dipendente(cr, uid, ids, 'preso')
+        #self.pool.get('protocollo.stato.dipendente').modifica_stato_dipendente(cr, uid, ids, 'preso')
+        self.pool.get('protocollo.assegnazione').modifica_stato_assegnazione(cr, uid, ids, 'preso')
 
         return True
 
@@ -1567,86 +1528,10 @@ class protocollo_protocollo(orm.Model):
 
         # l'invio della notifica avviene prima della modifica dello stato, perchè se fatta dopo, in alcuni casi,
         # potrebbe non avere più i permessi di scrittura sul protocollo
-        self.pool.get('protocollo.stato.dipendente').modifica_stato_dipendente(cr, uid, ids, 'rifiutato')
+        #self.pool.get('protocollo.stato.dipendente').modifica_stato_dipendente(cr, uid, ids, 'rifiutato')
+        self.pool.get('protocollo.assegnazione').modifica_stato_assegnazione(cr, uid, ids, 'rifiutato')
 
         return True
-
-    def _verifica_dati_assegnatari_uffici(self, cr, uid, assegnatari_ufficio_vals, tipo):
-        assegnatario_obj = self.pool.get('protocollo.assegnatario.ufficio')
-        uffici_ids = []
-
-        for assegnatario in assegnatari_ufficio_vals:
-            if assegnatario[0] == 4:
-                assegnatario_ufficio = assegnatario_obj.browse(cr, uid, assegnatario[1])
-                uffici_ids.append(assegnatario_ufficio.department_id.id)
-
-        for assegnatario in assegnatari_ufficio_vals:
-            if assegnatario[0] == 1:
-                assegnatario_data = assegnatario[2]
-                if assegnatario_data.has_key('department_id'):
-                    if assegnatario_data['department_id'] in uffici_ids:
-                        raise orm.except_orm(_('Attenzione!'),
-                                             _('Ci sono uffici duplicati fra gli assegnatari per %s!' % tipo))
-                    else:
-                        uffici_ids.append(assegnatario_data['department_id'])
-
-        for assegnatario in assegnatari_ufficio_vals:
-            if assegnatario[0] == 0:
-                assegnatario_data = assegnatario[2]
-                if assegnatario_data['department_id'] in uffici_ids:
-                    raise orm.except_orm(_('Attenzione!'),
-                                         _('Ci sono uffici duplicati fra gli assegnatari per %s!' % tipo))
-                else:
-                    uffici_ids.append(assegnatario_data['department_id'])
-                    assegnatario_data['tipo'] = tipo
-
-        return assegnatari_ufficio_vals
-
-    def _verifica_dati_assegnatari_dipendenti(self, cr, uid, assegnatari_dipendente_vals, tipo):
-        assegnatario_obj = self.pool.get('protocollo.assegnatario.dipendente')
-        dipendenti_ids = []
-
-        for assegnatario in assegnatari_dipendente_vals:
-            if assegnatario[0] == 4:
-                assegnatario_dipendente = assegnatario_obj.browse(cr, uid, assegnatario[1])
-                dipendenti_ids.append(assegnatario_dipendente.dipendente_id.id)
-
-        for assegnatario in assegnatari_dipendente_vals:
-            if assegnatario[0] == 1:
-                assegnatario_data = assegnatario[2]
-                if assegnatario_data.has_key('dipendente_id'):
-                    if assegnatario_data['dipendente_id'] in dipendenti_ids:
-                        raise orm.except_orm(_('Attenzione!'),
-                                             _('Ci sono dipendenti duplicati fra gli assegnatari per %s!' % tipo))
-                    else:
-                        dipendenti_ids.append(assegnatario_data['dipendente_id'])
-
-        for assegnatario in assegnatari_dipendente_vals:
-            if assegnatario[0] == 0:
-                assegnatario_data = assegnatario[2]
-                if assegnatario_data['dipendente_id'] in dipendenti_ids:
-                    raise orm.except_orm(_('Attenzione!'),
-                                         _('Ci sono dipendenti duplicati fra gli assegnatari per %s!' % tipo))
-                else:
-                    dipendenti_ids.append(assegnatario_data['dipendente_id'])
-                    assegnatario_data['tipo'] = tipo
-
-        return assegnatari_dipendente_vals
-
-    def _verifica_dati_assegnatari(self, cr, uid, vals, context):
-        if vals and vals.has_key('assegnatari_competenza_uffici_ids'):
-            vals['assegnatari_competenza_uffici_ids'] = self._verifica_dati_assegnatari_uffici(cr, uid, vals[
-                'assegnatari_competenza_uffici_ids'], 'competenza')
-        if vals and vals.has_key('assegnatari_competenza_dipendenti_ids'):
-            vals['assegnatari_competenza_dipendenti_ids'] = self._verifica_dati_assegnatari_dipendenti(cr, uid, vals[
-                'assegnatari_competenza_dipendenti_ids'], 'competenza')
-        if vals and vals.has_key('assegnatari_conoscenza_uffici_ids'):
-            vals['assegnatari_conoscenza_uffici_ids'] = self._verifica_dati_assegnatari_uffici(cr, uid, vals[
-                'assegnatari_conoscenza_uffici_ids'], 'conoscenza')
-        if vals and vals.has_key('assegnatari_conoscenza_dipendenti_ids'):
-            vals['assegnatari_conoscenza_dipendenti_ids'] = self._verifica_dati_assegnatari_dipendenti(cr, uid, vals[
-                'assegnatari_conoscenza_dipendenti_ids'], 'conoscenza')
-        return vals
 
     def _verifica_dati_sender_receiver(self, cr, uid, vals, context):
         if vals and vals.has_key('senders'):
@@ -1662,13 +1547,11 @@ class protocollo_protocollo(orm.Model):
         return vals
 
     def create(self, cr, uid, vals, context=None):
-        vals = self._verifica_dati_assegnatari(cr, uid, vals, context)
         vals = self._verifica_dati_sender_receiver(cr, uid, vals, context)
         protocollo_id = super(protocollo_protocollo, self).create(cr, uid, vals, context=context)
         return protocollo_id
 
     def write(self, cr, uid, ids, vals, context=None):
-        vals = self._verifica_dati_assegnatari(cr, uid, vals, context)
         vals = self._verifica_dati_sender_receiver(cr, uid, vals, context)
         protocollo_id = super(protocollo_protocollo, self).write(cr, uid, ids, vals, context=context)
         return protocollo_id
@@ -2056,201 +1939,3 @@ class protocollo_emergency_registry(orm.Model):
         'user_id': lambda obj, cr, uid, context: uid,
         'state': 'draft',
     }
-
-
-class protocollo_assegnatario_ufficio(orm.Model):
-    _name = 'protocollo.assegnatario.ufficio'
-
-    TIPO_SELECTION = [
-        ('competenza', 'Per Competenza'),
-        ('conoscenza', 'Per Conoscenza')
-    ]
-
-    def on_change_department_id(self, cr, uid, ids, department_id, context=None):
-        dipendente_ids = []
-        if department_id:
-            department_obj = self.pool.get('hr.department')
-            department = department_obj.browse(cr, uid, department_id)
-            for dipendente_id in department.member_ids:
-                dipendente_ids.append((0, 0, {'dipendente_id': dipendente_id}))
-        return {'value': {'assegnatari_dipendenti_ids': dipendente_ids}}
-
-    def _get_state(self, cr, uid, ids, prop, unknow_none, context=None):
-        if isinstance(ids, (list, tuple)) and not len(ids):
-            return []
-        if isinstance(ids, (long, int)):
-            ids = [ids]
-
-        stato_dipendente_obj = self.pool.get('protocollo.stato.dipendente')
-        reads = self.read(cr, uid, ids, ['id'], context=context)
-        res = []
-
-        for record in reads:
-            preso_count = 0
-            rifiutato_count = 0
-            assegnato_count = 0
-            assegnatario_ufficio = self.browse(cr, uid, record['id'])
-            for assegnatario_dipendente in assegnatario_ufficio.assegnatari_dipendenti_ids:
-                if assegnatario_dipendente.dipendente_id:
-                    employee = assegnatario_dipendente.dipendente_id
-                    stato_dipendente_ids = stato_dipendente_obj.search(cr, uid, [
-                        ('dipendente_id', '=', employee.id),
-                        ('protocollo_id', '=', assegnatario_ufficio.protocollo_id.id),
-                    ])
-                    if len(stato_dipendente_ids) > 0:
-                        stato_dipendente = stato_dipendente_obj.browse(cr, uid, stato_dipendente_ids[0])
-                        if stato_dipendente.state == 'rifiutato':
-                            rifiutato_count = rifiutato_count + 1
-                        elif stato_dipendente.state == 'preso':
-                            preso_count = preso_count + 1
-                        else:
-                            assegnato_count = assegnato_count + 1
-
-            if preso_count > 0:
-                res.append((record['id'], 'preso'))
-            elif rifiutato_count > 0:
-                res.append((record['id'], 'rifiutato'))
-            else:
-                res.append((record['id'], 'assegnato'))
-
-        return dict(res)
-
-    _columns = {
-        'department_id': fields.many2one('hr.department', 'Ufficio', required=True),
-        'protocollo_id': fields.many2one('protocollo.protocollo', 'Protocollo', required=True),
-        'tipo': fields.selection(TIPO_SELECTION, 'Tipo', required=True, readonly=True),
-        'assegnatari_dipendenti_ids': fields.one2many('protocollo.assegnatario.dipendente', 'ufficio_assegnatario_id',
-                                                      'Dipendenti'),
-        'state': fields.function(_get_state, type='selection', selection=STATE_ASSEGNATARIO_SELECTION, string='Stato',
-                                 readonly=True),
-    }
-
-    def _verifica_dati_ufficio_assegnatari(self, cr, uid, vals, tipo, old_assegnatari_dipendenti):
-        if vals and vals.has_key('department_id') and vals['department_id']:
-            department_obj = self.pool.get('hr.department')
-            department = department_obj.browse(cr, uid, vals['department_id'])
-            old_dipendenti_ids = [old_assegnatario_dipendente.dipendente_id.id for old_assegnatario_dipendente in
-                                  old_assegnatari_dipendenti]
-            new_dipendenti_ids = department.member_ids.ids
-
-            dipendente_ids = []
-            for dipendente_id in new_dipendenti_ids:
-                if dipendente_id not in old_dipendenti_ids:
-                    dipendente_ids.append((0, 0, {
-                        'dipendente_id': dipendente_id,
-                        'tipo': tipo
-                    }))
-
-            for old_assegnatario_dipendente in old_assegnatari_dipendenti:
-                if old_assegnatario_dipendente.dipendente_id.id not in new_dipendenti_ids:
-                    dipendente_ids.append((2, old_assegnatario_dipendente.id, 0))
-
-            vals['assegnatari_dipendenti_ids'] = dipendente_ids
-
-        return vals
-
-    def create(self, cr, uid, vals, context=None):
-        vals = self._verifica_dati_ufficio_assegnatari(cr, uid, vals, vals['tipo'], [])
-        assegnatario_ufficio_id = super(protocollo_assegnatario_ufficio, self).create(cr, uid, vals, context=context)
-        return assegnatario_ufficio_id
-
-    def write(self, cr, uid, ids, vals, context=None):
-        assegnatari_uffici = self.browse(cr, uid, ids)
-        if assegnatari_uffici and len(assegnatari_uffici) > 0:
-            for assegnatario_ufficio in assegnatari_uffici:
-                vals = self._verifica_dati_ufficio_assegnatari(cr, uid, vals, assegnatario_ufficio.tipo,
-                                                               assegnatario_ufficio.assegnatari_dipendenti_ids)
-                super(protocollo_assegnatario_ufficio, self).write(cr, uid, [assegnatario_ufficio.id], vals,
-                                                                   context=context)
-        else:
-            return super(protocollo_assegnatario_ufficio, self).write(cr, uid, ids, vals, context=context)
-
-
-class protocollo_assegnatario_dipendente(orm.Model):
-    _name = 'protocollo.assegnatario.dipendente'
-
-    _columns = {
-        'dipendente_id': fields.many2one('hr.employee', 'Dipendente', required=True),
-        'protocollo_id': fields.many2one('protocollo.protocollo', 'Protocollo', ondelete='cascade'),
-        'ufficio_assegnatario_id': fields.many2one('protocollo.assegnatario.ufficio', 'Ufficio', ondelete='cascade'),
-        'tipo': fields.selection(TIPO_ASSEGNAZIONE_SELECTION, 'Tipo', required=True, readonly=True),
-
-        'stato_dipendente_id': fields.many2one('protocollo.stato.dipendente', 'Stato Dipendente', required=True,
-                                               ondelete='cascade'),
-        'state': fields.related('stato_dipendente_id', 'state', type='selection',
-                                selection=STATE_ASSEGNATARIO_SELECTION, string='Stato', readonly=True),
-    }
-
-    def _verifica_stato_dipendente(self, cr, uid, vals):
-        if vals and vals.has_key('dipendente_id') and vals['dipendente_id']:
-            dipendente_id = vals['dipendente_id']
-            protocollo_id = False
-            if vals.has_key('protocollo_id') and vals['protocollo_id']:
-                protocollo_id = vals['protocollo_id']
-            if vals.has_key('ufficio_assegnatario_id') and vals['ufficio_assegnatario_id']:
-                assegnatario_ufficio_obj = self.pool.get('protocollo.assegnatario.ufficio')
-                assegnatario_ufficio = assegnatario_ufficio_obj.browse(cr, uid, vals['ufficio_assegnatario_id'])
-                protocollo_id = assegnatario_ufficio.protocollo_id.id
-            if protocollo_id:
-                stato_dipendente_obj = self.pool.get('protocollo.stato.dipendente')
-                stato_dipendente_ids = stato_dipendente_obj.search(cr, uid, [
-                    ('dipendente_id', '=', dipendente_id),
-                    ('protocollo_id', '=', protocollo_id)
-                ])
-                if stato_dipendente_ids and len(stato_dipendente_ids) > 0:
-                    vals['stato_dipendente_id'] = stato_dipendente_ids[0]
-                else:
-                    stato_dipendente_id = stato_dipendente_obj.create(cr, uid, {
-                        'dipendente_id': dipendente_id,
-                        'protocollo_id': protocollo_id
-                    })
-                    vals['stato_dipendente_id'] = stato_dipendente_id
-        return vals
-
-    def create(self, cr, uid, vals, context=None):
-        vals = self._verifica_stato_dipendente(cr, uid, vals)
-        assegnatario_dipendente_id = super(protocollo_assegnatario_dipendente, self).create(cr, uid, vals,
-                                                                                            context=context)
-        return assegnatario_dipendente_id
-
-    def write(self, cr, uid, ids, vals, context=None):
-        vals = self._verifica_stato_dipendente(cr, uid, vals)
-        return super(protocollo_assegnatario_dipendente, self).write(cr, uid, ids, vals, context=context)
-
-
-class protocollo_stato_dipendente(orm.Model):
-    _name = 'protocollo.stato.dipendente'
-
-    _columns = {
-        'dipendente_id': fields.many2one('hr.employee', 'Dipendente', required=True, ondelete='cascade'),
-        'protocollo_id': fields.many2one('protocollo.protocollo', 'Protocollo', required=True, ondelete='cascade'),
-        'state': fields.selection(STATE_ASSEGNATARIO_SELECTION, 'Stato', required=True),
-    }
-
-    _defaults = {
-        'state': 'assegnato'
-    }
-
-    _sql_constraints = [
-        ('protocol_state_unique', 'unique(dipendente_id,protocollo_id)',
-         'Dipendente e Protocollo con già uno stato nel DB!'),
-    ]
-
-    def modifica_stato_dipendente(self, cr, uid, protocollo_ids, state):
-        employee_obj = self.pool.get('hr.employee')
-        employee_ids = employee_obj.search(cr, uid, [('user_id', '=', uid)])
-        if len(employee_ids) == 0:
-            raise orm.except_orm(_('Attenzione!'), _('Non è stato trovato l\'employee per la tua utenza!'))
-
-        employee_id = employee_ids[0]
-        stato_dipendente_obj = self.pool.get('protocollo.stato.dipendente')
-        for protocollo_id in protocollo_ids:
-            stato_dipendente_ids = stato_dipendente_obj.search(cr, uid, [
-                ('dipendente_id', '=', employee_id),
-                ('protocollo_id', '=', protocollo_id),
-            ])
-
-            if len(stato_dipendente_ids) == 0:
-                raise orm.except_orm(_('Attenzione!'), _('Non sei uno degli assegnatari del protocollo!'))
-
-            stato_dipendente_obj.write(cr, uid, [stato_dipendente_ids[0]], {'state': state})

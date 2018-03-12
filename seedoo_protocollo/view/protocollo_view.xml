@@ -394,11 +394,6 @@ this module contains the full copyright notices and license terms. -->
                         <button name="%(protocollo_fascicola_action)d" type="action" string="Fascicola"
                                 attrs="{'invisible':[('fascicola_visibility','=',False)]}"
                                 class="oe_highlight_positive btn_seedoo btn_fascicola"/>
-
-                        <button name="%(protocollo_assegna_action)d" string="Assegna" type="action"
-                                attrs="{'invisible':[('assegna_visibility','=',False)]}"
-                                class="oe_highlight_positive btn_seedoo btn_assegna"/>
-
                         <button name="sent_mail_pec" string="Invia PEC Protocollo"
                                 attrs="{'invisible':[('invio_pec_visibility','=',False)]}"
                                 class="oe_highlight btn_seedoo btn_invia_pec"/>
@@ -641,89 +636,20 @@ this module contains the full copyright notices and license terms. -->
                                 </group>
                             </page>
                             <page string="Assegnatari">
-                                <group col="11">
-                                    <group colspan="5">
-                                        <separator string="Assegnatari per Competenza" colspan="2"/>
 
-                                        <field name="assegnatari_competenza_uffici_ids"
-                                               attrs="{'readonly':[('state','!=','draft')], 'invisible':[('reserved','=',True)]}"
-                                               nolabel="1" colspan="2">
-                                            <tree colors="green:state=='preso';red:state=='rifiutato'">
-                                                <field name="department_id"/>
-                                                <field name="state"/>
-                                            </tree>
-                                            <form>
-                                                <group col="4">
-                                                    <field name="department_id"
-                                                           domain="[('assignable','=',True)]"
-                                                           on_change="on_change_department_id(department_id)"
-                                                           options="{'no_quick_create': True, 'no_create_edit': True}"/>
-                                                    <field name="state"/>
-                                                    <separator string="Dipendenti"/>
-                                                    <field name="assegnatari_dipendenti_ids" nolabel="1" readonly="1" colspan="4"/>
-                                                </group>
-                                            </form>
-                                        </field>
+                                <button name="%(protocollo_aggiungi_assegnatari_action)d"
+                                        string="Aggiungi Assegnatari"
+                                        type="action"
+                                        attrs="{'invisible':['|',('assegna_visibility','=',False),('assegnazione_first_level_ids','!=',[])]}"
+                                        class="oe_highlight_positive btn_seedoo"/>
+                                <button name="%(protocollo_aggiungi_assegnatari_action)d"
+                                        string="Modifica Assegnatari"
+                                        type="action"
+                                        attrs="{'invisible':['|',('assegna_visibility','=',False),('assegnazione_first_level_ids','=',[])]}"
+                                        class="oe_highlight_positive btn_seedoo"/>
 
-                                        <field name="assegnatari_competenza_dipendenti_ids"
-                                               attrs="{'readonly':[('state','!=','draft')]}"
-                                               nolabel="1" colspan="2">
-                                            <tree colors="green:state=='preso';red:state=='rifiutato'">
-                                                <field name="dipendente_id"/>
-                                                <field name="state"/>
-                                            </tree>
-                                            <form>
-                                                <group col="4">
-                                                    <field name="dipendente_id"
-                                                           options="{'no_quick_create': True, 'no_create_edit': True}"/>
-                                                    <field name="state"/>
-                                                </group>
-                                            </form>
-                                        </field>
-                                    </group>
-
-                                    <group colspan="1"/>
-
-                                    <group colspan="5">
-                                        <separator string="Assegnatari per Conoscenza"
-                                               attrs="{'invisible':[('reserved','=',True)]}"
-                                               colspan="2"/>
-
-                                        <field name="assegnatari_conoscenza_uffici_ids"
-                                               attrs="{'readonly':[('state','!=','draft')], 'invisible':[('reserved','=',True)]}"
-                                               nolabel="1" colspan="2">
-                                            <tree>
-                                                <field name="department_id"/>
-                                            </tree>
-                                            <form>
-                                                <group col="4">
-                                                    <field name="department_id"
-                                                           domain="[('assignable','=',True)]"
-                                                           on_change="on_change_department_id(department_id)"
-                                                           options="{'no_quick_create': True, 'no_create_edit': True}"/>
-                                                    <newline/>
-                                                    <separator string="Dipendenti"/>
-                                                    <field name="assegnatari_dipendenti_ids" nolabel="1" readonly="1" colspan="4"/>
-                                                </group>
-                                            </form>
-                                        </field>
-
-                                        <field name="assegnatari_conoscenza_dipendenti_ids"
-                                               attrs="{'readonly':[('state','!=','draft')], 'invisible':[('reserved','=',True)]}"
-                                               nolabel="1" colspan="2">
-                                            <tree>
-                                                <field name="dipendente_id"/>
-                                            </tree>
-                                            <form>
-                                                <group col="4">
-                                                    <field name="dipendente_id"
-                                                           options="{'no_quick_create': True, 'no_create_edit': True}"/>
-                                                </group>
-                                            </form>
-                                        </field>
-
-                                        <field name="assigne_cc" attrs="{'invisible':['|', ('pec','!=',True), ('type','=','in')]}"/>
-                                    </group>
+                                <group col="4">
+                                    <field name="assegnazione_first_level_ids" nolabel="1" colspan="4"/>
                                 </group>
                             </page>
                             <page string="Note">
@@ -1091,6 +1017,7 @@ this module contains the full copyright notices and license terms. -->
 
 
         <!-- Assegnatari Ufficio -->
+        <!--
         <record model="ir.ui.view" id="protocollo_assegnatario_ufficio_form">
             <field name="name">protocollo.assegnatario.ufficio.form</field>
             <field name="model">protocollo.assegnatario.ufficio</field>
@@ -1121,9 +1048,11 @@ this module contains the full copyright notices and license terms. -->
                 </tree>
             </field>
         </record>
+        -->
 
 
         <!-- Assegnatari Dipedente -->
+        <!--
         <record model="ir.ui.view" id="protocollo_assegnatario_dipendente_form">
             <field name="name">protocollo.assegnatario.dipendente.form</field>
             <field name="model">protocollo.assegnatario.dipendente</field>
@@ -1149,6 +1078,7 @@ this module contains the full copyright notices and license terms. -->
                 </tree>
             </field>
         </record>
+        -->
 
         <template id="journal_qweb">
             <t t-call="report.html_container">

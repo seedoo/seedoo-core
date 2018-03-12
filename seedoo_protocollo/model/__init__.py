@@ -18,5 +18,6 @@ from . import res_user
 from . import util
 from . import tile_tile
 from . import ir_rule
+from . import protocollo_assegnazione
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

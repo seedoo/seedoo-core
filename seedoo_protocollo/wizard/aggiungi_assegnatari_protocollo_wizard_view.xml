@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="protocollo_aggiungi_assegnatari_view" model="ir.ui.view">
+            <field name="name">Aggiungi Assegnatari</field>
+            <field name="model">protocollo.aggiungi.assegnatari.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Aggiungi Assegnatari">
+                    <sheet>
+                        <group>
+                            <field name="assegnatario_competenza_id"
+                                   domain="[
+                                       '|',
+                                       '&amp;',
+                                       ('id', 'not in', assegnatario_conoscenza_ids[0][2]),
+                                       '|',
+                                       ('parent_id', '=', False),
+                                       ('parent_id', 'not in', assegnatario_conoscenza_ids[0][2]),
+                                       '&amp;',
+                                       ('parent_id', 'in', assegnatario_conoscenza_ids[0][2]),
+                                       ('tipologia', '=', 'department')
+                                   ]"
+                                   options="{'no_quick_create': True, 'no_create_edit': True, 'no_open': True}"/>
+
+                            <field name="assegnatario_conoscenza_ids"
+                                   domain="[
+                                       '|',
+                                       '&amp;',
+                                       ('id', '!=', assegnatario_competenza_id),
+                                       '|',
+                                       ('parent_id', '=', False),
+                                       ('parent_id', '!=', assegnatario_competenza_id),
+                                       '&amp;',
+                                       ('parent_id', '=', assegnatario_competenza_id),
+                                       ('tipologia', '=', 'department')
+                                   ]"
+                                   options="{'no_quick_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button string="Ok" name="action_save" type="object" class="oe_highlight"/>
+                        o
+                        <button string="Abbandona" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="protocollo_aggiungi_assegnatari_action"
+                    name="Aggiungi Assegnatari"
+                    res_model="protocollo.aggiungi.assegnatari.wizard"
+                    view_type="form"
+                    view_mode="form"
+                    target="new"
+        />
+
+    </data>
+</openerp>
