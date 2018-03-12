@@ -18,24 +18,22 @@ this module contains the full copyright notices and license terms. -->
                         </group>
                         <newline/>
                         <group col="2">
-                            <field colspan="2" name="datas_description" required="1" class="datas_description_add_documents"/>
+                            <field colspan="2" name="datas_description" required="1"/>
                         </group>
                     </group>
                     <group>
                         <separator string="Allegati" colspan="4"/>
                         <field name="document_ids" nolabel="1" colspan="4" class="taballegati">
                             <tree editable="bottom">
-                                <field name="allegati_descrizione_required_wizard" invisible="1"/>
                                 <field name="datas" filename="datas_fname" class="campoallegati"/>
                                 <field name="datas_fname" invisible="1"/>
-                                <field name="datas_description" attrs="{'required':[('allegati_descrizione_required_wizard','=',True)]}"/>
+                                <field name="datas_description" required="1"/>
                             </tree>
                             <form>
-                                <field name="allegati_descrizione_required_wizard" invisible="1"/>
                                 <group col="4">
                                     <field name="datas" filename="datas_fname"/>
                                     <field name="datas_fname" invisible="1"/>
-                                    <field name="datas_description" attrs="{'required':[('allegati_descrizione_required_wizard','=',True)]}"/>
+                                    <field name="datas_description" required="1"/>
                                 </group>
                             </form>
                         </field>
