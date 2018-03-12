@@ -843,7 +843,6 @@ class protocollo_protocollo(osv.Model):
         'fascicola_visibility': fields.function(_fascicola_visibility, type='boolean', string='Fascicola'),
         'assegna_visibility': fields.function(_assegna_visibility, type='boolean', string='Assegna'),
         'invio_pec_visibility': fields.function(_invio_pec_visibility, type='boolean', string='Invio PEC'),
-        'reinvio_pec_visibility': fields.function(_reinvio_pec_visibility, type='boolean', string='Invio PEC'),
         'invio_sharedmail_visibility': fields.function(_invio_sharedmail_visibility, type='boolean', string='Invio E-mail'),
         'invio_protocollo_visibility': fields.function(_invio_protocollo_visibility, type='boolean', string='Invio Protocollo'),
         'modifica_pec_visibility': fields.function(_modifica_pec_visibility, type='boolean', string='Modifica PEC'),
