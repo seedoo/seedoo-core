@@ -17,6 +17,9 @@ class dematerializzazione_importa_documenti_step1_wizard(osv.TransientModel):
         'verifica_importer': fields.boolean(
             'Verifica Importer',
         ),
+        'verifica_locked_importer': fields.boolean(
+            'Verifica Lock Importer',
+        ),
         'importer_ids': fields.one2many(
             'dematerializzazione.importa.documenti.imp.step1.wizard',
             'wizard_id',
@@ -33,6 +36,10 @@ class dematerializzazione_importa_documenti_step1_wizard(osv.TransientModel):
         importers = self._default_importers(cr, uid, context)
         return len(importers)
 
+    def _default_verifica_locked_importer(self, cr, uid, context):
+        importer_obj = self.pool.get('dematerializzazione.importer')
+        importer_ids = importer_obj.search(cr, uid, [('import_attivo', '=', True), ('locking_user_id', '=', uid)])
+        return len(importer_ids)
 
     def _default_importer_ids(self, cr, uid, context):
         importers = self._default_importers(cr, uid, context)
@@ -42,13 +49,24 @@ class dematerializzazione_importa_documenti_step1_wizard(osv.TransientModel):
                 'title': importer.title,
                 'description': importer.description,
                 'address': importer.address,
+                'locking_user_id': importer.locking_user_id
             })
         return res
 
     _defaults = {
         'verifica_importer': _default_verifica_importer,
+        'verifica_locked_importer': _default_verifica_locked_importer,
         'importer_ids': _default_importer_ids
     }
+
+    def unlock_blocked_importer(self, cr, uid, ids, context=None):
+        importer_obj = self.pool.get('dematerializzazione.importer')
+        importers = importer_obj.search(cr, uid, [('import_attivo', '=', 'True'), ('locking_user_id', '!=', False)])
+        for importer in importer_obj.browse(cr, uid, importers):
+            if importer.locking_user_id.id == uid:
+                importer.unlock_importer()
+
+        return True
 
     def step2(self, cr, uid, ids, context=None):
         importer_obj = self.pool.get('dematerializzazione.importer')
@@ -73,6 +91,7 @@ class dematerializzazione_importa_documenti_imp_step1_wizard(osv.TransientModel)
         'title': fields.char('Nome', char=80, required=True),
         'description': fields.text('Descrizione'),
         'address': fields.char('Indirizzo', char=256, required=True),
+        'locking_user_id': fields.many2one('res.users', 'Importazione attiva')
     }
 
 
@@ -123,6 +142,7 @@ class dematerializzazione_importa_documenti_step2_wizard(osv.TransientModel):
         'numero_file_importati': _default_numero_file_importati,
         'numero_file_errore': _default_numero_file_errore
     }
+
 
     def go_to_history(self, cr, uid, ids, context=None):
 

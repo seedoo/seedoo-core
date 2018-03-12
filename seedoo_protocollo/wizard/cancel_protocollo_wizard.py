@@ -3,11 +3,10 @@
 # this module contains the full copyright notices and license terms.
 
 import logging
-from openerp.osv import fields, osv
+from openerp.osv import fields, osv, orm
 from openerp.tools import (
     DEFAULT_SERVER_DATETIME_FORMAT as DSDF)
 from openerp.tools.translate import _
-import time
 from openerp import netsvc
 
 _logger = logging.getLogger(__name__)
@@ -52,12 +51,18 @@ class wizard(osv.TransientModel):
     def action_cancel(self, cr, uid, ids, context=None):
         configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
         configurazione = self.pool.get('protocollo.configurazione').browse(cr, uid, configurazione_ids[0])
+        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
         wizard = self.browse(cr, uid, ids[0], context)
+
+        if protocollo.state in 'canceled':
+            raise orm.except_orm(_("Avviso"),
+                                 _("Il protocollo è già stato annullato in precedenza"))
+
         if wizard.name and wizard.date_cancel:
             wf_service = netsvc.LocalService('workflow')
             wf_service.trg_validate(uid, 'protocollo.protocollo', context['active_id'], 'cancel', cr)
 
-            protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
+
             if protocollo.type == 'in' and protocollo.pec and configurazione.annullamento_xml_invia:
                 new_context = dict(context).copy()
                 new_context.update({'receipt_cancel_reason': wizard.name})

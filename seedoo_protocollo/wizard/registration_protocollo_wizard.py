@@ -2,9 +2,72 @@
 from openerp.osv import fields
 from openerp import models
 
-class protocollo_registration_wizard(models.TransientModel):
-    _name = 'protocollo.registration.wizard'
-    _description = 'Protocollo Registration wizard'
+class protocollo_registration_confirmation_wizard(models.TransientModel):
+    _name = 'protocollo.registration.confirmation.wizard'
+    _description = 'Wizard di Conferma Registrazione Protocollo'
+
+    _columns = {
+        'subject': fields.char('Oggetto', readonly=True),
+        # 'assegnatari_competenza_uffici_ids': fields.one2many('protocollo.assegna.ufficio.wizard',
+        #          'competenza_uffici_wizard_id', 'Uffici Assegnatari per Competenza'),
+        # 'assegnatari_competenza_dipendenti_ids': fields.one2many('protocollo.assegna.dipendente.wizard',
+        #          'competenza_dipendenti_wizard_id', 'Dipendenti Assegnatari per Competenza'),
+    }
+
+    def _default_protocollo_subject(self, cr, uid, context):
+        if 'active_id' in context:
+            protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
+        else:
+            return None
+        return protocollo.subject
+
+    # def _default_assegnatari_competenza_uffici_ids(self, cr, uid, context):
+    #     protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
+    #     assegnatari = []
+    #     for assegnatario in protocollo.assegnatari_competenza_uffici_ids:
+    #         assegnatari.append({
+    #             'protocollo_assegnatario_ufficio_id': assegnatario.id,
+    #             'department_id': assegnatario.department_id.id,
+    #             'tipo': assegnatario.tipo,
+    #         })
+    #     return assegnatari
+    #
+    # def _default_assegnatari_competenza_dipendenti_ids(self, cr, uid, context):
+    #     protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
+    #     assegnatari = []
+    #     for assegnatario in protocollo.assegnatari_competenza_dipendenti_ids:
+    #         assegnatari.append({
+    #             'protocollo_assegnatario_dipendenti_id': assegnatario.id,
+    #             'dipendente_id': assegnatario.dipendente_id.id,
+    #             'state': assegnatario.state,
+    #         })
+    #     return assegnatari
+
+    _defaults = {
+        'subject': _default_protocollo_subject,
+        # 'assegnatari_competenza_uffici_ids': _default_assegnatari_competenza_uffici_ids,
+        # 'assegnatari_competenza_dipendenti_ids': _default_assegnatari_competenza_dipendenti_ids,
+    }
+
+
+    def go_to_registration_response(self, cr, uid, ids, context=None):
+        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
+        res = protocollo.action_register_process()
+        context.update({'registration_message': res})
+
+        return {
+            'name': 'Wizard Protocollo Registration Response',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'protocollo.registration.response.wizard',
+            'type': 'ir.actions.act_window',
+            'target': 'new',
+            'context': context
+        }
+
+class protocollo_registration_response_wizard(models.TransientModel):
+    _name = 'protocollo.registration.response.wizard'
+    _description = 'Protocollo Registration Response wizard'
     _columns = {
         'message': fields.html(string="Esito Registrazione", readonly=True, store=False)
     }

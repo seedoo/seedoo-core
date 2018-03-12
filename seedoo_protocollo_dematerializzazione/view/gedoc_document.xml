@@ -5,11 +5,30 @@ this module contains the full copyright notices and license terms. -->
 <openerp>
     <data>
 
+        <record id="gedoc_document_tree" model="ir.ui.view">
+            <field name="name">gedoc.document.tree</field>
+            <field name="model">gedoc.document</field>
+            <field name="inherit_id" ref="seedoo_gedoc.gedoc_document_tree"/>
+            <field name="arch" type="xml">
+                <field name="user_id" position="after">
+                    <field name="doc_protocol_state"/>
+                </field>
+            </field>
+        </record>
+
+
         <record id="gedoc_document_form" model="ir.ui.view">
             <field name="name">gedoc.document.form</field>
             <field name="model">gedoc.document</field>
             <field name="inherit_id" ref="seedoo_gedoc.gedoc_document_form"/>
             <field name="arch" type="xml">
+
+                <xpath expr="//header" position="inside">
+                    <field name="ripristina_per_protocollazione_visibility" invisible="1"/>
+                    <button name="recovery_document_to_protocol_action" string="Ripristina per protocollazione" type="object"
+                            attrs="{'invisible':[('ripristina_per_protocollazione_visibility','=',False)]}"
+                            class="oe_highlight_warning btn_seedoo btn_ripristina_messaggio"/>
+                </xpath>
 
                 <field name="subject" position="after">
                     <newline/>
@@ -20,9 +39,6 @@ this module contains the full copyright notices and license terms. -->
                 <!-- Tutti i campi readonly se il documento è importato -->
                 <field name="name" position="attributes">
                     <attribute name="attrs">{'readonly':[('imported', '=', True)]}</attribute>
-                </field>
-                <field name="document_type" position="attributes">
-                    <attribute name="attrs">{'readonly':[('imported', '=', True)], 'required':[('imported', '=', False)]}</attribute>
                 </field>
                 <field name="subject" position="attributes">
                     <attribute name="attrs">{'readonly':[('imported', '=', True)]}</attribute>
@@ -46,7 +62,6 @@ this module contains the full copyright notices and license terms. -->
             </field>
         </record>
 
-
         <record id="gedoc_document_imported_form" model="ir.ui.view">
             <field name="name">gedoc.document.imported.form</field>
             <field name="model">gedoc.document</field>
@@ -56,38 +71,55 @@ this module contains the full copyright notices and license terms. -->
                     <header>
                         <button name="%(crea_protocollo_da_documento_action)d"
                                 type='action' string='Crea Protocollo Bozza'
-                                attrs="{'invisible': ['|',('main_doc_id','=',False),('protocollo_id','!=',False)]}"
-                                groups="seedoo_protocollo.group_protocollo_operatore"
+                                attrs="{'invisible': ['|','|',('main_doc_id','=',False),('protocollo_id','!=',False),('doc_protocol_state','!=','new')]}"
                                 class="oe_highlight_positive btn_seedoo"
                         />
+                        <button name="%(seedoo_protocollo.confirm_operation_action)d" type="action"
+                                string="Non protocollare"
+                                attrs="{'invisible': [('doc_protocol_state','!=','new')]}"
+                                class="oe_highlight_warning"
+                                context="{'action_not_protocol_document': True}"/>
                     </header>
                     <sheet>
-                        <div class="gedoc_header">
+                        <div class="message_header">
+                            <group>
+                                <field name="doc_protocol_state" invisible="1"/>
+                                <field name="repertorio" invisible="1"/>
+                                <field name="numero_repertorio" invisible="1" readonly="1"/>
+                                <field name="imported" invisible="1"/>
+                            </group>
                             <group col="4">
                                 <field name="name" readonly="1"/>
-                                <field name="document_type" readonly="1"/>
                                 <newline/>
-                                <field name="repertorio" />
-                                <field name="numero_repertorio" readonly="1"/>
                                 <field name="subject" readonly="1"/>
-                                <newline/>
-                                <field name="imported"/>
                                 <field name="importer_id" attrs="{'invisible':[('importer_id', '=', False)]}"/>
                                 <newline/>
-                                <field name="protocollo_id" attrs="{'invisible':[('protocollo_id', '=', False)]}"/>
+                                <field name="protocollo_id" string="Autore importazione" attrs="{'invisible':[('protocollo_id', '=', False)]}"/>
                             </group>
                         </div>
-                        <group col="4" string="Informazioni Generali">
-                            <field name="user_id"/>
-                            <newline/>
-                            <field name="main_doc_id"/>
+                        <group col="4">
+                            <field name="main_doc_id" options='{"no_open": true}'/>
                             <newline/>
                             <field name="data_doc"/>
+                            <newline/>
+                            <field name="user_id" string="Autore importazione" options='{"no_open": true}'/>
                         </group>
-
-                        <group string="Informazioni Generali" col="4">
-                            <field name="employee_comp_ids" string="Visibilità Documento" readonly="1" nolabel="1" colspan="4"/>
-                        </group>
+                        <notebook>
+                            <page string="Anteprima">
+                                <field name="preview" nolabel="1" widget="pdfviewer"/>
+                            </page>
+                            <page string="Visibilità">
+                                <field name="employee_comp_ids" string="Visibilità Documento" readonly="1" colspan="4">
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="department_id"/>
+                                     </tree>
+                                </field>
+                            </page>
+                            <page string="Contenuto Indicizzato">
+                                <field name="index_content" nolabel="1"/>
+                            </page>
+                        </notebook>
                     </sheet>
                 </form>
             </field>
@@ -100,7 +132,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="arch" type="xml">
                 <tree string="Documento" create="false" edit="false">
                     <field name="name"/>
-                    <field name="document_type"/>
                     <field name="user_id"/>
                 </tree>
             </field>
@@ -111,7 +142,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="res_model">gedoc.document</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
-            <field name="domain">[('imported','=',True)]</field>
+            <field name="domain">[('imported','=',True), ('doc_protocol_state', '=', 'new')]</field>
         </record>
 
         <record model="ir.actions.act_window.view" id="gedoc_document_in_imported_act_tree_view">

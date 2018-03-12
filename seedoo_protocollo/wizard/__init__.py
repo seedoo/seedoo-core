@@ -14,7 +14,9 @@ from . import fascicola_protocollo_wizard
 from . import modify_protocollo_email_wizard
 from . import modify_protocollo_pec_wizard
 from . import modify_protocollo_wizard
+from . import rifiuta_protocollo_wizard
 from . import registration_protocollo_wizard
+from . import confirm_operation_wizard
 from . import aggiungi_assegnatari_protocollo_wizard
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

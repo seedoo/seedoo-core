@@ -256,6 +256,9 @@
   font-family: "FontAwesome";
   margin-right: 10px;
 }
+.btn_confirm_operation::before {
+  content: "\f00c";
+}
 .btn_registra_protocollo::before {
   content: "\f0e3";
 }
@@ -334,6 +337,11 @@
   width: 130px !important;
   height: 130px !important;
   min-height: 130px !important;
+}
+li.badge {
+  border-radius: 0;
+  /* height: 18px; */
+  line-height: 24px !important;
 }
 /*.oe_dashboard_column div.oe_action:nth-child(2), .oe_dashboard_column div.oe_action:nth-child(3),*/
 /*.oe_dashboard_column div.oe_action:nth-child(4), .oe_dashboard_column div.oe_action:nth-child(5){*/

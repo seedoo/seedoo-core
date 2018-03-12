@@ -17,10 +17,11 @@ this module contains the full copyright notices and license terms. -->
                                 context="{'attachment_ids':attachment_ids,'message_type':'pec'}"
                                 attrs="{'invisible':['|',('pec_state','!=','new'),('pec_type','!=','posta-certificata')]}"
                                 class="oe_highlight_positive"/>
-                        <button name="action_not_protocol" type='object'
+                        <button name="%(confirm_operation_action)d" type="action"
                                 string="Non protocollare"
                                 attrs="{'invisible':['|',('pec_state','!=','new'),('pec_type','!=','posta-certificata')]}"
-                                class="oe_highlight_warning"/>
+                                class="oe_highlight_warning"
+                                context="{'action_not_protocol_pec': True}"/>
 
                         <field name="pec_state" widget="statusbar" invisible="1"/>
                         <field name="pec_type" invisible="1"/>
@@ -208,7 +209,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="priority">100</field>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='server_sharedmail_user']" position="after">
-                    <field name="sharedmail_state"/>
+                    <field name="sharedmail_state" string="Stato in protocollo"/>
                     <field name="recovered_message_parent" invisible="1"/>
                 </xpath>
             </field>

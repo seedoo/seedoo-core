@@ -81,10 +81,17 @@ class MailMessage(orm.Model):
     def action_not_protocol(self, cr, uid, ids, context=None):
         if context is None:
             context = {}
+        message = self.pool.get('mail.message').browse(cr, SUPERUSER_ID, ids[0])
         if 'sharedmail_messages' in context and context['sharedmail_messages']:
-            self.write(cr, SUPERUSER_ID, ids[0], {'sharedmail_state': 'not_protocol'})
+            if message.sharedmail_state == 'new':
+                self.write(cr, SUPERUSER_ID, ids[0], {'sharedmail_state': 'not_protocol'})
+            else:
+                raise orm.except_orm(_("Avviso"), _("Il messaggio è già stato archiviato in precedenza: aggiorna la pagina"))
         if 'pec_messages' in context and context['pec_messages']:
-            self.write(cr, SUPERUSER_ID, ids[0], {'pec_state': 'not_protocol'})
+            if message.pec_state == 'new':
+                self.write(cr, SUPERUSER_ID, ids[0], {'pec_state': 'not_protocol'})
+            else:
+                raise orm.except_orm(_("Avviso"), _("Il messaggio è già stato archiviato in precedenza: aggiorna la pagina"))
         return True
 
     def name_get(self, cr, user, ids, context=None):
@@ -195,11 +202,16 @@ class MailMessage(orm.Model):
         return msg_obj
 
     def recovery_message_to_protocol_action(self, cr, uid, ids, context=None):
-
+        message_obj = self.pool.get('mail.message')
         vals = {}
         for message in self.browse(cr, uid, ids):
+            check_message = message_obj.search(cr, SUPERUSER_ID, [('recovered_message_parent', '=', message.id)])
+            if check_message:
+                raise orm.except_orm(_("Avviso"), _("Messaggio già ripristinato in precedenza"))
+
             if message.type != 'email' or message.direction != 'in':
                 raise orm.except_orm(_("Errore"), _("Non è possibile ripristinare questo tipo di messaggio"))
+
             if message.pec_type:
                     vals = {
                         'pec_state': 'new',
