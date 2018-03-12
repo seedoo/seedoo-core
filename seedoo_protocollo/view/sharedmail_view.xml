@@ -17,10 +17,11 @@ this module contains the full copyright notices and license terms. -->
                                 context="{'attachment_ids':attachment_ids,'message_type':'mail'}"
                                 attrs="{'invisible':['|',('sharedmail_state','!=','new'),('sharedmail_type','!=','sharedmail')]}"
                                 class="oe_highlight_positive"/>
-                        <button name="action_not_protocol" type='object'
+                        <button name="%(confirm_operation_action)d" type="action"
                                 string="Non protocollare"
                                 attrs="{'invisible':['|',('sharedmail_state','!=','new'),('sharedmail_type','!=','sharedmail')]}"
-                                class="oe_highlight_warning"/>
+                                class="oe_highlight_warning"
+                                context="{'action_not_protocol_sharedmail': True}"/>
 
                         <field name="sharedmail_state" widget="statusbar" invisible="1"/>
                         <field name="sharedmail_type" invisible="1"/>
