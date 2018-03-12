@@ -49,6 +49,7 @@
         "wizard/create_protocollo_mailpec_wizard_view.xml",
         "wizard/modify_protocollo_email_wizard_view.xml",
         "wizard/modify_protocollo_pec_wizard_view.xml",
+        "wizard/rifiuta_protocollo_wizard_view.xml",
         "wizard/carica_documenti_wizard_view.xml",
         "wizard/carica_allegati_wizard_view.xml",
         "wizard/registration_protocollo_wizard_view.xml",

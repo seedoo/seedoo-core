@@ -7,7 +7,7 @@ class protocollo_registration_confirmation_wizard(models.TransientModel):
     _description = 'Wizard di Conferma Registrazione Protocollo'
 
     _columns = {
-        'subject': fields.char('Subject', readonly=True),
+        'subject': fields.char('Oggetto', readonly=True),
         # 'assegnatari_competenza_uffici_ids': fields.one2many('protocollo.assegna.ufficio.wizard',
         #          'competenza_uffici_wizard_id', 'Uffici Assegnatari per Competenza'),
         # 'assegnatari_competenza_dipendenti_ids': fields.one2many('protocollo.assegna.dipendente.wizard',
@@ -19,7 +19,7 @@ class protocollo_registration_confirmation_wizard(models.TransientModel):
             protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
         else:
             return None
-        return protocollo.id
+        return protocollo.subject
 
     # def _default_assegnatari_competenza_uffici_ids(self, cr, uid, context):
     #     protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])

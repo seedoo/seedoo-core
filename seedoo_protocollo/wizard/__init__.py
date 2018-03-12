@@ -14,6 +14,7 @@ from . import fascicola_protocollo_wizard
 from . import modify_protocollo_email_wizard
 from . import modify_protocollo_pec_wizard
 from . import modify_protocollo_wizard
+from . import rifiuta_protocollo_wizard
 from . import registration_protocollo_wizard
 from . import confirm_operation_wizard
 
