@@ -596,7 +596,7 @@ this module contains the full copyright notices and license terms. -->
                                                                         <h3><field name="name"/></h3>
                                                                         <t t-if="record.datas_description.raw_value">
                                                                             <p>
-                                                                                <field name="datas_description"/>
+                                                                                <field name="datas_description" />
                                                                             </p>
                                                                         </t>
                                                                     </td>
