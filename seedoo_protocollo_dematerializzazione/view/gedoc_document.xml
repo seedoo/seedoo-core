@@ -74,10 +74,11 @@ this module contains the full copyright notices and license terms. -->
                                 attrs="{'invisible': ['|','|',('main_doc_id','=',False),('protocollo_id','!=',False),('doc_protocol_state','!=','new')]}"
                                 class="oe_highlight_positive btn_seedoo"
                         />
-                        <button name="action_not_protocol" type='object'
-                                attrs="{'invisible': [('doc_protocol_state','!=','new')]}"
+                        <button name="%(seedoo_protocollo.confirm_operation_action)d" type="action"
                                 string="Non protocollare"
-                                class="oe_highlight_warning"/>
+                                attrs="{'invisible': [('doc_protocol_state','!=','new')]}"
+                                class="oe_highlight_warning"
+                                context="{'action_not_protocol_document': True}"/>
                     </header>
                     <sheet>
                         <div class="message_header">
