@@ -39,6 +39,23 @@ class protocollo_protocollo(osv.Model):
             return True
         return False
 
+
+    def _check_stato_assegnatario_competenza_ufficio(self, cr, uid, protocollo, stato, assegnatario_uid=None):
+        if not assegnatario_uid:
+            assegnatario_uid = uid
+        assegnazione_obj = self.pool.get('protocollo.assegnazione')
+        assegnazione_ids = assegnazione_obj.search(cr, uid, [
+            ('assegnatario_employee_id.user_id.id', '=', assegnatario_uid),
+            ('protocollo_id', '=', protocollo.id),
+            ('tipologia_assegnazione', '=', 'competenza'),
+            ('tipologia_assegnatario', '=', 'employee'),
+            ('state', '=', stato),
+            ('parent_id', '!=', False)
+        ])
+        if len(assegnazione_ids) > 0:
+            return True
+        return False
+
     ####################################################################################################################
     # Visibilità dei protocolli
     ####################################################################################################################
@@ -612,16 +629,17 @@ class protocollo_protocollo(osv.Model):
                 check = True
 
             if check:
-                check_gruppi = False
-                if protocollo.type == 'in':
-                    check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_prendi_in_carico_protocollo_ingresso')
-                elif protocollo.type == 'out':
-                    check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_prendi_in_carico_protocollo_uscita')
-                check = check and check_gruppi
-
-            if check:
-                check_assegnatari = self._check_stato_assegnatario_competenza(cr, uid, protocollo, 'assegnato')
-                check = check and check_assegnatari
+                if self._check_stato_assegnatario_competenza_ufficio(cr, uid, protocollo, 'assegnato'):
+                    check_gruppi = False
+                    if protocollo.type == 'in':
+                        check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_prendi_in_carico_protocollo_ingresso')
+                    elif protocollo.type == 'out':
+                        check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_prendi_in_carico_protocollo_uscita')
+                    check = check and check_gruppi
+                elif self._check_stato_assegnatario_competenza(cr, uid, protocollo, 'assegnato'):
+                    check = True
+                else:
+                    check = False
 
             res.append((protocollo.id, check))
 
@@ -639,16 +657,17 @@ class protocollo_protocollo(osv.Model):
                 check = True
 
             if check:
-                check_gruppi = False
-                if protocollo.type == 'in':
-                    check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_rifiuta_protocollo_ingresso')
-                elif protocollo.type == 'out':
-                    check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_rifiuta_protocollo_uscita')
-                check = check and check_gruppi
-
-            if check:
-                check_assegnatari = self._check_stato_assegnatario_competenza(cr, uid, protocollo, 'assegnato')
-                check = check and check_assegnatari
+                if self._check_stato_assegnatario_competenza_ufficio(cr, uid, protocollo, 'assegnato'):
+                    check_gruppi = False
+                    if protocollo.type == 'in':
+                        check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_rifiuta_protocollo_ingresso')
+                    elif protocollo.type == 'out':
+                        check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_rifiuta_protocollo_uscita')
+                    check = check and check_gruppi
+                elif self._check_stato_assegnatario_competenza(cr, uid, protocollo, 'assegnato'):
+                    check = True
+                else:
+                    check = False
 
             res.append((protocollo.id, check))
 

@@ -66,13 +66,13 @@ this module contains the full copyright notices and license terms. -->
         </record>
         <!-- Button "Prendi in Carico" nella vista form protocollo in ingresso -->
         <record id="group_prendi_in_carico_protocollo_ingresso" model="res.groups">
-            <field name="name">Presa in Carico Protocolli in Ingresso</field>
+            <field name="name">Presa in Carico Protocolli in Ingresso Assegnati Ufficio</field>
             <field name="category_id" ref="module_category_protocollo"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
         <!-- Button "Rifiuta" nella vista form protocollo in ingresso -->
         <record id="group_rifiuta_protocollo_ingresso" model="res.groups">
-            <field name="name">Rifiuta Protocolli in Ingresso</field>
+            <field name="name">Rifiuta Protocolli in Ingresso Assegnati Ufficio</field>
             <field name="category_id" ref="module_category_protocollo"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
@@ -115,13 +115,13 @@ this module contains the full copyright notices and license terms. -->
         </record>
         <!-- Button "Prendi in Carico" nella vista form protocollo in uscita -->
         <record id="group_prendi_in_carico_protocollo_uscita" model="res.groups">
-            <field name="name">Presa in Carico Protocolli in Uscita</field>
+            <field name="name">Presa in Carico Protocolli in Uscita Assegnati Ufficio</field>
             <field name="category_id" ref="module_category_protocollo"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
         <!-- Button "Rifiuta" nella vista form protocollo in uscita -->
         <record id="group_rifiuta_protocollo_uscita" model="res.groups">
-            <field name="name">Rifiuta Protocolli in Uscita</field>
+            <field name="name">Rifiuta Protocolli in Uscita Assegnati Ufficio</field>
             <field name="category_id" ref="module_category_protocollo"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>

@@ -28,21 +28,7 @@ class wizard(osv.TransientModel):
     }
 
     def rifiuta_presa_in_carico(self, cr, uid, ids, context=None):
-        rec = self.pool.get('res.users').browse(cr, uid, uid)
         wizard = self.browse(cr, uid, ids[0], context)
-
         if wizard.name:
-            action_class = "history_icon refused"
-            post_vars = {'subject': "Rifiuto assegnazione: %s" %wizard.name,
-                         'body': "<div class='%s'><ul><li>Assegnazione rifiutata da <span style='color:#990000;'>%s</span></li></ul></div>" % (
-                         action_class, rec.name),
-                         'model': "protocollo.protocollo",
-                         'res_id': context['active_id'],
-                         }
-
-            thread_pool = self.pool.get('protocollo.protocollo')
-            thread_pool.message_post(cr, uid, context['active_id'], type="notification", context=context, **post_vars)
-
-            self.pool.get('protocollo.stato.dipendente').modifica_stato_dipendente(cr, uid, [context['active_id']], 'rifiutato')
-
+            self.pool.get('protocollo.protocollo').rifiuta_presa_in_carico(cr, uid, [context['active_id']], wizard.name)
         return {'type': 'ir.actions.act_window_close'}

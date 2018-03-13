@@ -1078,8 +1078,7 @@ class protocollo_protocollo(orm.Model):
     def action_notify(self, cr, uid, ids, *args):
         email_template_obj = self.pool.get('email.template')
         for prot in self.browse(cr, uid, ids):
-            if prot.type == 'in' and (
-                    not prot.assegnatari_competenza_uffici_ids and not prot.assegnatari_competenza_dipendenti_ids):
+            if prot.type == 'in' and not prot.assegnazione_competenza_ids:
                 raise openerp.exceptions.Warning(_('Errore nella notifica del protocollo, mancano gli assegnatari'))
             if prot.reserved:
                 template_reserved_id = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'seedoo_protocollo',
@@ -1560,12 +1559,12 @@ class protocollo_protocollo(orm.Model):
             )
         return True
 
-    def has_offices(self, cr, uid, ids, *args):
-        for protocol in self.browse(cr, uid, ids):
-            if (
-                    protocol.assegnatari_competenza_uffici_ids or protocol.assegnatari_competenza_dipendenti_ids) and protocol.type == 'in':
-                return True
-        return False
+    # def has_offices(self, cr, uid, ids, *args):
+    #     for protocol in self.browse(cr, uid, ids):
+    #         if (
+    #                 protocol.assegnatari_competenza_uffici_ids or protocol.assegnatari_competenza_dipendenti_ids) and protocol.type == 'in':
+    #             return True
+    #     return False
 
     def prendi_in_carico(self, cr, uid, ids, context=None):
         rec = self.pool.get('res.users').browse(cr, uid, uid)
@@ -1588,16 +1587,16 @@ class protocollo_protocollo(orm.Model):
 
         return True
 
-    def rifiuta_presa_in_carico(self, cr, uid, ids, context=None):
+    def rifiuta_presa_in_carico(self, cr, uid, ids, motivazione, context=None):
         rec = self.pool.get('res.users').browse(cr, uid, uid)
 
         action_class = "history_icon refused"
-        post_vars = {'subject': "Rifiuto assegnazione",
-                     'body': "<div class='%s'><ul><li>Assegnazione rifiutata da <span style='color:#009900;'>%s</span></li></ul></div>" % (
-                         action_class, rec.name),
-                     'model': "protocollo.protocollo",
-                     'res_id': ids[0],
-                     }
+        post_vars = {
+            'subject': "Rifiuto assegnazione: %s" % motivazione,
+            'body': "<div class='%s'><ul><li>Assegnazione rifiutata da <span style='color:#990000;'>%s</span></li></ul></div>" % (action_class, rec.name),
+            'model': "protocollo.protocollo",
+            'res_id': ids[0]
+        }
 
         thread_pool = self.pool.get('protocollo.protocollo')
         thread_pool.message_post(cr, uid, ids[0], type="notification", context=context, **post_vars)
