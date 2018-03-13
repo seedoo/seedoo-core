@@ -33,6 +33,7 @@ class wizard(osv.TransientModel):
         'type': fields.selection([('out', 'Uscita'), ('in', 'Ingresso'), ('internal', 'Interno')], 'Tipo', size=32, required=True, readonly=True),
         'cause': fields.text('Motivo della Modifica', required=True),
         'classification': fields.many2one('protocollo.classification', 'Titolario di Classificazione', required=False),
+        'last_write_date': fields.datetime('Ultimo salvataggio', required=True)
     }
 
     def _default_name(self, cr, uid, context):
@@ -51,11 +52,18 @@ class wizard(osv.TransientModel):
         protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
         return protocollo.classification.id
 
+    def _default_last_write_date(self, cr, uid, context):
+        if 'active_id' in context:
+            protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
+            return protocollo.write_date
+        return None
+
     _defaults = {
         'name': _default_name,
         'registration_date': _default_registration_date,
         'type': _default_type,
-        'classification': _default_classification
+        'classification': _default_classification,
+        'last_write_date': _default_last_write_date
     }
 
     def action_save(self, cr, uid, ids, context=None):
@@ -65,6 +73,13 @@ class wizard(osv.TransientModel):
         wizard = self.browse(cr, uid, ids[0], context)
         protocollo_obj = self.pool.get('protocollo.protocollo')
         protocollo = protocollo_obj.browse(cr, uid, context['active_id'], context=context)
+
+        if wizard.last_write_date != protocollo.write_date:
+            raise osv.except_osv(
+                _('Attenzione!'),
+                _('Il protocollo corrente e\' stato modificato di recente da un altro utente.\nAggiornare la pagina prima di modificare il protocollo.')
+            )
+
         before['Titolario'] = ""
         after['Titolario'] = ""
         vals['classification'] = wizard.classification.id

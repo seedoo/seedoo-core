@@ -27,6 +27,14 @@ class wizard(osv.TransientModel):
         after += label + ': ' + value + '\n'
         return after
 
+    def _get_write_date(self, cr, uid, context):
+        protocollo = self.pool.get('protocollo.protocollo').browse(
+            cr,
+            uid,
+            context['active_id']
+            )
+        return protocollo.write_date
+
     _columns = {
         'name': fields.char('Numero Protocollo', size=256, required=True, readonly=True),
         'registration_date': fields.datetime('Data Registrazione', readonly=True),
@@ -57,6 +65,7 @@ class wizard(osv.TransientModel):
             'Fascicoli'),
         'notes': fields.text('Note'),
         'cause': fields.text('Motivo della Modifica', required=True),
+        'last_write_date': fields.datetime('Ultimo salvataggio', required=True)
     }
 
     def _default_name(self, cr, uid, context):
@@ -102,6 +111,10 @@ class wizard(osv.TransientModel):
         protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
         return protocollo.notes
 
+    def _default_last_write_date(self, cr, uid, context):
+        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
+        return protocollo.write_date
+
     _defaults = {
         'name': _default_name,
         'registration_date': _default_registration_date,
@@ -113,6 +126,7 @@ class wizard(osv.TransientModel):
         'sender_protocol': _default_sender_protocol,
         'dossier_ids': _default_dossier_ids,
         'notes': _default_notes,
+        'last_write_date': _default_last_write_date
     }
 
     def action_save(self, cr, uid, ids, context=None):
@@ -122,6 +136,13 @@ class wizard(osv.TransientModel):
         wizard = self.browse(cr, uid, ids[0], context)
         protocollo_obj = self.pool.get('protocollo.protocollo')
         protocollo = protocollo_obj.browse(cr, uid, context['active_id'], context=context)
+
+        if wizard.last_write_date != protocollo.write_date:
+            raise osv.except_osv(
+                _('Attenzione!'),
+                _('Il protocollo corrente e\' stato modificato di recente da un altro utente.\nAggiornare la pagina prima di modificare il protocollo.')
+            )
+
         vals['typology'] = wizard.typology.id
         if wizard.typology.id != protocollo.typology.id:
             if protocollo.typology.pec:
@@ -144,7 +165,7 @@ class wizard(osv.TransientModel):
         before['Oggetto'] = protocollo.subject
         after['Oggetto'] = wizard.subject
 
-        if protocollo.receiving_date != wizard.receiving_date :
+        if protocollo.receiving_date != wizard.receiving_date:
             vals['receiving_date'] = wizard.receiving_date
             before['Data ricezione'] = protocollo.receiving_date
             after['Data ricezione'] = wizard.receiving_date
