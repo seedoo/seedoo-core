@@ -140,7 +140,7 @@ class wizard(osv.TransientModel):
         if wizard.last_write_date != protocollo.write_date:
             raise osv.except_osv(
                 _('Attenzione!'),
-                _('Il protocollo corrente e\' stato modificato di recente')
+                _('Il protocollo corrente e\' stato modificato di recente da un altro utente.\nAggiornare la pagina prima di modificare il protocollo.')
             )
 
         vals['typology'] = wizard.typology.id
