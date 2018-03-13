@@ -424,8 +424,8 @@ this module contains the full copyright notices and license terms. -->
                                 class="oe_highlight btn_seedoo btn_invia_protocollo"  />
 
                         <field name="state" widget="statusbar"
-                               statusbar_visible="draft,registered"
-                               statusbar_colors='{"draft":"blue","notified":"red"}'/>
+                               statusbar_colors='{"draft":"blue","notified":"green","registered":"notified", "sent":"green","error":"red","canceled":"red"}'/>
+                               <!--statusbar_visible="draft,registered"-->
                     </header>
 
                     <sheet>
@@ -453,9 +453,9 @@ this module contains the full copyright notices and license terms. -->
                             <field name="sharedmail" colspan="2" invisible="1"/>
                             <field name="creation_date" class="seedoocustom_protocollo_creation_date" invisible="1"/>
                         </div>
-                        <div id="stato-protocollo">
-                            <field name="state" invisible="1"/>
-                        </div>
+                        <!--<div id="stato-protocollo">-->
+                            <!--<field name="state" invisible="1"/>-->
+                        <!--</div>-->
                         <div id="protocollo-accordion">
                             <div class="dati-protocollo-container" id="protocollo-container">
                                 <div class="protocollo-accordion-toggle">
@@ -508,17 +508,27 @@ this module contains the full copyright notices and license terms. -->
                                 </div>
                             </div>
 
-                            <div class="dati-protocollo-container" id="anteprima-container" attrs="{'invisible':[('mimetype','!=','application/pdf')]}">
+                            <div class="dati-protocollo-container" id="anteprima-container"
+                                 attrs="{'invisible':[('mimetype','!=','application/pdf'),('mimetype','not in',['image/png','image/jpeg','image/gif'])]}">
                                 <div class="protocollo-accordion-toggle button-form-protocollo">
                                     <h4 class="accordion-toggle">Anteprima</h4>
                                 </div>
                                 <div class="accordion-content">
-                                    <group>
+                                    <group attrs="{'invisible':[('mimetype','!=','application/pdf')]}">
                                         <field name="preview" noupload="True"
                                            nolabel="1"
                                            options="{'uploadbutton':false}"
                                            attrs="{'readonly':True}"
-                                           widget="pdfviewer"/>
+                                           widget="pdfviewer"
+                                        />
+                                    </group>
+                                    <group attrs="{'invisible':[('mimetype','not in',['image/png','image/jpeg','image/gif'])]}">
+                                        <field name="preview" noupload="True"
+                                           nolabel="1"
+                                           attrs="{'readonly':True}"
+                                           widget="image"
+                                           class="oe_avatar oe_avatar_protocollo"
+                                        />
                                     </group>
                                 </div>
                             </div>
