@@ -394,6 +394,11 @@ this module contains the full copyright notices and license terms. -->
                         <button name="%(protocollo_fascicola_action)d" type="action" string="Fascicola"
                                 attrs="{'invisible':[('fascicola_visibility','=',False)]}"
                                 class="oe_highlight_positive btn_seedoo btn_fascicola"/>
+
+                        <button name="%(protocollo_aggiungi_assegnatari_action)d" string="Assegna" type="action"
+                                attrs="{'invisible':[('assegna_visibility','=',False)]}"
+                                class="oe_highlight_positive btn_seedoo btn_assegna"/>
+
                         <button name="sent_mail_pec" string="Invia PEC Protocollo"
                                 attrs="{'invisible':[('invio_pec_visibility','=',False)]}"
                                 class="oe_highlight btn_seedoo btn_invia_pec"/>
@@ -433,6 +438,7 @@ this module contains the full copyright notices and license terms. -->
                             <field name="classifica_visibility"/>
                             <field name="fascicola_visibility"/>
                             <field name="assegna_visibility"/>
+                            <field name="aggiungi_assegnatari_visibility"/>
                             <field name="invio_pec_visibility"/>
                             <field name="invio_sharedmail_visibility"/>
                             <field name="invio_protocollo_visibility"/>
@@ -650,12 +656,12 @@ this module contains the full copyright notices and license terms. -->
                                 <button name="%(protocollo_aggiungi_assegnatari_action)d"
                                         string="Aggiungi Assegnatari"
                                         type="action"
-                                        attrs="{'invisible':['|',('assegna_visibility','=',False),('assegnazione_first_level_ids','!=',[])]}"
+                                        attrs="{'invisible':['|',('aggiungi_assegnatari_visibility','=',False),('assegnazione_first_level_ids','!=',[])]}"
                                         class="oe_highlight_positive btn_seedoo"/>
                                 <button name="%(protocollo_aggiungi_assegnatari_action)d"
                                         string="Modifica Assegnatari"
                                         type="action"
-                                        attrs="{'invisible':['|',('assegna_visibility','=',False),('assegnazione_first_level_ids','=',[])]}"
+                                        attrs="{'invisible':['|',('aggiungi_assegnatari_visibility','=',False),('assegnazione_first_level_ids','=',[])]}"
                                         class="oe_highlight_positive btn_seedoo"/>
 
                                 <group col="4">

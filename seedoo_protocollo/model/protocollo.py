@@ -524,7 +524,7 @@ class protocollo_protocollo(orm.Model):
                                        domain=[('parent_id', '=', False),('tipologia_assegnazione', '=', 'competenza')],
                                        readonly=True),
         'assegnazione_conoscenza_ids': fields.one2many('protocollo.assegnazione', 'protocollo_id', 'Assegnatari',
-                                       domain=[('parent_id', '=', False), ('tipologia_assegnazione', '=', 'competenza')],
+                                       domain=[('parent_id', '=', False), ('tipologia_assegnazione', '=', 'conoscenza')],
                                        readonly=True),
 
         'notes': fields.text('Note'),
