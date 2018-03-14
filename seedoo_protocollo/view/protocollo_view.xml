@@ -442,6 +442,7 @@ this module contains the full copyright notices and license terms. -->
                             <field name="classifica_visibility"/>
                             <field name="fascicola_visibility"/>
                             <field name="aggiungi_assegnatari_visibility"/>
+                            <field name="aggiungi_assegnatari_cc_visibility"/>
                             <field name="assegna_visibility"/>
                             <field name="riassegna_visibility"/>
                             <field name="invio_pec_visibility"/>
@@ -667,6 +668,11 @@ this module contains the full copyright notices and license terms. -->
                                         string="Modifica Assegnatari"
                                         type="action"
                                         attrs="{'invisible':['|',('aggiungi_assegnatari_visibility','=',False),('assegnazione_first_level_ids','=',[])]}"
+                                        class="oe_highlight_positive btn_seedoo"/>
+                                <button name="%(protocollo_aggiungi_assegnatari_cc_action)d"
+                                        string="Aggiungi Assegnatari Conoscenza"
+                                        type="action"
+                                        attrs="{'invisible':[('aggiungi_assegnatari_cc_visibility','=',False)]}"
                                         class="oe_highlight_positive btn_seedoo"/>
 
                                 <group col="4">

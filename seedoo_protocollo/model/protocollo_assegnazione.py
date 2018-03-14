@@ -170,7 +170,7 @@ class protocollo_assegnazione(orm.Model):
                 self._crea_assegnazioni(cr, uid, protocollo_id, [assegnatario_id], assegnatore_id, 'competenza')
 
 
-    def salva_assegnazione_conoscenza(self, cr, uid, protocollo_id, assegnatario_ids, assegnatore_id):
+    def salva_assegnazione_conoscenza(self, cr, uid, protocollo_id, assegnatario_ids, assegnatore_id, delete=True):
         if protocollo_id and assegnatore_id:
 
             assegnazione_ids = self.search(cr, uid, [
@@ -193,7 +193,7 @@ class protocollo_assegnazione(orm.Model):
             else:
                 assegnatario_to_create_ids = assegnatario_ids
 
-            if assegnatario_to_unlink_ids:
+            if assegnatario_to_unlink_ids and delete:
                 # eliminazione delle vecchie assegnazioni (eventuali figli vengono eliminati a cascata)
                 assegnazione_to_unlink_ids = self.search(cr, uid, [
                     ('protocollo_id', '=', protocollo_id),

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="protocollo_aggiungi_assegnatari_conoscenza_view" model="ir.ui.view">
+            <field name="name">Aggiungi Assegnatari Conoscenza</field>
+            <field name="model">protocollo.aggiungi.assegnatari.conoscenza.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Aggiungi Assegnatari Conoscenza">
+                    <sheet>
+                        <group>
+                            <field name="assegnatario_conoscenza_ids"
+                                   options="{'no_quick_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button string="Ok" name="action_save" type="object" class="oe_highlight"/>
+                        o
+                        <button string="Abbandona" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="protocollo_aggiungi_assegnatari_cc_action"
+                    name="Aggiungi Assegnatari Conoscenza"
+                    res_model="protocollo.aggiungi.assegnatari.conoscenza.wizard"
+                    view_type="form"
+                    view_mode="form"
+                    target="new"
+        />
+
+    </data>
+</openerp>
