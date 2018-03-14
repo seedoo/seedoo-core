@@ -399,6 +399,10 @@ this module contains the full copyright notices and license terms. -->
                                 attrs="{'invisible':[('assegna_visibility','=',False)]}"
                                 class="oe_highlight_positive btn_seedoo btn_assegna"/>
 
+                        <button name="%(protocollo_riassegna_action)d" string="Riassegna" type="action"
+                                attrs="{'invisible':[('riassegna_visibility','=',False)]}"
+                                class="oe_highlight_positive btn_seedoo btn_assegna"/>
+
                         <button name="sent_mail_pec" string="Invia PEC Protocollo"
                                 attrs="{'invisible':[('invio_pec_visibility','=',False)]}"
                                 class="oe_highlight btn_seedoo btn_invia_pec"/>
@@ -437,8 +441,9 @@ this module contains the full copyright notices and license terms. -->
                             <field name="modifica_dati_generali_visibility"/>
                             <field name="classifica_visibility"/>
                             <field name="fascicola_visibility"/>
-                            <field name="assegna_visibility"/>
                             <field name="aggiungi_assegnatari_visibility"/>
+                            <field name="assegna_visibility"/>
+                            <field name="riassegna_visibility"/>
                             <field name="invio_pec_visibility"/>
                             <field name="invio_sharedmail_visibility"/>
                             <field name="invio_protocollo_visibility"/>
