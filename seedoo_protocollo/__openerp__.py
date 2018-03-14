@@ -46,7 +46,6 @@
         "wizard/classifica_protocollo_wizard_view.xml",
         "wizard/fascicola_protocollo_wizard_view.xml",
         "wizard/aggiungi_assegnatari_protocollo_wizard_view.xml",
-        #"wizard/assegna_protocollo_wizard_view.xml",
         "wizard/create_protocollo_mailpec_wizard_view.xml",
         "wizard/modify_protocollo_email_wizard_view.xml",
         "wizard/modify_protocollo_pec_wizard_view.xml",
