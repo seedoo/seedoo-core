@@ -434,6 +434,7 @@ this module contains the full copyright notices and license terms. -->
 
                     <sheet>
                         <div invisible="1">
+                            <field name="id"/>
                             <field name="registra_visibility"/>
                             <field name="annulla_visibility"/>
                             <field name="prendi_in_carico_visibility"/>
@@ -441,7 +442,7 @@ this module contains the full copyright notices and license terms. -->
                             <field name="modifica_dati_generali_visibility"/>
                             <field name="classifica_visibility"/>
                             <field name="fascicola_visibility"/>
-                            <field name="aggiungi_assegnatari_visibility"/>
+                            <field name="modifica_assegnatari_visibility"/>
                             <field name="aggiungi_assegnatari_cc_visibility"/>
                             <field name="assegna_visibility"/>
                             <field name="riassegna_visibility"/>
@@ -662,12 +663,12 @@ this module contains the full copyright notices and license terms. -->
                                 <button name="%(protocollo_aggiungi_assegnatari_action)d"
                                         string="Aggiungi Assegnatari"
                                         type="action"
-                                        attrs="{'invisible':['|',('aggiungi_assegnatari_visibility','=',False),('assegnazione_first_level_ids','!=',[])]}"
+                                        attrs="{'invisible':['|',('assegnazione_first_level_ids','!=',[]),'&amp;',('id','!=',False),('modifica_assegnatari_visibility','=',False)]}"
                                         class="oe_highlight_positive btn_seedoo"/>
                                 <button name="%(protocollo_aggiungi_assegnatari_action)d"
                                         string="Modifica Assegnatari"
                                         type="action"
-                                        attrs="{'invisible':['|',('aggiungi_assegnatari_visibility','=',False),('assegnazione_first_level_ids','=',[])]}"
+                                        attrs="{'invisible':['|',('assegnazione_first_level_ids','=',[]),('modifica_assegnatari_visibility','=',False)]}"
                                         class="oe_highlight_positive btn_seedoo"/>
                                 <button name="%(protocollo_aggiungi_assegnatari_cc_action)d"
                                         string="Aggiungi Assegnatari Conoscenza"

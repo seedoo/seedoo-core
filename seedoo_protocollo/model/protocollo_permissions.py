@@ -767,26 +767,22 @@ class protocollo_protocollo(osv.Model):
         return dict(res)
 
 
-    def _aggiungi_assegnatari_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
+    def _modifica_assegnatari_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
 
         protocolli = self._get_protocolli(cr, uid, ids)
         for protocollo in protocolli:
             check = False
 
-            if protocollo.state == 'draft':
+            if protocollo.type == 'in':
+                check = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_modifica_assegnatari_protocollo_ingresso')
+            elif protocollo.type == 'out':
+                check = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_modifica_assegnatari_protocollo_uscita')
+
+            if not check and \
+                protocollo.state=='draft' and \
+                (uid==protocollo.user_id.id or uid==SUPERUSER_ID):
                 check = True
-
-            if check:
-                check_gruppi = False
-                if protocollo.type == 'in':
-                    check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_aggiungi_assegnatari_protocollo_ingresso')
-                elif protocollo.type == 'out':
-                    check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_aggiungi_assegnatari_protocollo_uscita')
-                check = check and check_gruppi
-
-            if uid==protocollo.user_id.id or uid==SUPERUSER_ID:
-                check = check and True
 
             res.append((protocollo.id, check))
 
@@ -1069,7 +1065,7 @@ class protocollo_protocollo(osv.Model):
         'modifica_dati_generali_visibility': fields.function(_modifica_dati_generali_visibility, type='boolean', string='Modifica Dati Generali'),
         'classifica_visibility': fields.function(_classifica_visibility, type='boolean', string='Classifica'),
         'fascicola_visibility': fields.function(_fascicola_visibility, type='boolean', string='Fascicola'),
-        'aggiungi_assegnatari_visibility': fields.function(_aggiungi_assegnatari_visibility, type='boolean', string='Aggiungi Assegnatari'),
+        'modifica_assegnatari_visibility': fields.function(_modifica_assegnatari_visibility, type='boolean', string='Modifica Assegnatari'),
         'aggiungi_assegnatari_cc_visibility': fields.function(_aggiungi_assegnatari_cc_visibility, type='boolean', string='Aggiungi Assegnatari Conoscenza'),
         'assegna_visibility': fields.function(_assegna_visibility, type='boolean', string='Assegna'),
         'riassegna_visibility': fields.function(_riassegna_visibility, type='boolean', string='Riassegna'),
@@ -1085,14 +1081,10 @@ class protocollo_protocollo(osv.Model):
 
     }
 
-    def _default_aggiungi_assegnatari_visibility(self, cr, uid, context):
-        return self.user_has_groups(cr, uid, 'seedoo_protocollo.group_aggiungi_assegnatari_protocollo_ingresso,seedoo_protocollo.group_aggiungi_assegnatari_protocollo_uscita')
-
     def _default_protocollazione_riservata_visibility(self, cr, uid, context):
         return self.user_has_groups(cr, uid, 'seedoo_protocollo.group_protocollazione_riservata')
 
     _defaults = {
-        'aggiungi_assegnatari_visibility': _default_aggiungi_assegnatari_visibility,
         'protocollazione_riservata_visibility': _default_protocollazione_riservata_visibility,
     }
 

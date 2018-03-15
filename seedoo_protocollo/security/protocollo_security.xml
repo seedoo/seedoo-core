@@ -95,8 +95,8 @@ this module contains the full copyright notices and license terms. -->
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
         <!-- Button "Aggiungi Assegnatari"/"Modifica Assegnatari" nella vista form protocollo in ingresso -->
-        <record id="group_aggiungi_assegnatari_protocollo_ingresso" model="res.groups">
-            <field name="name">Aggiungi/Modifica Assegnatari Protocollo in Ingresso</field>
+        <record id="group_modifica_assegnatari_protocollo_ingresso" model="res.groups">
+            <field name="name">Modifica Assegnatari Protocollo in Ingresso</field>
             <field name="category_id" ref="module_category_protocollo"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
@@ -162,8 +162,8 @@ this module contains the full copyright notices and license terms. -->
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
         <!-- Button "Aggiungi Assegnatari"/"Modifica Assegnatari" nella vista form protocollo in uscita -->
-        <record id="group_aggiungi_assegnatari_protocollo_uscita" model="res.groups">
-            <field name="name">Aggiungi/Modifica Assegnatari Protocollo in Uscita</field>
+        <record id="group_modifica_assegnatari_protocollo_uscita" model="res.groups">
+            <field name="name">Modifica Assegnatari Protocollo in Uscita</field>
             <field name="category_id" ref="module_category_protocollo"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
@@ -347,7 +347,6 @@ this module contains the full copyright notices and license terms. -->
                 (4, ref('group_modifica_protocollo_ingresso')),
                 (4, ref('group_classifica_protocollo_ingresso')),
                 (4, ref('group_fascicola_protocollo_ingresso')),
-                (4, ref('group_aggiungi_assegnatari_protocollo_ingresso')),
                 (4, ref('group_aggiungi_assegnatari_cc_protocollo_ingresso')),
                 (4, ref('group_assegna_protocollo_ingresso')),
                 (4, ref('group_riassegna_protocollo_ingresso')),
@@ -355,7 +354,6 @@ this module contains the full copyright notices and license terms. -->
                 (4, ref('group_modifica_protocollo_uscita')),
                 (4, ref('group_classifica_protocollo_uscita')),
                 (4, ref('group_fascicola_protocollo_uscita')),
-                (4, ref('group_aggiungi_assegnatari_protocollo_uscita')),
                 (4, ref('group_aggiungi_assegnatari_cc_protocollo_uscita')),
                 (4, ref('group_assegna_protocollo_uscita')),
                 (4, ref('group_riassegna_protocollo_uscita')),
