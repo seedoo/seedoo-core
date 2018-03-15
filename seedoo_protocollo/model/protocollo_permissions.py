@@ -408,7 +408,7 @@ class protocollo_protocollo(osv.Model):
         if 'params' not in context:
             return []
 
-        if context['params']['action'] in [255, 254, 253, 252]:
+        if 'action' in context['params'] and context['params']['action'] in [255, 254, 253, 252]:
             return []
 
         protocollo_visible_ids = []
