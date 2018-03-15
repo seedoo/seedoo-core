@@ -7,7 +7,7 @@ this module contains the full copyright notices and license terms. -->
 
         <menuitem id="dematerializzazione_importazioni_menu" name="Importazione massiva"
                   parent="seedoo_protocollo.menu_root_protocollo"
-                  sequence="30"/>
+                  sequence="40"/>
 
         <menuitem id="dematerializzazione_importa_documenti_wizard_menu" name="Importa"
                   action="dematerializzazione_importa_documenti_wizard_action"
