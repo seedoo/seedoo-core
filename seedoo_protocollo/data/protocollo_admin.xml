@@ -4,9 +4,7 @@ this module contains the full copyright notices and license terms. -->
 
 <openerp>
     <data noupdate="0">
-        <record id="base.user_root" model="res.users">
-            <field name="groups_id" eval="[(4, ref('seedoo_protocollo.group_protocollo_manager'))]"/>
-        </record>
+
     </data>
 </openerp>
 

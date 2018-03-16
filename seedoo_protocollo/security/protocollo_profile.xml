@@ -1,0 +1,483 @@
+<?xml version="1.0" ?>
+<!-- This file is part of Seedoo.  The COPYRIGHT file at the top level of
+this module contains the full copyright notices and license terms. -->
+
+<openerp>
+    <data noupdate="0">
+
+        <record id="group_protocollo_consultatore_visibilita_totale" model="protocollo.profile">
+            <field name="name">Consultatore Visibilità Totale</field>
+            <field name="category_id" ref="seedoo_protocollo.module_protocollo_management"/>
+            <field name="groups_id" eval="[
+                (4, ref('seedoo_protocollo.group_protocollo_user')),
+                (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_ingresso_registrati')),
+                (4, ref('seedoo_protocollo.group_vedi_protocolli_ingresso_registrati')),
+                (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_uscita_registrati')),
+                (4, ref('seedoo_protocollo.group_vedi_protocolli_uscita_registrati')),
+                ]"/>
+            <field name="state">enabled</field>
+        </record>
+
+        <record id="group_protocollo_assegnatario" model="protocollo.profile">
+            <field name="name">Assegnatario</field>
+            <field name="category_id" ref="seedoo_protocollo.module_protocollo_management"/>
+            <field name="groups_id" eval="[
+                (4, ref('seedoo_protocollo.group_protocollo_user')),
+                (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_ingresso_registrati')),
+                (4, ref('seedoo_protocollo.group_aggiungi_assegnatari_cc_protocollo_ingresso')),
+                (4, ref('seedoo_protocollo.group_prendi_in_carico_protocollo_ingresso')),
+                (4, ref('seedoo_protocollo.group_rifiuta_protocollo_ingresso')),
+                (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_uscita_registrati')),
+                (4, ref('seedoo_protocollo.group_aggiungi_assegnatari_cc_protocollo_uscita')),
+                (4, ref('seedoo_protocollo.group_prendi_in_carico_protocollo_uscita')),
+                (4, ref('seedoo_protocollo.group_rifiuta_protocollo_uscita')),
+                ]"/>
+            <field name="state">enabled</field>
+        </record>
+
+        <record id="group_protocollo_assegnatario_responsabile_uo" model="protocollo.profile">
+            <field name="name">Assegnatario - Responabile UO</field>
+            <field name="category_id" ref="seedoo_protocollo.module_protocollo_management"/>
+            <field name="groups_id" eval="[
+                (4, ref('seedoo_protocollo.group_protocollo_user')),
+                (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_ingresso_registrati')),
+                (4, ref('seedoo_protocollo.group_aggiungi_assegnatari_cc_protocollo_ingresso')),
+                (4, ref('seedoo_protocollo.group_prendi_in_carico_protocollo_ingresso')),
+                (4, ref('seedoo_protocollo.group_rifiuta_protocollo_ingresso')),
+                (4, ref('seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ufficio')),
+                (4, ref('seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ass_ut_uff')),
+                (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_uscita_registrati')),
+                (4, ref('seedoo_protocollo.group_aggiungi_assegnatari_cc_protocollo_uscita')),
+                (4, ref('seedoo_protocollo.group_prendi_in_carico_protocollo_uscita')),
+                (4, ref('seedoo_protocollo.group_rifiuta_protocollo_uscita')),
+                (4, ref('seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ufficio')),
+                (4, ref('seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ass_ut_uff')),
+                ]"/>
+            <field name="state">enabled</field>
+        </record>
+
+        <record id="group_protocollo_assegnatario_responsabile_uor" model="protocollo.profile">
+            <field name="name">Assegnatario - Responabile UOR</field>
+            <field name="category_id" ref="seedoo_protocollo.module_protocollo_management"/>
+            <field name="groups_id" eval="[
+                    (4, ref('seedoo_protocollo.group_protocollo_user')),
+                    (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_ingresso_registrati')),
+                    (4, ref('seedoo_protocollo.group_aggiungi_assegnatari_cc_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_prendi_in_carico_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_rifiuta_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ufficio')),
+                    (4, ref('seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ufficio_figlio')),
+                    (4, ref('seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ass_uff_fig')),
+                    (4, ref('seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ass_ut_uff_fig')),
+                    (4, ref('seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ass_ut_uff')),
+                    (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_uscita_registrati')),
+                    (4, ref('seedoo_protocollo.group_aggiungi_assegnatari_cc_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_prendi_in_carico_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_rifiuta_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ufficio')),
+                    (4, ref('seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ufficio_figlio')),
+                    (4, ref('seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ass_uff_fig')),
+                    (4, ref('seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ass_ut_uff_fig')),
+                    (4, ref('seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ass_ut_uff')),
+                ]"/>
+            <field name="state">enabled</field>
+        </record>
+
+        <record id="group_protocollo_assegnatario_protocollatore_pe_out" model="protocollo.profile">
+            <field name="name">Assegnatario - Protocollatore PE-Out</field>
+            <field name="category_id" ref="seedoo_protocollo.module_protocollo_management"/>
+            <field name="groups_id" eval="[
+                    (4, ref('seedoo_protocollo.group_protocollo_user')),
+                    (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_ingresso_registrati')),
+                    (4, ref('seedoo_protocollo.group_aggiungi_assegnatari_cc_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_prendi_in_carico_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_rifiuta_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_uscita_registrati')),
+                    (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_uscita_bozze')),
+                    (4, ref('seedoo_protocollo.group_crea_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_registra_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_riassegna_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_aggiungi_assegnatari_cc_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_prendi_in_carico_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_rifiuta_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_modifica_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_invia_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_invia_protocollo_pec_uscita')),
+                    (4, ref('seedoo_protocollo.group_modifica_destinatari_pec_uscita')),
+                    (4, ref('seedoo_protocollo.group_invia_protocollo_sharedmail_uscita')),
+                    (4, ref('seedoo_protocollo.group_modifica_destinatari_email_uscita')),
+                ]"/>
+            <field name="state">enabled</field>
+        </record>
+
+        <record id="group_protocollo_assegnatario_protocollatore_pe_out_resp_uo" model="protocollo.profile">
+            <field name="name">Assegnatario - Protocollatore PE-Out - Responsabile UO</field>
+            <field name="category_id" ref="seedoo_protocollo.module_protocollo_management"/>
+            <field name="groups_id" eval="[
+                    (4, ref('seedoo_protocollo.group_protocollo_user')),
+                    (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_ingresso_registrati')),
+                    (4, ref('seedoo_protocollo.group_aggiungi_assegnatari_cc_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_prendi_in_carico_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_rifiuta_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ufficio')),
+                    (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_uscita_registrati')),
+                    (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_uscita_bozze')),
+                    (4, ref('seedoo_protocollo.group_crea_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_registra_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_riassegna_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_aggiungi_assegnatari_cc_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_prendi_in_carico_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_rifiuta_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_modifica_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ufficio')),
+                    (4, ref('seedoo_protocollo.group_invia_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_invia_protocollo_pec_uscita')),
+                    (4, ref('seedoo_protocollo.group_modifica_destinatari_pec_uscita')),
+                    (4, ref('seedoo_protocollo.group_invia_protocollo_sharedmail_uscita')),
+                    (4, ref('seedoo_protocollo.group_modifica_destinatari_email_uscita')),
+                ]"/>
+            <field name="state">enabled</field>
+        </record>
+
+        <record id="group_protocollo_assegnatario_protocollatore_pe_out_resp_uor" model="protocollo.profile">
+            <field name="name">Assegnatario - Protocollatore PE-Out - Responsabile UOR</field>
+            <field name="category_id" ref="seedoo_protocollo.module_protocollo_management"/>
+            <field name="groups_id" eval="[
+                    (4, ref('seedoo_protocollo.group_protocollo_user')),
+                    (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_ingresso_registrati')),
+                    (4, ref('seedoo_protocollo.group_aggiungi_assegnatari_cc_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_prendi_in_carico_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_rifiuta_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ufficio')),
+                    (4, ref('seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ufficio_figlio')),
+                    (4, ref('seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ass_uff_fig')),
+                    (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_uscita_registrati')),
+                    (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_uscita_bozze')),
+                    (4, ref('seedoo_protocollo.group_crea_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_registra_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_riassegna_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_aggiungi_assegnatari_cc_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_prendi_in_carico_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_rifiuta_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_modifica_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ufficio')),
+                    (4, ref('seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ufficio_figlio')),
+                    (4, ref('seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ass_uff_fig')),
+                    (4, ref('seedoo_protocollo.group_invia_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_invia_protocollo_pec_uscita')),
+                    (4, ref('seedoo_protocollo.group_modifica_destinatari_pec_uscita')),
+                    (4, ref('seedoo_protocollo.group_invia_protocollo_sharedmail_uscita')),
+                    (4, ref('seedoo_protocollo.group_modifica_destinatari_email_uscita')),
+                ]"/>
+            <field name="state">enabled</field>
+        </record>
+
+        <record id="group_protocollo_assegnatario_protocollatore" model="protocollo.profile">
+            <field name="name">Assegnatario - Protocollatore</field>
+            <field name="category_id" ref="seedoo_protocollo.module_protocollo_management"/>
+            <field name="groups_id" eval="[
+                    (4, ref('seedoo_protocollo.group_protocollo_user')),
+                    (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_ingresso_registrati')),
+                    (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_ingresso_bozze')),
+                    (4, ref('seedoo_protocollo.group_crea_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_registra_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_riassegna_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_aggiungi_assegnatari_cc_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_prendi_in_carico_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_rifiuta_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_modifica_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_pec_protocollo')),
+                    (4, ref('seedoo_protocollo.group_sharedmail_protocollo')),
+                    (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_uscita_registrati')),
+                    (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_uscita_bozze')),
+                    (4, ref('seedoo_protocollo.group_crea_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_registra_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_riassegna_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_aggiungi_assegnatari_cc_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_prendi_in_carico_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_rifiuta_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_modifica_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_invia_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_invia_protocollo_pec_uscita')),
+                    (4, ref('seedoo_protocollo.group_modifica_destinatari_pec_uscita')),
+                    (4, ref('seedoo_protocollo.group_invia_protocollo_sharedmail_uscita')),
+                    (4, ref('seedoo_protocollo.group_modifica_destinatari_email_uscita')),
+                ]"/>
+            <field name="state">enabled</field>
+        </record>
+
+        <record id="group_protocollo_assegnatario_protocollatore_resp_uo" model="protocollo.profile">
+            <field name="name">Assegnatario - Protocollatore - Responsabile UO</field>
+            <field name="category_id" ref="seedoo_protocollo.module_protocollo_management"/>
+            <field name="groups_id" eval="[
+                    (4, ref('seedoo_protocollo.group_protocollo_user')),
+                    (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_ingresso_registrati')),
+                    (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_ingresso_bozze')),
+                    (4, ref('seedoo_protocollo.group_crea_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_registra_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_riassegna_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_aggiungi_assegnatari_cc_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_prendi_in_carico_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_rifiuta_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_modifica_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ufficio')),
+                    (4, ref('seedoo_protocollo.group_pec_protocollo')),
+                    (4, ref('seedoo_protocollo.group_sharedmail_protocollo')),
+                    (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_uscita_registrati')),
+                    (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_uscita_bozze')),
+                    (4, ref('seedoo_protocollo.group_crea_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_registra_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_riassegna_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_aggiungi_assegnatari_cc_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_prendi_in_carico_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_rifiuta_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_modifica_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ufficio')),
+                    (4, ref('seedoo_protocollo.group_invia_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_invia_protocollo_pec_uscita')),
+                    (4, ref('seedoo_protocollo.group_modifica_destinatari_pec_uscita')),
+                    (4, ref('seedoo_protocollo.group_invia_protocollo_sharedmail_uscita')),
+                    (4, ref('seedoo_protocollo.group_modifica_destinatari_email_uscita')),
+                ]"/>
+            <field name="state">enabled</field>
+        </record>
+
+        <record id="group_protocollo_assegnatario_protocollatore_resp_uor" model="protocollo.profile">
+            <field name="name">Assegnatario - Protocollatore - Responsabile UOR</field>
+            <field name="category_id" ref="seedoo_protocollo.module_protocollo_management"/>
+            <field name="groups_id" eval="[
+                    (4, ref('seedoo_protocollo.group_protocollo_user')),
+                    (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_ingresso_registrati')),
+                    (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_ingresso_bozze')),
+                    (4, ref('seedoo_protocollo.group_crea_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_registra_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_riassegna_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_aggiungi_assegnatari_cc_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_prendi_in_carico_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_rifiuta_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_modifica_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ufficio')),
+                    (4, ref('seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ufficio_figlio')),
+                    (4, ref('seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ass_uff_fig')),
+                    (4, ref('seedoo_protocollo.group_pec_protocollo')),
+                    (4, ref('seedoo_protocollo.group_sharedmail_protocollo')),
+                    (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_uscita_registrati')),
+                    (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_uscita_bozze')),
+                    (4, ref('seedoo_protocollo.group_crea_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_registra_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_riassegna_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_aggiungi_assegnatari_cc_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_prendi_in_carico_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_rifiuta_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_modifica_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ufficio')),
+                    (4, ref('seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ufficio_figlio')),
+                    (4, ref('seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ass_uff_fig')),
+                    (4, ref('seedoo_protocollo.group_invia_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_invia_protocollo_pec_uscita')),
+                    (4, ref('seedoo_protocollo.group_modifica_destinatari_pec_uscita')),
+                    (4, ref('seedoo_protocollo.group_invia_protocollo_sharedmail_uscita')),
+                    (4, ref('seedoo_protocollo.group_modifica_destinatari_email_uscita')),
+                ]"/>
+            <field name="state">enabled</field>
+        </record>
+
+        <record id="group_protocollo_assegnatario_protocollatore_plus" model="protocollo.profile">
+            <field name="name">Assegnatario - Protocollatore PLUS</field>
+            <field name="category_id" ref="seedoo_protocollo.module_protocollo_management"/>
+            <field name="groups_id" eval="[
+                    (4, ref('seedoo_protocollo.group_protocollo_user')),
+                    (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_ingresso_registrati')),
+                    (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_ingresso_bozze')),
+                    (4, ref('seedoo_protocollo.group_crea_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_registra_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_riassegna_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_aggiungi_assegnatari_cc_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_prendi_in_carico_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_rifiuta_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_modifica_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_pec_protocollo')),
+                    (4, ref('seedoo_protocollo.group_sharedmail_protocollo')),
+                    (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_uscita_registrati')),
+                    (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_uscita_bozze')),
+                    (4, ref('seedoo_protocollo.group_crea_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_registra_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_riassegna_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_aggiungi_assegnatari_cc_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_prendi_in_carico_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_rifiuta_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_modifica_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_invia_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_invia_protocollo_pec_uscita')),
+                    (4, ref('seedoo_protocollo.group_modifica_destinatari_pec_uscita')),
+                    (4, ref('seedoo_protocollo.group_invia_protocollo_sharedmail_uscita')),
+                    (4, ref('seedoo_protocollo.group_modifica_destinatari_email_uscita')),
+                ]"/>
+            <field name="state">enabled</field>
+        </record>
+
+        <record id="group_protocollo_assegnatario_protocollatore_plus_resp_uo" model="protocollo.profile">
+            <field name="name">Assegnatario - Protocollatore PLUS - Responsabile UO</field>
+            <field name="category_id" ref="seedoo_protocollo.module_protocollo_management"/>
+            <field name="groups_id" eval="[
+                    (4, ref('seedoo_protocollo.group_protocollo_user')),
+                    (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_ingresso_registrati')),
+                    (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_ingresso_bozze')),
+                    (4, ref('seedoo_protocollo.group_crea_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_registra_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_riassegna_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_aggiungi_assegnatari_cc_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_prendi_in_carico_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_rifiuta_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_modifica_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ufficio')),
+                    (4, ref('seedoo_protocollo.group_pec_protocollo')),
+                    (4, ref('seedoo_protocollo.group_sharedmail_protocollo')),
+                    (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_uscita_registrati')),
+                    (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_uscita_bozze')),
+                    (4, ref('seedoo_protocollo.group_crea_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_registra_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_riassegna_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_aggiungi_assegnatari_cc_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_prendi_in_carico_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_rifiuta_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_modifica_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ufficio')),
+                    (4, ref('seedoo_protocollo.group_invia_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_invia_protocollo_pec_uscita')),
+                    (4, ref('seedoo_protocollo.group_modifica_destinatari_pec_uscita')),
+                    (4, ref('seedoo_protocollo.group_invia_protocollo_sharedmail_uscita')),
+                    (4, ref('seedoo_protocollo.group_modifica_destinatari_email_uscita')),
+                ]"/>
+            <field name="state">enabled</field>
+        </record>
+
+        <record id="group_protocollo_assegnatario_protocollatore_plus_resp_uor" model="protocollo.profile">
+            <field name="name">Assegnatario - Protocollatore PLUS - Responsabile UOR</field>
+            <field name="category_id" ref="seedoo_protocollo.module_protocollo_management"/>
+            <field name="groups_id" eval="[
+                    (4, ref('seedoo_protocollo.group_protocollo_user')),
+                    (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_ingresso_registrati')),
+                    (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_ingresso_bozze')),
+                    (4, ref('seedoo_protocollo.group_crea_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_registra_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_riassegna_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_aggiungi_assegnatari_cc_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_prendi_in_carico_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_rifiuta_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_modifica_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ufficio')),
+                    (4, ref('seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ufficio_figlio')),
+                    (4, ref('seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ass_uff_fig')),
+                    (4, ref('seedoo_protocollo.group_pec_protocollo')),
+                    (4, ref('seedoo_protocollo.group_sharedmail_protocollo')),
+                    (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_uscita_registrati')),
+                    (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_uscita_bozze')),
+                    (4, ref('seedoo_protocollo.group_crea_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_registra_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_riassegna_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_aggiungi_assegnatari_cc_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_prendi_in_carico_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_rifiuta_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_modifica_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ufficio')),
+                    (4, ref('seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ufficio_figlio')),
+                    (4, ref('seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ass_uff_fig')),
+                    (4, ref('seedoo_protocollo.group_invia_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_invia_protocollo_pec_uscita')),
+                    (4, ref('seedoo_protocollo.group_modifica_destinatari_pec_uscita')),
+                    (4, ref('seedoo_protocollo.group_invia_protocollo_sharedmail_uscita')),
+                    (4, ref('seedoo_protocollo.group_modifica_destinatari_email_uscita')),
+                ]"/>
+            <field name="state">enabled</field>
+        </record>
+
+        <record id="group_protocollo_resp_ser_prot" model="protocollo.profile">
+            <field name="name">Responsabile Servizio Protocollo (RSP)</field>
+            <field name="category_id" ref="seedoo_protocollo.module_protocollo_management"/>
+            <field name="groups_id" eval="[
+                    (4, ref('seedoo_protocollo.group_protocollo_user')),
+                    (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_ingresso_registrati')),
+                    (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_ingresso_bozze')),
+                    (4, ref('seedoo_protocollo.group_crea_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_registra_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_modifica_assegnatari_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_riassegna_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_aggiungi_assegnatari_cc_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_prendi_in_carico_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_rifiuta_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_modifica_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_annulla_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_vedi_protocolli_ingresso_registrati')),
+                    (4, ref('seedoo_protocollo.group_pec_protocollo')),
+                    (4, ref('seedoo_protocollo.group_sharedmail_protocollo')),
+                    (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_uscita_registrati')),
+                    (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_uscita_bozze')),
+                    (4, ref('seedoo_protocollo.group_crea_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_registra_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_modifica_assegnatari_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_riassegna_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_aggiungi_assegnatari_cc_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_prendi_in_carico_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_rifiuta_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_modifica_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_annulla_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_vedi_protocolli_uscita_registrati')),
+                    (4, ref('seedoo_protocollo.group_invia_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_invia_protocollo_pec_uscita')),
+                    (4, ref('seedoo_protocollo.group_modifica_destinatari_pec_uscita')),
+                    (4, ref('seedoo_protocollo.group_invia_protocollo_sharedmail_uscita')),
+                    (4, ref('seedoo_protocollo.group_modifica_destinatari_email_uscita')),
+                ]"/>
+            <field name="state">enabled</field>
+        </record>
+
+        <record id="group_protocollo_sysadmin" model="protocollo.profile">
+            <field name="name">SysAdmin</field>
+            <field name="category_id" ref="seedoo_protocollo.module_protocollo_management"/>
+            <field name="groups_id" eval="[
+                    (4, ref('seedoo_protocollo.group_protocollo_user')),
+                    (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_ingresso_registrati')),
+                    (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_ingresso_bozze')),
+                    (4, ref('seedoo_protocollo.group_crea_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_registra_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_modifica_assegnatari_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_riassegna_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_aggiungi_assegnatari_cc_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_prendi_in_carico_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_rifiuta_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_modifica_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_annulla_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_vedi_protocolli_ingresso_registrati')),
+                    (4, ref('seedoo_protocollo.group_pec_protocollo')),
+                    (4, ref('seedoo_protocollo.group_sharedmail_protocollo')),
+                    (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_uscita_registrati')),
+                    (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_uscita_bozze')),
+                    (4, ref('seedoo_protocollo.group_crea_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_registra_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_modifica_assegnatari_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_riassegna_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_aggiungi_assegnatari_cc_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_prendi_in_carico_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_rifiuta_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_modifica_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_annulla_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_vedi_protocolli_uscita_registrati')),
+                    (4, ref('seedoo_protocollo.group_invia_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_invia_protocollo_pec_uscita')),
+                    (4, ref('seedoo_protocollo.group_modifica_destinatari_pec_uscita')),
+                    (4, ref('seedoo_protocollo.group_invia_protocollo_sharedmail_uscita')),
+                    (4, ref('seedoo_protocollo.group_modifica_destinatari_email_uscita')),
+                    (4, ref('seedoo_protocollo.group_vedi_configurazione_protocollo')),
+                    (4, ref('seedoo_protocollo.group_configurazione_aoo')),
+                    (4, ref('seedoo_protocollo.group_configurazione_uffici')),
+                    (4, ref('seedoo_protocollo.group_configurazione_dipendenti')),
+                    (4, ref('seedoo_protocollo.group_configurazione_registro')),
+                    (4, ref('seedoo_protocollo.group_configurazione_parametri')),
+                    (4, ref('seedoo_protocollo.group_configurazione_giornaliero')),
+                    (4, ref('seedoo_protocollo.group_configurazione_emergenza')),
+                ]"/>
+            <field name="state">enabled</field>
+        </record>
+    </data>
+</openerp>

@@ -85,6 +85,7 @@ class hr_employee(orm.Model):
                                                     'employee_id', 'registry_id', 'Dipendenti Abilitati'),
         'aoo': fields.related('department_id', 'aoo_name', type='char', string='AOO', readonly=1),
         'gruppo': fields.related('user_id', 'group', type='char', string='Gruppo', readonly=1),
+        'profile_id': fields.many2one('protocollo.profile', 'Profilo Seedoo Protocollo'),
 
     }
 
@@ -101,4 +102,20 @@ class hr_employee(orm.Model):
         #     self._save_aoo_id_in_partner_id(cr, uid, ids)
         if vals and vals.has_key('department_id') and vals['department_id']:
             self.pool.get('ir.rule').clear_cache(cr, uid)
+
+        if vals and vals.has_key('profile_id') and vals['profile_id']:
+
+            employee = self.browse(cr,uid, ids)
+
+            protocollo_profile = self.pool.get('protocollo.profile').browse(cr, uid, vals['profile_id'])
+
+            self.pool.get('res.users').write(cr,uid, [employee.user_id.id], {
+                    'groups_id': [(6, 0, protocollo_profile.groups_id.ids)]
+                })
+
+            self.pool.get('protocollo.profile').write(cr,uid, [protocollo_profile.id], {
+                'employees': [(4, employee.id)]
+            })
+
+
         return res

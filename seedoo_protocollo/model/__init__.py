@@ -20,5 +20,6 @@ from . import tile_tile
 from . import ir_rule
 from . import ir_sequence
 from . import protocollo_assegnazione
+from . import protocollo_profile
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

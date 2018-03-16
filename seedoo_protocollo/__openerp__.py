@@ -34,6 +34,7 @@
         "data/protocollo_annullamento_template.xml",
         "security/protocollo_security.xml",
         "security/protocollo_visibility_security.xml",
+        "security/protocollo_profile.xml",
         "security/security_rules.xml",
         "security/ir.model.access.csv",
         "data/protocollo_sequence.xml",
@@ -78,7 +79,8 @@
         "menu/menu.xml",
         "data/protocollo_tile.xml",
         "view/protocollo_dashboard_view.xml",
-        "view/tile.xml"
+        "view/tile.xml",
+        "view/protocollo_profile_view.xml"
     ],
     "demo": [
         "demo/hr_delete.xml",

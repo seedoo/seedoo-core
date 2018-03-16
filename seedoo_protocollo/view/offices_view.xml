@@ -102,6 +102,9 @@ this module contains the full copyright notices and license terms. -->
                 <xpath expr="//field[@name='user_id']" position="attributes">
                     <attribute name="options">{'no_quick_create':True,'no_create_edit':True}</attribute>
                 </xpath>
+                <xpath expr="//field[@name='user_id']" position="after">
+                    <field name="profile_id"/>
+                </xpath>
             </field>
         </record>
 
