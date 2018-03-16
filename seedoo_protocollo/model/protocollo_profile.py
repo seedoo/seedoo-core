@@ -32,7 +32,8 @@ class ProtocolloProfile(orm.Model):
         employees_list = [protocollo_profile.employees]
 
         for employee in employees_list:
-            self.pool.get('res.users').write(cr, uid, [employee.user_id.id], {
-                'groups_id': [(6, 0, protocollo_profile.groups_id.ids)]
-            })
+            if employee.user_id:
+                self.pool.get('res.users').write(cr, uid, [employee.user_id.id], {
+                    'groups_id': [(6, 0, protocollo_profile.groups_id.ids)]
+                })
         return True

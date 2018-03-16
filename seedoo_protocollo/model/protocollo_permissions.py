@@ -320,7 +320,7 @@ class protocollo_protocollo(osv.Model):
             # un utente deve poter vedere QUALUNQUE protocollo (IN e OUT) REGISTRATO da un utente della sua AOO
             check_gruppo = self.user_has_groups(cr, current_user_id, 'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati,seedoo_protocollo.group_vedi_protocolli_uscita_registrati')
             if check_gruppo:
-                protocollo_ids_aoo = self.search([
+                protocollo_ids_aoo = self.search(cr, uid, [
                     ('registration_employee_id', '!=', False),
                     ('aoo_id', '=', employee.department_id.aoo_id.id)
                 ])
