@@ -29,9 +29,12 @@ class ProtocolloProfile(orm.Model):
         super(ProtocolloProfile, self).write(cr, uid, ids, vals, context=context)
         protocollo_profile = self.browse(cr, uid, ids)
 
-        employees_list = [protocollo_profile.employees]
+        employees_list = protocollo_profile.employees.ids
 
-        for employee in employees_list:
+        for e_id in employees_list:
+
+            employee = self.pool.get('hr.employee').browse(cr,uid, [e_id])
+
             if employee.user_id:
                 self.pool.get('res.users').write(cr, uid, [employee.user_id.id], {
                     'groups_id': [(6, 0, protocollo_profile.groups_id.ids)]
