@@ -119,7 +119,7 @@ this module contains the full copyright notices and license terms. -->
                     (4, ref('seedoo_protocollo.group_aggiungi_assegnatari_cc_protocollo_uscita')),
                     (4, ref('seedoo_protocollo.group_prendi_in_carico_protocollo_uscita')),
                     (4, ref('seedoo_protocollo.group_rifiuta_protocollo_uscita')),
-                    (4, ref('seedoo_protocollo.group_modifica_protocollo_uscita')),
+                    (4, ref('seedoo_protocollo.group_modifica_protocollo_uscita')), 
                     (4, ref('seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ufficio')),
                     (4, ref('seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ufficio_figlio')),
                     (4, ref('seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ass_uff_fig')),
