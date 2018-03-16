@@ -22,6 +22,7 @@
         "security/ir.model.access.csv",
         "security/security.xml",
         "security/security_rules.xml",
+        "data/profile.xml",
         "view/importer.xml",
         "view/storico_importazione.xml",
         "view/storico_importazione_importer.xml",

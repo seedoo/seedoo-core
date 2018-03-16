@@ -34,7 +34,7 @@
         "data/protocollo_annullamento_template.xml",
         "security/protocollo_security.xml",
         "security/protocollo_visibility_security.xml",
-        "security/protocollo_profile.xml",
+        "data/protocollo_profile.xml",
         "security/security_rules.xml",
         "security/ir.model.access.csv",
         "data/protocollo_sequence.xml",

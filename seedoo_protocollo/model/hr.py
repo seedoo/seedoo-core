@@ -91,6 +91,21 @@ class hr_employee(orm.Model):
 
     def create(self, cr, uid, vals, context=None):
         employee_id = super(hr_employee, self).create(cr, uid, vals, context=context)
+
+        if vals and vals.has_key('profile_id') and vals['profile_id']:
+
+            employee = self.browse(cr,uid, employee_id)
+
+            protocollo_profile = self.pool.get('protocollo.profile').browse(cr, uid, vals['profile_id'])
+
+            self.pool.get('res.users').write(cr,uid, [employee.user_id.id], {
+                'groups_id': [(6, 0, protocollo_profile.groups_id.ids)]
+            })
+
+            self.pool.get('protocollo.profile').write(cr,uid, [protocollo_profile.id], {
+                'employees': [(4, employee.id)]
+            })
+
         # if vals.has_key('user_id') and vals['user_id']:
         #     self._save_aoo_id_in_partner_id(cr, uid, [employee_id])
         self.pool.get('ir.rule').clear_cache(cr, uid)

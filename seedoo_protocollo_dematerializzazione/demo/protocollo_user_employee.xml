@@ -1,0 +1,96 @@
+<?xml version="1.0" ?>
+<!-- This file is part of Seedoo.  The COPYRIGHT file at the top level of
+this module contains the full copyright notices and license terms. -->
+
+<openerp>
+    <data noupdate="0">
+        <record model="res.users" id="daniele_sanna">
+            <field name="name">Daniele Sanna</field>
+            <field name="login">daniele.sanna@example.com</field>
+            <field name="password">seedoo</field>
+            <field name="email">daniele.sanna@example.com</field>
+            <field name="groups_id" eval="[(6, 0,[ref('seedoo_gedoc.group_gedoc_user'),
+                                                  ref('base.group_pec_reader'),ref('base.group_sharedmail_reader')])]"/>
+            <field name="password">seedoo</field>
+            <field name="image" type="base64" file="seedoo_protocollo/static/img/daniele.jpg"/>
+            <field name="tz">Europe/Rome</field>
+        </record>
+
+        <record model="hr.employee" id="hr_daniele_sanna">
+            <field name="name">Daniele Sanna</field>
+            <field name="user_id" ref="daniele_sanna"/>
+            <field name="department_id" ref="protocollo_dept_uor1"/>
+            <field name="work_email">daniele.sanna@example.com</field>
+            <field name="image" type="base64" file="seedoo_protocollo/static/img/daniele.jpg"/>
+            <field name="profile_id" ref="group_protocollo_assegnatario_protocollatore_plus_resp_uor"/>
+        </record>
+
+        <record model="res.users" id="dino_manca">
+            <field name="name">Dino Manca</field>
+            <field name="login">dino.manca@example.com</field>
+            <field name="password">seedoo</field>
+            <field name="email">dino.manca@example.com</field>
+            <field name="groups_id" eval="[(6, 0,[ref('seedoo_gedoc.group_gedoc_user'),
+                                                  ref('base.group_pec_reader'),ref('base.group_sharedmail_reader')])]"/>
+            <field name="password">seedoo</field>
+            <field name="image" type="base64" file="seedoo_protocollo/static/img/dino.png"/>
+            <field name="tz">Europe/Rome</field>
+        </record>
+
+        <record model="hr.employee" id="hr_dino_manca">
+            <field name="name">Dino Manca</field>
+            <field name="user_id" ref="dino_manca"/>
+            <field name="department_id" ref="protocollo_dept_uor2"/>
+            <field name="work_email">dino.manca@example.com</field>
+            <field name="image" type="base64" file="seedoo_protocollo/static/img/dino.png"/>
+            <field name="profile_id" ref="group_protocollo_assegnatario_protocollatore_plus_resp_uo"/>
+        </record>
+
+        <record model="res.users" id="claudio_melis">
+            <field name="name">Claudio Melis</field>
+            <field name="login">claudio.melis@example.com</field>
+            <field name="password">seedoo</field>
+            <field name="email">claudio.mielis@example.com</field>
+            <field name="groups_id" eval="[(6, 0,[ref('seedoo_gedoc.group_gedoc_user'),
+                                                  ref('base.group_pec_reader'),ref('base.group_sharedmail_reader')])]"/>
+            <field name="password">seedoo</field>
+            <field name="image" type="base64" file="seedoo_protocollo/static/img/claudio.jpg"/>
+            <field name="tz">Europe/Rome</field>
+        </record>
+
+        <record model="hr.employee" id="hr_claudio_melis">
+            <field name="name">Claudio Melis</field>
+            <field name="user_id" ref="claudio_melis"/>
+            <field name="department_id" ref="protocollo_dept_uor3"/>
+            <field name="work_email">claudio.melis@example.com</field>
+            <field name="image" type="base64" file="seedoo_protocollo/static/img/claudio.jpg"/>
+            <field name="profile_id" ref="group_protocollo_assegnatario_protocollatore_plus"/>
+        </record>
+
+        <record id="protocollo_aoo_default" model="protocollo.aoo">
+            <field name="employee_ids" eval="[(6, 0,[
+                                        ref('hr_daniele_sanna'),
+                                        ref('hr_dino_manca'),
+                                        ref('hr_claudio_melis'),
+            ])]"/>
+        </record>
+
+        <record id="l10n_it_pec_messages.imap_pec_server" model="fetchmail.server" >
+            <field name="user_ids" eval="[(6, 0,[
+                                        ref('hr_daniele_sanna'),
+                                        ref('hr_dino_manca'),
+                                        ref('hr_claudio_melis'),
+                                        ])]">
+            </field>
+        </record>
+
+        <record id="sharedmail.imap_sharedmail_server" model="fetchmail.server" >
+            <field name="user_sharedmail_ids" eval="[(6, 0,[
+                                        ref('hr_daniele_sanna'),
+                                        ref('hr_dino_manca'),
+                                        ref('hr_claudio_melis'),
+                                        ])]">
+            </field>
+        </record>
+    </data>
+</openerp>
