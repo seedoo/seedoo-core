@@ -7,7 +7,7 @@ from openerp.osv import orm,  fields
 import logging
 
 _logger = logging.getLogger(__name__)
-
+# TODO verifica con Peruzzu
 class res_groups(orm.Model):
     _inherit = 'res.groups'
 
@@ -29,6 +29,7 @@ class res_users(orm.Model):
         if not ids:
             return result
         result = dict.fromkeys(ids, False)
+        # TODO verifica con Peruzzu se rimane utilizzare id e non nome
         cr.execute(
             "SELECT g.name from res_groups g WHERE g.id in (SELECT MAX(gr.id) from ir_module_category cat JOIN res_groups  gr ON cat.id = gr.category_id JOIN res_groups_users_rel rgu ON rgu.gid = gr.id where cat.name = 'Seedoo Protocollo' AND is_protocollo_profile=True AND rgu.uid IN %s)",(tuple(ids),))
         res = cr.fetchone()
@@ -65,53 +66,54 @@ class res_users(orm.Model):
                                    context['main_message_id'], cr)
         return msg_id
 
-    def write(self, cr, uid, ids, values, context=None):
-        protocollo_profile_selected = True
-        protocollo_custom_selected = False
-        values_copy = values.copy()
-        protocollo_permissions_reset = {}
-        group_obj = self.pool.get('res.groups')
-        permissions_category = self.pool['ir.model.data'].get_object(cr, uid, 'seedoo_protocollo', 'module_category_protocollo')
-        profile_category = self.pool['ir.model.data'].get_object(cr, uid, 'seedoo_protocollo', 'module_protocollo_management')
-        seedoo_protocollo_groups = group_obj.search(cr, uid, [('category_id', 'in', permissions_category.ids)])
-        for group_item in seedoo_protocollo_groups:
-            protocollo_permissions_reset['in_group_' + str(group_item)] = False
-
-        for key, val in values.iteritems():
-            if key.startswith('sel_groups_'):
-                group_ids = group_obj.browse(cr, uid, val)
-                if group_ids.category_id.id != profile_category.id:
-                    protocollo_profile_selected = False
-
-                if group_ids.name == 'Personalizzabile':
-                    protocollo_profile_selected = False
-                    protocollo_custom_selected = True
-
-                if protocollo_profile_selected:
-                    for key_ingroup, val_ingroup in values.iteritems():
-                        if key_ingroup.startswith('in_group_') and key_ingroup in protocollo_permissions_reset:
-                            del values_copy[key_ingroup]
-
-            else:
-                protocollo_profile_selected = False
-
-        if protocollo_profile_selected:
-            values_copy.update(protocollo_permissions_reset)
-            values = values_copy
-        elif protocollo_custom_selected:
-            # for key, val in values.iteritems():
-            #     if key in protocollo_permissions_reset:
-            #         del values_copy[key]
-            values = values_copy
-        else:
-            protocollo_profile_preselected = self._get_protocollo_group(cr, uid, ids, "", "", context=None)
-            if len(protocollo_profile_preselected) > 0:
-                protocollo_custom_preselected = True if "Personalizzabile" in protocollo_profile_preselected.values() else False
-                if protocollo_custom_preselected is False:
-                    values.update(protocollo_permissions_reset)
-
-        res = super(res_users, self).write(cr, uid, ids, values, context=context)
-
-        #self.pool.get('protocollo.protocollo').clear_cache()
-
-        return res
+    # TODO verifica con Peruzzu
+    # def write(self, cr, uid, ids, values, context=None):
+    #     protocollo_profile_selected = True
+    #     protocollo_custom_selected = False
+    #     values_copy = values.copy()
+    #     protocollo_permissions_reset = {}
+    #     group_obj = self.pool.get('res.groups')
+    #     permissions_category = self.pool['ir.model.data'].get_object(cr, uid, 'seedoo_protocollo', 'module_category_protocollo')
+    #     profile_category = self.pool['ir.model.data'].get_object(cr, uid, 'seedoo_protocollo', 'module_protocollo_management')
+    #     seedoo_protocollo_groups = group_obj.search(cr, uid, [('category_id', 'in', permissions_category.ids)])
+    #     for group_item in seedoo_protocollo_groups:
+    #         protocollo_permissions_reset['in_group_' + str(group_item)] = False
+    #
+    #     for key, val in values.iteritems():
+    #         if key.startswith('sel_groups_'):
+    #             group_ids = group_obj.browse(cr, uid, val)
+    #             if group_ids.category_id.id != profile_category.id:
+    #                 protocollo_profile_selected = False
+    #
+    #             if group_ids.name == 'Personalizzabile':
+    #                 protocollo_profile_selected = False
+    #                 protocollo_custom_selected = True
+    #
+    #             if protocollo_profile_selected:
+    #                 for key_ingroup, val_ingroup in values.iteritems():
+    #                     if key_ingroup.startswith('in_group_') and key_ingroup in protocollo_permissions_reset:
+    #                         del values_copy[key_ingroup]
+    #
+    #         else:
+    #             protocollo_profile_selected = False
+    #
+    #     if protocollo_profile_selected:
+    #         values_copy.update(protocollo_permissions_reset)
+    #         values = values_copy
+    #     elif protocollo_custom_selected:
+    #         # for key, val in values.iteritems():
+    #         #     if key in protocollo_permissions_reset:
+    #         #         del values_copy[key]
+    #         values = values_copy
+    #     else:
+    #         protocollo_profile_preselected = self._get_protocollo_group(cr, uid, ids, "", "", context=None)
+    #         if len(protocollo_profile_preselected) > 0:
+    #             protocollo_custom_preselected = True if "Personalizzabile" in protocollo_profile_preselected.values() else False
+    #             if protocollo_custom_preselected is False:
+    #                 values.update(protocollo_permissions_reset)
+    #
+    #     res = super(res_users, self).write(cr, uid, ids, values, context=context)
+    #
+    #     #self.pool.get('protocollo.protocollo').clear_cache()
+    #
+    #     return res
