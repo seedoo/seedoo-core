@@ -77,18 +77,18 @@ this module contains the full copyright notices and license terms. -->
 
         <record id="l10n_it_pec_messages.imap_pec_server" model="fetchmail.server" >
             <field name="user_ids" eval="[(6, 0,[
-                                        ref('hr_daniele_sanna'),
-                                        ref('hr_dino_manca'),
-                                        ref('hr_claudio_melis'),
+                                        ref('daniele_sanna'),
+                                        ref('dino_manca'),
+                                        ref('claudio_melis'),
                                         ])]">
             </field>
         </record>
 
         <record id="sharedmail.imap_sharedmail_server" model="fetchmail.server" >
             <field name="user_sharedmail_ids" eval="[(6, 0,[
-                                        ref('hr_daniele_sanna'),
-                                        ref('hr_dino_manca'),
-                                        ref('hr_claudio_melis'),
+                                        ref('daniele_sanna'),
+                                        ref('dino_manca'),
+                                        ref('claudio_melis'),
                                         ])]">
             </field>
         </record>
