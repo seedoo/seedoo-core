@@ -19,7 +19,7 @@ this module contains the full copyright notices and license terms. -->
         <record model="hr.employee" id="hr_daniele_sanna">
             <field name="name">Daniele Sanna</field>
             <field name="user_id" ref="daniele_sanna"/>
-            <field name="department_id" ref="protocollo_dept_uor1"/>
+            <field name="department_id" ref="seedoo_protocollo.protocollo_dept_uor1"/>
             <field name="work_email">daniele.sanna@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/daniele.jpg"/>
             <field name="profile_id" ref="group_protocollo_assegnatario_protocollatore_plus_resp_uor"/>
@@ -40,7 +40,7 @@ this module contains the full copyright notices and license terms. -->
         <record model="hr.employee" id="hr_dino_manca">
             <field name="name">Dino Manca</field>
             <field name="user_id" ref="dino_manca"/>
-            <field name="department_id" ref="protocollo_dept_uor2"/>
+            <field name="department_id" ref="seedoo_protocollo.protocollo_dept_uor2"/>
             <field name="work_email">dino.manca@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/dino.png"/>
             <field name="profile_id" ref="group_protocollo_assegnatario_protocollatore_plus_resp_uo"/>
@@ -61,17 +61,17 @@ this module contains the full copyright notices and license terms. -->
         <record model="hr.employee" id="hr_claudio_melis">
             <field name="name">Claudio Melis</field>
             <field name="user_id" ref="claudio_melis"/>
-            <field name="department_id" ref="protocollo_dept_uor3"/>
+            <field name="department_id" ref="seedoo_protocollo.protocollo_dept_uor3"/>
             <field name="work_email">claudio.melis@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/claudio.jpg"/>
             <field name="profile_id" ref="group_protocollo_assegnatario_protocollatore_plus"/>
         </record>
 
-        <record id="protocollo_aoo_default" model="protocollo.aoo">
+        <record id="seedoo_protocollo.protocollo_aoo_default" model="protocollo.aoo">
             <field name="employee_ids" eval="[(6, 0,[
                                         ref('hr_daniele_sanna'),
                                         ref('hr_dino_manca'),
-                                        ref('hr_claudio_melis'),
+                                        ref('hr_claudio_melis')
             ])]"/>
         </record>
 

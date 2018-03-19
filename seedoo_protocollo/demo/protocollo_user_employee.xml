@@ -376,7 +376,7 @@ this module contains the full copyright notices and license terms. -->
 
         </record>
 
-        <record id="protocollo_aoo_default" model="protocollo.aoo">
+          <record id="protocollo_aoo_default" model="protocollo.aoo">
             <field name="employee_ids" eval="[(6, 0,[
                                         ref('hr_francesco_alba'),
                                         ref('hr_saul_lai'),
