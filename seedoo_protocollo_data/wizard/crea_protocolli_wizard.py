@@ -64,7 +64,13 @@ class crea_protocolli_wizard(osv.TransientModel):
             operatore_out_ids = user_obj.search(cr, SUPERUSER_ID, [('groups_id', '=', operatore_group_out.id)])
             operatore_out_ids.remove(SUPERUSER_ID)
 
-            assegnatario_ids = assegnatario_obj.search(cr, SUPERUSER_ID, [])
+            competenza_group_in = data_obj.get_object(cr, uid, 'seedoo_protocollo', 'group_crea_protocollo_ingresso')
+            competenza_in_ids = user_obj.search(cr, SUPERUSER_ID, [('groups_id', '=', competenza_group_in.id)])
+            competenza_in_ids.remove(SUPERUSER_ID)
+
+            competenza_group_out = data_obj.get_object(cr, uid, 'seedoo_protocollo', 'group_crea_protocollo_uscita')
+            competenza_out_ids = user_obj.search(cr, SUPERUSER_ID, [('groups_id', '=', competenza_group_out.id)])
+            competenza_out_ids.remove(SUPERUSER_ID)
 
 
             count = 0
@@ -111,6 +117,15 @@ class crea_protocolli_wizard(osv.TransientModel):
 
                 assegnatore_ids = employee_obj.search(cr, SUPERUSER_ID, [('user_id', '=', operatore_id)])
 
+                # vengono inseriti gli assegnatari per competenza
+                competenza_ids = competenza_in_ids if type == 'in' else competenza_out_ids
+                assegnatario_ids = assegnatario_obj.search(cr, SUPERUSER_ID, [
+                    '|',
+                    ('tipologia', '=', 'department'),
+                    '&',
+                    ('tipologia', '=', 'employee'),
+                    ('employee_id.user_id', 'in', competenza_ids)
+                ])
                 assegnatario_competenza_id = assegnatario_ids[random.randint(0, len(assegnatario_ids) - 1)]
                 self.pool.get('protocollo.assegnazione').salva_assegnazione_competenza(
                     cr,
@@ -121,30 +136,34 @@ class crea_protocolli_wizard(osv.TransientModel):
                 )
 
 
-                assegnatari_conoscenza = []
-                assegnatario_conoscenza_ids = assegnatario_obj.search(cr, SUPERUSER_ID, [
-                    '|',
-                    '&amp;',
+                # vengono inseriti gli assegnatari per conoscenza
+                assegnatari_conoscenza_ids = []
+                assegnatario_conoscenza_dep_ids = assegnatario_obj.search(cr, SUPERUSER_ID, [
                     ('id', '!=', assegnatario_competenza_id),
-                    '|',
-                    ('parent_id', '=', False),
-                    ('parent_id', '!=', assegnatario_competenza_id),
-                    '&amp;',
-                    ('parent_id', '=', assegnatario_competenza_id),
                     ('tipologia', '=', 'department')
                 ])
-                assegnatari_conoscenza_number = random.randint(0, len(assegnatario_conoscenza_ids))
+                if assegnatario_conoscenza_dep_ids:
+                    assegnatari_conoscenza_ids.append(assegnatario_conoscenza_dep_ids[
+                        random.randint(0, len(assegnatario_conoscenza_dep_ids) - 1)
+                    ])
+
+                assegnatario_conoscenza_emp_ids = assegnatario_obj.search(cr, SUPERUSER_ID, [
+                    ('id', 'not in', assegnatari_conoscenza_ids + [assegnatario_competenza_id]),
+                    ('parent_id', 'not in', assegnatari_conoscenza_ids + [assegnatario_competenza_id]),
+                    ('tipologia', '=', 'employee')
+                ])
+                assegnatari_conoscenza_number = random.randint(0, len(assegnatario_conoscenza_emp_ids))
                 for i in range(0, assegnatari_conoscenza_number):
-                    assegnatario_conoscenza_id = assegnatario_conoscenza_ids[
-                        random.randint(0, len(assegnatario_conoscenza_ids) - 1)
+                    assegnatario_conoscenza_id = assegnatario_conoscenza_emp_ids[
+                        random.randint(0, len(assegnatario_conoscenza_emp_ids) - 1)
                     ]
-                    assegnatario_conoscenza_ids.remove(assegnatario_conoscenza_id)
-                    assegnatari_conoscenza.append(assegnatario_conoscenza_id)
+                    assegnatario_conoscenza_emp_ids.remove(assegnatario_conoscenza_id)
+                    assegnatari_conoscenza_ids.append(assegnatario_conoscenza_id)
                 self.pool.get('protocollo.assegnazione').salva_assegnazione_conoscenza(
                     cr,
                     uid,
                     protocollo_id,
-                    assegnatari_conoscenza,
+                    assegnatari_conoscenza_ids,
                     assegnatore_ids[0]
                 )
 
