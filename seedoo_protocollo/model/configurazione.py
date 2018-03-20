@@ -107,8 +107,10 @@ class protocollo_configurazione(orm.Model):
                     conoscenza_ufficio_found = True
                 if assegnazione.tipologia_assegnazione=='conoscenza' and assegnazione.tipologia_assegnatario=='employee':
                     conoscenza_dipendente_found = True
-            if configurazione.assegnatari_competenza_uffici_required \
-                    and not configurazione.assegnatari_competenza_dipendenti_required and not competenza_ufficio_found:
+            if configurazione.assegnatari_competenza_uffici_required and \
+                    not configurazione.assegnatari_competenza_dipendenti_required and \
+                    not competenza_ufficio_found and \
+                    not protocollo.reserved:
                 campi_obbligatori = campi_obbligatori + '\n- Ufficio Assegnatario per Competenza'
             if configurazione.assegnatari_competenza_dipendenti_required \
                     and not configurazione.assegnatari_competenza_uffici_required and not competenza_dipendente_found:
@@ -117,9 +119,13 @@ class protocollo_configurazione(orm.Model):
                     and configurazione.assegnatari_competenza_uffici_required \
                     and not competenza_ufficio_found and not competenza_dipendente_found:
                 campi_obbligatori = campi_obbligatori + '\n- Assegnatario per Competenza'
-            if configurazione.assegnatari_conoscenza_uffici_required and not conoscenza_ufficio_found:
+            if configurazione.assegnatari_conoscenza_uffici_required and \
+                    not conoscenza_ufficio_found and \
+                    not protocollo.reserved:
                 campi_obbligatori = campi_obbligatori + '\n- Uffici Assegnatari per Conoscenza'
-            if configurazione.assegnatari_conoscenza_dipendenti_required and not conoscenza_dipendente_found:
+            if configurazione.assegnatari_conoscenza_dipendenti_required and \
+                    not conoscenza_dipendente_found and \
+                    not protocollo.reserved:
                 campi_obbligatori = campi_obbligatori + '\n- Dipendenti Assegnatari per Conoscenza'
 
             if configurazione.allegati_descrizione_required and not protocollo.doc_id:
