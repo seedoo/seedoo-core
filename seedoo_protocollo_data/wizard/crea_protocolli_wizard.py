@@ -91,6 +91,10 @@ class crea_protocolli_wizard(osv.TransientModel):
 
                 count = count + 1
 
+                if count%1000 == 0:
+                    _logger.info('COMMIT')
+                    cr.commit()
+
                 type = type_values[random.randint(0, len(type_values) - 1)]
 
                 vals = {
