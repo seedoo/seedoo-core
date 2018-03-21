@@ -45,6 +45,10 @@ class crea_protocolli_wizard(osv.TransientModel):
 
             wizard = self.browse(cr, uid, ids[0], context)
             protocollo_obj = self.pool.get('protocollo.protocollo')
+            data_obj = self.pool.get('ir.model.data')
+            user_obj = self.pool.get('res.users')
+            assegnatario_obj = self.pool.get('protocollo.assegnatario')
+            employee_obj = self.pool.get('hr.employee')
 
             boolean_values = [True, False]
 
@@ -52,22 +56,22 @@ class crea_protocolli_wizard(osv.TransientModel):
 
             typology_ids = self.pool.get('protocollo.typology').search(cr, uid, [])
 
-            operatore_group = self.pool.get('ir.model.data').get_object(cr, uid, 'seedoo_protocollo',
-                                                                        'group_protocollo_operatore')
-            operatore_ids = self.pool.get('res.users').search(cr, SUPERUSER_ID,
-                                                              [('groups_id', '=', operatore_group.id)])
-            operatore_ids.remove(SUPERUSER_ID)
+            operatore_group_in = data_obj.get_object(cr, uid, 'seedoo_protocollo', 'group_crea_protocollo_ingresso')
+            operatore_in_ids = user_obj.search(cr, SUPERUSER_ID, [('groups_id', '=', operatore_group_in.id)])
+            operatore_in_ids.remove(SUPERUSER_ID)
 
-            responsabile_uor_group = self.pool.get('ir.model.data').get_object(cr, uid, 'seedoo_protocollo',
-                                                                               'group_protocollo_responsabile_uor')
-            responsabile_uor_ids = self.pool.get('res.users').search(cr, SUPERUSER_ID,
-                                                                     [('groups_id', '=', responsabile_uor_group.id)])
-            responsabile_uor_ids.remove(SUPERUSER_ID)
+            operatore_group_out = data_obj.get_object(cr, uid, 'seedoo_protocollo', 'group_crea_protocollo_uscita')
+            operatore_out_ids = user_obj.search(cr, SUPERUSER_ID, [('groups_id', '=', operatore_group_out.id)])
+            operatore_out_ids.remove(SUPERUSER_ID)
 
-            assegnatari_competenza_ids = self.pool.get('hr.employee').search(cr, SUPERUSER_ID,
-                                                                             [('user_id', 'in', responsabile_uor_ids)])
+            competenza_group_in = data_obj.get_object(cr, uid, 'seedoo_protocollo', 'group_crea_protocollo_ingresso')
+            competenza_in_ids = user_obj.search(cr, SUPERUSER_ID, [('groups_id', '=', competenza_group_in.id)])
+            competenza_in_ids.remove(SUPERUSER_ID)
 
-            department_ids = self.pool.get('hr.department').search(cr, SUPERUSER_ID, [])
+            competenza_group_out = data_obj.get_object(cr, uid, 'seedoo_protocollo', 'group_crea_protocollo_uscita')
+            competenza_out_ids = user_obj.search(cr, SUPERUSER_ID, [('groups_id', '=', competenza_group_out.id)])
+            competenza_out_ids.remove(SUPERUSER_ID)
+
 
             count = 0
             total_count = wizard.count_bozza + wizard.count_registrati + wizard.count_presi_in_carico + wizard.count_rifiutati
@@ -87,6 +91,10 @@ class crea_protocolli_wizard(osv.TransientModel):
 
                 count = count + 1
 
+                if count%1000 == 0:
+                    _logger.info('COMMIT')
+                    cr.commit()
+
                 type = type_values[random.randint(0, len(type_values) - 1)]
 
                 vals = {
@@ -103,49 +111,66 @@ class crea_protocolli_wizard(osv.TransientModel):
                     })]
                 }
 
-                assegnatari_competenza_ufficio_id = None
-                assegnatari_competenza_dipendente_id = None
-                if boolean_values[random.randint(0, len(boolean_values) - 1)]:
-                    assegnatari_competenza_ufficio_id = department_ids[random.randint(0, len(department_ids) - 1)]
-                    vals['assegnatari_competenza_uffici_ids'] = [(0, 0, {
-                        'department_id': assegnatari_competenza_ufficio_id,
-                        'tipo': 'competenza',
-                    })]
+                if type == 'in':
+                    operatore_id = operatore_in_ids[random.randint(0, len(operatore_in_ids) - 1)]
                 else:
-                    assegnatari_competenza_dipendente_id = assegnatari_competenza_ids[
-                        random.randint(0, len(assegnatari_competenza_ids) - 1)]
-                    vals['assegnatari_competenza_dipendenti_ids'] = [(0, 0, {
-                        'dipendente_id': assegnatari_competenza_dipendente_id,
-                        'tipo': 'competenza',
-                    })]
+                    operatore_id = operatore_out_ids[random.randint(0, len(operatore_out_ids) - 1)]
 
-                uffici_ids = department_ids[:]
-                if assegnatari_competenza_ufficio_id:
-                    uffici_ids.remove(assegnatari_competenza_ufficio_id)
-                assegnatari_conoscenza_ufficio_id = uffici_ids[random.randint(0, len(uffici_ids) - 1)]
-                uffici_ids.remove(assegnatari_conoscenza_ufficio_id)
-                vals['assegnatari_conoscenza_uffici_ids'] = [(0, 0, {
-                    'department_id': assegnatari_conoscenza_ufficio_id,
-                    'tipo': 'conoscenza',
-                })]
-
-                domain_dipendenti = [('department_id', 'in', uffici_ids)]
-                if assegnatari_competenza_dipendente_id:
-                    domain_dipendenti.append(('id', '!=', assegnatari_competenza_dipendente_id))
-                dipendenti_ids = self.pool.get('hr.employee').search(cr, SUPERUSER_ID, domain_dipendenti)
-                vals['assegnatari_conoscenza_dipendenti_ids'] = []
-                assegnatari_conoscenza_dipendenti_number = random.randint(0, len(dipendenti_ids))
-                for i in range(0, assegnatari_conoscenza_dipendenti_number):
-                    assegnatari_conoscenza_dipendente_id = dipendenti_ids[random.randint(0, len(dipendenti_ids) - 1)]
-                    dipendenti_ids.remove(assegnatari_conoscenza_dipendente_id)
-                    vals['assegnatari_conoscenza_dipendenti_ids'].append((0, 0, {
-                        'dipendente_id': assegnatari_conoscenza_dipendente_id,
-                        'tipo': 'conoscenza',
-                    }))
-
-                operatore_id = operatore_ids[random.randint(0, len(operatore_ids) - 1)]
                 # il protocollo viene creato dall'operatore_id
                 protocollo_id = protocollo_obj.create(cr, operatore_id, vals)
+
+                assegnatore_ids = employee_obj.search(cr, SUPERUSER_ID, [('user_id', '=', operatore_id)])
+
+                # vengono inseriti gli assegnatari per competenza
+                competenza_ids = competenza_in_ids if type == 'in' else competenza_out_ids
+                assegnatario_ids = assegnatario_obj.search(cr, SUPERUSER_ID, [
+                    '|',
+                    ('tipologia', '=', 'department'),
+                    '&',
+                    ('tipologia', '=', 'employee'),
+                    ('employee_id.user_id', 'in', competenza_ids)
+                ])
+                assegnatario_competenza_id = assegnatario_ids[random.randint(0, len(assegnatario_ids) - 1)]
+                self.pool.get('protocollo.assegnazione').salva_assegnazione_competenza(
+                    cr,
+                    uid,
+                    protocollo_id,
+                    assegnatario_competenza_id,
+                    assegnatore_ids[0]
+                )
+
+
+                # vengono inseriti gli assegnatari per conoscenza
+                assegnatari_conoscenza_ids = []
+                assegnatario_conoscenza_dep_ids = assegnatario_obj.search(cr, SUPERUSER_ID, [
+                    ('id', '!=', assegnatario_competenza_id),
+                    ('tipologia', '=', 'department')
+                ])
+                if assegnatario_conoscenza_dep_ids:
+                    assegnatari_conoscenza_ids.append(assegnatario_conoscenza_dep_ids[
+                        random.randint(0, len(assegnatario_conoscenza_dep_ids) - 1)
+                    ])
+
+                assegnatario_conoscenza_emp_ids = assegnatario_obj.search(cr, SUPERUSER_ID, [
+                    ('id', 'not in', assegnatari_conoscenza_ids + [assegnatario_competenza_id]),
+                    ('parent_id', 'not in', assegnatari_conoscenza_ids + [assegnatario_competenza_id]),
+                    ('tipologia', '=', 'employee')
+                ])
+                assegnatari_conoscenza_number = random.randint(0, len(assegnatario_conoscenza_emp_ids))
+                for i in range(0, assegnatari_conoscenza_number):
+                    assegnatario_conoscenza_id = assegnatario_conoscenza_emp_ids[
+                        random.randint(0, len(assegnatario_conoscenza_emp_ids) - 1)
+                    ]
+                    assegnatario_conoscenza_emp_ids.remove(assegnatario_conoscenza_id)
+                    assegnatari_conoscenza_ids.append(assegnatario_conoscenza_id)
+                self.pool.get('protocollo.assegnazione').salva_assegnazione_conoscenza(
+                    cr,
+                    uid,
+                    protocollo_id,
+                    assegnatari_conoscenza_ids,
+                    assegnatore_ids[0]
+                )
+
 
                 if count_bozza < wizard.count_bozza:
                     count_bozza = count_bozza + 1
@@ -194,12 +219,13 @@ class crea_protocolli_wizard(osv.TransientModel):
                     assegnatario = assegnatari_competenza[random.randint(0, len(assegnatari_competenza) - 1)]
                     try:
                         # il protocollo viene rifiutato dall'assegnatario_id
-                        protocollo_obj.rifiuta_presa_in_carico(cr, assegnatario.user_id.id, [protocollo_id])
+                        protocollo_obj.rifiuta_presa_in_carico(cr, assegnatario.user_id.id, [protocollo_id], 'Test')
                     except:
-                        self.pool.get('protocollo.stato.dipendente').modifica_stato_dipendente(cr,
-                                                                                               assegnatario.user_id.id,
-                                                                                               [protocollo_id],
-                                                                                               'rifiutato')
+                        print 'errore'
+                        # self.pool.get('protocollo.stato.dipendente').modifica_stato_dipendente(cr,
+                        #                                                                        assegnatario.user_id.id,
+                        #                                                                        [protocollo_id],
+                        #                                                                        'rifiutato')
 
                     count_rifiutati = count_rifiutati + 1
                     continue

@@ -673,7 +673,7 @@ this module contains the full copyright notices and license terms. -->
                                 <button name="%(protocollo_aggiungi_assegnatari_cc_action)d"
                                         string="Aggiungi Assegnatari Conoscenza"
                                         type="action"
-                                        attrs="{'invisible':[('aggiungi_assegnatari_cc_visibility','=',False)]}"
+                                        attrs="{'invisible':['|',('aggiungi_assegnatari_cc_visibility','=',False),('reserved','=',True)]}"
                                         class="oe_highlight_positive btn_seedoo"/>
 
                                 <group col="4">

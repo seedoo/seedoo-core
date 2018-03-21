@@ -12,6 +12,9 @@ class protocollo_aggiungi_assegnatari_wizard(osv.TransientModel):
     _description = 'Aggiungi Assegnatari'
 
     _columns = {
+        'reserved': fields.boolean('Riservato', readonly=True),
+        'tipologia_assegnatario': fields.selection(TIPO_ASSEGNATARIO_SELECTION, 'Tipologia', readonly=True),
+
         'assegnatario_competenza_id': fields.many2one('protocollo.assegnatario',
                                                       'Assegnatario per Competenza',
                                                       required=True),
@@ -22,6 +25,20 @@ class protocollo_aggiungi_assegnatari_wizard(osv.TransientModel):
                                                         'assegnatario_id',
                                                         'Assegnatari Conoscenza'),
     }
+
+    def _default_reserved(self, cr, uid, context):
+        protocollo_obj = self.pool.get('protocollo.protocollo')
+        protocollo = protocollo_obj.browse(cr, uid, context['active_id'])
+        if protocollo:
+            return protocollo.reserved
+        return False
+
+    def _default_tipologia_assegnatario(self, cr, uid, context):
+        protocollo_obj = self.pool.get('protocollo.protocollo')
+        protocollo = protocollo_obj.browse(cr, uid, context['active_id'])
+        if protocollo and protocollo.reserved:
+            return 'department'
+        return False
 
     def _default_assegnatario_competenza_id(self, cr, uid, context):
         assegnazione_obj = self.pool.get('protocollo.assegnazione')
@@ -51,6 +68,8 @@ class protocollo_aggiungi_assegnatari_wizard(osv.TransientModel):
         return False
 
     _defaults = {
+        'reserved': _default_reserved,
+        'tipologia_assegnatario': _default_tipologia_assegnatario,
         'assegnatario_competenza_id': _default_assegnatario_competenza_id,
         'assegnatario_conoscenza_ids': _default_assegnatario_conoscenza_ids
     }

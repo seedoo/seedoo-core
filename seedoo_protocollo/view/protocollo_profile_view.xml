@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record model='ir.ui.view' id='protocollo_profile_form'>
+            <field name="name">protocollo.profile.form</field>
+            <field name="model">protocollo.profile</field>
+            <field name="arch" type="xml">
+                <form string="Profili" version="7.0" >
+                    <sheet>
+                        <group col="4">
+                            <field name="name"/>
+                            <field name="state"/>
+                        </group>
+                        <group>
+                            <field name="category_id"/>
+                            <field name="groups_id" domain="[('category_id','=',category_id)]"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model='ir.ui.view' id='protocollo_profile_tree'>
+            <field name="name">protocollo.profile.tree</field>
+            <field name="model">protocollo.profile</field>
+            <field name="arch" type="xml">
+                <tree string="Profili" >
+                    <field name="name"/>
+                    <field name="state"/>
+                    <field name="category_id"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record model="ir.actions.act_window" id="protocollo_profile_tree_act">
+            <field name="name">Profili</field>
+            <field name="res_model">protocollo.profile</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="protocollo_profile_tree"/>
+        </record>
+
+
+        <menuitem name="Profili" id="menu_profile" parent="protocollo_configuration" sequence="10" action="protocollo_profile_tree_act"/>
+    </data>
+</openerp>

@@ -22,6 +22,7 @@
         "security/ir.model.access.csv",
         "security/security.xml",
         "security/security_rules.xml",
+        "data/profile.xml",
         "view/importer.xml",
         "view/storico_importazione.xml",
         "view/storico_importazione_importer.xml",
@@ -35,6 +36,7 @@
     ],
     "demo": [
         "demo/dematerializzazione_importer.xml",
+        "demo/protocollo_user_employee.xml",
     ],
     "css": [
         "static/src/css/dematerializzazione.css"

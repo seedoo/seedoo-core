@@ -120,7 +120,7 @@ class protocollo_assegnazione(orm.Model):
             'tipologia_assegnazione': tipologia,
             'state': 'assegnato',
             'assegnatore_id': assegnatore.id,
-            'ufficio_assegnatore_id': assegnatore.department_id.id if assegnatore.department_id else False,
+            'assegnatore_department_id': assegnatore.department_id.id if assegnatore.department_id else False,
             'parent_id': parent_id
         }
         if assegnatario.tipologia == 'employee':
@@ -219,6 +219,7 @@ class protocollo_assegnazione(orm.Model):
             # verifica che il protocollo non abbia uno stato diverso da 'Assegnato'
             assegnazione_state_ids = self.search(cr, uid, [
                 ('protocollo_id', '=', protocollo_id),
+                ('tipologia_assegnazione', '=', 'competenza'),
                 ('tipologia_assegnatario', '=', 'employee'),
                 ('state', '!=', 'assegnato')
             ])
@@ -237,8 +238,9 @@ class protocollo_assegnazione(orm.Model):
 
             # verifica che l'utente sia uno degli assegnatari del protocollo
             assegnazione_ids = self.search(cr, uid, [
-                ('assegnatario_employee_id', '=', employee_id),
                 ('protocollo_id', '=', protocollo_id),
+                ('tipologia_assegnazione', '=', 'competenza'),
+                ('assegnatario_employee_id', '=', employee_id)
             ])
 
             if len(assegnazione_ids) == 0:

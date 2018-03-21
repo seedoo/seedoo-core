@@ -9,7 +9,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="login">francesco.alba@example.com</field>
             <field name="password">seedoo</field>
             <field name="email">francesco.alba@example.com</field>
-            <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_operatore'),ref('seedoo_gedoc.group_gedoc_user'),
+            <field name="groups_id" eval="[(6, 0,[ref('seedoo_gedoc.group_gedoc_user'),
                                                   ref('base.group_pec_reader'),ref('base.group_sharedmail_reader')])]"/>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/alba.png"/>
             <field name="tz">Europe/Rome</field>
@@ -21,6 +21,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="department_id" ref="protocollo_dept_uor1"/>
             <field name="work_email">francesco.alba@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/alba.png"/>
+            <field name="profile_id" ref="group_protocollo_assegnatario_protocollatore_resp_uo"/>
         </record>
 
         <record model="res.users" id="saul_lai">
@@ -28,7 +29,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="login">saul.lai@example.com</field>
             <field name="password">seedoo</field>
             <field name="email">saul.lai@example.com</field>
-            <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_consultatore'),ref('seedoo_gedoc.group_gedoc_user'),
+            <field name="groups_id" eval="[(6, 0,[ref('seedoo_gedoc.group_gedoc_user'),
                                                   ref('base.group_pec_reader'),ref('base.group_sharedmail_reader')])]"/>
             <field name="password">seedoo</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/saul.jpg"/>
@@ -41,26 +42,8 @@ this module contains the full copyright notices and license terms. -->
             <field name="department_id" ref="protocollo_dept_uor1"/>
             <field name="work_email">saul.lai@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/saul.jpg"/>
-        </record>
+            <field name="profile_id" ref="group_protocollo_assegnatario_protocollatore_pe_out"/>
 
-        <record model="res.users" id="daniele_sanna">
-            <field name="name">Daniele Sanna</field>
-            <field name="login">daniele.sanna@example.com</field>
-            <field name="password">seedoo</field>
-            <field name="email">daniele.sanna@example.com</field>
-            <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_responsabile_uor'),ref('seedoo_gedoc.group_gedoc_user'),
-                                                  ref('base.group_pec_reader'),ref('base.group_sharedmail_reader')])]"/>
-            <field name="password">seedoo</field>
-            <field name="image" type="base64" file="seedoo_protocollo/static/img/daniele.jpg"/>
-            <field name="tz">Europe/Rome</field>
-        </record>
-
-        <record model="hr.employee" id="hr_daniele_sanna">
-            <field name="name">Daniele Sanna</field>
-            <field name="user_id" ref="daniele_sanna"/>
-            <field name="department_id" ref="protocollo_dept_uor1"/>
-            <field name="work_email">daniele.sanna@example.com</field>
-            <field name="image" type="base64" file="seedoo_protocollo/static/img/daniele.jpg"/>
         </record>
 
         <record model="res.users" id="andrea_peruzzu">
@@ -68,7 +51,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="login">andrea.peruzzu@example.com</field>
             <field name="password">seedoo</field>
             <field name="email">andrea.peruzzu@example.com</field>
-            <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_manager'),ref('seedoo_gedoc.group_gedoc_user'),
+            <field name="groups_id" eval="[(6, 0,[ref('seedoo_gedoc.group_gedoc_user'),
                                                   ref('base.group_pec_reader'),ref('base.group_sharedmail_reader')])]"/>
             <field name="password">seedoo</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/andrea.jpg"/>
@@ -81,26 +64,8 @@ this module contains the full copyright notices and license terms. -->
             <field name="department_id" ref="protocollo_dept_uor1"/>
             <field name="work_email">andrea.peruzzu@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/andrea.jpg"/>
-        </record>
+            <field name="profile_id" ref="group_protocollo_sysadmin"/>
 
-        <record model="res.users" id="dino_manca">
-            <field name="name">Dino Manca</field>
-            <field name="login">dino.manca@example.com</field>
-            <field name="password">seedoo</field>
-            <field name="email">dino.manca@example.com</field>
-            <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_operatore'),ref('seedoo_gedoc.group_gedoc_user'),
-                                                  ref('base.group_pec_reader'),ref('base.group_sharedmail_reader')])]"/>
-            <field name="password">seedoo</field>
-            <field name="image" type="base64" file="seedoo_protocollo/static/img/dino.png"/>
-            <field name="tz">Europe/Rome</field>
-        </record>
-
-        <record model="hr.employee" id="hr_dino_manca">
-            <field name="name">Dino Manca</field>
-            <field name="user_id" ref="dino_manca"/>
-            <field name="department_id" ref="protocollo_dept_uor2"/>
-            <field name="work_email">dino.manca@example.com</field>
-            <field name="image" type="base64" file="seedoo_protocollo/static/img/dino.png"/>
         </record>
 
         <record model="res.users" id="antonio_ariu">
@@ -108,7 +73,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="login">antonio.ariu@example.com</field>
             <field name="password">seedoo</field>
             <field name="email">antonio.ariu@example.com</field>
-            <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_responsabile_uor'),ref('seedoo_gedoc.group_gedoc_user'),
+            <field name="groups_id" eval="[(6, 0,[ref('seedoo_gedoc.group_gedoc_user'),
                                                   ref('base.group_pec_reader'),ref('base.group_sharedmail_reader')])]"/>
             <field name="password">seedoo</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/antonio.jpg"/>
@@ -121,6 +86,8 @@ this module contains the full copyright notices and license terms. -->
             <field name="department_id" ref="protocollo_dept_uor2"/>
             <field name="work_email">antonio.ariu@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/antonio.jpg"/>
+            <field name="profile_id" ref="group_protocollo_resp_ser_prot"/>
+
         </record>
 
         <record model="res.users" id="gianluca_farris">
@@ -128,7 +95,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="login">gianluca.farris@example.com</field>
             <field name="password">seedoo</field>
             <field name="email">gianluca.farris@example.com</field>
-            <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_consultatore'),ref('seedoo_gedoc.group_gedoc_user'),
+            <field name="groups_id" eval="[(6, 0,[ref('seedoo_gedoc.group_gedoc_user'),
                                                   ref('base.group_pec_reader'),ref('base.group_sharedmail_reader')])]"/>
             <field name="password">seedoo</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/gianlu.jpg"/>
@@ -141,6 +108,8 @@ this module contains the full copyright notices and license terms. -->
             <field name="department_id" ref="protocollo_dept_uor2"/>
             <field name="work_email">gianluca.farris@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/gianlu.jpg"/>
+            <field name="profile_id" ref="group_protocollo_assegnatario_protocollatore_resp_uo"/>
+
         </record>
 
         <record model="res.users" id="samuele_collu">
@@ -148,7 +117,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="login">samuele.collu@example.com</field>
             <field name="password">seedoo</field>
             <field name="email">samuele.collu@example.com</field>
-            <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_consultatore'),ref('seedoo_gedoc.group_gedoc_user'),
+            <field name="groups_id" eval="[(6, 0,[ref('seedoo_gedoc.group_gedoc_user'),
                                                   ref('base.group_pec_reader'),ref('base.group_sharedmail_reader')])]"/>
             <field name="password">seedoo</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/samuele.jpg"/>
@@ -161,6 +130,8 @@ this module contains the full copyright notices and license terms. -->
             <field name="department_id" ref="protocollo_dept_uor2"/>
             <field name="work_email">samuele.collu@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/samuele.jpg"/>
+            <field name="profile_id" ref="group_protocollo_assegnatario_protocollatore_pe_out"/>
+
         </record>
 
         <record model="res.users" id="marco_difrancesco">
@@ -168,7 +139,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="login">marco.difrancesco@example.com</field>
             <field name="password">seedoo</field>
             <field name="email">marco.difrancesco@example.com</field>
-            <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_operatore'),ref('seedoo_gedoc.group_gedoc_user'),
+            <field name="groups_id" eval="[(6, 0,[ref('seedoo_gedoc.group_gedoc_user'),
                                                   ref('base.group_pec_reader'),ref('base.group_sharedmail_reader')])]"/>
             <field name="password">seedoo</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/marco.jpg"/>
@@ -181,26 +152,8 @@ this module contains the full copyright notices and license terms. -->
             <field name="department_id" ref="protocollo_dept_uor3"/>
             <field name="work_email">marco.difrancesco@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/marco.jpg"/>
-        </record>
+            <field name="profile_id" ref="group_protocollo_assegnatario_protocollatore_resp_uo"/>
 
-        <record model="res.users" id="claudio_melis">
-            <field name="name">Claudio Melis</field>
-            <field name="login">claudio.melis@example.com</field>
-            <field name="password">seedoo</field>
-            <field name="email">claudio.mielis@example.com</field>
-            <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_responsabile_uor'),ref('seedoo_gedoc.group_gedoc_user'),
-                                                  ref('base.group_pec_reader'),ref('base.group_sharedmail_reader')])]"/>
-            <field name="password">seedoo</field>
-            <field name="image" type="base64" file="seedoo_protocollo/static/img/claudio.jpg"/>
-            <field name="tz">Europe/Rome</field>
-        </record>
-
-        <record model="hr.employee" id="hr_claudio_melis">
-            <field name="name">Claudio Melis</field>
-            <field name="user_id" ref="claudio_melis"/>
-            <field name="department_id" ref="protocollo_dept_uor3"/>
-            <field name="work_email">claudio.melis@example.com</field>
-            <field name="image" type="base64" file="seedoo_protocollo/static/img/claudio.jpg"/>
         </record>
 
         <record model="res.users" id="norman_argiolas">
@@ -208,7 +161,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="login">norman.argiolas@example.com</field>
             <field name="password">seedoo</field>
             <field name="email">norman.argiolas@example.com</field>
-            <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_consultatore'),ref('seedoo_gedoc.group_gedoc_user'),
+            <field name="groups_id" eval="[(6, 0,[ref('seedoo_gedoc.group_gedoc_user'),
                                                   ref('base.group_pec_reader'),ref('base.group_sharedmail_reader')])]"/>
             <field name="password">seedoo</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/norman1.jpg"/>
@@ -221,6 +174,8 @@ this module contains the full copyright notices and license terms. -->
             <field name="department_id" ref="protocollo_dept_uor3"/>
             <field name="work_email">norman.argiolas@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/norman1.jpg"/>
+            <field name="profile_id" ref="group_protocollo_assegnatario_protocollatore"/>
+
         </record>
 
         <record model="res.users" id="pierpaolo_masia">
@@ -228,7 +183,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="login">pierpaolo.masia@example.com</field>
             <field name="password">seedoo</field>
             <field name="email">pierpaolo.masia@example.com</field>
-            <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_consultatore'),ref('seedoo_gedoc.group_gedoc_user'),
+            <field name="groups_id" eval="[(6, 0,[ref('seedoo_gedoc.group_gedoc_user'),
                                                   ref('base.group_pec_reader'),ref('base.group_sharedmail_reader')])]"/>
             <field name="password">seedoo</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/pierpaolo1.jpg"/>
@@ -241,6 +196,8 @@ this module contains the full copyright notices and license terms. -->
             <field name="department_id" ref="protocollo_dept_uor3"/>
             <field name="work_email">pierpaolo.masia@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/pierpaolo1.jpg"/>
+            <field name="profile_id" ref="group_protocollo_assegnatario_protocollatore_pe_out"/>
+
         </record>
 
         <record model="res.users" id="franco_serreli">
@@ -248,7 +205,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="login">franco.serreli@example.com</field>
             <field name="password">seedoo</field>
             <field name="email">franco.serreli@example.com</field>
-            <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_operatore'),ref('seedoo_gedoc.group_gedoc_user'),
+            <field name="groups_id" eval="[(6, 0,[ref('seedoo_gedoc.group_gedoc_user'),
                                                   ref('base.group_pec_reader'),ref('base.group_sharedmail_reader')])]"/>
             <field name="password">seedoo</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/franco1.jpg"/>
@@ -261,6 +218,8 @@ this module contains the full copyright notices and license terms. -->
             <field name="department_id" ref="protocollo_dept_uor4"/>
             <field name="work_email">franco.serreli@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/franco1.jpg"/>
+            <field name="profile_id" ref="group_protocollo_assegnatario_protocollatore_resp_uo"/>
+
         </record>
 
         <record model="res.users" id="stefano_marras">
@@ -268,7 +227,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="login">stefano.marras@example.com</field>
             <field name="password">seedoo</field>
             <field name="email">stefano.marras@example.com</field>
-            <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_responsabile_uor'),ref('seedoo_gedoc.group_gedoc_user'),
+            <field name="groups_id" eval="[(6, 0,[ref('seedoo_gedoc.group_gedoc_user'),
                                                   ref('base.group_pec_reader'),ref('base.group_sharedmail_reader')])]"/>
             <field name="password">seedoo</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/sm.jpg"/>
@@ -281,6 +240,8 @@ this module contains the full copyright notices and license terms. -->
             <field name="department_id" ref="protocollo_dept_uor4"/>
             <field name="work_email">stefano.marras@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/sm.jpg"/>
+            <field name="profile_id" ref="group_protocollo_assegnatario_protocollatore"/>
+
         </record>
 
         <record model="res.users" id="paola_bullitta">
@@ -288,7 +249,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="login">paola.bullitta@example.com</field>
             <field name="password">seedoo</field>
             <field name="email">paola.bullitta@example.com</field>
-            <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_consultatore'),ref('seedoo_gedoc.group_gedoc_user'),
+            <field name="groups_id" eval="[(6, 0,[ref('seedoo_gedoc.group_gedoc_user'),
                                                   ref('base.group_pec_reader'),ref('base.group_sharedmail_reader')])]"/>
             <field name="password">seedoo</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/paola.jpg"/>
@@ -301,6 +262,8 @@ this module contains the full copyright notices and license terms. -->
             <field name="department_id" ref="protocollo_dept_uor4"/>
             <field name="work_email">paola.bullitta@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/paola.jpg"/>
+            <field name="profile_id" ref="group_protocollo_assegnatario_protocollatore_resp_uor"/>
+
         </record>
 
         <record model="res.users" id="daniela_melis">
@@ -308,7 +271,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="login">daniela.melis@example.com</field>
             <field name="password">seedoo</field>
             <field name="email">daniela.melis@example.com</field>
-            <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_consultatore'),ref('seedoo_gedoc.group_gedoc_user'),
+            <field name="groups_id" eval="[(6, 0,[ref('seedoo_gedoc.group_gedoc_user'),
                                                   ref('base.group_pec_reader'),ref('base.group_sharedmail_reader')])]"/>
             <field name="password">seedoo</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/daniela2.jpg"/>
@@ -321,6 +284,8 @@ this module contains the full copyright notices and license terms. -->
             <field name="department_id" ref="protocollo_dept_uor4"/>
             <field name="work_email">daniela.melis@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/daniela2.jpg"/>
+            <field name="profile_id" ref="group_protocollo_assegnatario"/>
+
         </record>
 
         <record model="res.users" id="ilaria_mura">
@@ -328,7 +293,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="login">ilaria.mura@example.com</field>
             <field name="password">seedoo</field>
             <field name="email">ilaria.mura@example.com</field>
-            <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_responsabile_uor'),ref('seedoo_gedoc.group_gedoc_user'),
+            <field name="groups_id" eval="[(6, 0,[ref('seedoo_gedoc.group_gedoc_user'),
                                                   ref('base.group_pec_reader'),ref('base.group_sharedmail_reader')])]"/>
             <field name="password">seedoo</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/ilariamura.jpg"/>
@@ -341,6 +306,8 @@ this module contains the full copyright notices and license terms. -->
             <field name="department_id" ref="protocollo_dept_uor5"/>
             <field name="work_email">ilaria.mura@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/ilariamura.jpg"/>
+            <field name="profile_id" ref="group_protocollo_assegnatario_protocollatore"/>
+
         </record>
 
         <record model="res.users" id="georgia_sanna">
@@ -348,7 +315,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="login">georgia.sanna@example.com</field>
             <field name="password">seedoo</field>
             <field name="email">georgia.sanna@example.com</field>
-            <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_operatore'),ref('seedoo_gedoc.group_gedoc_user'),
+            <field name="groups_id" eval="[(6, 0,[ref('seedoo_gedoc.group_gedoc_user'),
                                                   ref('base.group_pec_reader'),ref('base.group_sharedmail_reader')])]"/>
             <field name="password">seedoo</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/georgia.jpg"/>
@@ -361,6 +328,8 @@ this module contains the full copyright notices and license terms. -->
             <field name="department_id" ref="protocollo_dept_uor5"/>
             <field name="work_email">georgia.sanna@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/georgia.jpg"/>
+            <field name="profile_id" ref="group_protocollo_assegnatario_protocollatore_resp_uo"/>
+
         </record>
 
         <record model="res.users" id="martina_vitrani">
@@ -368,7 +337,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="login">martina.vitrani@example.com</field>
             <field name="password">seedoo</field>
             <field name="email">martina.vitrani@example.com</field>
-            <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_consultatore'),ref('seedoo_gedoc.group_gedoc_user'),
+            <field name="groups_id" eval="[(6, 0,[ref('seedoo_gedoc.group_gedoc_user'),
                                                   ref('base.group_pec_reader'),ref('base.group_sharedmail_reader')])]"/>
             <field name="password">seedoo</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/martinavitrani.jpg"/>
@@ -381,6 +350,8 @@ this module contains the full copyright notices and license terms. -->
             <field name="department_id" ref="protocollo_dept_uor5"/>
             <field name="work_email">martina.vitrani@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/martinavitrani.jpg"/>
+            <field name="profile_id" ref="group_protocollo_assegnatario_protocollatore_resp_uor"/>
+
         </record>
 
         <record model="res.users" id="fabiana_boi">
@@ -388,7 +359,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="login">fabiana.boi@example.com</field>
             <field name="password">seedoo</field>
             <field name="email">fabiana.boi@example.com</field>
-            <field name="groups_id" eval="[(6, 0,[ref('seedoo_protocollo.group_protocollo_consultatore'),ref('seedoo_gedoc.group_gedoc_user'),
+            <field name="groups_id" eval="[(6, 0,[ref('seedoo_gedoc.group_gedoc_user'),
                                                   ref('base.group_pec_reader'),ref('base.group_sharedmail_reader')])]"/>
             <field name="password">seedoo</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/fabiana.jpg"/>
@@ -401,20 +372,19 @@ this module contains the full copyright notices and license terms. -->
             <field name="department_id" ref="protocollo_dept_uor5"/>
             <field name="work_email">fabiana.boi@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/fabiana.jpg"/>
+            <field name="profile_id" ref="group_protocollo_consultatore_visibilita_totale"/>
+
         </record>
 
-        <record id="protocollo_aoo_default" model="protocollo.aoo">
+          <record id="protocollo_aoo_default" model="protocollo.aoo">
             <field name="employee_ids" eval="[(6, 0,[
                                         ref('hr_francesco_alba'),
                                         ref('hr_saul_lai'),
-                                        ref('hr_daniele_sanna'),
                                         ref('hr_andrea_peruzzu'),
-                                        ref('hr_dino_manca'),
                                         ref('hr_antonio_ariu'),
                                         ref('hr_gianluca_farris'),
                                         ref('hr_samuele_collu'),
                                         ref('hr_marco_difrancesco'),
-                                        ref('hr_claudio_melis'),
                                         ref('hr_norman_argiolas'),
                                         ref('hr_pierpaolo_masia'),
                                         ref('hr_franco_serreli'),
@@ -432,14 +402,11 @@ this module contains the full copyright notices and license terms. -->
             <field name="user_ids" eval="[(6, 0,[
                                             ref('francesco_alba'),
                                             ref('saul_lai'),
-                                            ref('daniele_sanna'),
                                             ref('andrea_peruzzu'),
-                                            ref('dino_manca'),
                                             ref('antonio_ariu'),
                                             ref('gianluca_farris'),
                                             ref('samuele_collu'),
                                             ref('marco_difrancesco'),
-                                            ref('claudio_melis'),
                                             ref('norman_argiolas'),
                                             ref('pierpaolo_masia'),
                                             ref('franco_serreli'),
@@ -459,14 +426,11 @@ this module contains the full copyright notices and license terms. -->
             <field name="user_sharedmail_ids" eval="[(6, 0,[
                                             ref('francesco_alba'),
                                             ref('saul_lai'),
-                                            ref('daniele_sanna'),
                                             ref('andrea_peruzzu'),
-                                            ref('dino_manca'),
                                             ref('antonio_ariu'),
                                             ref('gianluca_farris'),
                                             ref('samuele_collu'),
                                             ref('marco_difrancesco'),
-                                            ref('claudio_melis'),
                                             ref('norman_argiolas'),
                                             ref('pierpaolo_masia'),
                                             ref('franco_serreli'),

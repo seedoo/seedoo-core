@@ -10,32 +10,15 @@
                     <sheet>
                         <group>
                             <field name="assegnatario_competenza_id"
-                                   domain="[
-                                       '|',
-                                       '&amp;',
-                                       ('id', 'not in', assegnatario_conoscenza_ids[0][2]),
-                                       '|',
-                                       ('parent_id', '=', False),
-                                       ('parent_id', 'not in', assegnatario_conoscenza_ids[0][2]),
-                                       '&amp;',
-                                       ('parent_id', 'in', assegnatario_conoscenza_ids[0][2]),
-                                       ('tipologia', '=', 'department')
-                                   ]"
+                                   domain="[('tipologia', '!=', tipologia_assegnatario)]"
                                    options="{'no_quick_create': True, 'no_create_edit': True, 'no_open': True}"/>
 
                             <field name="assegnatario_conoscenza_ids"
-                                   domain="[
-                                       '|',
-                                       '&amp;',
-                                       ('id', '!=', assegnatario_competenza_id),
-                                       '|',
-                                       ('parent_id', '=', False),
-                                       ('parent_id', '!=', assegnatario_competenza_id),
-                                       '&amp;',
-                                       ('parent_id', '=', assegnatario_competenza_id),
-                                       ('tipologia', '=', 'department')
-                                   ]"
-                                   options="{'no_quick_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                                   options="{'no_quick_create': True, 'no_create_edit': True, 'no_open': True}"
+                                   attrs="{'invisible':[('reserved','=',True)]}"/>
+
+                            <field name="reserved" invisible="1"/>
+                            <field name="tipologia_assegnatario" invisible="1"/>
                         </group>
                     </sheet>
                     <footer>
