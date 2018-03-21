@@ -1,6 +1,7 @@
 
-from openerp.osv import fields
+from openerp.osv import fields, orm
 from openerp import models
+from openerp.tools.translate import _
 
 class protocollo_registration_confirmation_wizard(models.TransientModel):
     _name = 'protocollo.registration.confirmation.wizard'
@@ -8,6 +9,7 @@ class protocollo_registration_confirmation_wizard(models.TransientModel):
 
     _columns = {
         'subject': fields.char('Oggetto', readonly=True),
+        'message_verifica_campi_obbligatori': fields.html('Verifica campi obbligatori', readonly=True)
         # 'assegnatari_competenza_uffici_ids': fields.one2many('protocollo.assegna.ufficio.wizard',
         #          'competenza_uffici_wizard_id', 'Uffici Assegnatari per Competenza'),
         # 'assegnatari_competenza_dipendenti_ids': fields.one2many('protocollo.assegna.dipendente.wizard',
@@ -20,6 +22,14 @@ class protocollo_registration_confirmation_wizard(models.TransientModel):
         else:
             return None
         return protocollo.subject
+
+    def _default_message_verifica_campi_obbligatori(self, cr, uid, context):
+        if 'active_id' in context:
+            protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
+            response_verifica_campi_obbligatori = self.pool.get('protocollo.configurazione').verifica_campi_obbligatori(cr, uid, protocollo)
+            if response_verifica_campi_obbligatori is not True:
+                return response_verifica_campi_obbligatori
+        return False
 
     # def _default_assegnatari_competenza_uffici_ids(self, cr, uid, context):
     #     protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
@@ -45,6 +55,7 @@ class protocollo_registration_confirmation_wizard(models.TransientModel):
 
     _defaults = {
         'subject': _default_protocollo_subject,
+        'message_verifica_campi_obbligatori': _default_message_verifica_campi_obbligatori
         # 'assegnatari_competenza_uffici_ids': _default_assegnatari_competenza_uffici_ids,
         # 'assegnatari_competenza_dipendenti_ids': _default_assegnatari_competenza_dipendenti_ids,
     }
