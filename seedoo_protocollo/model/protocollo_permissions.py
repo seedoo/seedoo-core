@@ -452,11 +452,20 @@ class protocollo_protocollo(osv.Model):
         return {}
 
     def _is_visible_search(self, cr, uid, obj, name, args, domain=None, context=None):
-        if 'params' not in context:
-            return []
+        # if 'params' not in context:
+        #     return []
 
-        if 'action' in context['params'] and context['params']['action'] in [255, 254, 253, 252]:
-            return []
+        # if context['params']['action'] in [255, 254, 253, 252]:
+        #     return []
+
+        # data_obj = self.pool.get('ir.model.data')
+        # act_1_id = data_obj.get_object_reference(cr, uid, 'seedoo_protocollo', 'protocollo_board_generale_act')[1]
+        # act_2_id = data_obj.get_object_reference(cr, uid, 'seedoo_protocollo', 'protocollo_board_uscita_act')[1]
+        # act_3_id = data_obj.get_object_reference(cr, uid, 'seedoo_protocollo', 'protocollo_board_ingresso_act')[1]
+        # act_4_id = data_obj.get_object_reference(cr, uid, 'seedoo_protocollo', 'protocollo_board_uscita_assegnazioni_act')[1]
+        # act_5_id = data_obj.get_object_reference(cr, uid, 'seedoo_protocollo', 'protocollo_board_ingresso_assegnazioni_act')[1]
+        # if context['params']['action'] in [act_1_id, act_2_id, act_3_id, act_4_id, act_5_id]:
+        #     return []
 
         protocollo_visible_ids = []
 

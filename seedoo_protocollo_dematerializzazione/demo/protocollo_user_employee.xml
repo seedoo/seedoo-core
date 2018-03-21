@@ -68,29 +68,41 @@ this module contains the full copyright notices and license terms. -->
         </record>
 
         <record id="seedoo_protocollo.protocollo_aoo_default" model="protocollo.aoo">
-            <field name="employee_ids" eval="[(6, 0,[
-                                        ref('hr_daniele_sanna'),
-                                        ref('hr_dino_manca'),
-                                        ref('hr_claudio_melis')
-            ])]"/>
+            <field name="employee_ids" eval="[(4, ref('hr_daniele_sanna'))]" />
+        </record>
+
+        <record id="seedoo_protocollo.protocollo_aoo_default" model="protocollo.aoo">
+            <field name="employee_ids" eval="[(4, ref('hr_dino_manca'))]" />
+        </record>
+
+        <record id="seedoo_protocollo.protocollo_aoo_default" model="protocollo.aoo">
+            <field name="employee_ids" eval="[(4, ref('hr_claudio_melis'))]" />
         </record>
 
         <record id="l10n_it_pec_messages.imap_pec_server" model="fetchmail.server" >
-            <field name="user_ids" eval="[(6, 0,[
-                                        ref('daniele_sanna'),
-                                        ref('dino_manca'),
-                                        ref('claudio_melis'),
-                                        ])]">
-            </field>
+            <field name="user_ids" eval="[(4, ref('claudio_melis'))]" />
+        </record>
+
+        <record id="l10n_it_pec_messages.imap_pec_server" model="fetchmail.server" >
+            <field name="user_ids" eval="[(4, ref('dino_manca'))]" />
+        </record>
+
+        <record id="l10n_it_pec_messages.imap_pec_server" model="fetchmail.server" >
+            <field name="user_ids" eval="[(4, ref('daniele_sanna'))]" />
         </record>
 
         <record id="sharedmail.imap_sharedmail_server" model="fetchmail.server" >
-            <field name="user_sharedmail_ids" eval="[(6, 0,[
-                                        ref('daniele_sanna'),
-                                        ref('dino_manca'),
-                                        ref('claudio_melis'),
-                                        ])]">
-            </field>
+            <field name="user_sharedmail_ids" eval="[(4, ref('claudio_melis'))]" />
         </record>
+
+        <record id="sharedmail.imap_sharedmail_server" model="fetchmail.server" >
+            <field name="user_sharedmail_ids" eval="[(4, ref('dino_manca'))]" />
+        </record>
+
+        <record id="sharedmail.imap_sharedmail_server" model="fetchmail.server" >
+            <field name="user_sharedmail_ids" eval="[(4, ref('daniele_sanna'))]" />
+        </record>
+
+
     </data>
 </openerp>

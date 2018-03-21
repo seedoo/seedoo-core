@@ -17,7 +17,10 @@ this module contains the full copyright notices and license terms. -->
             <field name="arch" type="xml">
             <form string="Esito Registrazione" class="protocollo_registration_container">
                 <group>
-                    <field name="subject" readonly="1"/>
+                    <field name="subject" readonly="1"
+                            attrs="{'invisible':[('message_verifica_campi_obbligatori', '!=' , False)]}"/>
+                    <field name="message_verifica_campi_obbligatori" readonly="1" nolabel="1"
+                            attrs="{'invisible':[('message_verifica_campi_obbligatori', '=' , False)]}"/>
                 </group>
                 <!--<group>-->
                     <!--<field name="assegnatari_competenza_uffici_ids" readonly="1"/>-->
@@ -26,9 +29,10 @@ this module contains the full copyright notices and license terms. -->
                 <footer>
                     <button string="Conferma"
                             type="object" name="go_to_registration_response"
-                            class="oe_highlight_positive btn_seedoo btn_registra_protocollo oe_read_only"/>
-                    o
-                    <button string="Abbandona" class="oe_link" special="cancel"/>
+                            class="oe_highlight_positive btn_seedoo btn_registra_protocollo oe_read_only"
+                            attrs="{'invisible':[('message_verifica_campi_obbligatori', '!=' , False)]}"/>
+
+                    <button string="Torna al protocollo" class="oe_link" special="cancel"/>
                 </footer>
             </form>
             </field>

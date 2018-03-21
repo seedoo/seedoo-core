@@ -188,6 +188,7 @@ class protocollo_protocollo(orm.Model):
             ct = magic.from_buffer(base64.b64decode(datas), mime=True)
             values = {
                 'preview': datas,
+                'preview_image': datas,
                 'mimetype': ct
             }
         return {'value': values}
@@ -315,6 +316,19 @@ class protocollo_protocollo(orm.Model):
         res = dict.fromkeys(ids, False)
         for prot in self.browse(cr, uid, ids):
             res[prot.id] = prot.doc_id.datas
+        return res
+
+    def _get_preview_image_datas(self, cr, uid, ids, field, arg, context=None):
+        if isinstance(ids, (list, tuple)) and not len(ids):
+            return []
+        if isinstance(ids, (long, int)):
+            ids = [ids]
+        res = dict.fromkeys(ids, False)
+        for prot in self.browse(cr, uid, ids):
+            if prot.mimetype in ['image/png', 'image/jpeg', 'image/gif']:
+                res[prot.id] = prot.doc_id.datas
+            else:
+                res[prot.id] = False
         return res
 
     def _get_assigne_emails_search(self, cursor, user, obj, name,
@@ -457,6 +471,9 @@ class protocollo_protocollo(orm.Model):
         'preview': fields.function(_get_preview_datas,
                                    type='binary',
                                    string='Preview'),
+        'preview_image': fields.function(_get_preview_image_datas,
+                                   type='binary',
+                                   string='Preview Image'),
         'mimetype': fields.char('Mime Type', size=64),
         'doc_id': fields.many2one(
             'ir.attachment', 'Documento Principale', readonly=True,

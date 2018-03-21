@@ -2,9 +2,7 @@
 # This file is part of Seedoo.  The COPYRIGHT file at the top level of
 # this module contains the full copyright notices and license terms.
 
-from openerp import exceptions
 from openerp.osv import orm, fields
-from openerp.tools.translate import _
 
 
 class protocollo_configurazione(orm.Model):
@@ -141,6 +139,6 @@ class protocollo_configurazione(orm.Model):
                         campi_obbligatori = campi_obbligatori + '\n- Descrizione allegato: ' + attach.name.encode('utf-8')
 
         if campi_obbligatori:
-            raise exceptions.Warning('Prima di procedere con la registrazione è necessario valorizzare i seguenti campi: ' + campi_obbligatori)
+            return '<p><i class="fa fa-warning"/></i>Valorizzare i seguenti campi per procedere alla registrazione:</p>' + campi_obbligatori
 
         return True
