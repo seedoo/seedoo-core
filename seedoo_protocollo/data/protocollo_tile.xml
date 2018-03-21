@@ -57,6 +57,7 @@
         </record>
 
         <!-- ActWindow collegata a Tile Protocolli uscita assegnati a me per cc -->
+        <!--
         <record model="ir.actions.act_window" id="act_tile_protocollo_uscita_assegnati_a_me_cc">
             <field name="name">Protocolli uscita assegnati a me per cc</field>
             <field name="res_model">protocollo.protocollo</field>
@@ -64,6 +65,17 @@
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="protocollo_protocollo_tree"/>
             <field name="domain">[('type', '=', 'out'),('assegnato_a_me_cc_visibility', '=', True)]</field>
+        </record>
+        -->
+
+        <!-- ActWindow collegata a Tile Protocolli uscita assegnati per cc -->
+        <record model="ir.actions.act_window" id="act_tile_protocollo_uscita_assegnati_cc">
+            <field name="name">Protocolli uscita assegnati per cc</field>
+            <field name="res_model">protocollo.protocollo</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="protocollo_protocollo_tree"/>
+            <field name="domain">[('type', '=', 'out'),('assegnato_cc_visibility', '=', True)]</field>
         </record>
 
         <!-- ActWindow collegata a Tile Protocolli ingresso assegnati a me -->
@@ -77,6 +89,7 @@
         </record>
 
         <!-- ActWindow collegata a Tile Protocolli ingresso assegnati a me per cc -->
+        <!--
         <record model="ir.actions.act_window" id="act_tile_protocollo_ingresso_assegnati_a_me_cc">
             <field name="name">Protocolli ingresso assegnati a me per cc</field>
             <field name="res_model">protocollo.protocollo</field>
@@ -84,6 +97,17 @@
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="protocollo_protocollo_tree"/>
             <field name="domain">[('type', '=', 'in'),('assegnato_a_me_cc_visibility', '=', True)]</field>
+        </record>
+        -->
+
+        <!-- ActWindow collegata a Tile Protocolli ingresso assegnati per cc -->
+        <record model="ir.actions.act_window" id="act_tile_protocollo_ingresso_assegnati_cc">
+            <field name="name">Protocolli ingresso assegnati per cc</field>
+            <field name="res_model">protocollo.protocollo</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="protocollo_protocollo_tree"/>
+            <field name="domain">[('type', '=', 'in'),('assegnato_cc_visibility', '=', True)]</field>
         </record>
 
         <!-- ActWindow collegata a Tile Protocolli uscita assegnati al mio ufficio -->
@@ -97,6 +121,7 @@
         </record>
 
         <!-- ActWindow collegata a Tile Protocolli uscita assegnati al mio ufficio per cc -->
+        <!--
         <record model="ir.actions.act_window" id="act_tile_protocollo_uscita_assegnati_mio_ufficio_cc">
             <field name="name">Protocolli uscita assegnati al mio Ufficio per cc</field>
             <field name="res_model">protocollo.protocollo</field>
@@ -105,6 +130,7 @@
             <field name="view_id" ref="protocollo_protocollo_tree"/>
             <field name="domain">[('type', '=', 'out'),('assegnato_a_mio_ufficio_cc_visibility','=',True)]</field>
         </record>
+        -->
 
         <!-- ActWindow collegata a Tile Protocolli ingresso assegnati al mio ufficio -->
         <record model="ir.actions.act_window" id="act_tile_protocollo_ingresso_assegnati_mio_ufficio">
@@ -117,6 +143,7 @@
         </record>
 
         <!-- ActWindow collegata a Tile Protocolli ingresso assegnati al mio ufficio per cc-->
+        <!--
         <record model="ir.actions.act_window" id="act_tile_protocollo_ingresso_assegnati_mio_ufficio_cc">
             <field name="name">Protocolli ingresso assegnati al mio Ufficio per cc</field>
             <field name="res_model">protocollo.protocollo</field>
@@ -125,6 +152,7 @@
             <field name="view_id" ref="protocollo_protocollo_tree"/>
             <field name="domain">[('type', '=', 'in'),('assegnato_a_mio_ufficio_cc_visibility','=',True)]</field>
         </record>
+        -->
 
         <!-- ActWindow collegata a Protocolli assegnati da me in uscita - Assegnato-->
         <record model="ir.actions.act_window" id="act_tile_protocollo_uscita_assegnati_da_me_assegnato">
@@ -305,6 +333,7 @@
             <field name="tag_tile">uscita</field>
         </record>
         <!--  Tile: Protocolli assegnati a me in uscita per cc-->
+        <!--
         <record id="tile_protocollo_uscita_assegnati_a_me_cc" model="tile.tile">
             <field name="name">Assegnati a me per cc</field>
             <field name="model_id" ref="seedoo_protocollo.model_protocollo_protocollo"/>
@@ -313,6 +342,19 @@
             <field name="font_color">#ffffff</field>
             <field name="background_color">#3498db</field>
             <field name="sequence_tile">16</field>
+            <field name="icon_tile">fa fa-user</field>
+            <field name="tag_tile">uscita</field>
+        </record>
+        -->
+        <!--  Tile: Protocolli assegnati in uscita per cc-->
+        <record id="tile_protocollo_uscita_assegnati_cc" model="tile.tile">
+            <field name="name">Assegnati per CC</field>
+            <field name="model_id" ref="seedoo_protocollo.model_protocollo_protocollo"/>
+            <field name="action_id" ref="seedoo_protocollo.act_tile_protocollo_uscita_assegnati_cc"/>
+            <field name="domain">[('type', '=', 'out'),('assegnato_cc_visibility', '=', True)]</field>
+            <field name="font_color">#ffffff</field>
+            <field name="background_color">#3498db</field>
+            <field name="sequence_tile">20</field>
             <field name="icon_tile">fa fa-user</field>
             <field name="tag_tile">uscita</field>
         </record>
@@ -329,6 +371,7 @@
             <field name="tag_tile">ingresso</field>
         </record>
         <!--  Tile: Protocolli assegnati a me in ingresso per cc-->
+        <!--
         <record id="tile_protocollo_ingresso_assegnati_a_me_cc" model="tile.tile">
             <field name="name">Assegnati a me per cc</field>
             <field name="model_id" ref="seedoo_protocollo.model_protocollo_protocollo"/>
@@ -337,6 +380,19 @@
             <field name="font_color">#ffffff</field>
             <field name="background_color">#3498db</field>
             <field name="sequence_tile">16</field>
+            <field name="icon_tile">fa fa-user</field>
+            <field name="tag_tile">ingresso</field>
+        </record>
+        -->
+        <!--  Tile: Protocolli assegnati in ingresso per cc-->
+        <record id="tile_protocollo_ingresso_assegnati_cc" model="tile.tile">
+            <field name="name">Assegnati per CC</field>
+            <field name="model_id" ref="seedoo_protocollo.model_protocollo_protocollo"/>
+            <field name="action_id" ref="seedoo_protocollo.act_tile_protocollo_ingresso_assegnati_cc"/>
+            <field name="domain">[('type', '=', 'in'),('assegnato_cc_visibility', '=', True)]</field>
+            <field name="font_color">#ffffff</field>
+            <field name="background_color">#3498db</field>
+            <field name="sequence_tile">20</field>
             <field name="icon_tile">fa fa-user</field>
             <field name="tag_tile">ingresso</field>
         </record>
@@ -353,6 +409,7 @@
             <field name="tag_tile">uscita</field>
         </record>
         <!--  Tile: Protocolli registrati al mio ufficio in uscita per cc-->
+        <!--
         <record id="tile_protocollo_uscita_assegnati_mio_ufficio_cc" model="tile.tile">
             <field name="name">Assegnati al mio Ufficio per cc</field>
             <field name="model_id" ref="seedoo_protocollo.model_protocollo_protocollo"/>
@@ -364,6 +421,7 @@
             <field name="icon_tile">fa fa-users</field>
             <field name="tag_tile">uscita</field>
         </record>
+        -->
         <!--  Tile: Protocolli registrati al mio ufficio in ingresso-->
         <record id="tile_protocollo_ingresso_assegnati_mio_ufficio" model="tile.tile">
             <field name="name">Assegnati al mio Ufficio</field>
@@ -377,6 +435,7 @@
             <field name="tag_tile">ingresso</field>
         </record>
         <!--  Tile: Protocolli registrati al mio ufficio in ingresso per cc-->
+        <!--
         <record id="tile_protocollo_ingresso_assegnati_mio_ufficio_cc" model="tile.tile">
             <field name="name">Assegnati al mio Ufficio per cc</field>
             <field name="model_id" ref="seedoo_protocollo.model_protocollo_protocollo"/>
@@ -388,6 +447,7 @@
             <field name="icon_tile">fa fa-users</field>
             <field name="tag_tile">ingresso</field>
         </record>
+        -->
 
         <!--  Tile: Protocolli assegnati da me in uscita - Assegnato-->
         <record id="tile_protocollo_uscita_assegnati_da_me_assegnato" model="tile.tile">

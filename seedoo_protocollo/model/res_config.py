@@ -58,6 +58,11 @@ class protocollo_config_settings(osv.osv_memory):
         'email_pec_unique': fields.related('config_id', 'email_pec_unique', type='boolean', string='PEC/Email Univoca'),
         'lunghezza_massima_oggetto_mail': fields.related('config_id', 'lunghezza_massima_oggetto_mail', type='integer', string='Lunghezza massima dell\'oggetto dell\'e-mail', help='Inserire 0 per non limitare l\'oggetto'),
         'lunghezza_massima_oggetto_pec': fields.related('config_id', 'lunghezza_massima_oggetto_pec', type='integer', string='Lunghezza massima dell\'oggetto della PEC', help='Inserire 0 per non limitare l\'oggetto'),
+
+        'non_classificati_active': fields.related('config_id', 'non_classificati_active', type='boolean',
+                                                  string='Visualizza Box "Non Classificati"'),
+        'non_fascicolati_active': fields.related('config_id', 'non_fascicolati_active', type='boolean',
+                                                  string='Visualizza Box "Non Fascicolati"'),
     }
 
     def _default_config_id(self, cr, uid, context):

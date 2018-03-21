@@ -9,7 +9,7 @@
             <field name="view_type">form</field>
             <field name="view_mode">kanban</field>
             <field name="view_id" ref="web_dashboard_tile.dashboard_tile_tile_tree_view"/>
-            <field name="domain">[('tag_tile','=','generale')]</field>
+            <field name="domain">[('tag_tile','=','generale'),('configuration_active','=',True)]</field>
             <field name="context">{'sharedmail_messages': True, 'pec_messages': True}</field>
         </record>
 

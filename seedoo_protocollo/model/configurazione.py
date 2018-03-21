@@ -35,6 +35,9 @@ class protocollo_configurazione(orm.Model):
         'lunghezza_massima_oggetto_mail': fields.integer('Lunghezza massima oggetto e-mail'),
         'lunghezza_massima_oggetto_pec': fields.integer('Lunghezza massima oggetto PEC'),
         'email_pec_unique': fields.boolean('PEC/Email Univoca'),
+
+        'non_classificati_active': fields.boolean('Visualizza Box "Non Classificati" nella Dashboard'),
+        'non_fascicolati_active': fields.boolean('Visualizza Box "Non Fascicolati" nella Dashboard'),
     }
 
     _defaults = {
@@ -54,6 +57,8 @@ class protocollo_configurazione(orm.Model):
         'lunghezza_massima_oggetto_mail': 256,
         'lunghezza_massima_oggetto_pec': 256,
         'email_pec_unique': True,
+        'non_classificati_active': True,
+        'non_fascicolati_active': True,
     }
 
     def verifica_campi_obbligatori(self, cr, uid, protocollo):

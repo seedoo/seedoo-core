@@ -513,6 +513,22 @@ class protocollo_protocollo(osv.Model):
         return [('id', 'in', protocollo_visible_ids)]
 
 
+    def _assegnato_cc_visibility(self, cr, uid, ids, name, arg, context=None):
+        return {}
+    def _assegnato_cc_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
+        cr.execute('''
+            SELECT DISTINCT(pa.protocollo_id) 
+            FROM protocollo_assegnazione pa, hr_employee he, resource_resource rr
+            WHERE pa.assegnatario_employee_id = he.id AND
+                  he.resource_id = rr.id AND
+                  rr.user_id = %s AND
+                  pa.tipologia_assegnazione = 'conoscenza' AND
+                  pa.state = 'assegnato'
+        ''', (uid,))
+        protocollo_visible_ids = [res[0] for res in cr.fetchall()]
+        return [('id', 'in', protocollo_visible_ids)]
+
+
     def _assegnato_a_me_cc_visibility(self, cr, uid, ids, name, arg, context=None):
         return {}
     def _assegnato_a_me_cc_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
@@ -1098,6 +1114,7 @@ class protocollo_protocollo(osv.Model):
         # Visibilità dei protocolli nella dashboard
         'bozza_creato_da_me_visibility': fields.function(_bozza_creato_da_me_visibility, fnct_search=_bozza_creato_da_me_visibility_search, type='boolean', string='Visibile'),
         'assegnato_a_me_visibility': fields.function(_assegnato_a_me_visibility, fnct_search=_assegnato_a_me_visibility_search, type='boolean', string='Visibile'),
+        'assegnato_cc_visibility': fields.function(_assegnato_cc_visibility, fnct_search=_assegnato_cc_visibility_search, type='boolean', string='Visibile'),
         'assegnato_a_me_cc_visibility': fields.function(_assegnato_a_me_cc_visibility, fnct_search=_assegnato_a_me_cc_visibility_search, type='boolean', string='Visibile'),
         'assegnato_a_mio_ufficio_visibility': fields.function(_assegnato_a_mio_ufficio_visibility, fnct_search=_assegnato_a_mio_ufficio_visibility_search, type='boolean', string='Visibile'),
         'assegnato_a_mio_ufficio_cc_visibility': fields.function(_assegnato_a_mio_ufficio_cc_visibility, fnct_search=_assegnato_a_mio_ufficio_cc_visibility_search, type='boolean', string='Visibile'),

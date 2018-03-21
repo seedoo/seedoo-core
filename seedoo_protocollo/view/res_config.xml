@@ -58,6 +58,10 @@ this module contains the full copyright notices and license terms. -->
                         <newline/>
                         <field name="annullamento_xml_invia"/>
                     </group>
+                    <group string="Dashboard">
+                        <field name="non_classificati_active"/>
+                        <field name="non_fascicolati_active"/>
+                    </group>
                     <field name="config_id" invisible="True" on_change="on_change_config_id(config_id)"/>
                 </form>
             </field>
