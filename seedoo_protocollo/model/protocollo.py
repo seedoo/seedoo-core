@@ -188,6 +188,7 @@ class protocollo_protocollo(orm.Model):
             ct = magic.from_buffer(base64.b64decode(datas), mime=True)
             values = {
                 'preview': datas,
+                'preview_image': datas,
                 'mimetype': ct
             }
         return {'value': values}
@@ -457,6 +458,9 @@ class protocollo_protocollo(orm.Model):
         'preview': fields.function(_get_preview_datas,
                                    type='binary',
                                    string='Preview'),
+        'preview_image': fields.function(_get_preview_datas,
+                                   type='binary',
+                                   string='Preview Image'),
         'mimetype': fields.char('Mime Type', size=64),
         'doc_id': fields.many2one(
             'ir.attachment', 'Documento Principale', readonly=True,

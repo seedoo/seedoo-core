@@ -531,7 +531,7 @@ this module contains the full copyright notices and license terms. -->
                                         />
                                     </group>
                                     <group attrs="{'invisible':[('mimetype','not in',['image/png','image/jpeg','image/gif'])]}">
-                                        <field name="preview" noupload="True"
+                                        <field name="preview_image" noupload="True"
                                            nolabel="1"
                                            attrs="{'readonly':True}"
                                            widget="image"
