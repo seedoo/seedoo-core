@@ -428,8 +428,8 @@ this module contains the full copyright notices and license terms. -->
                                 class="oe_highlight btn_seedoo btn_invia_protocollo"  />
 
                         <field name="state" widget="statusbar"
-                               statusbar_colors='{"draft":"blue","notified":"green","registered":"notified", "sent":"green","error":"red","canceled":"red"}'/>
-                               <!--statusbar_visible="draft,registered"-->
+                               statusbar_colors='{"draft":"blue","notified":"green","registered":"notified", "sent":"green","error":"red","canceled":"red"}'
+                               options="{'visible': 'draft,registered'}"/>
                     </header>
 
                     <sheet>
