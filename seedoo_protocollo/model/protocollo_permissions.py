@@ -326,7 +326,7 @@ class protocollo_protocollo(osv.Model):
                 types = []
                 if check_gruppo_in: types.append('in')
                 if check_gruppo_out: types.append('out')
-                protocollo_ids_aoo = self.search([
+                protocollo_ids_aoo = self.search(cr, uid, [
                     ('type', 'in', types),
                     ('state', '=', 'draft'),
                     ('aoo_id', '=', employee.department_id.aoo_id.id)
