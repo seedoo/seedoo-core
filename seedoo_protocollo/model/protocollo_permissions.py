@@ -50,11 +50,12 @@ class protocollo_protocollo(osv.Model):
             ('tipologia_assegnazione', '=', 'competenza'),
             ('tipologia_assegnatario', '=', 'employee'),
             ('state', '=', stato),
-            ('parent_id', '!=', False)
+            ('parent_id.state', '=', stato)
         ])
         if len(assegnazione_ids) > 0:
             return True
         return False
+
 
     ####################################################################################################################
     # Visibilità dei protocolli
@@ -509,10 +510,12 @@ class protocollo_protocollo(osv.Model):
     def _assegnato_a_me_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
         cr.execute('''
             SELECT DISTINCT(pa.protocollo_id) 
-            FROM protocollo_assegnazione pa, hr_employee he, resource_resource rr
-            WHERE pa.assegnatario_employee_id = he.id AND
+            FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
+            WHERE pp.id = pa.protocollo_id AND 
+                  pa.assegnatario_employee_id = he.id AND
                   he.resource_id = rr.id AND
                   rr.user_id = %s AND
+                  pp.registration_employee_id IS NOT NULL AND
                   pa.tipologia_assegnatario = 'employee' AND 
                   pa.tipologia_assegnazione = 'competenza' AND
                   pa.state = 'assegnato' AND
@@ -527,10 +530,12 @@ class protocollo_protocollo(osv.Model):
     def _assegnato_cc_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
         cr.execute('''
             SELECT DISTINCT(pa.protocollo_id) 
-            FROM protocollo_assegnazione pa, hr_employee he, resource_resource rr
-            WHERE pa.assegnatario_employee_id = he.id AND
+            FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
+            WHERE pp.id = pa.protocollo_id AND 
+                  pa.assegnatario_employee_id = he.id AND
                   he.resource_id = rr.id AND
                   rr.user_id = %s AND
+                  pp.registration_employee_id IS NOT NULL AND
                   pa.tipologia_assegnazione = 'conoscenza' AND
                   pa.state = 'assegnato'
         ''', (uid,))
@@ -543,10 +548,12 @@ class protocollo_protocollo(osv.Model):
     def _assegnato_a_me_cc_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
         cr.execute('''
             SELECT DISTINCT(pa.protocollo_id) 
-            FROM protocollo_assegnazione pa, hr_employee he, resource_resource rr
-            WHERE pa.assegnatario_employee_id = he.id AND
+            FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
+            WHERE pp.id = pa.protocollo_id AND 
+                  pa.assegnatario_employee_id = he.id AND
                   he.resource_id = rr.id AND
                   rr.user_id = %s AND
+                  pp.registration_employee_id IS NOT NULL AND
                   pa.tipologia_assegnatario = 'employee' AND 
                   pa.tipologia_assegnazione = 'conoscenza' AND
                   pa.state = 'assegnato' AND
@@ -561,11 +568,13 @@ class protocollo_protocollo(osv.Model):
     def _assegnato_a_mio_ufficio_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
         cr.execute('''
             SELECT DISTINCT(pa.protocollo_id) 
-            FROM protocollo_assegnazione pa, hr_department hd, hr_employee he, resource_resource rr
-            WHERE pa.assegnatario_department_id = hd.id AND
+            FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_department hd, hr_employee he, resource_resource rr
+            WHERE pp.id = pa.protocollo_id AND 
+                  pa.assegnatario_department_id = hd.id AND
                   hd.id=he.department_id AND
                   he.resource_id = rr.id AND
                   rr.user_id = %s AND
+                  pp.registration_employee_id IS NOT NULL AND
                   pa.tipologia_assegnatario = 'department' AND 
                   pa.tipologia_assegnazione = 'competenza' AND
                   pa.state = 'assegnato'
@@ -579,11 +588,13 @@ class protocollo_protocollo(osv.Model):
     def _assegnato_a_mio_ufficio_cc_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
         cr.execute('''
             SELECT DISTINCT(pa.protocollo_id) 
-            FROM protocollo_assegnazione pa, hr_department hd, hr_employee he, resource_resource rr
-            WHERE pa.assegnatario_department_id = hd.id AND
+            FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_department hd, hr_employee he, resource_resource rr
+            WHERE pp.id = pa.protocollo_id AND 
+                  pa.assegnatario_department_id = hd.id AND
                   hd.id=he.department_id AND
                   he.resource_id = rr.id AND
                   rr.user_id = %s AND
+                  pp.registration_employee_id IS NOT NULL AND
                   pa.tipologia_assegnatario = 'department' AND 
                   pa.tipologia_assegnazione = 'conoscenza' AND
                   pa.state = 'assegnato'
@@ -697,11 +708,14 @@ class protocollo_protocollo(osv.Model):
         for protocollo in protocolli:
             check = False
 
-            if protocollo.state in ('registered', 'notified', 'waiting', 'sent', 'error'):
+            if protocollo.state in ('registered', 'notified', 'waiting', 'sent', 'error') and \
+                protocollo.assegnazione_competenza_ids and \
+                protocollo.assegnazione_competenza_ids[0].state == 'assegnato':
                 check = True
 
             if check:
-                if self._check_stato_assegnatario_competenza_ufficio(cr, uid, protocollo, 'assegnato'):
+                if protocollo.assegnazione_competenza_ids[0].tipologia_assegnatario=='department':
+                    check = self._check_stato_assegnatario_competenza_ufficio(cr, uid, protocollo, 'assegnato')
                     check_gruppi = False
                     if protocollo.type == 'in':
                         check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_prendi_in_carico_protocollo_ingresso')
@@ -725,11 +739,14 @@ class protocollo_protocollo(osv.Model):
         for protocollo in protocolli:
             check = False
 
-            if protocollo.state in ('registered', 'notified', 'waiting', 'sent', 'error'):
+            if protocollo.state in ('registered', 'notified', 'waiting', 'sent', 'error') and \
+                protocollo.assegnazione_competenza_ids and \
+                protocollo.assegnazione_competenza_ids[0].state == 'assegnato':
                 check = True
 
             if check:
-                if self._check_stato_assegnatario_competenza_ufficio(cr, uid, protocollo, 'assegnato'):
+                if protocollo.assegnazione_competenza_ids[0].tipologia_assegnatario=='department':
+                    check = self._check_stato_assegnatario_competenza_ufficio(cr, uid, protocollo, 'assegnato')
                     check_gruppi = False
                     if protocollo.type == 'in':
                         check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_rifiuta_protocollo_ingresso')

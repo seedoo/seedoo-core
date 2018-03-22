@@ -123,10 +123,10 @@ class protocollo_aggiungi_assegnatari_wizard(osv.TransientModel):
             body = "<div class='%s'><ul>" % action_class
             if (before['competenza'] or after['competenza']) and before['competenza']!=after['competenza']:
                 body = body + "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#009900'> %s </span></li>" \
-                              % (str('Assegnatario Competenza'), str(before['competenza']), str(after['competenza']))
+                              % ('Assegnatario Competenza', before['competenza'], after['competenza'])
             if (before['conoscenza'] or after['conoscenza']) and before['conoscenza']!=after['conoscenza']:
                 body = body + "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#009900'> %s </span></li>" \
-                              % (str('Assegnatari Conoscenza'), str(before['conoscenza']), str(after['conoscenza']))
+                              % ('Assegnatari Conoscenza', before['conoscenza'], after['conoscenza'])
             body += "</ul></div>"
             post_vars = {
                 'subject': "Modifica assegnatari",

@@ -47,7 +47,7 @@ class protocollo_aggiungi_assegnatari_conoscenza_wizard(osv.TransientModel):
             action_class = "history_icon update"
             body = "<div class='%s'><ul>" % action_class
             body = body + "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#009900'> %s </span></li>" \
-                          % (str('Assegnatari Conoscenza'), str(before['conoscenza']), str(after['conoscenza']))
+                          % ('Assegnatari Conoscenza', before['conoscenza'], after['conoscenza'])
             body += "</ul></div>"
             post_vars = {
                 'subject': "Aggiunta assegnatari conoscenza",
