@@ -2,7 +2,7 @@
 # This file is part of Seedoo.  The COPYRIGHT file at the top level of
 # this module contains the full copyright notices and license terms.
 
-from openerp import netsvc
+from openerp import netsvc, SUPERUSER_ID
 from openerp.osv import orm,  fields
 import logging
 
@@ -65,6 +65,13 @@ class res_users(orm.Model):
             wf_service.trg_trigger(uid, 'mail.message',
                                    context['main_message_id'], cr)
         return msg_id
+
+    def write(self, cr, uid, ids, vals, context=None):
+        if self.user_has_groups(cr, uid, 'seedoo_protocollo.group_configurazione_dipendenti'):
+            return super(res_users, self).write(
+                cr, SUPERUSER_ID, ids, vals, context=context)
+        return super(res_users, self).write(
+                cr, uid, ids, vals, context=context)
 
     # TODO verifica con Peruzzu
     # def write(self, cr, uid, ids, values, context=None):

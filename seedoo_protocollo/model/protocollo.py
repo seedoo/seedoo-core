@@ -1076,7 +1076,7 @@ class protocollo_protocollo(orm.Model):
                 if len(res_segnatura) > 0:
                     res.append(res_segnatura)
             else:
-                raise openerp.exceptions.Warning(_('Protocollo già registrato'))
+                raise openerp.exceptions.Warning(_('"Non è più possibile eseguire l\'operazione richiesta! Il protocollo è già stato preso in carico da un altro utente!'))
         # self.lock.release()
         return res
 
