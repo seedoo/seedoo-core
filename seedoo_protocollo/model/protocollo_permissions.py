@@ -955,8 +955,17 @@ class protocollo_protocollo(osv.Model):
                     check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_riassegna_protocollo_uscita')
                 check = check and check_gruppi
 
-            if uid==protocollo.user_id.id or uid==SUPERUSER_ID:
+            employee_ids = self.pool.get('hr.employee').search(cr, uid, [('user_id', '=', uid)])
+            check_assegnatore = self.pool.get('protocollo.assegnazione').search(cr, uid, [
+                ('protocollo_id', '=', protocollo.id),
+                ('assegnatore_id', '=', employee_ids[0]),
+                ('parent_id', '=', False)
+            ])
+
+            if uid == protocollo.user_id.id or check_assegnatore or uid == SUPERUSER_ID:
                 check = check and True
+            else:
+                check = False
 
             res.append((protocollo.id, check))
 
