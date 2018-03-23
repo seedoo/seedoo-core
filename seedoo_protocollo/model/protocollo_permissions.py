@@ -43,15 +43,20 @@ class protocollo_protocollo(osv.Model):
     def _check_stato_assegnatario_competenza_ufficio(self, cr, uid, protocollo, stato, assegnatario_uid=None):
         if not assegnatario_uid:
             assegnatario_uid = uid
-        assegnazione_obj = self.pool.get('protocollo.assegnazione')
-        assegnazione_ids = assegnazione_obj.search(cr, uid, [
-            ('assegnatario_employee_id.user_id.id', '=', assegnatario_uid),
-            ('protocollo_id', '=', protocollo.id),
-            ('tipologia_assegnazione', '=', 'competenza'),
-            ('tipologia_assegnatario', '=', 'employee'),
-            ('state', '=', stato),
-            ('parent_id.state', '=', stato)
-        ])
+        cr.execute('''
+                    SELECT pa.id FROM protocollo_assegnazione AS pa
+                    JOIN hr_employee AS e ON pa.assegnatario_employee_id = e.id
+                    JOIN resource_resource AS r ON e.resource_id = r.id
+                    JOIN res_users AS u ON r.user_id = u.id
+                    JOIN protocollo_assegnazione AS pap ON pa.parent_id = pap.id
+                    WHERE u.id = %s AND pa.protocollo_id = %s 
+                                  AND pa.tipologia_assegnazione = 'competenza' 
+                                  AND pa.tipologia_assegnatario = 'employee' 
+                                  AND pa.state = %s
+                                  AND pap.state = %s
+
+                ''', (str(assegnatario_uid), str(protocollo.id), stato, stato))
+        assegnazione_ids = [res[0] for res in cr.fetchall()]
         if len(assegnazione_ids) > 0:
             return True
         return False
