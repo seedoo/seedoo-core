@@ -2,9 +2,10 @@
 # This file is part of Seedoo.  The COPYRIGHT file at the top level of
 # this module contains the full copyright notices and license terms.
 
-from openerp.osv import fields, osv, orm
+from openerp.osv import fields, osv
+from openerp.tools.translate import _
+import openerp.exceptions
 from ..model.util.selection import *
-
 
 
 class protocollo_aggiungi_assegnatari_wizard(osv.TransientModel):
@@ -81,6 +82,15 @@ class protocollo_aggiungi_assegnatari_wizard(osv.TransientModel):
         save_history = protocollo.state != ''
         wizard = self.browse(cr, uid, ids[0], context)
         employee_ids = self.pool.get('hr.employee').search(cr, uid, [('user_id', '=', uid)])
+
+        check = False
+        if protocollo.state in (
+            'registered', 'notified', 'waiting', 'sent', 'error') and not protocollo.assegnazione_competenza_ids:
+                check = True
+
+        if not check:
+            raise openerp.exceptions.Warning(_(
+                '"Non è più possibile eseguire l\'operazione richiesta! Il protocollo è già stato assegnato da un altro utente!'))
 
         # assegnazione per competenza
         if save_history:
