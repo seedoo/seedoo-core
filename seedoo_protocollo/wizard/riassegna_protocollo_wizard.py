@@ -2,8 +2,9 @@
 # This file is part of Seedoo.  The COPYRIGHT file at the top level of
 # this module contains the full copyright notices and license terms.
 
-from openerp.osv import fields, osv, orm
-
+from openerp.osv import fields, osv
+from openerp.tools.translate import _
+import openerp.exceptions
 
 
 class protocollo_riassegna_wizard(osv.TransientModel):
@@ -22,6 +23,15 @@ class protocollo_riassegna_wizard(osv.TransientModel):
         protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
         wizard = self.browse(cr, uid, ids[0], context)
         employee_ids = self.pool.get('hr.employee').search(cr, uid, [('user_id', '=', uid)])
+        check = False
+        if protocollo.state in ('registered', 'notified', 'waiting', 'sent', 'error') and \
+                protocollo.assegnazione_competenza_ids and \
+                        protocollo.assegnazione_competenza_ids[0].state == 'rifiutato':
+            check = True
+
+        if not check:
+            raise openerp.exceptions.Warning(_(
+                '"Non è più possibile eseguire l\'operazione richiesta! Il protocollo è già stato riassegnato da un altro utente!'))
 
         # assegnazione per competenza
         before['competenza'] = ', '.join([a.assegnatario_id.nome for a in protocollo.assegnazione_competenza_ids])
