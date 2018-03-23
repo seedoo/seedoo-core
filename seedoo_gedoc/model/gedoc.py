@@ -103,11 +103,6 @@ class protocollo_classification(osv.Model):
             'Codice Titolario',
             char=16,
             required=False),
-        'assigne': fields.many2many(
-            'hr.department',
-            'classification_office_rel',
-            'classification_id', 'office_id',
-            'Uffici di Competenza'),
         'class_type': fields.selection(
             [
                 ('titolo', 'Titolo'),

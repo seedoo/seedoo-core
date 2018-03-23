@@ -11,7 +11,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1</field>
             <field name="class_type">titolo</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_1" model="protocollo.classification">
@@ -22,7 +21,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Normativa a carattere generale riguardante il titolo nel suo complesso. Comprende Statuto e Regolamento.</field>
             <field name="code">1.1</field>
             <field name="class_type">classe</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_2" model="protocollo.classification">
@@ -33,7 +31,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Documentazione relativa alle elezioni del Consiglio, comprese le serie relative a ”Verbali” “Riepiloghi”</field>
             <field name="code">1.2</field>
             <field name="class_type">classe</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_2_1" model="protocollo.classification">
@@ -44,7 +41,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.2.1</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_2_2" model="protocollo.classification">
@@ -55,7 +51,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.2.2</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_2_3" model="protocollo.classification">
@@ -66,7 +61,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.2.3</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_2_4" model="protocollo.classification">
@@ -77,7 +71,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.2.4</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_2_5" model="protocollo.classification">
@@ -88,7 +81,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.2.5</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_3" model="protocollo.classification">
@@ -99,7 +91,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Documentazione concernente lo “status” giuridico dei Consiglieri e le attività di aggiornamento(tutta la documentazione concorre alla formazione dei fascicoli personali dei Consiglieri).</field>
             <field name="code">1.3</field>
             <field name="class_type">classe</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_3_1" model="protocollo.classification">
@@ -110,7 +101,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.3.1</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_3_2" model="protocollo.classification">
@@ -121,7 +111,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.3.2</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_3_3" model="protocollo.classification">
@@ -132,7 +121,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.3.3</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_3_4" model="protocollo.classification">
@@ -143,7 +131,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.3.4</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_3_5" model="protocollo.classification">
@@ -154,7 +141,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.3.5</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_3_6" model="protocollo.classification">
@@ -165,7 +151,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.3.6</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_4" model="protocollo.classification">
@@ -176,7 +161,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Documentazione relativa alla composizione dei Gruppi, dalla costituzione alle eventuali dimissioni dei singoli membri.</field>
             <field name="code">1.4</field>
             <field name="class_type">classe</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_4_1" model="protocollo.classification">
@@ -187,7 +171,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.4.1</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_4_2" model="protocollo.classification">
@@ -198,7 +181,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.4.2</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_5" model="protocollo.classification">
@@ -209,7 +191,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Documentazione relativa alla composizione della Giunta ed alla sua attività. Comprende anche la serie “Verbali”</field>
             <field name="code">1.5</field>
             <field name="class_type">classe</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_5_1" model="protocollo.classification">
@@ -220,7 +201,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.5.1</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_5_2" model="protocollo.classification">
@@ -231,7 +211,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.5.2</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_5_3" model="protocollo.classification">
@@ -242,7 +221,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.5.3</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_5_4" model="protocollo.classification">
@@ -253,7 +231,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.5.4</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_5_5" model="protocollo.classification">
@@ -264,7 +241,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.5.5</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_6" model="protocollo.classification">
@@ -275,7 +251,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Documentazione relativa al Presidente e alla sua attività, compresa la partecipazione alla Conferenza dei Presidenti. Comprende le serie “Decreti”. Per la corrispondenza inviata al Presidente utilizzare la voce “Rapporti istituzionali” o “Relazioni internazionali e cooperazione internazionale”.</field>
             <field name="code">1.6</field>
             <field name="class_type">classe</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_6_1" model="protocollo.classification">
@@ -286,7 +261,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.6.1</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_6_2" model="protocollo.classification">
@@ -297,7 +271,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.6.2</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_6_3" model="protocollo.classification">
@@ -308,7 +281,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.6.3</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_6_4" model="protocollo.classification">
@@ -319,7 +291,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.6.4</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_7" model="protocollo.classification">
@@ -330,7 +301,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Documentazione relativa all’elezione ed alle attività dell’Ufficio e dei suoi membri. Comprende le serie “Convocazioni”, “Verbali” e “Deliberazioni”. Per la corrispondenza inviata ai membri dell’Ufficio di Presidenza utilizzare la voce “Rapporti istituzionali” o “Relazioni internazionali e cooperazione internazionale”</field>
             <field name="code">1.7</field>
             <field name="class_type">classe</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_7_1" model="protocollo.classification">
@@ -341,7 +311,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.7.1</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_7_2" model="protocollo.classification">
@@ -352,7 +321,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.7.2</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_7_3" model="protocollo.classification">
@@ -363,7 +331,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.7.3</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_7_4" model="protocollo.classification">
@@ -374,7 +341,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.7.4</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_7_5" model="protocollo.classification">
@@ -385,7 +351,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.7.5</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_8" model="protocollo.classification">
@@ -396,7 +361,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Articolato nelle singole Commissioni, comprende per ognuna la composizione (nomine e dimissioni), le convocazioni/o.d.g. e le serie dei “Verbali” e dei “Resoconti”, nonché le attività non di aula delle Commissioni. I pareri e i documenti prodotti per l’attività legislativa figurano nel Titolo 2. Audizioni e consultazioni che esulano dagli atti assegnati vanno classificati in “Indagini e visite conoscitive”. In “Corrispondenza generale” inserire la documentazione non riconducibile ad alcuna delle sue funzioni specifiche delle commissioni</field>
             <field name="code">1.8</field>
             <field name="class_type">classe</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_8_1" model="protocollo.classification">
@@ -407,7 +371,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.8.1</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_8_2" model="protocollo.classification">
@@ -418,7 +381,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.8.2</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_9" model="protocollo.classification">
@@ -429,7 +391,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Normativa a carattere generale riguardante il titolo nel suo complesso. Comprende Statuto e Regolamento.</field>
             <field name="code">1.9</field>
             <field name="class_type">classe</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_9_1" model="protocollo.classification">
@@ -440,7 +401,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.9.1</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_9_2" model="protocollo.classification">
@@ -451,7 +411,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.9.2</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_10" model="protocollo.classification">
@@ -462,7 +421,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Normativa a carattere generale riguardante il titolo nel suo complesso. Comprende Statuto e Regolamento.</field>
             <field name="code">1.10</field>
             <field name="class_type">classe</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_10_1" model="protocollo.classification">
@@ -473,7 +431,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.10.1</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_10_2" model="protocollo.classification">
@@ -484,7 +441,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.10.2</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_10_3" model="protocollo.classification">
@@ -495,7 +451,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.10.3</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_10_4" model="protocollo.classification">
@@ -506,7 +461,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.10.4</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_10_5" model="protocollo.classification">
@@ -517,7 +471,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.10.5</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_10_6" model="protocollo.classification">
@@ -528,7 +481,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.10.6</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_10_7" model="protocollo.classification">
@@ -539,7 +491,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.10.7</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_11" model="protocollo.classification">
@@ -550,10 +501,9 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Normativa a carattere generale riguardante il titolo nel suo complesso. Comprende Statuto e Regolamento.</field>
             <field name="code">1.11</field>
             <field name="class_type">classe</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
-                <record id="protocollo_classification_aoo_default_1_11_1" model="protocollo.classification">
+        <record id="protocollo_classification_aoo_default_1_11_1" model="protocollo.classification">
             <field name="aoo_id" ref="protocollo_aoo_default"/>
             <field name="name">Normativa, disposizioni di massima</field>
             <field name="parent_id" ref="protocollo_classification_aoo_default_1_11"/>
@@ -561,7 +511,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.11.1</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_11_2" model="protocollo.classification">
@@ -572,7 +521,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.11.2</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_11_3" model="protocollo.classification">
@@ -583,7 +531,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.11.3</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_11_4" model="protocollo.classification">
@@ -594,7 +541,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.11.4</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_11_5" model="protocollo.classification">
@@ -605,7 +551,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.11.5</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_11_6" model="protocollo.classification">
@@ -616,7 +561,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.11.6</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_11_7" model="protocollo.classification">
@@ -627,7 +571,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.11.7</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_11_8" model="protocollo.classification">
@@ -638,7 +581,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.11.8</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_11_9" model="protocollo.classification">
@@ -649,7 +591,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.11.9</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_11_10" model="protocollo.classification">
@@ -660,7 +601,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.11.10</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_12" model="protocollo.classification">
@@ -671,7 +611,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Normativa a carattere generale riguardante il titolo nel suo complesso. Comprende Statuto e Regolamento.</field>
             <field name="code">1.12</field>
             <field name="class_type">classe</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_12_1" model="protocollo.classification">
@@ -682,7 +621,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.12.1</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_12_2" model="protocollo.classification">
@@ -693,7 +631,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.12.2</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_12_3" model="protocollo.classification">
@@ -704,7 +641,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.12.3</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_12_4" model="protocollo.classification">
@@ -715,7 +651,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.12.4</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_12_5" model="protocollo.classification">
@@ -726,7 +661,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.12.5</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_12_6" model="protocollo.classification">
@@ -737,7 +671,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.12.6</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_12_7" model="protocollo.classification">
@@ -748,7 +681,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.12.7</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_13" model="protocollo.classification">
@@ -759,7 +691,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Normativa a carattere generale riguardante il titolo nel suo complesso. Comprende Statuto e Regolamento.</field>
             <field name="code">1.13</field>
             <field name="class_type">classe</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_13_1" model="protocollo.classification">
@@ -770,7 +701,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.13.1</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_13_2" model="protocollo.classification">
@@ -781,7 +711,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.13.2</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_13_3" model="protocollo.classification">
@@ -792,7 +721,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.13.3</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_13_4" model="protocollo.classification">
@@ -803,7 +731,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.13.4</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_13_5" model="protocollo.classification">
@@ -814,7 +741,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.13.5</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_13_6" model="protocollo.classification">
@@ -825,7 +751,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.13.6</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_14" model="protocollo.classification">
@@ -836,7 +761,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Normativa a carattere generale riguardante il titolo nel suo complesso. Comprende Statuto e Regolamento.</field>
             <field name="code">1.14</field>
             <field name="class_type">classe</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_14_1" model="protocollo.classification">
@@ -847,7 +771,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.14.1</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_14_2" model="protocollo.classification">
@@ -858,7 +781,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.14.2</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_15" model="protocollo.classification">
@@ -869,7 +791,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Normativa a carattere generale riguardante il titolo nel suo complesso. Comprende Statuto e Regolamento.</field>
             <field name="code">1.15</field>
             <field name="class_type">classe</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_15_1" model="protocollo.classification">
@@ -880,7 +801,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.15.1</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_15_2" model="protocollo.classification">
@@ -891,7 +811,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.15.2</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_15_3" model="protocollo.classification">
@@ -902,7 +821,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.15.3</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_15_4" model="protocollo.classification">
@@ -913,7 +831,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.15.4</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_15_5" model="protocollo.classification">
@@ -924,7 +841,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.15.5</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_15_6" model="protocollo.classification">
@@ -935,7 +851,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.15.6</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_15_7" model="protocollo.classification">
@@ -946,7 +861,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.15.7</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_16" model="protocollo.classification">
@@ -957,7 +871,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Normativa a carattere generale riguardante il titolo nel suo complesso. Comprende Statuto e Regolamento.</field>
             <field name="code">1.16</field>
             <field name="class_type">classe</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_16_1" model="protocollo.classification">
@@ -968,7 +881,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.16.1</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_16_2" model="protocollo.classification">
@@ -979,7 +891,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.16.2</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_16_3" model="protocollo.classification">
@@ -990,7 +901,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.16.3</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_16_4" model="protocollo.classification">
@@ -1001,7 +911,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.16.4</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_17" model="protocollo.classification">
@@ -1012,7 +921,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Normativa a carattere generale riguardante il titolo nel suo complesso. Comprende Statuto e Regolamento.</field>
             <field name="code">1.17</field>
             <field name="class_type">classe</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_17_1" model="protocollo.classification">
@@ -1023,7 +931,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.17.1</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_17_2" model="protocollo.classification">
@@ -1034,7 +941,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.17.2</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_17_3" model="protocollo.classification">
@@ -1045,7 +951,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.17.3</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_17_4" model="protocollo.classification">
@@ -1056,7 +961,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.17.4</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_17_5" model="protocollo.classification">
@@ -1067,7 +971,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.17.5</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_17_6" model="protocollo.classification">
@@ -1078,7 +981,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.17.6</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_17_7" model="protocollo.classification">
@@ -1089,7 +991,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.17.7</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_18" model="protocollo.classification">
@@ -1100,7 +1001,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Normativa a carattere generale riguardante il titolo nel suo complesso. Comprende Statuto e Regolamento.</field>
             <field name="code">1.18</field>
             <field name="class_type">classe</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_18_1" model="protocollo.classification">
@@ -1111,7 +1011,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.18.1</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_18_2" model="protocollo.classification">
@@ -1122,7 +1021,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.18.2</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_18_3" model="protocollo.classification">
@@ -1133,7 +1031,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.18.3</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_18_4" model="protocollo.classification">
@@ -1144,7 +1041,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">1.18.4</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_1_99" model="protocollo.classification">
@@ -1155,7 +1051,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Corrispondenza e documentazione non riconducibile specificamente al alcuna voce del presente titolo. Codice da usare con estrema cautela.</field>
             <field name="code">1.99</field>
             <field name="class_type">classe</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
 
@@ -1167,7 +1062,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description"></field>
             <field name="code">2</field>
             <field name="class_type">titolo</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_2_1" model="protocollo.classification">
@@ -1178,7 +1072,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Normativa a carattere generale riguardante il titolo nel suo complesso. Comprende Statuto e Regolamento.</field>
             <field name="code">2.1</field>
             <field name="class_type">classe</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_2_2" model="protocollo.classification">
@@ -1189,7 +1082,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Documentazione relativa alle elezioni del Consiglio, comprese le serie relative a ”Verbali” “Riepiloghi”</field>
             <field name="code">2.2</field>
             <field name="class_type">classe</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_2_2_1" model="protocollo.classification">
@@ -1200,7 +1092,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">2.2.1</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_2_2_2" model="protocollo.classification">
@@ -1211,7 +1102,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">2.2.2</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_2_2_3" model="protocollo.classification">
@@ -1222,7 +1112,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">2.2.3</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_2_3" model="protocollo.classification">
@@ -1233,7 +1122,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">2.3</field>
             <field name="class_type">classe</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_2_3_1" model="protocollo.classification">
@@ -1244,7 +1132,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">2.3.1</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_2_3_2" model="protocollo.classification">
@@ -1255,7 +1142,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">2.3.2</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_2_3_3" model="protocollo.classification">
@@ -1266,7 +1152,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">2.3.3</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_2_3_4" model="protocollo.classification">
@@ -1277,7 +1162,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">2.3.4</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_2_3_5" model="protocollo.classification">
@@ -1288,7 +1172,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">2.3.5</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_2_3_6" model="protocollo.classification">
@@ -1299,7 +1182,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">2.3.6</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_2_3_7" model="protocollo.classification">
@@ -1310,7 +1192,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">2.3.7</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_2_4" model="protocollo.classification">
@@ -1321,7 +1202,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">2.4</field>
             <field name="class_type">classe</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_2_5" model="protocollo.classification">
@@ -1332,7 +1212,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">2.5</field>
             <field name="class_type">classe</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_2_6" model="protocollo.classification">
@@ -1343,7 +1222,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">2.6</field>
             <field name="class_type">classe</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_2_7" model="protocollo.classification">
@@ -1354,7 +1232,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">2.7</field>
             <field name="class_type">classe</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_2_8" model="protocollo.classification">
@@ -1365,7 +1242,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">2.8</field>
             <field name="class_type">classe</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_2_9" model="protocollo.classification">
@@ -1376,7 +1252,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">2.9</field>
             <field name="class_type">classe</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_2_10" model="protocollo.classification">
@@ -1387,7 +1262,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">2.10</field>
             <field name="class_type">classe</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_2_11" model="protocollo.classification">
@@ -1398,7 +1272,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">2.11</field>
             <field name="class_type">classe</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_2_12" model="protocollo.classification">
@@ -1409,7 +1282,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">2.12</field>
             <field name="class_type">classe</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_2_13" model="protocollo.classification">
@@ -1420,7 +1292,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">2.13</field>
             <field name="class_type">classe</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_2_13_1" model="protocollo.classification">
@@ -1431,7 +1302,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">2.13.1</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_2_13_2" model="protocollo.classification">
@@ -1442,7 +1312,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">2.13.2</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_2_14" model="protocollo.classification">
@@ -1453,7 +1322,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">2.14</field>
             <field name="class_type">classe</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_2_14_1" model="protocollo.classification">
@@ -1464,7 +1332,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">2.14.1</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_2_14_2" model="protocollo.classification">
@@ -1475,7 +1342,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">2.14.2</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_2_14_3" model="protocollo.classification">
@@ -1486,7 +1352,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">2.14.3</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_2_15" model="protocollo.classification">
@@ -1497,7 +1362,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">2.15</field>
             <field name="class_type">classe</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_2_15_1" model="protocollo.classification">
@@ -1508,7 +1372,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">2.15.1</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_2_15_2" model="protocollo.classification">
@@ -1519,7 +1382,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">2.15.2</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_2_15_3" model="protocollo.classification">
@@ -1530,7 +1392,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">2.15.3</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_2_16" model="protocollo.classification">
@@ -1541,7 +1402,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">2.16</field>
             <field name="class_type">classe</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_2_16_1" model="protocollo.classification">
@@ -1552,7 +1412,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">2.16.1</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_2_16_2" model="protocollo.classification">
@@ -1563,7 +1422,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">2.16.2</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_2_17" model="protocollo.classification">
@@ -1574,7 +1432,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">2.17</field>
             <field name="class_type">classe</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_2_17_1" model="protocollo.classification">
@@ -1585,7 +1442,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">2.17.1</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_2_17_2" model="protocollo.classification">
@@ -1596,7 +1452,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">2.17.2</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_2_99" model="protocollo.classification">
@@ -1607,7 +1462,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Corrispondenza e documentazione non riconducibile specificamente al alcuna voce del presente titolo. Codice da usare con estrema cautela.</field>
             <field name="code">2.99</field>
             <field name="class_type">classe</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <!-- Titolo 3 -->
@@ -1618,7 +1472,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description"></field>
             <field name="code">3</field>
             <field name="class_type">titolo</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_3_1" model="protocollo.classification">
@@ -1629,7 +1482,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Normativa a carattere generale riguardante il titolo nel suo complesso. Comprende Statuto e Regolamento.</field>
             <field name="code">3.1</field>
             <field name="class_type">classe</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_3_2" model="protocollo.classification">
@@ -1640,7 +1492,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Documentazione relativa alle elezioni del Consiglio, comprese le serie relative a ”Verbali” “Riepiloghi”</field>
             <field name="code">3.2</field>
             <field name="class_type">classe</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_3_2_1" model="protocollo.classification">
@@ -1651,7 +1502,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">3.2.1</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_3_2_2" model="protocollo.classification">
@@ -1662,7 +1512,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">3.2.2</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_3_2_3" model="protocollo.classification">
@@ -1673,7 +1522,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">3.2.3</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_3_2_4" model="protocollo.classification">
@@ -1684,7 +1532,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">3.2.4</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_3_2_5" model="protocollo.classification">
@@ -1695,7 +1542,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">3.2.5</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_3_3" model="protocollo.classification">
@@ -1706,7 +1552,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Documentazione relativa alle elezioni del Consiglio, comprese le serie relative a ”Verbali” “Riepiloghi”</field>
             <field name="code">3.3</field>
             <field name="class_type">classe</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_3_3_1" model="protocollo.classification">
@@ -1717,7 +1562,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">3.3.1</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_3_3_2" model="protocollo.classification">
@@ -1728,7 +1572,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">3.3.2</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_3_3_3" model="protocollo.classification">
@@ -1739,7 +1582,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">3.3.3</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_3_4" model="protocollo.classification">
@@ -1750,7 +1592,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Documentazione relativa alle elezioni del Consiglio, comprese le serie relative a ”Verbali” “Riepiloghi”</field>
             <field name="code">3.4</field>
             <field name="class_type">classe</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_3_4_1" model="protocollo.classification">
@@ -1761,7 +1602,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">3.4.1</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_3_4_2" model="protocollo.classification">
@@ -1772,7 +1612,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">3.4.2</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_3_5" model="protocollo.classification">
@@ -1783,7 +1622,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Documentazione relativa alle elezioni del Consiglio, comprese le serie relative a ”Verbali” “Riepiloghi”</field>
             <field name="code">3.5</field>
             <field name="class_type">classe</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_3_5_1" model="protocollo.classification">
@@ -1794,7 +1632,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">3.5.1</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_3_5_2" model="protocollo.classification">
@@ -1805,7 +1642,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">3.5.2</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_3_5_3" model="protocollo.classification">
@@ -1816,7 +1652,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">3.5.3</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_3_5_4" model="protocollo.classification">
@@ -1827,7 +1662,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">3.5.4</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_3_6" model="protocollo.classification">
@@ -1838,7 +1672,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Documentazione relativa alle elezioni del Consiglio, comprese le serie relative a ”Verbali” “Riepiloghi”</field>
             <field name="code">3.6</field>
             <field name="class_type">classe</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_3_6_1" model="protocollo.classification">
@@ -1849,7 +1682,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">3.6.1</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_3_6_2" model="protocollo.classification">
@@ -1860,7 +1692,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">3.6.2</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_3_6_3" model="protocollo.classification">
@@ -1871,7 +1702,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">3.6.3</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_3_6_4" model="protocollo.classification">
@@ -1882,7 +1712,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">3.6.4</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_3_6_5" model="protocollo.classification">
@@ -1893,7 +1722,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">3.6.5</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_3_7" model="protocollo.classification">
@@ -1904,7 +1732,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Documentazione relativa alle elezioni del Consiglio, comprese le serie relative a ”Verbali” “Riepiloghi”</field>
             <field name="code">3.7</field>
             <field name="class_type">classe</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_3_8" model="protocollo.classification">
@@ -1915,7 +1742,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Documentazione relativa alle elezioni del Consiglio, comprese le serie relative a ”Verbali” “Riepiloghi”</field>
             <field name="code">3.8</field>
             <field name="class_type">classe</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_3_8_1" model="protocollo.classification">
@@ -1926,7 +1752,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">3.8.1</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_3_8_2" model="protocollo.classification">
@@ -1937,7 +1762,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">3.8.2</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_3_8_3" model="protocollo.classification">
@@ -1948,7 +1772,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">3.8.3</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_3_8_4" model="protocollo.classification">
@@ -1959,7 +1782,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">3.8.4</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
        <record id="protocollo_classification_aoo_default_3_9" model="protocollo.classification">
@@ -1970,7 +1792,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Documentazione relativa alle elezioni del Consiglio, comprese le serie relative a ”Verbali” “Riepiloghi”</field>
             <field name="code">3.9</field>
             <field name="class_type">classe</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_3_9_1" model="protocollo.classification">
@@ -1981,7 +1802,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">3.9.1</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_3_9_2" model="protocollo.classification">
@@ -1992,7 +1812,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">3.9.2</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_3_9_3" model="protocollo.classification">
@@ -2003,7 +1822,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">3.9.3</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
        <record id="protocollo_classification_aoo_default_3_10" model="protocollo.classification">
@@ -2014,7 +1832,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Documentazione relativa alle elezioni del Consiglio, comprese le serie relative a ”Verbali” “Riepiloghi”</field>
             <field name="code">3.10</field>
             <field name="class_type">classe</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_3_10_1" model="protocollo.classification">
@@ -2025,7 +1842,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">3.10.1</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_3_10_2" model="protocollo.classification">
@@ -2036,7 +1852,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">3.10.2</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
        <record id="protocollo_classification_aoo_default_3_11" model="protocollo.classification">
@@ -2047,7 +1862,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Documentazione relativa alle elezioni del Consiglio, comprese le serie relative a ”Verbali” “Riepiloghi”</field>
             <field name="code">3.11</field>
             <field name="class_type">classe</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_3_11_1" model="protocollo.classification">
@@ -2058,7 +1872,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">3.11.1</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_3_11_2" model="protocollo.classification">
@@ -2069,7 +1882,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">3.11.2</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_3_11_3" model="protocollo.classification">
@@ -2080,7 +1892,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">3.11.3</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
        <record id="protocollo_classification_aoo_default_3_12" model="protocollo.classification">
@@ -2091,7 +1902,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Documentazione relativa alle elezioni del Consiglio, comprese le serie relative a ”Verbali” “Riepiloghi”</field>
             <field name="code">3.12</field>
             <field name="class_type">classe</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_3_12_1" model="protocollo.classification">
@@ -2102,7 +1912,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">3.12.1</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_3_12_2" model="protocollo.classification">
@@ -2113,7 +1922,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Descrizione</field>
             <field name="code">3.12.2</field>
             <field name="class_type">sottoclasse</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
        <record id="protocollo_classification_aoo_default_3_13" model="protocollo.classification">
@@ -2124,7 +1932,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Documentazione relativa alle elezioni del Consiglio, comprese le serie relative a ”Verbali” “Riepiloghi”</field>
             <field name="code">3.13</field>
             <field name="class_type">classe</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
         <record id="protocollo_classification_aoo_default_3_99" model="protocollo.classification">
@@ -2135,7 +1942,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="description">Corrispondenza e documentazione non riconducibile specificamente al alcuna voce del presente titolo. Codice da usare con estrema cautela.</field>
             <field name="code">3.99</field>
             <field name="class_type">classe</field>
-            <field name="assigne" eval="[(6, 0, [ref('protocollo_dept_uor1'), ref('protocollo_dept_uor2'), ref('protocollo_dept_uor3'), ref('protocollo_dept_uor4'), ref('protocollo_dept_uor5')])]"/>
         </record>
 
     </data>

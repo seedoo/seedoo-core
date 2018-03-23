@@ -10,6 +10,10 @@ class protocollo_classification(osv.Model):
 
     _columns = {
         'aoo_id': fields.many2one('protocollo.aoo', 'AOO', required=True),
+        'assignee_default_in': fields.many2one('protocollo.assegnatario', 'Assegnatario Default Protocollo Ingresso',
+                                               domain=[('tipologia', '=', 'department')]),
+        'assignee_default_out': fields.many2one('protocollo.assegnatario', 'Assegnatario Default Protocollo Uscita',
+                                               domain=[('tipologia', '=', 'department')])
     }
 
     def _get_default_aoo_id(self, cr, uid, context=None):
@@ -105,12 +109,12 @@ class DocumentSearch(osv.TransientModel):
                      'ilike',
                      wizard.partner_id.name)
                 )
-            if wizard.office_id:
-                search_domain.append(
-                    ('assigne',
-                     'in',
-                     [wizard.office_id.id])
-                )
+            # if wizard.office_id:
+            #     search_domain.append(
+            #         ('assigne',
+            #          'in',
+            #          [wizard.office_id.id])
+            #     )
             if wizard.date_close_start:
                 search_domain.append(
                     ('registration_date',

@@ -2,6 +2,20 @@
 <openerp>
     <data>
 
+        <record id="view_protocollo_classification_form" model="ir.ui.view">
+            <field name="name">protocollo.classification.form</field>
+            <field name="model">protocollo.classification</field>
+            <field name="inherit_id" ref="seedoo_gedoc.protocollo_classification_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='description']" position="after">
+                    <field name="assignee_default_in"/>
+                    <newline/>
+                    <field name="assignee_default_out"/>
+                    <newline/>
+                </xpath>
+            </field>
+        </record>
+
          <record id="view_documento_protocollato_tree" model="ir.ui.view">
             <field name="name">Documenti Protocollati</field>
             <field name="model">documento.protocollato</field>

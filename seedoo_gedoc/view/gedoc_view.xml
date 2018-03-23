@@ -40,9 +40,6 @@ this module contains the full copyright notices and license terms. -->
                             <field name="description" colspan="4"/>
                         </group>
                         <notebook>
-                            <page string="Uffici di competenza">
-                                <field name="assigne" nolabel="1" colspan="4"/>
-                            </page>
                             <page string="Fascicoli">
                                 <field name="dossier_ids" nolabel="1"
                                        colspan="4"/>
