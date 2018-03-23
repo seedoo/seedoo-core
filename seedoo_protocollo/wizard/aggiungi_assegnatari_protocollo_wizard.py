@@ -83,14 +83,14 @@ class protocollo_aggiungi_assegnatari_wizard(osv.TransientModel):
         wizard = self.browse(cr, uid, ids[0], context)
         employee_ids = self.pool.get('hr.employee').search(cr, uid, [('user_id', '=', uid)])
 
-        check = False
-        if protocollo.state in (
-            'registered', 'notified', 'waiting', 'sent', 'error') and not protocollo.assegnazione_competenza_ids:
-                check = True
-
-        if not check:
-            raise openerp.exceptions.Warning(_(
-                '"Non è più possibile eseguire l\'operazione richiesta! Il protocollo è già stato assegnato da un altro utente!'))
+        # check = False
+        # if protocollo.state in (
+        #     'registered', 'notified', 'waiting', 'sent', 'error') and not protocollo.assegnazione_competenza_ids:
+        #         check = True
+        #
+        # if not check:
+        #     raise openerp.exceptions.Warning(_(
+        #         '"Non è più possibile eseguire l\'operazione richiesta! Il protocollo è già stato assegnato da un altro utente!'))
 
         # assegnazione per competenza
         if save_history:
