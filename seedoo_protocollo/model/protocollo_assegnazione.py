@@ -73,6 +73,37 @@ class protocollo_assegnatario(osv.osv):
               )
         """, (EMPLOYEE_MASK, DEPARTMENT_MASK, SUPERUSER_ID, DEPARTMENT_MASK, DEPARTMENT_MASK))
 
+        cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_assegnazione\'')
+
+        if not cr.fetchone():
+            cr.execute("""
+            CREATE INDEX idx_protocollo_assegnazione
+            ON public.protocollo_assegnazione
+            USING btree
+            (tipologia_assegnazione COLLATE pg_catalog."default", tipologia_assegnatario COLLATE pg_catalog."default", state 
+            COLLATE pg_catalog."default", parent_id, assegnatario_employee_id);
+            """)
+
+        cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_conoscenza\'')
+
+        if not cr.fetchone():
+            cr.execute("""
+            CREATE INDEX idx_conoscenza
+            ON public.protocollo_assegnazione
+            USING btree
+            (assegnatario_employee_id, tipologia_assegnazione COLLATE pg_catalog."default", state COLLATE pg_catalog."default");
+        """)
+
+        cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_attesa\'')
+        if not cr.fetchone():
+            cr.execute("""
+            CREATE INDEX idx_attesa
+            ON public.protocollo_assegnazione
+            USING btree
+            (assegnatore_id, tipologia_assegnazione COLLATE pg_catalog."default", state COLLATE pg_catalog."default", 
+            tipologia_assegnatario COLLATE pg_catalog."default", parent_id);
+        """)
+
 
 
 class protocollo_assegnazione(orm.Model):
