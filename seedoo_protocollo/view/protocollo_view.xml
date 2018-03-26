@@ -664,17 +664,20 @@ this module contains the full copyright notices and license terms. -->
                                         string="Aggiungi Assegnatari"
                                         type="action"
                                         attrs="{'invisible':['|',('assegnazione_first_level_ids','!=',[]),'&amp;',('id','!=',False),('modifica_assegnatari_visibility','=',False)]}"
-                                        class="oe_highlight_positive btn_seedoo"/>
+                                        class="oe_highlight_positive btn_seedoo"
+                                        context="{'assegnatari_initial_state':assegnazione_first_level_ids}"/>
                                 <button name="%(protocollo_aggiungi_assegnatari_action)d"
                                         string="Modifica Assegnatari"
                                         type="action"
                                         attrs="{'invisible':['|',('assegnazione_first_level_ids','=',[]),('modifica_assegnatari_visibility','=',False)]}"
-                                        class="oe_highlight_positive btn_seedoo"/>
+                                        class="oe_highlight_positive btn_seedoo"
+                                        context="{'assegnatari_initial_state':assegnazione_first_level_ids}"/>
                                 <button name="%(protocollo_aggiungi_assegnatari_cc_action)d"
                                         string="Aggiungi Assegnatari Conoscenza"
                                         type="action"
                                         attrs="{'invisible':['|',('aggiungi_assegnatari_cc_visibility','=',False),('reserved','=',True)]}"
-                                        class="oe_highlight_positive btn_seedoo"/>
+                                        class="oe_highlight_positive btn_seedoo"
+                                        context="{'assegnatari_initial_state':assegnazione_first_level_ids}"/>
 
                                 <group col="4">
                                     <field name="assegnazione_first_level_ids" nolabel="1" colspan="4"/>
