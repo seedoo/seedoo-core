@@ -17,10 +17,19 @@ this module contains the full copyright notices and license terms. -->
             <field name="arch" type="xml">
             <form string="Esito Registrazione" class="protocollo_registration_container">
                 <group>
+                    <field name="senders" readonly="1"
+                           attrs="{'invisible':['|',('message_verifica_campi_obbligatori', '!=' , False),('senders','=',False)]}"/>
+                    <field name="receivers" readonly="1"
+                           attrs="{'invisible':['|',('message_verifica_campi_obbligatori', '!=' , False),('receivers','=',False)]}"/>
                     <field name="subject" readonly="1"
-                            attrs="{'invisible':[('message_verifica_campi_obbligatori', '!=' , False)]}"/>
+                           attrs="{'invisible':[('message_verifica_campi_obbligatori', '!=' , False)]}"/>
+                    <field name="assegnatario_competenza_id" readonly="1"
+                           options="{'no_quick_create': True, 'no_create_edit': True, 'no_open': True}"
+                           attrs="{'invisible':[('message_verifica_campi_obbligatori', '!=' , False)]}"/>
+                    <field name="assegnatario_conoscenza_ids" readonly="1"
+                           attrs="{'invisible':[('message_verifica_campi_obbligatori', '!=' , False)]}"/>
                     <field name="message_verifica_campi_obbligatori" readonly="1" nolabel="1"
-                            attrs="{'invisible':[('message_verifica_campi_obbligatori', '=' , False)]}"/>
+                           attrs="{'invisible':[('message_verifica_campi_obbligatori', '=' , False)]}"/>
                 </group>
                 <!--<group>-->
                     <!--<field name="assegnatari_competenza_uffici_ids" readonly="1"/>-->
