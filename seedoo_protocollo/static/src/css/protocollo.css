@@ -540,16 +540,16 @@ li.badge {
   content: "\f007";
 }
 .protocollo_form_tabs ul.ui-tabs-nav li:nth-child(3) a:before {
-  content: "\f0c6";
+  content: "\f00b";
 }
 .protocollo_form_tabs ul.ui-tabs-nav li:nth-child(4) a:before {
-  content: "\f00b";
+  content: "\f0e8";
 }
 .protocollo_form_tabs ul.ui-tabs-nav li:nth-child(5) a:before {
   content: "\f115";
 }
 .protocollo_form_tabs ul.ui-tabs-nav li:nth-child(6) a:before {
-  content: "\f0e8";
+  content: "\f0c6";
 }
 .protocollo_form_tabs ul.ui-tabs-nav li:nth-child(7) a:before {
   content: "\f044";

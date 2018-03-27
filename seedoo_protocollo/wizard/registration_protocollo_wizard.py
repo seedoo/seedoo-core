@@ -13,7 +13,7 @@ class protocollo_registration_confirmation_wizard(models.TransientModel):
         'subject': fields.char('Oggetto', readonly=True),
         'assegnatario_competenza_id': fields.many2one('protocollo.assegnatario',
                                                       'Assegnatario Competenza',
-                                                      required=True, readonly=True),
+                                                      readonly=True),
         'assegnatario_conoscenza_ids': fields.html('Assegnatari CC', readonly=True),
         'message_verifica_campi_obbligatori': fields.html('Verifica campi obbligatori', readonly=True)
     }

@@ -383,10 +383,6 @@ this module contains the full copyright notices and license terms. -->
                                 attrs="{'invisible':[('rifiuta_visibility','=',False)]}"
                                 class="oe_highlight_warning btn_seedoo btn_rifiuta_presa_in_carico"/>
 
-                        <button name="%(protocollo_modify_action)d" string="Modifica" type="action"
-                                attrs="{'invisible':[('modifica_dati_generali_visibility','=',False)]}"
-                                class="oe_highlight_positive btn_seedoo btn_modifica_protocollo"/>
-
                         <button name="%(protocollo_classifica_action)d" string="Classifica" type="action"
                                 attrs="{'invisible':[('classifica_visibility','=',False)]}"
                                 class="oe_highlight_positive btn_seedoo btn_classifica"/>
@@ -487,6 +483,11 @@ this module contains the full copyright notices and license terms. -->
                                 <div class="accordion-content accordion-open">
                                     <group col="8">
                                         <group>
+                                            <group colspan="2">
+                                                <button name="%(protocollo_modify_action)d" string="Modifica" type="action"
+                                                    attrs="{'invisible':[('modifica_dati_generali_visibility','=',False)]}"
+                                                    class="oe_highlight_positive btn_seedoo btn_modifica_protocollo"/>
+                                            </group>
                                             <field name="typology" on_change="on_change_typology(typology)" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}"/>
                                             <field name="subject" attrs="{'required':[('state','!=','draft')]}" class="protocollo_oggetto"/>
                                             <field name="doc_content" filename="doc_fname" attrs="{'invisible':[('doc_id','=',False)]}"/>
@@ -584,6 +585,56 @@ this module contains the full copyright notices and license terms. -->
                                     <field name="receivers" mode="kanban" nolabel="1" class="container_sr" attrs="{'readonly':[('state','!=','draft')]}"/>
                                 </group>
                             </page>
+
+                            <!--<page string="Preview" attrs="{'invisible':[('mimetype','!=','application/pdf')]}">-->
+                                <!--<field name="preview" noupload="True"-->
+                                       <!--nolabel="1"-->
+                                       <!--options="{'uploadbutton':false}"-->
+                                       <!--attrs="{'readonly':True}"-->
+                                       <!--widget="pdfviewer"/>-->
+                            <!--</page>-->
+                            <page string="Classificazione">
+                                <group col="4">
+                                    <field name="classification" nolabel="1"
+                                           widget="m2o_tree" colspan="4"
+                                           options="{'limit': 5000, 'create': false, 'create_edit': false, 'label': 'name_and_code'}"/>
+                                </group>
+                            </page>
+                            <page string="Assegnatari">
+
+                                <button name="%(protocollo_aggiungi_assegnatari_action)d"
+                                        string="Aggiungi Assegnatari"
+                                        type="action"
+                                        attrs="{'invisible':['|',('assegnazione_first_level_ids','!=',[]),'&amp;',('id','!=',False),('modifica_assegnatari_visibility','=',False)]}"
+                                        class="oe_highlight_positive btn_seedoo"
+                                        context="{'assegnatari_initial_state':assegnazione_first_level_ids}"/>
+                                <button name="%(protocollo_aggiungi_assegnatari_action)d"
+                                        string="Modifica Assegnatari"
+                                        type="action"
+                                        attrs="{'invisible':['|',('assegnazione_first_level_ids','=',[]),('modifica_assegnatari_visibility','=',False)]}"
+                                        class="oe_highlight_positive btn_seedoo"
+                                        context="{'assegnatari_initial_state':assegnazione_first_level_ids}"/>
+                                <button name="%(protocollo_aggiungi_assegnatari_cc_action)d"
+                                        string="Aggiungi Assegnatari Conoscenza"
+                                        type="action"
+                                        attrs="{'invisible':['|',('aggiungi_assegnatari_cc_visibility','=',False),('reserved','=',True)]}"
+                                        class="oe_highlight_positive btn_seedoo"
+                                        context="{'assegnatari_initial_state':assegnazione_first_level_ids}"/>
+
+                                <group col="4">
+                                    <field name="assegnazione_first_level_ids" nolabel="1" colspan="4"/>
+                                </group>
+                            </page>
+                            <page string="Fascicoli">
+                                <group col="4">
+                                    <field name="dossier_ids" nolabel="1"
+                                           options="{'limit': 10, 'no_create': True}"
+                                           domain="[('state','=','open')]"
+                                           attrs="{'readonly':[('state','!=','draft')]}"
+                                           colspan="4"
+                                    />
+                                </group>
+                            </page>
                             <page string="Allegati" class="tab-allegati">
                                 <group col="4" colspan="4">
                                     <button string="Carica Allegati" type="action" class="oe_inline oe_highlight_positive oe_button btn_seedoo btn_carica_documenti button-form-protocollo"
@@ -634,67 +685,18 @@ this module contains the full copyright notices and license terms. -->
                                 </field>
                                 </group>
                             </page>
-                            <!--<page string="Preview" attrs="{'invisible':[('mimetype','!=','application/pdf')]}">-->
-                                <!--<field name="preview" noupload="True"-->
-                                       <!--nolabel="1"-->
-                                       <!--options="{'uploadbutton':false}"-->
-                                       <!--attrs="{'readonly':True}"-->
-                                       <!--widget="pdfviewer"/>-->
-                            <!--</page>-->
-                            <page string="Classificazione">
-                                <group col="4">
-                                    <field name="classification" nolabel="1"
-                                           widget="m2o_tree" colspan="4"
-                                           options="{'limit': 5000, 'create': false, 'create_edit': false, 'label': 'name_and_code'}"/>
-                                </group>
-                            </page>
-                            <page string="Fascicolazione">
-                                <group col="4">
-                                    <field name="dossier_ids" nolabel="1"
-                                           options="{'limit': 10, 'no_create': True}"
-                                           domain="[('state','=','open')]"
-                                           attrs="{'readonly':[('state','!=','draft')]}"
-                                           colspan="4"
-                                    />
-                                </group>
-                            </page>
-                            <page string="Assegnatari">
-
-                                <button name="%(protocollo_aggiungi_assegnatari_action)d"
-                                        string="Aggiungi Assegnatari"
-                                        type="action"
-                                        attrs="{'invisible':['|',('assegnazione_first_level_ids','!=',[]),'&amp;',('id','!=',False),('modifica_assegnatari_visibility','=',False)]}"
-                                        class="oe_highlight_positive btn_seedoo"
-                                        context="{'assegnatari_initial_state':assegnazione_first_level_ids}"/>
-                                <button name="%(protocollo_aggiungi_assegnatari_action)d"
-                                        string="Modifica Assegnatari"
-                                        type="action"
-                                        attrs="{'invisible':['|',('assegnazione_first_level_ids','=',[]),('modifica_assegnatari_visibility','=',False)]}"
-                                        class="oe_highlight_positive btn_seedoo"
-                                        context="{'assegnatari_initial_state':assegnazione_first_level_ids}"/>
-                                <button name="%(protocollo_aggiungi_assegnatari_cc_action)d"
-                                        string="Aggiungi Assegnatari Conoscenza"
-                                        type="action"
-                                        attrs="{'invisible':['|',('aggiungi_assegnatari_cc_visibility','=',False),('reserved','=',True)]}"
-                                        class="oe_highlight_positive btn_seedoo"
-                                        context="{'assegnatari_initial_state':assegnazione_first_level_ids}"/>
-
-                                <group col="4">
-                                    <field name="assegnazione_first_level_ids" nolabel="1" colspan="4"/>
-                                </group>
-                            </page>
                             <page string="Note">
                                 <label for="notes"/>
                                 <field name="notes" colspan="4"/>
                             </page>
-                            <page string="Segnatura XML"
-                                  groups="base.group_system">
+                            <!--<page string="Segnatura XML"-->
+                                  <!--groups="base.group_system">-->
                                 <!--<label for="fingerprint"/>-->
                                 <!--<field name="fingerprint" readonly="1" colspan="4"/>-->
-                                <newline/>
-                                <label for="xml_signature"/>
-                                <field name="xml_signature" readonly="1" colspan="4"/>
-                            </page>
+                                <!--<newline/>-->
+                                <!--<label for="xml_signature"/>-->
+                                <!--<field name="xml_signature" readonly="1" colspan="4"/>-->
+                            <!--</page>-->
                         </notebook>
 
                         <div class="oe_chatter oe_protocollo_chatter">
