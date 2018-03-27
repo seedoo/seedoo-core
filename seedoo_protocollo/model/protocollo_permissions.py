@@ -1168,6 +1168,22 @@ class protocollo_protocollo(osv.Model):
 
         return dict(res)
 
+    def _carica_modifica_documento_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
+        res = []
+        check = False
+        protocolli = self._get_protocolli(cr, uid, ids)
+        for protocollo in protocolli:
+
+            if protocollo.state in 'draft':
+                check = True
+
+            if protocollo.state in 'registered' and protocollo.user_id.id == uid:
+                check = True
+
+            res.append((protocollo.id, check))
+
+        return dict(res)
+
     ####################################################################################################################
 
     _columns = {
@@ -1204,7 +1220,9 @@ class protocollo_protocollo(osv.Model):
         'modifica_email_visibility': fields.function(_modifica_email_visibility, type='boolean', string='Modifica e-mail'),
         'protocollazione_riservata_visibility': fields.function(_protocollazione_riservata_visibility, type='boolean', string='Protocollazione Riservata'),
         'aggiungi_allegati_post_registrazione_visibility': fields.function(_aggiungi_allegati_post_registrazione_visibility, type='boolean', string='Aggiungi Allegati Post Registrazione'),
-        'inserisci_testo_mailpec_visibility': fields.function(_inserisci_testo_mailpec_visibility, type='boolean', string='Abilita testo PEC')
+        'inserisci_testo_mailpec_visibility': fields.function(_inserisci_testo_mailpec_visibility, type='boolean', string='Abilita testo PEC'),
+        'carica_modifica_documento_visibility': fields.function(_carica_modifica_documento_visibility, type='boolean',
+                                                              string='Carica/Modifica documento')
 
     }
 
