@@ -318,6 +318,8 @@ this module contains the full copyright notices and license terms. -->
                     (4, ref('seedoo_protocollo.group_modifica_destinatari_pec_uscita')),
                     (4, ref('seedoo_protocollo.group_invia_protocollo_sharedmail_uscita')),
                     (4, ref('seedoo_protocollo.group_modifica_destinatari_email_uscita')),
+                    (4, ref('seedoo_protocollo.group_modifica_classificazione_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_modifica_classificazione_protocollo_uscita')),
                 ]"/>
             <field name="state">enabled</field>
         </record>
@@ -366,6 +368,8 @@ this module contains the full copyright notices and license terms. -->
                     (4, ref('seedoo_protocollo.group_configurazione_parametri')),
                     (4, ref('seedoo_protocollo.group_configurazione_giornaliero')),
                     (4, ref('seedoo_protocollo.group_configurazione_emergenza')),
+                    (4, ref('seedoo_protocollo.group_modifica_classificazione_protocollo_ingresso')),
+                    (4, ref('seedoo_protocollo.group_modifica_classificazione_protocollo_uscita')),
                 ]"/>
             <field name="state">enabled</field>
         </record>

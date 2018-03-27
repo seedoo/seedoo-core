@@ -36,6 +36,8 @@ class protocollo_configurazione(orm.Model):
 
         'non_classificati_active': fields.boolean('Visualizza Box "Non Classificati" nella Dashboard'),
         'non_fascicolati_active': fields.boolean('Visualizza Box "Non Fascicolati" nella Dashboard'),
+
+        'sostituisci_assegnatari': fields.boolean('Sostituisci Assegnatari Default in Modifica Classificazione'),
     }
 
     _defaults = {
@@ -57,6 +59,7 @@ class protocollo_configurazione(orm.Model):
         'email_pec_unique': True,
         'non_classificati_active': True,
         'non_fascicolati_active': True,
+        'sostituisci_assegnatari': True
     }
 
     def verifica_campi_obbligatori(self, cr, uid, protocollo):

@@ -799,6 +799,28 @@ class protocollo_protocollo(osv.Model):
         return dict(res)
 
 
+    def _modifica_classificazione_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
+        res = []
+
+        protocolli = self._get_protocolli(cr, uid, ids)
+        for protocollo in protocolli:
+            check = False
+
+            if protocollo.type == 'in':
+                check = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_modifica_classificazione_protocollo_ingresso')
+            elif protocollo.type == 'out':
+                check = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_modifica_classificazione_protocollo_uscita')
+
+            if not check and \
+                protocollo.state=='draft' and \
+                (uid==protocollo.user_id.id or uid==SUPERUSER_ID):
+                check = True
+
+            res.append((protocollo.id, check))
+
+        return dict(res)
+
+
     def _classifica_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
 
@@ -806,7 +828,7 @@ class protocollo_protocollo(osv.Model):
         for protocollo in protocolli:
             check = False
 
-            if protocollo.state in ('registered', 'notified', 'waiting', 'sent', 'error'):
+            if protocollo.state in ('registered', 'notified', 'waiting', 'sent', 'error') and not protocollo.classification:
                 check = True
 
             if check:
@@ -1167,6 +1189,7 @@ class protocollo_protocollo(osv.Model):
         'prendi_in_carico_visibility': fields.function(_prendi_in_carico_visibility, type='boolean', string='Prendi in Carico'),
         'rifiuta_visibility': fields.function(_rifiuta_visibility, type='boolean', string='Rifiuta'),
         'modifica_dati_generali_visibility': fields.function(_modifica_dati_generali_visibility, type='boolean', string='Modifica Dati Generali'),
+        'modifica_classificazione_visibility': fields.function(_modifica_classificazione_visibility, type='boolean', string='Modifica Classificazione'),
         'classifica_visibility': fields.function(_classifica_visibility, type='boolean', string='Classifica'),
         'fascicola_visibility': fields.function(_fascicola_visibility, type='boolean', string='Fascicola'),
         'modifica_assegnatari_visibility': fields.function(_modifica_assegnatari_visibility, type='boolean', string='Modifica Assegnatari'),

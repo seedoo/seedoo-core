@@ -93,6 +93,12 @@ this module contains the full copyright notices and license terms. -->
             <field name="category_id" ref="module_category_protocollo"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
+        <!-- Button "Modifica Classificazione" nella vista form protocollo in ingresso -->
+        <record id="group_modifica_classificazione_protocollo_ingresso" model="res.groups">
+            <field name="name">Modifica Classificazione Protocollo in Ingresso</field>
+            <field name="category_id" ref="module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
         <!-- Button "Classifica" nella vista form protocollo in ingresso -->
         <record id="group_classifica_protocollo_ingresso" model="res.groups">
             <field name="name">Classifica Protocollo in Ingresso</field>
@@ -105,7 +111,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="category_id" ref="module_category_protocollo"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
-        <!-- Button "Aggiungi Assegnatari"/"Modifica Assegnatari" nella vista form protocollo in ingresso -->
+        <!-- Button "Modifica Assegnatari" nella vista form protocollo in ingresso -->
         <record id="group_modifica_assegnatari_protocollo_ingresso" model="res.groups">
             <field name="name">Modifica Assegnatari Protocollo in Ingresso</field>
             <field name="category_id" ref="module_category_protocollo"/>
@@ -160,6 +166,12 @@ this module contains the full copyright notices and license terms. -->
             <field name="category_id" ref="module_category_protocollo"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
+        <!-- Button "Modifica Classificazione" nella vista form protocollo in uscita -->
+        <record id="group_modifica_classificazione_protocollo_uscita" model="res.groups">
+            <field name="name">Modifica Classificazione Protocollo in Uscita</field>
+            <field name="category_id" ref="module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
         <!-- Button "Classifica" nella vista form protocollo in uscita -->
         <record id="group_classifica_protocollo_uscita" model="res.groups">
             <field name="name">Classifica Protocollo in Uscita</field>
@@ -172,7 +184,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="category_id" ref="module_category_protocollo"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
-        <!-- Button "Aggiungi Assegnatari"/"Modifica Assegnatari" nella vista form protocollo in uscita -->
+        <!-- Button "Modifica Assegnatari" nella vista form protocollo in uscita -->
         <record id="group_modifica_assegnatari_protocollo_uscita" model="res.groups">
             <field name="name">Modifica Assegnatari Protocollo in Uscita</field>
             <field name="category_id" ref="module_category_protocollo"/>

@@ -79,7 +79,7 @@ class protocollo_aggiungi_assegnatari_wizard(osv.TransientModel):
         before = {'competenza': '', 'conoscenza': ''}
         after = {'competenza': '', 'conoscenza': ''}
         protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
-        save_history = protocollo.state != ''
+        save_history = protocollo.state != 'draft'
         wizard = self.browse(cr, uid, ids[0], context)
         employee_ids = self.pool.get('hr.employee').search(cr, uid, [('user_id', '=', uid)])
 

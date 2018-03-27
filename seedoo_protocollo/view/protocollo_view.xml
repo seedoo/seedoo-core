@@ -387,7 +387,7 @@ this module contains the full copyright notices and license terms. -->
                                 attrs="{'invisible':[('modifica_dati_generali_visibility','=',False)]}"
                                 class="oe_highlight_positive btn_seedoo btn_modifica_protocollo"/>
 
-                        <button name="%(protocollo_classifica_action)d" string="Classifica" type="action"
+                        <button name="%(protocollo_aggiungi_classificazione_action)d" string="Classifica" type="action"
                                 attrs="{'invisible':[('classifica_visibility','=',False)]}"
                                 class="oe_highlight_positive btn_seedoo btn_classifica"/>
 
@@ -440,6 +440,7 @@ this module contains the full copyright notices and license terms. -->
                             <field name="prendi_in_carico_visibility"/>
                             <field name="rifiuta_visibility"/>
                             <field name="modifica_dati_generali_visibility"/>
+                            <field name="modifica_classificazione_visibility"/>
                             <field name="classifica_visibility"/>
                             <field name="fascicola_visibility"/>
                             <field name="modifica_assegnatari_visibility"/>
@@ -643,9 +644,19 @@ this module contains the full copyright notices and license terms. -->
                             <!--</page>-->
                             <page string="Classificazione">
                                 <group col="4">
-                                    <field name="classification" nolabel="1"
-                                           widget="m2o_tree" colspan="4"
-                                           options="{'limit': 5000, 'create': false, 'create_edit': false, 'label': 'name_and_code'}"/>
+                                    <field name="classification" nolabel="1" readonly="1" colspan="4"/>
+                                    <newline/>
+                                    <button name="%(protocollo_aggiungi_classificazione_action)d"
+                                            string="Aggiungi Classificazione"
+                                            type="action"
+                                            attrs="{'invisible':['|',('classification','!=',False),('state','!=','draft')]}"
+                                            class="oe_highlight_positive btn_seedoo"/>
+                                    <newline/>
+                                    <button name="%(protocollo_aggiungi_classificazione_action)d"
+                                            string="Modifica Classificazione"
+                                            type="action"
+                                            attrs="{'invisible':['|',('classification','=',False),('modifica_classificazione_visibility','=',False)]}"
+                                            class="oe_highlight_positive btn_seedoo"/>
                                 </group>
                             </page>
                             <page string="Fascicolazione">
@@ -663,7 +674,7 @@ this module contains the full copyright notices and license terms. -->
                                 <button name="%(protocollo_aggiungi_assegnatari_action)d"
                                         string="Aggiungi Assegnatari"
                                         type="action"
-                                        attrs="{'invisible':['|',('assegnazione_first_level_ids','!=',[]),'&amp;',('id','!=',False),('modifica_assegnatari_visibility','=',False)]}"
+                                        attrs="{'invisible':['|',('assegnazione_first_level_ids','!=',[]),('state','!=','draft')]}"
                                         class="oe_highlight_positive btn_seedoo"/>
                                 <button name="%(protocollo_aggiungi_assegnatari_action)d"
                                         string="Modifica Assegnatari"

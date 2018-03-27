@@ -63,6 +63,9 @@ class protocollo_config_settings(osv.osv_memory):
                                                   string='Visualizza Box "Non Classificati"'),
         'non_fascicolati_active': fields.related('config_id', 'non_fascicolati_active', type='boolean',
                                                   string='Visualizza Box "Non Fascicolati"'),
+
+        'sostituisci_assegnatari': fields.related('config_id', 'sostituisci_assegnatari', type='boolean',
+                                                 string='Sostituisci Assegnatari Default in Modifica Classificazione'),
     }
 
     def _default_config_id(self, cr, uid, context):
