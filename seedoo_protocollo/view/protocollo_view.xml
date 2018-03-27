@@ -462,7 +462,7 @@ this module contains the full copyright notices and license terms. -->
                         <!--</div>-->
                         <div id="protocollo-accordion">
                             <div class="dati-protocollo-container" id="protocollo-container">
-                                <div class="protocollo-accordion-toggle">
+                                <div class="protocollo-accordion-toggle open">
                                     <h4 class="accordion-toggle">Dati Protocollo</h4>
                                 </div>
                                 <div class="accordion-content accordion-open">
@@ -477,17 +477,17 @@ this module contains the full copyright notices and license terms. -->
                                 </div>
                             </div>
                             <div class="dati-protocollo-container" id="documento-container">
-                                <div class="protocollo-accordion-toggle">
+                                <div class="protocollo-accordion-toggle open">
                                     <h4 class="accordion-toggle">Dati Documento</h4>
                                 </div>
                                 <div class="accordion-content accordion-open">
+                                     <group>
+                                        <button name="%(protocollo_modify_action)d" string="Modifica" type="action"
+                                                attrs="{'invisible':[('modifica_dati_generali_visibility','=',False)]}"
+                                                class="oe_highlight_positive btn_seedoo btn_modifica_protocollo"/>
+                                    </group>
                                     <group col="8">
                                         <group>
-                                            <group colspan="2">
-                                                <button name="%(protocollo_modify_action)d" string="Modifica" type="action"
-                                                    attrs="{'invisible':[('modifica_dati_generali_visibility','=',False)]}"
-                                                    class="oe_highlight_positive btn_seedoo btn_modifica_protocollo"/>
-                                            </group>
                                             <field name="typology" on_change="on_change_typology(typology)" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}"/>
                                             <field name="subject" attrs="{'required':[('state','!=','draft')]}" class="protocollo_oggetto"/>
                                             <field name="doc_content" filename="doc_fname" attrs="{'invisible':[('doc_id','=',False)]}"/>
@@ -544,9 +544,9 @@ this module contains the full copyright notices and license terms. -->
 
                             <div class="dati-protocollo-container" id="mittente-container" attrs="{'invisible':[('type','!=','in')]}">
                                 <div class="protocollo-accordion-toggle">
-                                    <h4 class="accordion-toggle accordion-open">Dati Protocollo Mittente</h4>
+                                    <h4 class="accordion-toggle open">Dati Protocollo Mittente</h4>
                                 </div>
-                                <div class="accordion-content">
+                                <div class="accordion-content accordion-open">
                                     <newline/>
                                     <group col="4">
                                         <field name="sender_registration_date" attrs="{'invisible':[('type','!=','in')],'readonly':[('state','!=','draft')]}"/>
