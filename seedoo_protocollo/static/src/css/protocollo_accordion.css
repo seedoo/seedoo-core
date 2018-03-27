@@ -7,6 +7,7 @@
   position: relative;
   padding: 5px 10px;
 }
+
 .protocollo-accordion-toggle h4::after {
   content: "+";
   position: absolute;
@@ -20,6 +21,9 @@
   -webkit-transition: all .35s;
   -o-transition: all .35s;
   transition: all .35s;
+}
+.protocollo-accordion-toggle.open h4::after {
+  content: "-";
 }
 .protocollo-accordion-toggle .accordion-selected h4::after {
   transform: rotate(315deg);

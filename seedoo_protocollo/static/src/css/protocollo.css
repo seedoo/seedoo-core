@@ -654,6 +654,9 @@ li.badge {
 .oe_form_accordion_tab_invalid {
   color: #c00;
 }
+div.dati-protocollo-container {
+  margin-top: 10px;
+}
 div.dati-protocollo-container h4:before {
   font-family: FontAwesome;
   margin-right: 10px;

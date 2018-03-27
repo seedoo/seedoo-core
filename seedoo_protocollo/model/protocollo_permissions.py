@@ -513,6 +513,8 @@ class protocollo_protocollo(osv.Model):
     def _assegnato_a_me_visibility(self, cr, uid, ids, name, arg, context=None):
         return {}
     def _assegnato_a_me_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
+        start = int(round(time.time() * 1000))
+
         cr.execute('''
             SELECT DISTINCT(pa.protocollo_id) 
             FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
@@ -527,12 +529,15 @@ class protocollo_protocollo(osv.Model):
                   pa.parent_id IS NULL
         ''', (uid, ))
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
+        end = int(round(time.time() * 1000))
+        _logger.info("_assegnato_a_me_visibility_search: " + str(end-start))
         return [('id', 'in', protocollo_visible_ids)]
 
 
     def _assegnato_cc_visibility(self, cr, uid, ids, name, arg, context=None):
         return {}
     def _assegnato_cc_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
+        start = int(round(time.time() * 1000))
         cr.execute('''
             SELECT DISTINCT(pa.protocollo_id) 
             FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
@@ -545,12 +550,16 @@ class protocollo_protocollo(osv.Model):
                   pa.state = 'assegnato'
         ''', (uid,))
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
+        end = int(round(time.time() * 1000))
+        _logger.info("_assegnato_cc_visibility_search: " + str(end - start))
         return [('id', 'in', protocollo_visible_ids)]
 
 
     def _assegnato_a_me_cc_visibility(self, cr, uid, ids, name, arg, context=None):
         return {}
     def _assegnato_a_me_cc_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
+        start = int(round(time.time() * 1000))
+
         cr.execute('''
             SELECT DISTINCT(pa.protocollo_id) 
             FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
@@ -565,12 +574,15 @@ class protocollo_protocollo(osv.Model):
                   pa.parent_id IS NULL
         ''', (uid,))
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
+        end = int(round(time.time() * 1000))
+        _logger.info("_assegnato_a_me_cc_visibility_search: " + str(end - start))
         return [('id', 'in', protocollo_visible_ids)]
 
 
     def _assegnato_a_mio_ufficio_visibility(self, cr, uid, ids, name, arg, context=None):
         return {}
     def _assegnato_a_mio_ufficio_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
+        start = int(round(time.time() * 1000))
         cr.execute('''
             SELECT DISTINCT(pa.protocollo_id) 
             FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_department hd, hr_employee he, resource_resource rr
@@ -585,12 +597,15 @@ class protocollo_protocollo(osv.Model):
                   pa.state = 'assegnato'
         ''', (uid,))
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
+        end = int(round(time.time() * 1000))
+        _logger.info("_assegnato_a_mio_ufficio_visibility_search: " + str(end - start))
         return [('id', 'in', protocollo_visible_ids)]
 
 
     def _assegnato_a_mio_ufficio_cc_visibility(self, cr, uid, ids, name, arg, context=None):
         return {}
     def _assegnato_a_mio_ufficio_cc_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
+        start = int(round(time.time() * 1000))
         cr.execute('''
             SELECT DISTINCT(pa.protocollo_id) 
             FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_department hd, hr_employee he, resource_resource rr
@@ -605,12 +620,15 @@ class protocollo_protocollo(osv.Model):
                   pa.state = 'assegnato'
         ''', (uid,))
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
+        end = int(round(time.time() * 1000))
+        _logger.info("_assegnato_a_mio_ufficio_cc_visibility_search" + str(end - start))
         return [('id', 'in', protocollo_visible_ids)]
 
 
     def _assegnato_da_me_in_attesa_visibility(self, cr, uid, ids, name, arg, context=None):
         return {}
     def _assegnato_da_me_in_attesa_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
+        start = int(round(time.time() * 1000))
         cr.execute('''
             SELECT DISTINCT(pa.protocollo_id) 
             FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
@@ -624,12 +642,15 @@ class protocollo_protocollo(osv.Model):
                   (pa.tipologia_assegnatario = 'department' OR (pa.tipologia_assegnatario = 'employee' AND pa.parent_id IS NULL)) 
         ''', (uid,))
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
+        end = int(round(time.time() * 1000))
+        _logger.info("_assegnato_da_me_in_attesa_visibility_search" + str(end - start))
         return [('id', 'in', protocollo_visible_ids)]
 
 
     def _assegnato_da_me_in_rifiutato_visibility(self, cr, uid, ids, name, arg, context=None):
         return {}
     def _assegnato_da_me_in_rifiutato_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
+        start = int(round(time.time() * 1000))
         cr.execute('''
             SELECT DISTINCT(pa.protocollo_id) 
             FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
@@ -642,6 +663,8 @@ class protocollo_protocollo(osv.Model):
                   pa.state = 'rifiutato'
         ''', (uid,))
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
+        end = int(round(time.time() * 1000))
+        _logger.info("_assegnato_da_me_in_rifiutato_visibility_search" + str(end - start))
         return [('id', 'in', protocollo_visible_ids)]
 
     ####################################################################################################################
@@ -1167,6 +1190,22 @@ class protocollo_protocollo(osv.Model):
 
         return dict(res)
 
+    def _carica_modifica_documento_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
+        res = []
+        check = False
+        protocolli = self._get_protocolli(cr, uid, ids)
+        for protocollo in protocolli:
+
+            if protocollo.state in 'draft':
+                check = True
+
+            if protocollo.state in 'registered' and protocollo.user_id.id == uid:
+                check = True
+
+            res.append((protocollo.id, check))
+
+        return dict(res)
+
     ####################################################################################################################
 
     _columns = {
@@ -1204,7 +1243,9 @@ class protocollo_protocollo(osv.Model):
         'modifica_email_visibility': fields.function(_modifica_email_visibility, type='boolean', string='Modifica e-mail'),
         'protocollazione_riservata_visibility': fields.function(_protocollazione_riservata_visibility, type='boolean', string='Protocollazione Riservata'),
         'aggiungi_allegati_post_registrazione_visibility': fields.function(_aggiungi_allegati_post_registrazione_visibility, type='boolean', string='Aggiungi Allegati Post Registrazione'),
-        'inserisci_testo_mailpec_visibility': fields.function(_inserisci_testo_mailpec_visibility, type='boolean', string='Abilita testo PEC')
+        'inserisci_testo_mailpec_visibility': fields.function(_inserisci_testo_mailpec_visibility, type='boolean', string='Abilita testo PEC'),
+        'carica_modifica_documento_visibility': fields.function(_carica_modifica_documento_visibility, type='boolean',
+                                                              string='Carica/Modifica documento')
 
     }
 
