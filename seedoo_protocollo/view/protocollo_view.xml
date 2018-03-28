@@ -545,8 +545,8 @@ this module contains the full copyright notices and license terms. -->
                             </div>
 
                             <div class="dati-protocollo-container" id="mittente-container" attrs="{'invisible':[('type','!=','in')]}">
-                                <div class="protocollo-accordion-toggle">
-                                    <h4 class="accordion-toggle open">Dati Protocollo Mittente</h4>
+                                <div class="protocollo-accordion-toggle open">
+                                    <h4 class="accordion-toggle">Dati Protocollo Mittente</h4>
                                 </div>
                                 <div class="accordion-content accordion-open">
                                     <newline/>
