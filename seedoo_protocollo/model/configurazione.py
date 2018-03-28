@@ -69,36 +69,35 @@ class protocollo_configurazione(orm.Model):
         campi_obbligatori = ''
 
         if not protocollo.typology:
-            campi_obbligatori = campi_obbligatori + '\n- Mezzo Trasmissione'
+            campi_obbligatori = campi_obbligatori + '<li>Mezzo Trasmissione</li>'
         if not protocollo.subject:
-            campi_obbligatori = campi_obbligatori + '\n- Oggetto'
+            campi_obbligatori = campi_obbligatori + '<li>Oggetto</li>'
         if not protocollo.sender_receivers:
-            send_rec = protocollo.type == 'in' and '\n- Mittenti' or '\n- Destinatari'
+            send_rec = protocollo.type == 'in' and '<li>Mittenti</li>' or '<li>Destinatari</li>'
             campi_obbligatori = campi_obbligatori + send_rec
-
         if protocollo.type == 'in' and (protocollo.pec or protocollo.sharedmail):
             for sr in protocollo.sender_receivers:
                 if not sr.name:
-                    campi_obbligatori = campi_obbligatori + '\n- Nome Cognome/Ragione sociale del Mittente'
+                    campi_obbligatori = campi_obbligatori + '<li>Nome Cognome/Ragione sociale del Mittente</li>'
                     break
 
         if protocollo.type == 'out' and protocollo.pec:
             for sr in protocollo.sender_receivers:
                 if not sr.pec_mail:
-                    campi_obbligatori = campi_obbligatori + '\n- Mail PEC dei Destinatari'
+                    campi_obbligatori = campi_obbligatori + '<li>Mail PEC dei Destinatari</li>'
                     break
 
         if protocollo.type == 'out' and protocollo.sharedmail:
             for sr in protocollo.sender_receivers:
                 if not sr.email:
-                    campi_obbligatori = campi_obbligatori + '\n- Mail dei Destinatari'
+                    campi_obbligatori = campi_obbligatori + '<li>Mail dei Destinatari</li>'
                     break
 
         if configurazione:
             if configurazione.classificazione_required and not protocollo.classification:
-                campi_obbligatori = campi_obbligatori + '\n- Titolario'
+                campi_obbligatori = campi_obbligatori + '<li>Titolario</li>'
             if configurazione.fascicolazione_required and not protocollo.dossier_ids:
-                campi_obbligatori = campi_obbligatori + '\n- Fascicolario'
+                campi_obbligatori = campi_obbligatori + '<li>Fascicolario</li>'
 
             competenza_ufficio_found = False
             competenza_dipendente_found = False
@@ -117,31 +116,31 @@ class protocollo_configurazione(orm.Model):
                     not configurazione.assegnatari_competenza_dipendenti_required and \
                     not competenza_ufficio_found and \
                     not protocollo.reserved:
-                campi_obbligatori = campi_obbligatori + '\n- Ufficio Assegnatario per Competenza'
+                campi_obbligatori = campi_obbligatori + '<li>Ufficio Assegnatario per Competenza</li>'
             if configurazione.assegnatari_competenza_dipendenti_required \
                     and not configurazione.assegnatari_competenza_uffici_required and not competenza_dipendente_found:
-                campi_obbligatori = campi_obbligatori + '\n- Dipendente Assegnatario per Competenza'
+                campi_obbligatori = campi_obbligatori + '<li>Dipendente Assegnatario per Competenza</li>'
             if configurazione.assegnatari_competenza_dipendenti_required \
                     and configurazione.assegnatari_competenza_uffici_required \
                     and not competenza_ufficio_found and not competenza_dipendente_found:
-                campi_obbligatori = campi_obbligatori + '\n- Assegnatario per Competenza'
+                campi_obbligatori = campi_obbligatori + '<li>Assegnatario per Competenza</li>'
             if configurazione.assegnatari_conoscenza_uffici_required and \
                     not conoscenza_ufficio_found and \
                     not protocollo.reserved:
-                campi_obbligatori = campi_obbligatori + '\n- Uffici Assegnatari per Conoscenza'
+                campi_obbligatori = campi_obbligatori + '<li>Uffici Assegnatari per Conoscenza</li>'
             if configurazione.assegnatari_conoscenza_dipendenti_required and \
                     not conoscenza_dipendente_found and \
                     not protocollo.reserved:
-                campi_obbligatori = campi_obbligatori + '\n- Dipendenti Assegnatari per Conoscenza'
+                campi_obbligatori = campi_obbligatori + '<li>Dipendenti Assegnatari per Conoscenza</li>'
 
             if configurazione.allegati_descrizione_required and not protocollo.doc_id:
-                campi_obbligatori = campi_obbligatori + '\n- Documento principale'
+                campi_obbligatori = campi_obbligatori + '<li>Documento principale</li>'
             if configurazione.allegati_descrizione_required:
                 for attach in protocollo.attachment_ids:
                     if len(attach.datas_description) == 0:
-                        campi_obbligatori = campi_obbligatori + '\n- Descrizione allegato: ' + attach.name.encode('utf-8')
+                        campi_obbligatori = campi_obbligatori + '<li>Descrizione allegato: ' + attach.name.encode('utf-8') + '</li>'
 
         if campi_obbligatori:
-            return '<p><i class="fa fa-warning"/></i>Valorizzare i seguenti campi per procedere alla registrazione:</p>' + campi_obbligatori
+            return '<div class="verifica-campi-container"><p><i class="fa fa-warning"/></i>Valorizzare i seguenti campi per procedere alla registrazione:</p><ul>' + campi_obbligatori + '</ul></div>'
 
         return True
