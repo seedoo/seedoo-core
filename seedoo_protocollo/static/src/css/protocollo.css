@@ -325,6 +325,12 @@
   text-align: center;
   padding-bottom: 5px;
 }
+.seedoo-dashboard-container .oe_close {
+  display: none;
+}
+.seedoo-dashboard-container .oe_employee_image {
+  margin-bottom: 20px;
+}
 .openerp .oe_kanban_view .oe_dashboard_tile .tile_label {
   padding: 5px;
   font-size: 13px !important;

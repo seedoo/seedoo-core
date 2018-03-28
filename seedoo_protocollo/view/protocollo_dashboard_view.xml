@@ -58,7 +58,7 @@
             <field name="name">protocollo.dashboard.form</field>
             <field name="model">board.board</field>
             <field name="arch" type="xml">
-                <form string="Seedoo Dashboard" version="8.0">
+                <form string="Seedoo Dashboard" version="8.0" class="seedoo-dashboard-container">
                     <!--<board style="1-1-1">-->
                         <!--<column>-->
                             <!--<action string="Generale" name="%(protocollo_board_generale_act)d"/>-->
@@ -67,13 +67,13 @@
                     <board style="2-1">
                         <column>
                             <action string="Generale" name="%(protocollo_board_generale_act)d"/>
-                            <action string="Documenti in Ingresso" name="%(protocollo_board_ingresso_act)d"/>
-                            <action string="Documenti in Uscita" name="%(protocollo_board_uscita_act)d"/>
+                            <action string="Protocolli in Ingresso" name="%(protocollo_board_ingresso_act)d"/>
+                            <action string="Protocolli in Uscita" name="%(protocollo_board_uscita_act)d"/>
                         </column>
                         <column>
                             <action string="I miei dati" name="%(act_employee_protocollo_kanban)d"/>
-                            <action string="Assegnati da me in Ingresso" name="%(protocollo_board_ingresso_assegnazioni_act)d"/>
-                            <action string="Assegnati da me in Uscita" name="%(protocollo_board_uscita_assegnazioni_act)d"/>
+                            <!--<action string="Assegnati da me in Ingresso" name="%(protocollo_board_ingresso_assegnazioni_act)d"/>-->
+                            <!--<action string="Assegnati da me in Uscita" name="%(protocollo_board_uscita_assegnazioni_act)d"/>-->
                         </column>
                     </board>
                     <!--<board style="2-1">-->
