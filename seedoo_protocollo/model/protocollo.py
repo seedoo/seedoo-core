@@ -460,6 +460,13 @@ class protocollo_protocollo(orm.Model):
                                           states={
                                               'draft': [('readonly', False)]
                                           }),
+        'receiving_date_from': fields.function(
+            lambda *a, **k: {}, method=True,
+            type='date', string="Inizio Data ricezione Ricerca"),
+        'receiving_date_to': fields.function(lambda *a, **k: {},
+                                                method=True,
+                                                type='date',
+                                                string="Fine  Data ricezione Ricerca"),
         'subject': fields.text('Oggetto',
                                required=False,
                                readonly=True,

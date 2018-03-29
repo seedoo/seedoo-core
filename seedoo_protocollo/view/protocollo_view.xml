@@ -754,17 +754,61 @@ this module contains the full copyright notices and license terms. -->
                     <field name="type"/>
                     <field name="name"
                            filter_domain="['|', ('name','ilike',self), ('registration_date','ilike',self)]"
-                           string="protocollo"/>
+                           string="Numero Protocollo"/>
                     <field name="user_id"/>
                     <field name="sender_receivers"/>
+                    <field name="sender_receivers"
+                           string="Mittente/Destinatario E-mail"
+                           filter_domain="[('sender_receivers.email', 'ilike', self)]"/>
+                    <field name="sender_receivers"
+                           string="Mittente/Destinatario PEC"
+                           filter_domain="[('sender_receivers.pec_mail', 'ilike', self)]"/>
                     <field name="subject"/>
                     <field name="registration_date_from"
-                           filter_domain="[('registration_date','&gt;=',self)]"/>
+                           filter_domain="[('registration_date','&gt;=',self)]"
+                           string="Registrato dopo il"/>
                     <field name="registration_date_to"
-                           filter_domain="[('registration_date','&lt;=',self)]"/>
+                           filter_domain="[('registration_date','&lt;=',self)]"
+                           string="Registrato entro il"/>
+                    <field name="receiving_date_from"
+                           filter_domain="[('receiving_date','&gt;=',self)]"
+                           string="Ricevuto dopo il"/>
+                    <field name="receiving_date_to"
+                           filter_domain="[('receiving_date','&lt;=',self)]"
+                           string="Ricevuto entro il"/>
+                    <field name="doc_id" string="Documento (Nome)"/>
+                    <field name="doc_description" string="Documento (Descrizione)"/>
+                    <field name="doc_id"
+                           string="Documento (contenuto)"
+                           filter_domain="[('doc_id.index_content', 'ilike', self)]"/>
+                    <field name="attachment_ids"
+                           string="Allegati Nome file"
+                           filter_domain="[('attachment_ids.name', 'ilike', self),
+                                           ('attachment_ids.is_main', '=', False)]"/>
+                    <field name="attachment_ids"
+                           string="Allegati Descrizione"
+                           filter_domain="[('attachment_ids.datas_description', 'ilike', self),
+                                           ('attachment_ids.is_main', '=', False)]"/>
+                    <field name="assegnazione_competenza_ids"
+                           string="Assegnatario Dipendente Competenza"
+                           filter_domain="[('assegnazione_competenza_ids.assegnatario_employee_id.name', 'ilike', self),
+                                           ('assegnazione_competenza_ids.tipologia_assegnazione', '=', 'competenza')]"/>
+                    <field name="assegnazione_competenza_ids"
+                           string="Assegnatario Ufficio Competenza"
+                           filter_domain="[('assegnazione_competenza_ids.assegnatario_department_id.name', 'ilike', self),
+                                           ('assegnazione_competenza_ids.tipologia_assegnazione', '=', 'competenza')]"/>
+                    <field name="assegnazione_conoscenza_ids"
+                           string="Assegnatario Dipendente CC"
+                           filter_domain="[('assegnazione_conoscenza_ids.assegnatario_employee_id.name', 'ilike', self),
+                                           ('assegnazione_conoscenza_ids.tipologia_assegnazione', '=', 'conoscenza')]"/>
+                    <field name="assegnazione_conoscenza_ids"
+                           string="Assegnatario Ufficio CC"
+                           filter_domain="[('assegnazione_conoscenza_ids.assegnatario_department_id.name', 'ilike', self),
+                                           ('assegnazione_conoscenza_ids.tipologia_assegnazione', '=', 'conoscenza')]"/>
                     <field name="classification"/>
+                    <field name="notes"/>
                     <field name="typology"/>
-                    <field name="dossier_ids"/>
+                    <field name="dossier_ids" string="Fascicolo"/>
                     <field name="state"/>
                     <separator/>
                     <group string="Mezzo di trasmissione">
