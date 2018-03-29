@@ -80,7 +80,8 @@
         "data/protocollo_tile.xml",
         "view/protocollo_dashboard_view.xml",
         "view/tile.xml",
-        "view/protocollo_profile_view.xml"
+        "view/protocollo_profile_view.xml",
+        "static/src/xml/upload_override.xml",
     ],
     "demo": [
         "demo/hr_delete.xml",
@@ -93,14 +94,15 @@
     ],
     "qweb": [
         "static/src/xml/base.xml",
-        "static/src/xml/mail.xml"
+        "static/src/xml/mail.xml",
     ],
     "css": [
         "static/src/css/protocollo.css",
     ],
     "js": [
         "static/src/js/protocollo_accordion.js",
-        "static/src/js/protocollo_patch.js"
+        "static/src/js/protocollo_patch.js",
+        "static/src/js/fix_upload.js",
     ],
     "installable": True,
     "application": True,
