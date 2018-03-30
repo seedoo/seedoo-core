@@ -1254,5 +1254,6 @@ class protocollo_protocollo(osv.Model):
 
     _defaults = {
         'protocollazione_riservata_visibility': _default_protocollazione_riservata_visibility,
+        'carica_modifica_documento_visibility': True
     }
 
