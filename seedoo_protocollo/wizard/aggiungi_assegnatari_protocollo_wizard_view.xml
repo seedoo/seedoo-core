@@ -8,18 +8,29 @@
             <field name="arch" type="xml">
                 <form string="Aggiungi Assegnatari">
                     <sheet>
-                        <group>
-                            <field name="assegnatario_competenza_id"
-                                   domain="[('tipologia', '!=', tipologia_assegnatario)]"
-                                   options="{'no_quick_create': True, 'no_create_edit': True, 'no_open': True}"/>
-
-                            <field name="assegnatario_conoscenza_ids"
-                                   options="{'no_quick_create': True, 'no_create_edit': True, 'no_open': True}"
-                                   attrs="{'invisible':[('reserved','=',True)]}"/>
-
-                            <field name="reserved" invisible="1"/>
-                            <field name="tipologia_assegnatario" invisible="1"/>
+                        <group col="2">
+                            <group colspan="1" col="1">
+                                <separator string="Assegnatario per Competenza"/>
+                                <field name="assegnatario_competenza_id"
+                                       widget="m2o_tree"
+                                       options="{'limit': 5000, 'create': false, 'create_edit': false, 'label': 'nome', 'all_checkable': true}"
+                                       domain="[('tipologia', '!=', tipologia_assegnatario)]"
+                                       nolabel="1"
+                                />
+                            </group>
+                            <group colspan="1" col="1">
+                                <separator string="Assegnatari per Conoscenza"/>
+                                <field name="assegnatario_conoscenza_ids"
+                                       widget="m2m_tree"
+                                       options="{'limit': 5000, 'create': false, 'create_edit': false, 'label': 'nome', 'all_checkable': true}"
+                                       attrs="{'invisible':[('reserved','=',True)]}"
+                                       nolabel="1"
+                                />
+                            </group>
                         </group>
+
+                        <field name="reserved" invisible="1"/>
+                        <field name="tipologia_assegnatario" invisible="1"/>
                     </sheet>
                     <footer>
                         <button string="Ok" name="action_save" type="object" class="oe_highlight"/>
