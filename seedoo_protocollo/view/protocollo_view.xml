@@ -826,13 +826,17 @@ this module contains the full copyright notices and license terms. -->
                         <filter string="In attesa" name="waiting" domain="[('state','=','waiting')]"/>
                         <filter string="Errore" name="error" domain="[('state','=','error')]"/>
                     </group>
-                    <group string="Assegnati a me">
-                        <filter string="Assegnati a me" name="assegnato_a_me" domain="[('assegnato_a_me_visibility', '=', True)]"/>
-                        <filter string="Assegnati a me per cc" name="assegnato_a_me_cc" domain="[('assegnato_a_me_cc_visibility', '=', True)]"/>
+                    <group string="Assegnazioni">
+                        <filter string="a me" name="filtro_a_me" domain="[('filtro_a_me_visibility', '=', True)]"/>
+                        <filter string="al mio ufficio" name="filtro_al_mio_ufficio" domain="[('filtro_al_mio_ufficio_visibility', '=', True)]"/>
+                        <filter string="da me" name="filtro_da_me" domain="[('filtro_a_me_visibility', '=', True)]"/>
+                        <filter string="competenza" name="filtro_competenza" domain="[('filtro_competenza_visibility', '=', True)]"/>
+                        <filter string="conoscenza" name="filtro_conoscenza" domain="[('filtro_conoscenza_visibility', '=', True)]"/>
+                        <filter string="assegnato" name="filtro_assegnato" domain="[('filtro_assegnato_visibility', '=', True)]"/>
+                        <filter string="preso" name="filtro_preso_in_carico" domain="[('filtro_preso_in_carico_visibility', '=', True)]"/>
+                        <filter string="rifiutato" name="filtro_rifiutato" domain="[('filtro_rifiutato_visibility', '=', True)]"/>
                         <filter string="Assegnati al mio ufficio" name="assegnato_a_mio_ufficio_visibility" domain="[('assegnato_a_mio_ufficio_visibility', '=', True)]"/>
                         <filter string="Assegnati al mio ufficio per cc" name="assegnato_a_mio_ufficio_cc_visibility" domain="[('assegnato_a_mio_ufficio_cc_visibility', '=', True)]"/>
-                    </group>
-                    <group string="Assegnati da me">
                         <filter string="Assegnati da me in attesa" name="assegnato_da_me_in_attesa" domain="[('assegnato_da_me_in_attesa_visibility', '=', True)]"/>
                         <filter string="Assegnati da me rifiutati" name="assegnato_da_me_in_rifiutato" domain="[('assegnato_da_me_in_rifiutato_visibility', '=', True)]"/>
                     </group>
