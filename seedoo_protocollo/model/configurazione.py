@@ -133,7 +133,7 @@ class protocollo_configurazione(orm.Model):
                     not protocollo.reserved:
                 campi_obbligatori = campi_obbligatori + '<li>Dipendenti Assegnatari per Conoscenza</li>'
 
-            if configurazione.allegati_descrizione_required and not protocollo.doc_id:
+            if configurazione.documento_required and not protocollo.doc_id:
                 campi_obbligatori = campi_obbligatori + '<li>Documento principale</li>'
             if configurazione.allegati_descrizione_required:
                 for attach in protocollo.attachment_ids:
