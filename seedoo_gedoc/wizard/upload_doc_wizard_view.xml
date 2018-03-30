@@ -17,7 +17,7 @@ this module contains the full copyright notices and license terms. -->
                     <label for="datas_fname"/>
                     <field name="datas_fname"/>
                     <label for="datas"/>
-                    <field name="datas" filename="datas_fname"/>
+                    <field name="datas" filename="datas_fname" options='{"max_file_size": "100M"}'/>
                     <separator string="Inserisci altri allegati"/>
                     <group>
                         <field name="attachs" nolabel="1">

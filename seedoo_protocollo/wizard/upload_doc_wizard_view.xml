@@ -21,9 +21,9 @@ this module contains the full copyright notices and license terms. -->
                 <form string="Carica Documento Protocollo" version="7.0">
                     <group>
                         <label for="datas_fname"/>
-                        <field name="datas_fname"/>
+                        <field name="datas_fname" options='{"max_file_size": "100M"}'/>
                         <label for="datas"/>
-                        <field name="datas" filename="datas_fname"/>
+                        <field name="datas" filename="datas_fname" options='{"max_file_size": "100M"}'/>
                     </group>
                     <div>
                         Carica Documento Principale Protocollo

@@ -14,7 +14,7 @@ this module contains the full copyright notices and license terms. -->
                     <label for="datas_fname" attrs="{'invisible': [('view_fields','=',False)]}"/>
                     <field name="datas_fname" attrs="{'invisible': [('view_fields','=',False)]}"/>
                     <label for="datas" attrs="{'invisible': [('view_fields','=',False)]}"/>
-                    <field name="datas" filename="datas_fname" attrs="{'invisible': [('view_fields','=',False)]}"/>
+                    <field name="datas" filename="datas_fname" attrs="{'invisible': [('view_fields','=',False)]}" options='{"max_file_size": "100M"}'/>
                     <footer>
                         <button string="Chiudi" name="action_done" type="object" class="oe_highlight" attrs="{'invisible': [('view_fields','=',True)]}"/>
                         <button string="Crea Archivio" name="create_archive" type="object" class="oe_highlight" attrs="{'invisible': [('view_fields','=',True)]}"/>
