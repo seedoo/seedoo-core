@@ -122,9 +122,6 @@ this module contains the full copyright notices and license terms. -->
                         <li>
                             <strong>Ufficio:</strong> <field name="department_id"/>
                         </li>
-                        <li>
-                            <strong>Ruolo:</strong> <field name="gruppo"/>
-                        </li>
                     </ul>
                 </xpath>
                 <xpath expr="//div[@class='oe_employee_details']/ul" position="replace">
