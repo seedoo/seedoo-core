@@ -73,38 +73,6 @@ class protocollo_assegnatario(osv.osv):
               )
         """, (EMPLOYEE_MASK, DEPARTMENT_MASK, SUPERUSER_ID, DEPARTMENT_MASK, DEPARTMENT_MASK))
 
-        cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_assegnazione\'')
-
-        if not cr.fetchone():
-            cr.execute("""
-            CREATE INDEX idx_protocollo_assegnazione
-            ON public.protocollo_assegnazione
-            USING btree
-            (tipologia_assegnazione COLLATE pg_catalog."default", tipologia_assegnatario COLLATE pg_catalog."default", state 
-            COLLATE pg_catalog."default", parent_id, assegnatario_employee_id);
-            """)
-
-        cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_conoscenza\'')
-
-        if not cr.fetchone():
-            cr.execute("""
-            CREATE INDEX idx_conoscenza
-            ON public.protocollo_assegnazione
-            USING btree
-            (assegnatario_employee_id, tipologia_assegnazione COLLATE pg_catalog."default", state COLLATE pg_catalog."default");
-        """)
-
-        cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_attesa\'')
-        if not cr.fetchone():
-            cr.execute("""
-            CREATE INDEX idx_attesa
-            ON public.protocollo_assegnazione
-            USING btree
-            (assegnatore_id, tipologia_assegnazione COLLATE pg_catalog."default", state COLLATE pg_catalog."default", 
-            tipologia_assegnatario COLLATE pg_catalog."default", parent_id);
-        """)
-
-
 
 class protocollo_assegnazione(orm.Model):
     _name = 'protocollo.assegnazione'
@@ -137,6 +105,39 @@ class protocollo_assegnazione(orm.Model):
         ('protocollo_assegnazione_unique', 'unique(protocollo_id, assegnatario_id, tipologia_assegnazione)',
          'Protocollo e Assegnatario con già uno stato nel DB!'),
     ]
+
+    def init(self, cr):
+
+        cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_assegnazione\'')
+
+        if not cr.fetchone():
+            cr.execute("""
+            CREATE INDEX idx_protocollo_assegnazione
+            ON public.protocollo_assegnazione
+            USING btree
+            (tipologia_assegnazione COLLATE pg_catalog."default", tipologia_assegnatario COLLATE pg_catalog."default", state 
+            COLLATE pg_catalog."default", parent_id, assegnatario_employee_id);
+            """)
+
+        cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_conoscenza\'')
+
+        if not cr.fetchone():
+            cr.execute("""
+            CREATE INDEX idx_conoscenza
+            ON public.protocollo_assegnazione
+            USING btree
+            (assegnatario_employee_id, tipologia_assegnazione COLLATE pg_catalog."default", state COLLATE pg_catalog."default");
+        """)
+
+        cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_attesa\'')
+        if not cr.fetchone():
+            cr.execute("""
+            CREATE INDEX idx_attesa
+            ON public.protocollo_assegnazione
+            USING btree
+            (assegnatore_id, tipologia_assegnazione COLLATE pg_catalog."default", state COLLATE pg_catalog."default", 
+            tipologia_assegnatario COLLATE pg_catalog."default", parent_id);
+        """)
 
     def _crea_assegnazione(self, cr, uid, protocollo_id, assegnatario_id, assegnatore_id, tipologia, parent_id=False):
         assegnatario_obj = self.pool.get('protocollo.assegnatario')
