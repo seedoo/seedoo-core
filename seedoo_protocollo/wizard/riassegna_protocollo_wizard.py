@@ -15,6 +15,7 @@ class protocollo_riassegna_wizard(osv.TransientModel):
         'assegnatario_competenza_id': fields.many2one('protocollo.assegnatario',
                                                       'Assegnatario per Competenza',
                                                       required=True),
+        'motivation': fields.text('Motivazione'),
     }
 
     def action_save(self, cr, uid, ids, context=None):
@@ -49,6 +50,8 @@ class protocollo_riassegna_wizard(osv.TransientModel):
         if (before['competenza'] or after['competenza']) and before['competenza']!=after['competenza']:
             body = body + "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#009900'> %s </span></li>" \
                           % ('Assegnatario Competenza', before['competenza'], after['competenza'])
+        if wizard.motivation:
+            body += "<li>%s: %s</li>" % ('Motivazione', wizard.motivation)
         body += "</ul></div>"
         post_vars = {
             'subject': "Riassegnazione",

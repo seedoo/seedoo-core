@@ -13,6 +13,7 @@
                                    widget="m2m_tree"
                                    options="{'limit': 5000, 'create': false, 'create_edit': false, 'label': 'nome', 'all_checkable': true}"
                             />
+                            <field name="motivation" required="1"/>
                         </group>
                     </sheet>
                     <footer>

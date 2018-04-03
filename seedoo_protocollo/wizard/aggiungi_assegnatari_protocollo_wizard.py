@@ -25,6 +25,8 @@ class protocollo_aggiungi_assegnatari_wizard(osv.TransientModel):
                                                         'wizard_id',
                                                         'assegnatario_id',
                                                         'Assegnatari per Conoscenza'),
+        'motivation': fields.text('Motivazione'),
+        'display_motivation': fields.boolean('Visualizza Motivazione', readonly=True),
     }
 
     def _default_reserved(self, cr, uid, context):
@@ -68,11 +70,19 @@ class protocollo_aggiungi_assegnatari_wizard(osv.TransientModel):
             return assegnatario_ids
         return False
 
+    def _default_display_motivation(self, cr, uid, context):
+        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
+        if protocollo.registration_employee_id:
+            return True
+        else:
+            return False
+
     _defaults = {
         'reserved': _default_reserved,
         'tipologia_assegnatario': _default_tipologia_assegnatario,
         'assegnatario_competenza_id': _default_assegnatario_competenza_id,
-        'assegnatario_conoscenza_ids': _default_assegnatario_conoscenza_ids
+        'assegnatario_conoscenza_ids': _default_assegnatario_conoscenza_ids,
+        'display_motivation': _default_display_motivation,
     }
 
     def action_save(self, cr, uid, ids, context=None):
@@ -136,6 +146,8 @@ class protocollo_aggiungi_assegnatari_wizard(osv.TransientModel):
             if (before['conoscenza'] or after['conoscenza']) and before['conoscenza']!=after['conoscenza']:
                 body = body + "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#009900'> %s </span></li>" \
                               % ('Assegnatari Conoscenza', before['conoscenza'], after['conoscenza'])
+            if wizard.motivation:
+                body += "<li>%s: %s</li>" % ('Motivazione', wizard.motivation)
             body += "</ul></div>"
             post_vars = {
                 'subject': "Modifica assegnatari",

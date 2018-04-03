@@ -27,10 +27,17 @@
                                        nolabel="1"
                                 />
                             </group>
+
+                            <field name="reserved" invisible="1"/>
+                            <field name="tipologia_assegnatario" invisible="1"/>
                         </group>
 
-                        <field name="reserved" invisible="1"/>
-                        <field name="tipologia_assegnatario" invisible="1"/>
+                        <group col="4">
+                            <field name="motivation"
+                                   attrs="{'invisible':[('display_motivation','=',False)], 'required':[('display_motivation','=',True)]}"
+                                   colspan="4"/>
+                            <field name="display_motivation" invisible="1"/>
+                        </group>
                     </sheet>
                     <footer>
                         <button string="Ok" name="action_save" type="object" class="oe_highlight"/>
