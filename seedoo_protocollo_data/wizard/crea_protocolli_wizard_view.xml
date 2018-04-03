@@ -13,10 +13,17 @@ this module contains the full copyright notices and license terms. -->
                 <form string="Protocollo" version="7.0">
                     <sheet>
                         <group col="2">
+                            <separator string="Numero di Protocolli" colspan="2"/>
                             <field name="count_bozza"/>
                             <field name="count_registrati"/>
                             <field name="count_presi_in_carico"/>
                             <field name="count_rifiutati"/>
+                            <separator string="Assegnatario per Competenza" colspan="2"/>
+                            <field name="competenza_type"/>
+                            <separator string="Assegnatario per Conoscenza" colspan="2"/>
+                            <field name="conoscenza_type"/>
+                            <field name="conoscenza_dep_count" attrs="{'invisible':[('conoscenza_type','=','employee')], 'required':[('conoscenza_type','!=','employee')]}"/>
+                            <field name="conoscenza_emp_count" attrs="{'invisible':[('conoscenza_type','=','department')], 'required':[('conoscenza_type','!=','department')]}"/>
                         </group>
                     </sheet>
                     <footer>

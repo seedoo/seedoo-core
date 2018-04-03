@@ -23,13 +23,23 @@ class crea_protocolli_wizard(osv.TransientModel):
         'count_registrati': fields.integer('Numero di protocolli Registrati', required=True),
         'count_presi_in_carico': fields.integer('Numero di protocolli Presi in Carico', required=True),
         'count_rifiutati': fields.integer('Numero di protocolli Rifiutati', required=True),
+        'competenza_type': fields.selection([('department', 'Ufficio'), ('employee', 'Dipendente'), ('mixed', 'Misto')],
+                                            'Tipologia Assegnatario', required=True),
+        'conoscenza_type': fields.selection([('department', 'Ufficio'), ('employee', 'Dipendente'), ('mixed', 'Misto')],
+                                            'Tipologia Assegnatari', required=True),
+        'conoscenza_dep_count': fields.integer('Numero di Assegnatari (Uffici)'),
+        'conoscenza_emp_count': fields.integer('Numero di Assegnatari (Dipendenti)'),
     }
 
     _defaults = {
         'count_bozza': 10,
         'count_registrati': 10,
         'count_presi_in_carico': 10,
-        'count_rifiutati': 10
+        'count_rifiutati': 10,
+        'competenza_type': 'department',
+        'conoscenza_dep_count': 3,
+        'conoscenza_emp_count': 3,
+        'conoscenza_type': 'mixed'
     }
 
     def _close_window(self):
@@ -49,8 +59,6 @@ class crea_protocolli_wizard(osv.TransientModel):
             user_obj = self.pool.get('res.users')
             assegnatario_obj = self.pool.get('protocollo.assegnatario')
             employee_obj = self.pool.get('hr.employee')
-
-            boolean_values = [True, False]
 
             type_values = ['in', 'out']
 
@@ -72,6 +80,7 @@ class crea_protocolli_wizard(osv.TransientModel):
             competenza_out_ids = user_obj.search(cr, SUPERUSER_ID, [('groups_id', '=', competenza_group_out.id)])
             competenza_out_ids.remove(SUPERUSER_ID)
 
+            classification_ids = self.pool.get('protocollo.classification').search(cr, uid, [('parent_id', '!=', False)])
 
             count = 0
             total_count = wizard.count_bozza + wizard.count_registrati + wizard.count_presi_in_carico + wizard.count_rifiutati
@@ -108,7 +117,8 @@ class crea_protocolli_wizard(osv.TransientModel):
                         'source': 'sender' if type == 'in' else 'receiver',
                         'pec_mail': 'test@email.com',
                         'email': 'test@email.com'
-                    })]
+                    })],
+                    'classification': classification_ids[random.randint(0, len(classification_ids) - 1)],
                 }
 
                 if type == 'in':
@@ -123,13 +133,22 @@ class crea_protocolli_wizard(osv.TransientModel):
 
                 # vengono inseriti gli assegnatari per competenza
                 competenza_ids = competenza_in_ids if type == 'in' else competenza_out_ids
-                assegnatario_ids = assegnatario_obj.search(cr, SUPERUSER_ID, [
-                    '|',
-                    ('tipologia', '=', 'department'),
-                    '&',
-                    ('tipologia', '=', 'employee'),
-                    ('employee_id.user_id', 'in', competenza_ids)
-                ])
+                competenza_domain = []
+                if wizard.competenza_type=='department':
+                    competenza_domain = [('tipologia', '=', 'department'),('department_id.member_ids', '!=', [])]
+                elif wizard.competenza_type=='employee':
+                    competenza_domain = [('tipologia', '=', 'employee'),('employee_id.user_id', 'in', competenza_ids)]
+                else:
+                    competenza_domain = [
+                        '|',
+                        '&',
+                        ('tipologia', '=', 'department'),
+                        ('department_id.member_ids', '!=', []),
+                        '&',
+                        ('tipologia', '=', 'employee'),
+                        ('employee_id.user_id', 'in', competenza_ids)
+                    ]
+                assegnatario_ids = assegnatario_obj.search(cr, SUPERUSER_ID, competenza_domain)
                 assegnatario_competenza_id = assegnatario_ids[random.randint(0, len(assegnatario_ids) - 1)]
                 self.pool.get('protocollo.assegnazione').salva_assegnazione_competenza(
                     cr,
@@ -142,34 +161,50 @@ class crea_protocolli_wizard(osv.TransientModel):
 
                 # vengono inseriti gli assegnatari per conoscenza
                 assegnatari_conoscenza_ids = []
-                assegnatario_conoscenza_dep_ids = assegnatario_obj.search(cr, SUPERUSER_ID, [
-                    ('id', '!=', assegnatario_competenza_id),
-                    ('tipologia', '=', 'department')
-                ])
-                if assegnatario_conoscenza_dep_ids:
-                    assegnatari_conoscenza_ids.append(assegnatario_conoscenza_dep_ids[
-                        random.randint(0, len(assegnatario_conoscenza_dep_ids) - 1)
-                    ])
 
-                assegnatario_conoscenza_emp_ids = assegnatario_obj.search(cr, SUPERUSER_ID, [
-                    ('id', 'not in', assegnatari_conoscenza_ids + [assegnatario_competenza_id]),
-                    ('parent_id', 'not in', assegnatari_conoscenza_ids + [assegnatario_competenza_id]),
-                    ('tipologia', '=', 'employee')
-                ])
-                assegnatari_conoscenza_number = random.randint(0, len(assegnatario_conoscenza_emp_ids))
-                for i in range(0, assegnatari_conoscenza_number):
-                    assegnatario_conoscenza_id = assegnatario_conoscenza_emp_ids[
-                        random.randint(0, len(assegnatario_conoscenza_emp_ids) - 1)
-                    ]
-                    assegnatario_conoscenza_emp_ids.remove(assegnatario_conoscenza_id)
-                    assegnatari_conoscenza_ids.append(assegnatario_conoscenza_id)
-                self.pool.get('protocollo.assegnazione').salva_assegnazione_conoscenza(
-                    cr,
-                    uid,
-                    protocollo_id,
-                    assegnatari_conoscenza_ids,
-                    assegnatore_ids[0]
-                )
+                if (wizard.conoscenza_type=='department' or wizard.conoscenza_type=='mixed') \
+                        and wizard.conoscenza_dep_count>0:
+                    assegnatario_conoscenza_dep_ids = assegnatario_obj.search(cr, SUPERUSER_ID, [
+                        ('id', '!=', assegnatario_competenza_id),
+                        ('tipologia', '=', 'department')
+                    ])
+                    assegnatari_conoscenza_dep_number = wizard.conoscenza_dep_count
+                    conoscenza_dep_count = len(assegnatario_conoscenza_dep_ids)
+                    if wizard.conoscenza_dep_count > conoscenza_dep_count:
+                        assegnatari_conoscenza_dep_number = conoscenza_dep_count
+                    for i in range(0, assegnatari_conoscenza_dep_number):
+                        assegnatario_conoscenza_id = assegnatario_conoscenza_dep_ids[
+                            random.randint(0, len(assegnatario_conoscenza_dep_ids) - 1)
+                        ]
+                        assegnatario_conoscenza_dep_ids.remove(assegnatario_conoscenza_id)
+                        assegnatari_conoscenza_ids.append(assegnatario_conoscenza_id)
+
+                if (wizard.conoscenza_type == 'employee' or wizard.conoscenza_type == 'mixed') \
+                        and wizard.conoscenza_emp_count > 0:
+                    assegnatario_conoscenza_emp_ids = assegnatario_obj.search(cr, SUPERUSER_ID, [
+                        ('id', 'not in', assegnatari_conoscenza_ids + [assegnatario_competenza_id]),
+                        ('parent_id', 'not in', assegnatari_conoscenza_ids + [assegnatario_competenza_id]),
+                        ('tipologia', '=', 'employee')
+                    ])
+                    assegnatari_conoscenza_emp_number = wizard.conoscenza_emp_count
+                    conoscenza_emp_count = len(assegnatario_conoscenza_emp_ids)
+                    if wizard.conoscenza_emp_count > conoscenza_emp_count:
+                        assegnatari_conoscenza_emp_number = conoscenza_emp_count
+                    for i in range(0, assegnatari_conoscenza_emp_number):
+                        assegnatario_conoscenza_id = assegnatario_conoscenza_emp_ids[
+                            random.randint(0, len(assegnatario_conoscenza_emp_ids) - 1)
+                        ]
+                        assegnatario_conoscenza_emp_ids.remove(assegnatario_conoscenza_id)
+                        assegnatari_conoscenza_ids.append(assegnatario_conoscenza_id)
+
+                if assegnatari_conoscenza_ids:
+                    self.pool.get('protocollo.assegnazione').salva_assegnazione_conoscenza(
+                        cr,
+                        uid,
+                        protocollo_id,
+                        assegnatari_conoscenza_ids,
+                        assegnatore_ids[0]
+                    )
 
 
                 if count_bozza < wizard.count_bozza:
