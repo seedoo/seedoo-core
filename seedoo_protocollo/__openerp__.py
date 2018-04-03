@@ -24,6 +24,7 @@
         "l10n_it_pec_messages",
         "l10n_it_ipa",
         "m2o_tree_widget",
+        "m2m_tree_widget",
         "web_pdf_widget",
         "web_dashboard_tile"
     ],

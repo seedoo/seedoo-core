@@ -133,13 +133,14 @@ class protocollo_configurazione(orm.Model):
                     not protocollo.reserved:
                 campi_obbligatori = campi_obbligatori + '<li>Dipendenti Assegnatari per Conoscenza</li>'
 
-            if configurazione.allegati_descrizione_required and not protocollo.doc_id:
+            if configurazione.documento_required and not protocollo.doc_id:
                 campi_obbligatori = campi_obbligatori + '<li>Documento principale</li>'
             if configurazione.allegati_descrizione_required:
                 for attach in protocollo.attachment_ids:
                     if len(attach.datas_description) == 0:
                         campi_obbligatori = campi_obbligatori + '<li>Descrizione allegato: ' + attach.name.encode('utf-8') + '</li>'
-
+            if not protocollo.doc_id.ids and protocollo.attachment_ids:
+                campi_obbligatori = campi_obbligatori + '<li>Documento principale (obbligatorio se sono presenti allegati)</li>'
         if campi_obbligatori:
             return '<div class="verifica-campi-container"><p><i class="fa fa-warning"/></i>Valorizzare i seguenti campi per procedere alla registrazione:</p><ul>' + campi_obbligatori + '</ul></div>'
 

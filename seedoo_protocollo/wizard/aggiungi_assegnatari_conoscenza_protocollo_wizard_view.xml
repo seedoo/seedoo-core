@@ -10,7 +10,9 @@
                     <sheet>
                         <group>
                             <field name="assegnatario_conoscenza_ids"
-                                   options="{'no_quick_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                                   widget="m2m_tree"
+                                   options="{'limit': 5000, 'create': false, 'create_edit': false, 'label': 'nome', 'all_checkable': true}"
+                            />
                         </group>
                     </sheet>
                     <footer>

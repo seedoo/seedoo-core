@@ -10,7 +10,9 @@
                     <sheet>
                         <group>
                             <field name="assegnatario_competenza_id"
-                                   options="{'no_quick_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                                   widget="m2o_tree"
+                                   options="{'limit': 5000, 'create': false, 'create_edit': false, 'label': 'nome', 'all_checkable': true}"
+                            />
                         </group>
                     </sheet>
                     <footer>

@@ -167,7 +167,7 @@
     		 				pnode = zTree.getNodeByParam("id", node['pId'], null);
     		 			}
     		 			if (pnode) {
-    		 				zTree.expandNode(pnode, true, true, true);
+    		 				zTree.expandNode(pnode, true, false, true);
     		 				expandParentNode(zTree, pnode);
     		 			}
     		 		};
