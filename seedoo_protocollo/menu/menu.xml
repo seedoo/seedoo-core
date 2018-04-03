@@ -13,11 +13,14 @@ this module contains the full copyright notices and license terms. -->
         <menuitem name="Documenti in uscita" parent="menu_root_protocollo"
                   id="protocollo_doc_out" sequence="20"/>
 
-        <menuitem name="Protocollo" parent="menu_root_protocollo"
+        <menuitem name="Archivistica" parent="menu_root_protocollo"
                   id="protocollo_protocollo_menu" sequence="30"/>
 
-        <menuitem name="Configurazioni" parent="menu_root_protocollo"
-                  id="protocollo_configuration" sequence="40"
+        <menuitem name="Gestione Registri" parent="menu_root_protocollo"
+                  id="protocollo_registry_menu" sequence="40"/>
+
+        <menuitem name="Configurazione" parent="menu_root_protocollo"
+                  id="protocollo_configuration" sequence="100"
                   groups="group_vedi_configurazione_protocollo"/>
 
         <!--<menuitem action="protocollo_protocollo_in_act"-->
@@ -67,9 +70,10 @@ this module contains the full copyright notices and license terms. -->
 
         <menuitem name="Richieste Protocollo" action="protocollo_protocollo_out_draft_others_act"
                   parent="protocollo_doc_out"
-                  id="protocollo_protocollo_out_draft_others_menu"
-                  sequence="20"/>
+                  id="protocollo_protocollo_out_draft_others_menu" sequence="20"
+                  groups="group_vedi_menu_richieste_protocollo"/>
         <!--Protocollo-->
+        <!--
         <menuitem action="protocollo_protocollo_not_classified_act"
                   parent="protocollo_protocollo_menu"
                   id="protocollo_protocollo_not_classified_menu" sequence="5"/>
@@ -77,8 +81,6 @@ this module contains the full copyright notices and license terms. -->
         <menuitem action="protocollo_protocollo_not_dossier_act"
                   parent="protocollo_protocollo_menu"
                   id="protocollo_protocollo_not_dossier_menu" sequence="10"/>
-
-        <!--
         <menuitem action="protocollo_registry_act"
                   parent="protocollo_protocollo_menu"
                   id="protocollo_registry_menu"
@@ -86,7 +88,7 @@ this module contains the full copyright notices and license terms. -->
         -->
 
         <menuitem action="protocollo_journal_act"
-                  parent="protocollo_protocollo_menu"
+                  parent="protocollo_registry_menu"
                   id="protocollo_journal_menu"
                   groups="group_configurazione_giornaliero"
                   sequence="20"/>
@@ -100,7 +102,7 @@ this module contains the full copyright notices and license terms. -->
                 parent="protocollo_journal_menu"/>
 
         <menuitem action="protocollo_emergency_registry_act"
-                parent="protocollo_protocollo_menu"
+                parent="protocollo_registry_menu"
                 id="protocollo_emergency_registry_menu"
                 groups="group_configurazione_emergenza"
                 sequence="30"/>
@@ -122,11 +124,13 @@ this module contains the full copyright notices and license terms. -->
         <menuitem action="protocollo_classification_act"
                   parent="protocollo_protocollo_menu"
                   id="protocollo_classification_menu"
+                  name="Titolario"
                   sequence="50"/>
 
         <menuitem action="protocollo_dossier_read_act"
                   parent="protocollo_protocollo_menu"
                   id="protocollo_dossier_read_menu"
+                  name="Fascicoli"
                   sequence="60"/>
 
 

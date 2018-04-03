@@ -351,7 +351,7 @@ this module contains the full copyright notices and license terms. -->
 
 
         <record model='ir.actions.act_window' id='protocollo_dossier_read_act'>
-            <field name="name">Fascicolario</field>
+            <field name="name">Fascicoli</field>
             <field name="res_model">protocollo.dossier</field>
             <field name="view_type">tree</field>
             <field name="view_id" ref="seedoo_gedoc.protocollo_dossier_tree"/>

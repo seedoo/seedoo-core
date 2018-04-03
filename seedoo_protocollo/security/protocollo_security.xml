@@ -61,6 +61,12 @@ this module contains the full copyright notices and license terms. -->
             <field name="category_id" ref="module_category_protocollo"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
+        <!-- Gruppo per la visualizzazione del menu "Richieste Protocollo" -->
+        <record id="group_vedi_menu_richieste_protocollo" model="res.groups">
+            <field name="name">Vedi Menu Richieste Protocollo</field>
+            <field name="category_id" ref="module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
 
         <!-- Button Protocollo -->
         <!-- Button "Registra protocollo" nella vista form protocollo in ingresso -->
