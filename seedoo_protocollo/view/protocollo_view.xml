@@ -831,6 +831,7 @@ this module contains the full copyright notices and license terms. -->
                         <filter string="A me per CC" name="filtro_a_me_conoscenza" domain="[('filtro_a_me_conoscenza_visibility', '=', True)]"/>
                         <filter string="Al mio ufficio" name="assegnato_a_mio_ufficio_visibility" domain="[('assegnato_a_mio_ufficio_visibility', '=', True)]"/>
                         <filter string="Al mio ufficio per CC" name="assegnato_a_mio_ufficio_cc_visibility" domain="[('assegnato_a_mio_ufficio_cc_visibility', '=', True)]"/>
+                        <filter string="Da me" name="filtro_da_me" domain="[('filtro_da_me_visibility', '=', True)]"/>
                     </group>
                     <group string="Assegnazioni Stato">
                         <filter string="In attesa" name="filtro_in_attesa" domain="[('filtro_in_attesa_visibility', '=', True)]"/>
