@@ -592,7 +592,8 @@ class protocollo_protocollo(osv.Model):
                   rr.user_id = %s AND
                   pp.registration_employee_id IS NOT NULL AND
                   pa.tipologia_assegnatario = 'department' AND 
-                  pa.tipologia_assegnazione = 'competenza'
+                  pa.tipologia_assegnazione = 'competenza' AND
+                  pa.state = 'assegnato'
         ''', (uid,))
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
         end = int(round(time.time() * 1000))
@@ -614,7 +615,8 @@ class protocollo_protocollo(osv.Model):
                   rr.user_id = %s AND
                   pp.registration_employee_id IS NOT NULL AND
                   pa.tipologia_assegnatario = 'department' AND 
-                  pa.tipologia_assegnazione = 'conoscenza'
+                  pa.tipologia_assegnazione = 'conoscenza' AND
+                  pa.state = 'assegnato'
         ''', (uid,))
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
         end = int(round(time.time() * 1000))
