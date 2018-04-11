@@ -714,6 +714,49 @@ class protocollo_protocollo(osv.Model):
         _logger.info("_filtro_a_me_conocenza_visibility_search: " + str(end-start))
         return [('id', 'in', protocollo_visible_ids)]
 
+    def _filtro_a_mio_ufficio_visibility(self, cr, uid, ids, name, arg, context=None):
+        return {}
+    def _filtro_a_mio_ufficio_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
+        start = int(round(time.time() * 1000))
+        cr.execute('''
+            SELECT DISTINCT(pa.protocollo_id) 
+            FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_department hd, hr_employee he, resource_resource rr
+            WHERE pp.id = pa.protocollo_id AND 
+                  pa.assegnatario_department_id = hd.id AND
+                  hd.id=he.department_id AND
+                  he.resource_id = rr.id AND
+                  rr.user_id = %s AND
+                  pp.registration_employee_id IS NOT NULL AND
+                  pa.tipologia_assegnatario = 'department' AND 
+                  pa.tipologia_assegnazione = 'competenza'
+        ''', (uid,))
+        protocollo_visible_ids = [res[0] for res in cr.fetchall()]
+        end = int(round(time.time() * 1000))
+        _logger.info("_filtro_a_mio_ufficio_visibility_search: " + str(end - start))
+        return [('id', 'in', protocollo_visible_ids)]
+
+
+    def _filtro_a_mio_ufficio_cc_visibility(self, cr, uid, ids, name, arg, context=None):
+        return {}
+    def _filtro_a_mio_ufficio_cc_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
+        start = int(round(time.time() * 1000))
+        cr.execute('''
+            SELECT DISTINCT(pa.protocollo_id) 
+            FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_department hd, hr_employee he, resource_resource rr
+            WHERE pp.id = pa.protocollo_id AND 
+                  pa.assegnatario_department_id = hd.id AND
+                  hd.id=he.department_id AND
+                  he.resource_id = rr.id AND
+                  rr.user_id = %s AND
+                  pp.registration_employee_id IS NOT NULL AND
+                  pa.tipologia_assegnatario = 'department' AND 
+                  pa.tipologia_assegnazione = 'conoscenza'
+        ''', (uid,))
+        protocollo_visible_ids = [res[0] for res in cr.fetchall()]
+        end = int(round(time.time() * 1000))
+        _logger.info("_filtro_a_mio_ufficio_cc_visibility_search" + str(end - start))
+        return [('id', 'in', protocollo_visible_ids)]
+
     def _filtro_da_me_visibility(self, cr, uid, ids, name, arg, context=None):
         return {}
     def _filtro_da_me_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
@@ -1381,6 +1424,8 @@ class protocollo_protocollo(osv.Model):
 
         'filtro_a_me_competenza_visibility': fields.function(_filtro_a_me_competenza_visibility, fnct_search=_filtro_a_me_competenza_visibility_search, type='boolean', string='Visibile'),
         'filtro_a_me_conoscenza_visibility': fields.function(_filtro_a_me_conoscenza_visibility, fnct_search=_filtro_a_me_conoscenza_visibility_search, type='boolean', string='Visibile'),
+        'filtro_a_mio_ufficio_visibility': fields.function(_filtro_a_mio_ufficio_visibility, fnct_search=_filtro_a_mio_ufficio_visibility_search, type='boolean', string='Visibile'),
+        'filtro_a_mio_ufficio_cc_visibility': fields.function(_filtro_a_mio_ufficio_cc_visibility, fnct_search=_filtro_a_mio_ufficio_cc_visibility_search, type='boolean', string='Visibile'),
         'filtro_da_me_visibility': fields.function(_filtro_da_me_visibility, fnct_search=_filtro_da_me_visibility_search, type='boolean', string='Visibile'),
         'filtro_competenza_visibility': fields.function(_filtro_competenza_visibility, fnct_search=_filtro_competenza_visibility_search, type='boolean', string='Visibile'),
         'filtro_conoscenza_visibility': fields.function(_filtro_conoscenza_visibility, fnct_search=_filtro_conoscenza_visibility_search, type='boolean', string='Visibile'),

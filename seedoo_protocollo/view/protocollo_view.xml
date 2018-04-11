@@ -829,8 +829,8 @@ this module contains the full copyright notices and license terms. -->
                     <group string="Assegnati">
                         <filter string="A me per competenza" name="filtro_a_me_competenza" domain="[('filtro_a_me_competenza_visibility', '=', True)]"/>
                         <filter string="A me per CC" name="filtro_a_me_conoscenza" domain="[('filtro_a_me_conoscenza_visibility', '=', True)]"/>
-                        <filter string="Al mio ufficio" name="assegnato_a_mio_ufficio_visibility" domain="[('assegnato_a_mio_ufficio_visibility', '=', True)]"/>
-                        <filter string="Al mio ufficio per CC" name="assegnato_a_mio_ufficio_cc_visibility" domain="[('assegnato_a_mio_ufficio_cc_visibility', '=', True)]"/>
+                        <filter string="Al mio ufficio" name="filtro_a_mio_ufficio_visibility" domain="[('filtro_a_mio_ufficio_visibility', '=', True)]"/>
+                        <filter string="Al mio ufficio per CC" name="filtro_a_mio_ufficio_cc_visibility" domain="[('filtro_a_mio_ufficio_cc_visibility', '=', True)]"/>
                         <filter string="Da me" name="filtro_da_me" domain="[('filtro_da_me_visibility', '=', True)]"/>
                     </group>
                     <group string="Assegnazioni Stato">
