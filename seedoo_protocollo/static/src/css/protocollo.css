@@ -634,6 +634,24 @@ li.badge {
 .protocollo_registration_container footer {
   text-align: center;
 }
+.oe_form_editable label.seedoocustom_protocollo_server_pec_id {
+  margin-left: 50px;
+}
+.oe_form_editable label.seedoocustom_protocollo_receiving_date {
+  margin-left: 50px;
+}
+.oe_form_editable label.seedoocustom_protocollo_body {
+  margin-left: 50px;
+}
+.oe_form_readonly label.seedoocustom_protocollo_server_pec_id {
+  margin-left: 95px;
+}
+.oe_form_readonly label.seedoocustom_protocollo_receiving_date {
+  margin-left: 95px;
+}
+.oe_form_readonly label.seedoocustom_protocollo_body {
+  margin-left: 95px;
+}
 .protocollo-accordion-toggle {
   cursor: pointer;
   text-transform: uppercase;

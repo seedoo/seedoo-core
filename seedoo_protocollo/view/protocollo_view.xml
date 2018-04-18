@@ -468,13 +468,17 @@ this module contains the full copyright notices and license terms. -->
                                     <h4 class="accordion-toggle">Dati Protocollo</h4>
                                 </div>
                                 <div class="accordion-content accordion-open">
-                                    <group col="4">
-                                        <field name="name"/>
-                                        <field name="type"/>
-                                        <field name="registration_date"/>
-                                        <field name="registry" options="{'no_open': True}"/>
-                                        <field name="registration_employee_id" readonly="1" options="{'no_open': True}"/>
-                                        <field name="reserved" on_change="on_change_reserved(reserved)" attrs="{'invisible':[('protocollazione_riservata_visibility','=',False)]}"/>
+                                    <group col="8">
+                                        <group>
+                                            <field name="name"/>
+                                            <field name="registration_date"/>
+                                            <field name="registration_employee_id" readonly="1" options="{'no_open': True}"/>
+                                        </group>
+                                        <group>
+                                            <field name="type"/>
+                                            <field name="registry" options="{'no_open': True}"/>
+                                            <field name="reserved" on_change="on_change_reserved(reserved)" attrs="{'invisible':[('protocollazione_riservata_visibility','=',False)]}"/>
+                                        </group>
                                     </group>
                                 </div>
                             </div>
@@ -507,21 +511,26 @@ this module contains the full copyright notices and license terms. -->
                                                 <field name="mimetype" invisible="1"/>
                                             </group>
                                         </group>
-                                        <group>
-                                            <field name="server_sharedmail_id" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}" attrs="{'invisible':['|',('sharedmail','!=',True),('type','=','in')],
-                                                                                            'required': [('sharedmail','=',True),('type','=','out')], 'readonly':[('state','!=','draft')]}"/>
-                                            <field name="server_pec_id" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}" attrs="{'invisible':['|',('pec','!=',True),('type','=','in')],
-                                                                                                'required': [('pec','=',True),('type','=','out')], 'readonly':[('state','!=','draft')]}"/>
-                                            <field name="receiving_date" attrs="{'invisible':[('type','=','out')]}" class="seedoocustom_protocollo_receiving_date"/>
-                                            <field name="body" attrs="{'invisible':['|','|',('type','=','in'),('inserisci_testo_mailpec_visibility','=',False),'&amp;',('sharedmail','=',False),('pec','=',False)],'readonly':[('state','!=','draft')]}"/>
-                                        </group>
+                                        <div class="emailpec-container">
+                                            <group>
+                                                <field name="server_sharedmail_id" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}" attrs="{'invisible':['|',('sharedmail','!=',True),('type','=','in')],
+                                                                                                'required': [('sharedmail','=',True),('type','=','out')], 'readonly':[('state','!=','draft')]}"
+                                                       class="seedoocustom_protocollo_server_sharedmail_id"/>
+                                                <field name="server_pec_id" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}" attrs="{'invisible':['|',('pec','!=',True),('type','=','in')],
+                                                                                                    'required': [('pec','=',True),('type','=','out')], 'readonly':[('state','!=','draft')]}"
+                                                       class="seedoocustom_protocollo_server_pec_id"/>
+                                                <field name="receiving_date" attrs="{'invisible':[('type','=','out')]}" class="seedoocustom_protocollo_receiving_date"/>
+                                                <field name="body" attrs="{'invisible':['|','|',('type','=','in'),('inserisci_testo_mailpec_visibility','=',False),'&amp;',('sharedmail','=',False),('pec','=',False)],'readonly':[('state','!=','draft')]}"
+                                                       class="seedoocustom_protocollo_body"/>
+                                            </group>
+                                        </div>
                                     </group>
                                 </div>
                             </div>
 
                             <div class="dati-protocollo-container" id="anteprima-container"
                                  attrs="{'invisible':[('mimetype','!=','application/pdf'),('mimetype','not in',['image/png','image/jpeg','image/gif'])]}">
-                                <div class="protocollo-accordion-toggle button-form-protocollo">
+                                <div class="protocollo-accordion-toggle button-form1-protocollo">
                                     <h4 class="accordion-toggle">Anteprima</h4>
                                 </div>
                                 <div class="accordion-content">
