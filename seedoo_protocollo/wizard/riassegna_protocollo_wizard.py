@@ -18,8 +18,25 @@ class protocollo_riassegna_wizard(osv.TransientModel):
         'motivation': fields.text('Motivazione'),
     }
 
-    def on_change_assegnatario_competenza_id(self, cr, uid, ids, assegnatario_competenza_id):
-        return {}
+    def on_change_assegnatario_competenza_id(self, cr, uid, ids, assegnatario_competenza_id, context=None):
+        data = {}
+        if context and 'active_id' in context:
+            assegnazione_obj = self.pool.get('protocollo.assegnazione')
+            assegnazione_competenza_ids = assegnazione_obj.search(cr, uid, [
+                ('protocollo_id', '=', context['active_id']),
+                ('tipologia_assegnazione', '=', 'competenza'),
+                ('parent_id', '=', False)
+            ], limit=1)
+            if assegnazione_competenza_ids:
+                assegnazione_competenza = assegnazione_obj.browse(cr, uid, assegnazione_competenza_ids[0])
+            if assegnazione_competenza and assegnazione_competenza.assegnatario_id.id==assegnatario_competenza_id:
+                data = {
+                    'warning': {
+                        'title': 'Attenzione',
+                        'message': 'Hai selezionato lo stesso Assegnatario per Competenza attualmente assegnato al Protocollo!'
+                    }
+                }
+        return data
 
     def action_save(self, cr, uid, ids, context=None):
         before = {'competenza': '', 'conoscenza': ''}
@@ -44,13 +61,14 @@ class protocollo_riassegna_wizard(osv.TransientModel):
             uid,
             context.get('active_id', False),
             wizard.assegnatario_competenza_id.id if wizard.assegnatario_competenza_id else False,
-            employee_ids[0] if employee_ids else False
+            employee_ids[0] if employee_ids else False,
+            True
         )
         after['competenza'] = wizard.assegnatario_competenza_id.nome
 
         action_class = "history_icon update"
         body = "<div class='%s'><ul>" % action_class
-        if (before['competenza'] or after['competenza']) and before['competenza']!=after['competenza']:
+        if before['competenza'] or after['competenza']:
             body = body + "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#009900'> %s </span></li>" \
                           % ('Assegnatario Competenza', before['competenza'], after['competenza'])
         if wizard.motivation:
