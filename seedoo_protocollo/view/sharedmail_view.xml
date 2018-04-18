@@ -33,6 +33,10 @@ this module contains the full copyright notices and license terms. -->
                                 <newline/>
                                 <field name="email_from" attrs="{'invisible':[('sharedmail_type','!=','sharedmail')]}"/>
                                 <field name="date"/>
+
+                                <field name="sharedmail_to" colspan="4" attrs="{'invisible':[('sharedmail_type','!=','sharedmail')]}"/>
+                                <newline/>
+                                <field name="sharedmail_cc" colspan="4" attrs="{'invisible':[('sharedmail_type','!=','sharedmail')]}"/>
                             </group>
                         </div>
                         <group class="message_data">

@@ -33,6 +33,9 @@ this module contains the full copyright notices and license terms. -->
                                 <newline/>
                                 <field name="email_from" attrs="{'invisible':[('pec_type','!=','posta-certificata')]}"/>
                                 <field name="date"/>
+                                <field name="pec_to" colspan="4" readonly="1" />
+                                <newline/>
+                                <field name="pec_cc" colspan="4" readonly="1" />
                             </group>
                         </div>
                         <group class="message_data">
