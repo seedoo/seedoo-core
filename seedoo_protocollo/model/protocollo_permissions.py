@@ -1010,10 +1010,12 @@ class protocollo_protocollo(osv.Model):
             if uid == protocollo.user_id.id or uid == SUPERUSER_ID:
                 check = check and True
             else:
-                check_assegnatari = False
-                if check:
-                    check_assegnatari = self._check_stato_assegnatario_competenza(cr, uid, protocollo, 'preso')
-                check = check and check_assegnatari
+                check = False
+            # else:
+            #     check_assegnatari = False
+                # if check:
+                #     check_assegnatari = self._check_stato_assegnatario_competenza(cr, uid, protocollo, 'preso')
+                # check = check and check_assegnatari
 
             res.append((protocollo.id, check))
 
