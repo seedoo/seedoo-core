@@ -12,6 +12,7 @@
                             <field name="assegnatario_competenza_id"
                                    widget="m2o_tree"
                                    options="{'limit': 5000, 'create': false, 'create_edit': false, 'label': 'nome', 'all_checkable': true}"
+                                   on_change="on_change_assegnatario_competenza_id(assegnatario_competenza_id)"
                             />
                             <field name="motivation" required="1"/>
                         </group>

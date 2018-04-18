@@ -18,6 +18,9 @@ class protocollo_riassegna_wizard(osv.TransientModel):
         'motivation': fields.text('Motivazione'),
     }
 
+    def on_change_assegnatario_competenza_id(self, cr, uid, ids, assegnatario_competenza_id):
+        return {}
+
     def action_save(self, cr, uid, ids, context=None):
         before = {'competenza': '', 'conoscenza': ''}
         after = {'competenza': '', 'conoscenza': ''}

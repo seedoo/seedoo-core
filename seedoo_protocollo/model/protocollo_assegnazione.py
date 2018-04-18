@@ -180,7 +180,7 @@ class protocollo_assegnazione(orm.Model):
                                                           assegnatore_id, tipologia, assegnazione_id)
 
 
-    def salva_assegnazione_competenza(self, cr, uid, protocollo_id, assegnatario_id, assegnatore_id):
+    def salva_assegnazione_competenza(self, cr, uid, protocollo_id, assegnatario_id, assegnatore_id, force=False):
         if protocollo_id and assegnatario_id and assegnatore_id:
 
             assegnazione_ids = self.search(cr, uid, [
@@ -189,7 +189,7 @@ class protocollo_assegnazione(orm.Model):
                 ('assegnatario_id', '=', assegnatario_id),
                 ('parent_id', '=', False)
             ])
-            if not assegnazione_ids:
+            if not assegnazione_ids or force:
                 # eliminazione delle vecchie assegnazioni
                 assegnazione_ids = self.search(cr, uid, [
                     ('protocollo_id', '=', protocollo_id),
