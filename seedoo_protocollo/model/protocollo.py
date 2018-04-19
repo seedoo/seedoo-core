@@ -1319,6 +1319,8 @@ class protocollo_protocollo(orm.Model):
             values['pec_protocol_ref'] = prot.id
             values['pec_state'] = 'protocol'
             values['pec_type'] = 'posta-certificata'
+            values['server_id'] = fetchmail_server_id
+
             if prot.assigne_cc:
                 values['email_cc'] = self._get_assigne_cc_emails(
                     cr, uid, prot_id, context)
@@ -1437,6 +1439,8 @@ class protocollo_protocollo(orm.Model):
             values['sharedmail_protocol_ref'] = prot.id
             values['sharedmail_state'] = 'protocol'
             values['sharedmail_type'] = 'sharedmail'
+            values['server_sharedmail_id'] = fetchmail_server_id
+
             if prot.assigne_cc:
                 values['email_cc'] = self._get_assigne_cc_emails(
                     cr, uid, prot_id, context)
@@ -1481,7 +1485,7 @@ class protocollo_protocollo(orm.Model):
                     notifica del protocollo, mail non spedita'))
             else:
                 mail_message_obj = self.pool.get('mail.message')
-                mail_message_obj.write(cr, uid, mail.mail_message_id.id, {'sharedmail_direction': 'out'})
+                mail_message_obj.write(cr, uid, mail.mail_message_id.id, {'direction_sharedmail': 'out'})
                 for sender_receiver_id in sender_receivers_ids:
                     msgvals = {}
                     sender_receiver_obj = self.pool.get('protocollo.sender_receiver').browse(cr, uid,
