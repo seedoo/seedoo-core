@@ -67,7 +67,7 @@ class MailMessage(orm.Model):
             ('new', 'Da protocollare'),
             ('protocol', 'Protocollato'),
             ('not_protocol', 'Non protocollato')
-        ], 'SharedMail State', readonly=True),
+        ], 'Stato E-mail', readonly=True),
         'sharedmail_server_user': fields.related('server_sharedmail_id', 'user', type='char', readonly=True, string='Account'),
         'recovered_message_parent': fields.many2one('mail.message', 'Messaggio originale ripristino per protocollazione', readonly=True),
 
