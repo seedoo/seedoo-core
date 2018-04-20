@@ -1316,6 +1316,7 @@ class protocollo_protocollo(orm.Model):
             values['email_to'] = ','.join([sr for sr in
                                            sender_receivers_pec_mails]
                                           )
+            values['pec_to'] = values['email_to']
             values['pec_protocol_ref'] = prot.id
             values['pec_state'] = 'protocol'
             values['pec_type'] = 'posta-certificata'
@@ -1436,6 +1437,7 @@ class protocollo_protocollo(orm.Model):
             values['email_to'] = ','.join([sr for sr in
                                            sender_receivers_mails]
                                           )
+            values['sharedmail_to'] = values['email_to']
             values['sharedmail_protocol_ref'] = prot.id
             values['sharedmail_state'] = 'protocol'
             values['sharedmail_type'] = 'sharedmail'
