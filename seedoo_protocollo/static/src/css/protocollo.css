@@ -549,7 +549,7 @@ li.badge {
   content: "\f007";
 }
 .protocollo_form_tabs ul.ui-tabs-nav li:nth-child(3) a:before {
-  content: "\f0c6";
+  content: "\f0e8";
 }
 .protocollo_form_tabs ul.ui-tabs-nav li:nth-child(4) a:before {
   content: "\f00b";
@@ -558,7 +558,7 @@ li.badge {
   content: "\f115";
 }
 .protocollo_form_tabs ul.ui-tabs-nav li:nth-child(6) a:before {
-  content: "\f0e8";
+  content: "\f0c6";
 }
 .protocollo_form_tabs ul.ui-tabs-nav li:nth-child(7) a:before {
   content: "\f044";
@@ -637,6 +637,9 @@ li.badge {
 .oe_form_editable label.seedoocustom_protocollo_server_pec_id {
   margin-left: 50px;
 }
+.oe_form_editable label.seedoocustom_protocollo_server_sharedmail_id {
+  margin-left: 50px;
+}
 .oe_form_editable label.seedoocustom_protocollo_receiving_date {
   margin-left: 50px;
 }
@@ -646,11 +649,47 @@ li.badge {
 .oe_form_readonly label.seedoocustom_protocollo_server_pec_id {
   margin-left: 95px;
 }
+.oe_form_readonly label.seedoocustom_protocollo_server_sharedmail_id {
+  margin-left: 95px;
+}
 .oe_form_readonly label.seedoocustom_protocollo_receiving_date {
   margin-left: 95px;
 }
 .oe_form_readonly label.seedoocustom_protocollo_body {
   margin-left: 95px;
+}
+.container_classification {
+  width: 280px !important;
+  padding: 8px !important;
+  position: relative;
+  height: 100px;
+  margin-top: 15px;
+  background: #f3f3f3;
+  margin-bottom: 15px;
+  margin-left: 3px;
+}
+.container_classification .oe_form_uri {
+  color: #aaa !important;
+  text-decoration: underline !important;
+  font-weight: bold;
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  height: 85px;
+}
+.container_classification .oe_form_uri:hover {
+  background-color: #ccc;
+}
+.container_classification .oe_form_uri:before {
+  content: "\f0e8";
+  font-family: FontAwesome;
+  border: 1px solid #eee;
+  background: white;
+  padding: 5px 10px;
+  font-size: 26px;
+  color: #ccc;
+  float: left;
+  margin-right: 10px;
 }
 .protocollo-accordion-toggle {
   cursor: pointer;

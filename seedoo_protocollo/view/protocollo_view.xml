@@ -606,7 +606,7 @@ this module contains the full copyright notices and license terms. -->
                             <!--</page>-->
                             <page string="Classificazione">
                                 <group col="4">
-                                    <field name="classification" nolabel="1" readonly="1" colspan="4"/>
+                                    <field name="classification" nolabel="1"  readonly="1" colspan="4" class="container_classification"/>
                                     <newline/>
                                     <button name="%(protocollo_aggiungi_classificazione_action)d"
                                             string="Aggiungi Classificazione"
