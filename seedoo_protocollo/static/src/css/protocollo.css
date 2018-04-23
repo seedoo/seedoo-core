@@ -696,7 +696,7 @@ li.badge {
   margin-left: 3px;
 }
 .container_classification .oe_form_uri {
-  color: #aaa !important;
+  color: #666 !important;
   text-decoration: none !important;
   font-weight: bold;
   position: absolute;
@@ -709,7 +709,7 @@ li.badge {
 }
 .container_classification .oe_form_uri:before {
   content: "\f0e8";
-  font-family: FontAwesome;
+  font-family: FontAwesome, sans-serif;
   border: 1px solid #eee;
   background: white;
   padding: 5px 10px;
@@ -717,6 +717,26 @@ li.badge {
   color: #ccc;
   float: left;
   margin-right: 10px;
+}
+.container_aggiungi_classificazione_step1 div.oe_horizontal_separator {
+  font-size: 16px;
+  color: #333 !important;
+}
+.container_aggiungi_classificazione_step1 .assignee_items .oe_form_uri {
+  font-size: 16px;
+}
+.container_aggiungi_classificazione_step1 .assignee_items .oe_form_uri:before {
+  content: "\f007";
+  font-family: FontAwesome, sans-serif;
+  margin-right: 10px;
+  font-size: 16px;
+  color: #2271b3;
+}
+.container_aggiungi_classificazione_step1 .oe_form_group_cell + .oe_form_group_cell {
+  padding: 0 !important;
+}
+.container_aggiungi_classificazione_step1 button {
+  width: 120px;
 }
 .protocollo-accordion-toggle {
   cursor: pointer;

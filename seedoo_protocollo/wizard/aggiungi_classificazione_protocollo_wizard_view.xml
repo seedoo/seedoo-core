@@ -31,21 +31,20 @@
             <field name="name">Aggiungi Classificazione</field>
             <field name="model">protocollo.aggiungi.classificazione.step2.wizard</field>
             <field name="arch" type="xml">
-                <form string="Aggiungi Classificazione">
+                <form string="Aggiungi Classificazione" class="container_aggiungi_classificazione_step1">
                     <sheet>
                         <group>
                             <separator string="Il titolario selezionato ha il seguente Ufficio Assegnatario di Competenza di default:" colspan="2"/>
-                            <field name="assignee_default" readonly="1" nolabel="1" options="{'no_open': True}"/>
-                            <separator string="vuoi utilizzarlo?"
+                            <field name="assignee_default" readonly="1" nolabel="1" options="{'no_open': True}" class="assignee_items"/>
+                            <separator string="Vuoi utilizzarlo?"
                                        attrs="{'invisible':[('display_replace_message','=',True)]}"
                                        colspan="2"/>
-                            <separator string="vuoi utilizzarlo e sostituire l'assegnatario del protocollo?"
+                            <separator string="Vuoi utilizzarlo e sostituire l'assegnatario del protocollo?"
                                        attrs="{'invisible':[('display_replace_message','=',False)]}"
                                        colspan="2"/>
-                            <group colspan="2" col="12">
+                            <group col="10">
                                 <button string="Sì" name="action_yes" type="object" class="oe_highlight" colspan="1"/>
-                                <button string="No" name="action_no" type="object" class="oe_highlight" colspan="1"/>
-                                <group colspan="10"/>
+                                <button string="No" name="action_no" type="object" class="oe_highlight" colspan="9"/>
                             </group>
                             <field name="display_replace_message" invisible="1"/>
                         </group>
