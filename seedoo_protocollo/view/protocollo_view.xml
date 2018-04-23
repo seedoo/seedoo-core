@@ -606,7 +606,8 @@ this module contains the full copyright notices and license terms. -->
                             <!--</page>-->
                             <page string="Classificazione">
                                 <group col="4">
-                                    <field name="classification" nolabel="1"  readonly="1" colspan="4" class="container_classification"/>
+                                    <field name="classification" nolabel="1"  readonly="1" colspan="4" class="container_classification"
+                                           attrs="{'invisible':['|',('classification','=', False)]}" />
                                     <newline/>
                                     <button name="%(protocollo_aggiungi_classificazione_action)d"
                                             string="Aggiungi Classificazione"
@@ -649,11 +650,43 @@ this module contains the full copyright notices and license terms. -->
                             <page string="Fascicoli">
                                 <group col="4">
                                     <field name="dossier_ids" nolabel="1"
+                                           widget="many2many_kanban"
                                            options="{'limit': 10, 'no_create': True}"
                                            domain="[('state','=','open')]"
                                            attrs="{'readonly':[('state','!=','draft')]}"
                                            colspan="4"
-                                    />
+                                           class="protocollo_dossier_container">
+                                        <kanban>
+                                            <field name="name"/>
+                                            <field name="classification_id" />
+                                            <templates>
+                                                <t t-name="kanban-box">
+                                                    <div class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_color_border item_box" >
+                                                        <a t-if="! read_only_mode" type="delete" style="position: absolute; right: 5px; padding: 0 4px; display: inline-block;background: rgba(255,255,255,0.6);">X</a>
+                                                        <a type="open" class="protocollo_dossier_box">
+                                                            <table class="oe_kanban_table">
+                                                                <tr>
+                                                                    <td>
+                                                                        <h6 class="dossier_title">
+                                                                            <field name="dossier_typology"/>
+                                                                        </h6>
+                                                                        <h3>
+                                                                            <field name="name"/>
+                                                                        </h3>
+                                                                        <p>
+                                                                            <i class="fa fa-sitemap" aria-hidden="true"></i>
+                                                                            <field name="classification_id"/>
+                                                                        </p>
+
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </a>
+                                                    </div>
+                                                </t>
+                                            </templates>
+                                        </kanban>
+                                    </field>
                                 </group>
                             </page>
                             <page string="Allegati" class="tab-allegati">

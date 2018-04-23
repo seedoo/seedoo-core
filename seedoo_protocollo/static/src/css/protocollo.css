@@ -504,13 +504,36 @@ li.badge {
 .openerp .oe_kanban_view a.protocollo_attachments_box:hover > div {
   background-color: #ccc;
 }
-.openerp .oe_kanban_view a.protocollo_sr_box {
+.openerp .oe_kanban_view a.protocollo_sr_box,
+.openerp .oe_kanban_view a.protocollo_dossier_box {
   display: block;
 }
-.openerp .oe_kanban_view a.protocollo_sr_box .oe_kanban_table {
+.openerp .oe_kanban_view a.protocollo_sr_box .oe_kanban_table,
+.openerp .oe_kanban_view a.protocollo_dossier_box .oe_kanban_table {
   min-height: 85px;
 }
-.openerp .oe_kanban_view a.protocollo_sr_box:hover {
+.openerp .oe_kanban_view h6.dossier_title {
+  text-transform: uppercase;
+  font-size: 10px;
+  color: #999;
+}
+.openerp .oe_kanban_view a.protocollo_dossier_box h6.dossier_title:before {
+  content: "\f115";
+  font-family: FontAwesome;
+  font-size: 24px;
+  color: #ccc;
+  background-color: white;
+  border: 1px solid #eee;
+  height: 40px;
+  width: 37px;
+  padding: 4px 7px;
+  float: left;
+  margin-right: 5px;
+  margin-bottom: 30px;
+  overflow: hidden;
+}
+.openerp .oe_kanban_view a.protocollo_sr_box:hover,
+.openerp .oe_kanban_view a.protocollo_dossier_box:hover {
   background-color: #ccc;
   transition: all 0.3s linear;
   -webkit-transition: all 0.3s linear;
@@ -531,6 +554,10 @@ li.badge {
 .openerp .oe_kanban_view a.protocollo_attachments_box .icon_item_type i.fa {
   font-size: 32px;
   line-height: 44px;
+}
+.protocollo_dossier_container .oe_kanban_buttons button.oe_kanban_button_new.oe_highlight {
+  background: steelblue !important;
+  margin: 0 0 18px 2px;
 }
 .oe_protocollo_chatter .oe_msg_email {
   display: none !important;
@@ -670,7 +697,7 @@ li.badge {
 }
 .container_classification .oe_form_uri {
   color: #aaa !important;
-  text-decoration: underline !important;
+  text-decoration: none !important;
   font-weight: bold;
   position: absolute;
   left: 10px;

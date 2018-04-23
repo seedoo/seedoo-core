@@ -17,14 +17,36 @@
     }
   }
 
-  a.protocollo_sr_box {
+  a.protocollo_sr_box, a.protocollo_dossier_box {
     display: block;
     .oe_kanban_table {
       min-height: 85px;
     }
   }
-  
-  a.protocollo_sr_box:hover {
+
+  h6.dossier_title {
+    text-transform: uppercase;
+    font-size: 10px;
+    color: #999;
+  }
+
+  a.protocollo_dossier_box h6.dossier_title:before {
+    content: "\f115";
+    font-family: FontAwesome;
+    font-size: 24px;
+    color: #ccc;
+    background-color: white;
+    border: 1px solid #eee;
+    height: 40px;
+    width: 37px;
+    padding: 4px 7px;
+    float: left;
+    margin-right:5px;
+    margin-bottom: 30px;
+    overflow: hidden;
+  }
+
+  a.protocollo_sr_box:hover, a.protocollo_dossier_box:hover {
     background-color: #ccc;
     transition: all 0.3s linear;
     -webkit-transition: all 0.3s linear;
@@ -56,6 +78,13 @@
     }
   }
 }
+
+
+.protocollo_dossier_container .oe_kanban_buttons button.oe_kanban_button_new.oe_highlight {
+  background: steelblue !important;
+  margin: 0 0 18px 2px;
+}
+
 
 .oe_protocollo_chatter {
   .oe_msg_email {
@@ -241,7 +270,7 @@
 
     .oe_form_uri {
       color: #aaa !important;
-      text-decoration: underline !important;
+      text-decoration: none !important;
       font-weight: bold;
       position: absolute;
       left: 10px;
