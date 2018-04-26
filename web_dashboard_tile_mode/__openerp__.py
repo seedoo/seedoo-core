@@ -3,8 +3,8 @@
 # this module contains the full copyright notices and license terms.
 
 {
-    "name": "Dashboard Tile SQL support",
-    "summary": "Add direct SQL support in Dashboard Tiles",
+    "name": "Dashboard Tile alternative mode support",
+    "summary": "Add different modalities support in Dashboard Tiles",
     "version": "8.0.0.0.0",
     "depends": [
         "web_dashboard_tile"
@@ -16,5 +16,6 @@
         "Luca Cireddu <luca.cireddu@flosslab.com>"
     ],
     "data": [
+        "view/tile_tile.xml"
     ]
 }
