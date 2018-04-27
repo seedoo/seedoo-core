@@ -176,11 +176,13 @@
     				
 		 			var zTree = $.fn.zTree.getZTreeObj("treeData");
 		 			if (zTree) {
-		 			    var nodes = zTree.getNodes();
+		 			    // var nodes = zTree.getNodes();
+                        var all_parent_nodes = zTree.getNodesByParam("isParent", true, null);
+
                         if (! self.options.all_checkable) {
-                            for (n in nodes) {
-                                if (nodes[n].isParent) {
-                                    zTree.setChkDisabled(nodes[n], true);
+                            for (n in all_parent_nodes) {
+                                if (all_parent_nodes[n].isParent) {
+                                    zTree.setChkDisabled(all_parent_nodes[n], true);
                                 }
                             }
                         }

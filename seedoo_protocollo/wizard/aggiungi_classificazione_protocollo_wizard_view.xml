@@ -11,7 +11,7 @@
                         <group>
                             <field name="classification"
                                    widget="m2o_tree"
-                                   options="{'limit': 5000, 'create': false, 'create_edit': false, 'label': 'name_and_code'}"
+                                   options="{'limit': 5000, 'create': false, 'create_edit': false, 'label': 'name_and_code', 'all_checkable': false}"
                                    colspan="4" />
                             <field name="motivation" attrs="{'invisible':[('display_motivation','=',False)], 'required':[('display_motivation','=',True)]}"
                                    colspan="4"/>
