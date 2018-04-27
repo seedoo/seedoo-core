@@ -13,7 +13,7 @@ this module contains the full copyright notices and license terms. -->
                 <xpath expr="//field[@name='doc_content']" position="after">
                     <field name="importer_id" attrs="{'invisible':[('importer_id', '=', False)]}"/>
                 </xpath>
-                <xpath expr="//field[@name='reserved']" position="after">
+                <xpath expr="//field[@name='registration_employee_id']" position="after">
                     <button string="Stampa Etichetta" type="object"
                                 attrs="{'invisible':[('state','!=','registered')]}" colspan="4"
                                 name="action_apri_stampa_etichetta" class="oe_inline oe_button oe_highlight_positive btn_seedoo btn_stampa_etichetta button-form-protocollo"/>
