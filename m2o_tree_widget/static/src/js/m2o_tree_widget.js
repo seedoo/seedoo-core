@@ -108,9 +108,17 @@
             var dataset = new instance.web.DataSet(this, this.field.relation, self.build_context());
             var fields = _.keys(self.fields);
             var label = 'name';
+            var order = 'name';
             if (self.options.label) {
             	label = self.options.label;
             }
+            if (self.options.order) {
+            	order = self.options.order;
+            }
+            else {
+                order = label;
+            }
+
             var modelFields = ['id', 'name', label];
             var pid = 'parent_id';
             if (self.options.parent_field) {
@@ -120,6 +128,7 @@
             var zNodes = new instance.web.Model(self.field.relation).query(modelFields)
 	            .filter(this.get("domain"))
 	            .limit(self.options.limit)
+                .order_by(order)
 	            .all().then(function (res) {
 	            	var zNodes = [];
 	            	for (r in res) {

@@ -38,6 +38,7 @@ this module contains the full copyright notices and license terms. -->
                             <field name="complete_name"/>
                             <field name="parent_id"/>
                             <field name="description" colspan="4"/>
+                            <field name="sequence"/>
                         </group>
                         <notebook>
                             <page string="Fascicoli">
@@ -56,6 +57,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="field_parent">child_ids</field>
             <field name="arch" type="xml">
                 <tree string="Titolario">
+                    <field name="sequence" widget="handle"/>
                     <field name="class_type"/>
                     <field name="name"/>
                     <field name="parent_id" invisible="1"/>

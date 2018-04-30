@@ -80,6 +80,8 @@ class protocollo_classification(osv.Model):
                 res.append((classification.id, classification.name))
         return dict(res)
 
+    _order = {'sequence'}
+
     _columns = {
         'name': fields.char(
             'Nome', size=256, required=True),
@@ -118,8 +120,12 @@ class protocollo_classification(osv.Model):
             'classification_id',
             'Fascicoli',
         ),
+        'sequence': fields.integer('Ordine di visualizzazione', help="Sequence"),
     }
 
+    _default = {
+        'sequence': 10
+    }
     # _defaults = {
     #     'name_and_code': _name_get_fnc
     # }
