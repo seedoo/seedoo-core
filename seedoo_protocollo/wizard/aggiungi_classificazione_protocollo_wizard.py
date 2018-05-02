@@ -58,11 +58,9 @@ class protocollo_aggiungi_classificazione_step1_wizard(osv.TransientModel):
                 body = "<div class='%s'><ul>" % action_class
                 body += classification_history
                 body += competenza_history
-                if motivation:
-                    body += "<li>%s: %s</li>" % ('Motivazione', motivation)
                 body += "</ul></div>"
                 post_vars = {
-                    'subject': "Modifica classificazione",
+                    'subject': "Modifica classificazione %s" % (": " + motivation if motivation else ""),
                     'body': body,
                     'model': "protocollo.protocollo",
                     'res_id': context['active_id']

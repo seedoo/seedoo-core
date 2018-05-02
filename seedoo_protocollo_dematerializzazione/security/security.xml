@@ -10,6 +10,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="name">Vedi Menu Documenti Importati</field>
             <field name="category_id" ref="seedoo_protocollo.module_category_protocollo"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
+            <field name="implied_ids" eval="[(4, ref('seedoo_gedoc.group_gedoc_user'))]"/>
         </record>
 
         <!-- Gruppo per la visualizzazione del menu "Importa" figlio di "Importazione massiva" -->
@@ -17,9 +18,8 @@ this module contains the full copyright notices and license terms. -->
             <field name="name">Carica Documenti da Importer</field>
             <field name="category_id" ref="seedoo_protocollo.module_category_protocollo"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
+            <field name="implied_ids" eval="[(4, ref('seedoo_gedoc.group_gedoc_user'))]"/>
         </record>
-
-
 
     </data>
 </openerp>
