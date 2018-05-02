@@ -9,7 +9,7 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="protocollo_protocollo_tree"/>
-            <field name="domain">[('type', '=', 'out'),('bozza_creato_da_me_visibility', '=', True)]</field>
+            <field name="domain">[('type', '=', 'out'), ('bozza_creato_da_me_visibility', '=', True)]</field>
         </record>
 
         <!-- ActWindow collegata a Tile Protocolli ingresso in bozza creati da me -->
@@ -19,7 +19,7 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="protocollo_protocollo_tree"/>
-            <field name="domain">[('type', '=', 'in'),('bozza_creato_da_me_visibility', '=', True)]</field>
+            <field name="domain">[('type', '=', 'in'), ('bozza_creato_da_me_visibility', '=', True)]</field>
         </record>
 
         <!-- ActWindow collegata a Tile Protocolli uscita assegnati a me -->
@@ -29,7 +29,7 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="protocollo_protocollo_tree"/>
-            <field name="domain">[('type', '=', 'out'),('assegnato_a_me_visibility', '=', True)]</field>
+            <field name="domain">[('type', '=', 'out'), ('assegnato_a_me_visibility', '=', True)]</field>
         </record>
 
         <!-- ActWindow collegata a Tile Protocolli uscita assegnati per cc -->
@@ -39,7 +39,7 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="protocollo_protocollo_tree"/>
-            <field name="domain">[('type', '=', 'out'),('assegnato_cc_visibility', '=', True)]</field>
+            <field name="domain">[('type', '=', 'out'), ('assegnato_cc_visibility', '=', True)]</field>
         </record>
 
         <!-- ActWindow collegata a Tile Protocolli ingresso assegnati a me -->
@@ -49,7 +49,7 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="protocollo_protocollo_tree"/>
-            <field name="domain">[('type', '=', 'in'),('assegnato_a_me_visibility', '=', True)]</field>
+            <field name="domain">[('type', '=', 'in'), ('assegnato_a_me_visibility', '=', True)]</field>
         </record>
 
         <!-- ActWindow collegata a Tile Protocolli ingresso assegnati per cc -->
@@ -59,7 +59,7 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="protocollo_protocollo_tree"/>
-            <field name="domain">[('type', '=', 'in'),('assegnato_cc_visibility', '=', True)]</field>
+            <field name="domain">[('type', '=', 'in'), ('assegnato_cc_visibility', '=', True)]</field>
         </record>
 
         <!-- ActWindow collegata a Tile Protocolli uscita assegnati al mio ufficio -->
@@ -69,7 +69,7 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="protocollo_protocollo_tree"/>
-            <field name="domain">[('type', '=', 'out'),('assegnato_a_mio_ufficio_visibility','=',True)]</field>
+            <field name="domain">[('type', '=', 'out'), ('assegnato_a_mio_ufficio_visibility', '=',True)]</field>
         </record>
 
         <!-- ActWindow collegata a Tile Protocolli ingresso assegnati al mio ufficio -->
@@ -79,7 +79,7 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="protocollo_protocollo_tree"/>
-            <field name="domain">[('type', '=', 'in'),('assegnato_a_mio_ufficio_visibility','=',True)]</field>
+            <field name="domain">[('type', '=', 'in'), ('assegnato_a_mio_ufficio_visibility', '=',True)]</field>
         </record>
 
         <!-- ActWindow collegata a Protocolli assegnati da me in uscita - Assegnato-->
@@ -89,7 +89,7 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="protocollo_protocollo_tree"/>
-            <field name="domain">[('type', '=', 'out'),('assegnato_da_me_in_attesa_visibility', '=', True)]</field>
+            <field name="domain">[('type', '=', 'out'), ('assegnato_da_me_in_attesa_visibility', '=', True)]</field>
         </record>
 
         <!-- ActWindow collegata a Protocolli assegnati da me in ingresso - Assegnato-->
@@ -99,7 +99,7 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="protocollo_protocollo_tree"/>
-            <field name="domain">[('type', '=', 'in'),('assegnato_da_me_in_attesa_visibility', '=', True)]</field>
+            <field name="domain">[('type', '=', 'in'), ('assegnato_da_me_in_attesa_visibility', '=', True)]</field>
         </record>
 
         <!-- ActWindow collegata a Protocolli assegnati da me in uscita - Rifiutato-->
@@ -109,7 +109,7 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="protocollo_protocollo_tree"/>
-            <field name="domain">[('type', '=', 'out'),('assegnato_da_me_in_rifiutato_visibility', '=', True)]</field>
+            <field name="domain">[('type', '=', 'out'), ('assegnato_da_me_in_rifiutato_visibility', '=', True)]</field>
         </record>
 
         <!-- ActWindow collegata a Protocolli assegnati da me in ingresso - Preso in carico-->
@@ -119,7 +119,7 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="protocollo_protocollo_tree"/>
-            <field name="domain">[('type', '=', 'in'),('assegnato_da_me_in_rifiutato_visibility', '=', True)]</field>
+            <field name="domain">[('type', '=', 'in'), ('assegnato_da_me_in_rifiutato_visibility', '=', True)]</field>
         </record>
 
         <!--  Tile: sharedmail-mail-->
@@ -129,7 +129,7 @@
             <field name="action_id" ref="seedoo_protocollo.protocollo_sharedmail_act"/>
             <field name="mode">domain</field>
             <field name="domain">
-                [('server_sharedmail_id.sharedmail','=',True),('sharedmail_type','=','sharedmail'),('parent_id','=',False),('server_sharedmail_id.user_sharedmail_ids','in',uid),('sharedmail_state','=','new')]
+                [('server_sharedmail_id.sharedmail', '=',True), ('sharedmail_type', '=', 'sharedmail'), ('parent_id', '=',False), ('server_sharedmail_id.user_sharedmail_ids', 'in',uid), ('sharedmail_state', '=', 'new')]
             </field>
             <field name="font_color">#ffffff</field>
             <field name="background_color">#9B59B6</field>
@@ -145,7 +145,7 @@
             <field name="action_id" ref="seedoo_protocollo.protocollo_pec_act"/>
             <field name="mode">domain</field>
             <field name="domain">
-                [('server_id.pec','=',True),('pec_type','=','posta-certificata'),('parent_id','=',False),('server_id.user_ids','in',uid),('pec_state','=','new')]
+                [('server_id.pec', '=', True), ('pec_type', '=', 'posta-certificata'), ('parent_id', '=', False), ('server_id.user_ids', 'in', uid), ('pec_state', '=', 'new')]
             </field>
             <field name="font_color">#ffffff</field>
             <field name="background_color">#9B59B6</field>
@@ -161,7 +161,7 @@
             <field name="action_id" ref="seedoo_protocollo.protocollo_protocollo_not_classified_act"/>
             <field name="mode">domain</field>
             <field name="domain">
-                [('state','in',('registered','notified','sent','waiting','error')),('classification','=',False)]
+                [('state', 'in', ('registered', 'notified', 'sent', 'waiting', 'error')), ('classification', '=', False)]
             </field>
             <field name="font_color">#ffffff</field>
             <field name="background_color">#34495E</field>
@@ -177,7 +177,7 @@
             <field name="action_id" ref="seedoo_protocollo.protocollo_protocollo_not_dossier_act"/>
             <field name="mode">domain</field>
             <field name="domain">
-                [('state','in',('registered','notified','sent','waiting','error')),('dossier_ids','=',False)]
+                [('state', 'in', ('registered', 'notified', 'sent', 'waiting', 'error')), ('dossier_ids', '=' , False)]
             </field>
             <field name="font_color">#ffffff</field>
             <field name="background_color">#34495E</field>
@@ -191,8 +191,8 @@
             <field name="name">In Bozza</field>
             <field name="model_id" ref="seedoo_protocollo.model_protocollo_protocollo"/>
             <field name="action_id" ref="seedoo_protocollo.act_tile_protocollo_ingresso_bozza_creati_da_me"/>
-            <field name="mode">domain</field>
-            <field name="domain">[('type', '=', 'in'),('bozza_creato_da_me_visibility','=',True)]</field>
+            <field name="mode">method</field>
+            <field name="method">_bozza_creato_da_me_visibility_count_in</field>
             <field name="font_color">#ffffff</field>
             <field name="background_color">#F1C40F</field>
             <field name="sequence_tile">10</field>
@@ -205,8 +205,8 @@
             <field name="name">Assegnati a me</field>
             <field name="model_id" ref="seedoo_protocollo.model_protocollo_protocollo"/>
             <field name="action_id" ref="seedoo_protocollo.act_tile_protocollo_ingresso_assegnati_a_me"/>
-            <field name="mode">domain</field>
-            <field name="domain">[('type', '=', 'in'),('assegnato_a_me_visibility', '=', True)]</field>
+            <field name="mode">method</field>
+            <field name="method">_assegnato_a_me_visibility_count_in</field>
             <field name="font_color">#ffffff</field>
             <field name="background_color">#2980b9</field>
             <field name="sequence_tile">12</field>
@@ -219,8 +219,8 @@
             <field name="name">Assegnati al mio Ufficio</field>
             <field name="model_id" ref="seedoo_protocollo.model_protocollo_protocollo"/>
             <field name="action_id" ref="seedoo_protocollo.act_tile_protocollo_ingresso_assegnati_mio_ufficio"/>
-            <field name="mode">domain</field>
-            <field name="domain">[('type', '=', 'in'),('assegnato_a_mio_ufficio_visibility','=',True)]</field>
+            <field name="mode">method</field>
+            <field name="method">_assegnato_a_me_visibility_count_in</field>
             <field name="font_color">#ffffff</field>
             <field name="background_color">#2980b9</field>
             <field name="sequence_tile">14</field>
@@ -233,8 +233,8 @@
             <field name="name">Assegnati per CC</field>
             <field name="model_id" ref="seedoo_protocollo.model_protocollo_protocollo"/>
             <field name="action_id" ref="seedoo_protocollo.act_tile_protocollo_ingresso_assegnati_cc"/>
-            <field name="mode">domain</field>
-            <field name="domain">[('type', '=', 'in'),('assegnato_cc_visibility', '=', True)]</field>
+            <field name="mode">method</field>
+            <field name="method">_assegnato_cc_visibility_count_in</field>
             <field name="font_color">#ffffff</field>
             <field name="background_color">#3498db</field>
             <field name="sequence_tile">16</field>
@@ -247,8 +247,8 @@
             <field name="name">In attesa di presa in carico</field>
             <field name="model_id" ref="seedoo_protocollo.model_protocollo_protocollo"/>
             <field name="action_id" ref="seedoo_protocollo.act_tile_protocollo_ingresso_assegnati_da_me_assegnato"/>
-            <field name="mode">domain</field>
-            <field name="domain">[('type', '=', 'in'),('assegnato_da_me_in_attesa_visibility', '=', True)]</field>
+            <field name="mode">method</field>
+            <field name="method">_assegnato_da_me_in_attesa_visibility_count_in</field>
             <field name="font_color">#ffffff</field>
             <field name="background_color">#f1c40f</field>
             <field name="sequence_tile">18</field>
@@ -261,8 +261,8 @@
             <field name="name">Rifiutati</field>
             <field name="model_id" ref="seedoo_protocollo.model_protocollo_protocollo"/>
             <field name="action_id" ref="seedoo_protocollo.act_tile_protocollo_ingresso_assegnati_da_me_rifiutato"/>
-            <field name="mode">domain</field>
-            <field name="domain">[('type', '=', 'in'),('assegnato_da_me_in_rifiutato_visibility', '=', True)]</field>
+            <field name="mode">method</field>
+            <field name="method">_assegnato_da_me_in_rifiutato_visibility_count_in</field>
             <field name="font_color">#ffffff</field>
             <field name="background_color">#e26139</field>
             <field name="sequence_tile">20</field>
@@ -275,8 +275,8 @@
             <field name="name">In Bozza</field>
             <field name="model_id" ref="seedoo_protocollo.model_protocollo_protocollo"/>
             <field name="action_id" ref="seedoo_protocollo.act_tile_protocollo_uscita_bozza_creati_da_me"/>
-            <field name="mode">domain</field>
-            <field name="domain">[('type', '=', 'out'),('bozza_creato_da_me_visibility','=',True)]</field>
+            <field name="mode">method</field>
+            <field name="method">_bozza_creato_da_me_visibility_count_out</field>
             <field name="font_color">#ffffff</field>
             <field name="background_color">#F1C40F</field>
             <field name="sequence_tile">30</field>
@@ -289,8 +289,8 @@
             <field name="name">Assegnati a me</field>
             <field name="model_id" ref="seedoo_protocollo.model_protocollo_protocollo"/>
             <field name="action_id" ref="seedoo_protocollo.act_tile_protocollo_uscita_assegnati_a_me"/>
-            <field name="mode">domain</field>
-            <field name="domain">[('type', '=', 'out'),('assegnato_a_me_visibility', '=', True)]</field>
+            <field name="mode">method</field>
+            <field name="method">_assegnato_a_me_visibility_count_out</field>
             <field name="font_color">#ffffff</field>
             <field name="background_color">#2980b9</field>
             <field name="sequence_tile">32</field>
@@ -303,8 +303,8 @@
             <field name="name">Assegnati al mio Ufficio</field>
             <field name="model_id" ref="seedoo_protocollo.model_protocollo_protocollo"/>
             <field name="action_id" ref="seedoo_protocollo.act_tile_protocollo_uscita_assegnati_mio_ufficio"/>
-            <field name="mode">domain</field>
-            <field name="domain">[('type', '=', 'out'),('assegnato_a_mio_ufficio_visibility','=',True)]</field>
+            <field name="mode">method</field>
+            <field name="method">_assegnato_a_mio_ufficio_visibility_count_out</field>
             <field name="font_color">#ffffff</field>
             <field name="background_color">#2980b9</field>
             <field name="sequence_tile">34</field>
@@ -317,8 +317,8 @@
             <field name="name">Assegnati per CC</field>
             <field name="model_id" ref="seedoo_protocollo.model_protocollo_protocollo"/>
             <field name="action_id" ref="seedoo_protocollo.act_tile_protocollo_uscita_assegnati_cc"/>
-            <field name="mode">domain</field>
-            <field name="domain">[('type', '=', 'out'),('assegnato_cc_visibility', '=', True)]</field>
+            <field name="mode">method</field>
+            <field name="method">_assegnato_cc_visibility_count_out</field>
             <field name="font_color">#ffffff</field>
             <field name="background_color">#3498db</field>
             <field name="sequence_tile">36</field>
@@ -331,8 +331,8 @@
             <field name="name">In attesa di presa in carico</field>
             <field name="model_id" ref="seedoo_protocollo.model_protocollo_protocollo"/>
             <field name="action_id" ref="seedoo_protocollo.act_tile_protocollo_uscita_assegnati_da_me_assegnato"/>
-            <field name="mode">domain</field>
-            <field name="domain">[('type', '=', 'out'),('assegnato_da_me_in_attesa_visibility', '=', True)]</field>
+            <field name="mode">method</field>
+            <field name="method">_assegnato_da_me_in_attesa_visibility_count_out</field>
             <field name="font_color">#ffffff</field>
             <field name="background_color">#f1c40f</field>
             <field name="sequence_tile">38</field>
@@ -345,8 +345,8 @@
             <field name="name">Rifiutati</field>
             <field name="model_id" ref="seedoo_protocollo.model_protocollo_protocollo"/>
             <field name="action_id" ref="seedoo_protocollo.act_tile_protocollo_uscita_assegnati_da_me_rifiutato"/>
-            <field name="mode">domain</field>
-            <field name="domain">[('type', '=', 'out'),('assegnato_da_me_in_rifiutato_visibility', '=', True)]</field>
+            <field name="mode">method</field>
+            <field name="method">_assegnato_da_me_in_rifiutato_visibility_count_out</field>
             <field name="font_color">#ffffff</field>
             <field name="background_color">#e26139</field>
             <field name="sequence_tile">40</field>
