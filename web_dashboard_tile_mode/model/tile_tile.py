@@ -92,3 +92,25 @@ class TileTile(models.Model):
                 rec.domain_method = rec.domain
             elif rec.mode == self.SELECTION_MODE[1][0]:
                 rec.domain_method = rec.method
+
+    @api.multi
+    def open_link(self):
+        self.ensure_one()
+
+        res = {
+            "name": self.name,
+            "view_type": "form",
+            "view_mode": "tree",
+            "view_id": [False],
+            "res_model": self.model_id.model,
+            "type": "ir.actions.act_window",
+            "context": self.env.context,
+            "nodestroy": True,
+            "target": "current",
+            "domain": self.domain,
+        }
+
+        if self.action_id:
+            res.update(self.action_id.read(["domain", "view_type", "view_mode", "type"])[0])
+
+        return res
