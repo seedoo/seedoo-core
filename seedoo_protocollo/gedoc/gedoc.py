@@ -29,8 +29,6 @@ class protocollo_classification(osv.Model):
         'aoo_id': _get_default_aoo_id,
     }
 
-    _order = "code"
-
 
 class protocollo_dossier(osv.Model):
     _inherit = 'protocollo.dossier'

@@ -80,7 +80,6 @@ class protocollo_classification(osv.Model):
                 res.append((classification.id, classification.name))
         return dict(res)
 
-    _order = {'sequence'}
 
     _columns = {
         'name': fields.char(

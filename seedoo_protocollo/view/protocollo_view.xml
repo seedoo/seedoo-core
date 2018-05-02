@@ -95,7 +95,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="priority" eval="20"/>
             <field name="arch" type="xml">
                 <tree string="Titolario" default_order="sequence">
-                    <field name="sequence"/>
+                    <field name="sequence" invisible="1"/>
                     <field name="code"/>
                     <field name="name"/>
                 </tree>
