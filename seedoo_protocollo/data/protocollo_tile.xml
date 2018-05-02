@@ -128,9 +128,7 @@
             <field name="model_id" ref="mail.model_mail_message"/>
             <field name="action_id" ref="seedoo_protocollo.protocollo_sharedmail_act"/>
             <field name="mode">domain</field>
-            <field name="domain">
-                [('server_sharedmail_id.sharedmail', '=',True), ('sharedmail_type', '=', 'sharedmail'), ('parent_id', '=',False), ('server_sharedmail_id.user_sharedmail_ids', 'in',uid), ('sharedmail_state', '=', 'new')]
-            </field>
+            <field name="domain">[('server_sharedmail_id.sharedmail', '=',True), ('sharedmail_type', '=', 'sharedmail'), ('parent_id', '=',False), ('server_sharedmail_id.user_sharedmail_ids', 'in',uid), ('sharedmail_state', '=', 'new')]</field>
             <field name="font_color">#ffffff</field>
             <field name="background_color">#9B59B6</field>
             <field name="sequence_tile">1</field>
@@ -144,9 +142,7 @@
             <field name="model_id" ref="mail.model_mail_message"/>
             <field name="action_id" ref="seedoo_protocollo.protocollo_pec_act"/>
             <field name="mode">domain</field>
-            <field name="domain">
-                [('server_id.pec', '=', True), ('pec_type', '=', 'posta-certificata'), ('parent_id', '=', False), ('server_id.user_ids', 'in', uid), ('pec_state', '=', 'new')]
-            </field>
+            <field name="domain">[('server_id.pec', '=', True), ('pec_type', '=', 'posta-certificata'), ('parent_id', '=', False), ('server_id.user_ids', 'in', uid), ('pec_state', '=', 'new')]</field>
             <field name="font_color">#ffffff</field>
             <field name="background_color">#9B59B6</field>
             <field name="sequence_tile">2</field>
@@ -160,9 +156,7 @@
             <field name="model_id" ref="seedoo_protocollo.model_protocollo_protocollo"/>
             <field name="action_id" ref="seedoo_protocollo.protocollo_protocollo_not_classified_act"/>
             <field name="mode">domain</field>
-            <field name="domain">
-                [('state', 'in', ('registered', 'notified', 'sent', 'waiting', 'error')), ('classification', '=', False)]
-            </field>
+            <field name="domain">[('state', 'in', ('registered', 'notified', 'sent', 'waiting', 'error')), ('classification', '=', False)]</field>
             <field name="font_color">#ffffff</field>
             <field name="background_color">#34495E</field>
             <field name="sequence_tile">3</field>
@@ -176,9 +170,7 @@
             <field name="model_id" ref="seedoo_protocollo.model_protocollo_protocollo"/>
             <field name="action_id" ref="seedoo_protocollo.protocollo_protocollo_not_dossier_act"/>
             <field name="mode">domain</field>
-            <field name="domain">
-                [('state', 'in', ('registered', 'notified', 'sent', 'waiting', 'error')), ('dossier_ids', '=' , False)]
-            </field>
+            <field name="domain">[('state', 'in', ('registered', 'notified', 'sent', 'waiting', 'error')), ('dossier_ids', '=' , False)]</field>
             <field name="font_color">#ffffff</field>
             <field name="background_color">#34495E</field>
             <field name="sequence_tile">4</field>
