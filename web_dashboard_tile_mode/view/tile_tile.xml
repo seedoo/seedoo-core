@@ -10,6 +10,9 @@
                 <field name="name" position="after">
                     <field name="mode"/>
                 </field>
+                <field name="domain" position="replace">
+                    <field name="domain_method"/>
+                </field>
             </field>
         </record>
 
@@ -39,6 +42,9 @@
                                attrs="{'invisible': [('error', '=', False)]}"/>
                     </group>
                 </xpath>
+                <field name="primary_function" position="attributes">
+                    <attribute name="attrs">{'readonly': [('mode', '=', 'method')]}</attribute>
+                </field>
             </field>
         </record>
 
