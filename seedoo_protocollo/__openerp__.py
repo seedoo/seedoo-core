@@ -26,7 +26,8 @@
         "m2o_tree_widget",
         "m2m_tree_widget",
         "web_pdf_widget",
-        "web_dashboard_tile"
+        "web_dashboard_tile",
+        "web_dashboard_tile_mode"
     ],
     "data": [
         "data/protocollo_company.xml",
