@@ -792,7 +792,7 @@ class protocollo_protocollo(osv.Model):
                 AND rr.user_id = %d
                 AND pp.registration_employee_id IS NOT NULL
                 AND pa.tipologia_assegnatario = 'department' 
-                AND pa.tipologia_assegnazione = 'conoscenza'
+                AND pa.tipologia_assegnazione = 'competenza'
                 AND pa.state = 'assegnato'""" % (protocollo_type, uid)
 
         cr.execute(sql_query)
