@@ -259,29 +259,29 @@ class protocollo_protocollo(osv.Model):
             start_time = time.time()
             # un utente deve poter vedere i protocolli registrati (IN e OUT) assegnati a lui
             # purchè lui o un dipendente del suo ufficio non abbia rifiutato la presa in carico
-            cr.execute("""SELECT DISTINCT (pa.protocollo_id)
-                        FROM protocollo_assegnazione pa, protocollo_protocollo pp
-                        WHERE pp.registration_employee_id IS NOT NULL
-                              AND pa.protocollo_id = pp.id
-                              AND pa.tipologia_assegnatario = 'employee'
-                              AND pa.assegnatario_employee_id = %d
-                              AND (pa.assegnatario_employee_department_id != %d OR pa.state != 'rifiutato')""" %
-                       (employee.id, employee_department.id))
-            # cr.execute('''
-            #     SELECT DISTINCT(pa.protocollo_id)
-            #     FROM protocollo_assegnazione pa, protocollo_protocollo pp
-            #     WHERE pp.registration_employee_id IS NOT NULL AND
-            #           pa.protocollo_id = pp.id AND
-            #           pa.tipologia_assegnatario = 'employee' AND
-            #           pa.assegnatario_employee_id = %s AND
-            #           pa.protocollo_id NOT IN (
-            #               SELECT DISTINCT(pa.protocollo_id)
-            #               FROM protocollo_assegnazione pa
-            #               WHERE pa.tipologia_assegnatario = 'employee' AND
-            #                     pa.assegnatario_employee_department_id = %s AND
-            #                     pa.state = 'rifiutato'
-            #           )
-            # ''', (employee.id, employee_department.id))
+            # cr.execute("""SELECT DISTINCT (pa.protocollo_id)
+            #             FROM protocollo_assegnazione pa, protocollo_protocollo pp
+            #             WHERE pp.registration_employee_id IS NOT NULL
+            #                   AND pa.protocollo_id = pp.id
+            #                   AND pa.tipologia_assegnatario = 'employee'
+            #                   AND pa.assegnatario_employee_id = %d
+            #                   AND (pa.assegnatario_employee_department_id != %d OR pa.state != 'rifiutato')""" %
+            #            (employee.id, employee_department.id))
+            cr.execute('''
+                SELECT DISTINCT(pa.protocollo_id)
+                FROM protocollo_assegnazione pa, protocollo_protocollo pp
+                WHERE pp.registration_employee_id IS NOT NULL AND
+                      pa.protocollo_id = pp.id AND
+                      pa.tipologia_assegnatario = 'employee' AND
+                      pa.assegnatario_employee_id = %s AND
+                      pa.protocollo_id NOT IN (
+                          SELECT DISTINCT(pa.protocollo_id)
+                          FROM protocollo_assegnazione pa
+                          WHERE pa.tipologia_assegnatario = 'employee' AND
+                                pa.assegnatario_employee_department_id = %s AND
+                                pa.state = 'rifiutato'
+                      )
+            ''', (employee.id, employee_department.id))
             protocollo_ids_assigned_not_refused = [res[0] for res in cr.fetchall()]
             _logger.info("---Query assigned_not_refused %s seconds ---" % (time.time() - start_time))
 
