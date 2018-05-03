@@ -25,6 +25,15 @@ class protocollo_classification(osv.Model):
                 return aoo_ids[0]
         return False
 
+    def search(self, cr, uid, args, offset=0, limit=None, order=None, context=None, count=False):
+        order = 'name'
+        if context is None:
+            context = {}
+        if context and context.get('order_sequence', True):
+            order = 'sequence'
+        return super(protocollo_classification, self).search(cr, uid, args, offset=offset, limit=limit, order=order,
+                                                    context=context, count=count)
+
     _defaults = {
         'aoo_id': _get_default_aoo_id,
     }
