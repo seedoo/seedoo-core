@@ -135,7 +135,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="view_type">tree</field>
             <field name="view_id" ref="protocollo_classification_tree"/>
             <field name="domain">[('parent_id','=',False)]</field>
-            <field name="context">{'order_sequence','=',True}</field>
+            <field name="context">{'order_sequence':True}</field>
         </record>
 
         <record model="ir.actions.act_window" id="protocollo_classification_def_act">
