@@ -8,9 +8,9 @@
             <field name="inherit_id" ref="seedoo_gedoc.protocollo_classification_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='description']" position="after">
-                    <field name="assignee_default_in"/>
+                    <field name="assignee_default_in" options="{'no_open': True}"/>
                     <newline/>
-                    <field name="assignee_default_out"/>
+                    <field name="assignee_default_out" options="{'no_open': True}"/>
                     <newline/>
                 </xpath>
             </field>
