@@ -324,7 +324,7 @@
 }
 
 .tree_aggiungi_assegnatari .ztree li span.button.ico_docu:before {
-    content:"\f15b" !important;
+    content:"\f007" !important;
 }
 
 .tree_aggiungi_assegnatari .ztree li span.button.ico_open:before, .tree_aggiungi_assegnatari .ztree li span.button.ico_close:before {
@@ -337,6 +337,7 @@
 
 .ztree li span.button.ico_docu {
     background: none;
+    color: #ccc;
 
     &:before {
         font-family: FontAwesome, sans-serif;
@@ -349,6 +350,7 @@
 
 .ztree li span.button.ico_open, .ztree li span.button.ico_close {
     background: none;
+    color: #ccc;
 
     &:before {
         font-family: FontAwesome, sans-serif;
@@ -360,28 +362,43 @@
 }
 
 .ztree li span.button.ico_open:before, .tree_aggiungi_assegnatari .ztree li span.button.ico_open:before {
-  color: #ccc;
+  color: #666;
 }
 
 .ztree li span.button.chk.radio_true_full {
   border-radius: 6px;
-  border: 2px solid #000;
+  border: 2px solid #ccc;
   background: none;
-  background: #265f2d;
-  margin: 0px;
+  background: #679b41;
+  margin: 0;
   background-size: contain;
   padding: 3px;
 }
 
+.ztree li span.button.chk.radio_false_full_focus:hover,
+.ztree li span.button.chk.radio_true_full_focus:hover {
+  background-color: #99c569 !important;
+  background-position: -100px -100px !important;
+  -webkit-border-radius: 6px !important;
+  -moz-border-radius: 6px !important;
+  border-radius: 6px !important;
+  border:1px solid #ccc;
+}
+
 .ztree li span.button.chk.radio_true_full + a {
-  background-color: #ccc;
+  background-color: #ededed;
   font-weight:bold;
+  padding: 1px 3px;
 }
 
 .ztree li span.button.chk.radio_false_full {
   background:none;
   border:1px solid #666;
   border-radius: 6px;
+}
+
+.ztree li span.button.chk.radio_false_full:before {
+  color:darkgreen;
 }
 
 .ztree li span.button.chk.radio_false_full:hover {
