@@ -25,6 +25,18 @@ this module contains the full copyright notices and license terms. -->
                 </filter>
                 <filter string="Companies" position="replace">
                 </filter>
+
+            </field>
+        </record>
+
+
+        <record id="protocollo_res_partner_opt_out_search" model="ir.ui.view">
+            <field name="name">protocollo_res_partner_opt_out_search</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="email_template.res_partner_opt_out_search"/>
+            <field name="arch" type="xml">
+                <filter name="not_opt_out" position="replace">
+                </filter>
             </field>
         </record>
     </data>
