@@ -62,9 +62,10 @@ class res_partner(orm.Model):
     }
 
     def _get_default_legal_type(self, cr, uid, context=None):
+        legal_type = 'individual'
         if context and context.has_key('legal_type') and context['legal_type']:
             return context['legal_type']
-        return False
+        return legal_type
 
     def _get_default_pa_type(self, cr, uid, context=None):
         if context and context.has_key('pa_type') and context['pa_type']:
