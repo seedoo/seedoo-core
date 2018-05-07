@@ -38,6 +38,7 @@ class protocollo_sender_receiver(orm.Model):
             partner = self.pool.get('res.partner').browse(cr, uid, partner_id, context=context)
             values = {
                 # 'type': partner.is_company and 'individual' or 'legal',
+                'type': partner.legal_type,
                 'pa_type': partner.pa_type,
                 'ident_code': partner.ident_code,
                 'ammi_code': partner.ammi_code,
@@ -234,7 +235,7 @@ class protocollo_sender_receiver(orm.Model):
         'ammi_code': fields.char('Codice iPA', size=256, required=False),
         'ipa_code': fields.char('Codice Unità Organizzativa', size=256, required=False),
         'save_partner': fields.boolean('Salva', help='Se spuntato salva i dati in anagrafica.'),
-        'partner_id': fields.many2one('res.partner', 'Copia Anagrafica da Rubrica', domain="[('legal_type','=',type)]"),
+        'partner_id': fields.many2one('res.partner', 'Copia Anagrafica da Rubrica'),
         'name': fields.char('Nome Cognome/Ragione Sociale', size=512, required=True),
         'street': fields.char('Via/Piazza num civico', size=128),
         'zip': fields.char('Cap', change_default=True, size=24),
@@ -264,7 +265,6 @@ class protocollo_sender_receiver(orm.Model):
     }
 
     _defaults = {
-        'type': 'individual',
         'protocollo_id':_get_default_protocollo_id,
         'source':_get_default_source,
         'add_pec_receiver_visibility': _get_add_pec_receiver_visibility,
