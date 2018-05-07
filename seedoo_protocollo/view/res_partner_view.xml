@@ -11,10 +11,19 @@ this module contains the full copyright notices and license terms. -->
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="base.view_res_partner_filter"/>
             <field name="arch" type="xml">
-                <filter name="type_company" position="after">
-                    <filter string="PA" name="gov_pa" domain="[('pa_type','=','pa')]" />
-                    <filter string="AOO" name="gov_aoo" domain="[('pa_type','=','aoo')]"/>
-                    <filter string="UO" name="gov_uo" domain="[('pa_type','=','uo')]"/>
+                <field name="parent_id" position="after">
+                    <group string="Tipo PA" icon="fa-filter">
+                        <filter string="Ente" name="gov_pa" domain="[('pa_type','=','pa')]" icon=""/>
+                        <filter string="AOO" name="gov_aoo" domain="[('pa_type','=','aoo')]"/>
+                        <filter string="UO" name="gov_uo" domain="[('pa_type','=','uo')]"/>
+                    </group>
+                </field>
+                <filter string="Persons" position="replace">
+                    <filter string="Persone" name="protocollo_persone" domain="[('legal_type','=','individual')]" />
+                    <filter string="Aziende" name="protocollo_aziende" domain="[('legal_type','=','legal')]" />
+                    <filter string="PPAA" name="protocollo_ppaa" domain="[('legal_type','=','government')]" />
+                </filter>
+                <filter string="Companies" position="replace">
                 </filter>
             </field>
         </record>
