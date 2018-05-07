@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This file is part of Seedoo.  The COPYRIGHT file at the top level of
+this module contains the full copyright notices and license terms. -->
+
+<openerp>
+    <data>
+
+        <!-- inherit partner filter -->
+        <record id="view_protocollo_base_partner_filter" model="ir.ui.view">
+            <field name="name">protocollo_base.partner.filter</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_res_partner_filter"/>
+            <field name="arch" type="xml">
+                <filter name="type_company" position="after">
+                    <filter string="PA" name="gov_pa" domain="[('pa_type','=','pa')]" />
+                    <filter string="AOO" name="gov_aoo" domain="[('pa_type','=','aoo')]"/>
+                    <filter string="UO" name="gov_uo" domain="[('pa_type','=','uo')]"/>
+                </filter>
+            </field>
+        </record>
+    </data>
+
+</openerp>
