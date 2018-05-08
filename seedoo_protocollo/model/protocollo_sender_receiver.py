@@ -12,17 +12,19 @@ mimetypes.init()
 class protocollo_sender_receiver(orm.Model):
     _name = 'protocollo.sender_receiver'
 
-    def on_change_type(self, cr, uid, ids, type):
+    def on_change_type(self, cr, uid, ids, type, context=None):
+
         res = {}
-        res['value'] = {
-            'partner_id': False,
-            'pa_type': False,
-            'ident_code': False,
-            'ammi_code': False
-        }
+        if 'is_type_selection' in context:
+            res['value'] = {
+                'partner_id': False,
+                'pa_type': False,
+                'ident_code': False,
+                'ammi_code': False
+            }
         return res
 
-    def on_change_pa_type(self, cr, uid, ids, pa_type):
+    def on_change_pa_type(self, cr, uid, ids, pa_type, context=None):
         res = {'value': {}}
 
         if pa_type == 'aoo':
@@ -59,6 +61,7 @@ class protocollo_sender_receiver(orm.Model):
             }
         else:
             values = {
+                'type': False,
                 'pa_type': False,
                 'ident_code': False,
                 'ammi_code': False,
@@ -219,17 +222,17 @@ class protocollo_sender_receiver(orm.Model):
 
         'type': fields.selection(
             [
-                ('individual', 'Persona Fisica'),
-                ('legal', 'Azienda Privata'),
-                ('government', 'Amministrazione Pubblica')
+                ('individual', 'Persona'),
+                ('legal', 'Azienda'),
+                ('government', 'PA')
             ], 'Tipologia', size=32, required=True),
 
         'pa_type': fields.selection(
             [
-                ('pa', 'Amministrazione Principale'),
-                ('aoo', 'Area Organizzativa Omogenea'),
-                ('uo', 'Unità Organizzativa')],
-            'Tipologia amministrazione', size=5, required=False),
+                ('pa', 'Ente'),
+                ('aoo', 'AOO'),
+                ('uo', 'UO')],
+            'Tipo PA', size=5, required=False),
 
         'ident_code': fields.char('Codice AOO', size=256, required=False),
         'ammi_code': fields.char('Codice iPA', size=256, required=False),
@@ -336,6 +339,9 @@ class protocollo_sender_receiver(orm.Model):
                 partner_obj.dispatch_email_error(errors)
 
     def create(self, cr, uid, vals, context=None):
+
+        copy_vals = self.on_change_partner(cr, uid, [], vals['partner_id'])
+        vals.update(copy_vals['value'])
         self.check_field_in_create(cr, uid, vals)
         sender_receiver = super(protocollo_sender_receiver, self).create(cr, uid, vals, context=context)
         sender_receiver_obj = self.browse(cr, uid, sender_receiver)

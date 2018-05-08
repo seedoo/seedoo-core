@@ -32,8 +32,8 @@
                 </field>
 
                 <field name="parent_id" position="attributes">
-                    <attribute name="string">PA di Appartenenza</attribute>
-                    <attribute name="placeholder">PA di Appartenenza</attribute>
+                    <attribute name="string">Azienda di Appartenenza</attribute>
+                    <attribute name="placeholder">Azienda di Appartenenza</attribute>
                     <attribute name="attrs">{'invisible': ['|', '|', '|',
                         ('legal_type', '=', False),
                         ('legal_type', '=', 'legal'),

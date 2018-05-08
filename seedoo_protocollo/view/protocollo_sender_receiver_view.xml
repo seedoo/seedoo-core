@@ -51,30 +51,31 @@ this module contains the full copyright notices and license terms. -->
                                 <field name="partner_id" on_change="on_change_partner(partner_id)" options="{'no_quick_create': True, 'no_create_edit': True}"/>
                             </group>
                             <group class="general" string="Info Anagrafiche" colspan="4" col="4">
-                                <field name="type" on_change="on_change_type(type)"/>
-                                <field name="pa_type" placeholder="" attrs="{'invisible': [('type','!=', 'government')]}" on_change="on_change_pa_type(pa_type)"/>
+                                <field name="type" on_change="on_change_type(type)" context="{'is_type_selection':True}" attrs="{'readonly': [('partner_id','!=',False)]}"/>
                                 <newline/>
-                                <field name="name"/>
+                                <field name="pa_type" placeholder="" attrs="{'invisible': [('type','!=', 'government')], 'readonly': [('partner_id','!=',False)]}" on_change="on_change_pa_type(pa_type)"/>
                                 <newline/>
-                                <field name="ammi_code" attrs="{'invisible': ['|', ('type','!=', 'government'), ('pa_type','!=', 'pa')]}"/>
+                                <field name="ammi_code" attrs="{'invisible': ['|', ('type','!=', 'government'), ('pa_type','!=', 'pa')], 'readonly': [('partner_id','!=',False)]}"/>
                                 <newline/>
-                                <field name="ident_code" attrs="{'invisible': ['|', ('type','!=', 'government'), ('pa_type','!=', 'aoo')]}"/>
+                                <field name="ident_code" attrs="{'invisible': ['|', ('type','!=', 'government'), ('pa_type','!=', 'aoo')], 'readonly': [('partner_id','!=',False)]}"/>
                                 <newline/>
-                                <field name="ipa_code" attrs="{'invisible': ['|', ('type','!=', 'government'), ('pa_type','!=', 'uo')]}"/>
+                                <field name="ipa_code" attrs="{'invisible': ['|', ('type','!=', 'government'), ('pa_type','!=', 'uo')], 'readonly': [('partner_id','!=',False)]}" />
+                                <newline/>
+                                <field name="name" attrs="{'readonly': [('partner_id','!=',False)]}"/>
                             </group>
 
                             <newline/>
                             <group class="address" string="Info di Recapito" colspan="4" col="4">
-                                <field name="street"/>
-                                <field name="zip"/>
-                                <field name="city"/>
-                                <field name="country_id"/>
+                                <field name="street" attrs="{'readonly': [('partner_id','!=',False)]}"/>
+                                <field name="zip" attrs="{'readonly': [('partner_id','!=',False)]}"/>
+                                <field name="city" attrs="{'readonly': [('partner_id','!=',False)]}"/>
+                                <field name="country_id" attrs="{'readonly': [('partner_id','!=',False)]}"/>
                                 <field name="pec_mail" on_change="on_change_pec_mail(pec_mail, save_partner)"
-                                       attrs="{'required':[('add_pec_receiver_visibility','=',True)]}"/>
-                                <field name="email" on_change="on_change_email(email, save_partner)"/>
-                                <field name="phone"/>
-                                <field name="fax"/>
-                                <field name="mobile"/>
+                                       attrs="{'required':[('add_pec_receiver_visibility','=',True)], 'readonly': [('partner_id','!=',False)]}"/>
+                                <field name="email" on_change="on_change_email(email, save_partner)" attrs="{'readonly': [('partner_id','!=',False)]}"/>
+                                <field name="phone" attrs="{'readonly': [('partner_id','!=',False)]}"/>
+                                <field name="fax" attrs="{'readonly': [('partner_id','!=',False)]}"/>
+                                <field name="mobile" attrs="{'readonly': [('partner_id','!=',False)]}"/>
                             </group>
 
                             <newline/>

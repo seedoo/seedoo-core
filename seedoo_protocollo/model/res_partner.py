@@ -46,7 +46,7 @@ class res_partner(orm.Model):
         return [('id', 'in', partner_ids)]
 
     _columns = {
-        'legal_type': fields.selection([('individual', 'Persona Fisica'), ('legal', 'Azienda Privata'), ('government', 'Amministrazione Pubblica')],
+        'legal_type': fields.selection([('individual', 'Persona'), ('legal', 'Azienda'), ('government', 'PA')],
                                        'Tipologia', size=32, required=False),
         'pa_type': fields.selection([('pa', 'Amministrazione Principale'), ('aoo', 'Area Organizzativa Omogenea'), ('uo', 'Unità Organizzativa')],
                                     'Tipologia amministrazione', size=5, required=False),
