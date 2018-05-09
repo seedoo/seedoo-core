@@ -277,6 +277,12 @@
 .btn_classifica::before {
   content: "\f00b";
 }
+.btn_aggiungi_classificazione::before {
+  content: "\f00b";
+}
+.btn_modifica_classificazione::before {
+  content: "\f00b";
+}
 .btn_fascicola::before {
   content: "\f115";
 }
@@ -294,6 +300,15 @@
 }
 .btn_carica_documenti::before {
   content: "\f093";
+}
+.btn_aggiungi_assegnatari::before {
+  content: "\f0e8";
+}
+.btn_modifica_assegnatari::before {
+  content: "\f0e8";
+}
+.btn_aggiungi_assegnatari_cc::before {
+  content: "\f0e8";
 }
 .protocollo_oggetto .oe_form_text_content {
   color: steelblue;
@@ -557,7 +572,8 @@ li.badge {
 }
 .protocollo_dossier_container .oe_kanban_buttons button.oe_kanban_button_new.oe_highlight {
   background: steelblue !important;
-  margin: 0 0 18px 2px;
+  margin: 10px 0 18px 2px;
+  min-width: 180px;
 }
 .oe_protocollo_chatter .oe_msg_email {
   display: none !important;
@@ -593,6 +609,9 @@ li.badge {
 .protocollo_form_tabs ul.ui-tabs-nav li:nth-child(8) a:before {
   content: "\f121";
 }
+.protocollo_form_tabs .btn_seedoo {
+  margin-top: 12px !important;
+}
 .container_messaggi_pec .oe_module_vignette {
   padding: 0;
 }
@@ -609,8 +628,8 @@ li.badge {
 }
 .button-form-protocollo,
 .tab-sr .oe_kanban_buttons .oe_kanban_button_new.oe_highlight {
-  background: #fff !important;
-  color: #666;
+  background: steelblue !important;
+  color: #fff;
   border: 1px solid #999 !important;
   width: 180px;
   font-size: 12px !important;
@@ -629,11 +648,14 @@ li.badge {
 .oe_highlight_positive.button-form-protocollo,
 .tab-sr .oe_kanban_buttons .oe_kanban_button_new.oe_highlight {
   width: 180px !important;
-  color: #666 !important;
+  color: #fff !important;
+  border: 0 !important;
+  background-color: steelblue !important;
+  min-width: 180px;
 }
 .oe_highlight_positive.button-form-protocollo:before,
 .tab-sr .oe_kanban_buttons .oe_kanban_button_new.oe_highlight:before {
-  color: #666;
+  color: #fff;
 }
 .protocollo_registration_container {
   margin: 0 30%;
@@ -820,6 +842,7 @@ li.badge {
   font-size: 16px;
   position: relative;
   padding: 5px 10px 5px 0;
+  background: #fff !important;
 }
 .protocollo-accordion-toggle h4::after {
   content: "+";

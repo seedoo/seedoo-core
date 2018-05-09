@@ -109,4 +109,13 @@ class wizard(osv.TransientModel):
         thread_pool = self.pool.get('protocollo.protocollo')
         thread_pool.message_post(cr, uid, context['active_id'], type="notification", context=new_context, **post_vars)
 
-        return {'type': 'ir.actions.act_window_close'}
+        return {
+                'name': 'Protocollo',
+                'view_type': 'form',
+                'view_mode': 'form,tree',
+                'res_model': 'protocollo.protocollo',
+                'res_id': context['active_id'],
+                'context': context,
+                'type': 'ir.actions.act_window'
+        }
+

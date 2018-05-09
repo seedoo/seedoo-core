@@ -90,8 +90,15 @@ class protocollo_carica_allegati_step1_wizard(osv.TransientModel):
                 })
         protocollo_obj.carica_documenti_secondari(cr, uid, context['active_id'], file_data_list)
 
-        return {'type': 'ir.actions.act_window_close'}
-
+        return {
+                'name': 'Protocollo',
+                'view_type': 'form',
+                'view_mode': 'form,tree',
+                'res_model': 'protocollo.protocollo',
+                'res_id': context['active_id'],
+                'context': context,
+                'type': 'ir.actions.act_window'
+        }
 
 
 class protocollo_carica_documenti_allegati_step1_wizard(osv.TransientModel):

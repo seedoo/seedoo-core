@@ -82,7 +82,8 @@
 
 .protocollo_dossier_container .oe_kanban_buttons button.oe_kanban_button_new.oe_highlight {
   background: steelblue !important;
-  margin: 0 0 18px 2px;
+  margin: 12px 0 18px 2px;
+  min-width:180px;
 }
 
 
@@ -136,6 +137,12 @@
       content:"\f121";
     }
   }
+
+  .btn_seedoo {
+    margin-top: 12px !important;
+  }
+
+
 }
 
 .container_messaggi_pec {
@@ -159,8 +166,8 @@
 }
 
 .button-form-protocollo, .tab-sr .oe_kanban_buttons .oe_kanban_button_new.oe_highlight  {
-  background:#fff !important;
-  color:#666;
+  background:steelblue !important;
+  color:#fff;
   border: 1px solid #999 !important;
   width: 180px;
   font-size: 12px !important;
@@ -180,10 +187,13 @@
 
 .oe_highlight_positive.button-form-protocollo, .tab-sr .oe_kanban_buttons .oe_kanban_button_new.oe_highlight {
   width: 180px !important;
-  color: #666 !important;
-  
+  color: #fff !important;
+  border:0 !important;
+  background-color: steelblue !important;
+  min-width: 180px;
+
   &:before {
-    color: #666;
+    color: #fff;
   }
 }
 
