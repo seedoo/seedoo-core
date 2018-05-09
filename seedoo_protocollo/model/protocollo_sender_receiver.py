@@ -339,9 +339,9 @@ class protocollo_sender_receiver(orm.Model):
                 partner_obj.dispatch_email_error(errors)
 
     def create(self, cr, uid, vals, context=None):
-
-        copy_vals = self.on_change_partner(cr, uid, [], vals['partner_id'])
-        vals.update(copy_vals['value'])
+        if 'partner_id' in vals and vals['partner_id']:
+            copy_vals = self.on_change_partner(cr, uid, [], vals['partner_id'])
+            vals.update(copy_vals['value'])
         self.check_field_in_create(cr, uid, vals)
         sender_receiver = super(protocollo_sender_receiver, self).create(cr, uid, vals, context=context)
         sender_receiver_obj = self.browse(cr, uid, sender_receiver)
