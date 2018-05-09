@@ -227,7 +227,7 @@ class protocollo_protocollo(orm.Model):
             return []
         if isinstance(ids, (long, int)):
             ids = [ids]
-        reads = self.read(cr, uid, ids,
+        reads = self.read(cr, SUPERUSER_ID, ids,
                           ['name', 'registration_date', 'state'],
                           context=context)
         res = []
@@ -254,7 +254,7 @@ class protocollo_protocollo(orm.Model):
         if isinstance(ids, (long, int)):
             ids = [ids]
         res = dict.fromkeys(ids, False)
-        for prot in self.browse(cr, uid, ids):
+        for prot in self.browse(cr, SUPERUSER_ID, ids):
             if prot.sender_receivers:
                 check_notifications = 0
                 for sender_receiver_id in prot.sender_receivers.ids:
@@ -314,7 +314,7 @@ class protocollo_protocollo(orm.Model):
         if isinstance(ids, (long, int)):
             ids = [ids]
         res = dict.fromkeys(ids, False)
-        for prot in self.browse(cr, uid, ids):
+        for prot in self.browse(cr, SUPERUSER_ID, ids):
             res[prot.id] = prot.doc_id.datas
         return res
 
@@ -324,7 +324,7 @@ class protocollo_protocollo(orm.Model):
         if isinstance(ids, (long, int)):
             ids = [ids]
         res = dict.fromkeys(ids, False)
-        for prot in self.browse(cr, uid, ids):
+        for prot in self.browse(cr, SUPERUSER_ID, ids):
             if prot.mimetype in ['image/png', 'image/jpeg', 'image/gif']:
                 res[prot.id] = prot.doc_id.datas
             else:
@@ -339,7 +339,7 @@ class protocollo_protocollo(orm.Model):
     def _get_sender_receivers_summary(self, cr, uid, ids,
                                       name, args, context=None):
         res = dict.fromkeys(ids, False)
-        for protocol in self.browse(cr, uid, ids):
+        for protocol in self.browse(cr, SUPERUSER_ID, ids):
             res[protocol.id] = u"\n".join(
                 [line.name for line
                  in protocol.sender_receivers

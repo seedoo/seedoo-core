@@ -4,6 +4,7 @@
 import datetime
 import logging
 import time
+import functools
 
 from openerp import SUPERUSER_ID, api
 from openerp.osv import fields, osv
@@ -483,11 +484,50 @@ class protocollo_protocollo(osv.Model):
         #     return []
 
         protocollo_visible_ids = []
-
         if context and context.has_key('uid') and context['uid']:
             current_user_id = context['uid']
             protocollo_visible_ids = self._get_protocollo_visibile_ids(cr, SUPERUSER_ID, current_user_id)
         return [('id', 'in', protocollo_visible_ids)]
+
+    def check_access_rule(self, cr, uid, ids, operation, context=None):
+        if context and context.has_key('skip_check') and context['skip_check']:
+            return ids
+        return super(protocollo_protocollo, self).check_access_rule(cr, uid, ids, operation, context=context)
+
+    def search_read(self, cr, uid, domain=None, fields=None, offset=0, limit=None, order=None, context=None):
+        record_ids = self.search(cr, uid, domain or [], offset=offset, limit=limit, order=order, context=context)
+        if not record_ids:
+            return []
+
+        if fields and fields == ['id']:
+            # shortcut read if we only want the ids
+            return [{'id': id} for id in record_ids]
+
+        # read() ignores active_test, but it would forward it to any downstream search call
+        # (e.g. for x2m or function fields), and this is not the desired behavior, the flag
+        # was presumably only meant for the main search().
+        # TODO: Move this to read() directly?
+        read_ctx = dict(context or {})
+        read_ctx.pop('active_test', None)
+        read_ctx['skip_check'] = True
+
+        result = self.read(cr, uid, record_ids, fields, context=read_ctx)
+        if len(result) <= 1:
+            return result
+
+        # reorder read
+        index = dict((r['id'], r) for r in result)
+        return [index[x] for x in record_ids if x in index]
+
+    def search(self, cr, uid, args, offset=0, limit=None, order=None, context=None, count=False):
+        if context and context.has_key('skip_check') and context['skip_check']:
+            return super(protocollo_protocollo, self).search(cr, SUPERUSER_ID, args, offset=offset, limit=limit, order=order, context=context, count=count)
+        return super(protocollo_protocollo, self).search(cr, uid, args, offset=offset, limit=limit, order=order, context=context, count=count)
+
+    def _apply_ir_rules(self, cr, uid, query, mode='read', context=None):
+        if context and context.has_key('skip_check') and context['skip_check']:
+            return
+        return super(protocollo_protocollo, self)._apply_ir_rules(cr, uid, query, mode='read', context=context)
 
     # def write(self, cr, uid, ids, vals, context=None):
     #     protocollo_ids = super(protocollo_protocollo, self).write(cr, uid, ids, vals, context=context)
@@ -1223,7 +1263,7 @@ class protocollo_protocollo(osv.Model):
     def _registra_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
 
-        protocolli = self._get_protocolli(cr, uid, ids)
+        protocolli = self._get_protocolli(cr, SUPERUSER_ID, ids)
         for protocollo in protocolli:
             check = False
 
@@ -1245,7 +1285,7 @@ class protocollo_protocollo(osv.Model):
     def _annulla_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
 
-        protocolli = self._get_protocolli(cr, uid, ids)
+        protocolli = self._get_protocolli(cr, SUPERUSER_ID, ids)
         for protocollo in protocolli:
             check = False
 
@@ -1275,7 +1315,7 @@ class protocollo_protocollo(osv.Model):
     def _prendi_in_carico_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
 
-        protocolli = self._get_protocolli(cr, uid, ids)
+        protocolli = self._get_protocolli(cr, SUPERUSER_ID, ids)
         for protocollo in protocolli:
             check = False
 
@@ -1307,7 +1347,7 @@ class protocollo_protocollo(osv.Model):
     def _rifiuta_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
 
-        protocolli = self._get_protocolli(cr, uid, ids)
+        protocolli = self._get_protocolli(cr, SUPERUSER_ID, ids)
         for protocollo in protocolli:
             check = False
 
@@ -1339,7 +1379,7 @@ class protocollo_protocollo(osv.Model):
     def _modifica_dati_generali_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
 
-        protocolli = self._get_protocolli(cr, uid, ids)
+        protocolli = self._get_protocolli(cr, SUPERUSER_ID, ids)
         for protocollo in protocolli:
             check = False
 
@@ -1371,7 +1411,7 @@ class protocollo_protocollo(osv.Model):
     def _modifica_classificazione_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
 
-        protocolli = self._get_protocolli(cr, uid, ids)
+        protocolli = self._get_protocolli(cr, SUPERUSER_ID, ids)
         for protocollo in protocolli:
             check = False
 
@@ -1394,7 +1434,7 @@ class protocollo_protocollo(osv.Model):
     def _classifica_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
 
-        protocolli = self._get_protocolli(cr, uid, ids)
+        protocolli = self._get_protocolli(cr, SUPERUSER_ID, ids)
         for protocollo in protocolli:
             check = False
 
@@ -1426,7 +1466,7 @@ class protocollo_protocollo(osv.Model):
     def _fascicola_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
 
-        protocolli = self._get_protocolli(cr, uid, ids)
+        protocolli = self._get_protocolli(cr, SUPERUSER_ID, ids)
         for protocollo in protocolli:
             check = False
 
@@ -1457,7 +1497,7 @@ class protocollo_protocollo(osv.Model):
     def _modifica_assegnatari_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
 
-        protocolli = self._get_protocolli(cr, uid, ids)
+        protocolli = self._get_protocolli(cr, SUPERUSER_ID, ids)
         for protocollo in protocolli:
             check = False
 
@@ -1479,7 +1519,7 @@ class protocollo_protocollo(osv.Model):
     def _aggiungi_assegnatari_cc_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
 
-        protocolli = self._get_protocolli(cr, uid, ids)
+        protocolli = self._get_protocolli(cr, SUPERUSER_ID, ids)
         for protocollo in protocolli:
             check = False
 
@@ -1511,7 +1551,7 @@ class protocollo_protocollo(osv.Model):
     def _assegna_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
 
-        protocolli = self._get_protocolli(cr, uid, ids)
+        protocolli = self._get_protocolli(cr, SUPERUSER_ID, ids)
         for protocollo in protocolli:
             check = False
 
@@ -1538,7 +1578,7 @@ class protocollo_protocollo(osv.Model):
     def _riassegna_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
 
-        protocolli = self._get_protocolli(cr, uid, ids)
+        protocolli = self._get_protocolli(cr, SUPERUSER_ID, ids)
         for protocollo in protocolli:
             check = False
 
@@ -1575,7 +1615,7 @@ class protocollo_protocollo(osv.Model):
     def _invio_pec_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
 
-        protocolli = self._get_protocolli(cr, uid, ids)
+        protocolli = self._get_protocolli(cr, SUPERUSER_ID, ids)
         for protocollo in protocolli:
             check = False
 
@@ -1596,7 +1636,7 @@ class protocollo_protocollo(osv.Model):
     def _invio_sharedmail_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
 
-        protocolli = self._get_protocolli(cr, uid, ids)
+        protocolli = self._get_protocolli(cr, SUPERUSER_ID, ids)
         for protocollo in protocolli:
             check = False
 
@@ -1617,7 +1657,7 @@ class protocollo_protocollo(osv.Model):
     def _invio_protocollo_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
 
-        protocolli = self._get_protocolli(cr, uid, ids)
+        protocolli = self._get_protocolli(cr, SUPERUSER_ID, ids)
         for protocollo in protocolli:
             check = False
             if protocollo.state == 'registered' and protocollo.type == 'out' and protocollo.pec is False and protocollo.sharedmail is False:
@@ -1637,7 +1677,7 @@ class protocollo_protocollo(osv.Model):
     def _modifica_pec_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
 
-        protocolli = self._get_protocolli(cr, uid, ids)
+        protocolli = self._get_protocolli(cr, SUPERUSER_ID, ids)
         for protocollo in protocolli:
             check = False
             if protocollo.type == 'out' and protocollo.pec is True and protocollo.state in ['waiting', 'sent', 'error']:
@@ -1663,7 +1703,7 @@ class protocollo_protocollo(osv.Model):
     def _modifica_email_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
 
-        protocolli = self._get_protocolli(cr, uid, ids)
+        protocolli = self._get_protocolli(cr, SUPERUSER_ID, ids)
         for protocollo in protocolli:
             check = False
 
@@ -1685,7 +1725,7 @@ class protocollo_protocollo(osv.Model):
     def _aggiungi_pec_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
 
-        protocolli = self._get_protocolli(cr, uid, ids)
+        protocolli = self._get_protocolli(cr, SUPERUSER_ID, ids)
         for protocollo in protocolli:
             check = False
             if protocollo.type == 'out' and protocollo.pec is True and protocollo.state in ['waiting', 'sent', 'error']:
@@ -1705,7 +1745,7 @@ class protocollo_protocollo(osv.Model):
     def _protocollazione_riservata_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
 
-        protocolli = self._get_protocolli(cr, uid, ids)
+        protocolli = self._get_protocolli(cr, SUPERUSER_ID, ids)
         for protocollo in protocolli:
             check = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_protocollazione_riservata')
 
@@ -1718,7 +1758,7 @@ class protocollo_protocollo(osv.Model):
         check = False
         configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
         configurazione = self.pool.get('protocollo.configurazione').browse(cr, uid, configurazione_ids[0])
-        protocolli = self._get_protocolli(cr, uid, ids)
+        protocolli = self._get_protocolli(cr, SUPERUSER_ID, ids)
         for protocollo in protocolli:
 
             if configurazione.inserisci_testo_mailpec:
@@ -1733,7 +1773,7 @@ class protocollo_protocollo(osv.Model):
         check = False
         configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
         configurazione = self.pool.get('protocollo.configurazione').browse(cr, uid, configurazione_ids[0])
-        protocolli = self._get_protocolli(cr, uid, ids)
+        protocolli = self._get_protocolli(cr, SUPERUSER_ID, ids)
         for protocollo in protocolli:
 
             if configurazione.aggiungi_allegati_post_registrazione:
@@ -1746,7 +1786,7 @@ class protocollo_protocollo(osv.Model):
     def _carica_modifica_documento_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
         check = False
-        protocolli = self._get_protocolli(cr, uid, ids)
+        protocolli = self._get_protocolli(cr, SUPERUSER_ID, ids)
         for protocollo in protocolli:
 
             if protocollo.state in 'draft':

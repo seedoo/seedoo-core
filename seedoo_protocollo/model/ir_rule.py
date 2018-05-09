@@ -11,9 +11,7 @@ class IrRule(models.Model):
         if model_name == 'protocollo.protocollo':
             dom = self._compute_domain(cr, uid, model_name, mode)
             if dom:
-                new_context = {}
-                if context:
-                    new_context = context.copy()
+                new_context = dict(context or {})
                 new_context['uid'] = uid
                 # _where_calc is called as superuser. This means that rules can
                 # involve objects on which the real uid has no acces rights.

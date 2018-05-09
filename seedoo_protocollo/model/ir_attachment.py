@@ -13,6 +13,8 @@ import os
 import re
 import hashlib
 import random
+import itertools
+
 
 _logger = logging.getLogger(__name__)
 
@@ -120,7 +122,7 @@ class ir_attachment(osv.Model):
         for attach in self.browse(cr, uid, ids):
             res[attach.id] = False
             if attach.is_protocol and attach.res_model and attach.res_id:
-                resource = self.pool.get(attach.res_model).browse(cr, uid, attach.res_id)
+                resource = self.pool.get(attach.res_model).browse(cr, SUPERUSER_ID, attach.res_id)
                 if resource and resource.doc_id and resource.doc_id.id == attach.id:
                     res[attach.id] = True
         return res
@@ -197,36 +199,26 @@ class ir_attachment(osv.Model):
 
     _order = 'is_main'
 
-    def check(self, cr, uid, ids, mode, context=None, values=None):
-        """Overwrite check to verify protocol attachments"""
-        if not isinstance(ids, list):
-            ids = [ids]
-
-        super(ir_attachment, self).check(cr, uid, ids, mode,
-                                         context=context, values=values)
-        res = []
-        state = None
-        if mode != 'read':
-            if ids:
-                cr.execute('SELECT DISTINCT res_model, res_id \
-                    from ir_attachment \
-                    WHERE id in %s', (tuple(ids),))
-                res = cr.fetchall()
-            elif values:
-                if values.get('res_model') and values.get('res_id'):
-                    res.append([values['res_model'], values['res_id']])
-            else:
-                pass
-            # for res_model, res_id in res:
-            #     if res_model == 'protocollo.protocollo':
-            #         cr.execute('SELECT state from protocollo_protocollo \
-            #             WHERE id = %s', (str(res_id),))
-            #         if cr.fetchone()[0]:
-            #             state = cr.fetchone()[0]
-                    # if state != 'draft':
-                    #     raise except_orm(_('Operazione non permessa'),
-                    #                      'Si sta cercando di modificare un \
-                    #                      protocollo registrato')
+    # def check(self, cr, uid, ids, mode, context=None, values=None):
+    #     """Overwrite check to verify protocol attachments"""
+    #     if not isinstance(ids, list):
+    #         ids = [ids]
+    #
+    #     super(ir_attachment, self).check(cr, uid, ids, mode,
+    #                                      context=context, values=values)
+    #     res = []
+    #     state = None
+    #     if mode != 'read':
+    #         if ids:
+    #             cr.execute('SELECT DISTINCT res_model, res_id \
+    #                 from ir_attachment \
+    #                 WHERE id in %s', (tuple(ids),))
+    #             res = cr.fetchall()
+    #         elif values:
+    #             if values.get('res_model') and values.get('res_id'):
+    #                 res.append([values['res_model'], values['res_id']])
+    #         else:
+    #             pass
 
     def _file_read(self, cr, uid, location, fname, bin_size=False):
         full_path = self._full_path(cr, uid, location, fname)
@@ -300,3 +292,16 @@ class ir_attachment(osv.Model):
                     #TODO check meaning for location and attach_store_fname
                     self._file_delete(cr, uid, location, attach.store_fname)
         return super(ir_att, self).unlink(cr, uid, ids, context)
+
+    def _search(self, cr, uid, args, offset=0, limit=None, order=None, context=None, count=False, access_rights_uid=None):
+        new_context = dict(context or {})
+        new_context['skip_check'] = True
+        return super(ir_attachment, self)._search(cr, uid, args, offset=offset,
+                                                 limit=limit, order=order,
+                                                 context=new_context, count=False,
+                                                 access_rights_uid=access_rights_uid)
+
+    def check(self, cr, uid, ids, mode, context=None, values=None):
+        new_context = dict(context or {})
+        new_context['skip_check'] = True
+        return super(ir_attachment, self).check(cr, uid, ids, mode, context=new_context, values=None)

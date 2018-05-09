@@ -231,3 +231,13 @@ class MailMessage(orm.Model):
                     raise orm.except_orm(_("Errore"), _("Non è possibile ripristinare questo messaggio"))
 
         return True
+
+    def check_access_rule(self, cr, uid, ids, operation, context=None):
+        new_context = dict(context or {})
+        new_context['skip_check'] = True
+        return super(MailMessage, self).check_access_rule(cr, uid, ids, operation, context=new_context)
+
+    def _find_allowed_doc_ids(self, cr, uid, model_ids, context=None):
+        new_context = dict(context or {})
+        new_context['skip_check'] = True
+        return super(MailMessage, self)._find_allowed_doc_ids(cr, uid, model_ids, context=new_context)
