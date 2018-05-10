@@ -41,6 +41,9 @@
 .openerp .history_icon.taken::after {
   content: "\f087";
 }
+.openerp .history_icon.sent::after {
+  content: "\f199";
+}
 .openerp .history_icon.refused::after {
   content: "\f05e";
 }
@@ -572,7 +575,7 @@ li.badge {
 }
 .protocollo_dossier_container .oe_kanban_buttons button.oe_kanban_button_new.oe_highlight {
   background: steelblue !important;
-  margin: 10px 0 18px 2px;
+  margin: 12px 0 18px 2px;
   min-width: 180px;
 }
 .oe_protocollo_chatter .oe_msg_email {
@@ -611,6 +614,9 @@ li.badge {
 }
 .protocollo_form_tabs .btn_seedoo {
   margin-top: 12px !important;
+}
+.protocollo_form_tabs .oe_list {
+  overflow-x: hidden !important;
 }
 .container_messaggi_pec .oe_module_vignette {
   padding: 0;

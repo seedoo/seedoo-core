@@ -1523,6 +1523,20 @@ class protocollo_protocollo(orm.Model):
         mail_server = mail_server_obj.browse(cr, uid, mail_server_ids[0])
         return mail_server
 
+    def action_send(self, cr, uid, ids, context=None, *args):
+        protocollo_obj = self.pool.get('protocollo.protocollo')
+        protocollo = protocollo_obj.browse(cr, uid, ids)
+        action_class = "history_icon sent"
+        post_vars = {'subject': "Invio protocollo",
+                     'body': "<div class='%s'><ul><li>Inviato protocollo %s (%s)</li></ul></div>" % (
+                         action_class, protocollo.name, protocollo.typology.name),
+                     'model': "protocollo.protocollo",
+                     'res_id': protocollo.id,
+                     }
+
+        protocollo_obj.message_post(cr, uid, protocollo.id, type="notification", context=context, **post_vars)
+        return True
+
     def action_mail_pec_send(self, cr, uid, ids, *args):
 
         for prot_id in ids:

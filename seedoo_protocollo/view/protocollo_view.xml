@@ -374,7 +374,7 @@ this module contains the full copyright notices and license terms. -->
                                 attrs="{'invisible':[('registra_visibility','=',False)]}"
                                 class="oe_highlight_positive btn_seedoo btn_registra_protocollo oe_read_only"/>
 
-                        <button name="%(protocollo_cancel_action)d" string="Annulla" type="action"
+                        <button name="%(protocollo_cancel_action)d" string="Annulla Protocollo" type="action"
                                 attrs="{'invisible':[('annulla_visibility','=',False)]}"
                                 class="oe_highlight_warning btn_seedoo btn_annulla_protocollo"/>
 
@@ -495,7 +495,7 @@ this module contains the full copyright notices and license terms. -->
                                         <div class="oe_edit_only">
                                             <button name="%(protocollo_modify_action)d" string="Modifica" type="action"
                                                 attrs="{'invisible':[('modifica_dati_generali_visibility','=',False)]}"
-                                                class="oe_highlight_positive btn_seedoo btn_modifica_protocollo"/>
+                                                class="oe_highlight_positive btn_seedoo button-form-protocollo btn_modifica_protocollo"/>
                                         </div>
                                     </group>
                                     <group col="8">
