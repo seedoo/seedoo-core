@@ -227,9 +227,7 @@ class protocollo_protocollo(orm.Model):
             return []
         if isinstance(ids, (long, int)):
             ids = [ids]
-        reads = self.read(cr, SUPERUSER_ID, ids,
-                          ['name', 'registration_date', 'state'],
-                          context=context)
+        reads = self.read(cr, uid, ids, ['name', 'registration_date', 'state'], {'skip_check': True})
         res = []
         for record in reads:
             name = record['name']
@@ -254,7 +252,7 @@ class protocollo_protocollo(orm.Model):
         if isinstance(ids, (long, int)):
             ids = [ids]
         res = dict.fromkeys(ids, False)
-        for prot in self.browse(cr, SUPERUSER_ID, ids):
+        for prot in self.browse(cr, uid, ids, {'skip_check': True}):
             if prot.sender_receivers:
                 check_notifications = 0
                 for sender_receiver_id in prot.sender_receivers.ids:
@@ -314,7 +312,7 @@ class protocollo_protocollo(orm.Model):
         if isinstance(ids, (long, int)):
             ids = [ids]
         res = dict.fromkeys(ids, False)
-        for prot in self.browse(cr, SUPERUSER_ID, ids):
+        for prot in self.browse(cr, uid, ids, {'skip_check': True}):
             res[prot.id] = prot.doc_id.datas
         return res
 
@@ -324,7 +322,7 @@ class protocollo_protocollo(orm.Model):
         if isinstance(ids, (long, int)):
             ids = [ids]
         res = dict.fromkeys(ids, False)
-        for prot in self.browse(cr, SUPERUSER_ID, ids):
+        for prot in self.browse(cr, uid, ids, {'skip_check': True}):
             if prot.mimetype in ['image/png', 'image/jpeg', 'image/gif']:
                 res[prot.id] = prot.doc_id.datas
             else:
@@ -339,7 +337,7 @@ class protocollo_protocollo(orm.Model):
     def _get_sender_receivers_summary(self, cr, uid, ids,
                                       name, args, context=None):
         res = dict.fromkeys(ids, False)
-        for protocol in self.browse(cr, SUPERUSER_ID, ids):
+        for protocol in self.browse(cr, uid, ids, {'skip_check': True}):
             res[protocol.id] = u"\n".join(
                 [line.name for line
                  in protocol.sender_receivers
@@ -652,10 +650,10 @@ class protocollo_protocollo(orm.Model):
 
         last_id = self.search(new_cr, uid,
                               [('state', 'in', ('registered', 'notified', 'sent', 'waiting', 'error', 'canceled'))],
-                              limit=1, order='registration_date desc')
+                              limit=1, order='registration_date desc', context={'skip_check': True})
         if last_id:
             now = datetime.datetime.now()
-            last = self.browse(new_cr, uid, last_id[0])
+            last = self.browse(new_cr, uid, last_id[0], {'skip_check': True})
             if last.registration_date[0:4] < str(now.year):
                 seq_id = sequence_obj.search(new_cr, uid, [('code', '=', prot.registry.sequence.code)])
                 sequence_obj.write(new_cr, SUPERUSER_ID, seq_id, {'number_next': 1})
@@ -862,7 +860,7 @@ class protocollo_protocollo(orm.Model):
 
         user_id = ruid or uid
         attachment_id = attachment_obj.create(cr, user_id, attach_vals)
-        self.write(cr, uid, prot.id, {'doc_id': attachment_id, 'datas': 0})
+        self.write(cr, uid, prot.id, {'doc_id': attachment_id, 'datas': 0}, {'skip_check': True})
         attachment_obj.unlink(cr, SUPERUSER_ID, old_attachment_id)
         location = self.pool.get('ir.config_parameter').get_param(cr, uid,
                                                                   'ir_attachment.location') + '/protocollazioni'
@@ -893,7 +891,7 @@ class protocollo_protocollo(orm.Model):
 
     def action_create_attachment(self, cr, uid, ids, *args):
         try:
-            for prot in self.browse(cr, uid, ids):
+            for prot in self.browse(cr, uid, ids, {'skip_check': True}):
                 if prot.datas and prot.datas_fname:
                     attach_vals = {
                         'name': prot.datas_fname,
@@ -936,7 +934,7 @@ class protocollo_protocollo(orm.Model):
 
     def action_create_partners(self, cr, uid, ids, *args):
         send_rec_obj = self.pool.get('protocollo.sender_receiver')
-        for prot in self.browse(cr, uid, ids):
+        for prot in self.browse(cr, uid, ids, {'skip_check': True}):
             for send_rec in prot.sender_receivers:
                 if send_rec.save_partner and not send_rec.partner_id:
                     # if send_rec.partner_id:
@@ -985,7 +983,7 @@ class protocollo_protocollo(orm.Model):
         res_segnatura = []
         err_segnatura = False
 
-        for prot in self.browse(cr, uid, ids):
+        for prot in self.browse(cr, uid, ids, {'skip_check': True}):
 
             self.pool.get('protocollo.configurazione').verifica_campi_obbligatori(cr, uid, prot)
             prot_reserved_errors = ''
@@ -1030,7 +1028,7 @@ class protocollo_protocollo(orm.Model):
 
                     now = datetime.datetime.now()
                     vals['year'] = now.year
-                    self.write(cr, uid, [prot.id], vals)
+                    self.write(cr, uid, [prot.id], vals, {'skip_check': True})
 
                     try:
                         if configurazione.rinomina_documento_allegati:
@@ -1093,7 +1091,7 @@ class protocollo_protocollo(orm.Model):
         configurazione = self.pool.get('protocollo.configurazione').browse(cr, uid, configurazione_ids[0])
 
         try:
-            for prot in self.browse(cr, uid, ids):
+            for prot in self.browse(cr, uid, ids, {'skip_check': True}):
                 if prot.type == 'in' and prot.pec and len(
                         prot.mail_pec_ref.ids) > 0 and configurazione.conferma_xml_invia:
                     res = self.action_send_receipt(cr, uid, ids, 'conferma', context=context)
@@ -1751,7 +1749,7 @@ class protocollo_protocollo(orm.Model):
         )
         protocollo_obj.write(cr, uid, protocollo_id, {'doc_id': attachment_id, 'mimetype': mimetype})
 
-        for prot in self.browse(cr, uid, protocollo_id):
+        for prot in self.browse(cr, uid, protocollo_id, {'skip_check': True}):
             if prot.state == 'registered':
                 try:
                     vals = {}
@@ -1895,18 +1893,18 @@ class protocollo_protocollo(orm.Model):
     def message_post(self, cr, uid, thread_id, body='', subject=None, type='notification',
                      subtype=None, parent_id=False, attachments=None, context=None,
                      content_subtype='html', **kwargs):
-        if not context:
-            context = {}
-        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, thread_id)
+        new_context = dict(context or {})
+        new_context['skip_check'] = True
+        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, thread_id, new_context)
         if protocollo.state == 'draft' and str(subject).find('Registrazione') != 0 and str(subject).find(
-                'Errore Generazione') != 0 and context.has_key('is_mailpec_to_draft') == False:
+                'Errore Generazione') != 0 and new_context.has_key('is_mailpec_to_draft') == False:
             pass
         else:
             return super(protocollo_protocollo, self).message_post(
                 cr, uid, thread_id, body=body,
                 subject=subject, type=type,
                 subtype=subtype, parent_id=parent_id,
-                attachments=attachments, context=context,
+                attachments=attachments, context=new_context,
                 content_subtype=content_subtype, **kwargs)
 
 

@@ -344,7 +344,7 @@ class protocollo_sender_receiver(orm.Model):
             vals.update(copy_vals['value'])
         self.check_field_in_create(cr, uid, vals)
         sender_receiver = super(protocollo_sender_receiver, self).create(cr, uid, vals, context=context)
-        sender_receiver_obj = self.browse(cr, uid, sender_receiver)
+        sender_receiver_obj = self.browse(cr, uid, sender_receiver, {'skip_check': True})
 
         if sender_receiver_obj.protocollo_id.state != "draft":
             action_class = "history_icon update"

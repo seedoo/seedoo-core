@@ -136,7 +136,9 @@ class ir_attachment(osv.Model):
         for attach in self.browse(cr, uid, ids):
             res[attach.id] = False
             if attach.is_protocol and attach.res_model and attach.res_id:
-                resource = self.pool.get(attach.res_model).browse(cr, uid, attach.res_id)
+                new_context = dict(context or {})
+                new_context['skip_check'] = True
+                resource = self.pool.get(attach.res_model).browse(cr, uid, attach.res_id, new_context)
                 if resource and resource.reserved:
                     res[attach.id] = True
         return res

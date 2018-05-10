@@ -22,19 +22,19 @@ class protocollo_carica_documenti_step1_wizard(osv.TransientModel):
     }
 
     def _default_datas_fname(self, cr, uid, context):
-        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
+        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
         if protocollo and protocollo.doc_id:
             return protocollo.doc_id.datas_fname
         return False
 
     def _default_datas(self, cr, uid, context):
-        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
+        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
         if protocollo and protocollo.doc_id:
             return protocollo.doc_id.datas
         return False
 
     def _default_datas_description(self, cr, uid, context):
-        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
+        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
         if protocollo and protocollo.doc_id:
             return protocollo.doc_id.datas_description
         return False

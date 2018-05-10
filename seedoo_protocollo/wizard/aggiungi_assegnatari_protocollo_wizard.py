@@ -31,14 +31,14 @@ class protocollo_aggiungi_assegnatari_wizard(osv.TransientModel):
 
     def _default_reserved(self, cr, uid, context):
         protocollo_obj = self.pool.get('protocollo.protocollo')
-        protocollo = protocollo_obj.browse(cr, uid, context['active_id'])
+        protocollo = protocollo_obj.browse(cr, uid, context['active_id'], {'skip_check': True})
         if protocollo:
             return protocollo.reserved
         return False
 
     def _default_tipologia_assegnatario(self, cr, uid, context):
         protocollo_obj = self.pool.get('protocollo.protocollo')
-        protocollo = protocollo_obj.browse(cr, uid, context['active_id'])
+        protocollo = protocollo_obj.browse(cr, uid, context['active_id'], {'skip_check': True})
         if protocollo and protocollo.reserved:
             return 'department'
         return False
@@ -71,7 +71,7 @@ class protocollo_aggiungi_assegnatari_wizard(osv.TransientModel):
         return False
 
     def _default_display_motivation(self, cr, uid, context):
-        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
+        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
         if protocollo.registration_employee_id:
             return True
         else:
@@ -88,7 +88,7 @@ class protocollo_aggiungi_assegnatari_wizard(osv.TransientModel):
     def action_save(self, cr, uid, ids, context=None):
         before = {'competenza': '', 'conoscenza': ''}
         after = {'competenza': '', 'conoscenza': ''}
-        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
+        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
         save_history = protocollo.state != 'draft'
         wizard = self.browse(cr, uid, ids[0], context)
         employee_ids = self.pool.get('hr.employee').search(cr, uid, [('user_id', '=', uid)])

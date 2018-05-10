@@ -19,11 +19,11 @@ class protocollo_aggiungi_classificazione_step1_wizard(osv.TransientModel):
     }
 
     def _default_classification(self, cr, uid, context):
-        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
+        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
         return protocollo.classification.id
 
     def _default_display_motivation(self, cr, uid, context):
-        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
+        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
         if protocollo.registration_employee_id:
             return True
         else:
@@ -101,7 +101,7 @@ class protocollo_aggiungi_classificazione_step1_wizard(osv.TransientModel):
 
 
     def action_save(self, cr, uid, ids, context=None):
-        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
+        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
         wizard = self.browse(cr, uid, ids[0], context)
         if protocollo and wizard.classification:
             configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])

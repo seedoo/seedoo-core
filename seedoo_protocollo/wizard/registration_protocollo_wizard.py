@@ -20,14 +20,14 @@ class protocollo_registration_confirmation_wizard(models.TransientModel):
 
     def _default_protocollo_subject(self, cr, uid, context):
         if 'active_id' in context:
-            protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
+            protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
         else:
             return None
         return protocollo.subject
 
     def _default_protocollo_senders(self, cr, uid, context):
         if 'active_id' in context:
-            protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
+            protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
             if protocollo.senders:
                 senders_list = ''
                 for sender in protocollo.sender_receivers:
@@ -37,7 +37,7 @@ class protocollo_registration_confirmation_wizard(models.TransientModel):
 
     def _default_protocollo_receivers(self, cr, uid, context):
         if 'active_id' in context:
-            protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
+            protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
             if protocollo.receivers:
                 receivers_list = ''
                 for receiver in protocollo.sender_receivers:
@@ -82,7 +82,7 @@ class protocollo_registration_confirmation_wizard(models.TransientModel):
 
     def _default_message_verifica_campi_obbligatori(self, cr, uid, context):
         if 'active_id' in context:
-            protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
+            protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
             response_verifica_campi_obbligatori = self.pool.get('protocollo.configurazione').verifica_campi_obbligatori(cr, uid, protocollo)
             if response_verifica_campi_obbligatori is not True:
                 return response_verifica_campi_obbligatori
@@ -123,7 +123,7 @@ class protocollo_registration_confirmation_wizard(models.TransientModel):
 
 
     def go_to_registration_response(self, cr, uid, ids, context=None):
-        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
+        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
         res = protocollo.action_register_process()
         context.update({'registration_message': res})
 

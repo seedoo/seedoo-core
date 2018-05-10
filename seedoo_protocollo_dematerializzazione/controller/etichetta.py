@@ -37,6 +37,7 @@ class Etichetta(http.Controller):
 
         document = http.request \
             .env["protocollo.protocollo"] \
+            .with_context({'skip_check': True}) \
             .search([["id", "=", protocol_id]])
 
         if len(document) == 0:
