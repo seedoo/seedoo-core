@@ -6,7 +6,7 @@
             <field name="name">Aggiungi Assegnatari</field>
             <field name="model">protocollo.aggiungi.assegnatari.wizard</field>
             <field name="arch" type="xml">
-                <form string="Aggiungi Assegnatari">
+                <form string="Aggiungi Assegnatari" class="tree_aggiungi_assegnatari">
                     <sheet>
                         <group col="2">
                             <group colspan="1" col="1">

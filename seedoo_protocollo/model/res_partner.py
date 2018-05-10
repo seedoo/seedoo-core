@@ -46,7 +46,7 @@ class res_partner(orm.Model):
         return [('id', 'in', partner_ids)]
 
     _columns = {
-        'legal_type': fields.selection([('individual', 'Persona Fisica'), ('legal', 'Azienda Privata'), ('government', 'Amministrazione Pubblica')],
+        'legal_type': fields.selection([('individual', 'Persona'), ('legal', 'Azienda'), ('government', 'PA')],
                                        'Tipologia', size=32, required=False),
         'pa_type': fields.selection([('pa', 'Amministrazione Principale'), ('aoo', 'Area Organizzativa Omogenea'), ('uo', 'Unità Organizzativa')],
                                     'Tipologia amministrazione', size=5, required=False),
@@ -62,9 +62,10 @@ class res_partner(orm.Model):
     }
 
     def _get_default_legal_type(self, cr, uid, context=None):
+        legal_type = 'individual'
         if context and context.has_key('legal_type') and context['legal_type']:
             return context['legal_type']
-        return False
+        return legal_type
 
     def _get_default_pa_type(self, cr, uid, context=None):
         if context and context.has_key('pa_type') and context['pa_type']:
@@ -82,7 +83,7 @@ class res_partner(orm.Model):
 
     def check_email_validity(self, field, value, dispatch=True):
         if re.match("^.+\\@(\\[?)[a-zA-Z0-9\\-\\.]+\\.([a-zA-Z]{2,3}|[0-9]{1,3})(\\]?)$", value) == None:
-            error = 'Il campo ' + field.encode() + ' contiene un indirizzo email non valido: ' + value.encode()
+            error = 'Il campo ' + field.encode() + ' contiene un indirizzo email non valido'
             if dispatch:
                 self.dispatch_email_error(error)
             else:

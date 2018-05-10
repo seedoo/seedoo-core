@@ -53,7 +53,10 @@ this module contains the full copyright notices and license terms. -->
             <field name="wkf_id" ref="wkf_protocollo"/>
             <field name="name">sent</field>
             <field name="kind">function</field>
-            <field name="action">write({'state':'sent'})</field>
+            <field name="action">
+                action_send()
+                write({'state':'sent'})
+            </field>
             <field name="kind">stopall</field>
         </record>
 

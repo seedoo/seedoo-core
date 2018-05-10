@@ -374,7 +374,7 @@ this module contains the full copyright notices and license terms. -->
                                 attrs="{'invisible':[('registra_visibility','=',False)]}"
                                 class="oe_highlight_positive btn_seedoo btn_registra_protocollo oe_read_only"/>
 
-                        <button name="%(protocollo_cancel_action)d" string="Annulla" type="action"
+                        <button name="%(protocollo_cancel_action)d" string="Annulla Protocollo" type="action"
                                 attrs="{'invisible':[('annulla_visibility','=',False)]}"
                                 class="oe_highlight_warning btn_seedoo btn_annulla_protocollo"/>
 
@@ -492,9 +492,11 @@ this module contains the full copyright notices and license terms. -->
                                 </div>
                                 <div class="accordion-content accordion-open">
                                      <group>
-                                        <button name="%(protocollo_modify_action)d" string="Modifica" type="action"
+                                        <div class="oe_edit_only">
+                                            <button name="%(protocollo_modify_action)d" string="Modifica" type="action"
                                                 attrs="{'invisible':[('modifica_dati_generali_visibility','=',False)]}"
-                                                class="oe_highlight_positive btn_seedoo btn_modifica_protocollo"/>
+                                                class="oe_highlight_positive btn_seedoo button-form-protocollo btn_modifica_protocollo"/>
+                                        </div>
                                     </group>
                                     <group col="8">
                                         <group>
@@ -505,14 +507,16 @@ this module contains the full copyright notices and license terms. -->
                                             <field name="fingerprint" attrs="{'invisible':['|', ('state','=','draft'),('doc_id','=',False)]}" readonly="1"/>
                                             <newline/>
                                             <group colspan="2">
-                                                <button string="Carica Documento" type="action" class="oe_inline oe_highlight_positive oe_button btn_seedoo btn_carica_documenti button-form-protocollo"
-                                                    attrs="{'invisible':['|',('doc_id','!=',False),('carica_modifica_documento_visibility','=', False)]}"
-                                                    name="%(protocollo_carica_documenti_wizard_action)d"/>
-                                                <newline/>
-                                                <button string="Modifica Documento" type="action" class="oe_inline oe_highlight_positive oe_button btn_seedoo btn_carica_documenti button-form-protocollo"
+                                                <div class="oe_edit_only">
+                                                    <button string="Carica Documento" type="action" class="oe_inline oe_highlight_positive oe_button btn_seedoo btn_carica_documenti button-form-protocollo"
+                                                        attrs="{'invisible':['|',('doc_id','!=',False),('carica_modifica_documento_visibility','=', False)]}"
+                                                        name="%(protocollo_carica_documenti_wizard_action)d"/>
+                                                    <newline/>
+                                                    <button string="Modifica Documento" type="action" class="oe_inline oe_highlight_positive oe_button btn_seedoo btn_carica_documenti button-form-protocollo"
                                                         attrs="{'invisible':['|',('doc_id','=',False),'&amp;',('doc_id','!=',False),('state','!=','draft')]}"
                                                         name="%(protocollo_carica_documenti_wizard_action)d"/>
-                                                <field name="mimetype" invisible="1"/>
+                                                    <field name="mimetype" invisible="1"/>
+                                                </div>
                                             </group>
                                         </group>
                                         <div class="emailpec-container">
@@ -613,39 +617,42 @@ this module contains the full copyright notices and license terms. -->
                                     <field name="classification" nolabel="1"  readonly="1" colspan="4" class="container_classification"
                                            attrs="{'invisible':['|',('classification','=', False)]}" />
                                     <newline/>
-                                    <button name="%(protocollo_aggiungi_classificazione_action)d"
-                                            string="Aggiungi Classificazione"
-                                            type="action"
-                                            attrs="{'invisible':['|',('classification','!=',False),('state','!=','draft')]}"
-                                            class="oe_highlight_positive btn_seedoo"/>
-                                    <newline/>
-                                    <button name="%(protocollo_aggiungi_classificazione_action)d"
-                                            string="Modifica Classificazione"
-                                            type="action"
-                                            attrs="{'invisible':['|',('classification','=',False),('modifica_classificazione_visibility','=',False)]}"
-                                            class="oe_highlight_positive btn_seedoo"/>
+                                    <div class="oe_edit_only">
+                                        <button name="%(protocollo_aggiungi_classificazione_action)d"
+                                                string="Aggiungi Classificazione"
+                                                type="action"
+                                                attrs="{'invisible':['|',('classification','!=',False),('state','!=','draft')]}"
+                                                class="oe_highlight_positive btn_seedoo btn_aggiungi_classificazione"/>
+                                        <newline/>
+                                        <button name="%(protocollo_aggiungi_classificazione_action)d"
+                                                string="Modifica Classificazione"
+                                                type="action"
+                                                attrs="{'invisible':['|',('classification','=',False),('modifica_classificazione_visibility','=',False)]}"
+                                                class="oe_highlight_positive btn_seedoo btn_modifica_classificazione"/>
+                                    </div>
                                 </group>
                             </page>
                             <page string="Assegnatari">
-
-                                <button name="%(protocollo_aggiungi_assegnatari_action)d"
-                                        string="Aggiungi Assegnatari"
-                                        type="action"
-                                        attrs="{'invisible':['|',('assegnazione_first_level_ids','!=',[]),'&amp;',('id','!=',False),('modifica_assegnatari_visibility','=',False)]}"
-                                        class="oe_highlight_positive btn_seedoo"
-                                        context="{'assegnatari_initial_state':assegnazione_first_level_ids}"/>
-                                <button name="%(protocollo_aggiungi_assegnatari_action)d"
-                                        string="Modifica Assegnatari"
-                                        type="action"
-                                        attrs="{'invisible':['|',('assegnazione_first_level_ids','=',[]),('modifica_assegnatari_visibility','=',False)]}"
-                                        class="oe_highlight_positive btn_seedoo"
-                                        context="{'assegnatari_initial_state':assegnazione_first_level_ids}"/>
-                                <button name="%(protocollo_aggiungi_assegnatari_cc_action)d"
-                                        string="Aggiungi Assegnatari Conoscenza"
-                                        type="action"
-                                        attrs="{'invisible':['|',('aggiungi_assegnatari_cc_visibility','=',False),('reserved','=',True)]}"
-                                        class="oe_highlight_positive btn_seedoo"
-                                        context="{'assegnatari_initial_state':assegnazione_first_level_ids}"/>
+                                <div class="oe_edit_only">
+                                    <button name="%(protocollo_aggiungi_assegnatari_action)d"
+                                            string="Aggiungi Assegnatari"
+                                            type="action"
+                                            attrs="{'invisible':['|',('assegnazione_first_level_ids','!=',[]),'&amp;',('id','!=',False),('modifica_assegnatari_visibility','=',False)]}"
+                                            class="oe_highlight_positive btn_seedoo btn_aggiungi_assegnatari"
+                                            context="{'assegnatari_initial_state':assegnazione_first_level_ids}"/>
+                                    <button name="%(protocollo_aggiungi_assegnatari_action)d"
+                                            string="Modifica Assegnatari"
+                                            type="action"
+                                            attrs="{'invisible':['|',('assegnazione_first_level_ids','=',[]),('modifica_assegnatari_visibility','=',False)]}"
+                                            class="oe_highlight_positive btn_seedoo btn_modifica_assegnatari"
+                                            context="{'assegnatari_initial_state':assegnazione_first_level_ids}"/>
+                                    <button name="%(protocollo_aggiungi_assegnatari_cc_action)d"
+                                            string="Aggiungi Assegnatari Conoscenza"
+                                            type="action"
+                                            attrs="{'invisible':['|',('aggiungi_assegnatari_cc_visibility','=',False),('reserved','=',True)]}"
+                                            class="oe_highlight_positive btn_seedoo btn_aggiungi_assegnatari_cc"
+                                            context="{'assegnatari_initial_state':assegnazione_first_level_ids}"/>
+                                </div>
 
                                 <group col="4">
                                     <field name="assegnazione_first_level_ids" nolabel="1" colspan="4"/>
@@ -695,9 +702,11 @@ this module contains the full copyright notices and license terms. -->
                             </page>
                             <page string="Allegati" class="tab-allegati">
                                 <group col="4" colspan="4">
-                                    <button string="Carica Allegati" type="action" class="oe_inline oe_highlight_positive oe_button btn_seedoo btn_carica_documenti button-form-protocollo"
+                                    <div class="oe_edit_only">
+                                        <button string="Carica Allegati" type="action" class="oe_inline oe_highlight_positive oe_button btn_seedoo btn_carica_documenti button-form-protocollo"
                                                     attrs="{'invisible':['|',('state','not in',('draft','registered')),'&amp;',('state','in',('registered')),('aggiungi_allegati_post_registrazione_visibility','=',False)]}"
                                                     name="%(protocollo_carica_allegati_wizard_action)d"/>
+                                    </div>
                                     <field name="attachment_ids" colspan="4" widget="many2many_kanban" nolabel="1" class="container_allegati">
                                     <kanban quick_create="false" create="false">
                                         <field name="type"/>

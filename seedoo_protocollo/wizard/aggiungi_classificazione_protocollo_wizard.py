@@ -142,7 +142,15 @@ class protocollo_aggiungi_classificazione_step1_wizard(osv.TransientModel):
 
             self.classification_save(cr, uid, protocollo, wizard.classification, wizard.motivation, '', context)
 
-        return {'type': 'ir.actions.act_window_close'}
+        return {
+                'name': 'Protocollo',
+                'view_type': 'form',
+                'view_mode': 'form,tree',
+                'res_model': 'protocollo.protocollo',
+                'res_id': context['active_id'],
+                'context': context,
+                'type': 'ir.actions.act_window'
+        }
 
 
 
@@ -177,7 +185,15 @@ class protocollo_aggiungi_classificazione_step2_wizard(osv.TransientModel):
         self.pool.get('protocollo.aggiungi.classificazione.step1.wizard').classification_save(
             cr, uid, protocollo, classification, context['motivation'], history, context
         )
-        return {'type': 'ir.actions.act_window_close'}
+        return {
+                'name': 'Protocollo',
+                'view_type': 'form',
+                'view_mode': 'form,tree',
+                'res_model': 'protocollo.protocollo',
+                'res_id': context['active_id'],
+                'context': context,
+                'type': 'ir.actions.act_window'
+        }
 
     def action_no(self, cr, uid, ids, context=None):
         protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
@@ -185,4 +201,12 @@ class protocollo_aggiungi_classificazione_step2_wizard(osv.TransientModel):
         self.pool.get('protocollo.aggiungi.classificazione.step1.wizard').classification_save(
             cr, uid, protocollo, classification, context['motivation'], '', context
         )
-        return {'type': 'ir.actions.act_window_close'}
+        return {
+                'name': 'Protocollo',
+                'view_type': 'form',
+                'view_mode': 'form,tree',
+                'res_model': 'protocollo.protocollo',
+                'res_id': context['active_id'],
+                'context': context,
+                'type': 'ir.actions.act_window'
+        }

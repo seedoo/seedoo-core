@@ -81,4 +81,13 @@ class wizard(osv.TransientModel):
                 context['active_id'],
                 {'doc_id': attachment_id}
             )
-        return {'type': 'ir.actions.act_window_close'}
+            return {
+                    'name': 'Protocollo',
+                    'view_type': 'form',
+                    'view_mode': 'form,tree',
+                    'res_model': 'protocollo.protocollo',
+                    'res_id': context['active_id'],
+                    'context': context,
+                    'type': 'ir.actions.act_window'
+            }
+

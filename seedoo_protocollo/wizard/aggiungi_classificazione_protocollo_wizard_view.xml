@@ -6,7 +6,7 @@
             <field name="name">Aggiungi Classificazione</field>
             <field name="model">protocollo.aggiungi.classificazione.step1.wizard</field>
             <field name="arch" type="xml">
-                <form string="Aggiungi Classificazione">
+                <form string="Aggiungi Classificazione" class="tree_aggiungi_classificazione">
                     <sheet>
                         <group>
                             <field name="classification"

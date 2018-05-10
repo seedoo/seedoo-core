@@ -41,6 +41,9 @@
 .openerp .history_icon.taken::after {
   content: "\f087";
 }
+.openerp .history_icon.sent::after {
+  content: "\f199";
+}
 .openerp .history_icon.refused::after {
   content: "\f05e";
 }
@@ -277,6 +280,12 @@
 .btn_classifica::before {
   content: "\f00b";
 }
+.btn_aggiungi_classificazione::before {
+  content: "\f00b";
+}
+.btn_modifica_classificazione::before {
+  content: "\f00b";
+}
 .btn_fascicola::before {
   content: "\f115";
 }
@@ -294,6 +303,15 @@
 }
 .btn_carica_documenti::before {
   content: "\f093";
+}
+.btn_aggiungi_assegnatari::before {
+  content: "\f0e8";
+}
+.btn_modifica_assegnatari::before {
+  content: "\f0e8";
+}
+.btn_aggiungi_assegnatari_cc::before {
+  content: "\f0e8";
 }
 .protocollo_oggetto .oe_form_text_content {
   color: steelblue;
@@ -557,7 +575,8 @@ li.badge {
 }
 .protocollo_dossier_container .oe_kanban_buttons button.oe_kanban_button_new.oe_highlight {
   background: steelblue !important;
-  margin: 0 0 18px 2px;
+  margin: 12px 0 18px 2px;
+  min-width: 180px;
 }
 .oe_protocollo_chatter .oe_msg_email {
   display: none !important;
@@ -593,6 +612,12 @@ li.badge {
 .protocollo_form_tabs ul.ui-tabs-nav li:nth-child(8) a:before {
   content: "\f121";
 }
+.protocollo_form_tabs .btn_seedoo {
+  margin-top: 12px !important;
+}
+.protocollo_form_tabs .oe_list {
+  overflow-x: hidden !important;
+}
 .container_messaggi_pec .oe_module_vignette {
   padding: 0;
 }
@@ -609,8 +634,8 @@ li.badge {
 }
 .button-form-protocollo,
 .tab-sr .oe_kanban_buttons .oe_kanban_button_new.oe_highlight {
-  background: #fff !important;
-  color: #666;
+  background: steelblue !important;
+  color: #fff;
   border: 1px solid #999 !important;
   width: 180px;
   font-size: 12px !important;
@@ -629,11 +654,14 @@ li.badge {
 .oe_highlight_positive.button-form-protocollo,
 .tab-sr .oe_kanban_buttons .oe_kanban_button_new.oe_highlight {
   width: 180px !important;
-  color: #666 !important;
+  color: #fff !important;
+  border: 0 !important;
+  background-color: steelblue !important;
+  min-width: 180px;
 }
 .oe_highlight_positive.button-form-protocollo:before,
 .tab-sr .oe_kanban_buttons .oe_kanban_button_new.oe_highlight:before {
-  color: #666;
+  color: #fff;
 }
 .protocollo_registration_container {
   margin: 0 30%;
@@ -738,6 +766,80 @@ li.badge {
 .container_aggiungi_classificazione_step1 button {
   width: 120px;
 }
+.tree_aggiungi_assegnatari .ztree li span.button.ico_docu:before {
+  content: "\f007" !important;
+}
+.tree_aggiungi_assegnatari .ztree li span.button.ico_open:before,
+.tree_aggiungi_assegnatari .ztree li span.button.ico_close:before {
+  content: "\f1ad" !important;
+}
+.ztree li span {
+  font-family: "Work Sans", sans-serif !important;
+}
+.ztree li span.button.ico_docu {
+  background: none;
+  color: #ccc;
+}
+.ztree li span.button.ico_docu:before {
+  font-family: FontAwesome, sans-serif;
+  content: "\f15b";
+  font-size: 12px;
+  line-height: 18px;
+  padding-left: 4px;
+}
+.ztree li span.button.ico_open,
+.ztree li span.button.ico_close {
+  background: none;
+  color: #ccc;
+}
+.ztree li span.button.ico_open:before,
+.ztree li span.button.ico_close:before {
+  font-family: FontAwesome, sans-serif;
+  content: "\f07b";
+  font-size: 12px;
+  line-height: 18px;
+  padding-left: 4px;
+}
+.ztree li span.button.ico_open:before,
+.tree_aggiungi_assegnatari .ztree li span.button.ico_open:before {
+  color: #666;
+}
+.ztree li span.button.chk.radio_true_full {
+  border-radius: 6px;
+  border: 2px solid #ccc;
+  background: none;
+  background: #679b41;
+  margin: 0;
+  background-size: contain;
+  padding: 3px;
+}
+.ztree li span.button.chk.radio_false_full_focus:hover,
+.ztree li span.button.chk.radio_true_full_focus:hover {
+  background-color: #99c569 !important;
+  background-position: -100px -100px !important;
+  -webkit-border-radius: 6px !important;
+  -moz-border-radius: 6px !important;
+  border-radius: 6px !important;
+  border: 1px solid #ccc;
+}
+.ztree li span.button.chk.radio_true_full + a {
+  background-color: #ededed;
+  font-weight: bold;
+  padding: 1px 3px;
+}
+.ztree li span.button.chk.radio_false_full {
+  background: none;
+  border: 1px solid #666;
+  border-radius: 6px;
+}
+.ztree li span.button.chk.radio_false_full:before {
+  color: darkgreen;
+}
+.ztree li span.button.chk.radio_false_full:hover {
+  background: none !important;
+  border: 1px solid darkgreen !important;
+  border-radius: 6px !important;
+}
 .protocollo-accordion-toggle {
   cursor: pointer;
   text-transform: uppercase;
@@ -746,6 +848,7 @@ li.badge {
   font-size: 16px;
   position: relative;
   padding: 5px 10px 5px 0;
+  background: #fff !important;
 }
 .protocollo-accordion-toggle h4::after {
   content: "+";
