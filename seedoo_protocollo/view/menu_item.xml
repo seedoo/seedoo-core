@@ -18,10 +18,11 @@ this module contains the full copyright notices and license terms. -->
         </record>
 
         <!-- Disable Risorse Umane -->
-        <record id="hr.menu_hr_root" model="ir.ui.menu">
-            <field name="groups_id"
-                   eval="[(6,0,[ref('base.group_system'), ref('base.group_erp_manager')])]"/>
-        </record>
+        <!--<record id="hr.menu_hr_root" model="ir.ui.menu">-->
+            <!--<field name="groups_id"-->
+                   <!--eval="[(6,0,[ref('base.group_system'), ref('base.group_erp_manager')])]"/>-->
+        <!--</record>-->
+
 
         <!-- Set Top Menu Sequences -->
         <menuitem name="Comunicazioni" id="mail.mail_feeds_main"

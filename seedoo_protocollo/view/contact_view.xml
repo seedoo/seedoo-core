@@ -159,8 +159,8 @@ this module contains the full copyright notices and license terms. -->
 	        <field name="value" eval="'ir.actions.act_window,%d'%action_employee_department"/>
 	    </record>
 
-        <menuitem name="Organigramma" id="menu_organigramma" parent="menu_rubrica_interna_main" action="action_organigramma" sequence="1"/>
-        <menuitem name="Uffici" id="menu_rubrica_uff" parent="menu_rubrica_interna_main" action="action_dept_manage_office_protocollo" sequence="2"/>
+        <!--<menuitem name="Organigramma" id="menu_organigramma" parent="menu_rubrica_interna_main" action="action_organigramma" sequence="1"/>-->
+        <!--<menuitem name="Uffici" id="menu_rubrica_uff" parent="menu_rubrica_interna_main" action="action_dept_manage_office_protocollo" sequence="2"/>-->
 
 
         <menuitem name="Persone" id="menu_rubrica_dip" parent="menu_rubrica_interna_main" action="hr.open_view_employee_list_my" sequence="3"/>

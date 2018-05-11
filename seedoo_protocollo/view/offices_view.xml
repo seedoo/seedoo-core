@@ -4,6 +4,9 @@ this module contains the full copyright notices and license terms. -->
 
 <openerp>
     <data>
+        <menuitem name="Uffici" id="menu_rubrica_uff" parent="hr.menu_hr_main" action="action_dept_manage_office_protocollo" sequence="2"/>
+        <menuitem name="Organigramma" id="menu_organigramma" parent="hr.menu_hr_main" action="action_organigramma" sequence="1"/>
+
         <record id="view_department_form_protocollo" model="ir.ui.view">
             <field name="name">hr.department.form.protocollo</field>
             <field name="model">hr.department</field>
@@ -15,11 +18,11 @@ this module contains the full copyright notices and license terms. -->
                     <attribute name="edit">0</attribute>
                 </xpath>
                 <field name="parent_id" position="after">
-                    <field name="aoo_id" options="{'no_create': True}"/>
+                    <field name="aoo_id" options="{'no_create': True, 'no_open': True}"/>
                 </field>
                 <field name="company_id" position="after">
-                    <newline/>
-                    <field name="assignable"/>
+                    <!--<newline/>-->
+                    <!--<field name="assignable"/>-->
                     <newline/>
                     <field name="description" colspan="4"/>
                     <notebook colspan="6">
@@ -58,6 +61,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="name">hr.department.tree.protocollo</field>
             <field name="model">hr.department</field>
             <field name="mode">primary</field>
+            <field name="field_parent">child_ids</field>
             <field name="inherit_id" ref="hr.view_department_tree"></field>
             <field name="arch" type="xml">
                 <xpath expr="/tree[@string='Companies']" position="attributes">
