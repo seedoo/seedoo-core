@@ -41,7 +41,7 @@ class protocollo_riassegna_wizard(osv.TransientModel):
     def action_save(self, cr, uid, ids, context=None):
         before = {'competenza': '', 'conoscenza': ''}
         after = {'competenza': '', 'conoscenza': ''}
-        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
+        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
         wizard = self.browse(cr, uid, ids[0], context)
         employee_ids = self.pool.get('hr.employee').search(cr, uid, [('user_id', '=', uid)])
         check = False

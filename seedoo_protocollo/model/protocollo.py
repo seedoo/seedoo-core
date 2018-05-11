@@ -1132,7 +1132,7 @@ class protocollo_protocollo(orm.Model):
             context = {}
 
         res = None
-        for prot in self.browse(cr, uid, ids):
+        for prot in self.browse(cr, uid, ids, {'skip_check': True}):
             receipt_xml = None
             messaggio_pec_obj = self.pool.get('protocollo.messaggio.pec')
             if receipt_type == 'conferma':
@@ -1622,7 +1622,7 @@ class protocollo_protocollo(orm.Model):
         rec = self.pool.get('res.users').browse(cr, uid, uid)
 
         try:
-            check_permission = self.browse(cr, uid, ids).prendi_in_carico_visibility
+            check_permission = self.browse(cr, uid, ids, {'skip_check': True}).prendi_in_carico_visibility
             if check_permission == True:
                 action_class = "history_icon taken"
                 post_vars = {'subject': "Presa in carico",
@@ -1648,7 +1648,7 @@ class protocollo_protocollo(orm.Model):
     def rifiuta_presa_in_carico(self, cr, uid, ids, motivazione, context=None):
         rec = self.pool.get('res.users').browse(cr, uid, uid)
         try:
-            check_permission = self.browse(cr, uid, ids).rifiuta_visibility
+            check_permission = self.browse(cr, uid, ids, {'skip_check': True}).rifiuta_visibility
             if check_permission == True:
                 action_class = "history_icon refused"
                 post_vars = {
@@ -1685,8 +1685,10 @@ class protocollo_protocollo(orm.Model):
         return vals
 
     def create(self, cr, uid, vals, context=None):
-        vals = self._verifica_dati_sender_receiver(cr, uid, vals, context)
-        protocollo_id = super(protocollo_protocollo, self).create(cr, uid, vals, context=context)
+        new_context = dict(context or {})
+        new_context['skip_check'] = True
+        vals = self._verifica_dati_sender_receiver(cr, uid, vals, new_context)
+        protocollo_id = super(protocollo_protocollo, self).create(cr, uid, vals, context=new_context)
         return protocollo_id
 
     def write(self, cr, uid, ids, vals, context=None):
@@ -1776,7 +1778,7 @@ class protocollo_protocollo(orm.Model):
                     vals['registration_date'] = prot_date
                     now = datetime.datetime.now()
                     vals['year'] = now.year
-                    esito = self.write(cr, uid, [prot.id], vals)
+                    self.write(cr, uid, [prot.id], vals, {'skip_check': True})
 
                     # Generazione della segnatura spostata al momento dell'invio della PEC
                     # if configurazione.genera_xml_segnatura:
@@ -1796,7 +1798,7 @@ class protocollo_protocollo(orm.Model):
                     thread_pool = self.pool.get('protocollo.protocollo')
                     thread_pool.message_post(cr, uid, prot.id, type="notification", context=context, **post_vars)
 
-                    self.write(cr, uid, [prot.id], vals)
+                    #self.write(cr, uid, [prot.id], vals)
                 except Exception as e:
                     _logger.error(e)
                     raise openerp.exceptions.Warning(_('Errore nella \

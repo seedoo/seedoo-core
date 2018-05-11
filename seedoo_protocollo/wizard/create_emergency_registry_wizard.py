@@ -59,7 +59,7 @@ class protocollo_emergency_registry_wizard(osv.TransientModel):
         last_id = self.get_last_protocollo(cr, uid, wizard)
         if last_id:
             now = datetime.datetime.now()
-            last = protocol_obj.browse(cr, uid, last_id[0])
+            last = protocol_obj.browse(cr, uid, last_id[0], {'skip_check': True})
             if last.registration_date[0:4] < str(now.year):
                 seq_id = sequence_obj.search( cr, uid, [('code', '=', last.aoo_id.registry_id.sequence.code)])
                 sequence_obj.write(cr, uid, seq_id, {'number_next': 1})

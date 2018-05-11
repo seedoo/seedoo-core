@@ -48,19 +48,11 @@ class wizard(osv.TransientModel):
     }
 
     def _default_name(self, cr, uid, context):
-        protocollo = self.pool.get('protocollo.protocollo').browse(
-            cr,
-            uid,
-            context['active_id']
-            )
+        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
         return protocollo.name
 
     def _default_sender_receivers(self, cr, uid, context):
-        protocollo = self.pool.get('protocollo.protocollo').browse(
-            cr,
-            uid,
-            context['active_id']
-            )
+        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
         res = []
         for send_rec in protocollo.sender_receivers:
            res.append({
@@ -71,11 +63,7 @@ class wizard(osv.TransientModel):
         return res
 
     def _default_protocol_sent(self, cr, uid, context):
-        protocollo = self.pool.get('protocollo.protocollo').browse(
-            cr,
-            uid,
-            context['active_id']
-            )
+        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
         if protocollo.state == 'registered':
             return False
         return True
@@ -86,11 +74,9 @@ class wizard(osv.TransientModel):
         'protocol_sent': _default_protocol_sent,
     }
 
-    def _process_mail(self, cr, uid, ids,
-                      protocollo_obj, context=None):
+    def _process_mail(self, cr, uid, ids, protocollo_obj, context=None):
         # check if waiting then resend e-mail
-        protocollo = protocollo_obj.browse(cr, uid, context['active_id'],
-                                           context=context)
+        protocollo = protocollo_obj.browse(cr, uid, context['active_id'], {'skip_check': True})
         if protocollo.state in ('sent'):
             protocollo.action_mail_pec_send()
         return True
@@ -107,7 +93,7 @@ class wizard(osv.TransientModel):
             )
         protocollo_obj = self.pool.get('protocollo.protocollo')
         sender_receiver_obj = self.pool.get('protocollo.sender_receiver')
-        protocollo = protocollo_obj.browse(cr, uid, context['active_id'])
+        protocollo = protocollo_obj.browse(cr, uid, context['active_id'], {'skip_check': True})
         for send_rec in protocollo.sender_receivers:
             before[send_rec.id] = {'name': send_rec.name, 'mail': send_rec.email}
 

@@ -69,50 +69,50 @@ class wizard(osv.TransientModel):
     }
 
     def _default_name(self, cr, uid, context):
-        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
+        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
         return protocollo.name
 
     def _default_registration_date(self, cr, uid, context):
-        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
+        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
         return protocollo.registration_date
 
     def _default_type(self, cr, uid, context):
-        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
+        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
         return protocollo.type
 
     def _default_typology(self, cr, uid, context):
-        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
+        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
         return protocollo.typology.id
 
     def _default_receiving_date(self, cr, uid, context):
-        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
+        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
         return protocollo.receiving_date
 
     def _default_subject(self, cr, uid, context):
-        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
+        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
         return protocollo.subject
 
     def _default_classification(self, cr, uid, context):
-        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
+        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
         return protocollo.classification.id
 
     def _default_sender_protocol(self, cr, uid, context):
-        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
+        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
         return protocollo.sender_protocol
 
     def _default_dossier_ids(self, cr, uid, context):
-        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
+        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
         dossier_ids = []
         for dossier_id in protocollo.dossier_ids:
             dossier_ids.append(dossier_id.id)
         return [(6, 0, dossier_ids)]
 
     def _default_notes(self, cr, uid, context):
-        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
+        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
         return protocollo.notes
 
     def _default_last_write_date(self, cr, uid, context):
-        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
+        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
         return protocollo.write_date
 
     _defaults = {
@@ -135,7 +135,7 @@ class wizard(osv.TransientModel):
         after = {}
         wizard = self.browse(cr, uid, ids[0], context)
         protocollo_obj = self.pool.get('protocollo.protocollo')
-        protocollo = protocollo_obj.browse(cr, uid, context['active_id'], context=context)
+        protocollo = protocollo_obj.browse(cr, uid, context['active_id'], {'skip_check': True})
 
         if wizard.last_write_date != protocollo.write_date:
             raise osv.except_osv(
@@ -177,10 +177,10 @@ class wizard(osv.TransientModel):
         for key, before_item in before.items():
             if before[key] != after[key]:
                 body = body + "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#009900'> %s </span></li>" \
-                                % (str(key), before_item.encode("utf-8"), after[key].encode("utf-8"))
+                                % (str(key), before_item, after[key])
             else:
                 body = body + "<li>%s: <span style='color:#666'> %s</span> -> <span style='color:#666'> %s </span></li>" \
-                              % (str(key), before_item.encode("utf-8"), after[key].encode("utf-8"))
+                              % (str(key), before_item, after[key])
         body += "</ul></div>"
 
         post_vars = {'subject': "Modifica dati generali: \'%s\'" % wizard.cause,

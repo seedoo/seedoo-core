@@ -71,7 +71,7 @@ class protocollo_dossier(osv.Model):
     }
 
     def is_document_present(self, cr, uid, ids, *args):
-        for dossier in self.browse(cr, uid, ids):
+        for dossier in self.browse(cr, uid, ids, {'skip_check': True}):
             if len(dossier.protocollo_ids):
                 return True
         return super(protocollo_dossier, self). \

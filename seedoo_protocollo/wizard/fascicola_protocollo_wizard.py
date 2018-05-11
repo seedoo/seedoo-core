@@ -36,19 +36,19 @@ class wizard(osv.TransientModel):
     }
 
     def _default_name(self, cr, uid, context):
-        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
+        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
         return protocollo.name
 
     def _default_registration_date(self, cr, uid, context):
-        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
+        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
         return protocollo.registration_date
 
     def _default_type(self, cr, uid, context):
-        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
+        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
         return protocollo.type
 
     def _default_dossier_ids(self, cr, uid, context):
-        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
+        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
         dossier_ids = []
         for dossier_id in protocollo.dossier_ids:
             dossier_ids.append(dossier_id.id)
@@ -67,7 +67,7 @@ class wizard(osv.TransientModel):
         after = {}
         wizard = self.browse(cr, uid, ids[0], context)
         protocollo_obj = self.pool.get('protocollo.protocollo')
-        protocollo = protocollo_obj.browse(cr, uid, context['active_id'], context=context)
+        protocollo = protocollo_obj.browse(cr, uid, context['active_id'], {'skip_check': True})
         before['Fascicolo'] = ""
         after['Fascicolo'] = ""
         vals['dossier_ids'] = [[6, 0, [d.id for d in wizard.dossier_ids]]]

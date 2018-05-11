@@ -51,7 +51,7 @@ class wizard(osv.TransientModel):
     def action_cancel(self, cr, uid, ids, context=None):
         configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
         configurazione = self.pool.get('protocollo.configurazione').browse(cr, uid, configurazione_ids[0])
-        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
+        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
         wizard = self.browse(cr, uid, ids[0], context)
 
         if protocollo.state in 'canceled':

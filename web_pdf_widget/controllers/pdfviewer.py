@@ -46,7 +46,9 @@ class PdfStream(main.Binary):
         if filename_field:
             fields.append(filename_field)
         if id:
-            res = Model.read([int(id)], fields, req.context)[0]
+            context = dict(req.context or {})
+            context['skip_check'] = True
+            res = Model.read([int(id)], fields, context)[0]
         else:
             return self.return_void(req)
         filecontent = base64.b64decode(res.get(field, ''))

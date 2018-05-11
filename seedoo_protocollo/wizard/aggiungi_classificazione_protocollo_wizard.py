@@ -43,7 +43,7 @@ class protocollo_aggiungi_classificazione_step1_wizard(osv.TransientModel):
             before = protocollo.classification.name if protocollo.classification else ''
         self.pool.get('protocollo.protocollo').write(cr, uid, [context['active_id']], {
             'classification': classification.id
-        })
+        }, {'skip_check': True})
         if save_history:
             after = classification.name
 
@@ -176,7 +176,7 @@ class protocollo_aggiungi_classificazione_step2_wizard(osv.TransientModel):
     }
 
     def action_yes(self, cr, uid, ids, context=None):
-        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
+        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
         classification = self.pool.get('protocollo.classification').browse(cr, uid, context['classification_id'])
         assegnatario = self.pool.get('protocollo.assegnatario').browse(cr, uid, context['assignee_default_id'])
         history = self.pool.get('protocollo.aggiungi.classificazione.step1.wizard').competenza_save(
@@ -196,7 +196,7 @@ class protocollo_aggiungi_classificazione_step2_wizard(osv.TransientModel):
         }
 
     def action_no(self, cr, uid, ids, context=None):
-        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
+        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
         classification = self.pool.get('protocollo.classification').browse(cr, uid, context['classification_id'])
         self.pool.get('protocollo.aggiungi.classificazione.step1.wizard').classification_save(
             cr, uid, protocollo, classification, context['motivation'], '', context
