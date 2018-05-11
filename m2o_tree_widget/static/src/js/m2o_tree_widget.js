@@ -109,8 +109,12 @@
             var fields = _.keys(self.fields);
             var label = 'name';
             var order = 'name';
+            var css_class = false;
             if (self.options.label) {
             	label = self.options.label;
+            }
+            if (self.options.css_class) {
+            	css_class = self.options.css_class;
             }
             if (self.options.order) {
             	order = self.options.order;
@@ -119,7 +123,7 @@
                 order = label;
             }
 
-            var modelFields = ['id', 'name', label];
+            var modelFields = ['id', 'name', label, css_class];
             var pid = 'parent_id';
             if (self.options.parent_field) {
             	pid = self.options.parent_field;
@@ -139,7 +143,8 @@
 	            					name: res[r][label],
 	            					doCheck: true,
 	            					checked: self.get("value") == res[r]['id'] && true || false,
-	            					open: false
+	            					open: false,
+                                    iconSkin: res[r][css_class]
 	            				}
 	            		);
 	            	}

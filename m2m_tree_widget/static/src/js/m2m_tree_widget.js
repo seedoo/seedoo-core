@@ -123,10 +123,14 @@ openerp.m2m_tree_widget = function(instance) {
             var dataset = new instance.web.DataSet(this, this.field.relation, self.build_context());
             var fields = _.keys(self.fields);
             var label = 'name';
+            var css_class = false;
             if (self.options.label) {
             	label = self.options.label;
             }
-            var modelFields = ['id', 'name', label];
+            if (self.options.css_class) {
+            	css_class = self.options.css_class;
+            }
+            var modelFields = ['id', 'name', label, css_class];
             var pid = 'parent_id';
             if (self.options.parent_field) {
             	pid = self.options.parent_field;
@@ -145,7 +149,8 @@ openerp.m2m_tree_widget = function(instance) {
                                 name: res[r][label],
                                 doCheck: true,
                                 checked: self.get_m2m_values().indexOf(res[r]['id'])>-1 && true || false,
-                                open: false
+                                open: false,
+                                iconSkin: 'class_' + res[r][css_class]
                             }
 	            		);
 	            	}

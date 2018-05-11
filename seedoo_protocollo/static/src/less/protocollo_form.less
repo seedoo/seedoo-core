@@ -337,11 +337,16 @@
   }
 }
 
-.tree_aggiungi_assegnatari .ztree li span.button.ico_docu:before {
+.tree_aggiungi_assegnatari .ztree li span.button.ico_docu:before,
+.tree_aggiungi_assegnatari .ztree li span.button.class_employee_ico_docu:before {
     content:"\f007" !important;
 }
 
-.tree_aggiungi_assegnatari .ztree li span.button.ico_open:before, .tree_aggiungi_assegnatari .ztree li span.button.ico_close:before {
+.tree_aggiungi_assegnatari .ztree li span.button.ico_open:before,
+.tree_aggiungi_assegnatari .ztree li span.button.ico_close:before,
+.tree_aggiungi_assegnatari .ztree li span.button.class_department_ico_open:before,
+.tree_aggiungi_assegnatari .ztree li span.button.class_department_ico_close:before,
+.tree_aggiungi_assegnatari .ztree li span.button.class_department_ico_docu:before{
     content:"\f1ad" !important;
 }
 
@@ -349,7 +354,9 @@
     font-family: "Work Sans", sans-serif !important;
 }
 
-.ztree li span.button.ico_docu {
+.ztree li span.button.ico_docu,
+.ztree li span.button.class_employee_ico_docu,
+.ztree li span.button.class_department_ico_docu{
     background: none;
     color: #ccc;
 
@@ -362,7 +369,8 @@
     }
 }
 
-.ztree li span.button.ico_open, .ztree li span.button.ico_close {
+.ztree li span.button.ico_open, .ztree li span.button.ico_close,
+.ztree li span.button.class_department_ico_open, .ztree li span.button.class_department_ico_close {
     background: none;
     color: #ccc;
 

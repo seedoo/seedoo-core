@@ -766,21 +766,29 @@ li.badge {
 .container_aggiungi_classificazione_step1 button {
   width: 120px;
 }
-.tree_aggiungi_assegnatari .ztree li span.button.ico_docu:before {
+.tree_aggiungi_assegnatari .ztree li span.button.ico_docu:before,
+.tree_aggiungi_assegnatari .ztree li span.button.class_employee_ico_docu:before {
   content: "\f007" !important;
 }
 .tree_aggiungi_assegnatari .ztree li span.button.ico_open:before,
-.tree_aggiungi_assegnatari .ztree li span.button.ico_close:before {
+.tree_aggiungi_assegnatari .ztree li span.button.ico_close:before,
+.tree_aggiungi_assegnatari .ztree li span.button.class_department_ico_open:before,
+.tree_aggiungi_assegnatari .ztree li span.button.class_department_ico_close:before,
+.tree_aggiungi_assegnatari .ztree li span.button.class_department_ico_docu:before {
   content: "\f1ad" !important;
 }
 .ztree li span {
   font-family: "Work Sans", sans-serif !important;
 }
-.ztree li span.button.ico_docu {
+.ztree li span.button.ico_docu,
+.ztree li span.button.class_employee_ico_docu,
+.ztree li span.button.class_department_ico_docu {
   background: none;
   color: #ccc;
 }
-.ztree li span.button.ico_docu:before {
+.ztree li span.button.ico_docu:before,
+.ztree li span.button.class_employee_ico_docu:before,
+.ztree li span.button.class_department_ico_docu:before {
   font-family: FontAwesome, sans-serif;
   content: "\f15b";
   font-size: 12px;
@@ -788,12 +796,16 @@ li.badge {
   padding-left: 4px;
 }
 .ztree li span.button.ico_open,
-.ztree li span.button.ico_close {
+.ztree li span.button.ico_close,
+.ztree li span.button.class_department_ico_open,
+.ztree li span.button.class_department_ico_close {
   background: none;
   color: #ccc;
 }
 .ztree li span.button.ico_open:before,
-.ztree li span.button.ico_close:before {
+.ztree li span.button.ico_close:before,
+.ztree li span.button.class_department_ico_open:before,
+.ztree li span.button.class_department_ico_close:before {
   font-family: FontAwesome, sans-serif;
   content: "\f07b";
   font-size: 12px;
