@@ -246,15 +246,28 @@ class protocollo_protocollo(osv.Model):
 
             start_time = time.time()
             # un utente deve poter vedere i protocolli in bozza (IN e OUT) creati da lui
-            protocollo_ids_drafts = self.search(cr, uid, [
-                ('state', '=', 'draft'),
-                ('user_id.id', '=', employee.user_id.id)
-            ])
+            # protocollo_ids_drafts = self.search(cr, uid, [
+            #     ('state', '=', 'draft'),
+            #     ('user_id.id', '=', employee.user_id.id)
+            # ])
+            cr.execute('''
+                SELECT DISTINCT(pp.id)
+                FROM protocollo_protocollo pp
+                WHERE pp.state = 'draft' AND 
+                      pp.user_id = %s
+            ''', (current_user_id, ))
+            protocollo_ids_drafts = [res[0] for res in cr.fetchall()]
             _logger.info("---Query draft %s seconds ---" % (time.time() - start_time))
 
             start_time = time.time()
             # un utente deve poter vedere i protocolli (IN e OUT) registrati da lui
-            protocollo_ids_created = self.search(cr, uid, [('registration_employee_id.id', '=', employee.id)])
+            # protocollo_ids_created = self.search(cr, uid, [('registration_employee_id.id', '=', employee.id)])
+            cr.execute('''
+                SELECT DISTINCT(pp.id)
+                FROM protocollo_protocollo pp
+                WHERE pp.registration_employee_id = %s
+            ''', (employee.id, ))
+            protocollo_ids_created = [res[0] for res in cr.fetchall()]
             _logger.info("---Query created %s seconds ---" % (time.time() - start_time))
 
             start_time = time.time()
@@ -1885,3 +1898,13 @@ class protocollo_protocollo(osv.Model):
         'protocollazione_riservata_visibility': _default_protocollazione_riservata_visibility,
         'carica_modifica_documento_visibility': True
     }
+
+    def init(self, cr):
+        cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_protocollo_registration_employee_id\'')
+        if not cr.fetchone():
+            cr.execute("""
+            CREATE INDEX idx_protocollo_protocollo_registration_employee_id
+            ON public.protocollo_protocollo
+            USING btree
+            (registration_employee_id);
+            """)
