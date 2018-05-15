@@ -514,6 +514,11 @@ class protocollo_protocollo(osv.Model):
             return
         return super(protocollo_protocollo, self)._apply_ir_rules(cr, uid, query, mode='read', context=context)
 
+    def message_subscribe(self, cr, uid, ids, partner_ids, subtype_ids=None, context=None):
+        if context and context.has_key('skip_check') and context['skip_check']:
+            return True
+        return super(protocollo_protocollo, self).message_subscribe(cr, uid, ids, partner_ids, subtype_ids=None, context=None)
+
     # def write(self, cr, uid, ids, vals, context=None):
     #     protocollo_ids = super(protocollo_protocollo, self).write(cr, uid, ids, vals, context=context)
     #     self.clear_cache()

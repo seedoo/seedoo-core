@@ -128,7 +128,7 @@ class protocollo_sender_receiver(orm.Model):
         for sr in self.browse(cr, uid, ids):
             if sr.protocollo_id.id:
                 protocollo_obj = self.pool.get('protocollo.protocollo')
-                for prot in protocollo_obj.browse(cr, uid, sr.protocollo_id.id):
+                for prot in protocollo_obj.browse(cr, uid, sr.protocollo_id.id, {'skip_check': True}):
                     messaggio_pec_obj = self.pool.get("protocollo.messaggio.pec")
                     if len(sr.pec_messaggio_ids.ids) > 0:
                         messaggio_pec = messaggio_pec_obj.browse(cr, uid, max(sr.pec_messaggio_ids.ids))
@@ -145,7 +145,7 @@ class protocollo_sender_receiver(orm.Model):
         for sr in self.browse(cr, uid, ids):
             if sr.protocollo_id.id:
                 protocollo_obj = self.pool.get('protocollo.protocollo')
-                for prot in protocollo_obj.browse(cr, uid, sr.protocollo_id.id):
+                for prot in protocollo_obj.browse(cr, uid, sr.protocollo_id.id, {'skip_check': True}):
                     messaggio_pec_obj = self.pool.get("protocollo.messaggio.pec")
                     if len(sr.pec_messaggio_ids.ids) > 0:
                         messaggio_pec = messaggio_pec_obj.browse(cr, uid, max(sr.pec_messaggio_ids.ids))
@@ -163,7 +163,7 @@ class protocollo_sender_receiver(orm.Model):
         for sr in self.browse(cr, uid, ids):
             if sr.protocollo_id.id:
                 protocollo_obj = self.pool.get('protocollo.protocollo')
-                for prot in protocollo_obj.browse(cr, uid, sr.protocollo_id.id):
+                for prot in protocollo_obj.browse(cr, uid, sr.protocollo_id.id, {'skip_check': True}):
                     messaggio_pec_obj = self.pool.get("protocollo.messaggio.pec")
                     if len(sr.pec_messaggio_ids.ids) > 0:
                         messaggio_pec = messaggio_pec_obj.browse(cr, uid, max(sr.pec_messaggio_ids.ids))
@@ -180,7 +180,7 @@ class protocollo_sender_receiver(orm.Model):
         for sr in self.browse(cr, uid, ids):
             if sr.protocollo_id.id:
                 protocollo_obj = self.pool.get('protocollo.protocollo')
-                for prot in protocollo_obj.browse(cr, uid, sr.protocollo_id.id):
+                for prot in protocollo_obj.browse(cr, uid, sr.protocollo_id.id, {'skip_check': True}):
                     messaggio_pec_obj = self.pool.get("protocollo.messaggio.pec")
                     if len(sr.pec_messaggio_ids.ids) > 0:
                         messaggio_pec = messaggio_pec_obj.browse(cr, uid, max(sr.pec_messaggio_ids.ids))
@@ -194,7 +194,7 @@ class protocollo_sender_receiver(orm.Model):
         if isinstance(ids, (long, int)):
             ids = [ids]
         res = dict.fromkeys(ids, False)
-        for sr in self.browse(cr, uid, ids):
+        for sr in self.browse(cr, uid, ids, {'skip_check': True}):
             res[sr.id] = len(sr.pec_messaggio_ids)
         return res
 

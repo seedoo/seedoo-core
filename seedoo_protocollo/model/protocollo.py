@@ -1749,7 +1749,7 @@ class protocollo_protocollo(orm.Model):
                 'res_id': protocollo_id,
             }
         )
-        protocollo_obj.write(cr, uid, protocollo_id, {'doc_id': attachment_id, 'mimetype': mimetype})
+        protocollo_obj.write(cr, uid, protocollo_id, {'doc_id': attachment_id, 'mimetype': mimetype}, context)
 
         for prot in self.browse(cr, uid, protocollo_id, {'skip_check': True}):
             if prot.state == 'registered':

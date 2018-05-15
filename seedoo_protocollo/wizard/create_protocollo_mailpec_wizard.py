@@ -316,7 +316,8 @@ class ProtocolloMailPecWizard(osv.TransientModel):
                                                        protocollo_id,
                                                        body_pdf_content,
                                                        body_pdf_name,
-                                                       wizard.doc_description)
+                                                       wizard.doc_description,
+                                                       {'skip_check': True})
         else:
             file_data_list.append({
                 'datas': body_pdf_content,
@@ -328,11 +329,12 @@ class ProtocolloMailPecWizard(osv.TransientModel):
             if attach.name == 'original_email.eml':
                 if wizard.select_doc_principale == 'eml':
                     protocollo_obj.carica_documento_principale(cr,
-                                                           uid,
-                                                           protocollo_id,
-                                                           attach.datas,
-                                                           attach.name,
-                                                           wizard.doc_description)
+                                                               uid,
+                                                               protocollo_id,
+                                                               attach.datas,
+                                                               attach.name,
+                                                               wizard.doc_description,
+                                                               {'skip_check': True})
             else:
                 if wizard.select_doc_principale == 'allegato' and attach.id == wizard.doc_principale.id:
                     if attach.datas and attach.name:
@@ -341,7 +343,8 @@ class ProtocolloMailPecWizard(osv.TransientModel):
                                                                    protocollo_id,
                                                                    attach.datas,
                                                                    attach.name,
-                                                                   wizard.doc_description)
+                                                                   wizard.doc_description,
+                                                                   {'skip_check': True})
                 else:
                     file_data_list.append({
                         'datas': attach.datas,

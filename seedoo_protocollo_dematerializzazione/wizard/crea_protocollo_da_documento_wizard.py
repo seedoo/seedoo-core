@@ -55,7 +55,9 @@ class CreaProtocolloDaDocumentoWizard(osv.TransientModel):
         vals['doc_imported_ref'] = context.get('active_id')
         protocollo_id = protocollo_obj.create(cr, uid, vals)
 
-        protocollo_obj.carica_documento_principale(cr, uid, protocollo_id, wizard.preview, wizard.doc_fname, wizard.doc_description)
+        protocollo_obj.carica_documento_principale(cr, uid, protocollo_id, wizard.preview, wizard.doc_fname,
+                                                   wizard.doc_description,
+                                                   {'skip_check': True})
         protocollo_obj.associa_importer_protocollo(cr, SUPERUSER_ID, protocollo_id, document.importer_id.id)
 
         action_class = "history_icon print"
