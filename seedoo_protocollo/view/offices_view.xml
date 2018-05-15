@@ -4,8 +4,6 @@ this module contains the full copyright notices and license terms. -->
 
 <openerp>
     <data>
-        <menuitem name="Uffici" id="menu_rubrica_uff" parent="hr.menu_hr_main" action="action_dept_manage_office_protocollo" sequence="2"/>
-        <menuitem name="Organigramma" id="menu_organigramma" parent="hr.menu_hr_main" action="action_organigramma" sequence="1"/>
 
         <record id="view_department_form_protocollo" model="ir.ui.view">
             <field name="name">hr.department.form.protocollo</field>
@@ -235,7 +233,33 @@ this module contains the full copyright notices and license terms. -->
             <field name="act_window_id" ref="action_configuration_employee"/>
         </record>
 
+        <record model="ir.actions.act_window" id="action_organigramma">
+            <field name="name">Organigramma</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.department</field>
+            <field name="view_type">tree</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain" eval="[('parent_id','=', False)]"></field>
+            <!--<field name="search_view_id" ref="view_department_protocollo_search"/>-->
+        </record>
 
+        <record model="ir.actions.act_window" id="action_employee_department">
+	        <field name="type">ir.actions.act_window</field>
+	        <field name="res_model">hr.employee</field>
+	        <field name="name">Dipendenti Ufficio</field>
+	        <field name="view_type">form</field>
+	        <field name="domain">[('department_id','in',[active_id])]</field>
+	    </record>
+
+	    <record model="ir.values" id="ir_action_employee_department">
+	        <field name="key2" eval="'tree_but_open'"/>
+	        <field name="model" eval="'hr.department'"/>
+	        <field name="name">Organigramma</field>
+	        <field name="value" eval="'ir.actions.act_window,%d'%action_employee_department"/>
+	    </record>
+
+        <menuitem name="Uffici" id="menu_rubrica_uff" parent="hr.menu_hr_main" action="action_dept_manage_office_protocollo" sequence="2"/>
+        <menuitem name="Organigramma" id="menu_organigramma" parent="hr.menu_hr_main" action="action_organigramma" sequence="1"/>
 
     </data>
 </openerp>

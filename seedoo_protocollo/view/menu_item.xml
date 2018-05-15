@@ -33,7 +33,7 @@ this module contains the full copyright notices and license terms. -->
                   sequence="60"/>
         <menuitem name="Protocollo" id="seedoo_protocollo.menu_root_protocollo"
                   sequence="70"/>
-        <menuitem name="Reporting" id="base.menu_reporting" sequence="90"/>
+        <menuitem name="Reporting" id="base.menu_reporting" sequence="100"/>
 
     </data>
 </openerp>
