@@ -108,35 +108,81 @@ class protocollo_assegnazione(orm.Model):
 
     def init(self, cr):
 
-        cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_assegnazione\'')
-
+        cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_assegnazione_tipologia_assegnatario_emp\'')
         if not cr.fetchone():
             cr.execute("""
-            CREATE INDEX idx_protocollo_assegnazione
+            CREATE INDEX idx_protocollo_assegnazione_tipologia_assegnatario_emp
             ON public.protocollo_assegnazione
             USING btree
-            (tipologia_assegnazione COLLATE pg_catalog."default", tipologia_assegnatario COLLATE pg_catalog."default", state 
-            COLLATE pg_catalog."default", parent_id, assegnatario_employee_id);
+            (tipologia_assegnatario)
+            WHERE tipologia_assegnatario = 'employee';
             """)
 
-        cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_conoscenza\'')
-
+        cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_assegnazione_tipologia_assegnatario_dep\'')
         if not cr.fetchone():
             cr.execute("""
-            CREATE INDEX idx_conoscenza
+            CREATE INDEX idx_protocollo_assegnazione_tipologia_assegnatario_dep
             ON public.protocollo_assegnazione
             USING btree
-            (assegnatario_employee_id, tipologia_assegnazione COLLATE pg_catalog."default", state COLLATE pg_catalog."default");
+            (tipologia_assegnatario)
+            WHERE tipologia_assegnatario = 'department';
         """)
 
-        cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_attesa\'')
+        cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_assegnazione_tipassegnatario_assemp_state\'')
         if not cr.fetchone():
             cr.execute("""
-            CREATE INDEX idx_attesa
+            CREATE INDEX idx_protocollo_assegnazione_tipassegnatario_assemp_state
             ON public.protocollo_assegnazione
             USING btree
-            (assegnatore_id, tipologia_assegnazione COLLATE pg_catalog."default", state COLLATE pg_catalog."default", 
-            tipologia_assegnatario COLLATE pg_catalog."default", parent_id);
+            (tipologia_assegnatario, assegnatario_employee_id, state);
+        """)
+
+        cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_assegnazione_tipassegnatario_assempdep_state\'')
+        if not cr.fetchone():
+            cr.execute("""
+            CREATE INDEX idx_protocollo_assegnazione_tipassegnatario_assempdep_state
+            ON public.protocollo_assegnazione
+            USING btree
+            (tipologia_assegnatario, assegnatario_employee_department_id, state);
+        """)
+
+        cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_assegnazione_tipologia_assegnazione_com\'')
+        if not cr.fetchone():
+            cr.execute("""
+            CREATE INDEX idx_protocollo_assegnazione_tipologia_assegnazione_com
+            ON public.protocollo_assegnazione
+            USING btree
+            (tipologia_assegnazione)
+            WHERE tipologia_assegnazione = 'competenza';
+        """)
+
+        cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_assegnazione_tipologia_assegnazione_con\'')
+        if not cr.fetchone():
+            cr.execute("""
+            CREATE INDEX idx_protocollo_assegnazione_tipologia_assegnazione_con
+            ON public.protocollo_assegnazione
+            USING btree
+            (tipologia_assegnazione)
+            WHERE tipologia_assegnazione = 'conoscenza';
+        """)
+
+        cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_assegnazione_tipologiaassegnazione_parent_state\'')
+        if not cr.fetchone():
+            cr.execute("""
+            CREATE INDEX idx_protocollo_assegnazione_tipologiaassegnazione_parent_state
+            ON public.protocollo_assegnazione
+            USING btree
+            (tipologia_assegnazione, parent_id, state);
+        """)
+
+        cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_assegnazione_tipologia_assegnatario_parent_null\'')
+        if not cr.fetchone():
+            cr.execute("""
+            CREATE INDEX idx_protocollo_assegnazione_tipologia_assegnatario_parent_null
+            ON public.protocollo_assegnazione
+            USING btree
+            (tipologia_assegnatario, parent_id)
+            WHERE (tipologia_assegnatario = 'department' OR (tipologia_assegnatario = 'employee' AND parent_id IS NULL));
         """)
 
     def _crea_assegnazione(self, cr, uid, protocollo_id, assegnatario_id, assegnatore_id, tipologia, parent_id=False):

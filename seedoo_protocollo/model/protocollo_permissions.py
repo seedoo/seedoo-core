@@ -1183,9 +1183,8 @@ class protocollo_protocollo(osv.Model):
         start = int(round(time.time() * 1000))
         cr.execute('''
             SELECT DISTINCT(pa.protocollo_id) 
-            FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
+            FROM protocollo_protocollo pp, protocollo_assegnazione pa
             WHERE pp.id = pa.protocollo_id AND 
-                  he.resource_id = rr.id AND
                   pp.registration_employee_id IS NOT NULL AND
                   pa.state = 'assegnato' AND
                   pa.tipologia_assegnazione = 'competenza' AND
@@ -1203,9 +1202,8 @@ class protocollo_protocollo(osv.Model):
         start = int(round(time.time() * 1000))
         cr.execute('''
             SELECT DISTINCT(pa.protocollo_id) 
-            FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
+            FROM protocollo_protocollo pp, protocollo_assegnazione pa
             WHERE pp.id = pa.protocollo_id AND 
-                  he.resource_id = rr.id AND
                   pp.registration_employee_id IS NOT NULL AND
                   pa.state = 'rifiutato' AND
                   pa.tipologia_assegnazione = 'competenza' AND
@@ -1223,9 +1221,8 @@ class protocollo_protocollo(osv.Model):
         start = int(round(time.time() * 1000))
         cr.execute('''
                     SELECT DISTINCT(pa.protocollo_id) 
-                    FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
+                    FROM protocollo_protocollo pp, protocollo_assegnazione pa
                     WHERE pp.id = pa.protocollo_id AND 
-                          he.resource_id = rr.id AND
                           pp.registration_employee_id IS NOT NULL AND
                           pa.state = 'preso' AND
                           pa.tipologia_assegnazione = 'competenza' AND
