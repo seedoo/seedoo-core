@@ -53,6 +53,7 @@ class Etichetta(http.Controller):
         type = document.type  # IN or OUT
         ammi_code = document.registry.company_id.ammi_code
         ident_code = document.aoo_id.ident_code
+        header_code = ammi_code + " - " + ident_code if ammi_code else ident_code
         registry_code = document.registry.code
 
         barcode_text = "%04d0%s" % (year, number)
@@ -152,7 +153,7 @@ class Etichetta(http.Controller):
 
         temp_text = pdf.beginText(pos.y_p(5), pos.y_p(85))
         temp_text.setFont("sans", 8)
-        temp_text.textOut("%s - %s" % (ammi_code, ident_code))
+        temp_text.textOut("%s" % header_code)
         pdf.drawText(temp_text)
 
         temp_text = pdf.beginText(pos.y_p(5), pos.y_p(75))
