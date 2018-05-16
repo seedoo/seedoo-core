@@ -144,7 +144,7 @@
 	            					doCheck: true,
 	            					checked: self.get("value") == res[r]['id'] && true || false,
 	            					open: false,
-                                    iconSkin: res[r][css_class]
+                                    iconSkin: 'class_' + res[r][css_class]
 	            				}
 	            		);
 	            	}
