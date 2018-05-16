@@ -1640,7 +1640,7 @@ class protocollo_protocollo(orm.Model):
                 # self.pool.get('protocollo.stato.dipendente').modifica_stato_dipendente(cr, uid, ids, 'preso')
                 self.pool.get('protocollo.assegnazione').modifica_stato_assegnazione(cr, uid, ids, 'preso')
             else:
-                raise orm.except_orm(_('Azione Non Valida!'), _('Non sei più assegnatario di questo protocollo'))
+                raise orm.except_orm(_('Azione Non Valida!'), _('Il protocollo non può più essere preso in carico!'))
         except Exception as e:
             raise orm.except_orm(_('Azione Non Valida!'), _('Non sei più assegnatario di questo protocollo'))
         return True
@@ -1666,9 +1666,9 @@ class protocollo_protocollo(orm.Model):
                 #self.pool.get('protocollo.stato.dipendente').modifica_stato_dipendente(cr, uid, ids, 'rifiutato')
                 self.pool.get('protocollo.assegnazione').modifica_stato_assegnazione(cr, uid, ids, 'rifiutato')
             else:
-                raise orm.except_orm(_('Attenzione!'), _('Non sei uno degli assegnatari del protocollo!'))
+                raise orm.except_orm(_('Attenzione!'), _('Il protocollo non può più essere rifiutato!'))
         except Exception as e:
-            raise orm.except_orm(_('Attenzione!'), _('Non sei uno degli assegnatari del protocollo!'))
+            raise orm.except_orm(_('Attenzione!'), _('Non sei più assegnatario di questo protocollo!'))
         return True
 
     def _verifica_dati_sender_receiver(self, cr, uid, vals, context):
