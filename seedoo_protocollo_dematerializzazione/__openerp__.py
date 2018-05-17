@@ -19,6 +19,7 @@
     "data": [
         "data/configurazione.xml",
         "data/cron.xml",
+        "data/protocollo_tile.xml",
         "security/ir.model.access.csv",
         "security/security.xml",
         "security/security_rules.xml",

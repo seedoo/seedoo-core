@@ -142,7 +142,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="res_model">gedoc.document</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
-            <field name="domain">[('imported','=',True), ('doc_protocol_state', '=', 'new')]</field>
+            <field name="domain">[('doc_imported_visibility','=',True)]</field>
         </record>
 
         <record model="ir.actions.act_window.view" id="gedoc_document_in_imported_act_tree_view">

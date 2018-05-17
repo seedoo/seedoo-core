@@ -2,10 +2,14 @@
 # This file is part of Seedoo.  The COPYRIGHT file at the top level of
 # this module contains the full copyright notices and license terms.
 import sys
+import datetime
+import logging
 
+from openerp import SUPERUSER_ID, api
 from openerp.osv import fields, osv, orm
-from openerp import SUPERUSER_ID
 from openerp.tools.translate import _
+
+_logger = logging.getLogger(__name__)
 
 
 class gedoc_document(osv.Model):
@@ -31,6 +35,42 @@ class gedoc_document(osv.Model):
             res.append((doc_obj.id, check))
 
         return dict(res)
+
+    def _get_doc_imported_visibility_domain(self):
+        return [
+            ('imported', '=', True),
+            ('doc_protocol_state', '=', 'new')
+        ]
+
+    def _doc_imported_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
+        res = {}
+        doc_imported_ids = self.search(cr, uid, self._get_doc_imported_visibility_domain())
+        for id in ids:
+            if id in doc_imported_ids:
+                res[id] = True
+            else:
+                res[id] = False
+        return res
+
+    def _doc_imported_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
+        doc_imported_ids = self.search(cr, uid, self._get_doc_imported_visibility_domain())
+        return [('id', 'in', doc_imported_ids)]
+
+    @api.cr_uid
+    def _doc_imported_visibility_count(self, cr, uid):
+        time_start = datetime.datetime.now()
+
+        count_value = self.search(cr, uid, self._get_doc_imported_visibility_domain(), count=True)
+
+        time_end = datetime.datetime.now()
+        time_duration = time_end - time_start
+
+        _logger.info("_doc_imported_visibility_count: %d - %.03f s" % (
+            count_value,
+            float(time_duration.microseconds) / 1000000
+        ))
+
+        return count_value
 
 
     def _get_preview_datas(self, cr, uid, ids, field, arg, context=None):
@@ -72,6 +112,10 @@ class gedoc_document(osv.Model):
         'ripristina_per_protocollazione_visibility': fields.function(_ripristina_per_protocollazione_visibility,
                                                                      type='boolean',
                                                                      string='Ripristina per protocollazione'),
+        'doc_imported_visibility': fields.function(_doc_imported_visibility,
+                                                   fnct_search=_doc_imported_visibility_search,
+                                                   type='boolean',
+                                                   string='Documenti Importati'),
 
     }
 

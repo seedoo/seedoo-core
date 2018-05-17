@@ -159,7 +159,7 @@
             <field name="domain">[('state', 'in', ('registered', 'notified', 'sent', 'waiting', 'error')), ('classification', '=', False)]</field>
             <field name="font_color">#ffffff</field>
             <field name="background_color">#34495E</field>
-            <field name="sequence_tile">3</field>
+            <field name="sequence_tile">4</field>
             <field name="icon_tile">fa fa-th-list</field>
             <field name="tag_tile">generale</field>
         </record>
@@ -173,7 +173,7 @@
             <field name="domain">[('state', 'in', ('registered', 'notified', 'sent', 'waiting', 'error')), ('dossier_ids', '=' , False)]</field>
             <field name="font_color">#ffffff</field>
             <field name="background_color">#34495E</field>
-            <field name="sequence_tile">4</field>
+            <field name="sequence_tile">5</field>
             <field name="icon_tile">fa fa-folder-open-o</field>
             <field name="tag_tile">generale</field>
         </record>

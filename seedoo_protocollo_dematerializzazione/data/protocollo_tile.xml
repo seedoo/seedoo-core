@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- ActWindow collegata a Tile Documenti Importati -->
+        <record model="ir.actions.act_window" id="act_tile_doc_imported">
+            <field name="name">Documenti Importati</field>
+            <field name="res_model">gedoc.document</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('doc_imported_visibility', '=', True)]</field>
+            <field name="view_id" ref="seedoo_protocollo_dematerializzazione.gedoc_document_imported_tree"/>
+        </record>
+
+        <!--  Tile: Documenti Importati -->
+        <record id="tile_doc_imported" model="tile.tile">
+            <field name="name">Documenti Importati</field>
+            <field name="model_id" ref="seedoo_gedoc.model_gedoc_document"/>
+            <field name="action_id" ref="seedoo_protocollo_dematerializzazione.gedoc_document_in_imported_act"/>
+            <field name="mode">method</field>
+            <field name="method">_doc_imported_visibility_count</field>
+            <field name="font_color">#ffffff</field>
+            <field name="background_color">#F1C40F</field>
+            <field name="sequence_tile">3</field>
+            <field name="icon_tile">fa fa-folder-open-o</field>
+            <field name="tag_tile">generale</field>
+        </record>
+
+    </data>
+</openerp>
