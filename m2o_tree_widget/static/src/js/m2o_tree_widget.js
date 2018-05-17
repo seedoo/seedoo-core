@@ -136,6 +136,10 @@
 	            .all().then(function (res) {
 	            	var zNodes = [];
 	            	for (r in res) {
+	            	    var iconSkin = '';
+	            	    if (css_class) {
+                            iconSkin =  'class_' + res[r][css_class];
+                        }
 	            		zNodes.push(
 	            				{
 	            					id: res[r]['id'],
@@ -144,7 +148,7 @@
 	            					doCheck: true,
 	            					checked: self.get("value") == res[r]['id'] && true || false,
 	            					open: false,
-                                    iconSkin: 'class_' + res[r][css_class]
+                                    iconSkin: iconSkin
 	            				}
 	            		);
 	            	}
