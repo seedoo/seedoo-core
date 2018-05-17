@@ -889,9 +889,14 @@ this module contains the full copyright notices and license terms. -->
                         <filter string="Da me" name="filtro_da_me" domain="[('filtro_da_me_visibility', '=', True)]"/>
                     </group>
                     <group string="Assegnazioni Stato">
+                        <!--
                         <filter string="In attesa" name="filtro_in_attesa" domain="[('filtro_in_attesa_visibility', '=', True)]"/>
                         <filter string="preso" name="filtro_preso_in_carico" domain="[('filtro_preso_in_carico_visibility', '=', True)]"/>
                         <filter string="rifiutato" name="filtro_rifiutato" domain="[('filtro_rifiutato_visibility', '=', True)]"/>
+                        -->
+                        <filter string="In attesa" name="filtro_in_attesa" domain="[('in_attesa', '=', True)]"/>
+                        <filter string="Preso" name="filtro_preso_in_carico" domain="[('preso', '=', True)]"/>
+                        <filter string="Rifiutato" name="filtro_rifiutato" domain="[('rifiutato', '=', True)]"/>
                     </group>
                 </search>
             </field>

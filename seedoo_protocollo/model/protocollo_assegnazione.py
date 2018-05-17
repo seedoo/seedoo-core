@@ -331,3 +331,19 @@ class protocollo_assegnazione(orm.Model):
                 assegnazione = self.browse(cr, uid, assegnazione_id)
                 if assegnazione.parent_id:
                     self.write(cr, uid, [assegnazione.parent_id.id], {'state': state})
+
+
+from openerp import api, fields, models
+
+class ProtocolloAssegnazione(models.Model):
+    _inherit = 'protocollo.assegnazione'
+
+    @api.model
+    def recompute(self):
+        self.with_context(skip_check=True)
+        cr, uid, context = self.env.args
+        new_context = dict(context or {})
+        new_context['skip_check'] = True
+        new_args = (cr, uid, new_context)
+        self.env.args = new_args
+        super(ProtocolloAssegnazione, self).recompute()

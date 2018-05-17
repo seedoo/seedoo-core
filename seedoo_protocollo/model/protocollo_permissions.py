@@ -1189,62 +1189,62 @@ class protocollo_protocollo(osv.Model):
         _logger.info("_filtro_conoscenza_visibility_search" + str(end - start))
         return [('id', 'in', protocollo_visible_ids)]
 
-    def _filtro_in_attesa_visibility(self, cr, uid, ids, name, arg, context=None):
-        return {}
-
-    def _filtro_in_attesa_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
-        start = int(round(time.time() * 1000))
-        cr.execute('''
-            SELECT DISTINCT(pa.protocollo_id) 
-            FROM protocollo_protocollo pp, protocollo_assegnazione pa
-            WHERE pp.id = pa.protocollo_id AND 
-                  pp.registration_employee_id IS NOT NULL AND
-                  pa.state = 'assegnato' AND
-                  pa.tipologia_assegnazione = 'competenza' AND
-                  pa.parent_id IS NULL
-        ''', (uid,))
-        protocollo_visible_ids = [res[0] for res in cr.fetchall()]
-        end = int(round(time.time() * 1000))
-        _logger.info("_filtro_in_attesa_visibility_search" + str(end - start))
-        return [('id', 'in', protocollo_visible_ids)]
-
-    def _filtro_rifiutato_visibility(self, cr, uid, ids, name, arg, context=None):
-        return {}
-
-    def _filtro_rifiutato_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
-        start = int(round(time.time() * 1000))
-        cr.execute('''
-            SELECT DISTINCT(pa.protocollo_id) 
-            FROM protocollo_protocollo pp, protocollo_assegnazione pa
-            WHERE pp.id = pa.protocollo_id AND 
-                  pp.registration_employee_id IS NOT NULL AND
-                  pa.state = 'rifiutato' AND
-                  pa.tipologia_assegnazione = 'competenza' AND
-                  pa.parent_id IS NULL
-        ''', (uid,))
-        protocollo_visible_ids = [res[0] for res in cr.fetchall()]
-        end = int(round(time.time() * 1000))
-        _logger.info("_filtro_rifiutato_visibility_search" + str(end - start))
-        return [('id', 'in', protocollo_visible_ids)]
-
-    def _filtro_preso_in_carico_visibility(self, cr, uid, ids, name, arg, context=None):
-        return {}
-
-    def _filtro_preso_in_carico_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
-        start = int(round(time.time() * 1000))
-        cr.execute('''
-                    SELECT DISTINCT(pa.protocollo_id) 
-                    FROM protocollo_protocollo pp, protocollo_assegnazione pa
-                    WHERE pp.id = pa.protocollo_id AND 
-                          pp.registration_employee_id IS NOT NULL AND
-                          pa.state = 'preso' AND
-                          pa.tipologia_assegnazione = 'competenza' AND
-                          pa.parent_id IS NULL
-                ''', (uid,))
-        protocollo_visible_ids = [res[0] for res in cr.fetchall()]
-        end = int(round(time.time() * 1000))
-        _logger.info("_filtro_preso_in_carico_visibility_search" + str(end - start))
-        return [('id', 'in', protocollo_visible_ids)]
+    # def _filtro_in_attesa_visibility(self, cr, uid, ids, name, arg, context=None):
+    #     return {}
+    #
+    # def _filtro_in_attesa_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
+    #     start = int(round(time.time() * 1000))
+    #     cr.execute('''
+    #         SELECT DISTINCT(pa.protocollo_id)
+    #         FROM protocollo_protocollo pp, protocollo_assegnazione pa
+    #         WHERE pp.id = pa.protocollo_id AND
+    #               pp.registration_employee_id IS NOT NULL AND
+    #               pa.state = 'assegnato' AND
+    #               pa.tipologia_assegnazione = 'competenza' AND
+    #               pa.parent_id IS NULL
+    #     ''', (uid,))
+    #     protocollo_visible_ids = [res[0] for res in cr.fetchall()]
+    #     end = int(round(time.time() * 1000))
+    #     _logger.info("_filtro_in_attesa_visibility_search" + str(end - start))
+    #     return [('id', 'in', protocollo_visible_ids)]
+    #
+    # def _filtro_rifiutato_visibility(self, cr, uid, ids, name, arg, context=None):
+    #     return {}
+    #
+    # def _filtro_rifiutato_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
+    #     start = int(round(time.time() * 1000))
+    #     cr.execute('''
+    #         SELECT DISTINCT(pa.protocollo_id)
+    #         FROM protocollo_protocollo pp, protocollo_assegnazione pa
+    #         WHERE pp.id = pa.protocollo_id AND
+    #               pp.registration_employee_id IS NOT NULL AND
+    #               pa.state = 'rifiutato' AND
+    #               pa.tipologia_assegnazione = 'competenza' AND
+    #               pa.parent_id IS NULL
+    #     ''', (uid,))
+    #     protocollo_visible_ids = [res[0] for res in cr.fetchall()]
+    #     end = int(round(time.time() * 1000))
+    #     _logger.info("_filtro_rifiutato_visibility_search" + str(end - start))
+    #     return [('id', 'in', protocollo_visible_ids)]
+    #
+    # def _filtro_preso_in_carico_visibility(self, cr, uid, ids, name, arg, context=None):
+    #     return {}
+    #
+    # def _filtro_preso_in_carico_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
+    #     start = int(round(time.time() * 1000))
+    #     cr.execute('''
+    #                 SELECT DISTINCT(pa.protocollo_id)
+    #                 FROM protocollo_protocollo pp, protocollo_assegnazione pa
+    #                 WHERE pp.id = pa.protocollo_id AND
+    #                       pp.registration_employee_id IS NOT NULL AND
+    #                       pa.state = 'preso' AND
+    #                       pa.tipologia_assegnazione = 'competenza' AND
+    #                       pa.parent_id IS NULL
+    #             ''', (uid,))
+    #     protocollo_visible_ids = [res[0] for res in cr.fetchall()]
+    #     end = int(round(time.time() * 1000))
+    #     _logger.info("_filtro_preso_in_carico_visibility_search" + str(end - start))
+    #     return [('id', 'in', protocollo_visible_ids)]
 
     ####################################################################################################################
     # Visibilità dei button sui protocolli
@@ -1842,15 +1842,15 @@ class protocollo_protocollo(osv.Model):
         'filtro_conoscenza_visibility': fields.function(_filtro_conoscenza_visibility,
                                                         fnct_search=_filtro_conoscenza_visibility_search,
                                                         type='boolean', string='Visibile'),
-        'filtro_in_attesa_visibility': fields.function(_filtro_in_attesa_visibility,
-                                                       fnct_search=_filtro_in_attesa_visibility_search, type='boolean',
-                                                       string='Visibile'),
-        'filtro_rifiutato_visibility': fields.function(_filtro_rifiutato_visibility,
-                                                       fnct_search=_filtro_rifiutato_visibility_search, type='boolean',
-                                                       string='Visibile'),
-        'filtro_preso_in_carico_visibility': fields.function(_filtro_preso_in_carico_visibility,
-                                                             fnct_search=_filtro_preso_in_carico_visibility_search,
-                                                             type='boolean', string='Visibile'),
+        # 'filtro_in_attesa_visibility': fields.function(_filtro_in_attesa_visibility,
+        #                                                fnct_search=_filtro_in_attesa_visibility_search, type='boolean',
+        #                                                string='Visibile'),
+        # 'filtro_rifiutato_visibility': fields.function(_filtro_rifiutato_visibility,
+        #                                                fnct_search=_filtro_rifiutato_visibility_search, type='boolean',
+        #                                                string='Visibile'),
+        # 'filtro_preso_in_carico_visibility': fields.function(_filtro_preso_in_carico_visibility,
+        #                                                      fnct_search=_filtro_preso_in_carico_visibility_search,
+        #                                                      type='boolean', string='Visibile'),
 
         # Visibilità dei button sui protocolli
         'registra_visibility': fields.function(_registra_visibility, type='boolean', string='Registra'),
@@ -1908,3 +1908,43 @@ class protocollo_protocollo(osv.Model):
             USING btree
             (registration_employee_id);
             """)
+
+
+from openerp import api, fields, models
+
+class Protocollo(models.Model):
+    _inherit = 'protocollo.protocollo'
+
+    in_attesa = fields.Boolean(string='In Attesa', compute='_compute_in_attesa', store=True)
+    preso = fields.Boolean(string='Preso', compute='_compute_preso', store=True)
+    rifiutato = fields.Boolean(string='Rifiutato', compute='_compute_rifiutato', store=True)
+
+    @api.multi
+    @api.depends('assegnazione_competenza_ids.state')
+    def _compute_in_attesa(self):
+        for protocollo in self.with_context(skip_check=True):
+            protocollo.in_attesa = False
+            if protocollo.registration_employee_id:
+                for assegnazione_competenza in protocollo.assegnazione_competenza_ids:
+                    if assegnazione_competenza.state == 'assegnato':
+                        protocollo.in_attesa = True
+
+    @api.multi
+    @api.depends('assegnazione_competenza_ids.state')
+    def _compute_preso(self):
+        for protocollo in self.with_context(skip_check=True):
+            protocollo.preso = False
+            if protocollo.registration_employee_id:
+                for assegnazione_competenza in protocollo.assegnazione_competenza_ids:
+                    if assegnazione_competenza.state == 'preso':
+                        protocollo.preso = True
+
+    @api.multi
+    @api.depends('assegnazione_competenza_ids.state')
+    def _compute_rifiutato(self):
+        for protocollo in self.with_context(skip_check=True):
+            protocollo.rifiutato = False
+            if protocollo.registration_employee_id:
+                for assegnazione_competenza in protocollo.assegnazione_competenza_ids:
+                    if assegnazione_competenza.state == 'rifiutato':
+                        protocollo.rifiutato = True
