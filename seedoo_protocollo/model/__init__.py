@@ -12,6 +12,7 @@ from . import protocollo
 from . import protocollo_aoo
 from . import protocollo_messaggio_pec
 from . import protocollo_permissions
+from . import protocollo_permissions_new_api
 from . import res_config
 from . import res_partner
 from . import res_user
@@ -20,6 +21,7 @@ from . import tile_tile
 from . import ir_rule
 from . import ir_sequence
 from . import protocollo_assegnazione
+from . import protocollo_assegnazione_new_api
 from . import protocollo_profile
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

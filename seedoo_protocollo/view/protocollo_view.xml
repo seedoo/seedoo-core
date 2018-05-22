@@ -871,7 +871,7 @@ this module contains the full copyright notices and license terms. -->
                         <filter string="PEC" name="pec" domain="[('pec','=',True)]"/>
                         <filter string="Altro" name="pec" domain="[('pec','=',False), ('sharedmail','=',False)]"/>
                     </group>
-                    <group string="Stato">
+                    <group string="Protocolli">
                         <filter string="Registrati da me" name="registrato_da_me" domain="[('user_id','=',uid),('state','!=','draft')]"/>
                         <filter string="Annullati" name="annullati" domain="[('state','=','canceled')]"/>
                         <filter string="Non Classificati" name="non_classificato" domain="[('state','in',('registered','notified','sent','waiting','error')),('classification','=',False)]"/>
@@ -881,22 +881,22 @@ this module contains the full copyright notices and license terms. -->
                         <filter string="In attesa" name="waiting" domain="[('state','=','waiting')]"/>
                         <filter string="Errore" name="error" domain="[('state','=','error')]"/>
                     </group>
-                    <group string="Assegnati">
-                        <filter string="A me per competenza" name="filtro_a_me_competenza" domain="[('filtro_a_me_competenza_visibility', '=', True)]"/>
+                    <group string="Protocolli Assegnati">
+                        <filter string="A me per Competenza" name="filtro_a_me_competenza" domain="[('filtro_a_me_competenza_visibility', '=', True)]"/>
                         <filter string="A me per CC" name="filtro_a_me_conoscenza" domain="[('filtro_a_me_conoscenza_visibility', '=', True)]"/>
-                        <filter string="Al mio ufficio" name="filtro_a_mio_ufficio_visibility" domain="[('filtro_a_mio_ufficio_visibility', '=', True)]"/>
-                        <filter string="Al mio ufficio per CC" name="filtro_a_mio_ufficio_cc_visibility" domain="[('filtro_a_mio_ufficio_cc_visibility', '=', True)]"/>
+                        <filter string="Al mio Ufficio per Competenza" name="filtro_a_mio_ufficio_visibility" domain="[('filtro_a_mio_ufficio_visibility', '=', True)]"/>
+                        <filter string="Al mio Ufficio per CC" name="filtro_a_mio_ufficio_cc_visibility" domain="[('filtro_a_mio_ufficio_cc_visibility', '=', True)]"/>
                         <filter string="Da me" name="filtro_da_me" domain="[('filtro_da_me_visibility', '=', True)]"/>
                     </group>
-                    <group string="Assegnazioni Stato">
+                    <group string="Assegnazioni">
                         <!--
                         <filter string="In attesa" name="filtro_in_attesa" domain="[('filtro_in_attesa_visibility', '=', True)]"/>
                         <filter string="preso" name="filtro_preso_in_carico" domain="[('filtro_preso_in_carico_visibility', '=', True)]"/>
                         <filter string="rifiutato" name="filtro_rifiutato" domain="[('filtro_rifiutato_visibility', '=', True)]"/>
                         -->
-                        <filter string="In attesa" name="filtro_in_attesa" domain="[('in_attesa', '=', True)]"/>
-                        <filter string="Preso" name="filtro_preso_in_carico" domain="[('preso', '=', True)]"/>
-                        <filter string="Rifiutato" name="filtro_rifiutato" domain="[('rifiutato', '=', True)]"/>
+                        <filter string="In Attesa" name="filtro_in_attesa" domain="[('in_attesa', '=', True)]"/>
+                        <filter string="Prese in Carico" name="filtro_preso_in_carico" domain="[('preso', '=', True)]"/>
+                        <filter string="Rifiutate" name="filtro_rifiutato" domain="[('rifiutato', '=', True)]"/>
                     </group>
                 </search>
             </field>
