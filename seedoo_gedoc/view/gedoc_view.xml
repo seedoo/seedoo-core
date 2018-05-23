@@ -689,9 +689,10 @@ this module contains the full copyright notices and license terms. -->
             <field name="view_id" ref="gedoc_document_search_form"/>
         </record>
 
+        <!--
         <menuitem action="gedoc_document_search_action"
                   parent="gedoc_document_menu" id="gedoc_search_document_menu"
                   groups="group_gedoc_user" sequence="40"/>
-
+        -->
     </data>
 </openerp>

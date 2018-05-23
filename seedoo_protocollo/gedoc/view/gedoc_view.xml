@@ -131,7 +131,7 @@
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="view_documento_protocollato_tree"/>
             <field name="search_view_id" ref="documento_protocollato_search"/>
-            <field name="domain">[('protocol_state','!=', 'draft'),('is_visible','=', True)]</field>
+            <field name="domain">[('protocol_state','!=', 'draft')]</field>
             <field name="context">{
               'needaction_menu_ref': ['documento.protocollato']
             }</field>

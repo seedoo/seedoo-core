@@ -8,7 +8,7 @@ class IrRule(models.Model):
     _inherit = 'ir.rule'
 
     def domain_get(self, cr, uid, model_name, mode='read', context=None):
-        if model_name == 'protocollo.protocollo':
+        if model_name in ['protocollo.protocollo', 'documento.protocollato']:
             dom = self._compute_domain(cr, uid, model_name, mode)
             if dom:
                 new_context = dict(context or {})

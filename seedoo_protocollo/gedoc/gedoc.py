@@ -2,8 +2,9 @@
 # This file is part of Seedoo.  The COPYRIGHT file at the top level of
 # this module contains the full copyright notices and license terms.
 
-from openerp.osv import fields, osv
 from openerp import tools
+from openerp import SUPERUSER_ID
+from openerp.osv import fields, osv
 
 class protocollo_classification(osv.Model):
     _inherit = 'protocollo.classification'
@@ -162,7 +163,7 @@ class documento_protocollato(osv.osv):
         'doc_file_type': fields.char('Tipo di file', readonly=True),
         'protocol_state': fields.char('Stato Protocollo', readonly=True),
         'protocol_state_related': fields.related('protocol_id', 'state', type='char', string='Stato Protocollo Related', readonly=True),
-        'is_visible': fields.related('protocol_id', 'is_visible', type='boolean', string='Visibile', readonly=True),
+        #'is_visible': fields.related('protocol_id', 'is_visible', type='boolean', string='Visibile', readonly=True),
     }
 
     def init(self, cr):
@@ -195,3 +196,8 @@ class documento_protocollato(osv.osv):
               )
               
         """)
+
+    def search(self, cr, uid, args, offset=0, limit=None, order=None, context=None, count=False):
+        if context and context.has_key('skip_check') and context['skip_check']:
+            return super(documento_protocollato, self).search(cr, SUPERUSER_ID, args, offset=offset, limit=limit, order=order, context=context, count=count)
+        return super(documento_protocollato, self).search(cr, uid, args, offset=offset, limit=limit, order=order, context=context, count=count)

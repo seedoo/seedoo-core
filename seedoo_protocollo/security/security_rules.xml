@@ -7,21 +7,6 @@ this module contains the full copyright notices and license terms. -->
         <record id="protocol_access_rule" model="ir.rule">
             <field name="name">Regola Accesso Protocolli</field>
             <field ref="model_protocollo_protocollo" name="model_id"/>
-            <!--
-            <field name="domain_force">[
-                '|', '|', '|', '|', '|', '|',
-                ('user_id', '=', user.id),
-                ('aoo_id.manager_employee_id.user_id.id', '=', user.id),
-                ('assegnatari_competenza_dipendenti_ids.dipendente_id.user_id.id', '=', user.id),
-                ('assegnatari_competenza_uffici_ids.assegnatari_dipendenti_ids.dipendente_id.user_id.id', '=', user.id),
-                ('assegnatari_conoscenza_dipendenti_ids.dipendente_id.user_id.id', '=', user.id),
-                ('assegnatari_conoscenza_uffici_ids.assegnatari_dipendenti_ids.dipendente_id.user_id.id', '=', user.id),
-                '&amp;',
-                ('reserved', '=', True),
-                ('aoo_id.reserved_employee_id.user_id.id', '=', user.id),
-            ]
-            </field>
-            -->
             <field name="domain_force">[('is_visible', '=', True)]</field>
             <field name="groups" eval="[(4, ref('seedoo_protocollo.group_protocollo_user'))]"/>
             <field name="perm_read" eval="True"/>
@@ -34,6 +19,17 @@ this module contains the full copyright notices and license terms. -->
             <field name="name">Regola Accesso Dipendenti in Base alla AOO</field>
             <field ref="hr.model_hr_employee" name="model_id"/>
             <field name="domain_force">[('department_id.aoo_id', 'in', [e.department_id.aoo_id.id for e in user.employee_ids])]</field>
+            <field name="groups" eval="[(4, ref('seedoo_protocollo.group_protocollo_user'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <record id="documento_protocollato_access_rule" model="ir.rule">
+            <field name="name">Regola Accesso Documenti Protocollati</field>
+            <field ref="model_documento_protocollato" name="model_id"/>
+            <field name="domain_force">[('protocol_id.is_visible', '=', True)]</field>
             <field name="groups" eval="[(4, ref('seedoo_protocollo.group_protocollo_user'))]"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_write" eval="False"/>
