@@ -21,7 +21,7 @@ this module contains the full copyright notices and license terms. -->
 
         <menuitem name="Configurazione" parent="menu_root_protocollo"
                   id="protocollo_configuration" sequence="100"
-                  groups="group_vedi_configurazione_protocollo"/>
+                  groups="group_protocollo_user"/>
 
         <!--<menuitem action="protocollo_protocollo_in_act"-->
                   <!--parent="protocollo_doc_in"-->
@@ -137,28 +137,63 @@ this module contains the full copyright notices and license terms. -->
         <!-- Configurazione-->
         <menuitem name="AOO" id="protocollo_aoo_menu"
                   action="protocollo_aoo_action"
-                  parent="protocollo_configuration" sequence="1"/>
+                  groups="group_configurazione_aoo"
+                  parent="protocollo_configuration"
+                  sequence="1"/>
 
-        <menuitem name="Titolario" action="protocollo_classification_def_act"
+        <menuitem name="Mezzi di Trasmissione"
+                  action="protocollo_typology_act"
+                  id="protocollo_typology_menu"
+                  groups="group_configurazione_mezzi_trasmissione"
+                  parent="protocollo_configuration" sequence="2"/>
+
+        <menuitem name="Titolario"
+                  action="protocollo_classification_def_act"
                   parent="protocollo_configuration"
                   id="protocollo_configuration_classification_menu"
-                  sequence="2"/>
+                  groups="group_configurazione_titolario"
+                  sequence="3"/>
 
         <menuitem name="Uffici" action="action_configuration_department"
                   parent="protocollo_configuration"
                   id="protocollo_configuration_department"
-                  sequence="3"/>
+                  groups="group_configurazione_uffici"
+                  sequence="4"/>
 
         <menuitem name="Dipendenti" action="action_configuration_employee"
                   parent="protocollo_configuration"
                   id="protocollo_configuration_employee"
-                  sequence="4"/>
+                  groups="group_configurazione_dipendenti"
+                  sequence="5"/>
 
         <menuitem name="Parametri Generali" action="protocollo_config_settings_act"
                   parent="protocollo_configuration"
                   id="protocollo_configuration_menu"
                   groups="group_configurazione_parametri"
-                  sequence="5"/>
+                  sequence="6"/>
+
+        <menuitem name="Email/PEC"
+                  parent="protocollo_configuration"
+                  id="protocollo_configuration_email_pec"
+                  sequence="6"/>
+
+        <menuitem name="Server in Ingresso" action="fetchmail.action_email_server_tree"
+                  parent="protocollo_configuration_email_pec"
+                  id="protocollo_configuration_fetchmail_server"
+                  groups="group_configurazione_email_pec"
+                  sequence="1"/>
+
+        <menuitem name="Server in Uscita" action="base.action_ir_mail_server_list"
+                  parent="protocollo_configuration_email_pec"
+                  id="protocollo_configuration_mail_server"
+                  groups="group_configurazione_email_pec"
+                  sequence="2"/>
+
+        <menuitem name="Alias" action="mail.action_view_mail_alias"
+                  parent="protocollo_configuration_email_pec"
+                  id="protocollo_configuration_alias"
+                  groups="group_configurazione_email_pec"
+                  sequence="3"/>
 
     </data>
 </openerp>

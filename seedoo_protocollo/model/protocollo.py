@@ -48,7 +48,14 @@ class protocollo_typology(orm.Model):
         'display_order': fields.integer('Ordine visualizzazione')
     }
 
+    def _get_default_aoo_id(self, cr, uid, context=None):
+        aoo_ids = self.pool.get('protocollo.aoo').search(cr, uid, [], context=context)
+        if len(aoo_ids) > 0:
+            return aoo_ids[0]
+        return False
+
     _defaults = {
+        'aoo_id': _get_default_aoo_id,
         'display_order': 100
     }
 

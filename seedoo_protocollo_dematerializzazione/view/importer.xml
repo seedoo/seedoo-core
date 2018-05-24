@@ -25,21 +25,9 @@ this module contains the full copyright notices and license terms. -->
                         <field name="description" colspan="4"/>
                         <field name="tipologia_importazione"
                                on_change="on_change_tipologia_importazione(tipologia_importazione)" colspan="4"/>
-                        <!--
                         <field name="aoo_id"
                                options="{'no_quick_create': True, 'no_create_edit' : True}"
                                on_change="on_change_aoo_id(aoo_id)" colspan="4"/>
-                        <field name="tipologia_protocollo" colspan="4" select="1" widget="selection"
-                               domain="[('aoo_id','=',aoo_id)]"
-                               attrs="{'invisible':['|','|',('tipologia_importazione', '=', 'aggancio'),('tipologia_importazione', '=', False),('aoo_id', '=', False)],
-                               'required':[('tipologia_importazione', '=', 'creazione')]}"/>
-                        <field name="employee_id" colspan="4"
-                               domain="[('department_id.aoo_id','=',aoo_id)]"
-                               options="{'no_quick_create': True, 'no_create_edit' : True}"
-                               attrs="{'invisible':['|','|',('tipologia_importazione', '=', 'aggancio'),('tipologia_importazione', '=', False),('aoo_id', '=', False)],
-                               'required':[('tipologia_importazione', '=', 'creazione')]}"/>
-                       -->
-                        <field name="aoo_id" invisible="1"/>
                         <newline/>
                         <field name="tipologia_protocollo" colspan="4" select="1" widget="selection"
                                domain="[('aoo_id','=',aoo_id)]"
@@ -94,6 +82,14 @@ this module contains the full copyright notices and license terms. -->
                     <field name="import_attivo"/>
                 </tree>
             </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="dematerializzazione_importer_action">
+            <field name="name">Importer</field>
+            <field name="res_model">dematerializzazione.importer</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="dematerializzazione_importer_tree"/>
         </record>
 
     </data>

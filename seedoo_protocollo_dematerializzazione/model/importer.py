@@ -66,10 +66,13 @@ class dematerializzazione_importer(orm.Model):
         'test_connessione': fields.char('Verify connection', readonly=True),
         'locking_user_id': fields.many2one('res.users', 'Utente importazione in corso')
     }
+    _rec_name = 'title'
 
     def _get_default_aoo_id(self, cr, uid, context=None):
-        if context and context.has_key('aoo_id') and context['aoo_id']:
-            return context['aoo_id']
+        aoo_ids = self.pool.get('protocollo.aoo').search(cr, uid, [], context=context)
+        if len(aoo_ids) > 0:
+            return aoo_ids[0]
+        return False
 
     _defaults = {
         'import_attivo': False,
@@ -329,7 +332,12 @@ class dematerializzazione_importer(orm.Model):
         # configurazione_ids = self.pool.get('dematerializzazione.configurazione').search(cr, uid, [])
         # configurazione = self.pool.get('dematerializzazione.configurazione').browse(cr, uid, configurazione_ids[0])
 
-        importer_ids = importer_obj.search(cr, uid, [])
+        employee_obj = self.pool.get('hr.employee')
+        employee_ids = employee_obj.search(cr, uid, [('user_id', '=', uid)])
+        importer_ids = importer_obj.search(cr, uid, [
+            ('import_attivo', '=', 'True'),
+            ('employee_ids', 'in', employee_ids)
+        ])
         importers = importer_obj.browse(cr, uid, importer_ids)
 
         for importer in importers:
@@ -457,12 +465,12 @@ class dematerializzazione_importer(orm.Model):
 
 
     def lock_importer(self, cr, uid, ids):
-        importer = self.write(cr, uid, ids, {'locking_user_id': uid})
+        importer = self.write(cr, SUPERUSER_ID, ids, {'locking_user_id': uid})
         cr.commit()
         return True
 
     def unlock_importer(self, cr, uid, ids):
-        importer = self.write(cr, uid, ids, {'locking_user_id': False})
+        importer = self.write(cr, SUPERUSER_ID, ids, {'locking_user_id': False})
         cr.commit()
         return True
 

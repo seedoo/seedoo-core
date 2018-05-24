@@ -21,6 +21,7 @@ this module contains the full copyright notices and license terms. -->
             </field>
         </record>
 
+        <!--
         <record model='ir.ui.view' id='protocollo_aoo_importer_form'>
             <field name="name">protocollo.aoo.form</field>
             <field name="model">protocollo.aoo</field>
@@ -35,7 +36,7 @@ this module contains the full copyright notices and license terms. -->
                 </xpath>
             </field>
         </record>
-
+        -->
 
     </data>
 </openerp>

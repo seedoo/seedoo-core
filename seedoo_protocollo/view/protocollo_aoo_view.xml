@@ -20,60 +20,20 @@
                             <field name="reserved_employee_id" domain="[('department_id.aoo_id', '=', id)]"/>
                             <field name="registry_id"/>
                             <newline/>
+                            <field name="email"/>
+                            <field name="phone"/>
+                            <field name="website"/>
+                            <newline/>
+                            <field name="street"/>
+                            <field name="zip"/>
+                            <field name="city"/>
+                            <field name="country_id"/>
 
+                            <!--
                             <notebook attrs="{'invisible':[('id','=',False)]}" colspan="4">
-                                <!--<page string="Uffici" class="uffici">-->
-                                    <!--<group col="4">-->
-                                        <!--<field name="department_ids" colspan="4" nolabel="1" context="{'aoo_id': id}">-->
-                                            <!--<tree>-->
-                                                <!--<field name="name"/>-->
-                                                <!--<field name="manager_id"/>-->
-                                                <!--<field name="parent_id"/>-->
-                                                <!--<field name="assignable"/>-->
-                                            <!--</tree>-->
-                                            <!--<form>-->
-                                                <!--<group col="4">-->
-                                                    <!--<field name="name" required="1"/>-->
-                                                    <!--<field name="manager_id" domain="[('department_id.aoo_id', '=', context.get('aoo_id', False))]" required="1"/>-->
-                                                    <!--<field name="parent_id" domain="[('aoo_id', '=', context.get('aoo_id', False))]"/>-->
-                                                    <!--<field name="assignable"/>-->
-                                                <!--</group>-->
-                                            <!--</form>-->
-                                        <!--</field>-->
-                                    <!--</group>-->
-                                <!--</page>-->
                                 <page string="Mezzi di Trasmissione" class="mezzi">
                                     <group col="4">
                                         <field name="typology_ids" colspan="4" nolabel="1" />
-                                    </group>
-                                </page>
-                                <page string="Titolari" class="titolari">
-                                    <group col="4">
-                                        <field name="classification_ids"
-                                               context="{'aoo_id':context.get('active_id', False)}"
-                                               colspan="4" nolabel="1">
-                                            <form string="Titolario" version="7.0">
-                                                <sheet>
-                                                    <group col="4">
-                                                        <field name="class_type"/>
-                                                        <field name="aoo_id" invisible="1"/>
-                                                        <newline/>
-                                                        <field name="name"/>
-                                                        <field name="code"/>
-                                                        <field name="complete_name"/>
-                                                        <field name="parent_id" domain="[('aoo_id','=',aoo_id)]"
-                                                            options="{'no_quick_create': True, 'no_create_edit' : True}"/>
-                                                        <field name="description" colspan="4"/>
-                                                    </group>
-                                                    <notebook>
-                                                        <page string="Fascicoli" class="fascicoli_titolario_aoo">
-                                                            <field name="dossier_ids" domain="[('aoo_id','=',aoo_id)]"
-                                                                   nolabel="1" readonly="1" colspan="4"/>
-                                                        </page>
-                                                    </notebook>
-                                                </sheet>
-                                            </form>
-                                        </field>
                                     </group>
                                 </page>
                                 <page string="Fascicolari" class="fascicolari">
@@ -196,6 +156,7 @@
                                     </group>
                                 </page>
                             </notebook>
+                            -->
                         </group>
                     </sheet>
                 </form>

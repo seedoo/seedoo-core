@@ -120,5 +120,12 @@ this module contains the full copyright notices and license terms. -->
             <field name="state">enabled</field>
         </record>
 
+        <record id="seedoo_protocollo.group_protocollo_sysadmin" model="protocollo.profile">
+            <field name="groups_id" eval="[
+                    (4, ref('group_configurazione_dematerializzazione')),
+                    (4, ref('group_configurazione_importer'))
+                ]"/>
+        </record>
+
     </data>
 </openerp>

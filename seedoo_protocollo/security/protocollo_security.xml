@@ -296,12 +296,6 @@ this module contains the full copyright notices and license terms. -->
         </record>
 
         <!-- Permesso di modifica AOO -->
-        <record id="group_vedi_configurazione_protocollo" model="res.groups">
-            <field name="name">Vedi Menu Configurazione</field>
-            <field name="category_id" ref="module_category_protocollo"/>
-            <field name="users" eval="[(4, ref('base.user_root'))]"/>
-        </record>
-
         <record id="group_configurazione_registro" model="res.groups">
             <field name="name">Configura Registro</field>
             <field name="category_id" ref="module_category_protocollo"/>
@@ -310,6 +304,18 @@ this module contains the full copyright notices and license terms. -->
 
         <record id="group_configurazione_aoo" model="res.groups">
             <field name="name">Configura AOO</field>
+            <field name="category_id" ref="module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+
+        <record id="group_configurazione_mezzi_trasmissione" model="res.groups">
+            <field name="name">Configura Mezzi di Trasmissione</field>
+            <field name="category_id" ref="module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+
+        <record id="group_configurazione_titolario" model="res.groups">
+            <field name="name">Configura Titolario</field>
             <field name="category_id" ref="module_category_protocollo"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
@@ -328,6 +334,12 @@ this module contains the full copyright notices and license terms. -->
 
         <record id="group_configurazione_parametri" model="res.groups">
             <field name="name">Vedi e Configura Parametri Generali</field>
+            <field name="category_id" ref="module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+
+        <record id="group_configurazione_email_pec" model="res.groups">
+            <field name="name">Configura Email/PEC</field>
             <field name="category_id" ref="module_category_protocollo"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
