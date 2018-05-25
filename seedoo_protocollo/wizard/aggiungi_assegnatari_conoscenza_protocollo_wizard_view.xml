@@ -11,7 +11,7 @@
                         <group>
                             <field name="assegnatario_conoscenza_ids"
                                    widget="m2m_tree"
-                                   options="{'limit': 5000, 'create': false, 'create_edit': false, 'label': 'nome', 'all_checkable': true, 'css_class': 'tipologia', 'order': '-tipologia,nome'}"
+                                   options="{'limit': 5000, 'label': 'nome', 'all_checkable': true, 'field_no_checkbox': 'no_checkbox', 'css_class': 'tipologia', 'order': '-tipologia,nome'}"
                             />
                             <field name="motivation" required="1"/>
                         </group>

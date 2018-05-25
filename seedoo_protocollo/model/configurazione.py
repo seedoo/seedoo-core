@@ -38,6 +38,8 @@ class protocollo_configurazione(orm.Model):
         'non_fascicolati_active': fields.boolean('Visualizza Box "Non Fascicolati" nella Dashboard'),
 
         'sostituisci_assegnatari': fields.boolean('Sostituisci Assegnatari Default in Modifica Classificazione'),
+
+        'assegnazione': fields.selection([('all', 'Uffici e Utenti'), ('department', 'Solo Uffici')], 'Assegnazione')
     }
 
     _defaults = {
@@ -59,7 +61,8 @@ class protocollo_configurazione(orm.Model):
         'email_pec_unique': True,
         'non_classificati_active': True,
         'non_fascicolati_active': True,
-        'sostituisci_assegnatari': True
+        'sostituisci_assegnatari': True,
+        'assegnazione': 'all'
     }
 
     def verifica_campi_obbligatori(self, cr, uid, protocollo):

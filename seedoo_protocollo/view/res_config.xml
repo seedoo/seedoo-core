@@ -24,6 +24,7 @@ this module contains the full copyright notices and license terms. -->
                         <newline/>
                         <field name="sostituisci_assegnatari"/>
                         <newline/>
+                        <field name="assegnazione" widget="radio"/>
                     </group>
                     <group string="Campi obbligatori per Registrazione Protocollo">
                         <field name="classificazione_required"/>

@@ -130,6 +130,9 @@
             	pid = self.options.parent_field;
             }
         	modelFields.push(pid);
+            if (self.options.field_no_checkbox) {
+            	modelFields.push(self.options.field_no_checkbox);
+            }
             var zNodes = new instance.web.Model(self.field.relation).query(modelFields)
 	            .filter(this.get("domain"))
 	            .limit(self.options.limit)
@@ -141,12 +144,17 @@
 	            	    if (css_class) {
                             iconSkin =  'class_' + res[r][css_class];
                         }
+                        var nocheck = false;
+	            	    if (self.options.field_no_checkbox && res[r][self.options.field_no_checkbox]) {
+                            nocheck = true;
+                        }
 	            		zNodes.push(
                             {
                                 id: res[r]['id'],
                                 pId: res[r][pid] && res[r][pid][0] || false,
                                 name: res[r][label],
                                 doCheck: true,
+                                nocheck: nocheck,
                                 checked: self.get("value") == res[r]['id'] && true || false,
                                 open: false,
                                 iconSkin: iconSkin

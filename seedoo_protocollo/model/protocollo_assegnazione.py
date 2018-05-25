@@ -18,6 +18,26 @@ class protocollo_assegnatario(osv.osv):
         res = self.name_get(cr, uid, ids, context=context)
         return dict(res)
 
+    def _no_checkbox_get_fnc(self, cr, uid, ids, prop, unknow_none, context=None):
+        if context is None:
+            context = {}
+        if not ids:
+            return []
+        if isinstance(ids, (int, long)):
+            ids = [ids]
+
+        configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
+        configurazione = self.pool.get('protocollo.configurazione').browse(cr, uid, configurazione_ids[0])
+
+        reads = self.read(cr, uid, ids, ['tipologia'], context=context)
+        res = []
+        for record in reads:
+            no_checkbox = False
+            if configurazione.assegnazione=='department' and record['tipologia']=='employee':
+                no_checkbox = True
+            res.append((record['id'], no_checkbox))
+        return res
+
     _columns = {
         'name': fields.function(_dept_name_get_fnc, type='char', string='Name'),
         'nome': fields.char('Nome', size=512, readonly=True),
@@ -26,6 +46,7 @@ class protocollo_assegnatario(osv.osv):
         'department_id': fields.many2one('hr.department', 'Dipartimento', readonly=True),
         'parent_id': fields.many2one('protocollo.assegnatario', 'Ufficio di Appartenenza', readonly=True),
         'child_ids': fields.one2many('protocollo.assegnatario', 'parent_id', 'Figli'),
+        'no_checkbox': fields.function(_no_checkbox_get_fnc, type='boolean', string='No Checkbox'),
     }
 
     def name_get(self, cr, uid, ids, context=None):
@@ -56,8 +77,8 @@ class protocollo_assegnatario(osv.osv):
                   e.id AS employee_id,
                   NULL AS department_id,
                   %s + e.department_id AS parent_id
-                FROM hr_employee e
-                WHERE e.id != %s
+                FROM hr_employee e, hr_department d
+                WHERE e.department_id=d.id AND d.assignable=TRUE AND e.id!=%s
               )
               UNION
               (

@@ -11,7 +11,7 @@
                         <group>
                             <field name="assegnatario_competenza_id"
                                    widget="m2o_tree"
-                                   options="{'limit': 5000, 'create': false, 'create_edit': false, 'label': 'nome', 'all_checkable': true, 'css_class': 'tipologia', 'order': '-tipologia,nome'}"
+                                   options="{'limit': 5000, 'label': 'nome', 'all_checkable': true, 'field_no_checkbox': 'no_checkbox', 'css_class': 'tipologia', 'order': '-tipologia,nome'}"
                                    on_change="on_change_assegnatario_competenza_id(assegnatario_competenza_id)"
                             />
                             <field name="motivation" required="1"/>

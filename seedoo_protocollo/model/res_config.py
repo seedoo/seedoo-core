@@ -66,6 +66,8 @@ class protocollo_config_settings(osv.osv_memory):
 
         'sostituisci_assegnatari': fields.related('config_id', 'sostituisci_assegnatari', type='boolean',
                                                  string='Sostituisci Assegnatari Default in Modifica Classificazione'),
+
+        'assegnazione': fields.related('config_id', 'assegnazione', type='selection', selection=[('all', 'Uffici e Utenti'), ('department', 'Solo Uffici')], string='Assegnazione')
     }
 
     def _default_config_id(self, cr, uid, context):
