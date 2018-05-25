@@ -13,7 +13,7 @@
                                 <separator string="Assegnatario per Competenza"/>
                                 <field name="assegnatario_competenza_id"
                                        widget="m2o_tree"
-                                       options="{'limit': 5000, 'create': false, 'create_edit': false, 'label': 'nome', 'all_checkable': true, 'css_class': 'tipologia'}"
+                                       options="{'limit': 5000, 'create': false, 'create_edit': false, 'label': 'nome', 'all_checkable': true, 'css_class': 'tipologia', 'order': '-tipologia,nome'}"
                                        domain="[('tipologia', '!=', tipologia_assegnatario)]"
                                        nolabel="1"
                                 />
@@ -22,7 +22,7 @@
                                 <separator string="Assegnatari per Conoscenza"/>
                                 <field name="assegnatario_conoscenza_ids"
                                        widget="m2m_tree"
-                                       options="{'limit': 5000, 'create': false, 'create_edit': false, 'label': 'nome', 'all_checkable': true, 'css_class': 'tipologia' }"
+                                       options="{'limit': 5000, 'create': false, 'create_edit': false, 'label': 'nome', 'all_checkable': true, 'css_class': 'tipologia', 'order': '-tipologia,nome'}"
                                        attrs="{'invisible':[('reserved','=',True)]}"
                                        nolabel="1"
                                 />

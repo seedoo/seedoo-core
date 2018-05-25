@@ -107,23 +107,24 @@
 
             var dataset = new instance.web.DataSet(this, this.field.relation, self.build_context());
             var fields = _.keys(self.fields);
-            var label = 'name';
-            var order = 'name';
+            var label = '';
+            var order = '';
             var css_class = false;
             if (self.options.label) {
             	label = self.options.label;
+            } else {
+                label = 'name';
             }
             if (self.options.css_class) {
             	css_class = self.options.css_class;
             }
             if (self.options.order) {
-            	order = self.options.order;
-            }
-            else {
+            	order = self.options.order.split(',');
+            } else {
                 order = label;
             }
 
-            var modelFields = ['id', 'name', label, css_class];
+            var modelFields = ['id', label, css_class];
             var pid = 'parent_id';
             if (self.options.parent_field) {
             	pid = self.options.parent_field;
@@ -141,17 +142,18 @@
                             iconSkin =  'class_' + res[r][css_class];
                         }
 	            		zNodes.push(
-	            				{
-	            					id: res[r]['id'],
-	            					pId: res[r][pid] && res[r][pid][0] || false,
-	            					name: res[r][label],
-	            					doCheck: true,
-	            					checked: self.get("value") == res[r]['id'] && true || false,
-	            					open: false,
-                                    iconSkin: iconSkin
-	            				}
+                            {
+                                id: res[r]['id'],
+                                pId: res[r][pid] && res[r][pid][0] || false,
+                                name: res[r][label],
+                                doCheck: true,
+                                checked: self.get("value") == res[r]['id'] && true || false,
+                                open: false,
+                                iconSkin: iconSkin
+                            }
 	            		);
 	            	}
+
 	                var setting = {
 	            			view: {
 	            				selectedMulti: false
