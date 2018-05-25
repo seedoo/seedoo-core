@@ -3,7 +3,8 @@
 # this module contains the full copyright notices and license terms.
 
 from openerp import SUPERUSER_ID
-from openerp.osv import orm,  fields
+from openerp.osv import orm, fields
+from openerp.tools.safe_eval import safe_eval
 from openerp.tools.translate import _
 
 
@@ -90,7 +91,11 @@ class hr_employee(orm.Model):
     }
 
     def create(self, cr, uid, vals, context=None):
-        employee_id = super(hr_employee, self).create(cr, uid, vals, context=context)
+        new_context = dict(context or {})
+        icp = self.pool.get('ir.config_parameter')
+        if safe_eval(icp.get_param(cr, uid, 'auth_signup.disable_email_create_employee', 'False')):
+            new_context['mail_notify_noemail'] = True
+        employee_id = super(hr_employee, self).create(cr, uid, vals, context=new_context)
 
         if vals and vals.has_key('profile_id') and vals['profile_id']:
 

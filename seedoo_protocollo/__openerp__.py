@@ -27,7 +27,8 @@
         "m2m_tree_widget",
         "web_pdf_widget",
         "web_dashboard_tile",
-        "web_dashboard_tile_mode"
+        "web_dashboard_tile_mode",
+        "password_security"
     ],
     "data": [
         "data/protocollo_company.xml",

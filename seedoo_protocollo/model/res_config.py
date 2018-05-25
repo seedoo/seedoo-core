@@ -19,8 +19,9 @@
 #
 ##############################################################################
 
-from openerp.osv import fields, osv
 from openerp import SUPERUSER_ID
+from openerp.osv import fields, osv
+from openerp.tools.safe_eval import safe_eval
 
 class protocollo_config_settings(osv.osv_memory):
     _name = 'protocollo.config.settings'
@@ -96,5 +97,30 @@ class protocollo_config_settings(osv.osv_memory):
         config_id = super(protocollo_config_settings, self).create(cr, SUPERUSER_ID, vals, context=context)
         self.write(cr, SUPERUSER_ID, config_id, vals, context=context)
         return config_id
+
+
+
+class base_config_settings(osv.TransientModel):
+    _inherit = 'base.config.settings'
+
+    _columns = {
+        'auth_signup_disable_email_create_user': fields.boolean('Disabilita l\'invio email alla creazione dell\'utente'),
+        'auth_signup_disable_email_create_employee': fields.boolean('Disabilita l\'invio email alla creazione del dipendente')
+    }
+
+    def get_default_auth_signup_settings(self, cr, uid, fields, context=None):
+        default_values = {}
+        icp = self.pool.get('ir.config_parameter')
+        # we use safe_eval on the result, since the value of the parameter is a nonempty string
+        default_values['auth_signup_disable_email_create_user'] = safe_eval(icp.get_param(cr, uid, 'auth_signup.disable_email_create_user', 'False'))
+        default_values['auth_signup_disable_email_create_employee'] = safe_eval(icp.get_param(cr, uid, 'auth_signup.disable_email_create_employee', 'False'))
+        return default_values
+
+    def set_auth_signup_settings(self, cr, uid, ids, context=None):
+        config = self.browse(cr, uid, ids[0], context=context)
+        icp = self.pool.get('ir.config_parameter')
+        # we store the repr of the values, since the value of the parameter is a required string
+        icp.set_param(cr, uid, 'auth_signup.disable_email_create_user', repr(config.auth_signup_disable_email_create_user))
+        icp.set_param(cr, uid, 'auth_signup.disable_email_create_employee', repr(config.auth_signup_disable_email_create_employee))
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
