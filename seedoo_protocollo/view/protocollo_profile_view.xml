@@ -10,11 +10,10 @@
                     <sheet>
                         <group col="4">
                             <field name="name"/>
-                            <field name="state"/>
+                            <field name="state" invisible="1"/>
                         </group>
                         <group>
-                            <field name="category_id"/>
-                            <field name="groups_id" domain="[('category_id','=',category_id)]"/>
+                            <field name="groups_id" domain="['|',('category_id.name','ilike', 'Seedoo'),('category_id.name','in', ['Shared Mail','PEC'])]" />
                         </group>
                     </sheet>
                 </form>
@@ -28,7 +27,6 @@
                 <tree string="Profili" >
                     <field name="name"/>
                     <field name="state"/>
-                    <field name="category_id"/>
                 </tree>
             </field>
         </record>
