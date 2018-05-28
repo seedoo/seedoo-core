@@ -19,7 +19,6 @@
     "data": [
         "data/configurazione.xml",
         "data/cron.xml",
-        "data/protocollo_tile.xml",
         "security/security.xml",
         "security/security_rules.xml",
         "security/ir.model.access.csv",
@@ -33,7 +32,8 @@
         "wizard/importa_documenti_wizard_view.xml",
         "wizard/crea_protocollo_da_documento_wizard_view.xml",
         "view/gedoc_document.xml",
-        "menu/menu.xml"
+        "menu/menu.xml",
+        "data/protocollo_tile.xml",
     ],
     "demo": [
         "demo/dematerializzazione_importer.xml",
