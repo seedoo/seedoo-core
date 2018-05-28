@@ -58,6 +58,7 @@ class protocollo_sender_receiver(orm.Model):
                 'fax': partner.fax,
                 'zip': partner.zip,
                 'save_partner': False,
+                'partner_id': False
             }
         else:
             values = {
@@ -77,6 +78,7 @@ class protocollo_sender_receiver(orm.Model):
                 'fax': False,
                 'zip': False,
                 'save_partner': False,
+                'partner_id': False
             }
         return {'value': values}
 
@@ -272,7 +274,7 @@ class protocollo_sender_receiver(orm.Model):
         'source':_get_default_source,
         'add_pec_receiver_visibility': _get_add_pec_receiver_visibility,
         'to_resend': False,
-        'sharedmail_numero_invii': 0
+        'sharedmail_numero_invii': 0,
     }
 
     def check_field_in_create(self, cr, uid, vals):
@@ -342,6 +344,7 @@ class protocollo_sender_receiver(orm.Model):
         if 'partner_id' in vals and vals['partner_id']:
             copy_vals = self.on_change_partner(cr, uid, [], vals['partner_id'])
             vals.update(copy_vals['value'])
+            vals['partner_id'] = False
         self.check_field_in_create(cr, uid, vals)
         sender_receiver = super(protocollo_sender_receiver, self).create(cr, uid, vals, context=context)
         sender_receiver_obj = self.browse(cr, uid, sender_receiver, {'skip_check': True})
