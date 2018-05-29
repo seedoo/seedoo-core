@@ -255,6 +255,7 @@ class protocollo_sender_receiver(orm.Model):
         'send_type': fields.many2one('protocollo.typology', 'Canale di Spedizione'),
         'send_date': fields.date('Data Spedizione'),
         'protocol_state': fields.related('protocollo_id', 'state', type='char', string='State', readonly=True),
+        'protocol_sharedmail': fields.related('protocollo_id', 'sharedmail', type='boolean', string='Tipo Sharedmail', readonly=True),
         'protocol_pec': fields.related('protocollo_id', 'pec', type='boolean', string='Tipo PEC', readonly=True),
         'protocol_type': fields.related('protocollo_id', 'type', type='char', string='Tipo Protocollo', readonly=True),
         'add_pec_receiver_visibility': fields.boolean('Button Visibility', readonly=True),

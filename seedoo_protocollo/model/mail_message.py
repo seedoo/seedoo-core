@@ -245,7 +245,7 @@ class MailMessage(orm.Model):
 
     def go_to_sharedmail_message_action(self, cr, uid, ids, context=None):
         model_data_obj = self.pool.get('ir.model.data')
-        view_rec = model_data_obj.get_object_reference(cr, uid, 'seedoo_protocollo', 'protocollo_pec_form')
+        view_rec = model_data_obj.get_object_reference(cr, uid, 'seedoo_protocollo', 'protocollo_sharedmail_form')
         view_id = view_rec and view_rec[1] or False
         return {
             'name': 'Message',

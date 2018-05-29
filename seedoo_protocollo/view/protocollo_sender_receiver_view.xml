@@ -84,6 +84,7 @@ this module contains the full copyright notices and license terms. -->
                                 <field name="send_type" invisible="1"/>
                                 <field name="protocol_state" invisible="1"/>
                                 <field name="protocol_pec" string="PEC" invisible="1"/>
+                                <field name="protocol_sharedmail" string="Sharedmail" invisible="1"/>
                             </group>
 
                             <newline/>
@@ -92,7 +93,7 @@ this module contains the full copyright notices and license terms. -->
                             </group>
 
                             <newline/>
-                            <group string="Info Sharedmail" col="4" attrs="{'invisible':[('protocol_pec','=',True)]}" nolabel="1">
+                            <group string="Info E-mail" col="4" attrs="{'invisible':[('protocol_sharedmail','!=',True)]}" nolabel="1">
                                 <field name="sharedmail_messaggio_ids" widget="many2many_kanban" nolabel="1" class="container_messaggi_pec">
                                     <kanban quick_create="false" create="false">
                                         <field name="direction_sharedmail"/>
