@@ -8,9 +8,7 @@ from openerp import models
 class IrTranslation(models.Model):
     _inherit = 'ir.translation'
 
-    def _get_import_cursor(self, cr, uid, context=None):
-        """Allow translation updates."""
-        if context is None:
-            context = {}
-        context['overwrite'] = True
-        return super(IrTranslation, self)._get_import_cursor(cr, uid, context=context)
+    def delete_template_translations(self, cr, uid, domain, context=None):
+        data_ids = self.search(cr, uid, domain)
+        if data_ids:
+            self.unlink(cr, uid, data_ids)

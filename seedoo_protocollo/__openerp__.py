@@ -86,6 +86,7 @@
         "view/protocollo_profile_view.xml",
         "static/src/xml/upload_override.xml",
         "view/res_partner_view.xml",
+        "data/auth_signup_data.xml",
     ],
     "demo": [
         "demo/hr_delete.xml",

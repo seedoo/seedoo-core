@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data noupdate="1">
+
+        <!-- Email template for new users -->
+        <function model="ir.translation"
+                  name="delete_template_translations"
+                  eval="[('module', '=', 'auth_signup'), ('res_id', '=', ref('auth_signup.set_password_email'))],"
+        />
+        <function model="ir.model.data"
+                  name="update_vals"
+                  eval="[('module', '=', 'auth_signup'), ('name', '=', 'set_password_email')], {'noupdate': False}"
+        />
+        <record id="auth_signup.set_password_email" model="email.template">
+            <field name="subject"><![CDATA[${object.company_id.name} invitation to connect on Odoo]]></field>
+            <field name="body_html"><![CDATA[<div style="padding:0px;width:600px;margin:auto;background: #FFFFFF repeat top /100%;color:#777777">
+    <table cellspacing="0" cellpadding="0" style="width:600px;background:inherit;color:inherit">
+        <tbody><tr>
+            <td valign="center" width="200" style="padding:10px 10px 10px 5px;font-size: 12px">
+                <img src="/logo.png" style="padding: 0px; margin: 0px; height: auto; width: 80px;" alt="${user.company_id.name}">
+            </td>
+        </tr></tbody>
+    </table>
+</div>
+<div style="padding:0px;width:600px;margin:auto;background: #FFFFFF repeat top /100%;color:#777777">
+<p>Gentile ${object.name},</p>
+    <p> sei stato invitato a connetterti a "Seedoo", il sistema di Protocollo e Gestione Documentale. </p>
+    <p> Per accettare l'invito clicca sul link seguente: </p>
+    <div style="text-align: center; margin-top: 16px;">
+         <a href="${object.signup_url}" style="padding: 5px 10px; font-size: 12px; line-height: 18px; color: #FFFFFF; border-color:#875A7B; text-decoration: none; display: inline-block; margin-bottom: 0px; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none; background-color: #649940; border: 1px solid #649940; border-radius:3px" data-original-title="" title="" aria-describedby="tooltip853980">Accetta l'invito a "${object.company_id.name}"</a>
+    </div>
+    <p>${object.company_id.name}</p>
+</div>
+<div style="padding:0px;width:600px;margin:auto; margin-top: 10px; background: #fff repeat top /100%;color:#777777">
+</div>]]>
+            </field>
+        </record>
+        <function model="ir.model.data"
+                  name="update_vals"
+                  eval="[('module', '=', 'auth_signup'), ('name', '=', 'set_password_email')], {'noupdate': True}"
+        />
+
+
+
+        <!-- Email template for reset password -->
+        <function model="ir.translation"
+                  name="delete_template_translations"
+                  eval="[('module', '=', 'auth_signup'), ('res_id', '=', ref('auth_signup.reset_password_email'))],"
+        />
+        <function model="ir.model.data"
+                  name="update_vals"
+                  eval="[('module', '=', 'auth_signup'), ('name', '=', 'reset_password_email')], {'noupdate': False}"
+        />
+        <record id="auth_signup.reset_password_email" model="email.template">
+            <field name="body_html"><![CDATA[<div style="padding:0px;width:600px;margin:auto;background: #FFFFFF repeat top /100%;color:#777777">
+    <table cellspacing="0" cellpadding="0" style="width:600px;background:inherit;color:inherit">
+        <tbody><tr>
+            <td valign="center" width="200" style="padding:10px 10px 10px 5px;font-size: 12px">
+                <img src="/logo.png" style="padding: 0px; margin: 0px; height: auto; width: 80px;" alt="${user.company_id.name}">
+            </td>
+        </tr></tbody>
+    </table>
+</div>
+<div style="padding:0px;width:600px;margin:auto;background: #FFFFFF repeat top /100%;color:#777777">
+    <p>Gentile ${object.name},</p>
+    <p>E' stato richiesto un reset della password dall'account di Seedoo collegato a questo indirizzo email.</p>
+    <p>Puoi cambiare la password cliccando nel seguente link:</p>
+    <div style="text-align: center; margin-top: 16px;">
+        <a href="${object.signup_url}" style="padding: 5px 10px; font-size: 12px; line-height: 18px; color: #FFFFFF; border-color:#875A7B; text-decoration: none; display: inline-block; margin-bottom: 0px; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none; background-color: #649940; border: 1px solid #649940; border-radius:3px" data-original-title="" title="" aria-describedby="tooltip259527">Cambia password</a>
+    </div>
+    <p><br></p><p>Se questo messaggio è inaspettato, ignora questa mail.</p>
+    <p>${object.company_id.name}</p>
+</div>]]>
+            </field>
+        </record>
+        <function model="ir.model.data"
+                  name="update_vals"
+                  eval="[('module', '=', 'auth_signup'), ('name', '=', 'reset_password_email')], {'noupdate': True}"
+        />
+
+    </data>
+</openerp>
