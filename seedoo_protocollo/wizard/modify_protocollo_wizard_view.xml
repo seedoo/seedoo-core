@@ -7,14 +7,14 @@ this module contains the full copyright notices and license terms. -->
 
         <!-- wizard action on protocollo.protocollo -->
         <act_window id="protocollo_modify_action"
-                    name="Modifica Straordinaria Protocollo"
+                    name="Modifica Dati Documento"
                     res_model="protocollo.modify.wizard"
                     view_type="form" view_mode="form"
                     target="new"/>
 
         <!-- wizard view -->
         <record id="protocollo_modify_view1" model="ir.ui.view">
-            <field name="name">Modifica Straordinaria Protocollo</field>
+            <field name="name">Modifica Dati Documento</field>
             <field name="model">protocollo.modify.wizard</field>
             <field name="arch" type="xml">
                 <form string="Protocollo" version="7.0">
@@ -23,8 +23,6 @@ this module contains the full copyright notices and license terms. -->
                         <field name="registration_date" invisible="1"/>
                         <field name="type" invisible="1"/>
                         <field name="last_write_date" invisible="1"/>
-                        <separator string="Causa della modifica"/>
-                        <field name="cause" colspan="4"/>
                         <newline/>
                         <group col="4" string="Informazioni Generali">
                             <group col="2">
@@ -36,6 +34,8 @@ this module contains the full copyright notices and license terms. -->
                                 <field name="receiving_date"/>
                             </group>
                         </group>
+                        <separator string="Motivazione"/>
+                        <field name="cause" colspan="4"/>
                         <!--
                         <notebook>
                             <page string="Titolario">
