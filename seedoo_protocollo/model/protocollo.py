@@ -1495,11 +1495,10 @@ class protocollo_protocollo(orm.Model):
                 mail_message_obj.write(cr, uid, mail.mail_message_id.id, {'direction_sharedmail': 'out'})
                 for sender_receiver_id in sender_receivers_ids:
                     msgvals = {}
-                    sender_receiver_obj = self.pool.get('protocollo.sender_receiver').browse(cr, uid,
-                                                                                             sender_receiver_id,
-                                                                                             context=context)
+                    sender_receiver_obj = self.pool.get('protocollo.sender_receiver').browse(cr, uid, sender_receiver_id, context=context)
                     msgvals['to_resend'] = False
                     msgvals['sharedmail_numero_invii'] = int(sender_receiver_obj.sharedmail_numero_invii) + 1
+                    msgvals['sharedmail_messaggio_ids'] = [(4, mail.mail_message_id.id)]
                     sender_receiver_obj.write(msgvals)
 
         else:

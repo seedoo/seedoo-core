@@ -265,6 +265,7 @@ class protocollo_sender_receiver(orm.Model):
         'pec_consegna_status': fields.function(_get_consegna_status, type='boolean', string='Consegnata'),
         'pec_errore_consegna_status': fields.function(_get_errore_consegna_status, type='boolean', string='Errore Consegna'),
         'pec_numero_invii': fields.function(_get_pec_numero_invii, type='integer', string='PEC - Numero invii'),
+        'sharedmail_messaggio_ids': fields.many2many('mail.message', 'protocollo_sender_receiver_messaggio_sharedmail_rel', 'sender_receiver_id', 'mail_message_id', 'Messaggi Sharedmail'),
         'sharedmail_numero_invii': fields.integer('Sharedmail - Numero invii', readonly=True, required=False),
         'to_resend': fields.boolean("Da reinviare", help="Destinatario modificato, da reinviare")
     }
