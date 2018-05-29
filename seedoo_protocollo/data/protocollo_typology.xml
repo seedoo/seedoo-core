@@ -19,6 +19,12 @@
             <field name="display_order">20</field>
         </record>
 
+        <record id="protocollo_typology_email_esterna" model="protocollo.typology">
+            <field name="name">Email - Esterna al sistema</field>
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="display_order">15</field>
+        </record>
+
         <record id="protocollo_typology_espresso" model="protocollo.typology">
             <field name="name">Espresso</field>
             <field name="aoo_id" ref="protocollo_aoo_default"/>
@@ -69,6 +75,12 @@
             <field name="pec" eval="True"/>
             <field name="aoo_id" ref="protocollo_aoo_default"/>
             <field name="display_order">10</field>
+        </record>
+
+        <record id="protocollo_typology_pec_esterna" model="protocollo.typology">
+            <field name="name">PEC - Esterna al sistema</field>
+            <field name="aoo_id" ref="protocollo_aoo_default"/>
+            <field name="display_order">15</field>
         </record>
 
         <record id="protocollo_typology_posta_interna" model="protocollo.typology">
