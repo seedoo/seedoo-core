@@ -35,6 +35,11 @@ this module contains the full copyright notices and license terms. -->
                                 <newline/>
                                 <field name="receiving_date"/>
                             </group>
+                            <group col="2">
+                                <field name="server_sharedmail_id" />
+                                <newline/>
+                                <field name="server_pec_id" />
+                            </group>
                         </group>
                         <!--
                         <notebook>
