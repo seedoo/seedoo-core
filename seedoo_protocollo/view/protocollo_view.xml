@@ -615,9 +615,6 @@ this module contains the full copyright notices and license terms. -->
                             <!--</page>-->
                             <page string="Classificazione">
                                 <group col="4">
-                                    <field name="classification" nolabel="1" readonly="1" colspan="4" class="container_classification"
-                                           attrs="{'invisible':['|',('classification','=', False)]}" />
-                                    <newline/>
                                     <div class="oe_edit_only">
                                         <button name="%(protocollo_aggiungi_classificazione_action)d"
                                                 string="Aggiungi Classificazione"
@@ -631,6 +628,9 @@ this module contains the full copyright notices and license terms. -->
                                                 attrs="{'invisible':['|',('classification','=',False),('modifica_classificazione_visibility','=',False)]}"
                                                 class="oe_highlight_positive btn_seedoo btn_modifica_classificazione"/>
                                     </div>
+                                    <newline/>
+                                    <field name="classification" nolabel="1" readonly="1" colspan="4" class="container_classification"
+                                           attrs="{'invisible':['|',('classification','=', False)]}" />
                                 </group>
                             </page>
                             <page string="Assegnatari">
@@ -661,6 +661,20 @@ this module contains the full copyright notices and license terms. -->
                             </page>
                             <page string="Fascicoli">
                                 <group col="4">
+                                    <div class="oe_edit_only">
+                                        <button name="%(protocollo_aggiungi_fascicolazione_action)d"
+                                                string="Aggiungi Fascicolazione"
+                                                type="action"
+                                                attrs="{'invisible':['|',('dossier_ids','!=',[(6, False, [])]),('state','!=','draft')]}"
+                                                class="oe_highlight_positive btn_seedoo"/>
+                                        <newline/>
+                                        <button name="%(protocollo_aggiungi_fascicolazione_action)d"
+                                                string="Modifica Fascicolazione"
+                                                type="action"
+                                                attrs="{'invisible':['|',('dossier_ids','=',[(6, False, [])]),('modifica_fascicolazione_visibility','=',False)]}"
+                                                class="oe_highlight_positive btn_seedoo"/>
+                                    </div>
+                                    <newline/>
                                     <field name="dossier_ids" nolabel="1" readonly="1"
                                            widget="many2many_kanban"
                                            options="{'limit': 10, 'no_create': True}"
@@ -699,20 +713,6 @@ this module contains the full copyright notices and license terms. -->
                                             </templates>
                                         </kanban>
                                     </field>
-                                    <newline/>
-                                    <div class="oe_edit_only">
-                                        <button name="%(protocollo_aggiungi_fascicolazione_action)d"
-                                                string="Aggiungi Fascicolazione"
-                                                type="action"
-                                                attrs="{'invisible':['|',('dossier_ids','!=',[(6, False, [])]),('state','!=','draft')]}"
-                                                class="oe_highlight_positive btn_seedoo"/>
-                                        <newline/>
-                                        <button name="%(protocollo_aggiungi_fascicolazione_action)d"
-                                                string="Modifica Fascicolazione"
-                                                type="action"
-                                                attrs="{'invisible':['|',('dossier_ids','=',[(6, False, [])]),('modifica_fascicolazione_visibility','=',False)]}"
-                                                class="oe_highlight_positive btn_seedoo"/>
-                                    </div>
                                 </group>
                             </page>
                             <page string="Allegati" class="tab-allegati">
