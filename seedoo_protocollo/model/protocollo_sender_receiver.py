@@ -255,6 +255,7 @@ class protocollo_sender_receiver(orm.Model):
         'send_type': fields.many2one('protocollo.typology', 'Canale di Spedizione'),
         'send_date': fields.date('Data Spedizione'),
         'protocol_state': fields.related('protocollo_id', 'state', type='char', string='State', readonly=True),
+        'protocol_sharedmail': fields.related('protocollo_id', 'sharedmail', type='boolean', string='Tipo Sharedmail', readonly=True),
         'protocol_pec': fields.related('protocollo_id', 'pec', type='boolean', string='Tipo PEC', readonly=True),
         'protocol_type': fields.related('protocollo_id', 'type', type='char', string='Tipo Protocollo', readonly=True),
         'add_pec_receiver_visibility': fields.boolean('Button Visibility', readonly=True),
@@ -265,6 +266,7 @@ class protocollo_sender_receiver(orm.Model):
         'pec_consegna_status': fields.function(_get_consegna_status, type='boolean', string='Consegnata'),
         'pec_errore_consegna_status': fields.function(_get_errore_consegna_status, type='boolean', string='Errore Consegna'),
         'pec_numero_invii': fields.function(_get_pec_numero_invii, type='integer', string='PEC - Numero invii'),
+        'sharedmail_messaggio_ids': fields.many2many('mail.message', 'protocollo_sender_receiver_messaggio_sharedmail_rel', 'sender_receiver_id', 'mail_message_id', 'Messaggi Sharedmail'),
         'sharedmail_numero_invii': fields.integer('Sharedmail - Numero invii', readonly=True, required=False),
         'to_resend': fields.boolean("Da reinviare", help="Destinatario modificato, da reinviare")
     }

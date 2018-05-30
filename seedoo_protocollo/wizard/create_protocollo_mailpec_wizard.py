@@ -274,6 +274,7 @@ class ProtocolloMailPecWizard(osv.TransientModel):
                 else:
                     srvals['pec_mail'] = ''
                     srvals['email'] = send_rec.email
+                    srvals['sharedmail_messaggio_ids'] = [(4, context['active_id'])]
 
                 sender_receiver.append(sender_receiver_obj.create(cr, uid, srvals))
 

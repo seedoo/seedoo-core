@@ -84,6 +84,7 @@ this module contains the full copyright notices and license terms. -->
                                 <field name="send_type" invisible="1"/>
                                 <field name="protocol_state" invisible="1"/>
                                 <field name="protocol_pec" string="PEC" invisible="1"/>
+                                <field name="protocol_sharedmail" string="Sharedmail" invisible="1"/>
                             </group>
 
                             <newline/>
@@ -92,6 +93,47 @@ this module contains the full copyright notices and license terms. -->
                             </group>
 
                             <newline/>
+                            <group string="Info E-mail" col="4" attrs="{'invisible':[('protocol_sharedmail','!=',True)]}" nolabel="1">
+                                <field name="sharedmail_messaggio_ids" widget="many2many_kanban" nolabel="1" class="container_messaggi_pec">
+                                    <kanban quick_create="false" create="false">
+                                        <field name="direction_sharedmail"/>
+                                        <field name="date"/>
+                                        <field name="id"/>
+                                        <templates>
+                                            <t t-name="kanban-box">
+                                                <div style="position: relative">
+                                                    <h3>
+                                                        <t t-if="record.direction_sharedmail.raw_value === 'in'">ricevuto</t>
+                                                        <t t-if="record.direction_sharedmail.raw_value === 'out'">inviato</t>
+                                                    </h3>
+                                                    <div class="oe_module_vignette">
+                                                        <div class="oe_module_desc pec_container">
+                                                            <div class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_color_border item_box" >
+                                                                <table class="oe_kanban_table">
+                                                                    <tr>
+                                                                        <td class="oe_kanban_messaggio pec_button_col" align="left" valign="middle">
+                                                                            <button name="go_to_sharedmail_message_action" col="1" type="object"
+                                                                                    t-attf-data-context="{'message_ref' : {{record.id.raw_value}}}"
+                                                                                    icon="gtk-go-forward" class="oe_highlight"/>
+
+                                                                        </td>
+                                                                        <td class="pec_descr_col">
+                                                                            <h4>Messaggio</h4>
+                                                                            <p><field name="date"/></p>
+                                                                            <span t-att-class="record.direction_sharedmail.raw_value"/>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </t>
+                                        </templates>
+                                    </kanban>
+                                </field>
+                            </group>
+
                             <group string="Info PEC" col="4" attrs="{'invisible':[('protocol_pec','!=',True)]}" nolabel="1">
                                 <field name="pec_messaggio_ids" widget="many2many_kanban" nolabel="1" class="container_messaggi_pec">
                                     <kanban quick_create="false" create="false">

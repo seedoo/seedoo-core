@@ -165,7 +165,8 @@
 
 .openerp div.icon_messaggio_status:after,
 .openerp td[data-field="pec_invio_status"] input:checked:after,
-.openerp .oe_form button[data-name="go_to_messaggio_action"]:after {
+.openerp .oe_form button[data-name="go_to_messaggio_action"]:after,
+.openerp .oe_form button[data-name="go_to_sharedmail_message_action"]:after {
     content: "\f003";
     font-family: "FontAwesome";
     font-size: 28px;
@@ -220,6 +221,7 @@
     margin: 2px;
 }
 
+.openerp .oe_form td[data-field="go_to_sharedmail_message_action"],
 .openerp .oe_form td[data-field="go_to_messaggio_action"],
 .openerp .oe_form td[data-field="go_to_accettazione_action"],
 .openerp .oe_form td[data-field="go_to_consegna_action"],
@@ -227,6 +229,7 @@
     width:10%;
 }
 
+.openerp .oe_form button[data-name="go_to_sharedmail_message_action"],
 .openerp .oe_form button[data-name="go_to_messaggio_action"],
 .openerp .oe_form button[data-name="go_to_accettazione_action"],
 .openerp .oe_form button[data-name="go_to_consegna_action"],
@@ -239,13 +242,14 @@
     background: white !important;
 }
 
+.openerp .oe_form button[data-name="go_to_sharedmail_message_action"]:hover,
 .openerp .oe_form button[data-name="go_to_messaggio_action"]:hover,
 .openerp .oe_form button[data-name="go_to_accettazione_action"]:hover,
 .openerp .oe_form button[data-name="go_to_consegna_action"]:hover,
 .openerp .oe_form button[data-name="go_to_errore_consegna_action"]:hover {
     background: #ccc !important;
 }
-
+.openerp .oe_form button[data-name="go_to_sharedmail_message_action"] img,
 .openerp .oe_form button[data-name="go_to_messaggio_action"] img,
 .openerp .oe_form button[data-name="go_to_accettazione_action"] img,
 .openerp .oe_form button[data-name="go_to_consegna_action"] img,

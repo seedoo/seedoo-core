@@ -241,3 +241,20 @@ class MailMessage(orm.Model):
         new_context = dict(context or {})
         new_context['skip_check'] = True
         return super(MailMessage, self)._find_allowed_doc_ids(cr, uid, model_ids, context=new_context)
+
+
+    def go_to_sharedmail_message_action(self, cr, uid, ids, context=None):
+        model_data_obj = self.pool.get('ir.model.data')
+        view_rec = model_data_obj.get_object_reference(cr, uid, 'seedoo_protocollo', 'protocollo_sharedmail_form')
+        view_id = view_rec and view_rec[1] or False
+        return {
+            'name': 'Message',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'view_id': [view_id],
+            'res_model': 'mail.message',
+            'target': 'new',
+            'res_id': context.get('message_ref', False),
+            'type': 'ir.actions.act_window',
+            'flags': {'form': {'options': {'mode': 'view'}}}
+        }
