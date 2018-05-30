@@ -35,6 +35,19 @@ class wizard(osv.TransientModel):
             )
         return protocollo.write_date
 
+    def on_change_typology(self, cr, uid, ids, typology_id, context=None):
+        values = {'pec': False, 'sharedmail': False}
+        if typology_id:
+            typology_obj = self.pool.get('protocollo.typology')
+            typology = typology_obj.browse(cr, uid, typology_id)
+            if typology.pec:
+                values['pec'] = True
+                values['sharedmail'] = False
+            if typology.sharedmail:
+                values['pec'] = False
+                values['sharedmail'] = True
+        return {'value': values}
+
     _columns = {
         'name': fields.char('Numero Protocollo', size=256, required=True, readonly=True),
         'registration_date': fields.datetime('Data Registrazione', readonly=True),
@@ -54,6 +67,8 @@ class wizard(osv.TransientModel):
                 si possono inserire nuove tipologie \
                 dal menu Tipologie."
         ),
+        'pec': fields.related('typology', 'pec', type='boolean', string='PEC', readonly=False, store=False),
+        'sharedmail': fields.related('typology', 'sharedmail', type='boolean', string='Sharedmail', readonly=False, store=False),
         'receiving_date': fields.datetime('Data Ricezione', required=False,),
         'subject': fields.text('Oggetto', required=True,),
         'classification': fields.many2one('protocollo.classification', 'Titolario di Classificazione', required=False,),
@@ -172,6 +187,16 @@ class wizard(osv.TransientModel):
             else:
                 before['Tipologia'] = protocollo.typology.name
                 after['Tipologia'] = wizard.typology.name
+
+        if wizard.server_sharedmail_id.id != protocollo.server_sharedmail_id.id:
+            before['Account E-mail'] = protocollo.server_sharedmail_id.name
+            after['Account E-mail'] = wizard.server_sharedmail_id.name
+            vals['server_sharedmail_id'] = wizard.server_sharedmail_id.id
+
+        if wizard.server_pec_id.id != protocollo.server_pec_id.id:
+            before['Account PEC'] = protocollo.server_pec_id.name
+            after['Account PEC'] = wizard.server_pec_id.name
+            vals['server_pec_id'] = wizard.server_pec_id.id
 
         vals['subject'] = wizard.subject
         before['Oggetto'] = protocollo.subject

@@ -23,22 +23,25 @@ this module contains the full copyright notices and license terms. -->
                         <field name="registration_date" invisible="1"/>
                         <field name="type" invisible="1"/>
                         <field name="last_write_date" invisible="1"/>
+                        <field name="pec" invisible="1"/>
+                        <field name="sharedmail" invisible="1"/>
                         <newline/>
                         <group col="4" string="Informazioni Generali">
                             <group col="2">
                                 <field name="subject"/>
                             </group>
                             <group col="2">
-                                <field name="typology"/>
+                                <field name="typology" on_change="on_change_typology(typology)" />
+                                <newline/>
+                                <field name="server_sharedmail_id" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}" attrs="{'invisible':['|',('sharedmail','!=',True),('type','=','in')],
+                                                                   'required': [('sharedmail','=',True),('type','=','out')]}" class="seedoocustom_protocollo_server_sharedmail_id"/>
+                                <newline/>
+                                <field name="server_pec_id" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}" attrs="{'invisible':['|',('pec','!=',True),('type','=','in')],
+                                                                    'required': [('pec','=',True),('type','=','out')]}" class="seedoocustom_protocollo_server_pec_id"/>
                                 <newline/>
                                 <field name="receiving_date"/>
                             </group>
-                            <group col="2">
-                                <field name="server_sharedmail_id" />
-                                <newline/>
-                                <field name="server_pec_id" />
-                            </group>
-                        </group>
+                         </group>
                         <separator string="Motivazione"/>
                         <field name="cause" colspan="4"/>
                         <!--
