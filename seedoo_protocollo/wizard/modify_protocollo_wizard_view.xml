@@ -26,18 +26,18 @@ this module contains the full copyright notices and license terms. -->
                         <field name="pec" invisible="1"/>
                         <field name="sharedmail" invisible="1"/>
                         <newline/>
-                        <group col="4" string="Informazioni Generali">
+                        <group col="4" string="Informazioni Generali" class="subject_modify_wizard">
                             <group col="2">
                                 <field name="subject"/>
                             </group>
                             <group col="2">
-                                <field name="typology" on_change="on_change_typology(typology)" />
+                                <field name="typology" on_change="on_change_typology(typology)" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}"/>
                                 <newline/>
                                 <field name="server_sharedmail_id" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}" attrs="{'invisible':['|',('sharedmail','!=',True),('type','=','in')],
-                                                                   'required': [('sharedmail','=',True),('type','=','out')]}" class="seedoocustom_protocollo_server_sharedmail_id"/>
+                                                                   'required': [('sharedmail','=',True),('type','=','out')]}" />
                                 <newline/>
                                 <field name="server_pec_id" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}" attrs="{'invisible':['|',('pec','!=',True),('type','=','in')],
-                                                                    'required': [('pec','=',True),('type','=','out')]}" class="seedoocustom_protocollo_server_pec_id"/>
+                                                                    'required': [('pec','=',True),('type','=','out')]}" />
                                 <newline/>
                                 <field name="receiving_date"/>
                             </group>
