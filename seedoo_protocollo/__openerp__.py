@@ -48,7 +48,7 @@
         "wizard/cancel_protocollo_wizard_view.xml",
         "wizard/modify_protocollo_wizard_view.xml",
         "wizard/aggiungi_classificazione_protocollo_wizard_view.xml",
-        "wizard/fascicola_protocollo_wizard_view.xml",
+        "wizard/aggiungi_fascicolazione_protocollo_wizard_view.xml",
         "wizard/aggiungi_assegnatari_protocollo_wizard_view.xml",
         "wizard/aggiungi_assegnatari_conoscenza_protocollo_wizard_view.xml",
         "wizard/riassegna_protocollo_wizard_view.xml",

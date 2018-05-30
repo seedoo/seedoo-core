@@ -111,6 +111,12 @@ this module contains the full copyright notices and license terms. -->
             <field name="category_id" ref="module_category_protocollo"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
+        <!-- Button "Modifica Fascicolazione" nella vista form protocollo in ingresso -->
+        <record id="group_modifica_fascicolazione_protocollo_ingresso" model="res.groups">
+            <field name="name">Modifica Fascicolazione Protocollo in Ingresso</field>
+            <field name="category_id" ref="module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
         <!-- Button "Fascicola" nella vista form protocollo in ingresso -->
         <record id="group_fascicola_protocollo_ingresso" model="res.groups">
             <field name="name">Fascicola Protocollo in Ingresso</field>
@@ -181,6 +187,12 @@ this module contains the full copyright notices and license terms. -->
         <!-- Button "Classifica" nella vista form protocollo in uscita -->
         <record id="group_classifica_protocollo_uscita" model="res.groups">
             <field name="name">Classifica Protocollo in Uscita</field>
+            <field name="category_id" ref="module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+        <!-- Button "Modifica Fascicolazione" nella vista form protocollo in uscita -->
+        <record id="group_modifica_fascicolazione_protocollo_uscita" model="res.groups">
+            <field name="name">Modifica Fascicolazione Protocollo in Uscita</field>
             <field name="category_id" ref="module_category_protocollo"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>

@@ -1453,6 +1453,29 @@ class protocollo_protocollo(osv.Model):
 
         return dict(res)
 
+    def _modifica_fascicolazione_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
+        res = []
+
+        protocolli = self._get_protocolli(cr, uid, ids)
+        for protocollo in protocolli:
+            check = False
+
+            if protocollo.type == 'in':
+                check = self.user_has_groups(cr, uid,
+                                             'seedoo_protocollo.group_modifica_fascicolazione_protocollo_ingresso')
+            elif protocollo.type == 'out':
+                check = self.user_has_groups(cr, uid,
+                                             'seedoo_protocollo.group_modifica_fascicolazione_protocollo_uscita')
+
+            if not check and \
+                    protocollo.state == 'draft' and \
+                    (uid == protocollo.user_id.id or uid == SUPERUSER_ID):
+                check = True
+
+            res.append((protocollo.id, check))
+
+        return dict(res)
+
     def _fascicola_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
 
@@ -1460,7 +1483,7 @@ class protocollo_protocollo(osv.Model):
         for protocollo in protocolli:
             check = False
 
-            if protocollo.state in ('registered', 'notified', 'waiting', 'sent', 'error'):
+            if protocollo.state in ('registered', 'notified', 'waiting', 'sent', 'error') and not protocollo.dossier_ids:
                 check = True
 
             if check:
@@ -1863,6 +1886,8 @@ class protocollo_protocollo(osv.Model):
         'modifica_classificazione_visibility': fields.function(_modifica_classificazione_visibility, type='boolean',
                                                                string='Modifica Classificazione'),
         'classifica_visibility': fields.function(_classifica_visibility, type='boolean', string='Classifica'),
+        'modifica_fascicolazione_visibility': fields.function(_modifica_fascicolazione_visibility, type='boolean',
+                                                               string='Modifica Fascicolazione'),
         'fascicola_visibility': fields.function(_fascicola_visibility, type='boolean', string='Fascicola'),
         'modifica_assegnatari_visibility': fields.function(_modifica_assegnatari_visibility, type='boolean',
                                                            string='Modifica Assegnatari'),

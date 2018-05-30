@@ -9,7 +9,7 @@ from . import aggiungi_classificazione_protocollo_wizard
 from . import create_emergency_registry_wizard
 from . import create_journal_wizard
 from . import create_protocollo_mailpec_wizard
-from . import fascicola_protocollo_wizard
+from . import aggiungi_fascicolazione_protocollo_wizard
 from . import modify_protocollo_email_wizard
 from . import modify_protocollo_pec_wizard
 from . import modify_protocollo_wizard

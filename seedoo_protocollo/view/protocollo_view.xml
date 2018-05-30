@@ -391,7 +391,7 @@ this module contains the full copyright notices and license terms. -->
                                 attrs="{'invisible':[('classifica_visibility','=',False)]}"
                                 class="oe_highlight_positive btn_seedoo btn_classifica"/>
 
-                        <button name="%(protocollo_fascicola_action)d" type="action" string="Fascicola"
+                        <button name="%(protocollo_aggiungi_fascicolazione_action)d" type="action" string="Fascicola"
                                 attrs="{'invisible':[('fascicola_visibility','=',False)]}"
                                 class="oe_highlight_positive btn_seedoo btn_fascicola"/>
 
@@ -442,6 +442,7 @@ this module contains the full copyright notices and license terms. -->
                             <field name="modifica_dati_generali_visibility"/>
                             <field name="modifica_classificazione_visibility"/>
                             <field name="classifica_visibility"/>
+                            <field name="modifica_fascicolazione_visibility"/>
                             <field name="fascicola_visibility"/>
                             <field name="modifica_assegnatari_visibility"/>
                             <field name="aggiungi_assegnatari_cc_visibility"/>
@@ -614,7 +615,7 @@ this module contains the full copyright notices and license terms. -->
                             <!--</page>-->
                             <page string="Classificazione">
                                 <group col="4">
-                                    <field name="classification" nolabel="1"  readonly="1" colspan="4" class="container_classification"
+                                    <field name="classification" nolabel="1" readonly="1" colspan="4" class="container_classification"
                                            attrs="{'invisible':['|',('classification','=', False)]}" />
                                     <newline/>
                                     <div class="oe_edit_only">
@@ -660,7 +661,7 @@ this module contains the full copyright notices and license terms. -->
                             </page>
                             <page string="Fascicoli">
                                 <group col="4">
-                                    <field name="dossier_ids" nolabel="1"
+                                    <field name="dossier_ids" nolabel="1" readonly="1"
                                            widget="many2many_kanban"
                                            options="{'limit': 10, 'no_create': True}"
                                            domain="[('state','=','open')]"
@@ -698,6 +699,20 @@ this module contains the full copyright notices and license terms. -->
                                             </templates>
                                         </kanban>
                                     </field>
+                                    <newline/>
+                                    <div class="oe_edit_only">
+                                        <button name="%(protocollo_aggiungi_fascicolazione_action)d"
+                                                string="Aggiungi Fascicolazione"
+                                                type="action"
+                                                attrs="{'invisible':['|',('dossier_ids','!=',[(6, False, [])]),('state','!=','draft')]}"
+                                                class="oe_highlight_positive btn_seedoo"/>
+                                        <newline/>
+                                        <button name="%(protocollo_aggiungi_fascicolazione_action)d"
+                                                string="Modifica Fascicolazione"
+                                                type="action"
+                                                attrs="{'invisible':['|',('dossier_ids','=',[(6, False, [])]),('modifica_fascicolazione_visibility','=',False)]}"
+                                                class="oe_highlight_positive btn_seedoo"/>
+                                    </div>
                                 </group>
                             </page>
                             <page string="Allegati" class="tab-allegati">

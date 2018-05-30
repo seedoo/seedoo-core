@@ -10,11 +10,11 @@ from openerp.tools.translate import _
 _logger = logging.getLogger(__name__)
 
 
-class wizard(osv.TransientModel):
+class protocollo_aggiungi_fascicolazione_wizard(osv.TransientModel):
     """
         A wizard to manage the modification of protocol object
     """
-    _name = 'protocollo.fascicola.wizard'
+    _name = 'protocollo.aggiungi.fascicolazione.wizard'
     _description = 'Fascicola Protocollo'
 
     def  set_before(self, before, label, value):
@@ -31,8 +31,9 @@ class wizard(osv.TransientModel):
         'name': fields.char('Numero Protocollo', size=256, required=True, readonly=True),
         'registration_date': fields.datetime('Data Registrazione', readonly=True),
         'type': fields.selection([('out', 'Uscita'),('in', 'Ingresso'),('internal', 'Interno')], 'Tipo', size=32, required=True, readonly=True),
-        'cause': fields.text('Motivo della Modifica', required=True),
-        'dossier_ids': fields.many2many('protocollo.dossier', 'protocollo_fascicola_wizard_dossier_rel', 'wizard_id', 'dossier_id', 'Fascicoli'),
+        'cause': fields.text('Motivo della Modifica', required=False),
+        'dossier_ids': fields.many2many('protocollo.dossier', 'protocollo_aggiungi_fascicolazione_dossier_rel', 'wizard_id', 'dossier_id', 'Fascicoli'),
+        'display_motivation': fields.boolean('Visualizza Motivazione', readonly=True),
     }
 
     def _default_name(self, cr, uid, context):
@@ -54,11 +55,19 @@ class wizard(osv.TransientModel):
             dossier_ids.append(dossier_id.id)
         return [(6, 0, dossier_ids)]
 
+    def _default_display_motivation(self, cr, uid, context):
+        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
+        if protocollo.registration_employee_id:
+            return True
+        else:
+            return False
+
     _defaults = {
         'name': _default_name,
         'registration_date': _default_registration_date,
         'type': _default_type,
         'dossier_ids': _default_dossier_ids,
+        'display_motivation': _default_display_motivation
     }
 
     def action_save(self, cr, uid, ids, context=None):

@@ -6,28 +6,33 @@ this module contains the full copyright notices and license terms. -->
     <data>
 
         <!-- wizard action on protocollo.protocollo -->
-        <act_window id="protocollo_fascicola_action"
+        <act_window id="protocollo_aggiungi_fascicolazione_action"
                     name="Fascicola"
-                    res_model="protocollo.fascicola.wizard"
+                    res_model="protocollo.aggiungi.fascicolazione.wizard"
                     view_type="form" view_mode="form"
                     target="new"/>
 
         <!-- wizard view -->
-        <record id="protocollo_fascicola_view" model="ir.ui.view">
+        <record id="protocollo_aggiungi_fascicolazione_view" model="ir.ui.view">
             <field name="name">Fascicola Protocollo</field>
-            <field name="model">protocollo.fascicola.wizard</field>
+            <field name="model">protocollo.aggiungi.fascicolazione.wizard</field>
             <field name="arch" type="xml">
                 <form string="Protocollo" version="7.0">
                     <sheet>
                         <field name="name" invisible="1"/>
                         <field name="registration_date" invisible="1"/>
                         <field name="type" invisible="1"/>
-                        <separator string="Causa della modifica" colspan="4"/>
-                        <field name="cause" colspan="4"/>
+                        <field name="display_motivation" invisible="1"/>
                         <separator string="Fascicoli" colspan="4"/>
                         <field name="dossier_ids" nolabel="1"
                                options="{'limit': 10, 'no_create': True}"
                                domain="[('state','=','open')]"
+                               colspan="4"/>
+                        <separator string="Motivazione"
+                                   attrs="{'invisible':[('display_motivation','=',False)]}"
+                                   colspan="4"/>
+                        <field name="cause"
+                               attrs="{'invisible':[('display_motivation','=',False)], 'required':[('display_motivation','=',True)]}"
                                colspan="4"/>
                     </sheet>
                     <footer>
