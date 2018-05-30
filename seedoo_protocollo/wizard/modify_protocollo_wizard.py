@@ -58,6 +58,8 @@ class wizard(osv.TransientModel):
         'subject': fields.text('Oggetto', required=True,),
         'classification': fields.many2one('protocollo.classification', 'Titolario di Classificazione', required=False,),
         'sender_protocol': fields.char('Protocollo Mittente', required=False,),
+        'server_sharedmail_id': fields.many2one('fetchmail.server', 'Account Email', domain="[('sharedmail', '=', True),('user_sharedmail_ids', 'in', uid)]"),
+        'server_pec_id': fields.many2one('fetchmail.server', 'Account PEC', domain="[('pec', '=', True),('user_ids', 'in', uid)]"),
         'dossier_ids': fields.many2many(
             'protocollo.dossier',
             'dossier_protocollo_pec_rel',
@@ -115,6 +117,14 @@ class wizard(osv.TransientModel):
         protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
         return protocollo.write_date
 
+    def _default_server_sharedmail_id(self, cr, uid, context):
+        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
+        return protocollo.server_sharedmail_id
+
+    def _default_server_pec_id(self, cr, uid, context):
+        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
+        return protocollo.server_pec_id
+
     _defaults = {
         'name': _default_name,
         'registration_date': _default_registration_date,
@@ -126,7 +136,9 @@ class wizard(osv.TransientModel):
         'sender_protocol': _default_sender_protocol,
         'dossier_ids': _default_dossier_ids,
         'notes': _default_notes,
-        'last_write_date': _default_last_write_date
+        'last_write_date': _default_last_write_date,
+        'server_sharedmail_id': _default_server_sharedmail_id,
+        'server_pec_id': _default_server_pec_id
     }
 
     def action_save(self, cr, uid, ids, context=None):
