@@ -73,11 +73,6 @@ class MailMessage(orm.Model):
 
     }
 
-    _defaults = {
-        'pec_state': 'new',
-        'sharedmail_state': 'new',
-    }
-
     def action_not_protocol(self, cr, uid, ids, context=None):
         if context is None:
             context = {}
