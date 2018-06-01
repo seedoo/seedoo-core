@@ -35,6 +35,7 @@ this module contains the full copyright notices and license terms. -->
                         <field name="assegnatari_conoscenza_dipendenti_required"/>
                         <field name="documento_required"/>
                         <field name="allegati_descrizione_required"/>
+                        <field name="data_ricezione_required"/>
                     </group>
                     <group string="E-mail/PEC">
                         <field name="inserisci_testo_mailpec"/>
