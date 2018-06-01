@@ -52,9 +52,9 @@ class MailMessage(orm.Model):
         res = dict.fromkeys(ids, False)
         for message in self.browse(cr, uid, ids):
             if message.type=='email' and message.sharedmail_to:
-                res[message.id] = message.sharedmail_to
+                res[message.id] = message.sharedmail_to[:50] + " ..."
             if message.type == 'email' and message.pec_to:
-                res[message.id] = message.pec_to
+                res[message.id] = message.pec_to[:50] + " ..."
         return res
 
     def _get_message_direction(self, cr, uid, ids, name, args, context=None):

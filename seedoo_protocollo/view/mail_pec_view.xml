@@ -46,7 +46,13 @@ this module contains the full copyright notices and license terms. -->
                             </field>
                         </page>
                         <page string="Ricevute" attrs="{'invisible':[('server_id','=',False)]}">
-                            <field name="pec_notifications_ids"/>
+                            <field name="pec_notifications_ids">
+                                <tree>
+                                    <field name="pec_type" string="Tipo"/>
+                                    <field name="cert_datetime" string="Data Ricevuta "/>
+                                    <field name="pec_server_user"/>
+                                </tree>
+                            </field>
                         </page>
                     </notebook>
                 </field>
@@ -61,6 +67,17 @@ this module contains the full copyright notices and license terms. -->
             <field name="inherit_id" ref="mail.view_message_search"/>
             <field name="arch" type="xml">
                 <field name="parent_id" position="after">
+                    <field name="email_from"/>
+                    <field name="pec_cc" string="CC PEC"/>
+                    <field name="sharedmail_cc" string="CC E-mail"/>
+                    <field name="body" string="Contenuto"/>
+                    <field name="pec_msg_id" string="PEC Id"/>
+                    <field name="date"
+                           filter_domain="[('date','&gt;=',self)]"
+                           string="Data dal:"/>
+                    <field name="date"
+                           filter_domain="[('date','&lt;=',self)]"
+                           string="Data entro il:"/>
                     <group string="Stato Protocollo">
                         <filter string="Protocollato" name="protocollato" domain="[('pec_state','=','protocol')]"/>
                         <filter string="Da protocollare" name="da_protocollare" domain="[('pec_state','=','new')]"/>
