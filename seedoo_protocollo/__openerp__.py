@@ -63,6 +63,7 @@
         "view/res_config.xml",
         "view/partner_view.xml",
         "view/offices_view.xml",
+        "view/res_users_view.xml",
         "view/ir_attachment_view.xml",
         "view/protocollo_assegnazione_view.xml",
         "view/protocollo_view.xml",

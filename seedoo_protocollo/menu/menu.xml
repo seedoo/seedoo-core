@@ -154,28 +154,34 @@ this module contains the full copyright notices and license terms. -->
                   groups="group_configurazione_titolario"
                   sequence="3"/>
 
-        <menuitem name="Uffici" action="action_configuration_department"
+        <menuitem name="Uffici" action="hr.open_module_tree_department"
                   parent="protocollo_configuration"
                   id="protocollo_configuration_department"
                   groups="group_configurazione_uffici"
                   sequence="4"/>
 
-        <menuitem name="Dipendenti" action="action_configuration_employee"
+        <menuitem name="Dipendenti" action="hr.open_view_employee_list_my"
                   parent="protocollo_configuration"
                   id="protocollo_configuration_employee"
                   groups="group_configurazione_dipendenti"
                   sequence="5"/>
 
+        <menuitem name="Utenti" action="action_res_users_protocollo"
+                  parent="protocollo_configuration"
+                  id="protocollo_configuration_user"
+                  groups="group_configurazione_utenti"
+                  sequence="6"/>
+
         <menuitem name="Parametri Generali" action="protocollo_config_settings_act"
                   parent="protocollo_configuration"
                   id="protocollo_configuration_menu"
                   groups="group_configurazione_parametri"
-                  sequence="6"/>
+                  sequence="7"/>
 
         <menuitem name="Email/PEC"
                   parent="protocollo_configuration"
                   id="protocollo_configuration_email_pec"
-                  sequence="6"/>
+                  sequence="8"/>
 
         <menuitem name="Server in Ingresso" action="fetchmail.action_email_server_tree"
                   parent="protocollo_configuration_email_pec"

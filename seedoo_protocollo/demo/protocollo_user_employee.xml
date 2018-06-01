@@ -13,6 +13,7 @@ this module contains the full copyright notices and license terms. -->
                                                   ref('base.group_pec_reader'),ref('base.group_sharedmail_reader')])]"/>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/alba.png"/>
             <field name="tz">Europe/Rome</field>
+            <field name="profile_id" ref="group_protocollo_assegnatario_protocollatore_resp_uo"/>
         </record>
 
         <record model="hr.employee" id="hr_francesco_alba">
@@ -21,7 +22,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="department_id" ref="protocollo_dept_uor1"/>
             <field name="work_email">francesco.alba@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/alba.png"/>
-            <field name="profile_id" ref="group_protocollo_assegnatario_protocollatore_resp_uo"/>
         </record>
 
         <record model="res.users" id="saul_lai">
@@ -33,6 +33,7 @@ this module contains the full copyright notices and license terms. -->
                                                   ref('base.group_pec_reader'),ref('base.group_sharedmail_reader')])]"/>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/saul.jpg"/>
             <field name="tz">Europe/Rome</field>
+            <field name="profile_id" ref="group_protocollo_assegnatario_protocollatore_pe_out"/>
         </record>
 
         <record model="hr.employee" id="hr_saul_lai">
@@ -41,8 +42,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="department_id" ref="protocollo_dept_uor1"/>
             <field name="work_email">saul.lai@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/saul.jpg"/>
-            <field name="profile_id" ref="group_protocollo_assegnatario_protocollatore_pe_out"/>
-
         </record>
 
         <record model="res.users" id="andrea_peruzzu">
@@ -54,6 +53,7 @@ this module contains the full copyright notices and license terms. -->
                                                   ref('base.group_pec_reader'),ref('base.group_sharedmail_reader')])]"/>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/andrea.jpg"/>
             <field name="tz">Europe/Rome</field>
+            <field name="profile_id" ref="group_protocollo_sysadmin"/>
         </record>
 
         <record model="hr.employee" id="hr_andrea_peruzzu">
@@ -62,8 +62,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="department_id" ref="protocollo_dept_uor1"/>
             <field name="work_email">andrea.peruzzu@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/andrea.jpg"/>
-            <field name="profile_id" ref="group_protocollo_sysadmin"/>
-
         </record>
 
         <record model="res.users" id="antonio_ariu">
@@ -75,6 +73,7 @@ this module contains the full copyright notices and license terms. -->
                                                   ref('base.group_pec_reader'),ref('base.group_sharedmail_reader')])]"/>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/antonio.jpg"/>
             <field name="tz">Europe/Rome</field>
+            <field name="profile_id" ref="group_protocollo_resp_ser_prot"/>
         </record>
 
         <record model="hr.employee" id="hr_antonio_ariu">
@@ -83,8 +82,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="department_id" ref="protocollo_dept_uor2"/>
             <field name="work_email">antonio.ariu@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/antonio.jpg"/>
-            <field name="profile_id" ref="group_protocollo_resp_ser_prot"/>
-
         </record>
 
         <record model="res.users" id="gianluca_farris">
@@ -96,6 +93,7 @@ this module contains the full copyright notices and license terms. -->
                                                   ref('base.group_pec_reader'),ref('base.group_sharedmail_reader')])]"/>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/gianlu.jpg"/>
             <field name="tz">Europe/Rome</field>
+            <field name="profile_id" ref="group_protocollo_assegnatario_protocollatore_resp_uo"/>
         </record>
 
         <record model="hr.employee" id="hr_gianluca_farris">
@@ -104,8 +102,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="department_id" ref="protocollo_dept_uor2"/>
             <field name="work_email">gianluca.farris@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/gianlu.jpg"/>
-            <field name="profile_id" ref="group_protocollo_assegnatario_protocollatore_resp_uo"/>
-
         </record>
 
         <record model="res.users" id="samuele_collu">
@@ -117,6 +113,7 @@ this module contains the full copyright notices and license terms. -->
                                                   ref('base.group_pec_reader'),ref('base.group_sharedmail_reader')])]"/>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/samuele.jpg"/>
             <field name="tz">Europe/Rome</field>
+            <field name="profile_id" ref="group_protocollo_assegnatario_protocollatore_pe_out"/>
         </record>
 
         <record model="hr.employee" id="hr_samuele_collu">
@@ -125,8 +122,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="department_id" ref="protocollo_dept_uor2"/>
             <field name="work_email">samuele.collu@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/samuele.jpg"/>
-            <field name="profile_id" ref="group_protocollo_assegnatario_protocollatore_pe_out"/>
-
         </record>
 
         <record model="res.users" id="marco_difrancesco">
@@ -138,6 +133,7 @@ this module contains the full copyright notices and license terms. -->
                                                   ref('base.group_pec_reader'),ref('base.group_sharedmail_reader')])]"/>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/marco.jpg"/>
             <field name="tz">Europe/Rome</field>
+            <field name="profile_id" ref="group_protocollo_assegnatario_protocollatore_resp_uo"/>
         </record>
 
         <record model="hr.employee" id="hr_marco_difrancesco">
@@ -146,8 +142,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="department_id" ref="protocollo_dept_uor3"/>
             <field name="work_email">marco.difrancesco@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/marco.jpg"/>
-            <field name="profile_id" ref="group_protocollo_assegnatario_protocollatore_resp_uo"/>
-
         </record>
 
         <record model="res.users" id="norman_argiolas">
@@ -159,6 +153,7 @@ this module contains the full copyright notices and license terms. -->
                                                   ref('base.group_pec_reader'),ref('base.group_sharedmail_reader')])]"/>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/norman1.jpg"/>
             <field name="tz">Europe/Rome</field>
+            <field name="profile_id" ref="group_protocollo_assegnatario_protocollatore"/>
         </record>
 
         <record model="hr.employee" id="hr_norman_argiolas">
@@ -167,8 +162,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="department_id" ref="protocollo_dept_uor3"/>
             <field name="work_email">norman.argiolas@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/norman1.jpg"/>
-            <field name="profile_id" ref="group_protocollo_assegnatario_protocollatore"/>
-
         </record>
 
         <record model="res.users" id="pierpaolo_masia">
@@ -180,6 +173,7 @@ this module contains the full copyright notices and license terms. -->
                                                   ref('base.group_pec_reader'),ref('base.group_sharedmail_reader')])]"/>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/pierpaolo1.jpg"/>
             <field name="tz">Europe/Rome</field>
+            <field name="profile_id" ref="group_protocollo_assegnatario_protocollatore_pe_out"/>
         </record>
 
         <record model="hr.employee" id="hr_pierpaolo_masia">
@@ -188,8 +182,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="department_id" ref="protocollo_dept_uor3"/>
             <field name="work_email">pierpaolo.masia@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/pierpaolo1.jpg"/>
-            <field name="profile_id" ref="group_protocollo_assegnatario_protocollatore_pe_out"/>
-
         </record>
 
         <record model="res.users" id="franco_serreli">
@@ -201,6 +193,7 @@ this module contains the full copyright notices and license terms. -->
                                                   ref('base.group_pec_reader'),ref('base.group_sharedmail_reader')])]"/>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/franco1.jpg"/>
             <field name="tz">Europe/Rome</field>
+            <field name="profile_id" ref="group_protocollo_assegnatario_protocollatore_resp_uo"/>
         </record>
 
         <record model="hr.employee" id="hr_franco_serreli">
@@ -209,8 +202,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="department_id" ref="protocollo_dept_uor4"/>
             <field name="work_email">franco.serreli@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/franco1.jpg"/>
-            <field name="profile_id" ref="group_protocollo_assegnatario_protocollatore_resp_uo"/>
-
         </record>
 
         <record model="res.users" id="stefano_marras">
@@ -222,6 +213,7 @@ this module contains the full copyright notices and license terms. -->
                                                   ref('base.group_pec_reader'),ref('base.group_sharedmail_reader')])]"/>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/sm.jpg"/>
             <field name="tz">Europe/Rome</field>
+            <field name="profile_id" ref="group_protocollo_assegnatario_protocollatore"/>
         </record>
 
         <record model="hr.employee" id="hr_stefano_marras">
@@ -230,8 +222,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="department_id" ref="protocollo_dept_uor4"/>
             <field name="work_email">stefano.marras@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/sm.jpg"/>
-            <field name="profile_id" ref="group_protocollo_assegnatario_protocollatore"/>
-
         </record>
 
         <record model="res.users" id="paola_bullitta">
@@ -243,6 +233,7 @@ this module contains the full copyright notices and license terms. -->
                                                   ref('base.group_pec_reader'),ref('base.group_sharedmail_reader')])]"/>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/paola.jpg"/>
             <field name="tz">Europe/Rome</field>
+            <field name="profile_id" ref="group_protocollo_assegnatario_protocollatore_resp_uor"/>
         </record>
 
         <record model="hr.employee" id="hr_paola_bullitta">
@@ -251,8 +242,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="department_id" ref="protocollo_dept_uor4"/>
             <field name="work_email">paola.bullitta@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/paola.jpg"/>
-            <field name="profile_id" ref="group_protocollo_assegnatario_protocollatore_resp_uor"/>
-
         </record>
 
         <record model="res.users" id="daniela_melis">
@@ -264,6 +253,7 @@ this module contains the full copyright notices and license terms. -->
                                                   ref('base.group_pec_reader'),ref('base.group_sharedmail_reader')])]"/>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/daniela2.jpg"/>
             <field name="tz">Europe/Rome</field>
+            <field name="profile_id" ref="group_protocollo_assegnatario"/>
         </record>
 
         <record model="hr.employee" id="hr_daniela_melis">
@@ -272,8 +262,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="department_id" ref="protocollo_dept_uor4"/>
             <field name="work_email">daniela.melis@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/daniela2.jpg"/>
-            <field name="profile_id" ref="group_protocollo_assegnatario"/>
-
         </record>
 
         <record model="res.users" id="ilaria_mura">
@@ -285,6 +273,7 @@ this module contains the full copyright notices and license terms. -->
                                                   ref('base.group_pec_reader'),ref('base.group_sharedmail_reader')])]"/>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/ilariamura.jpg"/>
             <field name="tz">Europe/Rome</field>
+            <field name="profile_id" ref="group_protocollo_assegnatario_protocollatore"/>
         </record>
 
         <record model="hr.employee" id="hr_ilaria_mura">
@@ -293,8 +282,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="department_id" ref="protocollo_dept_uor5"/>
             <field name="work_email">ilaria.mura@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/ilariamura.jpg"/>
-            <field name="profile_id" ref="group_protocollo_assegnatario_protocollatore"/>
-
         </record>
 
         <record model="res.users" id="georgia_sanna">
@@ -306,6 +293,7 @@ this module contains the full copyright notices and license terms. -->
                                                   ref('base.group_pec_reader'),ref('base.group_sharedmail_reader')])]"/>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/georgia.jpg"/>
             <field name="tz">Europe/Rome</field>
+            <field name="profile_id" ref="group_protocollo_assegnatario_protocollatore_resp_uo"/>
         </record>
 
         <record model="hr.employee" id="hr_georgia_sanna">
@@ -314,8 +302,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="department_id" ref="protocollo_dept_uor5"/>
             <field name="work_email">georgia.sanna@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/georgia.jpg"/>
-            <field name="profile_id" ref="group_protocollo_assegnatario_protocollatore_resp_uo"/>
-
         </record>
 
         <record model="res.users" id="martina_vitrani">
@@ -327,6 +313,7 @@ this module contains the full copyright notices and license terms. -->
                                                   ref('base.group_pec_reader'),ref('base.group_sharedmail_reader')])]"/>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/martinavitrani.jpg"/>
             <field name="tz">Europe/Rome</field>
+            <field name="profile_id" ref="group_protocollo_assegnatario_protocollatore_resp_uor"/>
         </record>
 
         <record model="hr.employee" id="hr_martina_vitrani">
@@ -335,8 +322,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="department_id" ref="protocollo_dept_uor5"/>
             <field name="work_email">martina.vitrani@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/martinavitrani.jpg"/>
-            <field name="profile_id" ref="group_protocollo_assegnatario_protocollatore_resp_uor"/>
-
         </record>
 
         <record model="res.users" id="fabiana_boi">
@@ -348,6 +333,7 @@ this module contains the full copyright notices and license terms. -->
                                                   ref('base.group_pec_reader'),ref('base.group_sharedmail_reader')])]"/>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/fabiana.jpg"/>
             <field name="tz">Europe/Rome</field>
+            <field name="profile_id" ref="group_protocollo_consultatore_visibilita_totale"/>
         </record>
 
         <record model="hr.employee" id="hr_fabiana_boi">
@@ -356,8 +342,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="department_id" ref="protocollo_dept_uor5"/>
             <field name="work_email">fabiana.boi@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/fabiana.jpg"/>
-            <field name="profile_id" ref="group_protocollo_consultatore_visibilita_totale"/>
-
         </record>
 
           <record id="protocollo_aoo_default" model="protocollo.aoo">

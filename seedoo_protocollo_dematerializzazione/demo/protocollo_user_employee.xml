@@ -4,6 +4,7 @@ this module contains the full copyright notices and license terms. -->
 
 <openerp>
     <data noupdate="0">
+
         <record model="res.users" id="daniele_sanna">
             <field name="name">Daniele Sanna</field>
             <field name="login">daniele.sanna@example.com</field>
@@ -14,6 +15,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="password">seedoo</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/daniele.jpg"/>
             <field name="tz">Europe/Rome</field>
+            <field name="profile_id" ref="group_protocollo_assegnatario_protocollatore_plus_resp_uor"/>
         </record>
 
         <record model="hr.employee" id="hr_daniele_sanna">
@@ -22,7 +24,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="department_id" ref="seedoo_protocollo.protocollo_dept_uor1"/>
             <field name="work_email">daniele.sanna@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/daniele.jpg"/>
-            <field name="profile_id" ref="group_protocollo_assegnatario_protocollatore_plus_resp_uor"/>
         </record>
 
         <record model="res.users" id="dino_manca">
@@ -35,6 +36,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="password">seedoo</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/dino.png"/>
             <field name="tz">Europe/Rome</field>
+            <field name="profile_id" ref="group_protocollo_assegnatario_protocollatore_plus_resp_uo"/>
         </record>
 
         <record model="hr.employee" id="hr_dino_manca">
@@ -43,7 +45,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="department_id" ref="seedoo_protocollo.protocollo_dept_uor2"/>
             <field name="work_email">dino.manca@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/dino.png"/>
-            <field name="profile_id" ref="group_protocollo_assegnatario_protocollatore_plus_resp_uo"/>
         </record>
 
         <record model="res.users" id="claudio_melis">
@@ -56,6 +57,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="password">seedoo</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/claudio.jpg"/>
             <field name="tz">Europe/Rome</field>
+            <field name="profile_id" ref="group_protocollo_assegnatario_protocollatore_plus"/>
         </record>
 
         <record model="hr.employee" id="hr_claudio_melis">
@@ -64,7 +66,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="department_id" ref="seedoo_protocollo.protocollo_dept_uor3"/>
             <field name="work_email">claudio.melis@example.com</field>
             <field name="image" type="base64" file="seedoo_protocollo/static/img/claudio.jpg"/>
-            <field name="profile_id" ref="group_protocollo_assegnatario_protocollatore_plus"/>
         </record>
 
         <record id="seedoo_protocollo.protocollo_aoo_default" model="protocollo.aoo">
@@ -102,7 +103,6 @@ this module contains the full copyright notices and license terms. -->
         <record id="sharedmail.imap_sharedmail_server" model="fetchmail.server" >
             <field name="user_sharedmail_ids" eval="[(4, ref('daniele_sanna'))]" />
         </record>
-
 
     </data>
 </openerp>

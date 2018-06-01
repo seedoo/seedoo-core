@@ -3,11 +3,10 @@
 this module contains the full copyright notices and license terms. -->
 
 <openerp>
-    <data noupdate="0">
+    <data noupdate="1">
 
         <record id="group_protocollo_consultatore_visibilita_totale" model="protocollo.profile">
             <field name="name">Consultatore Visibilità Totale</field>
-            <field name="category_id" ref="seedoo_protocollo.module_category_protocollo"/>
             <field name="groups_id" eval="[
                 (4, ref('seedoo_protocollo.group_protocollo_user')),
                 (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_ingresso_registrati')),
@@ -20,7 +19,6 @@ this module contains the full copyright notices and license terms. -->
 
         <record id="group_protocollo_assegnatario" model="protocollo.profile">
             <field name="name">Assegnatario</field>
-            <field name="category_id" ref="seedoo_protocollo.module_category_protocollo"/>
             <field name="groups_id" eval="[
                 (4, ref('seedoo_protocollo.group_protocollo_user')),
                 (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_ingresso_registrati')),
@@ -37,7 +35,6 @@ this module contains the full copyright notices and license terms. -->
 
         <record id="group_protocollo_assegnatario_responsabile_uo" model="protocollo.profile">
             <field name="name">Assegnatario - Responabile UO</field>
-            <field name="category_id" ref="seedoo_protocollo.module_category_protocollo"/>
             <field name="groups_id" eval="[
                 (4, ref('seedoo_protocollo.group_protocollo_user')),
                 (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_ingresso_registrati')),
@@ -58,7 +55,6 @@ this module contains the full copyright notices and license terms. -->
 
         <record id="group_protocollo_assegnatario_responsabile_uor" model="protocollo.profile">
             <field name="name">Assegnatario - Responabile UOR</field>
-            <field name="category_id" ref="seedoo_protocollo.module_category_protocollo"/>
             <field name="groups_id" eval="[
                     (4, ref('seedoo_protocollo.group_protocollo_user')),
                     (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_ingresso_registrati')),
@@ -85,7 +81,6 @@ this module contains the full copyright notices and license terms. -->
 
         <record id="group_protocollo_assegnatario_protocollatore_pe_out" model="protocollo.profile">
             <field name="name">Assegnatario - Protocollatore PE-Out</field>
-            <field name="category_id" ref="seedoo_protocollo.module_category_protocollo"/>
             <field name="groups_id" eval="[
                     (4, ref('seedoo_protocollo.group_protocollo_user')),
                     (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_ingresso_registrati')),
@@ -112,7 +107,6 @@ this module contains the full copyright notices and license terms. -->
 
         <record id="group_protocollo_assegnatario_protocollatore_pe_out_resp_uo" model="protocollo.profile">
             <field name="name">Assegnatario - Protocollatore PE-Out - Responsabile UO</field>
-            <field name="category_id" ref="seedoo_protocollo.module_category_protocollo"/>
             <field name="groups_id" eval="[
                     (4, ref('seedoo_protocollo.group_protocollo_user')),
                     (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_ingresso_registrati')),
@@ -141,7 +135,6 @@ this module contains the full copyright notices and license terms. -->
 
         <record id="group_protocollo_assegnatario_protocollatore_pe_out_resp_uor" model="protocollo.profile">
             <field name="name">Assegnatario - Protocollatore PE-Out - Responsabile UOR</field>
-            <field name="category_id" ref="seedoo_protocollo.module_category_protocollo"/>
             <field name="groups_id" eval="[
                     (4, ref('seedoo_protocollo.group_protocollo_user')),
                     (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_ingresso_registrati')),
@@ -174,7 +167,6 @@ this module contains the full copyright notices and license terms. -->
 
         <record id="group_protocollo_assegnatario_protocollatore" model="protocollo.profile">
             <field name="name">Assegnatario - Protocollatore</field>
-            <field name="category_id" ref="seedoo_protocollo.module_category_protocollo"/>
             <field name="groups_id" eval="[
                     (4, ref('seedoo_protocollo.group_protocollo_user')),
                     (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_ingresso_registrati')),
@@ -208,7 +200,6 @@ this module contains the full copyright notices and license terms. -->
 
         <record id="group_protocollo_assegnatario_protocollatore_resp_uo" model="protocollo.profile">
             <field name="name">Assegnatario - Protocollatore - Responsabile UO</field>
-            <field name="category_id" ref="seedoo_protocollo.module_category_protocollo"/>
             <field name="groups_id" eval="[
                     (4, ref('seedoo_protocollo.group_protocollo_user')),
                     (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_ingresso_registrati')),
@@ -244,7 +235,6 @@ this module contains the full copyright notices and license terms. -->
 
         <record id="group_protocollo_assegnatario_protocollatore_resp_uor" model="protocollo.profile">
             <field name="name">Assegnatario - Protocollatore - Responsabile UOR</field>
-            <field name="category_id" ref="seedoo_protocollo.module_category_protocollo"/>
             <field name="groups_id" eval="[
                     (4, ref('seedoo_protocollo.group_protocollo_user')),
                     (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_ingresso_registrati')),
@@ -284,7 +274,6 @@ this module contains the full copyright notices and license terms. -->
 
         <record id="group_protocollo_resp_ser_prot" model="protocollo.profile">
             <field name="name">Responsabile Servizio Protocollo (RSP)</field>
-            <field name="category_id" ref="seedoo_protocollo.module_category_protocollo"/>
             <field name="groups_id" eval="[
                     (4, ref('seedoo_protocollo.group_protocollo_user')),
                     (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_ingresso_registrati')),
@@ -328,7 +317,6 @@ this module contains the full copyright notices and license terms. -->
 
         <record id="group_protocollo_sysadmin" model="protocollo.profile">
             <field name="name">SysAdmin</field>
-            <field name="category_id" ref="seedoo_protocollo.module_category_protocollo"/>
             <field name="groups_id" eval="[
                     (4, ref('seedoo_protocollo.group_protocollo_user')),
                     (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_ingresso_registrati')),
@@ -365,6 +353,7 @@ this module contains the full copyright notices and license terms. -->
                     (4, ref('seedoo_protocollo.group_configurazione_aoo')),
                     (4, ref('seedoo_protocollo.group_configurazione_uffici')),
                     (4, ref('seedoo_protocollo.group_configurazione_dipendenti')),
+                    (4, ref('seedoo_protocollo.group_configurazione_utenti')),
                     (4, ref('seedoo_protocollo.group_configurazione_registro')),
                     (4, ref('seedoo_protocollo.group_configurazione_parametri')),
                     (4, ref('seedoo_protocollo.group_configurazione_email_pec')),

@@ -8,19 +8,15 @@ this module contains the full copyright notices and license terms. -->
         <record id="view_department_form_protocollo" model="ir.ui.view">
             <field name="name">hr.department.form.protocollo</field>
             <field name="model">hr.department</field>
-            <field name="mode">primary</field>
+            <!--<field name="mode">primary</field>-->
             <field name="inherit_id" ref="hr.view_department_form"></field>
             <field name="arch" type="xml">
-                <xpath expr="/form[@string='department']" position="attributes">
-                    <attribute name="create">0</attribute>
-                    <attribute name="edit">0</attribute>
-                </xpath>
                 <field name="parent_id" position="after">
                     <field name="aoo_id" options="{'no_create': True, 'no_open': True}"/>
                 </field>
                 <field name="company_id" position="after">
-                    <!--<newline/>-->
-                    <!--<field name="assignable"/>-->
+                    <newline/>
+                    <field name="assignable"/>
                     <newline/>
                     <field name="description" colspan="4"/>
                     <notebook colspan="6">
@@ -32,6 +28,7 @@ this module contains the full copyright notices and license terms. -->
             </field>
         </record>
 
+        <!--
         <record id="view_configuration_department_form" model="ir.ui.view">
             <field name="name">hr.department.form.protocollo</field>
             <field name="model">hr.department</field>
@@ -54,7 +51,9 @@ this module contains the full copyright notices and license terms. -->
                 </field>
             </field>
         </record>
+        -->
 
+        <!--
         <record id="view_department_tree_protocollo" model="ir.ui.view">
             <field name="name">hr.department.tree.protocollo</field>
             <field name="model">hr.department</field>
@@ -68,22 +67,21 @@ this module contains the full copyright notices and license terms. -->
                 </xpath>
             </field>
         </record>
+        -->
 
+        <!--
         <record id="view_configuration_department_tree" model="ir.ui.view">
             <field name="name">hr.department.tree.protocollo</field>
             <field name="model">hr.department</field>
             <field name="mode">primary</field>
             <field name="inherit_id" ref="hr.view_department_tree"></field>
             <field name="arch" type="xml">
-                <!--<xpath expr="/tree[@string='Companies']" position="attributes">-->
-                    <!--<attribute name="create">1</attribute>-->
-                    <!--<attribute name="edit">1</attribute>-->
-                <!--</xpath>-->
                 <field name="complete_name" position="after">
                     <field name="parent_id"/>
                 </field>
             </field>
         </record>
+        -->
 
         <!-- INIZIO Scheda dati utente corrente per Dashboard -->
         <record model="ir.actions.act_window" id="act_employee_protocollo_kanban">
@@ -98,14 +96,11 @@ this module contains the full copyright notices and license terms. -->
         <record id="view_employee_form_protocollo" model="ir.ui.view">
             <field name="name">hr.employee.form.protocollo</field>
             <field name="model">hr.employee</field>
-            <field name="mode">primary</field>
+            <!--<field name="mode">primary</field>-->
             <field name="inherit_id" ref="hr.view_employee_form"></field>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='user_id']" position="attributes">
                     <attribute name="options">{'no_quick_create':True,'no_create_edit':True}</attribute>
-                </xpath>
-                <xpath expr="//field[@name='user_id']" position="after">
-                    <field name="profile_id"/>
                 </xpath>
             </field>
         </record>
@@ -113,7 +108,7 @@ this module contains the full copyright notices and license terms. -->
         <record id="view_employee_protocollo_kanban" model="ir.ui.view">
             <field name="name">hr.employee.protocollo.kanban</field>
             <field name="model">hr.employee</field>
-            <field name="mode">primary</field>
+            <!--<field name="mode">primary</field>-->
             <field name="inherit_id" ref="hr.hr_kanban_view_employees"/>
             <field name="arch" type="xml">
                 <xpath expr="//div[@class='oe_followers']" position="replace">
@@ -140,20 +135,16 @@ this module contains the full copyright notices and license terms. -->
             <field name="view_id" ref="view_employee_protocollo_kanban"/>
             <field name="act_window_id" ref="act_employee_protocollo_kanban"/>
         </record>
-
         <!-- FINE Scheda dati utente corrente per Dashboard -->
 
+        <!--
         <record model="ir.actions.act_window" id="action_mydepartment_protocollo">
             <field name="name">I Miei Uffici</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">hr.department</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
-            <!--<field name="domain" eval="[('parent_id','child_of',ref('protocollo_dept_root'))]"></field>-->
-            <!--<field name="context">{"search_default_collaborator_ids": uid}</field>-->
-            <!--<field name="search_view_id" ref="view_department_protocollo_search"/>-->
         </record>
-
 
         <record model="ir.actions.act_window" id="action_dept_manage_office_protocollo">
             <field name="name">Uffici</field>
@@ -161,10 +152,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="res_model">hr.department</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
-            <!--<field name="domain" eval="[('parent_id','child_of',ref('protocollo_dept_root'))]"></field>-->
-            <!--<field name="search_view_id" ref="view_department_protocollo_search"/>-->
         </record>
-
 
         <record id="action_department_protocol_form" model="ir.actions.act_window.view">
             <field name="sequence" eval="4"/>
@@ -180,19 +168,13 @@ this module contains the full copyright notices and license terms. -->
             <field name="act_window_id" ref="action_dept_manage_office_protocollo"/>
         </record>
 
-
-
-
         <record model="ir.actions.act_window" id="action_configuration_department">
             <field name="name">Uffici</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">hr.department</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
-            <!--<field name="domain" eval="[('parent_id','child_of',ref('protocollo_dept_root'))]"></field>-->
-            <!--<field name="search_view_id" ref="view_department_protocollo_search"/>-->
         </record>
-
 
         <record id="action_configuration_department_form" model="ir.actions.act_window.view">
             <field name="sequence" eval="4"/>
@@ -208,16 +190,13 @@ this module contains the full copyright notices and license terms. -->
             <field name="act_window_id" ref="action_configuration_department"/>
         </record>
 
-
         <record model="ir.actions.act_window" id="action_configuration_employee">
             <field name="name">Dipendenti</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">hr.employee</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
-            <!--<field name="search_view_id" ref="view_department_protocollo_search"/>-->
         </record>
-
 
         <record id="action_configuration_employee_form" model="ir.actions.act_window.view">
             <field name="sequence" eval="4"/>
@@ -232,6 +211,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="view_id" ref="hr.view_employee_tree"/>
             <field name="act_window_id" ref="action_configuration_employee"/>
         </record>
+        -->
 
         <record model="ir.actions.act_window" id="action_organigramma">
             <field name="name">Organigramma</field>
@@ -240,7 +220,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="view_type">tree</field>
             <field name="view_mode">tree,form</field>
             <field name="domain" eval="[('parent_id','=', False)]"></field>
-            <!--<field name="search_view_id" ref="view_department_protocollo_search"/>-->
         </record>
 
         <record model="ir.actions.act_window" id="action_employee_department">
@@ -258,7 +237,7 @@ this module contains the full copyright notices and license terms. -->
 	        <field name="value" eval="'ir.actions.act_window,%d'%action_employee_department"/>
 	    </record>
 
-        <menuitem name="Uffici" id="menu_rubrica_uff" parent="hr.menu_hr_main" action="action_dept_manage_office_protocollo" sequence="2"/>
+        <menuitem name="Uffici" id="menu_rubrica_uff" parent="hr.menu_hr_main" action="hr.open_module_tree_department" sequence="2"/>
         <menuitem name="Organigramma" id="menu_organigramma" parent="hr.menu_hr_main" action="action_organigramma" sequence="1"/>
 
     </data>

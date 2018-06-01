@@ -40,6 +40,7 @@ class res_users(orm.Model):
 
     _columns = {
         'group': fields.function(_get_protocollo_group, type='char', size=256, string='Gruppo Protocollo', readonly=1),
+        'profile_id': fields.many2one('protocollo.profile', 'Profilo Seedoo Protocollo')
     }
 
     
@@ -72,14 +73,16 @@ class res_users(orm.Model):
         icp = self.pool.get('ir.config_parameter')
         if safe_eval(icp.get_param(cr, uid, 'auth_signup.disable_email_create_user', 'False')):
             new_context['no_reset_password'] = True
+        if vals and vals.has_key('profile_id') and vals['profile_id']:
+            protocollo_profile = self.pool.get('protocollo.profile').browse(cr, uid, vals['profile_id'])
+            vals['groups_id'] = [(6, 0, protocollo_profile.groups_id.ids)]
         return super(res_users, self).create(cr, uid, vals, context=new_context)
 
     def write(self, cr, uid, ids, vals, context=None):
-        if self.user_has_groups(cr, uid, 'seedoo_protocollo.group_configurazione_dipendenti'):
-            return super(res_users, self).write(
-                cr, SUPERUSER_ID, ids, vals, context=context)
-        return super(res_users, self).write(
-                cr, uid, ids, vals, context=context)
+        if vals and vals.has_key('profile_id') and vals['profile_id']:
+            protocollo_profile = self.pool.get('protocollo.profile').browse(cr, uid, vals['profile_id'])
+            vals['groups_id'] = [(6, 0, protocollo_profile.groups_id.ids)]
+        return super(res_users, self).write(cr, uid, ids, vals, context=context)
 
     # TODO verifica con Peruzzu
     # def write(self, cr, uid, ids, values, context=None):
