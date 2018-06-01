@@ -2,12 +2,12 @@
 # This file is part of Seedoo.  The COPYRIGHT file at the top level of
 # this module contains the full copyright notices and license terms.
 
-from openerp.osv import fields, orm
 from openerp import SUPERUSER_ID
 from lxml import etree
 from ..segnatura.conferma_xml_parser import ConfermaXMLParser
-from openerp.osv import orm, fields
+from openerp.osv import orm, fields, osv
 from openerp.tools.translate import _
+from openerp import tools
 
 class MailMessage(orm.Model):
     _inherit = "mail.message"
@@ -48,6 +48,24 @@ class MailMessage(orm.Model):
                                                                               ])
         return res
 
+    def _get_message_to(self, cr, uid, ids, name, args, context=None):
+        res = dict.fromkeys(ids, False)
+        for message in self.browse(cr, uid, ids):
+            if message.type=='email' and message.sharedmail_to:
+                res[message.id] = message.sharedmail_to[:50] + " ..."
+            if message.type == 'email' and message.pec_to:
+                res[message.id] = message.pec_to[:50] + " ..."
+        return res
+
+    def _get_message_direction(self, cr, uid, ids, name, args, context=None):
+        res = dict.fromkeys(ids, False)
+        for message in self.browse(cr, uid, ids):
+            if message.type=='email' and message.direction_sharedmail:
+                res[message.id] = message.direction_sharedmail
+            if message.type == 'email' and message.direction:
+                res[message.id] = message.direction
+        return res
+
     _columns = {
         'pec_protocol_ref': fields.many2one('protocollo.protocollo', 'Protocollo'),
         'pec_state': fields.selection([
@@ -70,13 +88,12 @@ class MailMessage(orm.Model):
         ], 'Stato E-mail', readonly=True),
         'sharedmail_server_user': fields.related('server_sharedmail_id', 'user', type='char', readonly=True, string='Account'),
         'recovered_message_parent': fields.many2one('mail.message', 'Messaggio originale ripristino per protocollazione', readonly=True),
+        'message_to': fields.function(_get_message_to, type='char', string='To', store=False),
+        'message_direction': fields.function(_get_message_direction, type='char', string='To', store=False),
 
     }
 
-    _defaults = {
-        'pec_state': 'new',
-        'sharedmail_state': 'new',
-    }
+
 
     def action_not_protocol(self, cr, uid, ids, context=None):
         if context is None:

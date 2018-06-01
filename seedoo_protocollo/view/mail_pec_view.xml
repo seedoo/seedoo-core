@@ -4,6 +4,111 @@ this module contains the full copyright notices and license terms. -->
 
 <openerp>
     <data>
+        <!-- mail.message tree: short view !-->
+        <record model="ir.ui.view" id="view_message_tree_seedoo">
+            <field name="name">mail.message.tree.seedoo</field>
+            <field name="model">mail.message</field>
+            <field name="priority">10</field>
+            <field name="arch" type="xml">
+                <tree string="Messages">
+                    <field name="email_from"/>
+                    <field name="message_to"/>
+                    <field name="date"/>
+                    <field name="subject"/>
+                    <field name="author_id"/>
+                    <field name="type"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_message_form_seedoo">
+            <field name="name">mail.message.form.seedoo</field>
+            <field name="model">mail.message</field>
+            <field name="inherit_id" ref="mail.view_message_form"/>
+            <field name="arch" type="xml">
+                <field name="type" position="after">
+                    <field name="message_direction"/>
+                    <field name="pec_eml" invisible="1"/>
+                    <field name="pec_eml_fname" invisible="1"/>
+                    <field name="pec_eml_content" filename="pec_eml_fname" colspan="4" attrs="{'invisible':[('server_id','=',False)]}"/>
+                </field>
+                <field name="body" position="replace">
+                    <notebook>
+                        <page string="Body" class="body_mail_message">
+                            <field name="body"/>
+                        </page>
+                        <page string="Allegati" attrs="{'invisible':[('server_id','=',False)]}">
+                            <field name="message_attachs">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="file_type"/>
+                                 </tree>
+                            </field>
+                        </page>
+                        <page string="Ricevute" attrs="{'invisible':[('server_id','=',False)]}">
+                            <field name="pec_notifications_ids">
+                                <tree>
+                                    <field name="pec_type" string="Tipo"/>
+                                    <field name="cert_datetime" string="Data Ricevuta "/>
+                                    <field name="pec_server_user"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </field>
+            </field>
+        </record>
+
+        <!-- mail.message search: wall view !-->
+        <record model="ir.ui.view" id="view_message_search_seedoo">
+            <field name="name">mail.message.search.seedoo</field>
+            <field name="model">mail.message</field>
+            <field name="priority">10</field>
+            <field name="inherit_id" ref="mail.view_message_search"/>
+            <field name="arch" type="xml">
+                <field name="parent_id" position="after">
+                    <field name="email_from"/>
+                    <field name="pec_cc" string="CC PEC"/>
+                    <field name="sharedmail_cc" string="CC E-mail"/>
+                    <field name="body" string="Contenuto"/>
+                    <field name="pec_msg_id" string="PEC Id"/>
+                    <field name="date"
+                           filter_domain="[('date','&gt;=',self)]"
+                           string="Data dal:"/>
+                    <field name="date"
+                           filter_domain="[('date','&lt;=',self)]"
+                           string="Data entro il:"/>
+                    <group string="Stato Protocollo">
+                        <filter string="Protocollato" name="protocollato" domain="[('pec_state','=','protocol')]"/>
+                        <filter string="Da protocollare" name="da_protocollare" domain="[('pec_state','=','new')]"/>
+                        <filter string="Non protocollato" name="non_protocollato" domain="[('pec_state','=','not_protocol')]"/>
+                    </group>
+                    <group string="Tipo">
+                        <filter string="E-mail" name="type_email" domain="[('server_sharedmail_id','!=', False)]"/>
+                        <filter string="PEC" name="type_email" domain="[('server_id','!=', False)]"/>
+                        <filter string="Notifica" name="type_notification" domain="[('type','=','notification')]"/>
+                        <filter string="Commento" name="type_comment" domain="[('type','=','comment')]"/>
+                    </group>
+                    <group string="Ingresso/Uscita">
+                        <filter string="PEC Ingresso" name="direction_pec_in" domain="[('direction','=', 'in')]"/>
+                        <filter string="PEC Uscita" name="direction_pec_out" domain="[('direction','=', 'out')]"/>
+                        <filter string="E-mail Ingresso" name="direction_sharedmail_in" domain="[('direction_sharedmail','=', 'in')]"/>
+                        <filter string="E-mail Uscita" name="direction_sharedmail_out" domain="[('direction_sharedmail','=', 'out')]"/>
+                    </group>
+                    <group string="Tipologia PEC">
+                        <filter string="PEC" name="pec" domain="[('pec_type','=','posta-certificata')]"/>
+                        <filter string="Ricevuta Accettazione" name="accettazione" domain="[('pec_type','=','accettazione')]"/>
+                        <filter string="Ricevuta Consegna" name="avvenuta_consegna" domain="[('pec_type','=','avvenuta-consegna')]"/>
+                    </group>
+                    <group expand="0" string="Group By">
+                        <filter string="Da" name="thread" domain="[]" context="{'group_by':'email_from'}"/>
+                        <filter string="A" name="thread" domain="[]" context="{'group_by':'message_to'}"/>
+                        <filter string="Data" name="thread" domain="[]" context="{'group_by':'date:week'}"/>
+                    </group>
+                </field>
+            </field>
+        </record>
+
         <record model='ir.ui.view' id='protocollo_pec_form'>
             <field name="name">protocollo.pec.form</field>
             <field name="model">mail.message</field>

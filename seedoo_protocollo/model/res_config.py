@@ -54,6 +54,8 @@ class protocollo_config_settings(osv.osv_memory):
                  type='boolean', string='Documento principale'),
         'allegati_descrizione_required': fields.related('config_id', 'allegati_descrizione_required',
                                              type='boolean', string='Descrizione allegati'),
+        'data_ricezione_required': fields.related('config_id', 'data_ricezione_required',
+                                             type='boolean', string='Data di ricezione (in ingresso)'),
         'aggiungi_allegati_post_registrazione': fields.related('config_id', 'aggiungi_allegati_post_registrazione',
                                              type='boolean', string='Aggiungi allegato Post-Registrazione'),
         'email_pec_unique': fields.related('config_id', 'email_pec_unique', type='boolean', string='PEC/Email Univoca'),

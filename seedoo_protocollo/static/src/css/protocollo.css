@@ -519,6 +519,9 @@ li.badge {
 table.oe_form_group.subject_modify_wizard tr > td {
   padding-right: 25px;
 }
+.body_mail_message {
+  min-height: 150px;
+}
 .openerp .oe_notebook > li.ui-state-active > a.ui-tabs-anchor {
   color: #666 !important;
 }

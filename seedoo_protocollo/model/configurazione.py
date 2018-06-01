@@ -28,6 +28,7 @@ class protocollo_configurazione(orm.Model):
 
         'documento_required': fields.boolean('Documento Obbligatorio'),
         'allegati_descrizione_required': fields.boolean('Descrizione allegati Obbligatoria'),
+        'data_ricezione_required': fields.boolean('Data Ricezione (in ingresso) Obbligatoria'),
 
         'aggiungi_allegati_post_registrazione': fields.boolean('Aggiungi allegati Post Registrazione'),
         'lunghezza_massima_oggetto_mail': fields.integer('Lunghezza massima oggetto e-mail'),
@@ -55,6 +56,7 @@ class protocollo_configurazione(orm.Model):
         'assegnatari_conoscenza_dipendenti_required': False,
         'documento_required': False,
         'allegati_descrizione_required': False,
+        'data_ricezione_required': False,
         'aggiungi_allegati_post_registrazione': False,
         'lunghezza_massima_oggetto_mail': 256,
         'lunghezza_massima_oggetto_pec': 256,
@@ -142,6 +144,9 @@ class protocollo_configurazione(orm.Model):
                 for attach in protocollo.attachment_ids:
                     if len(attach.datas_description) == 0:
                         campi_obbligatori = campi_obbligatori + '<li>Descrizione allegato: ' + attach.name.encode('utf-8') + '</li>'
+            if protocollo.type == 'in' and configurazione.data_ricezione_required and not protocollo.receiving_date:
+                campi_obbligatori = campi_obbligatori + '<li>Data di ricezione</li>'
+
             if not protocollo.doc_id.ids and protocollo.attachment_ids:
                 campi_obbligatori = campi_obbligatori + '<li>Documento principale (obbligatorio se sono presenti allegati)</li>'
         if campi_obbligatori:
