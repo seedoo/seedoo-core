@@ -71,6 +71,7 @@
         "view/protocollo_aoo_view.xml",
         "view/mail_pec_view.xml",
         "view/sharedmail_view.xml",
+        "view/fetchmail_view.xml",
         # "view/contact_view.xml",
         "view/report_view.xml",
         "view/menu_item.xml",

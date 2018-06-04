@@ -40,7 +40,7 @@ class res_users(orm.Model):
 
     _columns = {
         'group': fields.function(_get_protocollo_group, type='char', size=256, string='Gruppo Protocollo', readonly=1),
-        'profile_id': fields.many2one('protocollo.profile', 'Profilo Seedoo Protocollo')
+        'profile_id': fields.many2one('protocollo.profile', 'Seedoo')
     }
 
     

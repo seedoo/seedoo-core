@@ -139,49 +139,52 @@ this module contains the full copyright notices and license terms. -->
                   action="protocollo_aoo_action"
                   groups="group_configurazione_aoo"
                   parent="protocollo_configuration"
-                  sequence="1"/>
+                  sequence="10"/>
 
         <menuitem name="Mezzi di Trasmissione"
                   action="protocollo_typology_act"
                   id="protocollo_typology_menu"
                   groups="group_configurazione_mezzi_trasmissione"
-                  parent="protocollo_configuration" sequence="2"/>
+                  parent="protocollo_configuration"
+                  sequence="20"/>
 
         <menuitem name="Titolario"
                   action="protocollo_classification_def_act"
                   parent="protocollo_configuration"
                   id="protocollo_configuration_classification_menu"
                   groups="group_configurazione_titolario"
-                  sequence="3"/>
-
-        <menuitem name="Uffici" action="hr.open_module_tree_department"
-                  parent="protocollo_configuration"
-                  id="protocollo_configuration_department"
-                  groups="group_configurazione_uffici"
-                  sequence="4"/>
-
-        <menuitem name="Dipendenti" action="hr.open_view_employee_list_my"
-                  parent="protocollo_configuration"
-                  id="protocollo_configuration_employee"
-                  groups="group_configurazione_dipendenti"
-                  sequence="5"/>
+                  sequence="30"/>
 
         <menuitem name="Utenti" action="action_res_users_protocollo"
                   parent="protocollo_configuration"
                   id="protocollo_configuration_user"
                   groups="group_configurazione_utenti"
-                  sequence="6"/>
+                  sequence="40"/>
+
+        <menuitem name="Uffici" action="hr.open_module_tree_department"
+                  parent="protocollo_configuration"
+                  id="protocollo_configuration_department"
+                  groups="group_configurazione_uffici"
+                  sequence="50"/>
+
+        <menuitem name="Dipendenti" action="hr.open_view_employee_list_my"
+                  parent="protocollo_configuration"
+                  id="protocollo_configuration_employee"
+                  groups="group_configurazione_dipendenti"
+                  sequence="60"/>
+
+        <menuitem name="Email/PEC"
+                  parent="protocollo_configuration"
+                  id="protocollo_configuration_email_pec"
+                  sequence="70"/>
 
         <menuitem name="Parametri Generali" action="protocollo_config_settings_act"
                   parent="protocollo_configuration"
                   id="protocollo_configuration_menu"
                   groups="group_configurazione_parametri"
-                  sequence="7"/>
+                  sequence="90"/>
 
-        <menuitem name="Email/PEC"
-                  parent="protocollo_configuration"
-                  id="protocollo_configuration_email_pec"
-                  sequence="8"/>
+
 
         <menuitem name="Server in Ingresso" action="fetchmail.action_email_server_tree"
                   parent="protocollo_configuration_email_pec"

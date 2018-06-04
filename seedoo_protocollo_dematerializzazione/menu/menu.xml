@@ -22,7 +22,7 @@ this module contains the full copyright notices and license terms. -->
                   sequence="2"/>
 
         <menuitem id="dematerializzazione_configuration_menu"
-                  name="Dematerializzazione"
+                  name="Parametri Demat"
                   action="dematerializzazione_config_settings_act"
                   parent="seedoo_protocollo.protocollo_configuration"
                   groups="group_configurazione_dematerializzazione"
@@ -33,7 +33,7 @@ this module contains the full copyright notices and license terms. -->
                   action="dematerializzazione_importer_action"
                   parent="seedoo_protocollo.protocollo_configuration"
                   groups="group_configurazione_importer"
-                  sequence="101"/>
+                  sequence="80"/>
 
         <menuitem id="dematerializzazione_document_menu" name="Documenti Importati"
                   parent="seedoo_protocollo.protocollo_doc_in"

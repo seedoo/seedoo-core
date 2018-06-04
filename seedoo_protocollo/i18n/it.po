@@ -89,3 +89,13 @@ msgstr ""
 #: model:email.template,subject:auth_signup.set_password_email
 msgid "${object.company_id.name} invitation to connect on Odoo"
 msgstr "Invito a connettersi a Seedoo"
+
+#. module: l10n_it_pec_messages
+#: view:res.users:0
+msgid "Fetchmail servers"
+msgstr "Account PEC"
+
+#. module: sharedmail
+#: view:res.users:0
+msgid "Fetchmail sharedmail servers"
+msgstr "Account Email"
