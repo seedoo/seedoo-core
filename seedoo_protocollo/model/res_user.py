@@ -73,16 +73,34 @@ class res_users(orm.Model):
         icp = self.pool.get('ir.config_parameter')
         if safe_eval(icp.get_param(cr, uid, 'auth_signup.disable_email_create_user', 'False')):
             new_context['no_reset_password'] = True
+        user_id = super(res_users, self).create(cr, uid, vals, context=new_context)
         if vals and vals.has_key('profile_id') and vals['profile_id']:
-            protocollo_profile = self.pool.get('protocollo.profile').browse(cr, uid, vals['profile_id'])
-            vals['groups_id'] = [(6, 0, protocollo_profile.groups_id.ids)]
-        return super(res_users, self).create(cr, uid, vals, context=new_context)
+            profile_obj = self.pool.get('protocollo.profile')
+            profile = profile_obj.browse(cr, uid, vals['profile_id'])
+            profile_obj.associate_profile_to_user(cr, uid, profile, [], user_id)
+        return user_id
 
     def write(self, cr, uid, ids, vals, context=None):
-        if vals and vals.has_key('profile_id') and vals['profile_id']:
-            protocollo_profile = self.pool.get('protocollo.profile').browse(cr, uid, vals['profile_id'])
-            vals['groups_id'] = [(6, 0, protocollo_profile.groups_id.ids)]
-        return super(res_users, self).write(cr, uid, ids, vals, context=context)
+        old_user_group_ids = {}
+
+        if vals and vals.has_key('profile_id'):
+            for user in self.browse(cr, uid, ids):
+                if user and user.profile_id and user.profile_id.groups_id:
+                    old_user_group_ids[user.id] = user.profile_id.groups_id.ids
+                else:
+                    old_user_group_ids[user.id] = []
+
+        result = super(res_users, self).write(cr, uid, ids, vals, context=context)
+
+        if vals and vals.has_key('profile_id'):
+            profile = None
+            profile_obj = self.pool.get('protocollo.profile')
+            if vals['profile_id']:
+                profile = profile_obj.browse(cr, uid, vals['profile_id'])
+            for user in self.browse(cr, uid, ids):
+                profile_obj.associate_profile_to_user(cr, uid, profile, old_user_group_ids[user.id], user.id)
+
+        return result
 
     # TODO verifica con Peruzzu
     # def write(self, cr, uid, ids, values, context=None):

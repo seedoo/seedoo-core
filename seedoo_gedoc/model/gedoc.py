@@ -12,9 +12,7 @@ class res_users(osv.Model):
     _inherit = "res.users"
 
     def on_change_login(self, cr, uid, ids, login, context=None):
-        if login and tools.single_email_re.match(login):
-            return {'value': {'email': login}}
-        else:
+        if login and not tools.single_email_re.match(login):
             raise osv.except_osv(_('Warning!'), _('Devi inserire un indirizzo e-mail valido'))
 
     def create(self, cr, uid, vals, context=None):
