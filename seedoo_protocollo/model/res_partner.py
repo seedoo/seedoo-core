@@ -7,7 +7,7 @@ import re
 
 from openerp import netsvc
 from openerp.osv import *
-from openerp.osv import orm
+from openerp.osv import orm, fields
 
 _logger = logging.getLogger(__name__)
 
@@ -54,9 +54,6 @@ class res_partner(orm.Model):
         'ident_code': fields.char('Codice AOO', size=256, required=False),
         'ammi_code': fields.char('Codice iPA', size=256, required=False),
         'ipa_code': fields.char('Codice Unità Organizzativa', size=256, required=False),
-        #'parent_pa_id': fields.many2one('res.partner', 'PA di Appartenenza', required=False),
-        #'parent_pa_type': fields.related('parent_pa_id', 'pa_type', type='char', readonly=True, string='Tipologia amministrazione padre'),
-        #'child_pa_ids': fields.one2many('res.partner', 'parent_pa_id', 'Strutture Afferenti', required=False)
 
         'is_visible_parent_id': fields.function(_is_visible_parent_id, fnct_search=_is_visible_parent_id_search, type='boolean', string='Visibile'),
     }

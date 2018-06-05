@@ -26,13 +26,3 @@ class Protocollo(models.Model):
                         protocollo.in_attesa = False
                         protocollo.preso = False
                         protocollo.rifiutato = True
-
-    # @api.model
-    # def recompute(self):
-    #     self.with_context(skip_check=True)
-    #     cr, uid, context = self.env.args
-    #     new_context = dict(context or {})
-    #     new_context['skip_check'] = True
-    #     new_args = (cr, uid, new_context)
-    #     self.env.args = new_args
-    #     super(Protocollo, self).recompute()

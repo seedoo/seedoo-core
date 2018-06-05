@@ -15,6 +15,7 @@ from . import protocollo_permissions
 from . import protocollo_permissions_new_api
 from . import res_config
 from . import res_partner
+from . import res_partner_new_api
 from . import res_user
 from . import util
 from . import tile_tile
