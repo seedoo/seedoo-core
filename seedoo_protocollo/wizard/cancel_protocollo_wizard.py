@@ -26,12 +26,12 @@ class wizard(osv.TransientModel):
             readonly=False
         ),
         'user_id': fields.many2one(
-            'res.users',
+            'hr.employee',
             'Responsabile',
             readonly=True
         ),
         'agent_id': fields.many2one(
-            'res.users',
+            'hr.employee',
             'Mandante',
             readonly=False
         ),
@@ -42,9 +42,15 @@ class wizard(osv.TransientModel):
         ),
     }
 
+    def _default_user_id(self, cr, uid, context):
+        employee_ids = self.pool.get('hr.employee').search(cr, uid, [('user_id', '=', uid)])
+        if employee_ids:
+            return employee_ids[0]
+        else:
+            False
+
     _defaults = {
-        'user_id': lambda obj, cr, uid, context: uid,
-        'agent_id': lambda obj, cr, uid, context: uid,
+        'user_id': _default_user_id,
         'date_cancel': fields.datetime.now
     }
 
@@ -71,9 +77,13 @@ class wizard(osv.TransientModel):
                 self.pool.get('protocollo.protocollo').action_send_receipt(cr, uid, [protocollo.id], 'annullamento', context=new_context)
 
             action_class = "history_icon trash"
-            body = "<div class='%s'><ul><li style='color:#990000;'><strong>Annullamento autorizzato da: %s</strong></li></ul></div>" % (action_class, wizard.agent_id.name)
 
-            post_vars = {'subject': "Protocollo Annullato:  %s" %wizard.name,
+            request_by = wizard.user_id.name
+            if wizard.agent_id:
+                request_by = wizard.agent_id.name
+            body = "<div class='%s'><ul><li>Annullamento richiesto da <span style='color:#990000;'>%s</span></li></ul></div>" % (action_class, request_by)
+
+            post_vars = {'subject': "Protocollo annullato:  %s" %wizard.name,
                          'body': body,
                          'model': "protocollo.protocollo",
                          'res_id': context['active_id'],

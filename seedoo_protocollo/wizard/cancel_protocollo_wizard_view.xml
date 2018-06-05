@@ -20,8 +20,8 @@ this module contains the full copyright notices and license terms. -->
                     <sheet>
                         <group>
                             <field name="name"/>
-                            <field name="user_id"/>
-                            <field name="agent_id"/>
+                            <field name="user_id" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}"/>
+                            <field name="agent_id" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}"/>
                             <field name="date_cancel"/>
                         </group>
                     </sheet>

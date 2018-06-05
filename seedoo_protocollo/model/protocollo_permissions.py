@@ -1405,12 +1405,13 @@ class protocollo_protocollo(osv.Model):
         for protocollo in protocolli:
             check = False
 
-            if protocollo.type == 'in':
-                check = self.user_has_groups(cr, uid,
-                                             'seedoo_protocollo.group_modifica_classificazione_protocollo_ingresso')
-            elif protocollo.type == 'out':
-                check = self.user_has_groups(cr, uid,
-                                             'seedoo_protocollo.group_modifica_classificazione_protocollo_uscita')
+            if protocollo.state != 'canceled':
+                if protocollo.type == 'in':
+                    check = self.user_has_groups(cr, uid,
+                                                 'seedoo_protocollo.group_modifica_classificazione_protocollo_ingresso')
+                elif protocollo.type == 'out':
+                    check = self.user_has_groups(cr, uid,
+                                                 'seedoo_protocollo.group_modifica_classificazione_protocollo_uscita')
 
             if not check and \
                     protocollo.state == 'draft' and \
@@ -1460,12 +1461,13 @@ class protocollo_protocollo(osv.Model):
         for protocollo in protocolli:
             check = False
 
-            if protocollo.type == 'in':
-                check = self.user_has_groups(cr, uid,
-                                             'seedoo_protocollo.group_modifica_fascicolazione_protocollo_ingresso')
-            elif protocollo.type == 'out':
-                check = self.user_has_groups(cr, uid,
-                                             'seedoo_protocollo.group_modifica_fascicolazione_protocollo_uscita')
+            if protocollo.state != 'canceled':
+                if protocollo.type == 'in':
+                    check = self.user_has_groups(cr, uid,
+                                                 'seedoo_protocollo.group_modifica_fascicolazione_protocollo_ingresso')
+                elif protocollo.type == 'out':
+                    check = self.user_has_groups(cr, uid,
+                                                 'seedoo_protocollo.group_modifica_fascicolazione_protocollo_uscita')
 
             if not check and \
                     protocollo.state == 'draft' and \
@@ -1514,11 +1516,12 @@ class protocollo_protocollo(osv.Model):
         for protocollo in protocolli:
             check = False
 
-            if protocollo.type == 'in':
-                check = self.user_has_groups(cr, uid,
-                                             'seedoo_protocollo.group_modifica_assegnatari_protocollo_ingresso')
-            elif protocollo.type == 'out':
-                check = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_modifica_assegnatari_protocollo_uscita')
+            if protocollo.state != 'canceled':
+                if protocollo.type == 'in':
+                    check = self.user_has_groups(cr, uid,
+                                                 'seedoo_protocollo.group_modifica_assegnatari_protocollo_ingresso')
+                elif protocollo.type == 'out':
+                    check = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_modifica_assegnatari_protocollo_uscita')
 
             if not check and \
                     protocollo.state == 'draft' and \
