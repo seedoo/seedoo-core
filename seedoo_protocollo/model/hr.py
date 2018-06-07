@@ -18,37 +18,19 @@ class hr_department(orm.Model):
         'aoo_name': fields.related('aoo_id', 'name', type='char', string='Nome AOO', readonly=1),
     }
 
-    def write(self, cr, uid, ids, vals, context=None):
-        if context is None:
-            context = {}
-        if not ids:
-            return True
-        if not hasattr(ids, '__iter__'):
-            ids = [ids]
+    def _check_department_depth(self, cr, uid, ids):
+        for department in self.browse(cr, uid, ids):
+            if department.aoo_id and ((department.parent_id and department.child_ids) or (department.parent_id and department.parent_id.parent_id)):
+                raise orm.except_orm('Errore', 'La gerarchia degli uffici di una AOO non possono superare il secondo livello!')
 
-        objsdep = self.browse(cr, uid, ids, context=context)
-        for dep in objsdep:
-            if dep.manager_id.user_id is not None:
-                manager_id = dep.manager_id.user_id.id
-                if (
-                        vals.get('manager_id') or
-                        vals.get('type')):
-                    if ((uid == SUPERUSER_ID) or (uid == manager_id)):
-                        res = super(hr_department, self).write(
-                            cr, uid, ids, vals, context
-                            )
-                    else:
-                        raise orm.except_orm(
-                            'Error !',
-                            "Only the administrator or manager"
-                            "can change configuration fields"
-                        )
-                else:
-                    res = super(hr_department, self).write(
-                        cr, uid, ids, vals, context)
-            else:
-                res = super(hr_department, self).write(
-                    cr, uid, ids, vals, context)
+    def create(self, cr, uid, vals, context=None):
+        department_id = super(hr_department, self).create(cr, uid, vals, context=context)
+        self._check_department_depth(cr, uid, [department_id])
+        return department_id
+
+    def write(self, cr, uid, ids, vals, context=None):
+        res = super(hr_department, self).write(cr, uid, ids, vals, context)
+        self._check_department_depth(cr, uid, ids)
         return res
 
 
