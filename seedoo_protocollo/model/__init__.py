@@ -7,6 +7,7 @@ from . import hr
 from . import ir_attachment
 from . import mail_message
 from . import mail_message_permissions
+from . import fetchmail
 from . import protocollo_sender_receiver
 from . import protocollo
 from . import protocollo_aoo

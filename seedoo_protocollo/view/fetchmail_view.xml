@@ -12,6 +12,42 @@
                     <attribute name="groups">base.group_system</attribute>
                 </button>
 
+                <notebook position="inside">
+                    <page string="Seedoo">
+                        <group>
+                            <field name="move_processed_emails"/>
+                            <field name="email_account" attrs="{'invisible': [('move_processed_emails','=',False)], 'required': [('move_processed_emails','=',True)]}"/>
+                            <field name="processed_folder" attrs="{'invisible': [('move_processed_emails','=',False)], 'required': [('move_processed_emails','=',True)]}"/>
+                            <field name="error_folder" attrs="{'invisible': [('move_processed_emails','=',False)], 'required': [('move_processed_emails','=',True)]}"/>
+                        </group>
+                    </page>
+                    <page string="Storico">
+                        <group>
+                            <field name="fetchmail_server_history_ids" nolabel="1">
+                                <tree>
+                                    <field name="action"/>
+                                    <field name="result"/>
+                                    <field name="email_successed_count"/>
+                                    <field name="email_failed_count"/>
+                                    <field name="datetime_start"/>
+                                    <field name="datetime_end"/>
+                                </tree>
+                                <form>
+                                    <group col="4">
+                                        <field name="action"/>
+                                        <field name="result"/>
+                                        <field name="email_successed_count"/>
+                                        <field name="email_failed_count"/>
+                                        <field name="datetime_start"/>
+                                        <field name="datetime_end"/>
+                                        <field name="error_description" attrs="{'invisible': [('result','=','success')]}"/>
+                                    </group>
+                                </form>
+                            </field>
+                        </group>
+                    </page>
+                </notebook>
+
             </field>
         </record>
 
