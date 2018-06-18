@@ -61,8 +61,8 @@ class wizard(osv.TransientModel):
         ),
         'typology': fields.many2one(
             'protocollo.typology',
-            'Tipologia',
-            help="Tipologia invio/ricevimento: \
+            'Mezzo di Trasmissione',
+            help="Mezzo di Trasmissione: \
                 Raccomandata, Fax, PEC, etc. \
                 si possono inserire nuove tipologie \
                 dal menu Tipologie."
@@ -198,9 +198,10 @@ class wizard(osv.TransientModel):
             after['Account PEC'] = wizard.server_pec_id.name
             vals['server_pec_id'] = wizard.server_pec_id.id
 
-        vals['subject'] = wizard.subject
-        before['Oggetto'] = protocollo.subject
-        after['Oggetto'] = wizard.subject
+        if wizard.subject != protocollo.subject:
+            vals['subject'] = wizard.subject
+            before['Oggetto'] = protocollo.subject
+            after['Oggetto'] = wizard.subject
 
         if protocollo.receiving_date != wizard.receiving_date:
             vals['receiving_date'] = wizard.receiving_date
@@ -209,8 +210,8 @@ class wizard(osv.TransientModel):
 
         protocollo_obj.write(cr, uid, [context['active_id']], vals)
 
-        action_class = "history_icon update"
-        body = "<div class='%s'><ul>" % action_class
+
+        body = ''
         for key, before_item in before.items():
             if before[key] != after[key]:
                 body = body + "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#009900'> %s </span></li>" \
@@ -218,20 +219,23 @@ class wizard(osv.TransientModel):
             else:
                 body = body + "<li>%s: <span style='color:#666'> %s</span> -> <span style='color:#666'> %s </span></li>" \
                               % (str(key), before_item, after[key])
-        body += "</ul></div>"
+        if body:
+            action_class = "history_icon update"
+            body_complete = "<div class='%s'><ul>" % action_class
+            body_complete += body + "</ul></div>"
 
-        post_vars = {'subject': "Modifica dati generali: \'%s\'" % wizard.cause,
-                     'body': body,
-                     'model': "protocollo.protocollo",
-                     'res_id': context['active_id'],
-                    }
+            post_vars = {'subject': "Modifica dati generali: \'%s\'" % wizard.cause,
+                         'body': body_complete,
+                         'model': "protocollo.protocollo",
+                         'res_id': context['active_id'],
+                        }
 
-        new_context = dict(context).copy()
-        # if protocollo.typology.name == 'PEC':
-        new_context.update({'pec_messages': True})
+            new_context = dict(context).copy()
+            # if protocollo.typology.name == 'PEC':
+            new_context.update({'pec_messages': True})
 
-        thread_pool = self.pool.get('protocollo.protocollo')
-        thread_pool.message_post(cr, uid, context['active_id'], type="notification", context=new_context, **post_vars)
+            thread_pool = self.pool.get('protocollo.protocollo')
+            thread_pool.message_post(cr, uid, context['active_id'], type="notification", context=new_context, **post_vars)
 
         return {
                 'name': 'Protocollo',

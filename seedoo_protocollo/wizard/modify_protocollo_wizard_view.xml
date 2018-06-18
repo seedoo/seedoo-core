@@ -39,7 +39,7 @@ this module contains the full copyright notices and license terms. -->
                                 <field name="server_pec_id" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}" attrs="{'invisible':['|',('pec','!=',True),('type','=','in')],
                                                                     'required': [('pec','=',True),('type','=','out')]}" />
                                 <newline/>
-                                <field name="receiving_date"/>
+                                <field name="receiving_date" attrs="{'invisible':[('type','=','out')]}"/>
                             </group>
                          </group>
                         <separator string="Motivazione"/>
