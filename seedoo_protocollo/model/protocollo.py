@@ -1155,7 +1155,17 @@ class protocollo_protocollo(orm.Model):
                 mail_mail = self.pool.get('mail.mail')
                 new_context = dict(context).copy()
                 new_context.update({'pec_messages': True})
-                mail_server = self.get_mail_server(cr, uid, new_context)
+                #mail_server = self.get_mail_server(cr, uid, new_context)
+
+                mail_server = None
+                if prot.mail_pec_ref and prot.mail_pec_ref.server_id:
+                    mail_server_obj = self.pool.get('ir.mail_server')
+                    mail_server_ids = mail_server_obj.get_mail_server_pec(cr, uid, prot.mail_pec_ref.server_id.id, context)
+                    if not mail_server_ids:
+                        raise openerp.exceptions.Warning(_('Errore nella notifica del protocollo, manca il server di posta in uscita'))
+                    mail_server = mail_server_obj.browse(cr, uid, mail_server_ids[0])
+                else:
+                    raise openerp.exceptions.Warning(_('Errore nella notifica del protocollo, nessun server pec trovato'))
 
                 sender_receivers_pec_mails = []
                 sender_receivers_pec_ids = []
