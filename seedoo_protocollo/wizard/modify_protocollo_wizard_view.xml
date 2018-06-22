@@ -29,9 +29,13 @@ this module contains the full copyright notices and license terms. -->
                         <group col="4" string="Informazioni Generali" class="subject_modify_wizard">
                             <group col="2">
                                 <field name="subject"/>
+                                <field name="body" attrs="{'invisible':['|',('type','=','in'),'&amp;',('pec','=',False),('sharedmail','=',False)],
+                                                           'required': [('type','=','out'),'|',('pec','=',True),('sharedmail','=',True)]}"/>
                             </group>
                             <group col="2">
                                 <field name="typology" on_change="on_change_typology(typology)" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}"/>
+                                <newline/>
+                                <field name="email_error" nolabel="1" class="message-error" attrs="{'invisible':[('email_error','=','')]}" colspan="2"/>
                                 <newline/>
                                 <field name="server_sharedmail_id" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}" attrs="{'invisible':['|',('sharedmail','!=',True),('type','=','in')],
                                                                    'required': [('sharedmail','=',True),('type','=','out')]}" />
@@ -68,8 +72,8 @@ this module contains the full copyright notices and license terms. -->
                     </sheet>
                     <footer>
                         <button string="Ok" name="action_save" type="object"
+                                attrs="{'invisible':[('email_error','!=','')]}"
                                 class="oe_highlight"/>
-                        o
                         <button string="Abbandona" class="oe_link"
                                 special="cancel"/>
                     </footer>

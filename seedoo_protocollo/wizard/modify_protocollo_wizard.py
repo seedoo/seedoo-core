@@ -36,16 +36,35 @@ class wizard(osv.TransientModel):
         return protocollo.write_date
 
     def on_change_typology(self, cr, uid, ids, typology_id, context=None):
-        values = {'pec': False, 'sharedmail': False}
+        values = {'pec': False, 'sharedmail': False, 'email_error': ''}
         if typology_id:
             typology_obj = self.pool.get('protocollo.typology')
             typology = typology_obj.browse(cr, uid, typology_id)
+            protocollo_obj = self.pool.get('protocollo.protocollo')
+            protocollo = protocollo_obj.browse(cr, uid, context['active_id'], {'skip_check': True})
             if typology.pec:
                 values['pec'] = True
                 values['sharedmail'] = False
+                if protocollo.type == 'out':
+                    for sender_receiver in protocollo.sender_receivers:
+                        if not sender_receiver.pec_mail:
+                            values['email_error'] = "Attenzione!\nIl mezzo di trasmissione 'PEC' non può essere usato perchè ci sono dei destinatari privi di email PEC!"
+                            break
             if typology.sharedmail:
                 values['pec'] = False
                 values['sharedmail'] = True
+                if protocollo.type == 'out':
+                    for sender_receiver in protocollo.sender_receivers:
+                        if not sender_receiver.email:
+                            values['email_error'] = "Attenzione!\nIl mezzo di trasmissione 'Email' non può essere usato perchè ci sono dei destinatari privi di email!"
+                            break
+
+            if protocollo.typology.id != typology.id:
+                if protocollo.typology.pec:
+                    values['email_error'] = "Attenzione!\nIl mezzo di trasmissione 'PEC' non può essere modificato!"
+                elif typology.pec:
+                    values['email_error'] = "Attenzione!\nIl mezzo di trasmissione 'PEC' non può essere inserito in questa fase!"
+
         return {'value': values}
 
     _columns = {
@@ -70,7 +89,8 @@ class wizard(osv.TransientModel):
         'pec': fields.related('typology', 'pec', type='boolean', string='PEC', readonly=False, store=False),
         'sharedmail': fields.related('typology', 'sharedmail', type='boolean', string='Sharedmail', readonly=False, store=False),
         'receiving_date': fields.datetime('Data Ricezione', required=False,),
-        'subject': fields.text('Oggetto', required=True,),
+        'subject': fields.text('Oggetto', required=True),
+        'body': fields.html('Corpo della mail'),
         'classification': fields.many2one('protocollo.classification', 'Titolario di Classificazione', required=False,),
         'sender_protocol': fields.char('Protocollo Mittente', required=False,),
         'server_sharedmail_id': fields.many2one('fetchmail.server', 'Account Email', domain="[('sharedmail', '=', True),('user_sharedmail_ids', 'in', uid)]"),
@@ -82,7 +102,8 @@ class wizard(osv.TransientModel):
             'Fascicoli'),
         'notes': fields.text('Note'),
         'cause': fields.text('Motivo della Modifica', required=True),
-        'last_write_date': fields.datetime('Ultimo salvataggio', required=True)
+        'last_write_date': fields.datetime('Ultimo salvataggio', required=True),
+        'email_error': fields.text('Errore', readonly=True),
     }
 
     def _default_name(self, cr, uid, context):
@@ -108,6 +129,10 @@ class wizard(osv.TransientModel):
     def _default_subject(self, cr, uid, context):
         protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
         return protocollo.subject
+
+    def _default_body(self, cr, uid, context):
+        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
+        return protocollo.body
 
     def _default_classification(self, cr, uid, context):
         protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
@@ -147,13 +172,15 @@ class wizard(osv.TransientModel):
         'typology': _default_typology,
         'receiving_date': _default_receiving_date,
         'subject': _default_subject,
+        'body': _default_body,
         'classification': _default_classification,
         'sender_protocol': _default_sender_protocol,
         'dossier_ids': _default_dossier_ids,
         'notes': _default_notes,
         'last_write_date': _default_last_write_date,
         'server_sharedmail_id': _default_server_sharedmail_id,
-        'server_pec_id': _default_server_pec_id
+        'server_pec_id': _default_server_pec_id,
+        'email_error': ''
     }
 
     def action_save(self, cr, uid, ids, context=None):
@@ -202,6 +229,11 @@ class wizard(osv.TransientModel):
             vals['subject'] = wizard.subject
             before['Oggetto'] = protocollo.subject
             after['Oggetto'] = wizard.subject
+
+        if wizard.body != protocollo.body:
+            vals['body'] = wizard.body
+            before['Corpo della mail'] = protocollo.body
+            after['Corpo della mail'] = wizard.body
 
         if protocollo.receiving_date != wizard.receiving_date:
             vals['receiving_date'] = wizard.receiving_date

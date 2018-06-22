@@ -974,3 +974,7 @@ div.dati-protocollo-container h4:before {
     font-size: 18px;
   }
 }
+
+.message-error {
+  color: #f00;
+}
