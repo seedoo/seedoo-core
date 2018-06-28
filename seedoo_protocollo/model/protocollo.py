@@ -549,10 +549,10 @@ class protocollo_protocollo(orm.Model):
         'assegnazione_ids': fields.one2many('protocollo.assegnazione', 'protocollo_id', 'Assegnatari', readonly=True),
         'assegnazione_first_level_ids': fields.one2many('protocollo.assegnazione', 'protocollo_id', 'Assegnatari',
                                                         domain=[('parent_id', '=', False)], readonly=True),
-        'assegnazione_competenza_ids': fields.one2many('protocollo.assegnazione', 'protocollo_id', 'Assegnatari',
+        'assegnazione_competenza_ids': fields.one2many('protocollo.assegnazione', 'protocollo_id', 'Assegnatari per Competenza',
                                        domain=[('parent_id', '=', False),('tipologia_assegnazione', '=', 'competenza')],
                                        readonly=True),
-        'assegnazione_conoscenza_ids': fields.one2many('protocollo.assegnazione', 'protocollo_id', 'Assegnatari',
+        'assegnazione_conoscenza_ids': fields.one2many('protocollo.assegnazione', 'protocollo_id', 'Assegnatari per Conoscenza',
                                        domain=[('parent_id', '=', False), ('tipologia_assegnazione', '=', 'conoscenza')],
                                        readonly=True),
 

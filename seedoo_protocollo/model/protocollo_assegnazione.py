@@ -18,6 +18,15 @@ class protocollo_assegnatario(osv.osv):
         res = self.name_get(cr, uid, ids, context=context)
         return dict(res)
 
+    def _name_search_fnc(self, cr, uid, obj, name, args, domain=None, context=None):
+        new_args = []
+        for arg in args:
+            new_arg = list(arg)
+            if new_arg[0] == 'name':
+                new_arg[0] = 'nome'
+            new_args.append(new_arg)
+        return new_args
+
     def _no_checkbox_get_fnc(self, cr, uid, ids, prop, unknow_none, context=None):
         if context is None:
             context = {}
@@ -39,7 +48,7 @@ class protocollo_assegnatario(osv.osv):
         return res
 
     _columns = {
-        'name': fields.function(_dept_name_get_fnc, type='char', string='Name'),
+        'name': fields.function(_dept_name_get_fnc, fnct_search=_name_search_fnc, type='char', string='Name'),
         'nome': fields.char('Nome', size=512, readonly=True),
         'tipologia': fields.selection(TIPO_ASSEGNATARIO_SELECTION, 'Tipologia', readonly=True),
         'employee_id': fields.many2one('hr.employee', 'Dipendente', readonly=True),
@@ -98,6 +107,8 @@ class protocollo_assegnatario(osv.osv):
 class protocollo_assegnazione(orm.Model):
     _name = 'protocollo.assegnazione'
     _order = 'tipologia_assegnazione'
+
+    _rec_name = 'assegnatario_id'
 
     _columns = {
         'protocollo_id': fields.many2one('protocollo.protocollo', 'Protocollo', ondelete='cascade'),

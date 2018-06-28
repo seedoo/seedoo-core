@@ -1040,6 +1040,52 @@ class protocollo_protocollo(osv.Model):
     # Filtri sulle viste tree dei protocolli
     ####################################################################################################################
 
+    def _get_protocollo_assegnazione_ids(self, cr, uid, tipologia_assegnazione, tipologia_assegnatario, nome):
+        cr.execute('''
+            SELECT DISTINCT(pa.protocollo_id) 
+            FROM protocollo_protocollo pp, protocollo_assegnazione pa, protocollo_assegnatario ass
+            WHERE pp.id = pa.protocollo_id AND 
+                  pa.tipologia_assegnazione = %s AND
+                  pa.tipologia_assegnatario = %s AND
+                  pa.parent_id IS NULL AND
+                  pa.assegnatario_id = ass.id AND 
+                  ass.nome ILIKE %s
+        ''', (tipologia_assegnazione, tipologia_assegnatario, '%' + nome + '%',))
+        protocollo_ids = [res[0] for res in cr.fetchall()]
+        return protocollo_ids
+
+    def _get_assegnazione_competenza_dipendente_ids(self, cr, uid, ids, field_names, arg=None, context=None):
+        result = dict((res_id, []) for res_id in ids)
+        return result
+
+    def _search_assegnazione_competenza_dipendente_ids(self, cr, uid, obj, name, args, domain=None, context=None):
+        #TODO: gestire gli altri casi della ricerca
+        return [('id', 'in', self._get_protocollo_assegnazione_ids(cr, uid, 'competenza', 'employee', args[0][2]))]
+
+    def _get_assegnazione_competenza_ufficio_ids(self, cr, uid, ids, field_names, arg=None, context=None):
+        result = dict((res_id, []) for res_id in ids)
+        return result
+
+    def _search_assegnazione_competenza_ufficio_ids(self, cr, uid, obj, name, args, domain=None, context=None):
+        #TODO: gestire gli altri casi della ricerca
+        return [('id', 'in', self._get_protocollo_assegnazione_ids(cr, uid, 'competenza', 'department', args[0][2]))]
+
+    def _get_assegnazione_conoscenza_dipendente_ids(self, cr, uid, ids, field_names, arg=None, context=None):
+        result = dict((res_id, []) for res_id in ids)
+        return result
+
+    def _search_assegnazione_conoscenza_dipendente_ids(self, cr, uid, obj, name, args, domain=None, context=None):
+        #TODO: gestire gli altri casi della ricerca
+        return [('id', 'in', self._get_protocollo_assegnazione_ids(cr, uid, 'conoscenza', 'employee', args[0][2]))]
+
+    def _get_assegnazione_conoscenza_ufficio_ids(self, cr, uid, ids, field_names, arg=None, context=None):
+        result = dict((res_id, []) for res_id in ids)
+        return result
+
+    def _search_assegnazione_conoscenza_ufficio_ids(self, cr, uid, obj, name, args, domain=None, context=None):
+        #TODO: gestire gli altri casi della ricerca
+        return [('id', 'in', self._get_protocollo_assegnazione_ids(cr, uid, 'conoscenza', 'department', args[0][2]))]
+
     def _filtro_a_me_competenza_visibility(self, cr, uid, ids, name, arg, context=None):
         return {}
 
@@ -1824,50 +1870,75 @@ class protocollo_protocollo(osv.Model):
         # Visibilità dei protocolli nella dashboard
         'bozza_creato_da_me_visibility': fields.function(_bozza_creato_da_me_visibility,
                                                          fnct_search=_bozza_creato_da_me_visibility_search,
-                                                         type='boolean', string='Visibile'),
+                                                         type='boolean', string='Bozza Creata da me'),
         'assegnato_a_me_visibility': fields.function(_assegnato_a_me_visibility,
                                                      fnct_search=_assegnato_a_me_visibility_search, type='boolean',
-                                                     string='Visibile'),
+                                                     string='Assegnato a me per Competenza'),
         'assegnato_cc_visibility': fields.function(_assegnato_cc_visibility,
                                                    fnct_search=_assegnato_cc_visibility_search, type='boolean',
-                                                   string='Visibile'),
+                                                   string='Assegnato per CC'),
         'assegnato_a_me_cc_visibility': fields.function(_assegnato_a_me_cc_visibility,
                                                         fnct_search=_assegnato_a_me_cc_visibility_search,
-                                                        type='boolean', string='Visibile'),
+                                                        type='boolean', string='Assegnato a me per CC'),
         'assegnato_a_mio_ufficio_visibility': fields.function(_assegnato_a_mio_ufficio_visibility,
                                                               fnct_search=_assegnato_a_mio_ufficio_visibility_search,
-                                                              type='boolean', string='Visibile'),
+                                                              type='boolean', string='Assegnato a me per CC'),
         'assegnato_a_mio_ufficio_cc_visibility': fields.function(_assegnato_a_mio_ufficio_cc_visibility,
                                                                  fnct_search=_assegnato_a_mio_ufficio_cc_visibility_search,
-                                                                 type='boolean', string='Visibile'),
+                                                                 type='boolean', string='Assegnato al mio Ufficio per Conoscenza'),
         'assegnato_da_me_in_attesa_visibility': fields.function(_assegnato_da_me_in_attesa_visibility,
                                                                 fnct_search=_assegnato_da_me_in_attesa_visibility_search,
-                                                                type='boolean', string='Visibile'),
+                                                                type='boolean', string='In Attesa'),
         'assegnato_da_me_in_rifiutato_visibility': fields.function(_assegnato_da_me_in_rifiutato_visibility,
                                                                    fnct_search=_assegnato_da_me_in_rifiutato_visibility_search,
-                                                                   type='boolean', string='Visibile'),
+                                                                   type='boolean', string='Rifiutato'),
+
+        'filtro_assegnazione_competenza_dipendente_ids': fields.function(_get_assegnazione_competenza_dipendente_ids,
+                                                          fnct_search=_search_assegnazione_competenza_dipendente_ids,
+                                                          method=True,
+                                                          type='one2many',
+                                                          relation='protocollo.assegnazione',
+                                                          string='Assegnatario Dipendente Competenza'),
+        'filtro_assegnazione_competenza_ufficio_ids': fields.function(_get_assegnazione_competenza_ufficio_ids,
+                                                         fnct_search=_search_assegnazione_competenza_ufficio_ids,
+                                                         method=True,
+                                                         type='one2many',
+                                                         relation='protocollo.assegnazione',
+                                                         string='Assegnatario Ufficio Competenza'),
+        'filtro_assegnazione_conoscenza_dipendente_ids': fields.function(_get_assegnazione_conoscenza_dipendente_ids,
+                                                         fnct_search=_search_assegnazione_conoscenza_dipendente_ids,
+                                                         method=True,
+                                                         type='one2many',
+                                                         relation='protocollo.assegnazione',
+                                                         string='Assegnatario Dipendente Conoscenza'),
+        'filtro_assegnazione_conoscenza_ufficio_ids': fields.function(_get_assegnazione_conoscenza_ufficio_ids,
+                                                          fnct_search=_search_assegnazione_conoscenza_ufficio_ids,
+                                                          method=True,
+                                                          type='one2many',
+                                                          relation='protocollo.assegnazione',
+                                                          string='Assegnatario Ufficio Conoscenza'),
 
         'filtro_a_me_competenza_visibility': fields.function(_filtro_a_me_competenza_visibility,
                                                              fnct_search=_filtro_a_me_competenza_visibility_search,
-                                                             type='boolean', string='Visibile'),
+                                                             type='boolean', string='Assegnato a me per Competenza'),
         'filtro_a_me_conoscenza_visibility': fields.function(_filtro_a_me_conoscenza_visibility,
                                                              fnct_search=_filtro_a_me_conoscenza_visibility_search,
-                                                             type='boolean', string='Visibile'),
+                                                             type='boolean', string='Assegnato a me per CC'),
         'filtro_a_mio_ufficio_visibility': fields.function(_filtro_a_mio_ufficio_visibility,
                                                            fnct_search=_filtro_a_mio_ufficio_visibility_search,
-                                                           type='boolean', string='Visibile'),
+                                                           type='boolean', string='Assegnato al mio Ufficio per CC'),
         'filtro_a_mio_ufficio_cc_visibility': fields.function(_filtro_a_mio_ufficio_cc_visibility,
                                                               fnct_search=_filtro_a_mio_ufficio_cc_visibility_search,
-                                                              type='boolean', string='Visibile'),
+                                                              type='boolean', string='Assegnato al mio Ufficio per Conoscenza'),
         'filtro_da_me_visibility': fields.function(_filtro_da_me_visibility,
                                                    fnct_search=_filtro_da_me_visibility_search, type='boolean',
-                                                   string='Visibile'),
+                                                   string='Assegnato da me'),
         'filtro_competenza_visibility': fields.function(_filtro_competenza_visibility,
                                                         fnct_search=_filtro_competenza_visibility_search,
-                                                        type='boolean', string='Visibile'),
+                                                        type='boolean', string='Assegnato da me per Competenza'),
         'filtro_conoscenza_visibility': fields.function(_filtro_conoscenza_visibility,
                                                         fnct_search=_filtro_conoscenza_visibility_search,
-                                                        type='boolean', string='Visibile'),
+                                                        type='boolean', string='Assegnato da me per Conoscenza'),
         # 'filtro_in_attesa_visibility': fields.function(_filtro_in_attesa_visibility,
         #                                                fnct_search=_filtro_in_attesa_visibility_search, type='boolean',
         #                                                string='Visibile'),
@@ -1936,3 +2007,29 @@ class protocollo_protocollo(osv.Model):
             USING btree
             (registration_employee_id);
             """)
+
+    def fields_get(self, cr, uid, fields=None, context=None):
+        # lista dei campi da nascondere nella ricerca avanzata
+        fields_to_hide = [
+            'is_visible',
+            'registration_employee_id',
+            'doc_fname',
+            'assegnazione_first_level_ids',
+            'assegnazione_competenza_ids',
+            'assegnazione_conoscenza_ids',
+            'filtro_assegnazione_competenza_dipendente_ids',
+            'filtro_assegnazione_competenza_ufficio_ids',
+            'filtro_assegnazione_conoscenza_dipendente_ids',
+            'filtro_assegnazione_conoscenza_ufficio_ids',
+            'assegnato_a_me_visibility',
+            'assegnato_cc_visibility',
+            'assegnato_a_me_cc_visibility',
+            'assegnato_a_mio_ufficio_visibility',
+            'assegnato_a_mio_ufficio_cc_visibility',
+            'assegnato_da_me_in_attesa_visibility',
+            'assegnato_da_me_in_rifiutato_visibility',
+        ]
+        res = super(protocollo_protocollo, self).fields_get(cr, uid, fields, context)
+        for field in fields_to_hide:
+            res[field]['selectable'] = False
+        return res
