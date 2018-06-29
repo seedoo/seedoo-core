@@ -35,6 +35,10 @@ class protocollo_assegnatario(osv.osv):
         if isinstance(ids, (int, long)):
             ids = [ids]
 
+        reserved = False
+        if context.has_key('reserved'):
+            reserved = context['reserved']
+
         configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
         configurazione = self.pool.get('protocollo.configurazione').browse(cr, uid, configurazione_ids[0])
 
@@ -42,8 +46,12 @@ class protocollo_assegnatario(osv.osv):
         res = []
         for record in reads:
             no_checkbox = False
-            if configurazione.assegnazione=='department' and record['tipologia']=='employee':
-                no_checkbox = True
+            if reserved:
+                if record['tipologia']=='department':
+                    no_checkbox = True
+            else:
+                if configurazione.assegnazione=='department' and record['tipologia']=='employee':
+                    no_checkbox = True
             res.append((record['id'], no_checkbox))
         return res
 

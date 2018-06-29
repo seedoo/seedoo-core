@@ -12,10 +12,22 @@ class protocollo_riassegna_wizard(osv.TransientModel):
     _description = 'Riassegna Protocollo'
 
     _columns = {
+        'reserved': fields.boolean('Riservato', readonly=True),
         'assegnatario_competenza_id': fields.many2one('protocollo.assegnatario',
                                                       'Assegnatario per Competenza',
                                                       required=True),
         'motivation': fields.text('Motivazione'),
+    }
+
+    def _default_reserved(self, cr, uid, context):
+        protocollo_obj = self.pool.get('protocollo.protocollo')
+        protocollo = protocollo_obj.browse(cr, uid, context['active_id'], {'skip_check': True})
+        if protocollo:
+            return protocollo.reserved
+        return False
+
+    _defaults = {
+        'reserved': _default_reserved,
     }
 
     def on_change_assegnatario_competenza_id(self, cr, uid, ids, assegnatario_competenza_id, context=None):

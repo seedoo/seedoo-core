@@ -152,6 +152,7 @@ openerp.m2m_tree_widget = function(instance) {
 	            .filter(this.get("domain"))
 	            .limit(self.options.limit)
                 .order_by(order)
+                .context(self.build_context().eval())
 	            .all().then(function (res) {
 	            	var zNodes = [];
 	            	for (r in res) {

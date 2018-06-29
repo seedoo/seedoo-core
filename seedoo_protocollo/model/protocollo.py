@@ -993,15 +993,6 @@ class protocollo_protocollo(orm.Model):
         for prot in self.browse(cr, uid, ids, {'skip_check': True}):
 
             self.pool.get('protocollo.configurazione').verifica_campi_obbligatori(cr, uid, prot)
-            prot_reserved_errors = ''
-            if prot.reserved and prot.assegnazione_competenza_ids and \
-                    prot.assegnazione_competenza_ids[0].tipologia_assegnatario=='department':
-                prot_reserved_errors = prot_reserved_errors + '\n- I protocollo riservati non possono avere uffici come assegnatari per competenza'
-            if prot.reserved and prot.assegnazione_conoscenza_ids:
-                prot_reserved_errors = prot_reserved_errors + '\n- I protocollo riservati non possono avere assegnatari per conoscenza'
-            if prot_reserved_errors:
-                raise openerp.exceptions.Warning('Prima di procedere con la registrazione è necessario correggere i seguenti punti: ' + prot_reserved_errors)
-
 
             if prot.state == 'draft':
                 try:

@@ -14,8 +14,8 @@
                                 <field name="assegnatario_competenza_id"
                                        widget="m2o_tree"
                                        options="{'limit': 5000, 'label': 'nome', 'all_checkable': true, 'field_no_checkbox': 'no_checkbox', 'css_class': 'tipologia', 'order': '-tipologia,nome'}"
-                                       domain="[('tipologia', '!=', tipologia_assegnatario)]"
                                        nolabel="1"
+                                       context="{'reserved': reserved}"
                                 />
                             </group>
                             <group colspan="1" col="1">
@@ -25,11 +25,12 @@
                                        options="{'limit': 5000, 'label': 'nome', 'all_checkable': true, 'field_no_checkbox': 'no_checkbox', 'css_class': 'tipologia', 'order': '-tipologia,nome'}"
                                        attrs="{'invisible':[('reserved','=',True)]}"
                                        nolabel="1"
+                                       context="{'reserved': reserved}"
                                 />
+                                <field name="conoscenza_reserved_error" nolabel="1" attrs="{'invisible':[('reserved','=',False)]}"/>
                             </group>
 
                             <field name="reserved" invisible="1"/>
-                            <field name="tipologia_assegnatario" invisible="1"/>
                         </group>
 
                         <group col="4">

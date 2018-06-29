@@ -14,12 +14,9 @@ class protocollo_aggiungi_assegnatari_wizard(osv.TransientModel):
 
     _columns = {
         'reserved': fields.boolean('Riservato', readonly=True),
-        'tipologia_assegnatario': fields.selection(TIPO_ASSEGNATARIO_SELECTION, 'Tipologia', readonly=True),
-
         'assegnatario_competenza_id': fields.many2one('protocollo.assegnatario',
                                                       'Assegnatario per Competenza',
                                                       required=True),
-
         'assegnatario_conoscenza_ids': fields.many2many('protocollo.assegnatario',
                                                         'protocollo_aggiungi_assegnatari_rel',
                                                         'wizard_id',
@@ -27,6 +24,7 @@ class protocollo_aggiungi_assegnatari_wizard(osv.TransientModel):
                                                         'Assegnatari per Conoscenza'),
         'motivation': fields.text('Motivazione'),
         'display_motivation': fields.boolean('Visualizza Motivazione', readonly=True),
+        'conoscenza_reserved_error': fields.text('Errore Protocollazione Riservata', readonly=True),
     }
 
     def _default_reserved(self, cr, uid, context):
@@ -36,12 +34,11 @@ class protocollo_aggiungi_assegnatari_wizard(osv.TransientModel):
             return protocollo.reserved
         return False
 
-    def _default_tipologia_assegnatario(self, cr, uid, context):
-        protocollo_obj = self.pool.get('protocollo.protocollo')
-        protocollo = protocollo_obj.browse(cr, uid, context['active_id'], {'skip_check': True})
-        if protocollo and protocollo.reserved:
-            return 'department'
-        return False
+    def _default_conoscenza_reserved_error(self, cr, uid, context):
+        return '''
+I protocollo riservati non possono avere assegnatari per conoscenza.
+Se sono presenti assegnatari per conoscenza verranno rimossi al completamento della procedura.
+'''
 
     def _default_assegnatario_competenza_id(self, cr, uid, context):
         assegnazione_obj = self.pool.get('protocollo.assegnazione')
@@ -79,7 +76,7 @@ class protocollo_aggiungi_assegnatari_wizard(osv.TransientModel):
 
     _defaults = {
         'reserved': _default_reserved,
-        'tipologia_assegnatario': _default_tipologia_assegnatario,
+        'conoscenza_reserved_error': _default_conoscenza_reserved_error,
         'assegnatario_competenza_id': _default_assegnatario_competenza_id,
         'assegnatario_conoscenza_ids': _default_assegnatario_conoscenza_ids,
         'display_motivation': _default_display_motivation,
@@ -119,10 +116,11 @@ class protocollo_aggiungi_assegnatari_wizard(osv.TransientModel):
         if save_history:
             before['conoscenza'] = ', '.join([a.assegnatario_id.nome for a in protocollo.assegnazione_conoscenza_ids])
         assegnatario_conoscenza_to_save_ids = []
-        assegnatario_conoscenza_ids = wizard.assegnatario_conoscenza_ids.ids
-        for assegnatario in wizard.assegnatario_conoscenza_ids:
-            if assegnatario.tipologia=='department' or (assegnatario.parent_id and assegnatario.parent_id.id not in assegnatario_conoscenza_ids):
-                assegnatario_conoscenza_to_save_ids.append(assegnatario.id)
+        if not protocollo.reserved:
+            assegnatario_conoscenza_ids = wizard.assegnatario_conoscenza_ids.ids
+            for assegnatario in wizard.assegnatario_conoscenza_ids:
+                if assegnatario.tipologia=='department' or (assegnatario.parent_id and assegnatario.parent_id.id not in assegnatario_conoscenza_ids):
+                    assegnatario_conoscenza_to_save_ids.append(assegnatario.id)
         self.pool.get('protocollo.assegnazione').salva_assegnazione_conoscenza(
             cr,
             uid,
