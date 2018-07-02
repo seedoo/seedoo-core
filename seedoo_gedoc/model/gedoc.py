@@ -14,6 +14,8 @@ class res_users(osv.Model):
     def on_change_login(self, cr, uid, ids, login, context=None):
         if login and not tools.single_email_re.match(login):
             raise osv.except_osv(_('Warning!'), _('Devi inserire un indirizzo e-mail valido'))
+        else:
+            return {'value': {'email': login}}
 
     def create(self, cr, uid, vals, context=None):
         if 'login' in vals and tools.single_email_re.match(vals.get('login')):
