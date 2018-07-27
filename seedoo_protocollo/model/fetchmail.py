@@ -80,7 +80,10 @@ class fetchmail_server(osv.osv):
                             imap_server.uid('store', num, '+FLAGS', '(\\Seen)')
                         except Exception as e:
                             exception = True
-                            error_description += '- ' + str(e) + '\n'
+                            if e.message:
+                                error_description += '- ' + e.message + '\n'
+                            else:
+                                error_description += '- Failed to process mail\n'
                             _logger.exception('Failed to process mail from %s server %s.', server.type, server.name)
                             failed += 1
 
@@ -96,7 +99,8 @@ class fetchmail_server(osv.osv):
                                 imap_server.expunge()
                             else:
                                 imap_server.uid('store', num, '-FLAGS', '(\\Seen)')
-                                failed += 1
+                                if not exception:
+                                    failed += 1
                                 error_description += '- ' + 'Folder ' + folder_name + ' does not exists' + '\n'
                                 _logger.info("Folder '%s' does not exists in %s server %s.", folder_name, server.type, server.name)
                                 continue
@@ -106,7 +110,8 @@ class fetchmail_server(osv.osv):
                             action_pool.run(cr, uid, [server.action_id.id], {'active_id': res_id, 'active_ids': [res_id], 'active_model': context.get("thread_model", server.object_id.model)})
 
                         cr.commit()
-                        count += 1
+                        if not exception:
+                            count += 1
                     _logger.info("Fetched %d email(s) on %s server %s; %d succeeded, %d failed.", count, server.type, server.name, (count - failed), failed)
                 except Exception as e:
                     error_description += '- ' + str(e) + '\n'
