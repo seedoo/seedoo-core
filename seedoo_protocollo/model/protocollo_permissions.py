@@ -236,6 +236,7 @@ class protocollo_protocollo(osv.Model):
         department_obj = self.pool.get('hr.department')
         employee_obj = self.pool.get('hr.employee')
         employee_ids = employee_obj.search(cr, uid, [('user_id', '=', current_user_id)])
+        start_time = time.time()
         if len(employee_ids) > 0:
             employee = employee_obj.browse(cr, uid, employee_ids[0])
             employee_department = employee.department_id if employee.department_id else None
