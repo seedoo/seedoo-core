@@ -31,10 +31,6 @@
             <field name="non_fascicolati_active" eval="True"/>
         </record>
 
-        <record model="ir.config_parameter" id="param_path">
-            <field name="key">ir_attachment.location</field>
-            <field name="value">file:///tmp</field>
-        </record>
     </data>
 
     <data noupdate="1">

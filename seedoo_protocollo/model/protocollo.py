@@ -720,19 +720,6 @@ class protocollo_protocollo(orm.Model):
         # and we protocol the 1 january
         return self._get_next_number_normal(cr, uid, prot)
 
-    def _full_path(self, cr, uid, location, path):
-        assert location.startswith('file:'), \
-            "Unhandled filestore location %s" % location
-        location = location[5:]
-
-        # sanitize location name and path
-        location = re.sub('[.]', '', location)
-        location = location.strip('/\\')
-
-        path = re.sub('[.]', '', path)
-        path = path.strip('/\\')
-        return os.path.join('/', location, cr.dbname, path)
-
     def _convert_pdfa(self, cr, uid, doc_path):
         cmd = ['unoconv', '-f', 'pdf', '-eSelectPdfVersion=1', '-o',
                doc_path + '.pdf', doc_path]
@@ -791,11 +778,8 @@ class protocollo_protocollo(orm.Model):
             prot_date.strftime(DSDT)
         )
 
-        location = self.pool.get('ir.config_parameter').get_param(cr,
-                                                                  uid,
-                                                                  'ir_attachment.location') + '/protocollazioni'
+        file_path = self.pool.get('ir.attachment')._full_path(cr, uid, prot.doc_id.store_fname)
 
-        file_path = self._full_path(cr, uid, location, prot.doc_id.store_fname)
         maintain_orig = False
         strong_encryption = False
 
@@ -869,11 +853,8 @@ class protocollo_protocollo(orm.Model):
         attachment_id = attachment_obj.create(cr, user_id, attach_vals)
         self.write(cr, uid, prot.id, {'doc_id': attachment_id, 'datas': 0}, {'skip_check': True})
         attachment_obj.unlink(cr, SUPERUSER_ID, old_attachment_id)
-        location = self.pool.get('ir.config_parameter').get_param(cr, uid,
-                                                                  'ir_attachment.location') + '/protocollazioni'
         new_attachment = attachment_obj.browse(cr, user_id, attachment_id)
-        file_path = self._full_path(
-            cr, uid, location, new_attachment.store_fname)
+        file_path = attachment_obj._full_path(cr, uid, new_attachment.store_fname)
         return sha1OfFile(file_path)
 
     def _create_protocol_security_folder(self, cr, uid, prot, prot_number):
