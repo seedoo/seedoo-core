@@ -382,8 +382,7 @@ class ProtocolloMailPecWizard(osv.TransientModel):
 
         for attach in mail_message.attachment_ids:
             if attach.name.lower() == 'segnatura.xml':
-                location = self.pool.get('ir.config_parameter').get_param(cr, uid, 'ir_attachment.location')
-                attach_path = protocollo_obj._full_path(cr, uid, location, attach.store_fname)
+                attach_path = self.pool.get('ir.attachment')._full_path(cr, uid, attach.store_fname)
                 tree = etree.parse(attach_path)
                 segnatura_xml = SegnaturaXMLParser(tree)
 
