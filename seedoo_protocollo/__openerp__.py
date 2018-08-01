@@ -91,13 +91,7 @@
         "data/auth_signup_data.xml",
     ],
     "demo": [
-        "demo/hr_delete.xml",
-        "demo/protocollo_company.xml",
-        "demo/protocollo_aoo.xml",
-        "demo/protocollo_department.xml",
-        "demo/protocollo_classification.xml",
-        "demo/protocollo_dossier.xml",
-        "demo/protocollo_user_employee.xml"
+
     ],
     "qweb": [
         "static/src/xml/base.xml",

@@ -36,8 +36,7 @@
         "data/protocollo_tile.xml",
     ],
     "demo": [
-        "demo/dematerializzazione_importer.xml",
-        "demo/protocollo_user_employee.xml",
+
     ],
     "css": [
         "static/src/css/dematerializzazione.css"
