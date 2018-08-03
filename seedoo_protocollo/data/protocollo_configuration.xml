@@ -29,6 +29,9 @@
             <field name="email_pec_unique" eval="True"/>
             <field name="non_classificati_active" eval="True"/>
             <field name="non_fascicolati_active" eval="True"/>
+            <field name="select_eml" eval="True"/>
+            <field name="select_body" eval="True"/>
+            <field name="select_attachments" eval="True"/>
         </record>
 
     </data>

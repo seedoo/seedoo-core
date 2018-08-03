@@ -45,12 +45,6 @@ this module contains the full copyright notices and license terms. -->
                                 <field name="body" colspan="4" string="Corpo del messaggio"/>
                             </group>
                             <field name="attachment_ids" invisible="1"/>
-                            <!--<separator string="Documenti" colspan="4"/>-->
-                            <!--<group>-->
-                                <!--<field name="pec_eml" invisible="1"/>-->
-                                <!--<field name="pec_eml_fname" invisible="1"/>-->
-                                <!--<field name="pec_eml_content" filename="pec_eml_fname" colspan="4" />-->
-                            <!--</group>-->
                             <group>
                                 <field name="message_attachs">
                                     <tree>
@@ -58,6 +52,11 @@ this module contains the full copyright notices and license terms. -->
                                         <field name="file_type"/>
                                      </tree>
                                 </field>
+                            </group>
+                            <group>
+                                <field name="eml" invisible="1"/>
+                                <field name="eml_fname" invisible="1"/>
+                                <field name="eml_content" filename="eml_fname" colspan="4" attrs="{'invisible':[('eml_content','=',False)]}"/>
                             </group>
                         </group>
                     </sheet>

@@ -40,7 +40,11 @@ class protocollo_configurazione(orm.Model):
 
         'sostituisci_assegnatari': fields.boolean('Sostituisci Assegnatari Default in Modifica Classificazione'),
 
-        'assegnazione': fields.selection([('all', 'Uffici e Utenti'), ('department', 'Solo Uffici')], 'Assegnazione')
+        'assegnazione': fields.selection([('all', 'Uffici e Utenti'), ('department', 'Solo Uffici')], 'Assegnazione'),
+
+        'select_eml': fields.boolean('Abilita Scelta Intero Messaggio (file .EML)'),
+        'select_body': fields.boolean('Abilita Scelta Corpo del Messaggio'),
+        'select_attachments': fields.boolean('Abilita Scelta Allegati')
     }
 
     _defaults = {
@@ -64,7 +68,10 @@ class protocollo_configurazione(orm.Model):
         'non_classificati_active': True,
         'non_fascicolati_active': True,
         'sostituisci_assegnatari': True,
-        'assegnazione': 'all'
+        'assegnazione': 'all',
+        'select_eml': True,
+        'select_body': True,
+        'select_attachments': True
     }
 
     def verifica_campi_obbligatori(self, cr, uid, protocollo):

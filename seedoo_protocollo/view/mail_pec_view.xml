@@ -28,9 +28,9 @@ this module contains the full copyright notices and license terms. -->
             <field name="arch" type="xml">
                 <field name="type" position="after">
                     <field name="message_direction"/>
-                    <field name="pec_eml" invisible="1"/>
-                    <field name="pec_eml_fname" invisible="1"/>
-                    <field name="pec_eml_content" filename="pec_eml_fname" colspan="4" attrs="{'invisible':[('server_id','=',False)]}"/>
+                    <field name="eml" invisible="1"/>
+                    <field name="eml_fname" invisible="1"/>
+                    <field name="eml_content" filename="pec_eml_fname" colspan="4" attrs="{'invisible':[('server_id','=',False)]}"/>
                 </field>
                 <field name="body" position="replace">
                     <notebook>
@@ -160,9 +160,9 @@ this module contains the full copyright notices and license terms. -->
                             </group>
                         </group>
                         <group>
-                            <field name="pec_eml" invisible="1"/>
-                            <field name="pec_eml_fname" invisible="1"/>
-                            <field name="pec_eml_content" filename="pec_eml_fname" colspan="4" />
+                            <field name="eml" invisible="1"/>
+                            <field name="eml_fname" invisible="1"/>
+                            <field name="eml_content" filename="eml_fname" colspan="4" />
                         </group>
                     </sheet>
                 </form>

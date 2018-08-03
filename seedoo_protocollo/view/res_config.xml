@@ -46,6 +46,13 @@ this module contains the full copyright notices and license terms. -->
                         <newline/>
                         <field name="lunghezza_massima_oggetto_pec" required="1"/>
                     </group>
+                    <group string="Email/PEC 2 Protocollo">
+                        <field name="select_eml"/>
+                        <newline/>
+                        <field name="select_body"/>
+                        <newline/>
+                        <field name="select_attachments"/>
+                    </group>
                     <group string="Rubrica">
                         <field name="email_pec_unique"/>
                     </group>

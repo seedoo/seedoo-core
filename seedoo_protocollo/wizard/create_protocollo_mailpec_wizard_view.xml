@@ -26,10 +26,10 @@ this module contains the full copyright notices and license terms. -->
 
                             <newline/>
                             <field name="message_id" colspan="4" invisible="1"/>
-                            <label for="doc_principale" attrs="{'invisible':[('select_doc_principale', 'in', ('testo','eml'))]}"/>
+                            <label for="doc_principale" attrs="{'invisible':[('select_doc_principale', 'in', ('testo','eml', False))]}"/>
                             <field name="doc_principale" nolabel="1"
                                    domain="[('name','!=','original_email.eml'),('is_message_attach','=',True)]"
-                                   attrs="{'invisible':[('select_doc_principale', 'in', ('testo','eml'))],'required':[('select_doc_principale', '=', 'allegato')]}"
+                                   attrs="{'invisible':[('select_doc_principale', 'in', ('testo','eml', False))],'required':[('select_doc_principale', '=', 'allegato')]}"
                                    context="{'message_id': message_id}"
                                    options="{'no_create_edit': 1, 'no_create': 1, 'no_open': True}"
                                    on_change="on_change_attachment(doc_principale)"

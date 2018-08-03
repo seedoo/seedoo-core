@@ -30,7 +30,7 @@ class MailMessage(orm.Model):
                                                                               ])
         return res
 
-    def _get_pec_eml(self, cr, uid, ids, field_name, arg, context=None):
+    def _get_eml(self, cr, uid, ids, field_name, arg, context=None):
         if isinstance(ids, (list, tuple)) and not len(ids):
             return []
         if isinstance(ids, (long, int)):
@@ -43,9 +43,7 @@ class MailMessage(orm.Model):
             for message_attachment_id in message_attachment_ids:
                 attachment_ids.append(message_attachment_id['attachment_id'])
 
-            res[message_id] = self.pool.get('ir.attachment').search(cr, uid, [('id', 'in', attachment_ids),
-                                                                              ('name', 'like', '.eml')
-                                                                              ])
+            res[message_id] = self.pool.get('ir.attachment').search(cr, uid, [('id', 'in', attachment_ids), ('name', 'like', '.eml')])
         return res
 
     def _get_message_to(self, cr, uid, ids, name, args, context=None):
@@ -75,10 +73,10 @@ class MailMessage(orm.Model):
             ], 'Stato PEC', readonly=True),
         'message_attachs': fields.function(_get_message_attachs, type='one2many',
                                         obj='ir.attachment', string='Allegati'),
-        'pec_eml': fields.function(_get_pec_eml, type='one2many',
-                                        obj='ir.attachment', string='Messaggio PEC'),
-        'pec_eml_fname': fields.related('pec_eml', 'datas_fname', type='char', readonly=True),
-        'pec_eml_content': fields.related('pec_eml', 'datas', type='binary', string='Messaggio completo', readonly=True),
+        'eml': fields.function(_get_eml, type='one2many',
+                                        obj='ir.attachment', string='Messaggio'),
+        'eml_fname': fields.related('eml', 'datas_fname', type='char', readonly=True),
+        'eml_content': fields.related('eml', 'datas', type='binary', string='Messaggio completo', readonly=True),
         'pec_server_user': fields.related('server_id', 'user', type='char', readonly=True, string='Account'),
         'sharedmail_protocol_ref': fields.many2one('protocollo.protocollo', 'Protocollo'),
         'sharedmail_state': fields.selection([

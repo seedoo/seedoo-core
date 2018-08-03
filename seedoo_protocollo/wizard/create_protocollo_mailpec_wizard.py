@@ -79,12 +79,22 @@ class ProtocolloMailPecWizard(osv.TransientModel):
     def _get_doc_principale_option(self, cr, uid, context=None):
         options = []
         attach_lower_limit = 0
-        options.append(('testo', 'Corpo del messaggio'))
-        if 'message_type' in context and context['message_type'] == 'pec':
+        configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
+        configurazione = self.pool.get('protocollo.configurazione').browse(cr, uid, configurazione_ids[0])
+        message = None
+        if context and context.has_key('active_id') and context['active_id']:
+            message = self.pool.get('mail.message').browse(cr, uid, context['active_id'])
+
+        if configurazione.select_body:
+            options.append(('testo', 'Corpo del messaggio'))
+
+        if message and message.eml and configurazione.select_eml:
             options.append(('eml', 'Intero messaggio (file EML)'))
             attach_lower_limit = 1 #al momento le PEC si includono anche l'attachment EML quindi il controllo parte da 1
-        if 'attachment_ids' in context and len(context['attachment_ids'][0][2]) > attach_lower_limit:
+
+        if 'attachment_ids' in context and len(context['attachment_ids'][0][2])>attach_lower_limit and configurazione.select_attachments:
             options.insert(0, ('allegato', 'Allegato'))
+
         return options
 
     def on_change_attachment(self, cr, uid, ids, attachment_id, context=None):

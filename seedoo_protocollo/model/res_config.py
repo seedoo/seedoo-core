@@ -70,7 +70,11 @@ class protocollo_config_settings(osv.osv_memory):
         'sostituisci_assegnatari': fields.related('config_id', 'sostituisci_assegnatari', type='boolean',
                                                  string='Sostituisci Assegnatari Default in Modifica Classificazione'),
 
-        'assegnazione': fields.related('config_id', 'assegnazione', type='selection', selection=[('all', 'Uffici e Utenti'), ('department', 'Solo Uffici')], string='Assegnazione')
+        'assegnazione': fields.related('config_id', 'assegnazione', type='selection', selection=[('all', 'Uffici e Utenti'), ('department', 'Solo Uffici')], string='Assegnazione'),
+
+        'select_eml': fields.related('config_id', 'select_eml', type='boolean', string='Abilita Scelta Intero Messaggio (file .EML)'),
+        'select_body': fields.related('config_id', 'select_body', type='boolean', string='Abilita Scelta Corpo del Messaggio'),
+        'select_attachments': fields.related('config_id', 'select_attachments', type='boolean', string='Abilita Scelta Allegati'),
     }
 
     def _default_config_id(self, cr, uid, context):
