@@ -16,7 +16,7 @@ class ConversionUtility:
         random_string = "".join(random.choice(string.ascii_uppercase + string.digits) for _ in range(16))
         tempfile = "/tmp/seedoo-temp-%s-%s.pdf" % (now.strftime("%Y%m%d%H%M%S"), random_string)
 
-        extra_args = ["--standalone", "--latex-engine=pdflatex"]
+        extra_args = ["--standalone"]
 
         if css_file and len(css_file) > 0 and os.path.isfile(css_file):
             extra_args.append("--css=%s" % css_file)
