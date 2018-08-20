@@ -13,6 +13,20 @@ openerp.web_pdf_widget = function(instance)
             this._super();
             this.max_upload_size = 120 * 1024 * 1024; // 120Mo
         },
+        set_value: function(value_) {
+            var changed = value_ !== this.get_value();
+            this._super.apply(this, arguments);
+            // By default, on binary files read, the server returns the binary size
+            // This is possible that two files have the exact same size
+            // Therefore we trigger the change in case the file value hasn't changed
+            // So the file is re-rendered correctly
+            if (!changed){
+                this.trigger("change:value", this, {
+                    oldValue: value_,
+                    newValue: value_
+                });
+            }
+        },
         render_value: function() {
             var self = this;
             var url;

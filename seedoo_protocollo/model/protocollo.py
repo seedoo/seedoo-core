@@ -751,11 +751,6 @@ class protocollo_protocollo(orm.Model):
         return True
 
     def _sign_doc(self, cr, uid, prot, prot_number, prot_date):
-        def sha1OfFile(filepath):
-            import hashlib
-            with open(filepath, 'rb') as f:
-                return hashlib.sha1(f.read()).hexdigest()
-
         pd = prot_date.split(' ')[0]
         prot_date = datetime.datetime.strptime(pd, DSDT)
 
@@ -778,7 +773,12 @@ class protocollo_protocollo(orm.Model):
             prot_date.strftime(DSDT)
         )
 
-        file_path = self.pool.get('ir.attachment')._full_path(cr, uid, prot.doc_id.store_fname)
+        file_path_orig = self.pool.get('ir.attachment')._full_path(cr, uid, prot.doc_id.store_fname)
+        file_path = file_path_orig + '_' + prot_number
+        # duplica il file con un percorso univoco per evitare problematiche nella generazione del file con la signature
+        # nel caso ci siano due protocolli da registrare con stesso file. La procedura potrebbe essere migliorata se ci
+        # fosse un modo per generare il file con la signature con un nome contenente il numero del protocollo.
+        shutil.copy(file_path_orig, file_path)
 
         maintain_orig = False
         strong_encryption = False
@@ -803,20 +803,30 @@ class protocollo_protocollo(orm.Model):
                 raise orm.except_osv(_("Errore"), _("Qualcosa è andato storto nella aggiunta della segnatura!"))
         except Exception as e:
             raise Exception(e)
+        finally:
+            # eliminazione del file duplicato
+            os.remove(file_path)
 
+        signed_file_datas = prot.doc_id.datas
         if maintain_orig:
             self._create_attachment_encryped_file(cr, uid, prot, file_path + '.dec.pdf')
         elif strong_encryption:
             pass
         else:
-            shutil.move(file_path + '.pdf', file_path)
+            #shutil.move(file_path + '.pdf', file_path)
+            signed_file_path = file_path + '.pdf'
+            signed_file = open(signed_file_path, 'r')
+            signed_file_datas = base64.encodestring(signed_file.read())
+            signed_file.close()
+            # eliminazione del file con la signature
+            os.remove(signed_file_path)
 
         # TODO convert in pdfa here
 
-        return sha1OfFile(file_path)
+        #return sha1OfFile(file_path_for_sha1)
+        return signed_file_datas
 
-    def _create_protocol_attachment(self, cr, uid, prot,
-                                    prot_number, prot_date):
+    def _create_protocol_attachment(self, cr, uid, prot, prot_number, prot_datas):
         def sha1OfFile(filepath):
             import hashlib
             with open(filepath, 'rb') as f:
@@ -838,7 +848,7 @@ class protocollo_protocollo(orm.Model):
 
         attach_vals = {
             'name': file_name,
-            'datas': attachment.datas,
+            'datas': prot_datas,
             'datas_fname': file_name,
             'datas_description': attachment.datas_description,
             'res_model': 'protocollo.protocollo',
@@ -991,9 +1001,10 @@ class protocollo_protocollo(orm.Model):
                     # prot_complete_name = self.calculate_complete_name(prot_date, prot_number)
 
                     if prot.doc_id:
+                        prot_datas = prot.doc_id.datas
                         try:
                             if prot.mimetype == 'application/pdf':
-                                self._sign_doc(cr, uid, prot, prot_number, prot_date)
+                                prot_datas = self._sign_doc(cr, uid, prot, prot_number, prot_date)
                             res_segnatura = {"Segnatura": {"Res": True, "Msg": "Segnatura generata correttamente"}}
                         except Exception as e:
                             _logger.error(e)
@@ -1001,7 +1012,7 @@ class protocollo_protocollo(orm.Model):
                             res_segnatura = {
                                 "Segnatura": {"Res": False, "Msg": "Non è stato possibile generare la segnatura PDF"}}
 
-                        fingerprint = self._create_protocol_attachment(cr, uid, prot, prot_number, prot_date)
+                        fingerprint = self._create_protocol_attachment(cr, uid, prot, prot_number, prot_datas)
                         vals['fingerprint'] = fingerprint
                         vals['datas'] = 0
 
@@ -1749,17 +1760,15 @@ class protocollo_protocollo(orm.Model):
                     prot_complete_name = prot.name
                     prot_date = fields.datetime.now()
                     if prot.doc_id:
+                        prot_datas = prot.doc_id.datas
                         if prot.mimetype == 'application/pdf' and configurazione.genera_segnatura:
-                            self._sign_doc(
-                                cr, uid, prot,
-                                prot_complete_name, prot_date
-                            )
+                            prot_datas =  self._sign_doc(cr, uid, prot, prot_complete_name, prot_date)
                         fingerprint = self._create_protocol_attachment(
                             cr,
                             uid,
                             prot,
                             prot_number,
-                            prot_date
+                            prot_datas
                         )
                         vals['fingerprint'] = fingerprint
                         vals['datas'] = 0
