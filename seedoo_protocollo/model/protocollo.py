@@ -1208,6 +1208,7 @@ class protocollo_protocollo(orm.Model):
                     valsreceipt['pec_state'] = 'protocol'
                     valsreceipt['pec_type'] = 'posta-certificata'
                     valsreceipt['direction'] = 'out'
+                    valsreceipt['server_id'] = prot.mail_pec_ref.server_id.id
                     message_obj.write(cr, uid, mail_receipt.mail_message_id.id, valsreceipt)
                     messaggio_pec_id = messaggio_pec_obj.create(cr, uid, {'type': receipt_type,
                                                                           'messaggio_ref': message_receipt.id})
