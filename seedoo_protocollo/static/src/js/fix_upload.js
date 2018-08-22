@@ -23,6 +23,22 @@ openerp.seedoo_protocollo = function(instance) {
             }
         },
 
+        initialize_content: function() {
+            this._super();
+
+            var self = this;
+            $('.taballegati input.oe_form_binary_file').on('change', function(e) {
+                /**
+                 * Si modifica il valore del campo per forzare l'evento di change nella lista. Infatti, quando si
+                 * aggiunge una nuova riga al tree, il campo binary rimane valorizzato con i valori della vecchia riga
+                 * e di conseguenza non viene attivato l'evento di change. Se tale evento non viene scaturito, il campo
+                 * rimane vuoto e non viene data indicazione all'utente sul problema verificatosi.
+                 **/
+                $(this).val('');
+                self.on_file_change(e);
+            });
+        },
+
         on_file_change: function(e) {
             var self = this;
             var file_node = e.target;

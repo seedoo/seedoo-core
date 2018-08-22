@@ -19,6 +19,7 @@ class protocollo_carica_allegati_step1_wizard(osv.TransientModel):
             'protocollo.carica.documenti.allegati.step1.wizard',
             'wizard_id',
             'Documenti Secondari'),
+        'error_description': fields.text('Errore', readonly=True),
     }
 
     # def _default_datas_fname(self, cr, uid, context):
@@ -77,11 +78,45 @@ class protocollo_carica_allegati_step1_wizard(osv.TransientModel):
         # protocollo_obj.carica_documento_principale(cr, uid, context['active_id'], wizard.datas, wizard.datas_fname, wizard.datas_description)
 
         file_data_list = []
+        document_datas_encoded_list = []
         if wizard.document_ids:
             for document in wizard.document_ids:
+                document_datas_encoded = document.datas.decode('base64').encode('base64')
+
                 filename = document.datas_fname
                 if protocollo.state not in ['draft'] and configurazione.rinomina_documento_allegati:
                     filename = protocollo_obj._get_name_documento_allegato(cr, uid, document.datas_fname, protocollo.name, 'Prot', False)
+
+                if document_datas_encoded == protocollo.doc_id.datas:
+                    error_description = "Il contenuto dell'allegato '"+str(document.datas_fname)+"' è uguale al documento principale!"
+                    wizard.write({'error_description': error_description})
+                    #raise osv.except_orm('Attenzione!', "Il contenuto dell'allegato '"+str(document.datas_fname)+"' è uguale al documento principale!")
+                    return {
+                        'name': 'Carica Allegati',
+                        'view_type': 'form',
+                        'view_mode': 'form,tree',
+                        'res_model': 'protocollo.carica.allegati.step1.wizard',
+                        'res_id': wizard.id,
+                        'context': context,
+                        'type': 'ir.actions.act_window',
+                        'target': 'new'
+                    }
+
+                if document_datas_encoded in document_datas_encoded_list:
+                    error_description = "Il contenuto dell'allegato '"+str(document.datas_fname)+"' è già stato inserito fra gli allegati!"
+                    wizard.write({'error_description': error_description})
+                    #raise osv.except_orm('Attenzione!', "Il contenuto dell'allegato '"+str(document.datas_fname)+"' è già stato inserito fra gli allegati!")
+                    return {
+                        'name': 'Carica Allegati',
+                        'view_type': 'form',
+                        'view_mode': 'form,tree',
+                        'res_model': 'protocollo.carica.allegati.step1.wizard',
+                        'res_id': wizard.id,
+                        'context': context,
+                        'type': 'ir.actions.act_window',
+                        'target': 'new'
+                    }
+                document_datas_encoded_list.append(document_datas_encoded)
 
                 file_data_list.append({
                     'datas': document.datas,

@@ -11,6 +11,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="arch" type="xml">
                 <form string="Wizard di Caricamento Allegati">
                     <group>
+                        <field name="error_description" attrs="{'invisible':[('error_description','=',False)]}" class="message-error" colspan="2"/>
                         <separator string="Allegati" colspan="4"/>
                         <field name="document_ids" nolabel="1" colspan="4" class="taballegati">
                             <tree editable="bottom">
