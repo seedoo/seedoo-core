@@ -27,5 +27,6 @@ from . import protocollo_assegnazione_new_api
 from . import protocollo_profile
 from . import ir_model_data
 from . import ir_translation
+from . import ir_config_parameter
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
