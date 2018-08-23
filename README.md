@@ -8,14 +8,16 @@ che permettono alla nuova PA di perseguire i propri obiettivi in un'ottica di pe
 governance e trasparenza verso il cittadino.
 
 # Seedoo Core
-**seedoo-core** è il core della piattaforma Seedoo, include i moduli di gestione documentale, il protocollo informatico e la gestione pec, oltre ad altri stumenti di base.
+**seedoo-core** è il core della piattaforma Seedoo, include i moduli di gestione documentale, il protocollo informatico e la gestione della Posta Elettronica Certificata (PEC), oltre ad altri stumenti di base.
 
 seedoo-core è composto dai seguenti moduli:
 - *seedoo_gedoc*: Modulo per la Gestione Documentale
-- *seedoo_protocollo*: Modulo per la gestione del protocollo informatico a norma e integrazione PEC.
+- *seedoo_protocollo*: Modulo per la gestione del protocollo informatico a norma e integrazione della PEO e PEC.
 - *seedoo_protocollo_dematerializzazione*: Modulo per la gestione dei documenti analogici del Protocollo Seedoo. Funzionalità di importazione massiva documenti (modalità aggancio e creazione), funzionalità stampa etichetta.
 - *seedoo_theme*: Tema grafico per piattaforma Seedoo.
-- *m2o_tree_widget*: Modulo per la gestione della vista ad albero.
+- *web_dashboard_tile_mode*: Modulo per la gestione della Dashbord.
+- *m2o_tree_widget*: Modulo per la gestione della vista many to one ad albero.
+- *m2m_tree_widget*: Modulo per la gestione della vista many to many ad albero.
 - *web_pdf_widget*: Modulo per abilitare preview pdf dei documenti.
 
 Visita il [**WIKI**](https://github.com/seedoo/seedoo-core/wiki) per maggiori informazioni su Seedoo. Al momento le pagine della wiki sono: 
