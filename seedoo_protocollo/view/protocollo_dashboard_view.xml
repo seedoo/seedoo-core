@@ -88,6 +88,24 @@
             </field>
         </record>
 
+        <!-- Vista Protocollo Dashboard -->
+        <record model="ir.ui.view" id="protocollo_dashboard_error_form">
+            <field name="name">protocollo.dashboard.error.form</field>
+            <field name="model">board.board</field>
+            <field name="arch" type="xml">
+                <form string="Seedoo Dashboard" version="8.0" class="seedoo-dashboard-container">
+                    <board style="1">
+                        <column>
+                            <div class="message-error">
+                                <h3>L'utenza utilizzata non è correttamente configurata per la protocollazione.</h3>
+                                <p>Contattare l'amministratore di sistema per la risoluzione del problema.</p>
+                            </div>
+                        </column>
+                    </board>
+                </form>
+            </field>
+        </record>
+
         <!-- ActWindow Protocollo Dashboard -->
         <record model="ir.actions.act_window" id="protocollo_dashboard_act">
             <field name="name">Seedoo Dashboard Protocollo</field>

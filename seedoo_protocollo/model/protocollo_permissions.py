@@ -43,18 +43,16 @@ class protocollo_protocollo(osv.Model):
         if not assegnatario_uid:
             assegnatario_uid = uid
         cr.execute('''
-                    SELECT pa.id FROM protocollo_assegnazione AS pa
-                    JOIN hr_employee AS e ON pa.assegnatario_employee_id = e.id
-                    JOIN resource_resource AS r ON e.resource_id = r.id
-                    JOIN res_users AS u ON r.user_id = u.id
-                    JOIN protocollo_assegnazione AS pap ON pa.parent_id = pap.id
-                    WHERE u.id = %s AND pa.protocollo_id = %s 
-                                  AND pa.tipologia_assegnazione = 'competenza' 
-                                  AND pa.tipologia_assegnatario = 'employee' 
-                                  AND pa.state = %s
-                                  AND pap.state = %s
-
-                ''', (str(assegnatario_uid), str(protocollo.id), stato, stato))
+                    SELECT DISTINCT(pa.protocollo_id)
+                    FROM protocollo_assegnazione pa, hr_employee he, resource_resource rr
+                    WHERE pa.protocollo_id = %s AND
+                          pa.tipologia_assegnatario = 'department' AND 
+                          pa.tipologia_assegnazione = 'competenza' AND
+                          pa.state = %s AND
+                          pa.assegnatario_department_id = he.department_id AND
+                          he.resource_id = rr.id AND
+                          rr.user_id = %s
+                ''', (str(protocollo.id), stato, str(assegnatario_uid)))
         assegnazione_ids = [res[0] for res in cr.fetchall()]
         if len(assegnazione_ids) > 0:
             return True
@@ -240,6 +238,8 @@ class protocollo_protocollo(osv.Model):
         if len(employee_ids) > 0:
             employee = employee_obj.browse(cr, uid, employee_ids[0])
             employee_department = employee.department_id if employee.department_id else None
+            if not employee_department:
+                return protocollo_visible_ids
 
             ############################################################################################################
             # Visibilità dei protocolli: casi base
@@ -272,13 +272,17 @@ class protocollo_protocollo(osv.Model):
             _logger.info("---Query created %s seconds ---" % (time.time() - start_time))
 
             start_time = time.time()
+            # un utente deve poter vedere i protocolli registrati (IN e OUT) assegnati a lui o al suo ufficio,
+            # purchè lui o un dipendente del suo ufficio non abbia rifiutato la presa in carico
             cr.execute('''
                 SELECT DISTINCT(pa.protocollo_id)
                 FROM protocollo_assegnazione pa, protocollo_protocollo pp
                 WHERE pp.registration_employee_id IS NOT NULL AND
                       pa.protocollo_id = pp.id AND
-                      pa.tipologia_assegnatario = 'employee' AND
-                      pa.assegnatario_employee_id = %s AND
+                      (
+                          (pa.tipologia_assegnatario = 'employee' AND pa.assegnatario_employee_id = %s AND pa.parent_id IS NULL) OR 
+                          (pa.tipologia_assegnatario = 'department' AND pa.assegnatario_department_id = %s)
+                      ) AND
                       pa.protocollo_id NOT IN (
                           SELECT DISTINCT(pa.protocollo_id)
                           FROM protocollo_assegnazione pa
@@ -286,7 +290,7 @@ class protocollo_protocollo(osv.Model):
                                 pa.assegnatario_employee_department_id = %s AND
                                 pa.state = 'rifiutato'
                       )
-            ''', (employee.id, employee_department.id))
+            ''', (employee.id, employee_department.id, employee_department.id))
             protocollo_ids_assigned_not_refused = [res[0] for res in cr.fetchall()]
             _logger.info("---Query assigned_not_refused %s seconds ---" % (time.time() - start_time))
 
@@ -660,14 +664,15 @@ class protocollo_protocollo(osv.Model):
         cr.execute('''
             SELECT DISTINCT(pa.protocollo_id) 
             FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
-            WHERE pp.id = pa.protocollo_id AND 
-                  pa.assegnatario_employee_id = he.id AND
-                  he.resource_id = rr.id AND
-                  rr.user_id = %s AND
-                  pp.registration_employee_id IS NOT NULL AND
-                  pa.tipologia_assegnazione = 'conoscenza' AND
+            WHERE pp.id = pa.protocollo_id AND
+                  (
+                      (pa.tipologia_assegnatario = 'employee' AND pa.parent_id IS NULL AND pa.assegnatario_employee_id = he.id AND he.resource_id = rr.id AND rr.user_id = %s) OR 
+                      (pa.tipologia_assegnatario = 'department' AND pa.assegnatario_department_id = he.department_id AND he.resource_id = rr.id AND rr.user_id = %s)
+                  ) AND 
+                  pp.registration_employee_id IS NOT NULL AND 
+                  pa.tipologia_assegnazione = 'conoscenza' AND 
                   pa.state = 'assegnato'
-        ''', (uid,))
+        ''', (uid, uid))
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
         end = int(round(time.time() * 1000))
         _logger.info("_assegnato_cc_visibility_search: " + str(end - start))
@@ -687,16 +692,19 @@ class protocollo_protocollo(osv.Model):
 
         time_start = datetime.datetime.now()
 
-        sql_query = """SELECT COUNT(DISTINCT(pa.protocollo_id)) 
+        sql_query = """
+            SELECT COUNT(DISTINCT(pa.protocollo_id)) 
             FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
-            WHERE pp.type = '%s'
-                AND pp.id = pa.protocollo_id 
-                AND pa.assegnatario_employee_id = he.id
-                AND he.resource_id = rr.id
-                AND rr.user_id = %d
-                AND pp.registration_employee_id IS NOT NULL
-                AND pa.tipologia_assegnazione = 'conoscenza'
-                AND pa.state = 'assegnato'""" % (protocollo_type, uid)
+            WHERE pp.type = '%s' AND
+                  pp.id = pa.protocollo_id AND
+                  (
+                      (pa.tipologia_assegnatario = 'employee' AND pa.parent_id IS NULL AND pa.assegnatario_employee_id = he.id AND he.resource_id = rr.id AND rr.user_id = %s) OR 
+                      (pa.tipologia_assegnatario = 'department' AND pa.assegnatario_department_id = he.department_id AND he.resource_id = rr.id AND rr.user_id = %s)
+                  ) AND 
+                  pp.registration_employee_id IS NOT NULL AND 
+                  pa.tipologia_assegnazione = 'conoscenza' AND 
+                  pa.state = 'assegnato'
+        """ % (protocollo_type, uid, uid)
 
         cr.execute(sql_query)
         result = cr.fetchall()

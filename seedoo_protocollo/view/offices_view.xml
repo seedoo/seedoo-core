@@ -125,7 +125,6 @@ this module contains the full copyright notices and license terms. -->
                 </xpath>
                 <xpath expr="//div[@class='oe_kanban_footer_left']" position="replace">
                 </xpath>
-
             </field>
         </record>
 

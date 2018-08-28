@@ -5,6 +5,7 @@
 from openerp import SUPERUSER_ID
 from openerp.osv import orm, fields
 from openerp.tools.safe_eval import safe_eval
+from openerp.tools.translate import _
 
 
 

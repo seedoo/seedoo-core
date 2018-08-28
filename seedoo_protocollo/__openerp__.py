@@ -44,6 +44,8 @@
         "data/protocollo_aoo.xml",
         "data/protocollo_typology.xml",
         "data/protocollo_admin.xml",
+        "data/protocollo_department.xml",
+        "data/protocollo_user_employee.xml",
         "data/ir_config_parameter.xml",
         "gedoc/data/gedoc_data.xml",
         "wizard/cancel_protocollo_wizard_view.xml",

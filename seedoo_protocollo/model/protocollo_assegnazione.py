@@ -94,8 +94,8 @@ class protocollo_assegnatario(osv.osv):
                   e.id AS employee_id,
                   NULL AS department_id,
                   %s + e.department_id AS parent_id
-                FROM hr_employee e, hr_department d
-                WHERE e.department_id=d.id AND d.assignable=TRUE AND e.id!=%s
+                FROM hr_employee e, resource_resource r, res_users u, hr_department d
+                WHERE e.department_id=d.id AND d.assignable=TRUE AND e.resource_id=r.id AND r.user_id=u.id AND u.profile_id IS NOT NULL
               )
               UNION
               (
@@ -109,7 +109,7 @@ class protocollo_assegnatario(osv.osv):
                 FROM hr_department d
                 WHERE assignable = TRUE
               )
-        """, (EMPLOYEE_MASK, DEPARTMENT_MASK, SUPERUSER_ID, DEPARTMENT_MASK, DEPARTMENT_MASK))
+        """, (EMPLOYEE_MASK, DEPARTMENT_MASK, DEPARTMENT_MASK, DEPARTMENT_MASK))
 
 
 class protocollo_assegnazione(orm.Model):
@@ -175,6 +175,15 @@ class protocollo_assegnazione(orm.Model):
             ON public.protocollo_assegnazione
             USING btree
             (tipologia_assegnatario, assegnatario_employee_id, state);
+        """)
+
+        cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_assegnazione_tipassegnatario_assdep_state\'')
+        if not cr.fetchone():
+            cr.execute("""
+            CREATE INDEX idx_protocollo_assegnazione_tipassegnatario_assdep_state
+            ON public.protocollo_assegnazione
+            USING btree
+            (tipologia_assegnatario, assegnatario_department_id, state);
         """)
 
         cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_assegnazione_tipassegnatario_assempdep_state\'')
@@ -362,10 +371,33 @@ class protocollo_assegnazione(orm.Model):
             ])
 
             if len(assegnazione_ids) == 0:
-                raise orm.except_orm('Attenzione!', 'Non sei uno degli assegnatari del protocollo!')
+                # se non trova assegnazioni per l'utente allora verifica che ci sia l'assegnazione per il suo ufficio,
+                # infatti potrebbe verificarsi che l'utente viene spostato o inserito nell'ufficio dopo la creazione del
+                # protocollo. In tale caso, l'istanza di assegnazione per l'utente non sarebbe presente ed è necessario
+                # crearne una.
+                employee = employee_obj.browse(cr, uid, employee_id)
+                assegnazione_ids = self.search(cr, uid, [
+                    ('protocollo_id', '=', protocollo_id),
+                    ('tipologia_assegnazione', '=', 'competenza'),
+                    ('assegnatario_department_id', '=', employee.department_id.id)
+                ])
+                if assegnazione_ids:
+                    assegnazione_ufficio = self.browse(cr, uid, assegnazione_ids[0])
+                    dipendente_assegnatario_ids = self.pool.get('protocollo.assegnatario').search(cr, uid, [
+                        ('parent_id', '=', assegnazione_ufficio.assegnatario_id.id),
+                        ('employee_id', '=', employee_id),
+                        ('tipologia', '=', 'employee')
+                    ])
+                    assegnazione_id = self._crea_assegnazione(cr, uid, protocollo_id, dipendente_assegnatario_ids[0],
+                                                              assegnazione_ufficio.assegnatore_id.id, 'competenza',
+                                                              assegnazione_ufficio.id)
+                    assegnazione_ids = [assegnazione_id]
+                else:
+                    raise orm.except_orm('Attenzione!', 'Non sei uno degli assegnatari del protocollo!')
 
             # aggiorna il nuovo stato per l'assegnazione dell'utente
             self.write(cr, uid, assegnazione_ids, {'state': state})
+
             for assegnazione_id in assegnazione_ids:
                 # aggiorna, se presente, anche l'assegnazione dell'ufficio
                 assegnazione = self.browse(cr, uid, assegnazione_id)

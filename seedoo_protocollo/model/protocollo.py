@@ -146,38 +146,40 @@ class protocollo_protocollo(orm.Model):
         ('canceled', 'Annullato'),
     ]
 
-    def view_init(self, cr, uid, fields_list, context=None):
-        user_ids = self.pool.get('res.users').browse(cr, SUPERUSER_ID, uid)
+    def seedoo_error(self, cr, uid):
+        user = self.pool.get('res.users').browse(cr, SUPERUSER_ID, uid)
 
-        if len(user_ids.employee_ids.ids) == 0:
-            raise osv.except_osv(_('Warning!'), _(
-                "L'utente %s non e' abilitato alla protocollazione: deve essere associato ad un dipendente") % user_ids.name)
+        if not user.profile_id:
+            return _("L'utente %s non è abilitato alla protocollazione: deve avere associato ad un profilo Seedoo") % user.name
 
-        if len(user_ids.employee_ids.ids) > 1:
-            raise osv.except_osv(_('Warning!'), _(
-                "L'utente %s non e' configurato correttamente: deve essere associato ad un unico dipendente") % user_ids.name)
+        if len(user.employee_ids.ids) == 0:
+            return _("L'utente %s non è abilitato alla protocollazione: deve essere associato ad un dipendente") % user.name
 
-        if len(user_ids.employee_ids.department_id.ids) == 0:
-            raise osv.except_osv(_('Warning!'), _(
-                "Il dipendente %s non e' abilitato alla protocollazione: deve essere associato ad un Ufficio") % user_ids.name)
+        if len(user.employee_ids.ids) > 1:
+            return _("L'utente %s non è configurato correttamente: deve essere associato ad un unico dipendente") % user.name
 
-        employee_ids = self.pool.get('hr.employee').browse(cr, SUPERUSER_ID, user_ids.employee_ids.id)
-        department_ids = self.pool.get('hr.department').browse(cr, uid, user_ids.employee_ids.department_id.id)
+        if len(user.employee_ids.department_id.ids) == 0:
+            return _("Il dipendente %s non è abilitato alla protocollazione: deve essere associato ad un Ufficio") % user.name
+
+        employee_ids = self.pool.get('hr.employee').browse(cr, SUPERUSER_ID, user.employee_ids.id)
+        department_ids = self.pool.get('hr.department').browse(cr, SUPERUSER_ID, user.employee_ids.department_id.id)
         if len(department_ids.aoo_id.ids) == 0:
-            raise osv.except_osv(_('Warning!'), _(
-                "Il dipendente %s non e' abilitato alla protocollazione: l'Ufficio '%s' deve essere associato ad una AOO") % (
-                                     employee_ids.name, department_ids.name))
+            return _("Il dipendente %s non è abilitato alla protocollazione: l'Ufficio '%s' deve essere associato ad una AOO") % (employee_ids.name, department_ids.name)
         aoo = department_ids.aoo_id.ids[0]
-        aoo_ids = self.pool.get('protocollo.aoo').browse(cr, uid, aoo)
+        aoo_ids = self.pool.get('protocollo.aoo').browse(cr, SUPERUSER_ID, aoo)
         if len(aoo_ids.registry_id.ids) == 0:
-            raise osv.except_osv(_('Warning!'), _(
-                'Errore di configurazione: nessun Registro associato alla AOO'))
-        registry = self.pool.get('protocollo.registry').browse(cr, uid, aoo_ids.registry_id.ids[0])
+            return _('Errore di configurazione: nessun Registro associato alla AOO')
+        registry = self.pool.get('protocollo.registry').browse(cr, SUPERUSER_ID, aoo_ids.registry_id.ids[0])
 
         if employee_ids.id not in registry.allowed_employee_ids.ids:
-            raise osv.except_osv(_('Warning!'), _(
-                "Il dipendente %s non e' abilitato alla protocollazione: deve essere associato al Registro della AOO '%s'") % (
-                                     employee_ids.name, aoo_ids.name))
+            return _("Il dipendente %s non è abilitato alla protocollazione: deve essere associato al Registro della AOO '%s'") % (employee_ids.name, aoo_ids.name)
+
+        return ''
+
+    def view_init(self, cr, uid, fields_list, context=None):
+        error = self.seedoo_error(cr, uid)
+        if error:
+            raise osv.except_osv(_('Warning!'), error)
 
     pass
 
