@@ -18,7 +18,8 @@ class protocollo_aggiungi_assegnatari_conoscenza_wizard(osv.TransientModel):
                                                         'protocollo_aggiungi_assegnatari_conoscenza_rel',
                                                         'wizard_id',
                                                         'assegnatario_id',
-                                                        'Assegnatari Conoscenza'),
+                                                        'Assegnatari Conoscenza',
+                                                        domain="[('assignable', '=', True)]"),
         'motivation': fields.text('Motivazione'),
         'assegnatari_empty': fields.boolean('Assegnatari Non Presenti'),
     }

@@ -62,6 +62,7 @@ class protocollo_assegnatario(osv.osv):
         'employee_id': fields.many2one('hr.employee', 'Dipendente', readonly=True),
         'department_id': fields.many2one('hr.department', 'Dipartimento', readonly=True),
         'parent_id': fields.many2one('protocollo.assegnatario', 'Ufficio di Appartenenza', readonly=True),
+        'assignable': fields.boolean(string='Assegnabile'),
         'child_ids': fields.one2many('protocollo.assegnatario', 'parent_id', 'Figli'),
         'no_checkbox': fields.function(_no_checkbox_get_fnc, type='boolean', string='No Checkbox'),
     }
@@ -93,9 +94,10 @@ class protocollo_assegnatario(osv.osv):
                   'employee' AS tipologia,
                   e.id AS employee_id,
                   NULL AS department_id,
-                  %s + e.department_id AS parent_id
-                FROM hr_employee e, resource_resource r, res_users u, hr_department d
-                WHERE e.department_id=d.id AND d.assignable=TRUE AND e.resource_id=r.id AND r.user_id=u.id AND u.profile_id IS NOT NULL
+                  %s + e.department_id AS parent_id,
+                  d.assignable AS assignable
+                FROM hr_employee e, hr_department d
+                WHERE e.department_id=d.id
               )
               UNION
               (
@@ -105,9 +107,9 @@ class protocollo_assegnatario(osv.osv):
                   'department' AS tipologia,
                   NULL AS employee_id,
                   d.id AS department_id,
-                  %s + d.parent_id AS parent_id
+                  %s + d.parent_id AS parent_id,
+                  d.assignable AS assignable
                 FROM hr_department d
-                WHERE assignable = TRUE
               )
         """, (EMPLOYEE_MASK, DEPARTMENT_MASK, DEPARTMENT_MASK, DEPARTMENT_MASK))
 

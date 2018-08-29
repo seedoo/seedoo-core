@@ -15,6 +15,7 @@ class protocollo_riassegna_wizard(osv.TransientModel):
         'reserved': fields.boolean('Riservato', readonly=True),
         'assegnatario_competenza_id': fields.many2one('protocollo.assegnatario',
                                                       'Assegnatario per Competenza',
+                                                      domain="[('assignable', '=', True)]",
                                                       required=True),
         'motivation': fields.text('Motivazione'),
         'assegnatari_empty': fields.boolean('Assegnatari Non Presenti'),
