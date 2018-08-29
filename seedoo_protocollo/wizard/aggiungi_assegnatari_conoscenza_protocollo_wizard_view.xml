@@ -8,17 +8,25 @@
             <field name="arch" type="xml">
                 <form string="Aggiungi Assegnatari Conoscenza">
                     <sheet>
-                        <group>
+                        <group attrs="{'invisible':[('assegnatari_empty','=',False)]}" col="4">
+                            <div colspan="4">
+                                <h3>Non ci sono assegnatari.</h3>
+                                <p>Per selezionare gli assegnatari è necessario configurare gli uffici e i relativi dipendenti dalla apposita sezione di configurazione.</p>
+                            </div>
+                        </group>
+
+                        <group attrs="{'invisible':[('assegnatari_empty','=',True)]}">
                             <field name="assegnatario_conoscenza_ids"
                                    widget="m2m_tree"
                                    options="{'limit': 5000, 'label': 'nome', 'all_checkable': true, 'field_no_checkbox': 'no_checkbox', 'css_class': 'tipologia', 'order': '-tipologia,nome'}"
                             />
                             <field name="motivation" required="1"/>
                         </group>
+
+                        <field name="assegnatari_empty" invisible="1"/>
                     </sheet>
                     <footer>
-                        <button string="Ok" name="action_save" type="object" class="oe_highlight"/>
-                        o
+                        <button string="Ok" name="action_save" type="object" attrs="{'invisible':[('assegnatari_empty','=',True)]}" class="oe_highlight"/>
                         <button string="Abbandona" class="oe_link" special="cancel"/>
                     </footer>
                 </form>

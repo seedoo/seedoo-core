@@ -17,6 +17,7 @@ class protocollo_riassegna_wizard(osv.TransientModel):
                                                       'Assegnatario per Competenza',
                                                       required=True),
         'motivation': fields.text('Motivazione'),
+        'assegnatari_empty': fields.boolean('Assegnatari Non Presenti'),
     }
 
     def _default_reserved(self, cr, uid, context):
@@ -26,8 +27,16 @@ class protocollo_riassegna_wizard(osv.TransientModel):
             return protocollo.reserved
         return False
 
+    def _default_assegnatari_empty(self, cr, uid, context):
+        count = self.pool.get('protocollo.assegnatario').search(cr, uid, [], count=True, context=context)
+        if count > 0:
+            return False
+        else:
+            return True
+
     _defaults = {
         'reserved': _default_reserved,
+        'assegnatari_empty': _default_assegnatari_empty
     }
 
     def on_change_assegnatario_competenza_id(self, cr, uid, ids, assegnatario_competenza_id, context=None):

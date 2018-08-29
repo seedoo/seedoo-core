@@ -16,6 +16,7 @@ class protocollo_aggiungi_classificazione_step1_wizard(osv.TransientModel):
         'classification': fields.many2one('protocollo.classification', 'Titolario di Classificazione', required=True),
         'motivation': fields.text('Motivazione'),
         'display_motivation': fields.boolean('Visualizza Motivazione', readonly=True),
+        'classification_empty': fields.boolean('Titolario Vuoto'),
     }
 
     def _default_classification(self, cr, uid, context):
@@ -29,9 +30,17 @@ class protocollo_aggiungi_classificazione_step1_wizard(osv.TransientModel):
         else:
             return False
 
+    def _default_classification_empty(self, cr, uid, context):
+        count = self.pool.get('protocollo.classification').search(cr, uid, [], count=True, context=context)
+        if count > 0:
+            return False
+        else:
+            return True
+
     _defaults = {
         'classification': _default_classification,
         'display_motivation': _default_display_motivation,
+        'classification_empty': _default_classification_empty
     }
 
     def classification_save(self, cr, uid, protocollo, classification, motivation, competenza_history, context):

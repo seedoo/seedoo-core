@@ -8,19 +8,25 @@
             <field name="arch" type="xml">
                 <form string="Aggiungi Classificazione" class="tree_aggiungi_classificazione">
                     <sheet>
-                        <group>
+                        <group attrs="{'invisible':[('classification_empty','=',False)]}">
+                            <div colspan="4">
+                                <h3>Il titolario è vuoto.</h3>
+                                <p>Per classificare il protocollo è necessario inserire delle voci di titolario dalla apposita sezione di configurazione.</p>
+                            </div>
+                        </group>
+                        <group attrs="{'invisible':[('classification_empty','=',True)]}">
                             <field name="classification"
                                    widget="m2o_tree"
                                    options="{'limit': 5000, 'label': 'name_and_code', 'all_checkable': false, 'order': 'sequence'}"
                                    colspan="4" />
                             <field name="motivation" attrs="{'invisible':[('display_motivation','=',False)], 'required':[('display_motivation','=',True)]}"
                                    colspan="4"/>
-                            <field name="display_motivation" invisible="1"/>
                         </group>
+                        <field name="display_motivation" invisible="1"/>
+                        <field name="classification_empty" invisible="1"/>
                     </sheet>
                     <footer>
-                        <button string="Ok" name="action_save" type="object" class="oe_highlight"/>
-                        o
+                        <button string="Ok" name="action_save" type="object" attrs="{'invisible':[('classification_empty','=',True)]}" class="oe_highlight"/>
                         <button string="Abbandona" class="oe_link" special="cancel"/>
                     </footer>
                 </form>

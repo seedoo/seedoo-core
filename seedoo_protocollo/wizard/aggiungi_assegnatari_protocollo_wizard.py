@@ -25,6 +25,7 @@ class protocollo_aggiungi_assegnatari_wizard(osv.TransientModel):
         'motivation': fields.text('Motivazione'),
         'display_motivation': fields.boolean('Visualizza Motivazione', readonly=True),
         'conoscenza_reserved_error': fields.text('Errore Protocollazione Riservata', readonly=True),
+        'assegnatari_empty': fields.boolean('Assegnatari Non Presenti'),
     }
 
     def _default_reserved(self, cr, uid, context):
@@ -74,12 +75,20 @@ Se sono presenti assegnatari per conoscenza verranno rimossi al completamento de
         else:
             return False
 
+    def _default_assegnatari_empty(self, cr, uid, context):
+        count = self.pool.get('protocollo.assegnatario').search(cr, uid, [], count=True, context=context)
+        if count > 0:
+            return False
+        else:
+            return True
+
     _defaults = {
         'reserved': _default_reserved,
         'conoscenza_reserved_error': _default_conoscenza_reserved_error,
         'assegnatario_competenza_id': _default_assegnatario_competenza_id,
         'assegnatario_conoscenza_ids': _default_assegnatario_conoscenza_ids,
         'display_motivation': _default_display_motivation,
+        'assegnatari_empty': _default_assegnatari_empty
     }
 
     def action_save(self, cr, uid, ids, context=None):

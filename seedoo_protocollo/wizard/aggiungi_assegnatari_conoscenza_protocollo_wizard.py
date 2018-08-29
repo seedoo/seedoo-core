@@ -20,6 +20,18 @@ class protocollo_aggiungi_assegnatari_conoscenza_wizard(osv.TransientModel):
                                                         'assegnatario_id',
                                                         'Assegnatari Conoscenza'),
         'motivation': fields.text('Motivazione'),
+        'assegnatari_empty': fields.boolean('Assegnatari Non Presenti'),
+    }
+
+    def _default_assegnatari_empty(self, cr, uid, context):
+        count = self.pool.get('protocollo.assegnatario').search(cr, uid, [], count=True, context=context)
+        if count > 0:
+            return False
+        else:
+            return True
+
+    _defaults = {
+        'assegnatari_empty': _default_assegnatari_empty
     }
 
     def action_save(self, cr, uid, ids, context=None):
