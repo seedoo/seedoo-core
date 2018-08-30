@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 # This file is part of Seedoo.  The COPYRIGHT file at the top level of
 # this module contains the full copyright notices and license terms.
-import hashlib
 import json
-import socket
+import threading
 
 import requests
 
@@ -43,6 +42,9 @@ class gedoc_configuration(osv.osv_memory):
     }
 
     def execute(self, cr, uid, ids, context=None):
+        company_obj = self.pool.get("res.company")
+        instance_obj = self.pool.get("seedoo_gedoc.instance")
+
         for data in self.browse(cr, uid, ids):
             vals = {
                 'name': data['company_name'] and data['company_name'] or 'Non fornito',
@@ -51,22 +53,34 @@ class gedoc_configuration(osv.osv_memory):
                 'city': data['city'] and data['city'] or '',
                 'zip': data['zip'] and data['zip'] or ''
             }
-            if data['company_name']:
-                company_obj = self.pool.get('res.company')
-                company_obj.write(cr, uid, 1, vals)
-            self._track_installation(vals)
 
-    def _track_installation(self, company_vals):
+            if data['company_name']:
+                company_obj.write(cr, uid, 1, vals)
+
+            instance_uuid = instance_obj.get_seedoo_instance_uuid(cr, uid)
+            thread = threading.Thread(target=self._track_installation, args=[instance_uuid, vals])
+            thread.start()
+
+    def _track_installation(self, instance_uuid, company_vals):
         try:
-            digest = hashlib.sha256()
-            digest.update(socket.gethostname())
-            hash_value = digest.digest().encode('hex')
-            data = {
-                'company_vals': company_vals,
-                'hash': hash_value
+            headers = {
+                "Content-Type": "application/json"
             }
-            url = "https://www.seedoo.it/count/ping"
-            requests.post(url=url, data=json.dumps(data))
+
+            data = {
+                "params": {
+                    "instance_uuid": instance_uuid,
+                    "company_vals": company_vals
+                }
+            }
+
+            url = "http://127.0.0.1:8269/count/instance"
+
+            requests.post(
+                url=url,
+                headers=headers,
+                data=json.dumps(data)
+            )
         except:
             pass
 

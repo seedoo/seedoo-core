@@ -28,7 +28,9 @@
         "wizard/upload_doc_wizard_view.xml",
         "view/gedoc_view.xml",
         "view/company_view.xml",
-        "workflow/gedoc_dossier_workflow.xml"
+        "workflow/gedoc_dossier_workflow.xml",
+
+        "data/instance.xml"
     ],
     "css": [
         "static/src/css/gedoc.css"

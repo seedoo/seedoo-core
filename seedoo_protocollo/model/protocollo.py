@@ -3,30 +3,28 @@
 # this module contains the full copyright notices and license terms.
 import base64
 import datetime
+import json
 import logging
 import mimetypes
 import os
-import re
 import shutil
-import string
 import subprocess
 import threading
 import time
 
 import magic
 import pytz
+import requests
 from lxml import etree
 
 import openerp.exceptions
-from openerp import SUPERUSER_ID, api
+from openerp import SUPERUSER_ID
 from openerp import netsvc
-from openerp.api import Environment
 from openerp.osv import orm, fields, osv
 from openerp.report import render_report
 from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT as DSDF
-from openerp.tools import DEFAULT_SERVER_DATE_FORMAT as DSDT, random
+from openerp.tools import DEFAULT_SERVER_DATE_FORMAT as DSDT
 from openerp.tools.translate import _
-from util.selection import *
 from ..segnatura.annullamento_xml import AnnullamentoXML
 from ..segnatura.conferma_xml import ConfermaXML
 from ..segnatura.segnatura_xml import SegnaturaXML
@@ -150,21 +148,27 @@ class protocollo_protocollo(orm.Model):
         user = self.pool.get('res.users').browse(cr, SUPERUSER_ID, uid)
 
         if not user.profile_id:
-            return _("L'utente %s non è abilitato alla protocollazione: deve avere associato ad un profilo Seedoo") % user.name
+            return _(
+                "L'utente %s non è abilitato alla protocollazione: deve avere associato ad un profilo Seedoo") % user.name
 
         if len(user.employee_ids.ids) == 0:
-            return _("L'utente %s non è abilitato alla protocollazione: deve essere associato ad un dipendente") % user.name
+            return _(
+                "L'utente %s non è abilitato alla protocollazione: deve essere associato ad un dipendente") % user.name
 
         if len(user.employee_ids.ids) > 1:
-            return _("L'utente %s non è configurato correttamente: deve essere associato ad un unico dipendente") % user.name
+            return _(
+                "L'utente %s non è configurato correttamente: deve essere associato ad un unico dipendente") % user.name
 
         if len(user.employee_ids.department_id.ids) == 0:
-            return _("Il dipendente %s non è abilitato alla protocollazione: deve essere associato ad un Ufficio") % user.name
+            return _(
+                "Il dipendente %s non è abilitato alla protocollazione: deve essere associato ad un Ufficio") % user.name
 
         employee_ids = self.pool.get('hr.employee').browse(cr, SUPERUSER_ID, user.employee_ids.id)
         department_ids = self.pool.get('hr.department').browse(cr, SUPERUSER_ID, user.employee_ids.department_id.id)
         if len(department_ids.aoo_id.ids) == 0:
-            return _("Il dipendente %s non è abilitato alla protocollazione: l'Ufficio '%s' deve essere associato ad una AOO") % (employee_ids.name, department_ids.name)
+            return _(
+                "Il dipendente %s non è abilitato alla protocollazione: l'Ufficio '%s' deve essere associato ad una AOO") % (
+                       employee_ids.name, department_ids.name)
         aoo = department_ids.aoo_id.ids[0]
         aoo_ids = self.pool.get('protocollo.aoo').browse(cr, SUPERUSER_ID, aoo)
         if len(aoo_ids.registry_id.ids) == 0:
@@ -172,7 +176,9 @@ class protocollo_protocollo(orm.Model):
         registry = self.pool.get('protocollo.registry').browse(cr, SUPERUSER_ID, aoo_ids.registry_id.ids[0])
 
         if employee_ids.id not in registry.allowed_employee_ids.ids:
-            return _("Il dipendente %s non è abilitato alla protocollazione: deve essere associato al Registro della AOO '%s'") % (employee_ids.name, aoo_ids.name)
+            return _(
+                "Il dipendente %s non è abilitato alla protocollazione: deve essere associato al Registro della AOO '%s'") % (
+                       employee_ids.name, aoo_ids.name)
 
         return ''
 
@@ -277,7 +283,7 @@ class protocollo_protocollo(orm.Model):
     def _get_assegnatari_competenza(self, cr, uid, protocollo):
         employees = []
         for assegnazione_competenza in protocollo.assegnazione_competenza_ids:
-            if assegnazione_competenza.tipologia_assegnatario=='department':
+            if assegnazione_competenza.tipologia_assegnatario == 'department':
                 for assegnazione_competenza_child in assegnazione_competenza.child_ids:
                     employees.append(assegnazione_competenza_child.assegnatario_employee_id)
             else:
@@ -288,7 +294,7 @@ class protocollo_protocollo(orm.Model):
     def _get_assegnatari_conoscenza(self, cr, uid, protocollo):
         employees = []
         for assegnazione_conoscenza in protocollo.assegnazione_conoscenza_ids:
-            if assegnazione_conoscenza.tipologia_assegnatario=='department':
+            if assegnazione_conoscenza.tipologia_assegnatario == 'department':
                 for assegnazione_conoscenza_child in assegnazione_conoscenza.child_ids:
                     employees.append(assegnazione_conoscenza_child.assegnatario_employee_id)
             else:
@@ -471,9 +477,9 @@ class protocollo_protocollo(orm.Model):
             lambda *a, **k: {}, method=True,
             type='date', string="Inizio Data ricezione Ricerca"),
         'receiving_date_to': fields.function(lambda *a, **k: {},
-                                                method=True,
-                                                type='date',
-                                                string="Fine  Data ricezione Ricerca"),
+                                             method=True,
+                                             type='date',
+                                             string="Fine  Data ricezione Ricerca"),
         'subject': fields.text('Oggetto',
                                required=False,
                                readonly=True,
@@ -486,8 +492,8 @@ class protocollo_protocollo(orm.Model):
                                    type='binary',
                                    string='Preview'),
         'preview_image': fields.function(_get_preview_image_datas,
-                                   type='binary',
-                                   string='Preview Image'),
+                                         type='binary',
+                                         string='Preview Image'),
         'mimetype': fields.char('Mime Type', size=64),
         'doc_id': fields.many2one(
             'ir.attachment', 'Documento Principale', readonly=True,
@@ -551,12 +557,16 @@ class protocollo_protocollo(orm.Model):
         'assegnazione_ids': fields.one2many('protocollo.assegnazione', 'protocollo_id', 'Assegnatari', readonly=True),
         'assegnazione_first_level_ids': fields.one2many('protocollo.assegnazione', 'protocollo_id', 'Assegnatari',
                                                         domain=[('parent_id', '=', False)], readonly=True),
-        'assegnazione_competenza_ids': fields.one2many('protocollo.assegnazione', 'protocollo_id', 'Assegnatari per Competenza',
-                                       domain=[('parent_id', '=', False),('tipologia_assegnazione', '=', 'competenza')],
-                                       readonly=True),
-        'assegnazione_conoscenza_ids': fields.one2many('protocollo.assegnazione', 'protocollo_id', 'Assegnatari per Conoscenza',
-                                       domain=[('parent_id', '=', False), ('tipologia_assegnazione', '=', 'conoscenza')],
-                                       readonly=True),
+        'assegnazione_competenza_ids': fields.one2many('protocollo.assegnazione', 'protocollo_id',
+                                                       'Assegnatari per Competenza',
+                                                       domain=[('parent_id', '=', False),
+                                                               ('tipologia_assegnazione', '=', 'competenza')],
+                                                       readonly=True),
+        'assegnazione_conoscenza_ids': fields.one2many('protocollo.assegnazione', 'protocollo_id',
+                                                       'Assegnatari per Conoscenza',
+                                                       domain=[('parent_id', '=', False),
+                                                               ('tipologia_assegnazione', '=', 'conoscenza')],
+                                                       readonly=True),
 
         'notes': fields.text('Note'),
         'state': fields.selection(
@@ -815,7 +825,7 @@ class protocollo_protocollo(orm.Model):
         elif strong_encryption:
             pass
         else:
-            #shutil.move(file_path + '.pdf', file_path)
+            # shutil.move(file_path + '.pdf', file_path)
             signed_file_path = file_path + '.pdf'
             signed_file = open(signed_file_path, 'r')
             signed_file_datas = base64.encodestring(signed_file.read())
@@ -825,7 +835,7 @@ class protocollo_protocollo(orm.Model):
 
         # TODO convert in pdfa here
 
-        #return sha1OfFile(file_path_for_sha1)
+        # return sha1OfFile(file_path_for_sha1)
         return signed_file_datas
 
     def _create_protocol_attachment(self, cr, uid, prot, prot_number, prot_datas):
@@ -1073,9 +1083,53 @@ class protocollo_protocollo(orm.Model):
                 if len(res_segnatura) > 0:
                     res.append(res_segnatura)
             else:
-                raise openerp.exceptions.Warning(_('"Non è più possibile eseguire l\'operazione richiesta! Il protocollo è già stato registrato!'))
+                raise openerp.exceptions.Warning(
+                    _('"Non è più possibile eseguire l\'operazione richiesta! Il protocollo è già stato registrato!'))
         # self.lock.release()
+
+        try:
+            self._count_protocol(cr, uid, prot.id)
+        except:
+            pass
+
         return res
+
+    def _count_protocol(self, cr, uid, protid):
+        protocollo_obj = self.pool.get("protocollo.protocollo")
+        instance_obj = self.pool.get("seedoo_gedoc.instance")
+
+        protocollo_id = protocollo_obj.browse(cr, uid, [protid])
+        if not protocollo_id:
+            return
+
+        prot_num = int(protocollo_id.name)
+        if True or prot_num in [1, 10, 50] or prot_num % 500 == 0:
+            instance_uuid = instance_obj.get_seedoo_instance_uuid(cr, uid)
+            thread = threading.Thread(target=self._call_count_protocol, args=[instance_uuid, prot_num])
+            thread.start()
+
+    def _call_count_protocol(self, instance_uuid, prot_num):
+        try:
+            headers = {
+                "Content-Type": "application/json"
+            }
+
+            data = {
+                "params": {
+                    "instance_uuid": instance_uuid,
+                    "prot_num": prot_num
+                }
+            }
+
+            url = "http://127.0.0.1:8269/count/protocol"
+
+            requests.post(
+                url=url,
+                headers=headers,
+                data=json.dumps(data)
+            )
+        except:
+            pass
 
     def action_send_conferma(self, cr, uid, ids, context=None, *args):
         res_conferma = {"Invio Conferma": {"Res": False, "Msg": None}}
@@ -1140,17 +1194,20 @@ class protocollo_protocollo(orm.Model):
                 mail_mail = self.pool.get('mail.mail')
                 new_context = dict(context).copy()
                 new_context.update({'pec_messages': True})
-                #mail_server = self.get_mail_server(cr, uid, new_context)
+                # mail_server = self.get_mail_server(cr, uid, new_context)
 
                 mail_server = None
                 if prot.mail_pec_ref and prot.mail_pec_ref.server_id:
                     mail_server_obj = self.pool.get('ir.mail_server')
-                    mail_server_ids = mail_server_obj.get_mail_server_pec(cr, uid, prot.mail_pec_ref.server_id.id, context)
+                    mail_server_ids = mail_server_obj.get_mail_server_pec(cr, uid, prot.mail_pec_ref.server_id.id,
+                                                                          context)
                     if not mail_server_ids:
-                        raise openerp.exceptions.Warning(_('Errore nella notifica del protocollo, manca il server di posta in uscita'))
+                        raise openerp.exceptions.Warning(
+                            _('Errore nella notifica del protocollo, manca il server di posta in uscita'))
                     mail_server = mail_server_obj.browse(cr, uid, mail_server_ids[0])
                 else:
-                    raise openerp.exceptions.Warning(_('Errore nella notifica del protocollo, nessun server pec trovato'))
+                    raise openerp.exceptions.Warning(
+                        _('Errore nella notifica del protocollo, nessun server pec trovato'))
 
                 sender_receivers_pec_mails = []
                 sender_receivers_pec_ids = []
@@ -1491,7 +1548,9 @@ class protocollo_protocollo(orm.Model):
                 mail_message_obj.write(cr, uid, mail.mail_message_id.id, {'direction_sharedmail': 'out'})
                 for sender_receiver_id in sender_receivers_ids:
                     msgvals = {}
-                    sender_receiver_obj = self.pool.get('protocollo.sender_receiver').browse(cr, uid, sender_receiver_id, context=context)
+                    sender_receiver_obj = self.pool.get('protocollo.sender_receiver').browse(cr, uid,
+                                                                                             sender_receiver_id,
+                                                                                             context=context)
                     msgvals['to_resend'] = False
                     msgvals['sharedmail_numero_invii'] = int(sender_receiver_obj.sharedmail_numero_invii) + 1
                     msgvals['sharedmail_messaggio_ids'] = [(4, mail.mail_message_id.id)]
@@ -1529,11 +1588,11 @@ class protocollo_protocollo(orm.Model):
         if not protocollo.typology.sharedmail and not protocollo.typology.pec:
             action_class = "history_icon sent"
             post_vars = {'subject': "Invio protocollo",
-                     'body': "<div class='%s'><ul><li>Inviato protocollo %s (%s)</li></ul></div>" % (
-                         action_class, protocollo.name, protocollo.typology.name),
-                     'model': "protocollo.protocollo",
-                     'res_id': protocollo.id,
-                     }
+                         'body': "<div class='%s'><ul><li>Inviato protocollo %s (%s)</li></ul></div>" % (
+                             action_class, protocollo.name, protocollo.typology.name),
+                         'model': "protocollo.protocollo",
+                         'res_id': protocollo.id,
+                         }
             protocollo_obj.message_post(cr, uid, protocollo.id, type="notification", context=context, **post_vars)
 
         return True
@@ -1656,7 +1715,8 @@ class protocollo_protocollo(orm.Model):
                 action_class = "history_icon refused"
                 post_vars = {
                     'subject': "Rifiuto assegnazione: %s" % motivazione,
-                    'body': "<div class='%s'><ul><li>Assegnazione rifiutata da <span style='color:#990000;'>%s</span></li></ul></div>" % (action_class, rec.name),
+                    'body': "<div class='%s'><ul><li>Assegnazione rifiutata da <span style='color:#990000;'>%s</span></li></ul></div>" % (
+                        action_class, rec.name),
                     'model': "protocollo.protocollo",
                     'res_id': ids[0]
                 }
@@ -1666,7 +1726,7 @@ class protocollo_protocollo(orm.Model):
 
                 # l'invio della notifica avviene prima della modifica dello stato, perchè se fatta dopo, in alcuni casi,
                 # potrebbe non avere più i permessi di scrittura sul protocollo
-                #self.pool.get('protocollo.stato.dipendente').modifica_stato_dipendente(cr, uid, ids, 'rifiutato')
+                # self.pool.get('protocollo.stato.dipendente').modifica_stato_dipendente(cr, uid, ids, 'rifiutato')
                 self.pool.get('protocollo.assegnazione').modifica_stato_assegnazione(cr, uid, ids, 'rifiutato')
             else:
                 raise orm.except_orm(_('Attenzione!'), _('Il protocollo non può più essere rifiutato!'))
@@ -1765,7 +1825,7 @@ class protocollo_protocollo(orm.Model):
                     if prot.doc_id:
                         prot_datas = prot.doc_id.datas
                         if prot.mimetype == 'application/pdf' and configurazione.genera_segnatura:
-                            prot_datas =  self._sign_doc(cr, uid, prot, prot_complete_name, prot_date)
+                            prot_datas = self._sign_doc(cr, uid, prot, prot_complete_name, prot_date)
                         fingerprint = self._create_protocol_attachment(
                             cr,
                             uid,
@@ -1799,7 +1859,7 @@ class protocollo_protocollo(orm.Model):
                     thread_pool = self.pool.get('protocollo.protocollo')
                     thread_pool.message_post(cr, uid, prot.id, type="notification", context=context, **post_vars)
 
-                    #self.write(cr, uid, [prot.id], vals)
+                    # self.write(cr, uid, [prot.id], vals)
                 except Exception as e:
                     _logger.error(e)
                     raise openerp.exceptions.Warning(_('Errore nella \
@@ -2081,6 +2141,7 @@ class protocollo_emergency_registry(orm.Model):
         'user_id': lambda obj, cr, uid, context: uid,
         'state': 'draft',
     }
+
 
 class Wizard(object):
 
