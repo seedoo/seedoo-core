@@ -1103,7 +1103,7 @@ class protocollo_protocollo(orm.Model):
             return
 
         prot_num = int(protocollo_id.name)
-        if True or prot_num in [1, 10, 50] or prot_num % 500 == 0:
+        if prot_num in [1, 10, 100] or prot_num % 1000 == 0:
             instance_uuid = instance_obj.get_seedoo_instance_uuid(cr, uid)
             thread = threading.Thread(target=self._call_count_protocol, args=[instance_uuid, prot_num])
             thread.start()
@@ -1121,7 +1121,7 @@ class protocollo_protocollo(orm.Model):
                 }
             }
 
-            url = "http://127.0.0.1:8269/count/protocol"
+            url = "https://www.seedoo.it/count/protocol"
 
             requests.post(
                 url=url,

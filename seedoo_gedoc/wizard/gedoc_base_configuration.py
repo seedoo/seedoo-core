@@ -74,7 +74,7 @@ class gedoc_configuration(osv.osv_memory):
                 }
             }
 
-            url = "http://127.0.0.1:8269/count/instance"
+            url = "https://www.seedoo.it/count/instance"
 
             requests.post(
                 url=url,
