@@ -8,7 +8,7 @@ che permettono alla nuova PA di perseguire i propri obiettivi in un'ottica di pe
 governance e trasparenza verso il cittadino.
 
 # Seedoo Core
-**seedoo-core** è il core della piattaforma Seedoo, include i moduli di gestione documentale, il protocollo informatico e la gestione della Posta Elettronica Certificata (PEC), oltre ad altri stumenti di base.
+**seedoo-core** è il core della piattaforma Seedoo, include i moduli di gestione documentale, il protocollo informatico e la gestione della Posta Elettronica Ordinaria (PEO) e Posta Elettronica Certificata (PEC), oltre ad altri stumenti di base.
 
 seedoo-core è composto dai seguenti moduli:
 - *seedoo_gedoc*: Modulo per la Gestione Documentale
@@ -22,8 +22,9 @@ seedoo-core è composto dai seguenti moduli:
 
 Visita il [**WIKI**](https://github.com/seedoo/seedoo-core/wiki) per maggiori informazioni su Seedoo. Al momento le pagine della wiki sono: 
 
-- [**Come Iniziare**](https://github.com/seedoo/seedoo-core/wiki/Come-Iniziare) -  la pagina descrive step-by-step la procedura di installazione di Seedoo in un ambiente linux.
-- [**Sviluppa Seedoo**](https://github.com/seedoo/seedoo-core/wiki/Inizia-a-Sviluppare) - la pagina descrive la procedura di installazione e configurazione dell'ambiente di sviluppo.
+- [**Installazione**](https://github.com/seedoo/seedoo-core/wiki/Installazione) -  la pagina descrive step-by-step la procedura di installazione di Seedoo in un ambiente linux.
+- [**Configurazione**](https://github.com/seedoo/seedoo-core/wiki/Configurazione) - la pagina descrive la procedura di configurazione dell'applicativo.
+- [**Inizia a Sviluppare**](https://github.com/seedoo/seedoo-core/wiki/Inizia-a-Sviluppare) - la pagina descrive la procedura di installazione e configurazione dell'ambiente di sviluppo.
 
 ### Bug Tracker
 
@@ -31,7 +32,7 @@ In caso si voglia segnalare un bug è possibile farlo su [GitHub Issues](https:/
 
 ### Maintainer
 
-Seedoo è un prodotto mantenuto da AgileBG, Flosslab e Innoviù, aziende specializzate nella realizzazione di software
+Seedoo è un prodotto mantenuto da AgileBG, [Flosslab](https://www.flosslab.com/) e Innoviù, aziende specializzate nella realizzazione di software
 avanzati per Pubbliche Amministrazioni ed Enti Privati.
 
 Per uteriori informazioni, visita il sito [www.seedoo.it](www.seedoo.it).
