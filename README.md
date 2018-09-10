@@ -3,12 +3,12 @@
 Seedoo è un sistema open source per la gestione del Protocollo Informatico e la Gestione Documentale a norma.
 
 Il software gestisce l'intero iter documentale in maniera personalizzata e integrata,
-**Protocollo informatico**, **Gestione Documentale**, **Integrazione Email e PEC**, Analisi dei Dati, sono alcuni degli strumenti
+**Protocollo informatico**, **Gestione Documentale**, **Integrazione Email e PEC**, **Workflow di assegnazione**, Analisi dei Dati, sono alcuni degli strumenti
 che permettono alla nuova PA di perseguire i propri obiettivi in un'ottica di performance,
-governance e trasparenza verso il cittadino.
+governance e trasparenza.
 
 # Seedoo Core
-**seedoo-core** è il core della piattaforma Seedoo, include i moduli di gestione documentale, il protocollo informatico e la gestione della Posta Elettronica Ordinaria (PEO) e Posta Elettronica Certificata (PEC), oltre ad altri stumenti di base.
+**seedoo-core** è il core della piattaforma Seedoo, include i moduli di gestione documentale, il protocollo informatico e l'integrazione della Posta Elettronica Ordinaria (PEO) e Posta Elettronica Certificata (PEC), oltre ad altri stumenti di base.
 
 seedoo-core è composto dai seguenti moduli:
 - *seedoo_gedoc*: Modulo per la Gestione Documentale
