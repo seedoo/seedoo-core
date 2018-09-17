@@ -273,3 +273,11 @@ class MailMessage(orm.Model):
             'type': 'ir.actions.act_window',
             'flags': {'form': {'options': {'mode': 'view'}}}
         }
+
+    def _needaction_count(self, cr, uid, domain, context=None):
+        if context and 'count' in context:
+            res = self.search(cr, uid, domain, limit=100, order='id DESC', context=context)
+            return len(res)
+        else:
+            return super(MailMessage, self)._needaction_count(cr, uid, domain, context=context)
+

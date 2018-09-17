@@ -85,7 +85,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="domain">[('server_sharedmail_id.sharedmail','=',True),('sharedmail_type','=','sharedmail'),('server_sharedmail_id.user_sharedmail_ids','in',uid),('sharedmail_state','=','new')]</field>
-            <field name="context">{'sharedmail_messages': True}</field>
+            <field name="context">{'sharedmail_messages': True, 'count': True}</field>
         </record>
 
         <record model="ir.actions.act_window.view"
