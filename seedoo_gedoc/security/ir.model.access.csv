@@ -11,3 +11,4 @@ access_gedoc_document_user,gedoc.document.user,model_gedoc_document,group_gedoc_
 access_gedoc_document_manager,gedoc.document.manager,model_gedoc_document,group_gedoc_manager,1,1,1,1
 access_gedoc_document_search_user,gedoc.document.search.user,model_gedoc_document_search,group_gedoc_user,1,1,1,0
 access_gedoc_document_search_manager,gedoc.document.search.manager,model_gedoc_document_search,group_gedoc_manager,1,1,1,1
+access_gedoc_instance,seedoo_gedoc.instance,model_seedoo_gedoc_instance,,1,0,0,0
