@@ -13,7 +13,8 @@ _logger = logging.getLogger(__name__)
 
 
 class gedoc_document(osv.Model):
-    _inherit = 'gedoc.document'
+    _name = 'gedoc.document'
+    _inherit = ['gedoc.document', 'ir.needaction_mixin']
 
     def _ripristina_per_protocollazione_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         protocollo_obj = self.pool.get('protocollo.protocollo')
@@ -166,3 +167,7 @@ class gedoc_document(osv.Model):
                 raise orm.except_orm(_("Errore"), _("Non è stato possibile ripristinare questo documento"))
 
         return True
+
+    def _needaction_domain_get(self, cr, uid, context=None):
+        # domain to force display the counter
+        return [(1, '=', 1)]

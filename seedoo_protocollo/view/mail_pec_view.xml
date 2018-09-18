@@ -189,7 +189,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="domain">[('server_id.pec','=',True),('pec_type','=','posta-certificata'),('server_id.user_ids','in',uid),('pec_state','=','new')]</field>
-            <field name="context">{'pec_messages': True}</field>
+            <field name="context">{'pec_messages': True, 'count': True}</field>
         </record>
 
         <record model="ir.actions.act_window.view"
