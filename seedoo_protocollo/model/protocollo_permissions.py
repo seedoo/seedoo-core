@@ -548,6 +548,63 @@ class protocollo_protocollo(osv.Model):
     # Visibilità dei protocolli nella dashboard
     ####################################################################################################################
 
+    def _non_fascicolati_visibility(self, cr, uid, ids, name, arg, context=None):
+        return {}
+
+    def _non_fascicolati_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
+        start = int(round(time.time() * 1000))
+
+        cr.execute('''
+            SELECT DISTINCT(pa.protocollo_id) 
+            FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
+            WHERE pp.id = pa.protocollo_id
+                AND pa.assegnatario_employee_id = he.id
+                AND he.resource_id = rr.id
+                AND rr.user_id = %s
+                AND pp.registration_employee_id IS NOT NULL
+                AND pa.tipologia_assegnatario = 'employee'
+                AND pa.tipologia_assegnazione = 'competenza'
+                AND pa.state = 'preso' 
+                AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
+                AND pp.id NOT IN (SELECT protocollo_id FROM dossier_protocollo_rel)
+        ''', (uid,))
+        protocollo_visible_ids = [res[0] for res in cr.fetchall()]
+
+        end = int(round(time.time() * 1000))
+        _logger.info("_non_fascicolati_visibility_search: " + str(end - start))
+        return [('id', 'in', protocollo_visible_ids)]
+
+    def _non_fascicolati_visibility_count(self, cr, uid):
+        time_start = datetime.datetime.now()
+
+        sql_query = """SELECT COUNT(DISTINCT(pa.protocollo_id)) 
+            FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
+            WHERE pp.id = pa.protocollo_id
+                AND pa.assegnatario_employee_id = he.id
+                AND he.resource_id = rr.id
+                AND rr.user_id = %d
+                AND pp.registration_employee_id IS NOT NULL
+                AND pa.tipologia_assegnatario = 'employee'
+                AND pa.tipologia_assegnazione = 'competenza'
+                AND pa.state = 'preso' 
+                AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
+                AND pp.id NOT IN (SELECT protocollo_id FROM dossier_protocollo_rel)
+        """ % (uid,)
+
+        cr.execute(sql_query)
+        result = cr.fetchall()
+        count_value = result[0][0]
+
+        time_end = datetime.datetime.now()
+        time_duration = time_end - time_start
+
+        _logger.info("_non_fascicolati_visibility_count: %d - %.03f s" % (
+            count_value,
+            float(time_duration.microseconds) / 1000000
+        ))
+
+        return count_value
+
     def _bozza_creato_da_me_visibility(self, cr, uid, ids, name, arg, context=None):
         return {}
 
@@ -607,7 +664,8 @@ class protocollo_protocollo(osv.Model):
                   pa.tipologia_assegnatario = 'employee' AND 
                   pa.tipologia_assegnazione = 'competenza' AND
                   pa.state = 'assegnato' AND
-                  pa.parent_id IS NULL
+                  pa.parent_id IS NULL AND
+                  pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
         ''', (uid,))
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
         end = int(round(time.time() * 1000))
@@ -639,7 +697,9 @@ class protocollo_protocollo(osv.Model):
                 AND pa.tipologia_assegnatario = 'employee'
                 AND pa.tipologia_assegnazione = 'competenza'
                 AND pa.state = 'assegnato'
-                AND pa.parent_id IS NULL""" % (protocollo_type, uid)
+                AND pa.parent_id IS NULL
+                AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
+        """ % (protocollo_type, uid)
 
         cr.execute(sql_query)
         result = cr.fetchall()
@@ -671,7 +731,8 @@ class protocollo_protocollo(osv.Model):
                   ) AND 
                   pp.registration_employee_id IS NOT NULL AND 
                   pa.tipologia_assegnazione = 'conoscenza' AND 
-                  pa.state = 'assegnato'
+                  pa.state = 'assegnato' AND 
+                  pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
         ''', (uid, uid))
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
         end = int(round(time.time() * 1000))
@@ -703,7 +764,8 @@ class protocollo_protocollo(osv.Model):
                   ) AND 
                   pp.registration_employee_id IS NOT NULL AND 
                   pa.tipologia_assegnazione = 'conoscenza' AND 
-                  pa.state = 'assegnato'
+                  pa.state = 'assegnato' AND
+                  pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
         """ % (protocollo_type, uid, uid)
 
         cr.execute(sql_query)
@@ -738,7 +800,8 @@ class protocollo_protocollo(osv.Model):
                   pa.tipologia_assegnatario = 'employee' AND 
                   pa.tipologia_assegnazione = 'conoscenza' AND
                   pa.state = 'assegnato' AND
-                  pa.parent_id IS NULL
+                  pa.parent_id IS NULL AND
+                  pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
         ''', (uid,))
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
         end = int(round(time.time() * 1000))
@@ -770,7 +833,9 @@ class protocollo_protocollo(osv.Model):
                 AND pa.tipologia_assegnatario = 'employee' 
                 AND pa.tipologia_assegnazione = 'conoscenza'
                 AND pa.state = 'assegnato'
-                AND pa.parent_id IS NULL""" % (protocollo_type, uid)
+                AND pa.parent_id IS NULL
+                AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
+        """ % (protocollo_type, uid)
 
         cr.execute(sql_query)
         result = cr.fetchall()
@@ -803,7 +868,8 @@ class protocollo_protocollo(osv.Model):
                   pp.registration_employee_id IS NOT NULL AND
                   pa.tipologia_assegnatario = 'department' AND 
                   pa.tipologia_assegnazione = 'competenza' AND
-                  pa.state = 'assegnato'
+                  pa.state = 'assegnato' AND
+                  pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
         ''', (uid,))
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
         end = int(round(time.time() * 1000))
@@ -835,7 +901,9 @@ class protocollo_protocollo(osv.Model):
                 AND pp.registration_employee_id IS NOT NULL
                 AND pa.tipologia_assegnatario = 'department' 
                 AND pa.tipologia_assegnazione = 'competenza'
-                AND pa.state = 'assegnato'""" % (protocollo_type, uid)
+                AND pa.state = 'assegnato'
+                AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
+        """ % (protocollo_type, uid)
 
         cr.execute(sql_query)
         result = cr.fetchall()
@@ -868,7 +936,8 @@ class protocollo_protocollo(osv.Model):
                   pp.registration_employee_id IS NOT NULL AND
                   pa.tipologia_assegnatario = 'department' AND 
                   pa.tipologia_assegnazione = 'conoscenza' AND
-                  pa.state = 'assegnato'
+                  pa.state = 'assegnato' AND
+                  pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
         ''', (uid,))
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
         end = int(round(time.time() * 1000))
@@ -900,7 +969,9 @@ class protocollo_protocollo(osv.Model):
                 AND pp.registration_employee_id IS NOT NULL
                 AND pa.tipologia_assegnatario = 'department' 
                 AND pa.tipologia_assegnazione = 'conoscenza'
-                AND pa.state = 'assegnato'""" % (protocollo_type, uid)
+                AND pa.state = 'assegnato'
+                AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
+        """ % (protocollo_type, uid)
 
         cr.execute(sql_query)
         result = cr.fetchall()
@@ -932,7 +1003,8 @@ class protocollo_protocollo(osv.Model):
                   pp.registration_employee_id IS NOT NULL AND
                   pa.tipologia_assegnazione = 'competenza' AND
                   pa.state = 'assegnato' AND
-                  (pa.tipologia_assegnatario = 'department' OR (pa.tipologia_assegnatario = 'employee' AND pa.parent_id IS NULL)) 
+                  (pa.tipologia_assegnatario = 'department' OR (pa.tipologia_assegnatario = 'employee' AND pa.parent_id IS NULL)) AND
+                  pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
         ''', (uid,))
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
         end = int(round(time.time() * 1000))
@@ -967,7 +1039,9 @@ class protocollo_protocollo(osv.Model):
                     OR (pa.tipologia_assegnatario = 'employee'
                            AND pa.parent_id IS NULL
                     )
-                )""" % (protocollo_type, uid)
+                )
+                AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
+            """ % (protocollo_type, uid)
 
         cr.execute(sql_query)
         result = cr.fetchall()
@@ -998,7 +1072,8 @@ class protocollo_protocollo(osv.Model):
                   rr.user_id = %s AND
                   pp.registration_employee_id IS NOT NULL AND
                   pa.tipologia_assegnazione = 'competenza' AND
-                  pa.state = 'rifiutato'
+                  pa.state = 'rifiutato' AND 
+                  pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
         ''', (uid,))
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
         end = int(round(time.time() * 1000))
@@ -1028,7 +1103,9 @@ class protocollo_protocollo(osv.Model):
                 AND rr.user_id = %d
                 AND pp.registration_employee_id IS NOT NULL
                 AND pa.tipologia_assegnazione = 'competenza'
-                AND pa.state = 'rifiutato'""" % (protocollo_type, uid)
+                AND pa.state = 'rifiutato'
+                AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
+        """ % (protocollo_type, uid)
 
         cr.execute(sql_query)
         result = cr.fetchall()
@@ -1877,6 +1954,9 @@ class protocollo_protocollo(osv.Model):
         'is_visible': fields.function(_is_visible, fnct_search=_is_visible_search, type='boolean', string='Visibile'),
 
         # Visibilità dei protocolli nella dashboard
+        'non_fascicolati_visibility': fields.function(_non_fascicolati_visibility,
+                                                         fnct_search=_non_fascicolati_visibility_search,
+                                                         type='boolean', string='Non Fascicolati'),
         'bozza_creato_da_me_visibility': fields.function(_bozza_creato_da_me_visibility,
                                                          fnct_search=_bozza_creato_da_me_visibility_search,
                                                          type='boolean', string='Bozza Creata da me'),
@@ -2015,7 +2095,7 @@ class protocollo_protocollo(osv.Model):
             ON public.protocollo_protocollo
             USING btree
             (registration_employee_id);
-            """)
+        """)
 
     def fields_get(self, cr, uid, fields=None, context=None):
         # lista dei campi da nascondere nella ricerca avanzata
