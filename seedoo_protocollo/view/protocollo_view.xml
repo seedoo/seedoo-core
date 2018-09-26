@@ -1031,7 +1031,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="protocollo_protocollo_tree"/>
             <field name="search_view_id" ref="protocollo_protocollo_search"/>
-            <field name="domain"> [('state','in',('registered','notified','sent','waiting','error')),('dossier_ids','=',False)]</field>
+            <field name="domain">[('state','in',('registered','notified','sent','waiting','error')),('dossier_ids','=',False)]</field>
         </record>
 
 

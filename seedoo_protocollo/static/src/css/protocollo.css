@@ -497,8 +497,8 @@ li.badge {
   padding: 10px 20px;
 }
 .body-message-container .oe_form_embedded_html {
-  padding: 20px !important;
-  background-color: #eee;
+  padding: 0 !important;
+  background-color: #fff;
 }
 .openerp .oe_form .oe_form_group .oe_form_group_cell.oe_group_right {
   padding-left: 0 !important;
@@ -973,8 +973,4 @@ div.dati-protocollo-container h4:before {
   .sidenav a {
     font-size: 18px;
   }
-}
-
-.message-error {
-  color: #f00;
 }
