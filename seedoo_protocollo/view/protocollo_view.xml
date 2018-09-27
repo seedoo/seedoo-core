@@ -110,24 +110,26 @@ this module contains the full copyright notices and license terms. -->
                 <tree string="Titolario">
                     <field name="sequence" widget="handle"/>
                     <field name="sequence"/>
-                    <field name="code"/>
-                    <field name="name"/>
+                    <field name="complete_name"/>
                     <field name="parent_id"/>
                 </tree>
             </field>
         </record>
 
+        <!--
         <record model='ir.ui.view' id='protocollo_classification_search'>
             <field name="name">protocollo.classification.search</field>
             <field name="model">protocollo.classification</field>
             <field name="arch" type="xml">
                 <search string="Titolario">
                     <field name="code"/>
-                    <field name="name"/>
+                    <field name="sequence"/>
+                    <field name="complete_name"/>
                     <field name="parent_id"/>
                 </search>
             </field>
         </record>
+        -->
 
         <record model="ir.actions.act_window" id="protocollo_classification_act">
             <field name="name">Titolario</field>
