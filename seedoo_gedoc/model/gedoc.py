@@ -35,25 +35,11 @@ class res_users(osv.Model):
 
 class protocollo_classification(osv.Model):
     _name = 'protocollo.classification'
+    _rec_name = 'complete_name'
 
-    # def name_get(self, cr, uid, ids, context=None):
-    #     if isinstance(ids, (list, tuple)) and not len(ids):
-    #         return []
-    #     if isinstance(ids, (long, int)):
-    #         ids = [ids]
-    #     reads = self.read(cr, uid, ids, ['name', 'parent_id'], context=context)
-    #     res = []
-    #     for record in reads:
-    #         name = record['name']
-    #         if record['parent_id']:
-    #             name = record['parent_id'][1] + ' / ' + name
-    #         res.append((record['id'], name))
-    #
-    #     return res
-
-    def name_get(self, cr, uid, ids, context=None):
+    def _name_get_fnc(self, cr, uid, ids, prop, unknow_none, context=None):
         if isinstance(ids, (list, tuple)) and not len(ids):
-            return []
+            return dict([])
         if isinstance(ids, (long, int)):
             ids = [ids]
         reads = self.read(cr, uid, ids, ['name', 'code'], context=context)
@@ -64,22 +50,30 @@ class protocollo_classification(osv.Model):
             else:
                 name = record['name']
             res.append((record['id'], name))
-        return res
-
-    def _name_get_fnc(self, cr, uid, ids, prop, unknow_none, context=None):
-        res = self.name_get(cr, uid, ids, context=context)
         return dict(res)
 
-    def _name_and_code_get_fnc(self, cr, uid, ids, prop, unknow_none, context=None):
-        classification_obj = self.pool.get('protocollo.classification')
-        res = []
-        for classification in classification_obj.browse(cr, uid, ids, context=context):
-            if classification.code:
-                res.append((classification.id, classification.code + " - " + classification.name))
+    def _name_search_fnc(self, cr, uid, obj, name, args, domain=None, context=None):
+        classification_ids = []
+        if args and len(args[0])==3:
+            arg = args[0]
+            operator = arg[1]
+            value = arg[2]
+            if operator in ['like', 'ilike', 'not like', 'not ilike']:
+                condition = operator + " '%"+value+"%'"
+            elif operator in ['=', '!='] and value==False:
+                condition = 'IS NULL' if operator=='=' else 'IS NOT NULL'
             else:
-                res.append((classification.id, classification.name))
-        return dict(res)
+                condition = operator + " '"+value+"'"
+            where = "CASE WHEN pc.code IS NULL THEN pc.name "+condition+" ELSE concat_ws(' - ', pc.code, pc.name) "+condition+" END"
 
+            cr.execute('''
+                SELECT DISTINCT(pc.id) 
+                FROM protocollo_classification pc
+                WHERE '''+where
+           )
+
+            classification_ids = [res[0] for res in cr.fetchall()]
+        return [('id', 'in', classification_ids)]
 
     _columns = {
         'name': fields.char(
@@ -93,12 +87,9 @@ class protocollo_classification(osv.Model):
             'Children'),
         'complete_name': fields.function(
             _name_get_fnc,
-            type="char",
+            fnct_search=_name_search_fnc,
+            type='char',
             string='Nome Completo'),
-        'name_and_code': fields.function(
-            _name_and_code_get_fnc,
-            type="char",
-            string='Codice e Nome'),
         'description': fields.text('Descrizione'),
         'code': fields.char(
             'Codice Titolario',
@@ -125,9 +116,6 @@ class protocollo_classification(osv.Model):
     _default = {
         'sequence': 10
     }
-    # _defaults = {
-    #     'name_and_code': _name_get_fnc
-    # }
 
 
 class protocollo_dossier(osv.Model):

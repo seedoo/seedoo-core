@@ -66,15 +66,16 @@ this module contains the full copyright notices and license terms. -->
             </field>
         </record>
 
-        <record model='ir.ui.view' id='protocollo_classification_search'>
+        <record model="ir.ui.view" id="protocollo_classification_search">
             <field name="name">protocollo.classification.search</field>
             <field name="model">protocollo.classification</field>
             <field name="arch" type="xml">
                 <search string="Titolario">
-                    <field name="class_type"/>
-                    <field name="name"/>
-                    <field name="parent_id"/>
+                    <field name="sequence"/>
                     <field name="code"/>
+                    <field name="complete_name"/>
+                    <field name="parent_id"/>
+                    <field name="class_type"/>
                 </search>
             </field>
         </record>
