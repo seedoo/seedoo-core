@@ -1420,8 +1420,17 @@ class protocollo_protocollo(orm.Model):
             thread_pool.message_post(cr, uid, prot_id, type="notification", context=context, **post_vars)
 
             if res[0]['state'] != 'sent':
-                raise openerp.exceptions.Warning(_('Errore nella \
-                    notifica del protocollo, mail pec non spedita'))
+                cr.rollback()
+                action_class = "history_icon warning"
+                post_vars = {
+                    'subject': "PEC protocollo non inviata",
+                    'body': "<div class='%s'><ul><li>Non è stato possibile inviare la PEC al Destinatario!</li></ul></div>" % (action_class,),
+                    'model': "protocollo.protocollo",
+                    'res_id': prot_id
+                }
+                thread_pool.message_post(cr, uid, prot_id, type="notification", context=context, **post_vars)
+                cr.commit()
+                raise openerp.exceptions.Warning(_('Errore nella notifica del protocollo, la PEC protocollo non è stata inviata'))
             else:
                 mail_message_obj = self.pool.get('mail.message')
                 mail_message_obj.write(cr, uid, mail.mail_message_id.id, {'direction': 'out'})
@@ -1536,13 +1545,21 @@ class protocollo_protocollo(orm.Model):
                          'model': "protocollo.protocollo",
                          'res_id': prot_id,
                          }
-
             thread_pool = self.pool.get('protocollo.protocollo')
             thread_pool.message_post(cr, uid, prot_id, type="notification", context=context, **post_vars)
 
             if res[0]['state'] != 'sent':
-                raise openerp.exceptions.Warning(_('Errore nella \
-                    notifica del protocollo, mail non spedita'))
+                cr.rollback()
+                action_class = "history_icon warning"
+                post_vars = {
+                    'subject': "E-mail protocollo non inviata",
+                    'body': "<div class='%s'><ul><li>Non è stato possibile inviare l'email al Destinatario!</li></ul></div>" % (action_class,),
+                    'model': "protocollo.protocollo",
+                    'res_id': prot_id
+                }
+                thread_pool.message_post(cr, uid, prot_id, type="notification", context=context, **post_vars)
+                cr.commit()
+                raise openerp.exceptions.Warning(_('Errore nella notifica del protocollo, l\'e-mail protocollo non è stata inviata'))
             else:
                 mail_message_obj = self.pool.get('mail.message')
                 mail_message_obj.write(cr, uid, mail.mail_message_id.id, {'direction_sharedmail': 'out'})
