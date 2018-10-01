@@ -12,6 +12,8 @@ this module contains the full copyright notices and license terms. -->
             <field name="inherit_id" ref="base.view_res_partner_filter"/>
             <field name="arch" type="xml">
                 <field name="parent_id" position="after">
+                    <field name="email"/>
+                    <field name="pec_mail"/>
                     <group string="Tipo PA" icon="fa-filter">
                         <filter string="Ente" name="gov_pa" domain="[('pa_type','=','pa')]" icon=""/>
                         <filter string="AOO" name="gov_aoo" domain="[('pa_type','=','aoo')]"/>
