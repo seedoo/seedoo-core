@@ -405,6 +405,11 @@ class protocollo_protocollo(orm.Model):
                                                 string="Fine  Data Ricerca"),
         'user_id': fields.many2one('res.users', 'Protocollatore', readonly=True),
         'registration_employee_id': fields.many2one('hr.employee', 'Protocollatore', readonly=True),
+        'registration_employee_department_id': fields.many2one('hr.department', 'Ufficio del Protocollatore', readonly=True),
+        # 'registration_employee_department_parent_ids': fields.many2many('hr.department', 'protocollo_reg_dep_parent_rel',
+        #                                                                 'protocollo_id', 'department_id',
+        #                                                                 'Uffici Padre dell\'Ufficio del Protocollatore'),
+        'registration_employee_department_parent_ids': fields.char('Uffici Padre dell\'Ufficio del Protocollatore', size=256, readonly=True),
         'registration_type': fields.selection(
             [
                 ('normal', 'Normale'),

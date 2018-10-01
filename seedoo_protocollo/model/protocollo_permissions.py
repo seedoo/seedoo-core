@@ -326,12 +326,35 @@ class protocollo_protocollo(osv.Model):
                 types = []
                 if check_gruppo_in: types.append('in')
                 if check_gruppo_out: types.append('out')
-                deps = department_obj.search(cr, uid, [('parent_id', '=', employee.department_id.id)])
                 protocollo_ids_department_childs = self.search(cr, uid, [
-                    ('type', 'in', types),
-                    ('registration_employee_id.department_id.id', 'in', deps),
-                    ('reserved', '=', False)
-                ])
+                        ('type', 'in', types),
+                        ('registration_employee_department_id', 'in', [76, 77, 78]),
+                        ('reserved', '=', False)
+                    ])
+                # cr.execute('''
+                #     SELECT DISTINCT(pp.id)
+                #     FROM protocollo_protocollo pp
+                #     WHERE pp.registration_employee_department_id IN(76, 77, 78) AND
+                #           pp.reserved=FALSE AND
+                #           pp.type IN ''' + str(types).replace('[', '(').replace(']', ')') + '''
+                # ''')
+                # protocollo_ids_department_childs = [res[0] for res in cr.fetchall()]
+
+                # cr.execute('''
+                #     SELECT DISTINCT(pp.id)
+                #     FROM protocollo_protocollo pp, protocollo_reg_dep_parent_rel prdpr
+                #     WHERE pp.id=prdpr.protocollo_id AND
+                #           prdpr.department_id=%s AND
+                #           pp.reserved=FALSE AND
+                #           pp.type IN ''' + str(types).replace('[', '(').replace(']', ')') + '''
+                # ''', (employee_department.id,))
+                # #deps = department_obj.search(cr, uid, [('parent_id', '=', employee.department_id.id)])
+                # protocollo_ids_department_childs = self.search(cr, uid, [
+                #     ('type', 'in', types),
+                #     #('registration_employee_id.department_id.id', 'in', deps),
+                #     ('registration_employee_department_parent_ids', '=', employee_department.id),
+                #     ('reserved', '=', False)
+                # ])
                 protocollo_visible_ids.extend(protocollo_ids_department_childs)
             _logger.info("---Query ids_department_childs  %s seconds ---" % (time.time() - start_time))
 
