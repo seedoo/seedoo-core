@@ -238,6 +238,8 @@ class protocollo_protocollo(osv.Model):
         if len(employee_ids) > 0:
             employee = employee_obj.browse(cr, uid, employee_ids[0])
             employee_department = employee.department_id if employee.department_id else None
+            employee_department_child_ids = [child.id for child in employee_department.all_child_ids]
+            employee_department_child_ids_str = ', '.join(map(str, employee_department_child_ids))
             if not employee_department:
                 return protocollo_visible_ids
 
@@ -308,11 +310,14 @@ class protocollo_protocollo(osv.Model):
                 types = []
                 if check_gruppo_in: types.append('in')
                 if check_gruppo_out: types.append('out')
-                protocollo_ids_department = self.search(cr, uid, [
-                    ('type', 'in', types),
-                    ('registration_employee_id.department_id.id', '=', employee.department_id.id),
-                    ('reserved', '=', False)
-                ])
+                cr.execute('''
+                    SELECT DISTINCT(pp.id)
+                    FROM protocollo_protocollo pp
+                    WHERE pp.registration_employee_department_id = %s AND
+                          pp.reserved=FALSE AND
+                          pp.type IN (''' + str(types).strip('[]') + ''')
+                ''', (employee_department.id,))
+                protocollo_ids_department = [res[0] for res in cr.fetchall()]
                 protocollo_visible_ids.extend(protocollo_ids_department)
             _logger.info("---Query department  %s seconds ---" % (time.time() - start_time))
 
@@ -326,35 +331,14 @@ class protocollo_protocollo(osv.Model):
                 types = []
                 if check_gruppo_in: types.append('in')
                 if check_gruppo_out: types.append('out')
-                protocollo_ids_department_childs = self.search(cr, uid, [
-                        ('type', 'in', types),
-                        ('registration_employee_department_id', 'in', [76, 77, 78]),
-                        ('reserved', '=', False)
-                    ])
-                # cr.execute('''
-                #     SELECT DISTINCT(pp.id)
-                #     FROM protocollo_protocollo pp
-                #     WHERE pp.registration_employee_department_id IN(76, 77, 78) AND
-                #           pp.reserved=FALSE AND
-                #           pp.type IN ''' + str(types).replace('[', '(').replace(']', ')') + '''
-                # ''')
-                # protocollo_ids_department_childs = [res[0] for res in cr.fetchall()]
-
-                # cr.execute('''
-                #     SELECT DISTINCT(pp.id)
-                #     FROM protocollo_protocollo pp, protocollo_reg_dep_parent_rel prdpr
-                #     WHERE pp.id=prdpr.protocollo_id AND
-                #           prdpr.department_id=%s AND
-                #           pp.reserved=FALSE AND
-                #           pp.type IN ''' + str(types).replace('[', '(').replace(']', ')') + '''
-                # ''', (employee_department.id,))
-                # #deps = department_obj.search(cr, uid, [('parent_id', '=', employee.department_id.id)])
-                # protocollo_ids_department_childs = self.search(cr, uid, [
-                #     ('type', 'in', types),
-                #     #('registration_employee_id.department_id.id', 'in', deps),
-                #     ('registration_employee_department_parent_ids', '=', employee_department.id),
-                #     ('reserved', '=', False)
-                # ])
+                cr.execute('''
+                    SELECT DISTINCT(pp.id)
+                    FROM protocollo_protocollo pp
+                    WHERE pp.registration_employee_department_id IN (''' + employee_department_child_ids_str + ''') AND
+                          pp.reserved=FALSE AND
+                          pp.type IN (''' + str(types).strip('[]') + ''')
+                ''')
+                protocollo_ids_department_childs = [res[0] for res in cr.fetchall()]
                 protocollo_visible_ids.extend(protocollo_ids_department_childs)
             _logger.info("---Query ids_department_childs  %s seconds ---" % (time.time() - start_time))
 
@@ -406,7 +390,8 @@ class protocollo_protocollo(osv.Model):
                 if check_gruppo_out: types.append('out')
                 assegnazione_ids = assegnazione_obj.search(cr, uid, [
                     ('tipologia_assegnatario', '=', 'employee'),
-                    ('assegnatario_employee_department_id', '=', employee.department_id.id)
+                    ('parent_id', '=', False),
+                    ('assegnatario_employee_department_id', '=', employee_department.id)
                 ])
                 protocollo_visible_ids.extend(self.search(cr, uid, [
                     ('type', 'in', types),
@@ -428,7 +413,8 @@ class protocollo_protocollo(osv.Model):
                 if check_gruppo_out: types.append('out')
                 assegnazione_ids = assegnazione_obj.search(cr, uid, [
                     ('tipologia_assegnatario', '=', 'department'),
-                    ('assegnatario_department_parent_id', '=', employee.department_id.id)
+                    #('assegnatario_department_parent_id', '=', employee.department_id.id)
+                    ('assegnatario_department_id', 'in', employee_department_child_ids)
                 ])
                 protocollo_visible_ids.extend(self.search(cr, uid, [
                     ('type', 'in', types),
@@ -436,7 +422,7 @@ class protocollo_protocollo(osv.Model):
                     ('assegnazione_ids', 'in', assegnazione_ids),
                     ('reserved', '=', False)
                 ]))
-            _logger.info("---Query _ass_uff_fig  %s seconds ---" % (time.time() - start_time))
+            _logger.info("---Query ass_uff_fig  %s seconds ---" % (time.time() - start_time))
 
             start_time = time.time()
             # un utente deve poter vedere i protocolli (IN e OUT) REGISTRATI e ASSEGNATI ad un UTENTE di un suo UFFICIO FIGLIO
@@ -450,7 +436,9 @@ class protocollo_protocollo(osv.Model):
                 if check_gruppo_out: types.append('out')
                 assegnazione_ids = assegnazione_obj.search(cr, uid, [
                     ('tipologia_assegnatario', '=', 'employee'),
-                    ('assegnatario_employee_department_id.parent_id.id', '=', employee.department_id.id)
+                    ('parent_id', '=', False),
+                    #('assegnatario_employee_department_id.parent_id.id', '=', employee.department_id.id)
+                    ('assegnatario_employee_department_id', 'in', employee_department_child_ids)
                 ])
                 protocollo_visible_ids.extend(self.search(cr, uid, [
                     ('type', 'in', types),
@@ -2118,6 +2106,15 @@ class protocollo_protocollo(osv.Model):
             ON public.protocollo_protocollo
             USING btree
             (registration_employee_id);
+        """)
+
+        cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_protocollo_registration_employee_department_id\'')
+        if not cr.fetchone():
+            cr.execute("""
+            CREATE INDEX idx_protocollo_protocollo_registration_employee_department_id
+            ON public.protocollo_protocollo
+            USING btree
+            (registration_employee_department_id);
         """)
 
     def fields_get(self, cr, uid, fields=None, context=None):

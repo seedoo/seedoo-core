@@ -406,10 +406,6 @@ class protocollo_protocollo(orm.Model):
         'user_id': fields.many2one('res.users', 'Protocollatore', readonly=True),
         'registration_employee_id': fields.many2one('hr.employee', 'Protocollatore', readonly=True),
         'registration_employee_department_id': fields.many2one('hr.department', 'Ufficio del Protocollatore', readonly=True),
-        # 'registration_employee_department_parent_ids': fields.many2many('hr.department', 'protocollo_reg_dep_parent_rel',
-        #                                                                 'protocollo_id', 'department_id',
-        #                                                                 'Uffici Padre dell\'Ufficio del Protocollatore'),
-        'registration_employee_department_parent_ids': fields.char('Uffici Padre dell\'Ufficio del Protocollatore', size=256, readonly=True),
         'registration_type': fields.selection(
             [
                 ('normal', 'Normale'),
@@ -1013,7 +1009,9 @@ class protocollo_protocollo(orm.Model):
                     attachment_obj = self.pool.get('ir.attachment')
 
                     if employee_ids:
-                        vals['registration_employee_id'] = employee_ids[0]
+                        employee = self.pool.get('hr.employee').browse(cr, uid, employee_ids[0])
+                        vals['registration_employee_id'] = employee.id
+                        vals['registration_employee_department_id'] = employee.department_id.id if employee.department_id else False
 
                     # prot_complete_name = self.calculate_complete_name(prot_date, prot_number)
 

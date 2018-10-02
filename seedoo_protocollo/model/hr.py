@@ -12,27 +12,42 @@ from openerp.tools.translate import _
 class hr_department(orm.Model):
     _inherit = 'hr.department'
 
+    def _get_child_ids(self, cr, uid, department):
+        res = []
+        for child in department.child_ids:
+            res.append(child.id)
+            child_res = self._get_child_ids(cr, uid, child)
+            res = res + child_res
+        return res
+
+    def _get_all_child_ids(self, cr, uid, ids, field_names, arg=None, context=None):
+        res = dict((res_id, []) for res_id in ids)
+        for department in self.browse(cr, uid, ids, context=context):
+            res[department.id] = self._get_child_ids(cr, uid, department)
+        return res
+
     _columns = {
         'description': fields.text('Descrizione Ufficio'),
         'assignable': fields.boolean('Assegnabile in Protocollazione'),
         'aoo_id': fields.many2one('protocollo.aoo', 'AOO', required=False),
         'aoo_name': fields.related('aoo_id', 'name', type='char', string='Nome AOO', readonly=1),
+        'all_child_ids': fields.function(_get_all_child_ids, type='one2many', relation='hr.department', string='Uffici figli di tutti i livelli sottostanti'),
     }
 
-    def _check_department_depth(self, cr, uid, ids):
-        for department in self.browse(cr, uid, ids):
-            if department.aoo_id and ((department.parent_id and department.child_ids) or (department.parent_id and department.parent_id.parent_id)):
-                raise orm.except_orm('Errore', 'La gerarchia degli uffici di una AOO non possono superare il secondo livello!')
-
-    def create(self, cr, uid, vals, context=None):
-        department_id = super(hr_department, self).create(cr, uid, vals, context=context)
-        self._check_department_depth(cr, uid, [department_id])
-        return department_id
-
-    def write(self, cr, uid, ids, vals, context=None):
-        res = super(hr_department, self).write(cr, uid, ids, vals, context)
-        self._check_department_depth(cr, uid, ids)
-        return res
+    # def _check_department_depth(self, cr, uid, ids):
+    #     for department in self.browse(cr, uid, ids):
+    #         if department.aoo_id and ((department.parent_id and department.child_ids) or (department.parent_id and department.parent_id.parent_id)):
+    #             raise orm.except_orm('Errore', 'La gerarchia degli uffici di una AOO non possono superare il secondo livello!')
+    #
+    # def create(self, cr, uid, vals, context=None):
+    #     department_id = super(hr_department, self).create(cr, uid, vals, context=context)
+    #     self._check_department_depth(cr, uid, [department_id])
+    #     return department_id
+    #
+    # def write(self, cr, uid, ids, vals, context=None):
+    #     res = super(hr_department, self).write(cr, uid, ids, vals, context)
+    #     self._check_department_depth(cr, uid, ids)
+    #     return res
 
 
 class hr_employee(orm.Model):
