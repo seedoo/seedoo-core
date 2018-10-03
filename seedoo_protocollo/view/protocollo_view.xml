@@ -479,7 +479,8 @@ this module contains the full copyright notices and license terms. -->
                                         <group>
                                             <field name="name"/>
                                             <field name="registration_date"/>
-                                            <field name="registration_employee_id" readonly="1" options="{'no_open': True}"/>
+                                            <field name="registration_employee_name" readonly="1"/>
+                                            <field name="registration_employee_department_name" readonly="1"/>
                                         </group>
                                         <group>
                                             <field name="type"/>
@@ -807,7 +808,7 @@ this module contains the full copyright notices and license terms. -->
                     <field name="registration_date_from" invisible="1"/>
                     <field name="registration_date_to" invisible="1"/>
                     <field name="registration_date"/>
-                    <field name="registration_employee_id"/>
+                    <field name="registration_employee_name"/>
                     <field name="sender_receivers_summary"/>
                     <field name="subject"/>
                     <field name="typology"/>

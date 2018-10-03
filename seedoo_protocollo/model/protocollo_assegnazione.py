@@ -123,6 +123,7 @@ class protocollo_assegnazione(orm.Model):
     _columns = {
         'protocollo_id': fields.many2one('protocollo.protocollo', 'Protocollo', ondelete='cascade'),
         'assegnatario_id': fields.many2one('protocollo.assegnatario', 'Assegnatario'),
+        'assegnatario_name': fields.char('Assegnatario', size=512),
         'tipologia_assegnatario': fields.selection(TIPO_ASSEGNATARIO_SELECTION, string='Tipologia Assegnatario'),
 
         # campi per tipologia assegnatario 'employee'
@@ -245,6 +246,7 @@ class protocollo_assegnazione(orm.Model):
         vals = {
             'protocollo_id': protocollo_id,
             'assegnatario_id': assegnatario.id,
+            'assegnatario_name': assegnatario.name,
             'tipologia_assegnatario': assegnatario.tipologia,
             'tipologia_assegnazione': tipologia,
             'state': 'assegnato',

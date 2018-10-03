@@ -405,7 +405,9 @@ class protocollo_protocollo(orm.Model):
                                                 string="Fine  Data Ricerca"),
         'user_id': fields.many2one('res.users', 'Protocollatore', readonly=True),
         'registration_employee_id': fields.many2one('hr.employee', 'Protocollatore', readonly=True),
-        'registration_employee_department_id': fields.many2one('hr.department', 'Ufficio del Protocollatore', readonly=True),
+        'registration_employee_name': fields.char('Protocollatore', size=512, readonly=True),
+        'registration_employee_department_id': fields.many2one('hr.department', 'Ufficio', readonly=True),
+        'registration_employee_department_name': fields.char('Ufficio', size=512, readonly=True),
         'registration_type': fields.selection(
             [
                 ('normal', 'Normale'),
@@ -1011,7 +1013,9 @@ class protocollo_protocollo(orm.Model):
                     if employee_ids:
                         employee = self.pool.get('hr.employee').browse(cr, uid, employee_ids[0])
                         vals['registration_employee_id'] = employee.id
+                        vals['registration_employee_name'] = employee.name_related
                         vals['registration_employee_department_id'] = employee.department_id.id if employee.department_id else False
+                        vals['registration_employee_department_name'] = employee.department_id.complete_name if employee.department_id else False
 
                     # prot_complete_name = self.calculate_complete_name(prot_date, prot_number)
 
