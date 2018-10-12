@@ -337,7 +337,7 @@ class protocollo_protocollo(osv.Model):
                                                    'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ufficio_figlio')
             check_gruppo_out = self.user_has_groups(cr, current_user_id,
                                                     'seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ufficio_figlio')
-            if check_gruppo_in or check_gruppo_out:
+            if (check_gruppo_in or check_gruppo_out) and employee_department_child_ids:
                 types = []
                 if check_gruppo_in: types.append('in')
                 if check_gruppo_out: types.append('out')
@@ -417,7 +417,7 @@ class protocollo_protocollo(osv.Model):
                                                    'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ass_uff_fig')
             check_gruppo_out = self.user_has_groups(cr, current_user_id,
                                                     'seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ass_uff_fig')
-            if check_gruppo_in or check_gruppo_out:
+            if (check_gruppo_in or check_gruppo_out) and employee_department_child_ids:
                 types = []
                 if check_gruppo_in: types.append('in')
                 if check_gruppo_out: types.append('out')
@@ -440,7 +440,7 @@ class protocollo_protocollo(osv.Model):
                                                    'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ass_ut_uff_fig')
             check_gruppo_out = self.user_has_groups(cr, current_user_id,
                                                     'seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ass_ut_uff_fig')
-            if check_gruppo_in or check_gruppo_out:
+            if (check_gruppo_in or check_gruppo_out) and employee_department_child_ids:
                 types = []
                 if check_gruppo_in: types.append('in')
                 if check_gruppo_out: types.append('out')
