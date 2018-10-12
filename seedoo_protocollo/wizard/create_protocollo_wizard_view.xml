@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This file is part of Seedoo.  The COPYRIGHT file at the top level of
+this module contains the full copyright notices and license terms. -->
+
+<openerp>
+    <data>
+        <!-- wizard action on protocollo.protocollo -->
+        <act_window id="protocollo_create_action"
+                    name="Crea Protocollo"
+                    res_model="protocollo.create.wizard"
+                    view_type="form" view_mode="form"
+                    target="new"/>
+
+        <!-- wizard view -->
+        <record id="protocollo_create_view" model="ir.ui.view">
+            <field name="name">Crea Protocollo</field>
+            <field name="model">protocollo.create.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Crea Protocollo" version="7.0">
+                    <sheet>
+                        <group attrs="{'invisible':[('error','!=',False)]}">
+                            <field name="type" required="1" attrs="{'readonly':[('type_readonly','=',True)]}"/>
+                            <field name="registration_employee_department_id"
+                                   domain="[('can_used_to_protocol', '=', True)]"
+                                   widget="selection"
+                                   required="1"
+                                   attrs="{'readonly':[('registration_employee_department_id_readonly','=',True)]}"
+                            />
+                            <field name="type_readonly" invisible="1"/>
+                            <field name="registration_employee_department_id_readonly" invisible="1"/>
+                            <field name="user_id" invisible="1"/>
+                        </group>
+                        <group attrs="{'invisible':[('error','=',False)]}">
+                            <separator string="Non è possibile avviare la procedura di creazione protocollo" colspan="2"/>
+                            <field name="error" nolabel="1"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button string="Crea Protocollo"
+                                name="action_create"
+                                type="object"
+                                class="oe_highlight"
+                                attrs="{'invisible':[('error','!=',False)]}"
+                        />
+                        <button string="Abbandona"
+                                class="oe_link"
+                                special="cancel"
+                        />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</openerp>

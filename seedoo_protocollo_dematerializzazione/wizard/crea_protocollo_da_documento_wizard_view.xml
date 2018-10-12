@@ -13,7 +13,11 @@ this module contains the full copyright notices and license terms. -->
                 <form string="Crea Protocollo da Documento">
                     <sheet>
                         <group col="4">
-                            <separator string="Documento da Protocollare" colspan="4"/>
+                            <field name="registration_employee_department_id"
+                                   domain="[('can_used_to_protocol', '=', True)]"
+                                   widget="selection"
+                                   attrs="{'invisible':[('registration_employee_department_id_invisible', '=', True)]}"
+                                   required="1" colspan="4"/>
                             <field name="doc_principale" options="{'no_create_edit': 1, 'no_create': 1, 'no_open': True}"/>
                             <newline/>
                             <field name="doc_description" required="1"/>
@@ -34,6 +38,8 @@ this module contains the full copyright notices and license terms. -->
                                     </div>
                                 </div>
                             </group>
+
+                            <field name="registration_employee_department_id_invisible" invisible="1"/>
                         </group>
                     </sheet>
                     <footer>

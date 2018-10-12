@@ -111,6 +111,8 @@ class ProtocolloMailPecWizard(osv.TransientModel):
             return None
 
     _columns = {
+        'registration_employee_department_id': fields.many2one('hr.department', 'Il mio ufficio'),
+        'registration_employee_department_id_invisible': fields.boolean('Campo registration_employee_department_id invisible', readonly=True),
         'subject': fields.text('Oggetto',
                                required=True, readonly=True),
         'body': fields.html('Corpo della mail', readonly=True),
@@ -153,6 +155,18 @@ class ProtocolloMailPecWizard(osv.TransientModel):
     #         if attach.name == 'original_email.eml':
     #             id = attach.id
     #     return id
+
+    def _default_registration_employee_department_id(self, cr, uid, context):
+        department_ids = self.pool.get('hr.department').search(cr, uid, [('can_used_to_protocol', '=', True)])
+        if department_ids:
+            return department_ids[0]
+        return False
+
+    def _default_registration_employee_department_id_invisible(self, cr, uid, context):
+        department_ids = self.pool.get('hr.department').search(cr, uid, [('can_used_to_protocol', '=', True)])
+        if len(department_ids) == 1:
+            return True
+        return False
 
     def _default_subject(self, cr, uid, context):
         mail_message = self.pool.get('mail.message').browse(cr, uid, context['active_id'], context=context)
@@ -213,6 +227,8 @@ class ProtocolloMailPecWizard(osv.TransientModel):
         return res
 
     _defaults = {
+        'registration_employee_department_id': _default_registration_employee_department_id,
+        'registration_employee_department_id_invisible': _default_registration_employee_department_id_invisible,
         'subject': _default_subject,
         'message_id': _default_id,
         'receiving_date': _default_receiving_date,
@@ -235,6 +251,8 @@ class ProtocolloMailPecWizard(osv.TransientModel):
         vals['body'] = wizard.body
         vals['mail_pec_ref'] = context['active_id']
         vals['user_id'] = uid
+        vals['registration_employee_department_id'] = wizard.registration_employee_department_id.id
+        vals['registration_employee_department_name'] = wizard.registration_employee_department_id.complete_name
         sender_receiver = []
 
         is_pec = False

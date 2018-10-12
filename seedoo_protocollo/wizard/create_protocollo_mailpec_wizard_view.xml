@@ -20,9 +20,12 @@ this module contains the full copyright notices and license terms. -->
                 <form string="Protocollo PEC" version="7.0">
                     <sheet>
                         <group col="4">
-                            <field name="sender_receivers" invisible="1"/>
-                            <separator string="Documento da Protocollare" colspan="4"/>
-                            <field name="select_doc_principale" />
+                            <field name="registration_employee_department_id"
+                                   domain="[('can_used_to_protocol', '=', True)]"
+                                   widget="selection"
+                                   attrs="{'invisible':[('registration_employee_department_id_invisible', '=', True)]}"
+                                   required="1" colspan="4"/>
+                            <field name="select_doc_principale" colspan="4"/>
 
                             <newline/>
                             <field name="message_id" colspan="4" invisible="1"/>
@@ -53,6 +56,9 @@ this module contains the full copyright notices and license terms. -->
                                     </div>
                                 </div>
                             </group>
+
+                            <field name="registration_employee_department_id_invisible" invisible="1"/>
+                            <field name="sender_receivers" invisible="1"/>
                         </group>
                     </sheet>
                     <footer>

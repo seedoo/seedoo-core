@@ -37,8 +37,8 @@ class SegnaturaXML:
         else:
             self.accountPecProtocollo = None
 
-        if self.currentUser.employee_ids.department_id.name is not False:
-            self.ufficioProtocollatore = self.currentUser.employee_ids.department_id.name
+        if protocollo.registration_employee_department_id.name is not False:
+            self.ufficioProtocollatore = protocollo.registration_employee_department_id.name
         else:
             self.ufficioProtocollatore = None
 

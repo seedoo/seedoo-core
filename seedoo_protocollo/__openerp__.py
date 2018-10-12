@@ -48,6 +48,7 @@
         "data/protocollo_user_employee.xml",
         "data/ir_config_parameter.xml",
         "gedoc/data/gedoc_data.xml",
+        "wizard/create_protocollo_wizard_view.xml",
         "wizard/cancel_protocollo_wizard_view.xml",
         "wizard/modify_protocollo_wizard_view.xml",
         "wizard/aggiungi_classificazione_protocollo_wizard_view.xml",

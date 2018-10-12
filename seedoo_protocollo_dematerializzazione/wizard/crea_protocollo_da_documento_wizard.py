@@ -13,11 +13,25 @@ class CreaProtocolloDaDocumentoWizard(osv.TransientModel):
     _description = 'Create Protocollo da Documento'
 
     _columns = {
-        'doc_principale': fields.many2one('ir.attachment', 'Allegato', readonly=True),
+        'registration_employee_department_id': fields.many2one('hr.department', 'Il mio ufficio'),
+        'registration_employee_department_id_invisible': fields.boolean('Campo registration_employee_department_id invisible', readonly=True),
+        'doc_principale': fields.many2one('ir.attachment', 'Documento da protocollare', readonly=True),
         'doc_fname': fields.related('doc_principale', 'datas_fname', type='char', readonly=True),
         'doc_description': fields.char('Descrizione documento', size=256, readonly=False),
         'preview': fields.binary('Anteprima allegato PDF'),
     }
+
+    def _default_registration_employee_department_id(self, cr, uid, context):
+        department_ids = self.pool.get('hr.department').search(cr, uid, [('can_used_to_protocol', '=', True)])
+        if department_ids:
+            return department_ids[0]
+        return False
+
+    def _default_registration_employee_department_id_invisible(self, cr, uid, context):
+        department_ids = self.pool.get('hr.department').search(cr, uid, [('can_used_to_protocol', '=', True)])
+        if len(department_ids) == 1:
+            return True
+        return False
 
     def _get_attachment_id(self, cr, uid, context):
         attachments = self.pool.get('ir.attachment').search(cr, uid, [
@@ -38,6 +52,8 @@ class CreaProtocolloDaDocumentoWizard(osv.TransientModel):
         return False
 
     _defaults = {
+        'registration_employee_department_id': _default_registration_employee_department_id,
+        'registration_employee_department_id_invisible': _default_registration_employee_department_id_invisible,
         'doc_principale': _default_doc_principale,
         'preview': _default_preview,
     }
@@ -53,6 +69,8 @@ class CreaProtocolloDaDocumentoWizard(osv.TransientModel):
         vals['user_id'] = uid
         vals['typology'] = document.typology_id.id if document.typology_id else False
         vals['doc_imported_ref'] = context.get('active_id')
+        vals['registration_employee_department_id'] = wizard.registration_employee_department_id.id
+        vals['registration_employee_department_name'] = wizard.registration_employee_department_id.complete_name
         protocollo_id = protocollo_obj.create(cr, uid, vals)
 
         protocollo_obj.carica_documento_principale(cr, uid, protocollo_id, wizard.preview, wizard.doc_fname,

@@ -3,9 +3,8 @@
 # this module contains the full copyright notices and license terms.
 
 import logging
+from openerp import SUPERUSER_ID
 from openerp.osv import fields, osv, orm
-from openerp.tools import (
-    DEFAULT_SERVER_DATETIME_FORMAT as DSDF)
 from openerp.tools.translate import _
 from openerp import netsvc
 
@@ -43,11 +42,36 @@ class wizard(osv.TransientModel):
     }
 
     def _default_user_id(self, cr, uid, context):
-        employee_ids = self.pool.get('hr.employee').search(cr, uid, [('user_id', '=', uid)])
-        if employee_ids:
-            return employee_ids[0]
+        employee_obj = self.pool.get('hr.employee')
+        assegnazione_obj = self.pool.get('protocollo.assegnazione')
+        protocollo_obj = self.pool.get('protocollo.protocollo')
+        protocollo = protocollo_obj.browse(cr, uid, context['active_id'], {'skip_check': True})
+
+        if uid == protocollo.user_id.id:
+            employee_ids = employee_obj.search(cr, uid, [
+                ('user_id', '=', uid),
+                ('department_id', '=', protocollo.registration_employee_department_id.id)
+            ])
+            if employee_ids:
+                return employee_ids[0]
         else:
-            False
+            assegnazione_ids = assegnazione_obj.search(cr, uid, [
+                ('assegnatario_employee_id.user_id.id', '=', uid),
+                ('protocollo_id', '=', protocollo.id),
+                ('tipologia_assegnazione', '=', 'competenza'),
+                ('tipologia_assegnatario', '=', 'employee'),
+                ('state', '=', 'preso')
+            ])
+            if assegnazione_ids:
+                assegnazione = assegnazione_obj.browse(cr, uid, assegnazione_ids[0])
+                return assegnazione.assegnatario_employee_id.id
+
+        if uid == SUPERUSER_ID:
+            employee_ids = employee_obj.search(cr, uid, [('user_id', '=', uid)])
+            if employee_ids:
+                return employee_ids[0]
+
+        return False
 
     _defaults = {
         'user_id': _default_user_id,

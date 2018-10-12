@@ -80,6 +80,15 @@ class protocollo_configurazione(orm.Model):
 
         campi_obbligatori = ''
 
+        if not protocollo.registration_employee_department_id:
+            campi_obbligatori = campi_obbligatori + '<li>Ufficio del Protocollo</li>'
+        else:
+            employee_ids = self.pool.get('hr.employee').search(cr, uid, [
+                ('user_id', '=', uid),
+                ('department_id', '=', protocollo.registration_employee_department_id.id)
+            ])
+            if not employee_ids:
+                campi_obbligatori = campi_obbligatori + '<li>Ufficio del Protocollo: la tua utenza non ha dipendenti collegati all\'ufficio selezionato</li>'
         if not protocollo.typology:
             campi_obbligatori = campi_obbligatori + '<li>Mezzo Trasmissione</li>'
         if not protocollo.subject:

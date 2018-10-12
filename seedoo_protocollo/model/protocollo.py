@@ -149,43 +149,36 @@ class protocollo_protocollo(orm.Model):
 
         if not user.profile_id:
             return _(
-                "L'utente %s non è abilitato alla protocollazione: deve avere associato ad un profilo Seedoo") % user.name
+                "L'utente %s non è abilitato alla protocollazione: deve avere associato ad un profilo Seedoo"
+            ) % user.name
 
         if len(user.employee_ids.ids) == 0:
             return _(
-                "L'utente %s non è abilitato alla protocollazione: deve essere associato ad un dipendente") % user.name
+                "L'utente %s non è abilitato alla protocollazione: deve essere associato ad un dipendente"
+            ) % user.name
 
-        if len(user.employee_ids.ids) > 1:
-            return _(
-                "L'utente %s non è configurato correttamente: deve essere associato ad un unico dipendente") % user.name
+        # if len(user.employee_ids.ids) > 1:
+        #     return _(
+        #         "L'utente %s non è configurato correttamente: deve essere associato ad un unico dipendente") % user.name
 
-        if len(user.employee_ids.department_id.ids) == 0:
+        department_ids = self.pool.get('hr.department').search(cr, uid, [('member_ids.user_id', '=', uid)])
+        if len(department_ids) == 0:
             return _(
-                "Il dipendente %s non è abilitato alla protocollazione: deve essere associato ad un Ufficio") % user.name
+                "L'utente %s non è abilitato alla protocollazione: deve essere associato ad un ufficio"
+            ) % user.name
 
-        employee_ids = self.pool.get('hr.employee').browse(cr, SUPERUSER_ID, user.employee_ids.id)
-        department_ids = self.pool.get('hr.department').browse(cr, SUPERUSER_ID, user.employee_ids.department_id.id)
-        if len(department_ids.aoo_id.ids) == 0:
+        department_ids = self.pool.get('hr.department').search(cr, uid, [('can_used_to_protocol', '=', True)])
+        if len(department_ids) == 0:
             return _(
-                "Il dipendente %s non è abilitato alla protocollazione: l'Ufficio '%s' deve essere associato ad una AOO") % (
-                       employee_ids.name, department_ids.name)
-        aoo = department_ids.aoo_id.ids[0]
-        aoo_ids = self.pool.get('protocollo.aoo').browse(cr, SUPERUSER_ID, aoo)
-        if len(aoo_ids.registry_id.ids) == 0:
-            return _('Errore di configurazione: nessun Registro associato alla AOO')
-        registry = self.pool.get('protocollo.registry').browse(cr, SUPERUSER_ID, aoo_ids.registry_id.ids[0])
-
-        if employee_ids.id not in registry.allowed_employee_ids.ids:
-            return _(
-                "Il dipendente %s non è abilitato alla protocollazione: deve essere associato al Registro della AOO '%s'") % (
-                       employee_ids.name, aoo_ids.name)
+                "L'utente %s non è abilitato alla protocollazione: configurare correttamente l'ufficio, la AOO o il relativo registro"
+            ) % user.name
 
         return ''
 
-    def view_init(self, cr, uid, fields_list, context=None):
-        error = self.seedoo_error(cr, uid)
-        if error:
-            raise osv.except_osv(_('Warning!'), error)
+    # def view_init(self, cr, uid, fields_list, context=None):
+    #     error = self.seedoo_error(cr, uid)
+    #     if error:
+    #         raise osv.except_osv(_('Warning!'), error)
 
     pass
 
@@ -1007,17 +1000,17 @@ class protocollo_protocollo(orm.Model):
                     prot_date = fields.datetime.now()
                     vals['name'] = prot_number
                     vals['registration_date'] = prot_date
-                    employee_ids = self.pool.get('hr.employee').search(cr, uid, [('user_id', '=', uid)])
-                    attachment_obj = self.pool.get('ir.attachment')
 
-                    if employee_ids:
-                        employee = self.pool.get('hr.employee').browse(cr, uid, employee_ids[0])
-                        vals['registration_employee_id'] = employee.id
-                        vals['registration_employee_name'] = employee.name_related
-                        vals['registration_employee_department_id'] = employee.department_id.id if employee.department_id else False
-                        vals['registration_employee_department_name'] = employee.department_id.complete_name if employee.department_id else False
+                    employee_ids = self.pool.get('hr.employee').search(cr, uid, [
+                        ('user_id', '=', uid),
+                        ('department_id', '=', prot.registration_employee_department_id.id)
+                    ])
+                    employee = self.pool.get('hr.employee').browse(cr, uid, employee_ids[0])
+                    vals['registration_employee_id'] = employee.id
+                    vals['registration_employee_name'] = employee.name_related
 
                     # prot_complete_name = self.calculate_complete_name(prot_date, prot_number)
+                    attachment_obj = self.pool.get('ir.attachment')
 
                     if prot.doc_id:
                         prot_datas = prot.doc_id.datas

@@ -345,7 +345,6 @@ class protocollo_assegnazione(orm.Model):
         if len(employee_ids) == 0:
             raise orm.except_orm('Attenzione!', 'Non è stato trovato il dipendente per la tua utenza!')
 
-        employee_id = employee_ids[0]
         for protocollo_id in protocollo_ids:
             # verifica che il protocollo non abbia uno stato diverso da 'Assegnato'
             assegnazione_state_ids = self.search(cr, uid, [
@@ -371,7 +370,7 @@ class protocollo_assegnazione(orm.Model):
             assegnazione_ids = self.search(cr, uid, [
                 ('protocollo_id', '=', protocollo_id),
                 ('tipologia_assegnazione', '=', 'competenza'),
-                ('assegnatario_employee_id', '=', employee_id)
+                ('assegnatario_employee_id', 'in', employee_ids)
             ])
 
             if len(assegnazione_ids) == 0:
@@ -379,24 +378,30 @@ class protocollo_assegnazione(orm.Model):
                 # infatti potrebbe verificarsi che l'utente viene spostato o inserito nell'ufficio dopo la creazione del
                 # protocollo. In tale caso, l'istanza di assegnazione per l'utente non sarebbe presente ed è necessario
                 # crearne una.
-                employee = employee_obj.browse(cr, uid, employee_id)
-                assegnazione_ids = self.search(cr, uid, [
-                    ('protocollo_id', '=', protocollo_id),
-                    ('tipologia_assegnazione', '=', 'competenza'),
-                    ('assegnatario_department_id', '=', employee.department_id.id)
-                ])
-                if assegnazione_ids:
-                    assegnazione_ufficio = self.browse(cr, uid, assegnazione_ids[0])
-                    dipendente_assegnatario_ids = self.pool.get('protocollo.assegnatario').search(cr, uid, [
-                        ('parent_id', '=', assegnazione_ufficio.assegnatario_id.id),
-                        ('employee_id', '=', employee_id),
-                        ('tipologia', '=', 'employee')
+                assegnazione_found = False
+
+                for employee_id in employee_ids:
+                    employee = employee_obj.browse(cr, uid, employee_id)
+                    assegnazione_ids = self.search(cr, uid, [
+                        ('protocollo_id', '=', protocollo_id),
+                        ('tipologia_assegnazione', '=', 'competenza'),
+                        ('assegnatario_department_id', '=', employee.department_id.id)
                     ])
-                    assegnazione_id = self._crea_assegnazione(cr, uid, protocollo_id, dipendente_assegnatario_ids[0],
-                                                              assegnazione_ufficio.assegnatore_id.id, 'competenza',
-                                                              assegnazione_ufficio.id)
-                    assegnazione_ids = [assegnazione_id]
-                else:
+                    if assegnazione_ids:
+                        assegnazione_ufficio = self.browse(cr, uid, assegnazione_ids[0])
+                        dipendente_assegnatario_ids = self.pool.get('protocollo.assegnatario').search(cr, uid, [
+                            ('parent_id', '=', assegnazione_ufficio.assegnatario_id.id),
+                            ('employee_id', '=', employee_id),
+                            ('tipologia', '=', 'employee')
+                        ])
+                        assegnazione_id = self._crea_assegnazione(cr, uid, protocollo_id, dipendente_assegnatario_ids[0],
+                                                                  assegnazione_ufficio.assegnatore_id.id, 'competenza',
+                                                                  assegnazione_ufficio.id)
+                        assegnazione_ids = [assegnazione_id]
+                        assegnazione_found = True
+                        break
+
+                if not assegnazione_found:
                     raise orm.except_orm('Attenzione!', 'Non sei uno degli assegnatari del protocollo!')
 
             # aggiorna il nuovo stato per l'assegnazione dell'utente

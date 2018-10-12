@@ -927,6 +927,7 @@ this module contains the full copyright notices and license terms. -->
             </field>
         </record>
 
+        <!--
         <record model="ir.actions.act_window" id="crea_protocollo_ingresso_action">
             <field name="name">Crea Protocollo in Ingresso</field>
             <field name="res_model">protocollo.protocollo</field>
@@ -936,6 +937,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="search_view_id" ref="protocollo_protocollo_search"/>
             <field name="context">{'default_type':'in'}</field>
         </record>
+        -->
 
         <record model="ir.actions.act_window" id="protocollo_protocollo_in_act">
             <field name="name">Registrati</field>
@@ -959,6 +961,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="context">{'default_type':'in'}</field>
         </record>
 
+        <!--
         <record model="ir.actions.act_window" id="crea_protocollo_uscita_action">
             <field name="name">Crea Protocollo in Uscita</field>
             <field name="res_model">protocollo.protocollo</field>
@@ -968,6 +971,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="search_view_id" ref="protocollo_protocollo_search"/>
             <field name="context">{'default_type':'out'}</field>
         </record>
+        -->
 
         <record model="ir.actions.act_window" id="protocollo_protocollo_out_act">
             <field name="name">Registrati</field>

@@ -26,28 +26,35 @@ class hr_department(orm.Model):
             res[department.id] = self._get_child_ids(cr, uid, department)
         return res
 
+    def _can_used_to_protocol(self, cr, uid, ids, name, arg, context=None):
+        return {}
+
+    def _can_used_to_protocol_search(self, cr, uid, obj, name, args, domain=None, context=None):
+        department_ids = []
+        employee_ids = self.pool.get('hr.employee').search(cr, uid, [('user_id', '=', uid)])
+        for employee_id in employee_ids:
+            department_ids.extend(self.pool.get('hr.department').search(cr, SUPERUSER_ID, [
+                ('member_ids', '=', employee_id),
+                ('aoo_id.registry_id.allowed_employee_ids', '=', employee_id)
+            ]))
+        return [('id', 'in', list(set(department_ids)))]
+
     _columns = {
         'description': fields.text('Descrizione Ufficio'),
         'assignable': fields.boolean('Assegnabile in Protocollazione'),
         'aoo_id': fields.many2one('protocollo.aoo', 'AOO', required=False),
         'aoo_name': fields.related('aoo_id', 'name', type='char', string='Nome AOO', readonly=1),
-        'all_child_ids': fields.function(_get_all_child_ids, type='one2many', relation='hr.department', string='Uffici figli di tutti i livelli sottostanti'),
+        'all_child_ids': fields.function(_get_all_child_ids, type='one2many', relation='hr.department',
+                                         string='Uffici figli di tutti i livelli sottostanti'),
+        'can_used_to_protocol': fields.function(_can_used_to_protocol, fnct_search=_can_used_to_protocol_search,
+                                                type='boolean', string='Può essere usato per protocollare'),
     }
 
-    # def _check_department_depth(self, cr, uid, ids):
-    #     for department in self.browse(cr, uid, ids):
-    #         if department.aoo_id and ((department.parent_id and department.child_ids) or (department.parent_id and department.parent_id.parent_id)):
-    #             raise orm.except_orm('Errore', 'La gerarchia degli uffici di una AOO non possono superare il secondo livello!')
-    #
-    # def create(self, cr, uid, vals, context=None):
-    #     department_id = super(hr_department, self).create(cr, uid, vals, context=context)
-    #     self._check_department_depth(cr, uid, [department_id])
-    #     return department_id
-    #
-    # def write(self, cr, uid, ids, vals, context=None):
-    #     res = super(hr_department, self).write(cr, uid, ids, vals, context)
-    #     self._check_department_depth(cr, uid, ids)
-    #     return res
+    def write(self, cr, uid, ids, vals, context=None):
+        res = super(hr_department, self).write(cr, uid, ids, vals, context)
+        if vals and vals.has_key('aoo_id') and vals['aoo_id']:
+            self.pool.get('ir.rule').clear_cache(cr, uid)
+        return res
 
 
 class hr_employee(orm.Model):

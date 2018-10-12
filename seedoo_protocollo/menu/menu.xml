@@ -39,7 +39,7 @@ this module contains the full copyright notices and license terms. -->
                   id="protocollo_protocollo_in_draft_menu" sequence="20"
                   groups="group_vedi_menu_protocolli_ingresso_bozze"/>
 
-        <menuitem name="Crea Protocollo" action="crea_protocollo_ingresso_action"
+        <menuitem name="Crea Protocollo" action="protocollo_create_action"
                   parent="protocollo_doc_in"
                   id="crea_protocollo_ingresso_menu" sequence="30"
                   groups="group_crea_protocollo_ingresso"/>
@@ -63,7 +63,7 @@ this module contains the full copyright notices and license terms. -->
                   id="protocollo_protocollo_out_draft_menu" sequence="10"
                   groups="group_vedi_menu_protocolli_uscita_bozze"/>
 
-        <menuitem name="Crea Protocollo" action="crea_protocollo_uscita_action"
+        <menuitem name="Crea Protocollo" action="protocollo_create_action"
                   parent="protocollo_doc_out"
                   id="crea_protocollo_uscita_menu" sequence="15"
                   groups="group_crea_protocollo_uscita"/>
