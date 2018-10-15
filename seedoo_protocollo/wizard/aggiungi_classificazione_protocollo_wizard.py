@@ -87,7 +87,10 @@ class protocollo_aggiungi_classificazione_step1_wizard(osv.TransientModel):
         after = ''
         history = ''
         save_history = protocollo.state != 'draft'
-        employee_ids = self.pool.get('hr.employee').search(cr, uid, [('user_id', '=', uid)])
+        employee_ids = self.pool.get('hr.employee').search(cr, uid, [
+            ('department_id', '=', protocollo.registration_employee_department_id.id),
+            ('user_id', '=', uid)
+        ])
 
         if save_history:
             before = ', '.join([a.assegnatario_id.nome for a in protocollo.assegnazione_competenza_ids])

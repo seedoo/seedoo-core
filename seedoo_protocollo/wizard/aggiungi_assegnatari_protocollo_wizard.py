@@ -14,6 +14,10 @@ class protocollo_aggiungi_assegnatari_wizard(osv.TransientModel):
 
     _columns = {
         'reserved': fields.boolean('Riservato', readonly=True),
+        'assegnatore_department_id': fields.many2one('hr.department',
+                                          'Ufficio dell\'Assegnatore',
+                                          domain="[('member_ids.user_id', '=', uid)]",
+                                          required=True),
         'assegnatario_competenza_id': fields.many2one('protocollo.assegnatario',
                                                       'Assegnatario per Competenza',
                                                       domain="[('assignable', '=', True)]",
@@ -28,6 +32,7 @@ class protocollo_aggiungi_assegnatari_wizard(osv.TransientModel):
         'display_motivation': fields.boolean('Visualizza Motivazione', readonly=True),
         'conoscenza_reserved_error': fields.text('Errore Protocollazione Riservata', readonly=True),
         'assegnatari_empty': fields.boolean('Assegnatari Non Presenti'),
+        'assegnatore_department_id_invisible': fields.boolean('Dipartimento Assegnatore Non Visibile', readonly=True),
     }
 
     def _default_reserved(self, cr, uid, context):
@@ -42,6 +47,15 @@ class protocollo_aggiungi_assegnatari_wizard(osv.TransientModel):
 I protocollo riservati non possono avere assegnatari per conoscenza.
 Se sono presenti assegnatari per conoscenza verranno rimossi al completamento della procedura.
 '''
+
+    def _default_assegnatore_department_id(self, cr, uid, context):
+        return self.pool.get('protocollo.assegnazione').get_default_assegnatore_department_id(cr, uid, context['active_id'])
+
+    def _default_assegnatore_department_id_invisible(self, cr, uid, context):
+        department_id = self.pool.get('protocollo.assegnazione').get_default_assegnatore_department_id(cr, uid, context['active_id'])
+        if department_id:
+            return True
+        return False
 
     def _default_assegnatario_competenza_id(self, cr, uid, context):
         assegnazione_obj = self.pool.get('protocollo.assegnazione')
@@ -87,10 +101,12 @@ Se sono presenti assegnatari per conoscenza verranno rimossi al completamento de
     _defaults = {
         'reserved': _default_reserved,
         'conoscenza_reserved_error': _default_conoscenza_reserved_error,
+        'assegnatore_department_id': _default_assegnatore_department_id,
         'assegnatario_competenza_id': _default_assegnatario_competenza_id,
         'assegnatario_conoscenza_ids': _default_assegnatario_conoscenza_ids,
         'display_motivation': _default_display_motivation,
-        'assegnatari_empty': _default_assegnatari_empty
+        'assegnatari_empty': _default_assegnatari_empty,
+        'assegnatore_department_id_invisible': _default_assegnatore_department_id_invisible
     }
 
     def action_save(self, cr, uid, ids, context=None):
@@ -99,7 +115,10 @@ Se sono presenti assegnatari per conoscenza verranno rimossi al completamento de
         protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
         save_history = protocollo.state != 'draft'
         wizard = self.browse(cr, uid, ids[0], context)
-        employee_ids = self.pool.get('hr.employee').search(cr, uid, [('user_id', '=', uid)])
+        employee_ids = self.pool.get('hr.employee').search(cr, uid, [
+            ('department_id', '=', wizard.assegnatore_department_id.id),
+            ('user_id', '=', uid)
+        ])
 
         if 'assegnatari_initial_state' in context:
             check_assegnatari = []

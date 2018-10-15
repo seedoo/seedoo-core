@@ -119,7 +119,7 @@
         <menuitem name="La mia Dashboard" action="protocollo_dashboard_act"
               parent="mail.mail_feeds"
               id="protocollo_dashboard_menu_item" sequence="1"
-              groups="group_vedi_menu_protocolli_ingresso_registrati"/>
+              groups="group_vedi_menu_protocolli_registrati"/>
 
                 <!-- Disable Vendite -->
         <record id="web_dashboard_tile.mail_dashboard" model="ir.ui.menu">

@@ -412,3 +412,27 @@ class protocollo_assegnazione(orm.Model):
                 assegnazione = self.browse(cr, uid, assegnazione_id)
                 if assegnazione.parent_id:
                     self.write(cr, uid, [assegnazione.parent_id.id], {'state': state})
+
+    def get_default_assegnatore_department_id(self, cr, uid, protocollo_id):
+        protocollo_obj = self.pool.get('protocollo.protocollo')
+        employee_obj = self.pool.get('hr.employee')
+
+        employee_ids = employee_obj.search(cr, uid, [('user_id', '=', uid)])
+        employee_count = len(employee_ids)
+        if employee_count == 0:
+            return False
+        elif employee_count == 1:
+            employee = employee_obj.browse(cr, uid, employee_ids[0])
+            if employee.department_id:
+                return employee.department_id.id
+
+        protocollo = protocollo_obj.browse(cr, uid, protocollo_id, {'skip_check': True})
+        if protocollo.registration_employee_department_id:
+            employee_ids = employee_obj.search(cr, uid, [
+                ('id', 'in', employee_ids),
+                ('department_id', '=', protocollo.registration_employee_department_id.id)
+            ])
+            if employee_ids:
+                return protocollo.registration_employee_department_id.id
+
+        return False

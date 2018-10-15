@@ -939,26 +939,26 @@ this module contains the full copyright notices and license terms. -->
         </record>
         -->
 
-        <record model="ir.actions.act_window" id="protocollo_protocollo_in_act">
+        <record model="ir.actions.act_window" id="protocollo_protocollo_act">
             <field name="name">Registrati</field>
             <field name="res_model">protocollo.protocollo</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form,graph</field>
             <field name="view_id" ref="protocollo_protocollo_tree"/>
             <field name="search_view_id" ref="protocollo_protocollo_search"/>
-            <field name="domain">[('type','=','in'),('state','!=','draft')] </field>
-            <field name="context">{'default_type':'in'}</field>
+            <field name="domain">[('state','!=','draft')] </field>
+            <field name="context">{}</field>
         </record>
 
-        <record model="ir.actions.act_window" id="protocollo_protocollo_in_draft_act">
+        <record model="ir.actions.act_window" id="protocollo_protocollo_draft_act">
             <field name="name">Bozze</field>
             <field name="res_model">protocollo.protocollo</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="protocollo_protocollo_tree"/>
             <field name="search_view_id" ref="protocollo_protocollo_search"/>
-            <field name="domain">[('type','=','in'),('state','=','draft')]</field>
-            <field name="context">{'default_type':'in'}</field>
+            <field name="domain">[('state','=','draft')]</field>
+            <field name="context">{}</field>
         </record>
 
         <!--
@@ -972,33 +972,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="context">{'default_type':'out'}</field>
         </record>
         -->
-
-        <record model="ir.actions.act_window" id="protocollo_protocollo_out_act">
-            <field name="name">Registrati</field>
-            <field name="res_model">protocollo.protocollo</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="protocollo_protocollo_tree"/>
-            <field name="search_view_id" ref="protocollo_protocollo_search"/>
-            <field name="domain">[('type','=','out'),('state','!=','draft')]</field>
-            <field name="context">{'default_type':'out'}</field>
-            <field name="help" type="html">
-                <p class="oe_view_nocontent_create">
-                    Premi qui per creare un nuovo protocollo in uscita
-                </p>
-            </field>
-        </record>
-
-        <record model="ir.actions.act_window" id="protocollo_protocollo_out_draft_act">
-            <field name="name">Bozze</field>
-            <field name="res_model">protocollo.protocollo</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="protocollo_protocollo_tree"/>
-            <field name="search_view_id" ref="protocollo_protocollo_search"/>
-            <field name="domain">[('type','=','out'),('state','=','draft'),('protocol_request','=',False)]</field>
-            <field name="context">{'default_type':'out'}</field>
-        </record>
 
         <record model="ir.actions.act_window" id="protocollo_protocollo_out_draft_others_act">
             <field name="name">Richieste protocollo</field>

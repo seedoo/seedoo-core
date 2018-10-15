@@ -7,11 +7,8 @@ this module contains the full copyright notices and license terms. -->
 
         <menuitem name="Protocollo" id="menu_root_protocollo" sequence="20" groups="group_protocollo_user"/>
 
-        <menuitem name="Documenti in ingresso" parent="menu_root_protocollo"
-                  id="protocollo_doc_in" sequence="10"/>
-
-        <menuitem name="Documenti in uscita" parent="menu_root_protocollo"
-                  id="protocollo_doc_out" sequence="20"/>
+        <menuitem name="Documenti" parent="menu_root_protocollo"
+                  id="protocollo_doc" sequence="10"/>
 
         <menuitem name="Archivistica" parent="menu_root_protocollo"
                   id="protocollo_protocollo_menu" sequence="30"/>
@@ -27,50 +24,34 @@ this module contains the full copyright notices and license terms. -->
                   <!--parent="protocollo_doc_in"-->
                   <!--id="protocollo_protocollo_in_menu" sequence="10"/>-->
 
-        <!-- Documenti in ingresso-->
+        <!-- Documenti-->
 
-        <menuitem name="Registrati" action="protocollo_protocollo_in_act"
-                  parent="protocollo_doc_in"
+        <menuitem name="Registrati" action="protocollo_protocollo_act"
+                  parent="protocollo_doc"
                   id="protocollo_protocollo_notified_menu" sequence="10"
-                  groups="group_vedi_menu_protocolli_ingresso_registrati"/>
+                  groups="group_vedi_menu_protocolli_registrati"/>
 
-        <menuitem name="Bozze" action="protocollo_protocollo_in_draft_act"
-                  parent="protocollo_doc_in"
-                  id="protocollo_protocollo_in_draft_menu" sequence="20"
-                  groups="group_vedi_menu_protocolli_ingresso_bozze"/>
+        <menuitem name="Bozze" action="protocollo_protocollo_draft_act"
+                  parent="protocollo_doc"
+                  id="protocollo_protocollo_draft_menu" sequence="20"
+                  groups="group_vedi_menu_protocolli_bozze"/>
 
         <menuitem name="Crea Protocollo" action="protocollo_create_action"
-                  parent="protocollo_doc_in"
-                  id="crea_protocollo_ingresso_menu" sequence="30"
-                  groups="group_crea_protocollo_ingresso"/>
+                  parent="protocollo_doc"
+                  id="crea_protocollo_menu" sequence="30"
+                  groups="group_crea_protocollo_ingresso,group_crea_protocollo_uscita"/>
 
         <menuitem name="PEC" action="protocollo_pec_act" sequence="40"
-                  parent="protocollo_doc_in" id="protocollo_pec_menu"
+                  parent="protocollo_doc" id="protocollo_pec_menu"
                   groups="group_pec_protocollo"/>
 
         <menuitem name="E-mail" action="protocollo_sharedmail_act" sequence="50"
-                  parent="protocollo_doc_in" id="protocollo_sharedmail_menu"
+                  parent="protocollo_doc" id="protocollo_sharedmail_menu"
                   groups="group_sharedmail_protocollo"/>
 
-        <!-- Documenti in uscita-->
-        <menuitem name="Registrati" action="protocollo_protocollo_out_act"
-                  parent="protocollo_doc_out"
-                  id="protocollo_protocollo_out_menu" sequence="10"
-                  groups="group_vedi_menu_protocolli_uscita_registrati"/>
-
-        <menuitem name="Bozze" action="protocollo_protocollo_out_draft_act"
-                  parent="protocollo_doc_out"
-                  id="protocollo_protocollo_out_draft_menu" sequence="10"
-                  groups="group_vedi_menu_protocolli_uscita_bozze"/>
-
-        <menuitem name="Crea Protocollo" action="protocollo_create_action"
-                  parent="protocollo_doc_out"
-                  id="crea_protocollo_uscita_menu" sequence="15"
-                  groups="group_crea_protocollo_uscita"/>
-
         <menuitem name="Richieste Protocollo" action="protocollo_protocollo_out_draft_others_act"
-                  parent="protocollo_doc_out"
-                  id="protocollo_protocollo_out_draft_others_menu" sequence="20"
+                  parent="protocollo_doc"
+                  id="protocollo_protocollo_out_draft_others_menu" sequence="60"
                   groups="group_vedi_menu_richieste_protocollo"/>
         <!--Protocollo-->
         <!--

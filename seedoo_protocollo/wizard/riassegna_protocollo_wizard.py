@@ -13,12 +13,17 @@ class protocollo_riassegna_wizard(osv.TransientModel):
 
     _columns = {
         'reserved': fields.boolean('Riservato', readonly=True),
+        'assegnatore_department_id': fields.many2one('hr.department',
+                                          'Ufficio dell\'Assegnatore',
+                                          domain="[('member_ids.user_id', '=', uid)]",
+                                          required=True),
         'assegnatario_competenza_id': fields.many2one('protocollo.assegnatario',
                                                       'Assegnatario per Competenza',
                                                       domain="[('assignable', '=', True)]",
                                                       required=True),
         'motivation': fields.text('Motivazione'),
         'assegnatari_empty': fields.boolean('Assegnatari Non Presenti'),
+        'assegnatore_department_id_invisible': fields.boolean('Dipartimento Assegnatore Non Visibile', readonly=True),
     }
 
     def _default_reserved(self, cr, uid, context):
@@ -26,6 +31,15 @@ class protocollo_riassegna_wizard(osv.TransientModel):
         protocollo = protocollo_obj.browse(cr, uid, context['active_id'], {'skip_check': True})
         if protocollo:
             return protocollo.reserved
+        return False
+
+    def _default_assegnatore_department_id(self, cr, uid, context):
+        return self.pool.get('protocollo.assegnazione').get_default_assegnatore_department_id(cr, uid, context['active_id'])
+
+    def _default_assegnatore_department_id_invisible(self, cr, uid, context):
+        department_id = self.pool.get('protocollo.assegnazione').get_default_assegnatore_department_id(cr, uid, context['active_id'])
+        if department_id:
+            return True
         return False
 
     def _default_assegnatari_empty(self, cr, uid, context):
@@ -37,7 +51,9 @@ class protocollo_riassegna_wizard(osv.TransientModel):
 
     _defaults = {
         'reserved': _default_reserved,
-        'assegnatari_empty': _default_assegnatari_empty
+        'assegnatore_department_id': _default_assegnatore_department_id,
+        'assegnatari_empty': _default_assegnatari_empty,
+        'assegnatore_department_id_invisible': _default_assegnatore_department_id_invisible
     }
 
     def on_change_assegnatario_competenza_id(self, cr, uid, ids, assegnatario_competenza_id, context=None):
@@ -65,7 +81,10 @@ class protocollo_riassegna_wizard(osv.TransientModel):
         after = {'competenza': '', 'conoscenza': ''}
         protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
         wizard = self.browse(cr, uid, ids[0], context)
-        employee_ids = self.pool.get('hr.employee').search(cr, uid, [('user_id', '=', uid)])
+        employee_ids = self.pool.get('hr.employee').search(cr, uid, [
+            ('department_id', '=', wizard.assegnatore_department_id.id),
+            ('user_id', '=', uid)
+        ])
         check = False
         if protocollo.state in ('registered', 'notified', 'waiting', 'sent', 'error') and \
                 protocollo.assegnazione_competenza_ids and \

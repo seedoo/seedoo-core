@@ -14,6 +14,10 @@ class protocollo_aggiungi_assegnatari_conoscenza_wizard(osv.TransientModel):
     _description = 'Aggiungi Assegnatari Conoscenza'
 
     _columns = {
+        'assegnatore_department_id': fields.many2one('hr.department',
+                                          'Ufficio dell\'Assegnatore',
+                                          domain="[('member_ids.user_id', '=', uid)]",
+                                          required=True),
         'assegnatario_conoscenza_ids': fields.many2many('protocollo.assegnatario',
                                                         'protocollo_aggiungi_assegnatari_conoscenza_rel',
                                                         'wizard_id',
@@ -22,7 +26,17 @@ class protocollo_aggiungi_assegnatari_conoscenza_wizard(osv.TransientModel):
                                                         domain="[('assignable', '=', True)]"),
         'motivation': fields.text('Motivazione'),
         'assegnatari_empty': fields.boolean('Assegnatari Non Presenti'),
+        'assegnatore_department_id_invisible': fields.boolean('Dipartimento Assegnatore Non Visibile', readonly=True),
     }
+
+    def _default_assegnatore_department_id(self, cr, uid, context):
+        return self.pool.get('protocollo.assegnazione').get_default_assegnatore_department_id(cr, uid, context['active_id'])
+
+    def _default_assegnatore_department_id_invisible(self, cr, uid, context):
+        department_id = self.pool.get('protocollo.assegnazione').get_default_assegnatore_department_id(cr, uid, context['active_id'])
+        if department_id:
+            return True
+        return False
 
     def _default_assegnatari_empty(self, cr, uid, context):
         count = self.pool.get('protocollo.assegnatario').search(cr, uid, [], count=True, context=context)
@@ -32,7 +46,9 @@ class protocollo_aggiungi_assegnatari_conoscenza_wizard(osv.TransientModel):
             return True
 
     _defaults = {
-        'assegnatari_empty': _default_assegnatari_empty
+        'assegnatari_empty': _default_assegnatari_empty,
+        'assegnatore_department_id': _default_assegnatore_department_id,
+        'assegnatore_department_id_invisible': _default_assegnatore_department_id_invisible
     }
 
     def action_save(self, cr, uid, ids, context=None):
@@ -40,7 +56,10 @@ class protocollo_aggiungi_assegnatari_conoscenza_wizard(osv.TransientModel):
         after = {'competenza': '', 'conoscenza': ''}
         protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
         wizard = self.browse(cr, uid, ids[0], context)
-        employee_ids = self.pool.get('hr.employee').search(cr, uid, [('user_id', '=', uid)])
+        employee_ids = self.pool.get('hr.employee').search(cr, uid, [
+            ('department_id', '=', wizard.assegnatore_department_id.id),
+            ('user_id', '=', uid)
+        ])
 
         if 'assegnatari_initial_state' in context:
             check_assegnatari = []

@@ -275,35 +275,39 @@ class protocollo_protocollo(osv.Model):
             start_time = time.time()
             # un utente deve poter vedere i protocolli (IN e OUT) registrati da lui
             # protocollo_ids_created = self.search(cr, uid, [('registration_employee_id.id', '=', employee.id)])
-            cr.execute('''
-                SELECT DISTINCT(pp.id)
-                FROM protocollo_protocollo pp
-                WHERE pp.registration_employee_id IN (''' + employee_ids_str + ''')
-            ''')
-            protocollo_ids_created = [res[0] for res in cr.fetchall()]
+            protocollo_ids_created = []
+            if employee_ids:
+                cr.execute('''
+                    SELECT DISTINCT(pp.id)
+                    FROM protocollo_protocollo pp
+                    WHERE pp.registration_employee_id IN (''' + employee_ids_str + ''')
+                ''')
+                protocollo_ids_created = [res[0] for res in cr.fetchall()]
             _logger.info("---Query created %s seconds ---" % (time.time() - start_time))
 
             start_time = time.time()
             # un utente deve poter vedere i protocolli registrati (IN e OUT) assegnati a lui o al suo ufficio,
             # purchè lui o un dipendente del suo ufficio non abbia rifiutato la presa in carico
-            cr.execute('''
-                SELECT DISTINCT(pa.protocollo_id)
-                FROM protocollo_assegnazione pa, protocollo_protocollo pp
-                WHERE pp.registration_employee_id IS NOT NULL AND
-                      pa.protocollo_id = pp.id AND
-                      (
-                          (pa.tipologia_assegnatario = 'employee' AND pa.assegnatario_employee_id IN (''' + employee_ids_str + ''') AND pa.parent_id IS NULL) OR 
-                          (pa.tipologia_assegnatario = 'department' AND pa.assegnatario_department_id  IN (''' + employee_department_ids_str + '''))
-                      ) AND
-                      pa.protocollo_id NOT IN (
-                          SELECT DISTINCT(pa.protocollo_id)
-                          FROM protocollo_assegnazione pa
-                          WHERE pa.tipologia_assegnatario = 'employee' AND
-                                pa.assegnatario_employee_department_id IN (''' + employee_department_ids_str + ''') AND
-                                pa.state = 'rifiutato'
-                      )
-            ''')
-            protocollo_ids_assigned_not_refused = [res[0] for res in cr.fetchall()]
+            protocollo_ids_assigned_not_refused = []
+            if employee_ids and employee_department_ids:
+                cr.execute('''
+                    SELECT DISTINCT(pa.protocollo_id)
+                    FROM protocollo_assegnazione pa, protocollo_protocollo pp
+                    WHERE pp.registration_employee_id IS NOT NULL AND
+                          pa.protocollo_id = pp.id AND
+                          (
+                              (pa.tipologia_assegnatario = 'employee' AND pa.assegnatario_employee_id IN (''' + employee_ids_str + ''') AND pa.parent_id IS NULL) OR 
+                              (pa.tipologia_assegnatario = 'department' AND pa.assegnatario_department_id  IN (''' + employee_department_ids_str + '''))
+                          ) AND
+                          pa.protocollo_id NOT IN (
+                              SELECT DISTINCT(pa.protocollo_id)
+                              FROM protocollo_assegnazione pa
+                              WHERE pa.tipologia_assegnatario = 'employee' AND
+                                    pa.assegnatario_employee_department_id IN (''' + employee_department_ids_str + ''') AND
+                                    pa.state = 'rifiutato'
+                          )
+                ''')
+                protocollo_ids_assigned_not_refused = [res[0] for res in cr.fetchall()]
             _logger.info("---Query assigned_not_refused %s seconds ---" % (time.time() - start_time))
 
             ############################################################################################################
@@ -316,7 +320,7 @@ class protocollo_protocollo(osv.Model):
                                                    'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ufficio')
             check_gruppo_out = self.user_has_groups(cr, current_user_id,
                                                     'seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ufficio')
-            if check_gruppo_in or check_gruppo_out:
+            if (check_gruppo_in or check_gruppo_out) and employee_department_ids:
                 types = []
                 if check_gruppo_in: types.append('in')
                 if check_gruppo_out: types.append('out')
@@ -358,7 +362,7 @@ class protocollo_protocollo(osv.Model):
                                                    'seedoo_protocollo.group_vedi_protocolli_ingresso_bozza')
             check_gruppo_out = self.user_has_groups(cr, current_user_id,
                                                     'seedoo_protocollo.group_vedi_protocolli_uscita_bozza')
-            if check_gruppo_in or check_gruppo_out:
+            if (check_gruppo_in or check_gruppo_out) and aoo_ids:
                 types = []
                 if check_gruppo_in: types.append('in')
                 if check_gruppo_out: types.append('out')
@@ -376,7 +380,7 @@ class protocollo_protocollo(osv.Model):
                                                    'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati')
             check_gruppo_out = self.user_has_groups(cr, current_user_id,
                                                     'seedoo_protocollo.group_vedi_protocolli_uscita_registrati')
-            if check_gruppo_in or check_gruppo_out:
+            if (check_gruppo_in or check_gruppo_out) and aoo_ids:
                 types = []
                 if check_gruppo_in: types.append('in')
                 if check_gruppo_out: types.append('out')
@@ -394,7 +398,7 @@ class protocollo_protocollo(osv.Model):
                                                    'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ass_ut_uff')
             check_gruppo_out = self.user_has_groups(cr, current_user_id,
                                                     'seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ass_ut_uff')
-            if check_gruppo_in or check_gruppo_out:
+            if (check_gruppo_in or check_gruppo_out) and employee_department_ids:
                 types = []
                 if check_gruppo_in: types.append('in')
                 if check_gruppo_out: types.append('out')
@@ -464,7 +468,7 @@ class protocollo_protocollo(osv.Model):
                                                    'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ass_rif_ut_uff')
             check_gruppo_out = self.user_has_groups(cr, current_user_id,
                                                     'seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ass_rif_ut_uff')
-            if check_gruppo_in or check_gruppo_out:
+            if (check_gruppo_in or check_gruppo_out) and employee_department_ids:
                 types = []
                 if check_gruppo_in: types.append('in')
                 if check_gruppo_out: types.append('out')
@@ -1551,6 +1555,7 @@ class protocollo_protocollo(osv.Model):
 
         return dict(res)
 
+    #TODO: attualmente rendiamo il button visibile solo al protocollatore, in futuro dovrà essere estesa anche all'assegnatore
     def _modifica_classificazione_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
 
@@ -1558,7 +1563,22 @@ class protocollo_protocollo(osv.Model):
         for protocollo in protocolli:
             check = False
 
-            if protocollo.state != 'canceled':
+            # if protocollo.state != 'canceled':
+            #     if protocollo.type == 'in':
+            #         check = self.user_has_groups(cr, uid,
+            #                                      'seedoo_protocollo.group_modifica_classificazione_protocollo_ingresso')
+            #     elif protocollo.type == 'out':
+            #         check = self.user_has_groups(cr, uid,
+            #                                      'seedoo_protocollo.group_modifica_classificazione_protocollo_uscita')
+            #
+            # if not check and \
+            #         protocollo.state == 'draft' and \
+            #         (uid == protocollo.user_id.id or uid == SUPERUSER_ID):
+            #     check = True
+
+            if protocollo.state == 'draft' and (uid == protocollo.user_id.id or uid == SUPERUSER_ID):
+                check = True
+            elif protocollo.state != 'draft' and protocollo.state != 'canceled':
                 if protocollo.type == 'in':
                     check = self.user_has_groups(cr, uid,
                                                  'seedoo_protocollo.group_modifica_classificazione_protocollo_ingresso')
@@ -1566,10 +1586,10 @@ class protocollo_protocollo(osv.Model):
                     check = self.user_has_groups(cr, uid,
                                                  'seedoo_protocollo.group_modifica_classificazione_protocollo_uscita')
 
-            if not check and \
-                    protocollo.state == 'draft' and \
-                    (uid == protocollo.user_id.id or uid == SUPERUSER_ID):
-                check = True
+                if check and (uid == protocollo.user_id.id or uid == SUPERUSER_ID):
+                    check = True
+                else:
+                    check = False
 
             res.append((protocollo.id, check))
 
@@ -1768,11 +1788,13 @@ class protocollo_protocollo(osv.Model):
             employee_ids = self.pool.get('hr.employee').search(cr, uid, [('user_id', '=', uid)])
             check_assegnatore = self.pool.get('protocollo.assegnazione').search(cr, uid, [
                 ('protocollo_id', '=', protocollo.id),
-                ('assegnatore_id', '=', employee_ids[0]),
+                ('assegnatore_id', 'in', employee_ids),
                 ('parent_id', '=', False)
             ])
 
-            if uid == protocollo.user_id.id or check_assegnatore or uid == SUPERUSER_ID:
+            #if uid == protocollo.user_id.id or check_assegnatore or uid == SUPERUSER_ID:
+            #TODO: la riassegnazione è abilitata solo per gli utente che hanno un dipendente che compare come assegnatore
+            if check_assegnatore or uid == SUPERUSER_ID:
                 check = check and True
             else:
                 check = False
@@ -1937,6 +1959,7 @@ class protocollo_protocollo(osv.Model):
 
         return dict(res)
 
+    #TODO: aggiungere condizioni per stabilire la visualizzazione del button
     def _aggiungi_allegati_post_registrazione_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
         check = False

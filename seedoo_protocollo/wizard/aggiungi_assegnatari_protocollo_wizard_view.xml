@@ -16,6 +16,13 @@
                         </group>
 
                         <group attrs="{'invisible':[('assegnatari_empty','=',True)]}" col="2">
+
+                            <group attrs="{'invisible':[('assegnatore_department_id_invisible','=',True)]}" colspan="2" col="4">
+                                <field name="assegnatore_department_id" widget="selection" colspan="2"/>
+                                <group colspan="2"/>
+                                <field name="assegnatore_department_id_invisible" invisible="1"/>
+                            </group>
+
                             <group colspan="1" col="1">
                                 <separator string="Assegnatario per Competenza"/>
                                 <field name="assegnatario_competenza_id"
