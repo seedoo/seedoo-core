@@ -327,7 +327,8 @@ class protocollo_protocollo(osv.Model):
                 cr.execute('''
                     SELECT DISTINCT(pp.id)
                     FROM protocollo_protocollo pp
-                    WHERE pp.registration_employee_department_id IN (''' + employee_department_ids_str + ''') AND
+                    WHERE pp.registration_employee_id IS NOT NULL AND
+                          pp.registration_employee_department_id IN (''' + employee_department_ids_str + ''') AND
                           pp.reserved=FALSE AND
                           pp.type IN (''' + str(types).strip('[]') + ''')
                 ''')
@@ -348,7 +349,8 @@ class protocollo_protocollo(osv.Model):
                 cr.execute('''
                     SELECT DISTINCT(pp.id)
                     FROM protocollo_protocollo pp
-                    WHERE pp.registration_employee_department_id IN (''' + employee_department_child_ids_str + ''') AND
+                    WHERE pp.registration_employee_id IS NOT NULL AND
+                          pp.registration_employee_department_id IN (''' + employee_department_child_ids_str + ''') AND
                           pp.reserved=FALSE AND
                           pp.type IN (''' + str(types).strip('[]') + ''')
                 ''')

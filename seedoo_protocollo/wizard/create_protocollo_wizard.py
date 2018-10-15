@@ -23,6 +23,8 @@ class create_protocollo_wizard(osv.TransientModel):
         return types
 
     _columns = {
+        'aoo_id': fields.many2one('protocollo.aoo', string='AOO', readonly=True),
+        'registry_id': fields.many2one('protocollo.registry', string='Registro', readonly=True),
         'type': fields.selection(_get_types, 'Tipo', size=32),
         'registration_employee_department_id': fields.many2one('hr.department', 'Ufficio'),
         'type_readonly': fields.boolean('Campo type readonly', readonly=True),
@@ -30,6 +32,20 @@ class create_protocollo_wizard(osv.TransientModel):
         'error': fields.text('Errore', readonly=True),
         'user_id': fields.many2one('res.users', 'Utente', readonly=True)
     }
+
+    def _default_aoo_id(self, cr, uid, context):
+        aoo_id = self.pool.get('protocollo.protocollo')._get_default_aoo_id(cr, uid, context)
+        if aoo_id:
+            return aoo_id
+        return False
+
+    def _default_registry_id(self, cr, uid, context):
+        aoo_id = self.pool.get('protocollo.protocollo')._get_default_aoo_id(cr, uid, context)
+        if aoo_id:
+            aoo = self.pool.get('protocollo.aoo').browse(cr, uid, aoo_id)
+            if aoo:
+                return aoo.registry_id.id
+        return False
 
     def _default_type(self, cr, uid, context):
         types = self._get_types(cr, uid, context)
@@ -59,6 +75,8 @@ class create_protocollo_wizard(osv.TransientModel):
         return self.pool.get('protocollo.protocollo').seedoo_error(cr, uid)
 
     _defaults = {
+        'aoo_id': _default_aoo_id,
+        'registry_id': _default_registry_id,
         'type': _default_type,
         'registration_employee_department_id': _default_registration_employee_department_id,
         'type_readonly': _default_type_readonly,

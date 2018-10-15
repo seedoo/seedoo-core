@@ -19,13 +19,15 @@ this module contains the full copyright notices and license terms. -->
                 <form string="Crea Protocollo" version="7.0">
                     <sheet>
                         <group attrs="{'invisible':[('error','!=',False)]}">
-                            <field name="type" required="1" attrs="{'readonly':[('type_readonly','=',True)]}"/>
+                            <field name="aoo_id" options="{'no_open': True}"/>
+                            <field name="registry_id" options="{'no_open': True}"/>
                             <field name="registration_employee_department_id"
                                    domain="[('can_used_to_protocol', '=', True)]"
                                    widget="selection"
                                    required="1"
                                    attrs="{'readonly':[('registration_employee_department_id_readonly','=',True)]}"
                             />
+                            <field name="type" required="1" attrs="{'readonly':[('type_readonly','=',True)]}"/>
                             <field name="type_readonly" invisible="1"/>
                             <field name="registration_employee_department_id_readonly" invisible="1"/>
                             <field name="user_id" invisible="1"/>
