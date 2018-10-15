@@ -881,6 +881,10 @@ this module contains the full copyright notices and license terms. -->
                     <field name="dossier_ids" string="Fascicolo"/>
                     <field name="state"/>
                     <separator/>
+                    <group string="Tipo">
+                        <filter string="Ingresso" name="in" domain="[('type','=','in')]"/>
+                        <filter string="Uscita" name="out" domain="[('type','=','out')]"/>
+                    </group>
                     <group string="Mezzo di trasmissione">
                         <filter string="E-mail" name="sharedmail" domain="[('sharedmail','=',True)]"/>
                         <filter string="PEC" name="pec" domain="[('pec','=',True)]"/>
