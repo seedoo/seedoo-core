@@ -33,7 +33,7 @@ class create_protocollo_wizard(osv.TransientModel):
 
     def _default_type(self, cr, uid, context):
         types = self._get_types(cr, uid, context)
-        if types:
+        if types and len(types) == 1:
             return types[0][0]
         return False
 
