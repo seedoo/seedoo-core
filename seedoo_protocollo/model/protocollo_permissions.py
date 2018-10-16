@@ -1532,7 +1532,7 @@ class protocollo_protocollo(osv.Model):
         for protocollo in protocolli:
             check = False
 
-            if protocollo.state in ('registered', 'notified', 'waiting', 'error'):
+            if protocollo.state in ('registered', 'notified', 'error'):
                 check = True
 
             if check:
