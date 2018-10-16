@@ -498,7 +498,7 @@ this module contains the full copyright notices and license terms. -->
                                 <div class="accordion-content accordion-open">
                                      <group>
                                         <div class="oe_edit_only">
-                                            <button name="%(protocollo_modify_action)d" string="Modifica" type="action"
+                                            <button name="%(protocollo_modify_action)d" string="Modifica Dati" type="action"
                                                 attrs="{'invisible':[('modifica_dati_generali_visibility','=',False)]}"
                                                 class="oe_highlight_positive btn_seedoo button-form-protocollo btn_modifica_protocollo"/>
                                         </div>
