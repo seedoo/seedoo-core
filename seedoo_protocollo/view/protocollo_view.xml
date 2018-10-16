@@ -483,7 +483,7 @@ this module contains the full copyright notices and license terms. -->
                                             <field name="registration_employee_department_name" readonly="1"/>
                                         </group>
                                         <group>
-                                            <field name="aoo_id" options="{'no_open': True}"/>
+                                            <field name="aoo_id" options="{'no_open': True}" readonly="1"/>
                                             <field name="registry" options="{'no_open': True}"/>
                                             <field name="type"/>
                                             <field name="reserved" on_change="on_change_reserved(reserved)" attrs="{'invisible':[('protocollazione_riservata_visibility','=',False)]}"/>
