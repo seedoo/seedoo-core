@@ -57,6 +57,8 @@ class protocollo_aggiungi_classificazione_step1_wizard(osv.TransientModel):
             after = classification.name
 
         if save_history:
+            operation_label = "Inserimento Classificazione" if len(before) == 0 else "Modifica Classificazione"
+
             classification_history = ''
             if (before or after) and before != after:
                 classification_history = "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#009900'> %s </span></li>" \
@@ -69,7 +71,7 @@ class protocollo_aggiungi_classificazione_step1_wizard(osv.TransientModel):
                 body += competenza_history
                 body += "</ul></div>"
                 post_vars = {
-                    'subject': "Modifica classificazione %s" % (": " + motivation if motivation else ""),
+                    'subject': "%s %s" % (operation_label, ": " + motivation if motivation else ""),
                     'body': body,
                     'model': "protocollo.protocollo",
                     'res_id': context['active_id']
