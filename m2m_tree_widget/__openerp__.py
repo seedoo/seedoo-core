@@ -21,7 +21,7 @@
 
 {
     "name": "M2M Tree Widget",
-    "version": "8.0.1.6.0",
+    "version": "8.0.1.7.0",
     "category": "Usability",
     "summary": "Protocollo Informatico PA",
     "author": "Agile Business Group, Innoviu, Flosslab",

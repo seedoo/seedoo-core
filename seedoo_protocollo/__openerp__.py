@@ -4,7 +4,7 @@
 
 {
     "name": "Seedoo Protocollo",
-    "version": "8.0.1.6.0",
+    "version": "8.0.1.7.0",
     "category": "Document Management",
     "summary": "Protocollo Informatico PA",
     "sequence": "1",
