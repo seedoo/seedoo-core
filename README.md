@@ -35,7 +35,7 @@ In caso si voglia segnalare un bug è possibile farlo su [GitHub Issues](https:/
 Seedoo è un prodotto mantenuto da AgileBG, [Flosslab](https://www.flosslab.com/) e Innoviù, aziende specializzate nella realizzazione di software
 avanzati per Pubbliche Amministrazioni ed Enti Privati.
 
-Per uteriori informazioni, visita il sito [www.seedoo.it](https://www.seedoo.it).
+Per uteriori informazioni, visita il sito [www.seedoo.it](https://www.seedoo.it/).
 
 Seedoo Core è rilasciato sotto licenza GNU AFFERO GENERAL PUBLIC LICENSE Version 3
 
