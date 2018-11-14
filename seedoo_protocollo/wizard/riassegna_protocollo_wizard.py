@@ -112,11 +112,9 @@ class protocollo_riassegna_wizard(osv.TransientModel):
         if before['competenza'] or after['competenza']:
             body = body + "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#009900'> %s </span></li>" \
                           % ('Assegnatario Competenza', before['competenza'], after['competenza'])
-        if wizard.motivation:
-            body += "<li>%s: %s</li>" % ('Motivazione', wizard.motivation)
         body += "</ul></div>"
         post_vars = {
-            'subject': "Riassegnazione",
+            'subject': "%s%s" % ("Riassegnazione", ": " + wizard.motivation if wizard.motivation else ""),
             'body': body,
             'model': "protocollo.protocollo",
             'res_id': context['active_id']

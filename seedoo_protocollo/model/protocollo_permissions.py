@@ -1015,6 +1015,64 @@ class protocollo_protocollo(osv.Model):
 
         return count_value
 
+    def _da_assegnare_visibility(self, cr, uid, ids, name, arg, context=None):
+        return {}
+
+    def _da_assegnare_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
+        start = int(round(time.time() * 1000))
+        cr.execute('''
+            SELECT DISTINCT(pp.id) 
+            FROM protocollo_protocollo pp, hr_employee he, resource_resource rr
+            WHERE pp.registration_employee_id = he.id AND
+                  he.resource_id = rr.id AND
+                  rr.user_id = %s AND
+                  pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
+                  pp.id NOT IN (SELECT protocollo_id FROM protocollo_assegnazione WHERE tipologia_assegnazione = 'competenza' AND parent_id IS NULL)
+        ''', (uid,))
+        protocollo_visible_ids = [res[0] for res in cr.fetchall()]
+        end = int(round(time.time() * 1000))
+        _logger.info("_da_assegnare_visibility_search" + str(end - start))
+        return [('id', 'in', protocollo_visible_ids)]
+
+    @api.cr_uid
+    def _da_assegnare_visibility_count_in(self, cr, uid):
+        return self._da_assegnare_visibility_count(cr, uid, "in")
+
+    @api.cr_uid
+    def _da_assegnare_visibility_count_out(self, cr, uid):
+        return self._da_assegnare_visibility_count(cr, uid, "out")
+
+    def _da_assegnare_visibility_count(self, cr, uid, protocollo_type):
+        if not protocollo_type:
+            return 0
+
+        time_start = datetime.datetime.now()
+
+        sql_query = """SELECT COUNT(DISTINCT(pp.id)) 
+            FROM protocollo_protocollo pp, hr_employee he, resource_resource rr
+            WHERE pp.type = '%s' AND
+                  pp.registration_employee_id = he.id AND
+                  he.resource_id = rr.id AND
+                  rr.user_id = %s AND
+                  pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
+                  pp.id NOT IN (SELECT protocollo_id FROM protocollo_assegnazione WHERE tipologia_assegnazione = 'competenza' AND parent_id IS NULL)
+            """ % (protocollo_type, uid)
+
+        cr.execute(sql_query)
+        result = cr.fetchall()
+        count_value = result[0][0]
+
+        time_end = datetime.datetime.now()
+        time_duration = time_end - time_start
+
+        _logger.info("_da_assegnare_visibility_count: %d - %s - %.03f s" % (
+            count_value,
+            protocollo_type,
+            float(time_duration.microseconds) / 1000000
+        ))
+
+        return count_value
+
     def _assegnato_da_me_in_attesa_visibility(self, cr, uid, ids, name, arg, context=None):
         return {}
 
@@ -2021,6 +2079,9 @@ class protocollo_protocollo(osv.Model):
         'assegnato_a_mio_ufficio_cc_visibility': fields.function(_assegnato_a_mio_ufficio_cc_visibility,
                                                                  fnct_search=_assegnato_a_mio_ufficio_cc_visibility_search,
                                                                  type='boolean', string='Assegnato al mio Ufficio per Conoscenza'),
+        'da_assegnare_visibility': fields.function(_da_assegnare_visibility,
+                                                                fnct_search=_da_assegnare_visibility_search,
+                                                                type='boolean', string='Da Assegnare'),
         'assegnato_da_me_in_attesa_visibility': fields.function(_assegnato_da_me_in_attesa_visibility,
                                                                 fnct_search=_assegnato_da_me_in_attesa_visibility_search,
                                                                 type='boolean', string='In Attesa'),

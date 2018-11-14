@@ -91,11 +91,9 @@ class protocollo_aggiungi_assegnatari_conoscenza_wizard(osv.TransientModel):
             body = "<div class='%s'><ul>" % action_class
             body = body + "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#009900'> %s </span></li>" \
                           % ('Assegnatari Conoscenza', before['conoscenza'], after['conoscenza'])
-            if wizard.motivation:
-                body += "<li>%s: %s</li>" % ('Motivazione', wizard.motivation)
             body += "</ul></div>"
             post_vars = {
-                'subject': "Aggiunta assegnatari conoscenza",
+                'subject': "%s%s" % ("Aggiunta assegnatari conoscenza", ": " + wizard.motivation if wizard.motivation else ""),
                 'body': body,
                 'model': "protocollo.protocollo",
                 'res_id': context['active_id']
