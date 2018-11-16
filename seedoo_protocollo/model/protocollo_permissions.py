@@ -61,172 +61,6 @@ class protocollo_protocollo(osv.Model):
     ####################################################################################################################
     # Visibilità dei protocolli
     ####################################################################################################################
-
-    # def _is_registered_by_child_departments(self, cr, uid, department, registration_department):
-    #     for child_department in department.child_ids:
-    #         if child_department.id == registration_department.id or self._is_registered_by_child_departments(cr, uid, child_department, registration_department):
-    #             return True
-    #     return False
-    #
-    # def _is_assigned_to_child_departments(self, cr, uid, department, assigned_department):
-    #     for child_department in department.child_ids:
-    #         if child_department.id == assigned_department.id or self._is_assigned_to_child_departments(cr, uid, child_department, assigned_department):
-    #             return True
-    #     return False
-    #
-    # def _check_visible(self, cr, uid, user_employee, protocollo_id):
-    #     protocollo = self.browse(cr, uid, protocollo_id)
-    #     user = user_employee.user_id
-    #     user_department = user_employee.department_id if user_employee.department_id else None
-    #     registration_employee = protocollo.registration_employee_id if protocollo.registration_employee_id else None
-    #     registration_department = registration_employee.department_id if registration_employee and registration_employee.department_id else None
-    #
-    #     ################################################################################################################
-    #     # Visibilità dei protocolli: casi base
-    #     ################################################################################################################
-    #
-    #     # un utente deve poter vedere i protocolli in bozza (IN e OUT) creati da lui
-    #     if protocollo.state == 'draft' and protocollo.user_id and protocollo.user_id.id == user.id:
-    #         return True
-    #
-    #     # un utente deve poter vedere i protocolli (IN e OUT) registrati da lui
-    #     if registration_employee and registration_employee.id == user_employee.id:
-    #         return True
-    #
-    #     # un utente deve poter vedere i protocolli registrati (IN e OUT) assegnati a lui
-    #     # purchè lui o un dipendente del suo ufficio non abbia rifiutato la presa in carico
-    #     is_assegnatario = False
-    #     is_protocollo_rifiutato_by_department = False
-    #
-    #     if registration_employee:
-    #         stato_dipendente_obj = self.pool.get('protocollo.stato.dipendente')
-    #
-    #         employees = self._get_assegnatari_competenza(cr, uid, protocollo)
-    #         for employee in employees:
-    #             if employee.id == user_employee.id:
-    #                 is_assegnatario = True
-    #
-    #             if employee.department_id and user_department and employee.department_id.id == user_department.id:
-    #                 stato_dipendente_ids = stato_dipendente_obj.search(cr, uid, [
-    #                     ('dipendente_id', '=', employee.id),
-    #                     ('protocollo_id', '=', protocollo.id),
-    #                     ('state', '=', 'rifiutato')
-    #                 ])
-    #                 if len(stato_dipendente_ids) > 0:
-    #                     is_protocollo_rifiutato_by_department = True
-    #
-    #         if not is_assegnatario:
-    #             employees = self._get_assegnatari_conoscenza(cr, uid, protocollo)
-    #             for employee in employees:
-    #                 if employee.id == user_employee.id:
-    #                     is_assegnatario = True
-    #
-    #         if is_assegnatario and not is_protocollo_rifiutato_by_department:
-    #             return True
-    #
-    #     ################################################################################################################
-    #     # Visibilità dei protocolli: permessi in configurazione
-    #     ################################################################################################################
-    #
-    #     # un utente deve poter vedere i protocolli (IN e OUT) REGISTRATI dal suo UFFICIO di appartenenza
-    #     check_gruppo = False
-    #     if protocollo.type == 'in':
-    #         check_gruppo = self.user_has_groups(cr, user.id, 'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ufficio')
-    #     elif protocollo.type == 'out':
-    #         check_gruppo = self.user_has_groups(cr, user.id, 'seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ufficio')
-    #     if check_gruppo and user_department and registration_department and user_department.id == registration_department.id:
-    #         return True
-    #
-    #     # un utente deve poter vedere i protocolli (IN e OUT) REGISTRATI da un UFFICIO FIGLIO del suo ufficio di appartenenza
-    #     check_gruppo = False
-    #     if protocollo.type == 'in':
-    #         check_gruppo = self.user_has_groups(cr, user.id, 'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ufficio_figlio')
-    #     elif protocollo.type == 'out':
-    #         check_gruppo = self.user_has_groups(cr, user.id, 'seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ufficio_figlio')
-    #     if check_gruppo and user_department and registration_department and self._is_registered_by_child_departments(cr, uid, user_department, registration_department):
-    #         return True
-    #
-    #     # un utente deve poter vedere QUALUNQUE protocollo (IN e OUT) in stato BOZZA appartenente alla sua AOO
-    #     check_gruppo = False
-    #     if protocollo.type == 'in':
-    #         check_gruppo = self.user_has_groups(cr, user.id, 'seedoo_protocollo.group_vedi_protocolli_ingresso_bozza')
-    #     elif protocollo.type == 'out':
-    #         check_gruppo = self.user_has_groups(cr, user.id, 'seedoo_protocollo.group_vedi_protocolli_uscita_bozza')
-    #     if check_gruppo and protocollo.state == 'draft' and protocollo.aoo_id and user_department.aoo_id and protocollo.aoo_id.id == user_department.aoo_id.id:
-    #         return True
-    #
-    #     # un utente deve poter vedere QUALUNQUE protocollo (IN e OUT) REGISTRATO da un utente della sua AOO
-    #     check_gruppo = False
-    #     if protocollo.type == 'in':
-    #         check_gruppo = self.user_has_groups(cr, user.id, 'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati')
-    #     elif protocollo.type == 'out':
-    #         check_gruppo = self.user_has_groups(cr, user.id, 'seedoo_protocollo.group_vedi_protocolli_uscita_registrati')
-    #     if check_gruppo and protocollo.aoo_id and registration_department and registration_department.aoo_id and protocollo.aoo_id.id == registration_department.aoo_id.id:
-    #         return True
-    #
-    #     # un utente deve poter vedere i protocolli (IN e OUT) REGISTRATI e ASSEGNATI ad un UTENTE del suo UFFICIO di appartenenza
-    #     check_gruppo = False
-    #     if protocollo.type == 'in':
-    #         check_gruppo = self.user_has_groups(cr, user.id, 'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ass_ut_uff')
-    #     elif protocollo.type == 'out':
-    #         check_gruppo = self.user_has_groups(cr, user.id, 'seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ass_ut_uff')
-    #     if check_gruppo and registration_employee and user_department:
-    #         for assegnatari_competenza_dipendente in protocollo.assegnatari_competenza_dipendenti_ids:
-    #             employee = assegnatari_competenza_dipendente.dipendente_id
-    #             if employee and employee.department_id and employee.department_id.id == user_department.id:
-    #                 return True
-    #         for assegnatari_conoscenza_dipendente in protocollo.assegnatari_conoscenza_dipendenti_ids:
-    #             employee = assegnatari_conoscenza_dipendente.dipendente_id
-    #             if employee and employee.department_id and employee.department_id.id == user_department.id:
-    #                 return True
-    #
-    #     # un utente deve poter vedere i protocolli (IN e OUT) REGISTRATI e ASSEGNATI ad un suo UFFICIO FIGLIO
-    #     check_gruppo = False
-    #     if protocollo.type == 'in':
-    #         check_gruppo = self.user_has_groups(cr, user.id, 'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ass_uff_fig')
-    #     elif protocollo.type == 'out':
-    #         check_gruppo = self.user_has_groups(cr, user.id, 'seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ass_uff_fig')
-    #     if check_gruppo and registration_employee and user_department:
-    #         for assegnatari_competenza_ufficio in protocollo.assegnatari_competenza_uffici_ids:
-    #             department = assegnatari_competenza_ufficio.department_id
-    #             if department and self._is_assigned_to_child_departments(cr, uid, user_department, department):
-    #                 return True
-    #         for assegnatari_conoscenza_ufficio in protocollo.assegnatari_conoscenza_uffici_ids:
-    #             department = assegnatari_conoscenza_ufficio.department_id
-    #             if department and self._is_assigned_to_child_departments(cr, uid, user_department, department):
-    #                 return True
-    #
-    #     # un utente deve poter vedere i protocolli (IN e OUT) REGISTRATI e ASSEGNATI ad un UTENTE di un suo UFFICIO FIGLIO
-    #     check_gruppo = False
-    #     if protocollo.type == 'in':
-    #         check_gruppo = self.user_has_groups(cr, user.id, 'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ass_ut_uff_fig')
-    #     elif protocollo.type == 'out':
-    #         check_gruppo = self.user_has_groups(cr, user.id, 'seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ass_ut_uff_fig')
-    #     if check_gruppo and registration_employee and user_department:
-    #         for assegnatari_competenza_dipendente in protocollo.assegnatari_competenza_dipendenti_ids:
-    #             employee = assegnatari_competenza_dipendente.dipendente_id
-    #             if employee and employee.department_id and self._is_assigned_to_child_departments(cr, uid, user_department, employee.department_id):
-    #                 return True
-    #         for assegnatari_conoscenza_dipendente in protocollo.assegnatari_conoscenza_dipendenti_ids:
-    #             employee = assegnatari_conoscenza_dipendente.dipendente_id
-    #             if employee and employee.department_id and self._is_assigned_to_child_departments(cr, uid, user_department, employee.department_id):
-    #                 return True
-    #
-    #     # un utente deve poter vedere i protocolli (IN e OUT) REGISTRATI, ASSEGNATI e RIFIUTATI da un UTENTE del suo UFFICIO
-    #     check_gruppo = False
-    #     if protocollo.type == 'in':
-    #         check_gruppo = self.user_has_groups(cr, user.id, 'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ass_rif_ut_uff')
-    #     elif protocollo.type == 'out':
-    #         check_gruppo = self.user_has_groups(cr, user.id, 'seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ass_rif_ut_uff')
-    #     if check_gruppo and registration_employee and is_protocollo_rifiutato_by_department:
-    #         return True
-    #
-    #     return False
-
-    # def clear_cache(self):
-    #     self._get_protocollo_visibile_ids.clear_cache(self)
-
-    # @tools.ormcache()
     def _get_protocollo_visibile_ids(self, cr, uid, current_user_id):
         protocollo_visible_ids = []
 
@@ -259,10 +93,6 @@ class protocollo_protocollo(osv.Model):
 
             start_time = time.time()
             # un utente deve poter vedere i protocolli in bozza (IN e OUT) creati da lui
-            # protocollo_ids_drafts = self.search(cr, uid, [
-            #     ('state', '=', 'draft'),
-            #     ('user_id.id', '=', employee.user_id.id)
-            # ])
             cr.execute('''
                 SELECT DISTINCT(pp.id)
                 FROM protocollo_protocollo pp
@@ -274,7 +104,6 @@ class protocollo_protocollo(osv.Model):
 
             start_time = time.time()
             # un utente deve poter vedere i protocolli (IN e OUT) registrati da lui
-            # protocollo_ids_created = self.search(cr, uid, [('registration_employee_id.id', '=', employee.id)])
             protocollo_ids_created = []
             if employee_ids:
                 cr.execute('''
@@ -309,6 +138,23 @@ class protocollo_protocollo(osv.Model):
                 ''')
                 protocollo_ids_assigned_not_refused = [res[0] for res in cr.fetchall()]
             _logger.info("---Query assigned_not_refused %s seconds ---" % (time.time() - start_time))
+
+            start_time = time.time()
+            # un utente deve poter vedere i protocolli (IN e OUT) registrati di cui è autore della assegnazione per
+            # competenza (assegnatore)
+            protocollo_ids_assegnatore = []
+            if employee_ids:
+                cr.execute('''
+                    SELECT DISTINCT(pa.protocollo_id)
+                    FROM protocollo_assegnazione pa, protocollo_protocollo pp
+                    WHERE pp.registration_employee_id IS NOT NULL AND
+                          pa.protocollo_id = pp.id AND
+                          pa.assegnatore_id IN (''' + employee_ids_str + ''') AND 
+                          pa.tipologia_assegnazione = 'competenza' AND 
+                          pa.parent_id IS NULL
+                ''')
+                protocollo_ids_assegnatore = [res[0] for res in cr.fetchall()]
+            _logger.info("---Query assegnatore %s seconds ---" % (time.time() - start_time))
 
             ############################################################################################################
             # Visibilità dei protocolli: permessi in configurazione
@@ -487,9 +333,33 @@ class protocollo_protocollo(osv.Model):
                 ]))
             _logger.info("---Query ass_rif_ut_uff  %s seconds ---" % (time.time() - start_time))
 
+            start_time = time.time()
+            # un utente deve poter vedere i protocolli (IN e OUT) REGISTRATI e ASSEGNATI DA un UTENTE del suo UFFICIO
+            check_gruppo_in = self.user_has_groups(cr, current_user_id,
+                                                   'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ass_da_ut_uff')
+            check_gruppo_out = self.user_has_groups(cr, current_user_id,
+                                                    'seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ass_da_ut_uff')
+            if (check_gruppo_in or check_gruppo_out) and employee_department_ids:
+                types = []
+                if check_gruppo_in: types.append('in')
+                if check_gruppo_out: types.append('out')
+                assegnazione_ids = assegnazione_obj.search(cr, uid, [
+                    ('tipologia_assegnazione', '=', 'competenza'),
+                    ('parent_id', '=', False),
+                    ('assegnatore_department_id', 'in', employee_department_ids)
+                ])
+                protocollo_visible_ids.extend(self.search(cr, uid, [
+                    ('type', 'in', types),
+                    ('registration_employee_id', '!=', False),
+                    ('assegnazione_ids', 'in', assegnazione_ids),
+                    ('reserved', '=', False)
+                ]))
+            _logger.info("---Query ass_da_ut_uff  %s seconds ---" % (time.time() - start_time))
+
             protocollo_visible_ids.extend(protocollo_ids_drafts)
             protocollo_visible_ids.extend(protocollo_ids_created)
             protocollo_visible_ids.extend(protocollo_ids_assigned_not_refused)
+            protocollo_visible_ids.extend(protocollo_ids_assegnatore)
 
             protocollo_visible_ids = list(set(protocollo_visible_ids))
 
@@ -1852,9 +1722,61 @@ class protocollo_protocollo(osv.Model):
                 ('parent_id', '=', False)
             ])
 
-            #if uid == protocollo.user_id.id or check_assegnatore or uid == SUPERUSER_ID:
-            #TODO: la riassegnazione è abilitata solo per gli utente che hanno un dipendente che compare come assegnatore
             if check_assegnatore or uid == SUPERUSER_ID:
+                check = check and True
+            else:
+                check = False
+
+            res.append((protocollo.id, check))
+
+        return dict(res)
+
+    def _riassegna_per_smist_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
+        res = []
+
+        protocolli = self._get_protocolli(cr, uid, ids)
+        for protocollo in protocolli:
+            check = False
+
+            if protocollo.state in ('registered', 'notified', 'waiting', 'sent', 'error'):
+                check = True
+
+            if check:
+                check_gruppi = False
+                if protocollo.type == 'in':
+                    check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_riassegna_per_smist_protocollo_ingresso')
+                elif protocollo.type == 'out':
+                    check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_riassegna_per_smist_protocollo_uscita')
+                check = check and check_gruppi
+
+            if self._check_stato_assegnatario_competenza(cr, uid, protocollo, 'preso') or uid == SUPERUSER_ID:
+                check = check and True
+            else:
+                check = False
+
+            res.append((protocollo.id, check))
+
+        return dict(res)
+
+    def _riassegna_per_smist_ut_uff_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
+        res = []
+
+        protocolli = self._get_protocolli(cr, uid, ids)
+        for protocollo in protocolli:
+            check = False
+
+            if protocollo.state in ('registered', 'notified', 'waiting', 'sent', 'error'):
+                check = True
+
+            if check:
+                check_gruppi = False
+                if protocollo.type == 'in':
+                    check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_riassegna_per_smist_ut_uff_protocollo_ingresso')
+                elif protocollo.type == 'out':
+                    check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_riassegna_per_smist_ut_uff_protocollo_uscita')
+                check = check and check_gruppi
+
+            if self._check_stato_assegnatario_competenza(cr, uid, protocollo, 'preso'):
                 check = check and True
             else:
                 check = False
@@ -2164,7 +2086,11 @@ class protocollo_protocollo(osv.Model):
         'aggiungi_assegnatari_cc_visibility': fields.function(_aggiungi_assegnatari_cc_visibility, type='boolean',
                                                               string='Aggiungi Assegnatari Conoscenza'),
         'assegna_visibility': fields.function(_assegna_visibility, type='boolean', string='Assegna'),
-        'riassegna_visibility': fields.function(_riassegna_visibility, type='boolean', string='Riassegna'),
+        'riassegna_visibility': fields.function(_riassegna_visibility, type='boolean', string='Riassegna per Rifiuto'),
+        'riassegna_per_smist_visibility': fields.function(_riassegna_per_smist_visibility, type='boolean',
+                                                          string='Riassegna per Smistamento'),
+        'riassegna_per_smist_ut_uff_visibility': fields.function(_riassegna_per_smist_ut_uff_visibility, type='boolean',
+                                                                 string='Riassegna per Smistamento ad Utenti del Proprio Ufficio'),
         'invio_pec_visibility': fields.function(_invio_pec_visibility, type='boolean', string='Invio PEC'),
         'invio_sharedmail_visibility': fields.function(_invio_sharedmail_visibility, type='boolean',
                                                        string='Invio E-mail'),

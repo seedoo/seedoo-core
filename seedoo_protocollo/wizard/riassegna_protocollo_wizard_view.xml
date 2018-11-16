@@ -47,6 +47,30 @@
                     view_type="form"
                     view_mode="form"
                     target="new"
+                    view_id="protocollo_riassegna_view"
+        />
+
+
+
+        <record id="protocollo_riassegna_per_smist_ut_uff_view" model="ir.ui.view">
+            <field name="name">Riassegna Protocollo per Smistamento ad Utenti del Proprio Ufficio</field>
+            <field name="model">protocollo.riassegna.wizard</field>
+            <field name="inherit_id" ref="seedoo_protocollo.protocollo_riassegna_view"/>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <field name="assegnatario_competenza_id" position="attributes">
+                    <attribute name="domain">[('assignable', '=', True),('parent_id.department_id', '=', assegnatore_department_id),('tipologia', '=', 'employee')]</attribute>
+                </field>
+            </field>
+        </record>
+
+        <act_window id="protocollo_riassegna_per_smist_ut_uff_action"
+                    name="Riassegna Protocollo"
+                    res_model="protocollo.riassegna.wizard"
+                    view_type="form"
+                    view_mode="form"
+                    target="new"
+                    view_id="protocollo_riassegna_per_smist_ut_uff_view"
         />
 
     </data>

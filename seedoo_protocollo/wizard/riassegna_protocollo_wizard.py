@@ -86,14 +86,12 @@ class protocollo_riassegna_wizard(osv.TransientModel):
             ('user_id', '=', uid)
         ])
         check = False
-        if protocollo.state in ('registered', 'notified', 'waiting', 'sent', 'error') and \
-                protocollo.assegnazione_competenza_ids and \
-                        protocollo.assegnazione_competenza_ids[0].state == 'rifiutato':
+        if protocollo.riassegna_visibility or protocollo.riassegna_per_smist_visibility or protocollo.riassegna_per_smist_ut_uff_visibility:
             check = True
 
         if not check:
             raise openerp.exceptions.Warning(_(
-                '"Non è più possibile eseguire l\'operazione richiesta! Il protocollo è già stato riassegnato da un altro utente!'))
+                '"Non è più possibile eseguire l\'operazione richiesta!'))
 
         # assegnazione per competenza
         before['competenza'] = ', '.join([a.assegnatario_id.nome for a in protocollo.assegnazione_competenza_ids])
