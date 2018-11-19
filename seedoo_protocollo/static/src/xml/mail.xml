@@ -26,7 +26,7 @@
            </t>
         </t>
     </t>
-
+    <!--
     <t t-extend="mail.compose_message">
         <t t-jquery=".field_text.oe_compact.oe_compact_record" t-operation="replace">
             <t t-if="widget.model!='protocollo.protocollo'">
@@ -45,5 +45,5 @@
             </t>
         </t>
     </t>
-
+    -->
 </templates>
