@@ -107,7 +107,7 @@ class wizard(osv.TransientModel):
                 request_by = wizard.agent_id.name
             body = "<div class='%s'><ul><li>Annullamento richiesto da <span style='color:#990000;'>%s</span></li></ul></div>" % (action_class, request_by)
 
-            post_vars = {'subject': "Protocollo annullato:  %s" %wizard.name,
+            post_vars = {'subject': "Protocollo annullato: %s" %wizard.name,
                          'body': body,
                          'model': "protocollo.protocollo",
                          'res_id': context['active_id'],

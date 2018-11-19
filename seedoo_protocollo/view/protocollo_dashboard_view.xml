@@ -20,7 +20,7 @@
             <field name="view_type">form</field>
             <field name="view_mode">kanban</field>
             <field name="view_id" ref="web_dashboard_tile.dashboard_tile_tile_tree_view"/>
-            <field name="domain">[('tag_tile','=','uscita')]</field>
+            <field name="domain">[('tag_tile','=','uscita'),('configuration_active','=',True)]</field>
         </record>
 
         <!-- ActWindow Protocollo Board Ingresso -->
@@ -30,7 +30,7 @@
             <field name="view_type">form</field>
             <field name="view_mode">kanban</field>
             <field name="view_id" ref="web_dashboard_tile.dashboard_tile_tile_tree_view"/>
-            <field name="domain">[('tag_tile','=','ingresso')]</field>
+            <field name="domain">[('tag_tile','=','ingresso'),('configuration_active','=',True)]</field>
         </record>
 
         <!-- ActWindow Protocollo Board Assegnazioni Ingresso -->

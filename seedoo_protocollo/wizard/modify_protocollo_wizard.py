@@ -256,7 +256,7 @@ class wizard(osv.TransientModel):
             body_complete = "<div class='%s'><ul>" % action_class
             body_complete += body + "</ul></div>"
 
-            post_vars = {'subject': "Modifica dati generali: \'%s\'" % wizard.cause,
+            post_vars = {'subject': "Modifica dati generali: %s" % wizard.cause,
                          'body': body_complete,
                          'model': "protocollo.protocollo",
                          'res_id': context['active_id'],

@@ -77,7 +77,7 @@ class protocollo_aggiungi_fascicolazione_wizard(osv.TransientModel):
         wizard = self.browse(cr, uid, ids[0], context)
         protocollo_obj = self.pool.get('protocollo.protocollo')
         protocollo = protocollo_obj.browse(cr, uid, context['active_id'], {'skip_check': True})
-        operation_label = "Inserimento Fascicolazione" if len(protocollo.dossier_ids.ids) == 0 else "Modifica Fascicolazione"
+        operation_label = "Inserimento fascicolazione" if len(protocollo.dossier_ids.ids) == 0 else "Modifica fascicolazione"
         before['Fascicolo'] = ""
         after['Fascicolo'] = ""
         vals['dossier_ids'] = [[6, 0, [d.id for d in wizard.dossier_ids]]]
@@ -105,7 +105,7 @@ class protocollo_aggiungi_fascicolazione_wizard(osv.TransientModel):
                               % (str(key), before_item.encode("utf-8"), after[key].encode("utf-8"))
 
 
-        post_vars = {'subject': "%s: \'%s\'" % (operation_label, wizard.cause),
+        post_vars = {'subject': "%s: %s" % (operation_label, wizard.cause),
                      'body': body,
                      'model': "protocollo.protocollo",
                      'res_id': context['active_id'],
