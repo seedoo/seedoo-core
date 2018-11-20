@@ -534,6 +534,8 @@ class protocollo_protocollo(orm.Model):
                                                 size=64,
                                                 required=False,
                                                 ),
+        'sender_internal_employee': fields.many2one('hr.employee', 'Mittente Protocollo Dipendente', required=False),
+        'sender_internal_department': fields.many2one('hr.department', 'Mittente Protocollo Ufficio', required=False),
         'sender_receivers': fields.one2many('protocollo.sender_receiver', 'protocollo_id', 'Mittenti/Destinatari'),
         'senders': fields.one2many('protocollo.sender_receiver', 'protocollo_id', 'Mittente',
                                    domain=[('source', '=', 'sender')]),
@@ -1751,6 +1753,15 @@ class protocollo_protocollo(orm.Model):
             raise orm.except_orm(_('Attenzione!'), _('Non sei più assegnatario di questo protocollo!'))
         return True
 
+    def _create_sender_internal(self, cr, uid, vals, context):
+        employee_ids = self.pool.get('hr.employee').search(cr, uid, [
+            ('user_id', '=', uid),
+            ('department_id', '=', vals['registration_employee_department_id'])
+        ])
+        vals['sender_internal_employee'] = employee_ids[0]
+        vals['sender_internal_department'] = vals['registration_employee_department_id']
+        return vals
+
     def _verifica_dati_sender_receiver(self, cr, uid, vals, context):
         if vals and vals.has_key('senders'):
             for mittente in vals['senders']:
@@ -1767,7 +1778,10 @@ class protocollo_protocollo(orm.Model):
     def create(self, cr, uid, vals, context=None):
         new_context = dict(context or {})
         new_context['skip_check'] = True
-        vals = self._verifica_dati_sender_receiver(cr, uid, vals, new_context)
+        if ('internal' in vals['type']):
+            vals = self._create_sender_internal(cr, uid, vals, new_context)
+        else:
+            vals = self._verifica_dati_sender_receiver(cr, uid, vals, new_context)
         protocollo_id = super(protocollo_protocollo, self).create(cr, uid, vals, context=new_context)
         return protocollo_id
 

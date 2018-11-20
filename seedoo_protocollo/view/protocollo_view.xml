@@ -505,7 +505,7 @@ this module contains the full copyright notices and license terms. -->
                                     </group>
                                     <group col="8">
                                         <group>
-                                            <field name="typology" on_change="on_change_typology(typology)" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}"/>
+                                            <field name="typology" attrs="{'invisible' : [('type','=','internal')]}" on_change="on_change_typology(typology)" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}"/>
                                             <field name="subject" attrs="{'required':[('state','!=','draft')]}" class="protocollo_oggetto"/>
                                             <field name="doc_content" filename="doc_fname" attrs="{'invisible':[('doc_id','=',False)]}"/>
                                             <field name="doc_description" attrs="{'invisible':[('doc_id','=',False)]}"/>
@@ -532,7 +532,7 @@ this module contains the full copyright notices and license terms. -->
                                                 <field name="server_pec_id" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}" attrs="{'invisible':['|',('pec','!=',True),('type','=','in')],
                                                                                                     'required': [('pec','=',True),('type','=','out')], 'readonly':[('state','!=','draft')]}"
                                                        class="seedoocustom_protocollo_server_pec_id"/>
-                                                <field name="receiving_date" attrs="{'invisible':[('type','=','out')]}" class="seedoocustom_protocollo_receiving_date"/>
+                                                <field name="receiving_date" attrs="{'invisible':['|', ('type','=','out'), ('type','=','internal')]}" class="seedoocustom_protocollo_receiving_date"/>
                                                 <field name="body" attrs="{'invisible':['|','|',('type','=','in'),('inserisci_testo_mailpec_visibility','=',False),'&amp;',('sharedmail','=',False),('pec','=',False)],'readonly':[('state','!=','draft')]}"
                                                        class="seedoocustom_protocollo_body"/>
                                             </group>
@@ -599,7 +599,13 @@ this module contains the full copyright notices and license terms. -->
                         </group>
 
                         <notebook class="protocollo_form_tabs">
-                            <page string="Mittente" attrs="{'invisible':['|',('type','!=','in')]}" class="tab-mittente tab-sr">
+                            <page string="Protocollo interno" attrs="{'invisible':['|',('type','!=','internal')]}" class="tab-mittente tab-sr">
+                                <group col="4" colspan="1">
+                                    <field name="sender_internal_employee" readonly="1" string="Dipendente"/>
+                                    <field name="sender_internal_department" readonly="1" string="Ufficio"/>
+                                </group>
+                            </page>
+                            <page string="Mittente" attrs="{'invisible':['|',('type','!=','out')]}" class="tab-mittente tab-sr">
                                 <group col="4" colspan="4">
                                     <field name="senders" mode="kanban" nolabel="1" attrs="{'readonly':[('state','!=','draft')]}"/>
                                 </group>
