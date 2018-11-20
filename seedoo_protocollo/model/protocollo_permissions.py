@@ -315,15 +315,18 @@ class protocollo_protocollo(osv.Model):
             ############################################################################################################
 
             start_time = time.time()
-            # un utente deve poter vedere i protocolli (IN e OUT) REGISTRATI dal suo UFFICIO di appartenenza
+            # un utente deve poter vedere i protocolli (IN, OUT, INTERNAL) REGISTRATI dal suo UFFICIO di appartenenza
             check_gruppo_in = self.user_has_groups(cr, current_user_id,
                                                    'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ufficio')
             check_gruppo_out = self.user_has_groups(cr, current_user_id,
                                                     'seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ufficio')
-            if (check_gruppo_in or check_gruppo_out) and employee_department_ids:
+            check_gruppo_internal = self.user_has_groups(cr, current_user_id,
+                                                    'seedoo_protocollo.group_vedi_protocolli_interno_registrati_ufficio')
+            if (check_gruppo_in or check_gruppo_out or check_gruppo_internal) and employee_department_ids:
                 types = []
                 if check_gruppo_in: types.append('in')
                 if check_gruppo_out: types.append('out')
+                if check_gruppo_internal: types.append('internal')
                 cr.execute('''
                     SELECT DISTINCT(pp.id)
                     FROM protocollo_protocollo pp
@@ -337,15 +340,18 @@ class protocollo_protocollo(osv.Model):
             _logger.info("---Query department  %s seconds ---" % (time.time() - start_time))
 
             start_time = time.time()
-            # un utente deve poter vedere i protocolli (IN e OUT) REGISTRATI da un UFFICIO FIGLIO del suo ufficio di appartenenza.
+            # un utente deve poter vedere i protocolli (IN, OUT, INTERNAL) REGISTRATI da un UFFICIO FIGLIO del suo ufficio di appartenenza.
             check_gruppo_in = self.user_has_groups(cr, current_user_id,
                                                    'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ufficio_figlio')
             check_gruppo_out = self.user_has_groups(cr, current_user_id,
                                                     'seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ufficio_figlio')
-            if (check_gruppo_in or check_gruppo_out) and employee_department_child_ids:
+            check_gruppo_internal = self.user_has_groups(cr, current_user_id,
+                                                    'seedoo_protocollo.group_vedi_protocolli_interno_registrati_ufficio_figlio')
+            if (check_gruppo_in or check_gruppo_out or check_gruppo_internal) and employee_department_child_ids:
                 types = []
                 if check_gruppo_in: types.append('in')
                 if check_gruppo_out: types.append('out')
+                if check_gruppo_internal: types.append('internal')
                 cr.execute('''
                     SELECT DISTINCT(pp.id)
                     FROM protocollo_protocollo pp
@@ -359,15 +365,18 @@ class protocollo_protocollo(osv.Model):
             _logger.info("---Query ids_department_childs  %s seconds ---" % (time.time() - start_time))
 
             start_time = time.time()
-            # un utente deve poter vedere QUALUNQUE protocollo (IN e OUT) in stato BOZZA appartenente alla sua AOO
+            # un utente deve poter vedere QUALUNQUE protocollo (IN, OUT, INTERNAL) in stato BOZZA appartenente alla sua AOO
             check_gruppo_in = self.user_has_groups(cr, current_user_id,
                                                    'seedoo_protocollo.group_vedi_protocolli_ingresso_bozza')
             check_gruppo_out = self.user_has_groups(cr, current_user_id,
                                                     'seedoo_protocollo.group_vedi_protocolli_uscita_bozza')
-            if (check_gruppo_in or check_gruppo_out) and aoo_ids:
+            check_gruppo_internal = self.user_has_groups(cr, current_user_id,
+                                                    'seedoo_protocollo.group_vedi_protocolli_interno_bozza')
+            if (check_gruppo_in or check_gruppo_out or check_gruppo_internal) and aoo_ids:
                 types = []
                 if check_gruppo_in: types.append('in')
                 if check_gruppo_out: types.append('out')
+                if check_gruppo_internal: types.append('internal')
                 protocollo_ids_aoo = self.search(cr, uid, [
                     ('type', 'in', types),
                     ('state', '=', 'draft'),

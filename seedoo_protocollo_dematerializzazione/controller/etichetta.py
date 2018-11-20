@@ -57,7 +57,12 @@ class Etichetta(http.Controller):
         registry_code = document.registry.code
 
         barcode_text = "%04d0%s" % (year, number)
-        type_str = "Ingresso" if type == "in" else "Uscita"
+        if type == "in":
+            type_str = "Ingresso"
+        elif type == "out":
+            type_str = "Uscita"
+        else:
+            type_str = "Interno"
         prot_str = "%s" % (number)
         datetime_str = date_obj_dest.strftime("%Y-%m-%d %H:%M:%S")
 
