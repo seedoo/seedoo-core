@@ -213,7 +213,12 @@ this module contains the full copyright notices and license terms. -->
             <field name="category_id" ref="module_category_protocollo"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
-
+        <!-- Button "Registra protocollo" nella vista form protocollo interno -->
+        <record id="group_registra_protocollo_interno" model="res.groups">
+            <field name="name">Registra Protocollo interno</field>
+            <field name="category_id" ref="module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
         <!-- Button "Invia Protocollo" nella vista form protocollo in uscita -->
         <record id="group_invia_protocollo_uscita" model="res.groups">
             <field name="name">Invia Protocollo in Uscita</field>

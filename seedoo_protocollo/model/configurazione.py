@@ -89,11 +89,11 @@ class protocollo_configurazione(orm.Model):
             ])
             if not employee_ids:
                 campi_obbligatori = campi_obbligatori + '<li>Ufficio del Protocollo: la tua utenza non ha dipendenti collegati all\'ufficio selezionato</li>'
-        if not protocollo.typology:
+        if protocollo.type != 'internal' and not protocollo.typology:
             campi_obbligatori = campi_obbligatori + '<li>Mezzo Trasmissione</li>'
         if not protocollo.subject:
             campi_obbligatori = campi_obbligatori + '<li>Oggetto</li>'
-        if not protocollo.sender_receivers:
+        if protocollo.type != 'internal' and not protocollo.sender_receivers:
             send_rec = protocollo.type == 'in' and '<li>Mittenti</li>' or '<li>Destinatari</li>'
             campi_obbligatori = campi_obbligatori + send_rec
         if protocollo.type == 'in' and (protocollo.pec or protocollo.sharedmail):

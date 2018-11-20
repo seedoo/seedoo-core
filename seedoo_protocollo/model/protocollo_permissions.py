@@ -1425,6 +1425,8 @@ class protocollo_protocollo(osv.Model):
                     check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_registra_protocollo_ingresso')
                 elif protocollo.type == 'out':
                     check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_registra_protocollo_uscita')
+                elif protocollo.type == 'internal':
+                    check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_registra_protocollo_interno')
                 check = check and check_gruppi
 
             res.append((protocollo.id, check))

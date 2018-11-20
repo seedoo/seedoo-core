@@ -599,10 +599,9 @@ this module contains the full copyright notices and license terms. -->
                         </group>
 
                         <notebook class="protocollo_form_tabs">
-                            <page string="Protocollo interno" attrs="{'invisible':['|',('type','!=','internal')]}" class="tab-mittente tab-sr">
-                                <group col="4" colspan="1">
-                                    <field name="sender_internal_employee" readonly="1" string="Dipendente"/>
-                                    <field name="sender_internal_department" readonly="1" string="Ufficio"/>
+                            <page string="Mittente" attrs="{'invisible':['|',('type','!=','internal')]}" class="tab-mittente tab-sr">
+                                <group col="2">
+                                    <field name="sender_internal_name" readonly="1" string="Dipendente"/>
                                 </group>
                             </page>
                             <page string="Mittente" attrs="{'invisible':['|',('type','!=','out')]}" class="tab-mittente tab-sr">

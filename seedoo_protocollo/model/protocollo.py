@@ -534,8 +534,9 @@ class protocollo_protocollo(orm.Model):
                                                 size=64,
                                                 required=False,
                                                 ),
-        'sender_internal_employee': fields.many2one('hr.employee', 'Mittente Protocollo Dipendente', required=False),
-        'sender_internal_department': fields.many2one('hr.department', 'Mittente Protocollo Ufficio', required=False),
+        'sender_internal_name': fields.char('Protocollazione Interna Nome', size=512, readonly=True),
+        'sender_internal_employee': fields.many2one('hr.employee', 'Protocollazione Interna Dipendente', required=False),
+        'sender_internal_department': fields.many2one('hr.department', 'Protocollazione Interna Ufficio', required=False),
         'sender_receivers': fields.one2many('protocollo.sender_receiver', 'protocollo_id', 'Mittenti/Destinatari'),
         'senders': fields.one2many('protocollo.sender_receiver', 'protocollo_id', 'Mittente',
                                    domain=[('source', '=', 'sender')]),
@@ -1758,6 +1759,8 @@ class protocollo_protocollo(orm.Model):
             ('user_id', '=', uid),
             ('department_id', '=', vals['registration_employee_department_id'])
         ])
+        employee = self.pool.get('hr.employee').browse(cr, uid, employee_ids[0])
+        vals['sender_internal_name'] = vals['registration_employee_department_name'] + " / " + employee.name
         vals['sender_internal_employee'] = employee_ids[0]
         vals['sender_internal_department'] = vals['registration_employee_department_id']
         return vals
