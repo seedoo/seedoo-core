@@ -14,9 +14,14 @@ class protocollo_riassegna_wizard(osv.TransientModel):
     _columns = {
         'reserved': fields.boolean('Riservato', readonly=True),
         'assegnatore_department_id': fields.many2one('hr.department',
-                                          'Ufficio dell\'Assegnatore',
+                                          "Ufficio dell'Assegnatore",
                                           domain="[('member_ids.user_id', '=', uid)]",
                                           required=True),
+        'assegnatore_department_child_ids': fields.many2many('hr.department',
+                                                        'protocollo_riassegna_child_rel',
+                                                        'wizard_id',
+                                                        'department_id',
+                                                        "Uffici Figli dell'Ufficio dell'Assegnatore"),
         'assegnatario_competenza_id': fields.many2one('protocollo.assegnatario',
                                                       'Assegnatario per Competenza',
                                                       domain="[('assignable', '=', True)]",
@@ -55,6 +60,13 @@ class protocollo_riassegna_wizard(osv.TransientModel):
         'assegnatari_empty': _default_assegnatari_empty,
         'assegnatore_department_id_invisible': _default_assegnatore_department_id_invisible
     }
+
+    def on_change_assegnatore_department_id(self, cr, uid, ids, assegnatore_department_id, context=None):
+        assegnatore_department_child_ids = []
+        if assegnatore_department_id:
+            assegnatore_department = self.pool.get('hr.department').browse(cr, uid, assegnatore_department_id)
+            assegnatore_department_child_ids = assegnatore_department.all_child_ids.ids
+        return {'value': {'assegnatore_department_child_ids': assegnatore_department_child_ids}}
 
     def on_change_assegnatario_competenza_id(self, cr, uid, ids, assegnatario_competenza_id, context=None):
         data = {}
@@ -101,7 +113,8 @@ class protocollo_riassegna_wizard(osv.TransientModel):
             context.get('active_id', False),
             wizard.assegnatario_competenza_id.id if wizard.assegnatario_competenza_id else False,
             employee_ids[0] if employee_ids else False,
-            True
+            True,
+            context.get('smist_ut_uff', False)
         )
         after['competenza'] = wizard.assegnatario_competenza_id.nome
 

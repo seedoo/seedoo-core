@@ -142,6 +142,8 @@ class protocollo_assegnazione(orm.Model):
 
         'parent_id': fields.many2one('protocollo.assegnazione', 'Assegnazione Ufficio', ondelete='cascade'),
         'child_ids': fields.one2many('protocollo.assegnazione', 'parent_id', 'Assegnazioni Dipendenti'),
+
+        'smist_ut_uff': fields.boolean('Smistamento ad un Dipendente del Proprio Ufficio o degli Uffici Figli')
     }
 
     _sql_constraints = [
@@ -237,7 +239,7 @@ class protocollo_assegnazione(orm.Model):
             WHERE (tipologia_assegnatario = 'department' OR (tipologia_assegnatario = 'employee' AND parent_id IS NULL));
         """)
 
-    def _crea_assegnazione(self, cr, uid, protocollo_id, assegnatario_id, assegnatore_id, tipologia, parent_id=False):
+    def _crea_assegnazione(self, cr, uid, protocollo_id, assegnatario_id, assegnatore_id, tipologia, parent_id=False, smist_ut_uff=False):
         assegnatario_obj = self.pool.get('protocollo.assegnatario')
         assegnatario = assegnatario_obj.browse(cr, uid, assegnatario_id)
         assegnatore_obj = self.pool.get('hr.employee')
@@ -252,7 +254,8 @@ class protocollo_assegnazione(orm.Model):
             'state': 'assegnato',
             'assegnatore_id': assegnatore.id,
             'assegnatore_department_id': assegnatore.department_id.id if assegnatore.department_id else False,
-            'parent_id': parent_id
+            'parent_id': parent_id,
+            'smist_ut_uff': smist_ut_uff
         }
         if assegnatario.tipologia == 'employee':
             vals['assegnatario_employee_id'] = assegnatario.employee_id.id
@@ -265,10 +268,10 @@ class protocollo_assegnazione(orm.Model):
         return assegnazione_id
 
 
-    def _crea_assegnazioni(self, cr, uid, protocollo_id, assegnatario_ids, assegnatore_id, tipologia):
+    def _crea_assegnazioni(self, cr, uid, protocollo_id, assegnatario_ids, assegnatore_id, tipologia, smist_ut_uff=False):
         for assegnatario_id in assegnatario_ids:
             assegnazione_id = self._crea_assegnazione(cr, uid, protocollo_id, assegnatario_id,
-                                                      assegnatore_id, tipologia)
+                                                      assegnatore_id, tipologia, False, smist_ut_uff)
 
             dipendente_assegnatario_ids = self.pool.get('protocollo.assegnatario').search(cr, uid, [
                 ('parent_id', '=', assegnatario_id),
@@ -276,10 +279,10 @@ class protocollo_assegnazione(orm.Model):
             ])
             for dipendente_assegnatario_id in dipendente_assegnatario_ids:
                 self._crea_assegnazione(cr, uid, protocollo_id, dipendente_assegnatario_id,
-                                                          assegnatore_id, tipologia, assegnazione_id)
+                                                          assegnatore_id, tipologia, assegnazione_id, smist_ut_uff)
 
 
-    def salva_assegnazione_competenza(self, cr, uid, protocollo_id, assegnatario_id, assegnatore_id, force=False):
+    def salva_assegnazione_competenza(self, cr, uid, protocollo_id, assegnatario_id, assegnatore_id, force=False, smist_ut_uff=False):
         if protocollo_id and assegnatario_id and assegnatore_id:
 
             assegnazione_ids = self.search(cr, uid, [
@@ -298,7 +301,7 @@ class protocollo_assegnazione(orm.Model):
                     self.unlink(cr, uid, assegnazione_ids)
 
                 # creazione della nuova assegnazione
-                self._crea_assegnazioni(cr, uid, protocollo_id, [assegnatario_id], assegnatore_id, 'competenza')
+                self._crea_assegnazioni(cr, uid, protocollo_id, [assegnatario_id], assegnatore_id, 'competenza', smist_ut_uff)
 
 
     def salva_assegnazione_conoscenza(self, cr, uid, protocollo_id, assegnatario_ids, assegnatore_id, delete=True):

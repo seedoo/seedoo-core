@@ -18,6 +18,7 @@
                         <group attrs="{'invisible':[('assegnatari_empty','=',True)]}">
                             <field name="assegnatore_department_id"
                                    attrs="{'invisible':[('assegnatore_department_id_invisible','=',True)]}"
+                                   on_change="on_change_assegnatore_department_id(assegnatore_department_id)"
                                    widget="selection"/>
                             <field name="assegnatore_department_id_invisible" invisible="1"/>
 
@@ -29,6 +30,7 @@
                             />
                             <field name="motivation" required="1"/>
                             <field name="reserved" invisible="1"/>
+                            <field name="assegnatore_department_child_ids" invisible="1"/>
                         </group>
 
                         <field name="assegnatari_empty" invisible="1"/>
@@ -59,7 +61,17 @@
             <field name="mode">primary</field>
             <field name="arch" type="xml">
                 <field name="assegnatario_competenza_id" position="attributes">
-                    <attribute name="domain">[('assignable', '=', True),('parent_id.department_id', '=', assegnatore_department_id),('tipologia', '=', 'employee')]</attribute>
+                    <attribute name="domain">
+                    [
+                        ('assignable', '=', True),
+                        '|',
+                        ('parent_id.department_id', '=', assegnatore_department_id),
+                        ('parent_id.department_id', 'in', assegnatore_department_child_ids[0][2])
+                    ]
+                    </attribute>
+                    <attribute name="options">
+                    {'limit': 5000, 'label': 'nome', 'all_checkable': false, 'field_no_checkbox': 'no_checkbox', 'css_class': 'tipologia', 'order': '-tipologia,nome'}
+                    </attribute>
                 </field>
             </field>
         </record>
