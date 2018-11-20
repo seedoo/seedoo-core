@@ -39,6 +39,21 @@ class protocollo_protocollo(osv.Model):
             return True
         return False
 
+    def _check_stato_assegnatore_competenza(self, cr, uid, protocollo, stato, assegnatario_uid=None, smist_ut_uff=False):
+        if not assegnatario_uid:
+            assegnatario_uid = uid
+        assegnazione_obj = self.pool.get('protocollo.assegnazione')
+        assegnazione_ids = assegnazione_obj.search(cr, uid, [
+            ('assegnatore_id.user_id.id', '=', assegnatario_uid),
+            ('protocollo_id', '=', protocollo.id),
+            ('tipologia_assegnazione', '=', 'competenza'),
+            ('state', '=', stato),
+            ('smist_ut_uff', '=', smist_ut_uff)
+        ])
+        if len(assegnazione_ids) > 0:
+            return True
+        return False
+
     def _check_stato_assegnatario_competenza_ufficio(self, cr, uid, protocollo, stato, assegnatario_uid=None):
         if not assegnatario_uid:
             assegnatario_uid = uid
@@ -1701,28 +1716,18 @@ class protocollo_protocollo(osv.Model):
         for protocollo in protocolli:
             check = False
 
-            if protocollo.state in ('registered', 'notified', 'waiting', 'sent', 'error') and \
-                    protocollo.assegnazione_competenza_ids and \
-                    protocollo.assegnazione_competenza_ids[0].state == 'rifiutato':
+            if protocollo.state in ('registered', 'notified', 'waiting', 'sent', 'error'):
                 check = True
 
             if check:
                 check_gruppi = False
                 if protocollo.type == 'in':
-                    check_gruppi = self.user_has_groups(cr, uid,
-                                                        'seedoo_protocollo.group_riassegna_protocollo_ingresso')
+                    check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_riassegna_protocollo_ingresso')
                 elif protocollo.type == 'out':
                     check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_riassegna_protocollo_uscita')
                 check = check and check_gruppi
 
-            employee_ids = self.pool.get('hr.employee').search(cr, uid, [('user_id', '=', uid)])
-            check_assegnatore = self.pool.get('protocollo.assegnazione').search(cr, uid, [
-                ('protocollo_id', '=', protocollo.id),
-                ('assegnatore_id', 'in', employee_ids),
-                ('parent_id', '=', False)
-            ])
-
-            if check_assegnatore or uid == SUPERUSER_ID:
+            if self._check_stato_assegnatore_competenza(cr, uid, protocollo, 'rifiutato') or uid==SUPERUSER_ID:
                 check = check and True
             else:
                 check = False
@@ -1749,7 +1754,9 @@ class protocollo_protocollo(osv.Model):
                     check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_riassegna_per_smist_protocollo_uscita')
                 check = check and check_gruppi
 
-            if self._check_stato_assegnatario_competenza(cr, uid, protocollo, 'preso') or uid == SUPERUSER_ID:
+            if self._check_stato_assegnatario_competenza(cr, uid, protocollo, 'preso') or \
+                    self._check_stato_assegnatore_competenza(cr, uid, protocollo, 'rifiutato') or \
+                            uid == SUPERUSER_ID:
                 check = check and True
             else:
                 check = False
@@ -1776,7 +1783,8 @@ class protocollo_protocollo(osv.Model):
                     check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_riassegna_per_smist_ut_uff_protocollo_uscita')
                 check = check and check_gruppi
 
-            if self._check_stato_assegnatario_competenza(cr, uid, protocollo, 'preso'):
+            if self._check_stato_assegnatario_competenza(cr, uid, protocollo, 'preso') or \
+                    self._check_stato_assegnatore_competenza(cr, uid, protocollo, 'rifiutato', smist_ut_uff=True):
                 check = check and True
             else:
                 check = False
