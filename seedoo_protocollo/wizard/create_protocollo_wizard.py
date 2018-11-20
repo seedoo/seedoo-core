@@ -20,7 +20,7 @@ class create_protocollo_wizard(osv.TransientModel):
             types.append(('in', 'Ingresso'))
         if self.user_has_groups(cr, uid, 'seedoo_protocollo.group_crea_protocollo_uscita'):
             types.append(('out', 'Uscita'))
-        if self.user_has_groups(cr, uid, 'seedoo_protocollo.group_crea_protocollo_uscita'):
+        if self.user_has_groups(cr, uid, 'seedoo_protocollo.group_crea_protocollo_interno'):
             types.append(('internal', 'Interno'))
         return types
 

@@ -1449,6 +1449,8 @@ class protocollo_protocollo(osv.Model):
                     check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_annulla_protocollo_ingresso')
                 elif protocollo.type == 'out':
                     check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_annulla_protocollo_uscita')
+                elif protocollo.type == 'internal':
+                    check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_annulla_protocollo_interno')
                 check = check and check_gruppi
 
             if uid == protocollo.user_id.id or uid == SUPERUSER_ID:
@@ -1485,6 +1487,9 @@ class protocollo_protocollo(osv.Model):
                     elif protocollo.type == 'out':
                         check_gruppi = self.user_has_groups(cr, uid,
                                                             'seedoo_protocollo.group_prendi_in_carico_protocollo_uscita')
+                    elif protocollo.type == 'internal':
+                        check_gruppi = self.user_has_groups(cr, uid,
+                                                            'seedoo_protocollo.group_prendi_in_carico_protocollo_interno')
                     check = check and check_gruppi
                 elif self._check_stato_assegnatario_competenza(cr, uid, protocollo, 'assegnato'):
                     check = True
@@ -1517,6 +1522,9 @@ class protocollo_protocollo(osv.Model):
                     elif protocollo.type == 'out':
                         check_gruppi = self.user_has_groups(cr, uid,
                                                             'seedoo_protocollo.group_rifiuta_protocollo_uscita')
+                    elif protocollo.type == 'internal':
+                        check_gruppi = self.user_has_groups(cr, uid,
+                                                            'seedoo_protocollo.group_rifiuta_protocollo_interno')
                     check = check and check_gruppi
                 elif self._check_stato_assegnatario_competenza(cr, uid, protocollo, 'assegnato'):
                     check = True
@@ -1543,6 +1551,8 @@ class protocollo_protocollo(osv.Model):
                     check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_modifica_protocollo_ingresso')
                 elif protocollo.type == 'out':
                     check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_modifica_protocollo_uscita')
+                elif protocollo.type == 'internal':
+                    check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_modifica_protocollo_interno')
                 check = check and check_gruppi
 
             if uid == protocollo.user_id.id or uid == SUPERUSER_ID:
@@ -1589,7 +1599,9 @@ class protocollo_protocollo(osv.Model):
                 elif protocollo.type == 'out':
                     check = self.user_has_groups(cr, uid,
                                                  'seedoo_protocollo.group_modifica_classificazione_protocollo_uscita')
-
+                elif protocollo.type == 'internal':
+                    check = self.user_has_groups(cr, uid,
+                                                 'seedoo_protocollo.group_modifica_classificazione_protocollo_interno')
                 if check and (uid == protocollo.user_id.id or uid == SUPERUSER_ID):
                     check = True
                 else:
@@ -1617,6 +1629,8 @@ class protocollo_protocollo(osv.Model):
                                                         'seedoo_protocollo.group_classifica_protocollo_ingresso')
                 elif protocollo.type == 'out':
                     check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_classifica_protocollo_uscita')
+                elif protocollo.type == 'internal':
+                    check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_classifica_protocollo_interno')
                 check = check and check_gruppi
 
             if uid == protocollo.user_id.id or uid == SUPERUSER_ID:
@@ -1645,7 +1659,9 @@ class protocollo_protocollo(osv.Model):
                 elif protocollo.type == 'out':
                     check = self.user_has_groups(cr, uid,
                                                  'seedoo_protocollo.group_modifica_fascicolazione_protocollo_uscita')
-
+                elif protocollo.type == 'internal':
+                    check = self.user_has_groups(cr, uid,
+                                                 'seedoo_protocollo.group_modifica_fascicolazione_protocollo_interno')
             if not check and \
                     protocollo.state == 'draft' and \
                     (uid == protocollo.user_id.id or uid == SUPERUSER_ID):
@@ -1672,6 +1688,8 @@ class protocollo_protocollo(osv.Model):
                                                         'seedoo_protocollo.group_fascicola_protocollo_ingresso')
                 elif protocollo.type == 'out':
                     check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_fascicola_protocollo_uscita')
+                elif protocollo.type == 'internal':
+                    check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_fascicola_protocollo_interno')
                 check = check and check_gruppi
 
             if uid == protocollo.user_id.id or uid == SUPERUSER_ID:
@@ -1699,7 +1717,8 @@ class protocollo_protocollo(osv.Model):
                                                  'seedoo_protocollo.group_modifica_assegnatari_protocollo_ingresso')
                 elif protocollo.type == 'out':
                     check = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_modifica_assegnatari_protocollo_uscita')
-
+                elif protocollo.type == 'internal':
+                    check = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_modifica_assegnatari_protocollo_interno')
             if not check and \
                     protocollo.state == 'draft' and \
                     (uid == protocollo.user_id.id or uid == SUPERUSER_ID):
@@ -1727,6 +1746,9 @@ class protocollo_protocollo(osv.Model):
                 elif protocollo.type == 'out':
                     check_gruppi = self.user_has_groups(cr, uid,
                                                         'seedoo_protocollo.group_aggiungi_assegnatari_cc_protocollo_uscita')
+                elif protocollo.type == 'internal':
+                    check_gruppi = self.user_has_groups(cr, uid,
+                                                        'seedoo_protocollo.group_aggiungi_assegnatari_cc_protocollo_interno')
                 check = check and check_gruppi
 
             if uid == protocollo.user_id.id or uid == SUPERUSER_ID:
@@ -1759,6 +1781,8 @@ class protocollo_protocollo(osv.Model):
                     check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_assegna_protocollo_ingresso')
                 elif protocollo.type == 'out':
                     check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_assegna_protocollo_uscita')
+                elif protocollo.type == 'internal':
+                    check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_assegna_protocollo_interno')
                 check = check and check_gruppi
 
             if uid == protocollo.user_id.id or uid == SUPERUSER_ID:
@@ -1787,6 +1811,8 @@ class protocollo_protocollo(osv.Model):
                                                         'seedoo_protocollo.group_riassegna_protocollo_ingresso')
                 elif protocollo.type == 'out':
                     check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_riassegna_protocollo_uscita')
+                elif protocollo.type == 'internal':
+                    check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_riassegna_protocollo_interno')
                 check = check and check_gruppi
 
             employee_ids = self.pool.get('hr.employee').search(cr, uid, [('user_id', '=', uid)])
