@@ -350,26 +350,26 @@ class protocollo_protocollo(osv.Model):
 
             start_time = time.time()
             # un utente deve poter vedere i protocolli (IN e OUT) REGISTRATI e ASSEGNATI DA un UTENTE del suo UFFICIO
-            check_gruppo_in = self.user_has_groups(cr, current_user_id,
-                                                   'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ass_da_ut_uff')
-            check_gruppo_out = self.user_has_groups(cr, current_user_id,
-                                                    'seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ass_da_ut_uff')
-            if (check_gruppo_in or check_gruppo_out) and employee_department_ids:
-                types = []
-                if check_gruppo_in: types.append('in')
-                if check_gruppo_out: types.append('out')
-                assegnazione_ids = assegnazione_obj.search(cr, uid, [
-                    ('tipologia_assegnazione', '=', 'competenza'),
-                    ('parent_id', '=', False),
-                    ('assegnatore_department_id', 'in', employee_department_ids)
-                ])
-                protocollo_visible_ids.extend(self.search(cr, uid, [
-                    ('type', 'in', types),
-                    ('registration_employee_id', '!=', False),
-                    ('assegnazione_ids', 'in', assegnazione_ids),
-                    ('reserved', '=', False)
-                ]))
-            _logger.info("---Query ass_da_ut_uff  %s seconds ---" % (time.time() - start_time))
+            # check_gruppo_in = self.user_has_groups(cr, current_user_id,
+            #                                        'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ass_da_ut_uff')
+            # check_gruppo_out = self.user_has_groups(cr, current_user_id,
+            #                                         'seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ass_da_ut_uff')
+            # if (check_gruppo_in or check_gruppo_out) and employee_department_ids:
+            #     types = []
+            #     if check_gruppo_in: types.append('in')
+            #     if check_gruppo_out: types.append('out')
+            #     assegnazione_ids = assegnazione_obj.search(cr, uid, [
+            #         ('tipologia_assegnazione', '=', 'competenza'),
+            #         ('parent_id', '=', False),
+            #         ('assegnatore_department_id', 'in', employee_department_ids)
+            #     ])
+            #     protocollo_visible_ids.extend(self.search(cr, uid, [
+            #         ('type', 'in', types),
+            #         ('registration_employee_id', '!=', False),
+            #         ('assegnazione_ids', 'in', assegnazione_ids),
+            #         ('reserved', '=', False)
+            #     ]))
+            # _logger.info("---Query ass_da_ut_uff  %s seconds ---" % (time.time() - start_time))
 
             protocollo_visible_ids.extend(protocollo_ids_drafts)
             protocollo_visible_ids.extend(protocollo_ids_created)
