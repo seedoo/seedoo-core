@@ -69,9 +69,6 @@
                         ('parent_id.department_id', 'in', assegnatore_department_child_ids[0][2])
                     ]
                     </attribute>
-                    <attribute name="options">
-                    {'limit': 5000, 'label': 'nome', 'all_checkable': false, 'field_no_checkbox': 'no_checkbox', 'css_class': 'tipologia', 'order': '-tipologia,nome'}
-                    </attribute>
                 </field>
             </field>
         </record>
