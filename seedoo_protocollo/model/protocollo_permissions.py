@@ -386,15 +386,18 @@ class protocollo_protocollo(osv.Model):
             _logger.info("---Query aoo  %s seconds ---" % (time.time() - start_time))
 
             start_time = time.time()
-            # un utente deve poter vedere QUALUNQUE protocollo (IN e OUT) REGISTRATO da un utente della sua AOO
+            # un utente deve poter vedere QUALUNQUE protocollo (IN, OUT, INTERNAL) REGISTRATO da un utente della sua AOO
             check_gruppo_in = self.user_has_groups(cr, current_user_id,
                                                    'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati')
             check_gruppo_out = self.user_has_groups(cr, current_user_id,
                                                     'seedoo_protocollo.group_vedi_protocolli_uscita_registrati')
-            if (check_gruppo_in or check_gruppo_out) and aoo_ids:
+            check_gruppo_internal = self.user_has_groups(cr, current_user_id,
+                                                    'seedoo_protocollo.group_vedi_protocolli_interno_registrati')
+            if (check_gruppo_in or check_gruppo_out or check_gruppo_internal) and aoo_ids:
                 types = []
                 if check_gruppo_in: types.append('in')
                 if check_gruppo_out: types.append('out')
+                if check_gruppo_internal: types.append('internal')
                 protocollo_ids_aoo = self.search(cr, uid, [
                     ('type', 'in', types),
                     ('registration_employee_id', '!=', False),
@@ -404,15 +407,18 @@ class protocollo_protocollo(osv.Model):
             _logger.info("---Query aoo 2  %s seconds ---" % (time.time() - start_time))
 
             start_time = time.time()
-            # un utente deve poter vedere i protocolli (IN e OUT) REGISTRATI e ASSEGNATI ad un UTENTE del suo UFFICIO di appartenenza
+            # un utente deve poter vedere i protocolli (IN, OUT, INTERNAL) REGISTRATI e ASSEGNATI ad un UTENTE del suo UFFICIO di appartenenza
             check_gruppo_in = self.user_has_groups(cr, current_user_id,
                                                    'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ass_ut_uff')
             check_gruppo_out = self.user_has_groups(cr, current_user_id,
                                                     'seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ass_ut_uff')
-            if (check_gruppo_in or check_gruppo_out) and employee_department_ids:
+            check_gruppo_internal = self.user_has_groups(cr, current_user_id,
+                                                    'seedoo_protocollo.group_vedi_protocolli_interno_registrati_ass_ut_uff')
+            if (check_gruppo_in or check_gruppo_out or check_gruppo_internal) and employee_department_ids:
                 types = []
                 if check_gruppo_in: types.append('in')
                 if check_gruppo_out: types.append('out')
+                if check_gruppo_internal: types.append('internal')
                 assegnazione_ids = assegnazione_obj.search(cr, uid, [
                     ('tipologia_assegnatario', '=', 'employee'),
                     ('parent_id', '=', False),
@@ -427,15 +433,18 @@ class protocollo_protocollo(osv.Model):
             _logger.info("---Query registrati_ass_ut_uff  %s seconds ---" % (time.time() - start_time))
 
             start_time = time.time()
-            # un utente deve poter vedere i protocolli (IN e OUT) REGISTRATI e ASSEGNATI ad un suo UFFICIO FIGLIO
+            # un utente deve poter vedere i protocolli (IN, OUT, INTERNAL) REGISTRATI e ASSEGNATI ad un suo UFFICIO FIGLIO
             check_gruppo_in = self.user_has_groups(cr, current_user_id,
                                                    'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ass_uff_fig')
             check_gruppo_out = self.user_has_groups(cr, current_user_id,
                                                     'seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ass_uff_fig')
-            if (check_gruppo_in or check_gruppo_out) and employee_department_child_ids:
+            check_gruppo_internal = self.user_has_groups(cr, current_user_id,
+                                                    'seedoo_protocollo.group_vedi_protocolli_interno_registrati_ass_uff_fig')
+            if (check_gruppo_in or check_gruppo_out or check_gruppo_internal) and employee_department_child_ids:
                 types = []
                 if check_gruppo_in: types.append('in')
                 if check_gruppo_out: types.append('out')
+                if check_gruppo_internal: types.append('internal')
                 assegnazione_ids = assegnazione_obj.search(cr, uid, [
                     ('tipologia_assegnatario', '=', 'department'),
                     #('assegnatario_department_parent_id', '=', employee.department_id.id)
@@ -455,10 +464,13 @@ class protocollo_protocollo(osv.Model):
                                                    'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ass_ut_uff_fig')
             check_gruppo_out = self.user_has_groups(cr, current_user_id,
                                                     'seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ass_ut_uff_fig')
-            if (check_gruppo_in or check_gruppo_out) and employee_department_child_ids:
+            check_gruppo_internal = self.user_has_groups(cr, current_user_id,
+                                                    'seedoo_protocollo.group_vedi_protocolli_interno_registrati_ass_ut_uff_fig')
+            if (check_gruppo_in or check_gruppo_out or check_gruppo_internal) and employee_department_child_ids:
                 types = []
                 if check_gruppo_in: types.append('in')
                 if check_gruppo_out: types.append('out')
+                if check_gruppo_internal: types.append('internal')
                 assegnazione_ids = assegnazione_obj.search(cr, uid, [
                     ('tipologia_assegnatario', '=', 'employee'),
                     ('parent_id', '=', False),
@@ -474,15 +486,18 @@ class protocollo_protocollo(osv.Model):
             _logger.info("---Query ass_ut_uff_fig  %s seconds ---" % (time.time() - start_time))
 
             start_time = time.time()
-            # un utente deve poter vedere i protocolli (IN e OUT) REGISTRATI, ASSEGNATI e RIFIUTATI da un UTENTE del suo UFFICIO
+            # un utente deve poter vedere i protocolli (IN, OUT, INTERNAL) REGISTRATI, ASSEGNATI e RIFIUTATI da un UTENTE del suo UFFICIO
             check_gruppo_in = self.user_has_groups(cr, current_user_id,
                                                    'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ass_rif_ut_uff')
             check_gruppo_out = self.user_has_groups(cr, current_user_id,
                                                     'seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ass_rif_ut_uff')
-            if (check_gruppo_in or check_gruppo_out) and employee_department_ids:
+            check_gruppo_internal = self.user_has_groups(cr, current_user_id,
+                                                    'seedoo_protocollo.group_vedi_protocolli_interno_registrati_ass_rif_ut_uff')
+            if (check_gruppo_in or check_gruppo_out or check_gruppo_internal) and employee_department_ids:
                 types = []
                 if check_gruppo_in: types.append('in')
                 if check_gruppo_out: types.append('out')
+                if check_gruppo_internal: types.append('internal')
                 assegnazione_ids = assegnazione_obj.search(cr, uid, [
                     ('tipologia_assegnatario', '=', 'employee'),
                     ('assegnatario_employee_department_id', 'in', employee_department_ids),
