@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="protocollo_aggiungi_sender_internal_view" model="ir.ui.view">
+            <field name="name">Aggiungi Mittente</field>
+            <field name="model">protocollo.aggiungi.sender.internal.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Aggiungi Mittente" class="tree_aggiungi_assegnatari">
+                    <sheet>
+                        <group colspan="1" col="1">
+                            <separator string="Mittente protocollo"/>
+                            <field name="sender_internal_ref"
+                                   widget="m2o_tree"
+                                   options="{'limit': 5000, 'label': 'nome', 'all_checkable': true, 'field_no_checkbox': 'no_checkbox', 'css_class': '-tipologia', 'order': '-tipologia,nome'}"
+                                   nolabel="1"
+                            />
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button string="Ok" name="action_save" type="object" class="oe_highlight"/>
+                        <button string="Abbandona" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="protocollo_aggiungi_sender_internal_action"
+                    name="Aggiungi Mittente"
+                    res_model="protocollo.aggiungi.sender.internal.wizard"
+                    view_type="form"
+                    view_mode="form"
+                    target="new"/>
+
+    </data>
+</openerp>

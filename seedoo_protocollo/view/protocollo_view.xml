@@ -600,9 +600,23 @@ this module contains the full copyright notices and license terms. -->
 
                         <notebook class="protocollo_form_tabs">
                             <page string="Mittente" attrs="{'invisible':['|',('type','!=','internal')]}" class="tab-mittente tab-sr">
-                                <group col="2">
-                                    <field name="sender_internal_name" readonly="1" string="Dipendente"/>
-                                </group>
+                                <div class="oe_edit_only">
+                                    <button name="%(protocollo_aggiungi_sender_internal_action)d"
+                                            string="Aggiungi Mittente"
+                                            type="action"
+                                            attrs="{'invisible':['|',('state','!=','draft'),('sender_internal_name','!=', False)]}"
+                                            class="oe_highlight_positive btn_seedoo btn_aggiungi_assegnatari"/>
+                                    <newline/>
+                                    <button name="%(protocollo_aggiungi_sender_internal_action)d"
+                                            string="Modifica Mittente"
+                                            type="action"
+                                            attrs="{'invisible':['|',('state','!=','draft'),('sender_internal_name','=', False)]}"
+                                            class="oe_highlight_positive btn_seedoo btn_modifica_assegnatari"/>
+                                </div>
+                                <div class="box-sender-internal">
+                                    <field name="sender_internal_employee_image" nolabel="1" widget='image' class="oe_left oe_avatar"/>
+                                    <field name="sender_internal_name" nolabel="1" readonly="1" string="Dipendente"/>
+                                </div>
                             </page>
                             <page string="Mittente" attrs="{'invisible':['|',('type','!=','out')]}" class="tab-mittente tab-sr">
                                 <group col="4" colspan="4">

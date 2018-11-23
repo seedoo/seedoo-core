@@ -534,8 +534,10 @@ class protocollo_protocollo(orm.Model):
                                                 size=64,
                                                 required=False,
                                                 ),
+        'sender_internal_assegnatario': fields.many2one('protocollo.assegnatario', 'Assegnatario Mittente Interno'),
         'sender_internal_name': fields.char('Protocollazione Interna Nome', size=512, readonly=True),
         'sender_internal_employee': fields.many2one('hr.employee', 'Protocollazione Interna Dipendente', required=False),
+        'sender_internal_employee_image': fields.related('sender_internal_employee', 'image', type='binary', string='Immagine', readonly=True),
         'sender_internal_department': fields.many2one('hr.department', 'Protocollazione Interna Ufficio', required=False),
         'sender_receivers': fields.one2many('protocollo.sender_receiver', 'protocollo_id', 'Mittenti/Destinatari'),
         'senders': fields.one2many('protocollo.sender_receiver', 'protocollo_id', 'Mittente',
@@ -1754,17 +1756,6 @@ class protocollo_protocollo(orm.Model):
             raise orm.except_orm(_('Attenzione!'), _('Non sei più assegnatario di questo protocollo!'))
         return True
 
-    def _create_sender_internal(self, cr, uid, vals, context):
-        employee_ids = self.pool.get('hr.employee').search(cr, uid, [
-            ('user_id', '=', uid),
-            ('department_id', '=', vals['registration_employee_department_id'])
-        ])
-        employee = self.pool.get('hr.employee').browse(cr, uid, employee_ids[0])
-        vals['sender_internal_name'] = vals['registration_employee_department_name'] + " / " + employee.name
-        vals['sender_internal_employee'] = employee_ids[0]
-        vals['sender_internal_department'] = vals['registration_employee_department_id']
-        return vals
-
     def _verifica_dati_sender_receiver(self, cr, uid, vals, context):
         if vals and vals.has_key('senders'):
             for mittente in vals['senders']:
@@ -1781,10 +1772,7 @@ class protocollo_protocollo(orm.Model):
     def create(self, cr, uid, vals, context=None):
         new_context = dict(context or {})
         new_context['skip_check'] = True
-        if ('internal' in vals['type']):
-            vals = self._create_sender_internal(cr, uid, vals, new_context)
-        else:
-            vals = self._verifica_dati_sender_receiver(cr, uid, vals, new_context)
+        vals = self._verifica_dati_sender_receiver(cr, uid, vals, new_context)
         protocollo_id = super(protocollo_protocollo, self).create(cr, uid, vals, context=new_context)
         return protocollo_id
 
