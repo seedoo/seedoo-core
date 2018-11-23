@@ -26,6 +26,12 @@ class protocollo_riassegna_wizard(osv.TransientModel):
                                                       'Assegnatario per Competenza',
                                                       domain="[('assignable', '=', True)]",
                                                       required=True),
+        'assegnatario_conoscenza_ids': fields.many2many('protocollo.assegnatario',
+                                                        'protocollo_riassegna_assegnatari_rel',
+                                                        'wizard_id',
+                                                        'assegnatario_id',
+                                                        'Assegnatari per Conoscenza',
+                                                        domain="[('assignable', '=', True)]"),
         'motivation': fields.text('Motivazione'),
         'assegnatari_empty': fields.boolean('Assegnatari Non Presenti'),
         'assegnatore_department_id_invisible': fields.boolean('Dipartimento Assegnatore Non Visibile', readonly=True),
@@ -47,6 +53,21 @@ class protocollo_riassegna_wizard(osv.TransientModel):
             return True
         return False
 
+    def _default_assegnatario_conoscenza_ids(self, cr, uid, context):
+        assegnazione_obj = self.pool.get('protocollo.assegnazione')
+        assegnazione_ids = assegnazione_obj.search(cr, uid, [
+            ('protocollo_id', '=', context['active_id']),
+            ('tipologia_assegnazione', '=', 'conoscenza'),
+            ('parent_id', '=', False)
+        ])
+        if assegnazione_ids:
+            assegnatario_ids = []
+            assegnazione_ids = assegnazione_obj.browse(cr, uid, assegnazione_ids)
+            for assegnazione in assegnazione_ids:
+                assegnatario_ids.append(assegnazione.assegnatario_id.id)
+            return assegnatario_ids
+        return False
+
     def _default_assegnatari_empty(self, cr, uid, context):
         count = self.pool.get('protocollo.assegnatario').search(cr, uid, [], count=True, context=context)
         if count > 0:
@@ -57,6 +78,7 @@ class protocollo_riassegna_wizard(osv.TransientModel):
     _defaults = {
         'reserved': _default_reserved,
         'assegnatore_department_id': _default_assegnatore_department_id,
+        'assegnatario_conoscenza_ids': _default_assegnatario_conoscenza_ids,
         'assegnatari_empty': _default_assegnatari_empty,
         'assegnatore_department_id_invisible': _default_assegnatore_department_id_invisible
     }
@@ -118,11 +140,31 @@ class protocollo_riassegna_wizard(osv.TransientModel):
         )
         after['competenza'] = wizard.assegnatario_competenza_id.nome
 
+        # assegnazione per conoscenza
+        before['conoscenza'] = ', '.join([a.assegnatario_id.nome for a in protocollo.assegnazione_conoscenza_ids])
+        assegnatario_conoscenza_to_save_ids = []
+        if not protocollo.reserved:
+            assegnatario_conoscenza_ids = wizard.assegnatario_conoscenza_ids.ids
+            for assegnatario in wizard.assegnatario_conoscenza_ids:
+                if assegnatario.tipologia=='department' or (assegnatario.parent_id and assegnatario.parent_id.id not in assegnatario_conoscenza_ids):
+                    assegnatario_conoscenza_to_save_ids.append(assegnatario.id)
+        self.pool.get('protocollo.assegnazione').salva_assegnazione_conoscenza(
+            cr,
+            uid,
+            context.get('active_id', False),
+            assegnatario_conoscenza_to_save_ids,
+            employee_ids[0] if employee_ids else False
+        )
+        after['conoscenza'] = ', '.join([a.assegnatario_id.nome for a in protocollo.assegnazione_conoscenza_ids])
+
         action_class = "history_icon update"
         body = "<div class='%s'><ul>" % action_class
         if before['competenza'] or after['competenza']:
             body = body + "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#009900'> %s </span></li>" \
                           % ('Assegnatario Competenza', before['competenza'], after['competenza'])
+        if (before['conoscenza'] or after['conoscenza']) and before['conoscenza']!=after['conoscenza']:
+            body = body + "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#009900'> %s </span></li>" \
+                          % ('Assegnatari Conoscenza', before['conoscenza'], after['conoscenza'])
         body += "</ul></div>"
         post_vars = {
             'subject': "%s%s" % ("Riassegnazione", ": " + wizard.motivation if wizard.motivation else ""),
