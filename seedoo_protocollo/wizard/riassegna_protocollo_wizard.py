@@ -14,13 +14,24 @@ class protocollo_riassegna_wizard(osv.TransientModel):
     _columns = {
         'reserved': fields.boolean('Riservato', readonly=True),
         'assegnatore_department_id': fields.many2one('hr.department',
-                                          'Ufficio dell\'Assegnatore',
+                                          "Ufficio dell'Assegnatore",
                                           domain="[('member_ids.user_id', '=', uid)]",
                                           required=True),
+        'assegnatore_department_child_ids': fields.many2many('hr.department',
+                                                        'protocollo_riassegna_child_rel',
+                                                        'wizard_id',
+                                                        'department_id',
+                                                        "Uffici Figli dell'Ufficio dell'Assegnatore"),
         'assegnatario_competenza_id': fields.many2one('protocollo.assegnatario',
                                                       'Assegnatario per Competenza',
                                                       domain="[('assignable', '=', True)]",
                                                       required=True),
+        'assegnatario_conoscenza_ids': fields.many2many('protocollo.assegnatario',
+                                                        'protocollo_riassegna_assegnatari_rel',
+                                                        'wizard_id',
+                                                        'assegnatario_id',
+                                                        'Assegnatari per Conoscenza',
+                                                        domain="[('assignable', '=', True)]"),
         'motivation': fields.text('Motivazione'),
         'assegnatari_empty': fields.boolean('Assegnatari Non Presenti'),
         'assegnatore_department_id_invisible': fields.boolean('Dipartimento Assegnatore Non Visibile', readonly=True),
@@ -42,6 +53,21 @@ class protocollo_riassegna_wizard(osv.TransientModel):
             return True
         return False
 
+    def _default_assegnatario_conoscenza_ids(self, cr, uid, context):
+        assegnazione_obj = self.pool.get('protocollo.assegnazione')
+        assegnazione_ids = assegnazione_obj.search(cr, uid, [
+            ('protocollo_id', '=', context['active_id']),
+            ('tipologia_assegnazione', '=', 'conoscenza'),
+            ('parent_id', '=', False)
+        ])
+        if assegnazione_ids:
+            assegnatario_ids = []
+            assegnazione_ids = assegnazione_obj.browse(cr, uid, assegnazione_ids)
+            for assegnazione in assegnazione_ids:
+                assegnatario_ids.append(assegnazione.assegnatario_id.id)
+            return assegnatario_ids
+        return False
+
     def _default_assegnatari_empty(self, cr, uid, context):
         count = self.pool.get('protocollo.assegnatario').search(cr, uid, [], count=True, context=context)
         if count > 0:
@@ -52,9 +78,17 @@ class protocollo_riassegna_wizard(osv.TransientModel):
     _defaults = {
         'reserved': _default_reserved,
         'assegnatore_department_id': _default_assegnatore_department_id,
+        'assegnatario_conoscenza_ids': _default_assegnatario_conoscenza_ids,
         'assegnatari_empty': _default_assegnatari_empty,
         'assegnatore_department_id_invisible': _default_assegnatore_department_id_invisible
     }
+
+    def on_change_assegnatore_department_id(self, cr, uid, ids, assegnatore_department_id, context=None):
+        assegnatore_department_child_ids = []
+        if assegnatore_department_id:
+            assegnatore_department = self.pool.get('hr.department').browse(cr, uid, assegnatore_department_id)
+            assegnatore_department_child_ids = assegnatore_department.all_child_ids.ids
+        return {'value': {'assegnatore_department_child_ids': assegnatore_department_child_ids}}
 
     def on_change_assegnatario_competenza_id(self, cr, uid, ids, assegnatario_competenza_id, context=None):
         data = {}
@@ -86,14 +120,12 @@ class protocollo_riassegna_wizard(osv.TransientModel):
             ('user_id', '=', uid)
         ])
         check = False
-        if protocollo.state in ('registered', 'notified', 'waiting', 'sent', 'error') and \
-                protocollo.assegnazione_competenza_ids and \
-                        protocollo.assegnazione_competenza_ids[0].state == 'rifiutato':
+        if protocollo.riassegna_visibility or protocollo.riassegna_per_smist_visibility or protocollo.riassegna_per_smist_ut_uff_visibility:
             check = True
 
         if not check:
             raise openerp.exceptions.Warning(_(
-                '"Non è più possibile eseguire l\'operazione richiesta! Il protocollo è già stato riassegnato da un altro utente!'))
+                '"Non è più possibile eseguire l\'operazione richiesta!'))
 
         # assegnazione per competenza
         before['competenza'] = ', '.join([a.assegnatario_id.nome for a in protocollo.assegnazione_competenza_ids])
@@ -103,20 +135,39 @@ class protocollo_riassegna_wizard(osv.TransientModel):
             context.get('active_id', False),
             wizard.assegnatario_competenza_id.id if wizard.assegnatario_competenza_id else False,
             employee_ids[0] if employee_ids else False,
-            True
+            True,
+            context.get('smist_ut_uff', False)
         )
         after['competenza'] = wizard.assegnatario_competenza_id.nome
+
+        # assegnazione per conoscenza
+        before['conoscenza'] = ', '.join([a.assegnatario_id.nome for a in protocollo.assegnazione_conoscenza_ids])
+        assegnatario_conoscenza_to_save_ids = []
+        if not protocollo.reserved:
+            assegnatario_conoscenza_ids = wizard.assegnatario_conoscenza_ids.ids
+            for assegnatario in wizard.assegnatario_conoscenza_ids:
+                if assegnatario.tipologia=='department' or (assegnatario.parent_id and assegnatario.parent_id.id not in assegnatario_conoscenza_ids):
+                    assegnatario_conoscenza_to_save_ids.append(assegnatario.id)
+        self.pool.get('protocollo.assegnazione').salva_assegnazione_conoscenza(
+            cr,
+            uid,
+            context.get('active_id', False),
+            assegnatario_conoscenza_to_save_ids,
+            employee_ids[0] if employee_ids else False
+        )
+        after['conoscenza'] = ', '.join([a.assegnatario_id.nome for a in protocollo.assegnazione_conoscenza_ids])
 
         action_class = "history_icon update"
         body = "<div class='%s'><ul>" % action_class
         if before['competenza'] or after['competenza']:
             body = body + "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#009900'> %s </span></li>" \
                           % ('Assegnatario Competenza', before['competenza'], after['competenza'])
-        if wizard.motivation:
-            body += "<li>%s: %s</li>" % ('Motivazione', wizard.motivation)
+        if (before['conoscenza'] or after['conoscenza']) and before['conoscenza']!=after['conoscenza']:
+            body = body + "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#009900'> %s </span></li>" \
+                          % ('Assegnatari Conoscenza', before['conoscenza'], after['conoscenza'])
         body += "</ul></div>"
         post_vars = {
-            'subject': "Riassegnazione",
+            'subject': "%s%s" % ("Riassegnazione", ": " + wizard.motivation if wizard.motivation else ""),
             'body': body,
             'model': "protocollo.protocollo",
             'res_id': context['active_id']
