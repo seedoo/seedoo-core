@@ -102,6 +102,9 @@ class protocollo_configurazione(orm.Model):
                     campi_obbligatori = campi_obbligatori + '<li>Nome Cognome/Ragione sociale del Mittente</li>'
                     break
 
+        if protocollo.type == 'internal' and not protocollo.sender_internal_name:
+            campi_obbligatori = campi_obbligatori + '<li>Mittente</li>'
+
         if protocollo.type == 'out' and protocollo.pec:
             for sr in protocollo.sender_receivers:
                 if not sr.pec_mail:

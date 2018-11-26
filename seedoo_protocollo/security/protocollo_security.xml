@@ -300,7 +300,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
         <!-- Button "Riassegna" nella vista form protocollo interno -->
-        <record id="group_riassegna_protocollo_uscita" model="res.groups">
+        <record id="group_riassegna_protocollo_interno" model="res.groups">
             <field name="name">Riassegna Protocollo Interno</field>
             <field name="category_id" ref="module_category_protocollo"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>

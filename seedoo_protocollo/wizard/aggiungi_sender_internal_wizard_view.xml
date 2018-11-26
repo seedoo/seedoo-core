@@ -12,7 +12,7 @@
                             <separator string="Mittente protocollo"/>
                             <field name="sender_internal_ref"
                                    widget="m2o_tree"
-                                   options="{'limit': 5000, 'label': 'nome', 'all_checkable': true, 'field_no_checkbox': 'no_checkbox', 'css_class': '-tipologia', 'order': '-tipologia,nome'}"
+                                   options="{'limit': 5000, 'label': 'nome', 'all_checkable': true, 'field_no_checkbox': 'no_checkbox', 'css_class': 'tipologia', 'order': '-tipologia,nome'}"
                                    nolabel="1"
                             />
                         </group>

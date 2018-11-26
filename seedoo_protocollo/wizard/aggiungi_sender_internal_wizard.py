@@ -47,3 +47,4 @@ class protocollo_sender_internal_wizard(osv.TransientModel):
                 'context': context,
                 'type': 'ir.actions.act_window'
         }
+

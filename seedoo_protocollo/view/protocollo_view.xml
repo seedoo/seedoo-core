@@ -613,12 +613,22 @@ this module contains the full copyright notices and license terms. -->
                                             attrs="{'invisible':['|',('state','!=','draft'),('sender_internal_name','=', False)]}"
                                             class="oe_highlight_positive btn_seedoo btn_modifica_assegnatari"/>
                                 </div>
-                                <div class="box-sender-internal">
-                                    <field name="sender_internal_employee_image" nolabel="1" widget='image' class="oe_left oe_avatar"/>
+                                <div class="box-sender-internal" attrs="{'invisible':[('sender_internal_name','=', False)]}">
+                                    <field name="sender_internal_employee_image" nolabel="1" widget='image' attrs="{'invisible':[('sender_internal_name','=', False)]}" class="oe_left oe_avatar"/>
+                                    <div class="dep-data">
+                                        <field name="sender_internal_department" options="{'no_open': True}" readonly="1" class="sender-department" string="Ufficio" attrs="{'invisible':[('sender_internal_department','=', False)]}"/>
+                                        <field name="sender_internal_employee" options="{'no_open': True}" readonly="1" class="sender-employee" string="Dipendente" attrs="{'invisible':[('sender_internal_employee','=', False)]}"/>
+                                    </div>
                                     <field name="sender_internal_name" nolabel="1" readonly="1" string="Dipendente"/>
+                                    <button name="action_remove_sender_internal"
+                                            context="{'protocollo_id': active_id}"
+                                            string="x"
+                                            type="object"
+                                            attrs="{'invisible':['|',('state','!=','draft'),('sender_internal_name','=', False)]}"
+                                            class="oe_highlight_positive btn_seedoo btn_rimuovi_mittente"/>
                                 </div>
                             </page>
-                            <page string="Mittente" attrs="{'invisible':['|',('type','!=','out')]}" class="tab-mittente tab-sr">
+                            <page string="Mittente" attrs="{'invisible':[('type','!=','in')]}" class="tab-mittente tab-sr">
                                 <group col="4" colspan="4">
                                     <field name="senders" mode="kanban" nolabel="1" attrs="{'readonly':[('state','!=','draft')]}"/>
                                 </group>

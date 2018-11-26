@@ -571,7 +571,7 @@ this module contains the full copyright notices and license terms. -->
                 (4, ref('seedoo_protocollo.group_fascicola_protocollo_interno')),
                 (4, ref('seedoo_protocollo.group_modifica_fascicolazione_protocollo_interno')),
                 (4, ref('seedoo_protocollo.group_prendi_in_carico_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_rifiuta_protocollo_internoa')),
+                (4, ref('seedoo_protocollo.group_rifiuta_protocollo_interno')),
                 (4, ref('seedoo_protocollo.group_modifica_protocollo_interno')),
                 (4, ref('seedoo_protocollo.group_annulla_protocollo_interno')),
                 (4, ref('seedoo_protocollo.group_vedi_protocolli_interno_registrati')),

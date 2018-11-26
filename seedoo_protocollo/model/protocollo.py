@@ -1993,6 +1993,26 @@ class protocollo_protocollo(orm.Model):
                 content_subtype=content_subtype, **kwargs)
 
 
+    def action_remove_sender_internal(self, cr, uid, ids, context=None):
+        protocollo_obj = self.pool.get('protocollo.protocollo').browse(cr, uid, context['protocollo_id'])
+        vals = {}
+        vals['sender_internal_assegnatario'] = False
+        vals['sender_internal_name'] = False
+        vals['sender_internal_employee'] = False
+        vals['sender_internal_department'] = False
+        protocollo_obj.write(vals)
+
+        return {
+            'name': 'Protocollo',
+            'view_type': 'form',
+            'view_mode': 'form,tree',
+            'res_model': 'protocollo.protocollo',
+            'res_id': context['protocollo_id'],
+            'context': context,
+            'type': 'ir.actions.act_window'
+        }
+
+
 class protocollo_journal(orm.Model):
     _name = 'protocollo.journal'
     _description = 'Registro Giornaliero'
