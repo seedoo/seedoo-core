@@ -548,25 +548,28 @@ class protocollo_protocollo(osv.Model):
         protocollo_visible_ids = self.search(cr, uid, [('state', '=', 'draft'), ('user_id', '=', uid)])
         return [('id', 'in', protocollo_visible_ids)]
 
-    @api.cr_uid
-    def _bozza_creato_da_me_visibility_count_in(self, cr, uid):
-        return self._bozza_creato_da_me_visibility_count(cr, uid, "in")
+    # @api.cr_uid
+    # def _bozza_creato_da_me_visibility_count_in(self, cr, uid):
+    #     return self._bozza_creato_da_me_visibility_count(cr, uid, "in")
+    #
+    # @api.cr_uid
+    # def _bozza_creato_da_me_visibility_count_out(self, cr, uid):
+    #     return self._bozza_creato_da_me_visibility_count(cr, uid, "out")
 
     @api.cr_uid
-    def _bozza_creato_da_me_visibility_count_out(self, cr, uid):
-        return self._bozza_creato_da_me_visibility_count(cr, uid, "out")
+    def _bozza_creato_da_me_visibility_count_total(self, cr, uid):
+        return self._bozza_creato_da_me_visibility_count(cr, uid, "")
 
     def _bozza_creato_da_me_visibility_count(self, cr, uid, protocollo_type):
-        if not protocollo_type:
-            return 0
+        # if not protocollo_type:
+        #     return 0
 
         time_start = datetime.datetime.now()
 
         sql_query = """SELECT COUNT(pp.id)
                        FROM protocollo_protocollo pp
-                       WHERE pp.type = '%s'
-                             AND pp.state = 'draft'
-                            AND pp.user_id = %d""" % (protocollo_type, uid)
+                       WHERE pp.state = 'draft'
+                            AND pp.user_id = %d""" % (uid)
 
         cr.execute(sql_query)
         result = cr.fetchall()
@@ -575,9 +578,8 @@ class protocollo_protocollo(osv.Model):
         time_end = datetime.datetime.now()
         time_duration = time_end - time_start
 
-        _logger.info("_bozza_creato_da_me_visibility_count: %d - %s - %.03f s" % (
+        _logger.info("_bozza_creato_da_me_visibility_count: %d - %.03f s" % (
             count_value,
-            protocollo_type,
             float(time_duration.microseconds) / 1000000
         ))
 
@@ -608,24 +610,27 @@ class protocollo_protocollo(osv.Model):
         _logger.info("_assegnato_a_me_visibility_search: " + str(end - start))
         return [('id', 'in', protocollo_visible_ids)]
 
-    @api.cr_uid
-    def _assegnato_a_me_visibility_count_in(self, cr, uid):
-        return self._assegnato_a_me_visibility_count(cr, uid, "in")
+    # @api.cr_uid
+    # def _assegnato_a_me_visibility_count_in(self, cr, uid):
+    #     return self._assegnato_a_me_visibility_count(cr, uid, "in")
+    #
+    # @api.cr_uid
+    # def _assegnato_a_me_visibility_count_out(self, cr, uid):
+    #     return self._assegnato_a_me_visibility_count(cr, uid, "out")
 
     @api.cr_uid
-    def _assegnato_a_me_visibility_count_out(self, cr, uid):
-        return self._assegnato_a_me_visibility_count(cr, uid, "out")
+    def _assegnato_a_me_visibility_count_total(self, cr, uid):
+        return self._assegnato_a_me_visibility_count(cr, uid, "")
 
     def _assegnato_a_me_visibility_count(self, cr, uid, protocollo_type):
-        if not protocollo_type:
-            return 0
+        # if not protocollo_type:
+        #     return 0
 
         time_start = datetime.datetime.now()
 
         sql_query = """SELECT COUNT(DISTINCT(pa.protocollo_id)) 
             FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
-            WHERE pp.type = '%s'
-                AND pp.id = pa.protocollo_id
+            WHERE pp.id = pa.protocollo_id
                 AND pa.assegnatario_employee_id = he.id
                 AND he.resource_id = rr.id
                 AND rr.user_id = %d
@@ -635,7 +640,7 @@ class protocollo_protocollo(osv.Model):
                 AND pa.state = 'assegnato'
                 AND pa.parent_id IS NULL
                 AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
-        """ % (protocollo_type, uid)
+        """ % (uid)
 
         cr.execute(sql_query)
         result = cr.fetchall()
@@ -644,9 +649,8 @@ class protocollo_protocollo(osv.Model):
         time_end = datetime.datetime.now()
         time_duration = time_end - time_start
 
-        _logger.info("_assegnato_a_me_visibility_count: %d - %s - %.03f s" % (
+        _logger.info("_assegnato_a_me_visibility_count: %d - %.03f s" % (
             count_value,
-            protocollo_type,
             float(time_duration.microseconds) / 1000000
         ))
 
@@ -675,25 +679,28 @@ class protocollo_protocollo(osv.Model):
         _logger.info("_assegnato_cc_visibility_search: " + str(end - start))
         return [('id', 'in', protocollo_visible_ids)]
 
-    @api.cr_uid
-    def _assegnato_cc_visibility_count_in(self, cr, uid):
-        return self._assegnato_cc_visibility_count(cr, uid, "in")
+    # @api.cr_uid
+    # def _assegnato_cc_visibility_count_in(self, cr, uid):
+    #     return self._assegnato_cc_visibility_count(cr, uid, "in")
+    #
+    # @api.cr_uid
+    # def _assegnato_cc_visibility_count_out(self, cr, uid):
+    #     return self._assegnato_cc_visibility_count(cr, uid, "out")
 
     @api.cr_uid
-    def _assegnato_cc_visibility_count_out(self, cr, uid):
-        return self._assegnato_cc_visibility_count(cr, uid, "out")
+    def _assegnato_cc_visibility_count_total(self, cr, uid):
+        return self._assegnato_cc_visibility_count(cr, uid, "")
 
     def _assegnato_cc_visibility_count(self, cr, uid, protocollo_type):
-        if not protocollo_type:
-            return 0
+        # if not protocollo_type:
+        #     return 0
 
         time_start = datetime.datetime.now()
 
         sql_query = """
             SELECT COUNT(DISTINCT(pa.protocollo_id)) 
             FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
-            WHERE pp.type = '%s' AND
-                  pp.id = pa.protocollo_id AND
+            WHERE pp.id = pa.protocollo_id AND
                   (
                       (pa.tipologia_assegnatario = 'employee' AND pa.parent_id IS NULL AND pa.assegnatario_employee_id = he.id AND he.resource_id = rr.id AND rr.user_id = %s) OR 
                       (pa.tipologia_assegnatario = 'department' AND pa.assegnatario_department_id = he.department_id AND he.resource_id = rr.id AND rr.user_id = %s)
@@ -702,7 +709,7 @@ class protocollo_protocollo(osv.Model):
                   pa.tipologia_assegnazione = 'conoscenza' AND 
                   pa.state = 'assegnato' AND
                   pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
-        """ % (protocollo_type, uid, uid)
+        """ % (uid, uid)
 
         cr.execute(sql_query)
         result = cr.fetchall()
@@ -711,9 +718,8 @@ class protocollo_protocollo(osv.Model):
         time_end = datetime.datetime.now()
         time_duration = time_end - time_start
 
-        _logger.info("_assegnato_cc_visibility_count: %d - %s - %.03f s" % (
+        _logger.info("_assegnato_cc_visibility_count: %d - %.03f s" % (
             count_value,
-            protocollo_type,
             float(time_duration.microseconds) / 1000000
         ))
 
@@ -744,13 +750,13 @@ class protocollo_protocollo(osv.Model):
         _logger.info("_assegnato_a_me_cc_visibility_search: " + str(end - start))
         return [('id', 'in', protocollo_visible_ids)]
 
-    @api.cr_uid
-    def _assegnato_a_me_cc_visibility_count_in(self, cr, uid):
-        return self._assegnato_a_me_cc_visibility_count(cr, uid, "in")
-
-    @api.cr_uid
-    def _assegnato_a_me_cc_visibility_count_out(self, cr, uid):
-        return self._assegnato_a_me_cc_visibility_count(cr, uid, "out")
+    # @api.cr_uid
+    # def _assegnato_a_me_cc_visibility_count_in(self, cr, uid):
+    #     return self._assegnato_a_me_cc_visibility_count(cr, uid, "in")
+    #
+    # @api.cr_uid
+    # def _assegnato_a_me_cc_visibility_count_out(self, cr, uid):
+    #     return self._assegnato_a_me_cc_visibility_count(cr, uid, "out")
 
     def _assegnato_a_me_cc_visibility_count(self, cr, uid, protocollo_type):
         if not protocollo_type:
@@ -812,24 +818,27 @@ class protocollo_protocollo(osv.Model):
         _logger.info("_assegnato_a_mio_ufficio_visibility_search: " + str(end - start))
         return [('id', 'in', protocollo_visible_ids)]
 
-    @api.cr_uid
-    def _assegnato_a_mio_ufficio_visibility_count_in(self, cr, uid):
-        return self._assegnato_a_mio_ufficio_visibility_count(cr, uid, "in")
+    # @api.cr_uid
+    # def _assegnato_a_mio_ufficio_visibility_count_in(self, cr, uid):
+    #     return self._assegnato_a_mio_ufficio_visibility_count(cr, uid, "in")
+    #
+    # @api.cr_uid
+    # def _assegnato_a_mio_ufficio_visibility_count_out(self, cr, uid):
+    #     return self._assegnato_a_mio_ufficio_visibility_count(cr, uid, "out")
 
     @api.cr_uid
-    def _assegnato_a_mio_ufficio_visibility_count_out(self, cr, uid):
-        return self._assegnato_a_mio_ufficio_visibility_count(cr, uid, "out")
+    def _assegnato_a_mio_ufficio_visibility_count_total(self, cr, uid):
+        return self._assegnato_a_mio_ufficio_visibility_count(cr, uid, "")
 
     def _assegnato_a_mio_ufficio_visibility_count(self, cr, uid, protocollo_type):
-        if not protocollo_type:
-            return 0
+        # if not protocollo_type:
+        #     return 0
 
         time_start = datetime.datetime.now()
 
         sql_query = """SELECT COUNT(DISTINCT(pa.protocollo_id)) 
             FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_department hd, hr_employee he, resource_resource rr
-            WHERE pp.type = '%s'
-                AND pp.id = pa.protocollo_id 
+            WHERE pp.id = pa.protocollo_id 
                 AND pa.assegnatario_department_id = hd.id
                 AND hd.id = he.department_id
                 AND he.resource_id = rr.id
@@ -839,7 +848,7 @@ class protocollo_protocollo(osv.Model):
                 AND pa.tipologia_assegnazione = 'competenza'
                 AND pa.state = 'assegnato'
                 AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
-        """ % (protocollo_type, uid)
+        """ % (uid)
 
         cr.execute(sql_query)
         result = cr.fetchall()
@@ -848,9 +857,8 @@ class protocollo_protocollo(osv.Model):
         time_end = datetime.datetime.now()
         time_duration = time_end - time_start
 
-        _logger.info("_assegnato_a_mio_ufficio_visibility_count: %d - %s - %.03f s" % (
+        _logger.info("_assegnato_a_mio_ufficio_visibility_count: %d - %.03f s" % (
             count_value,
-            protocollo_type,
             float(time_duration.microseconds) / 1000000
         ))
 
@@ -880,24 +888,27 @@ class protocollo_protocollo(osv.Model):
         _logger.info("_assegnato_a_mio_ufficio_cc_visibility_search" + str(end - start))
         return [('id', 'in', protocollo_visible_ids)]
 
-    @api.cr_uid
-    def _assegnato_a_mio_ufficio_cc_visibility_count_in(self, cr, uid):
-        return self._assegnato_a_mio_ufficio_cc_visibility_count(cr, uid, "in")
+    # @api.cr_uid
+    # def _assegnato_a_mio_ufficio_cc_visibility_count_in(self, cr, uid):
+    #     return self._assegnato_a_mio_ufficio_cc_visibility_count(cr, uid, "in")
+    #
+    # @api.cr_uid
+    # def _assegnato_a_mio_ufficio_cc_visibility_count_out(self, cr, uid):
+    #     return self._assegnato_a_mio_ufficio_cc_visibility_count(cr, uid, "out")
 
     @api.cr_uid
-    def _assegnato_a_mio_ufficio_cc_visibility_count_out(self, cr, uid):
-        return self._assegnato_a_mio_ufficio_cc_visibility_count(cr, uid, "out")
+    def _assegnato_a_mio_ufficio_cc_visibility_count_total(self, cr, uid):
+        return self._assegnato_a_mio_ufficio_cc_visibility_count(cr, uid, "")
 
     def _assegnato_a_mio_ufficio_cc_visibility_count(self, cr, uid, protocollo_type):
-        if not protocollo_type:
-            return 0
+        # if not protocollo_type:
+        #     return 0
 
         time_start = datetime.datetime.now()
 
         sql_query = """SELECT COUNT(DISTINCT(pa.protocollo_id)) 
             FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_department hd, hr_employee he, resource_resource rr
-            WHERE pp.type = '%s'
-                AND pp.id = pa.protocollo_id 
+            WHERE pp.id = pa.protocollo_id 
                 AND pa.assegnatario_department_id = hd.id
                 AND hd.id=he.department_id
                 AND he.resource_id = rr.id
@@ -907,7 +918,7 @@ class protocollo_protocollo(osv.Model):
                 AND pa.tipologia_assegnazione = 'conoscenza'
                 AND pa.state = 'assegnato'
                 AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
-        """ % (protocollo_type, uid)
+        """ % (uid)
 
         cr.execute(sql_query)
         result = cr.fetchall()
@@ -916,9 +927,8 @@ class protocollo_protocollo(osv.Model):
         time_end = datetime.datetime.now()
         time_duration = time_end - time_start
 
-        _logger.info("_assegnato_a_mio_ufficio_cc_visibility_count: %d - %s - %.03f s" % (
+        _logger.info("_assegnato_a_mio_ufficio_cc_visibility_count: %d - %.03f s" % (
             count_value,
-            protocollo_type,
             float(time_duration.microseconds) / 1000000
         ))
 
@@ -943,29 +953,32 @@ class protocollo_protocollo(osv.Model):
         _logger.info("_da_assegnare_visibility_search" + str(end - start))
         return [('id', 'in', protocollo_visible_ids)]
 
-    @api.cr_uid
-    def _da_assegnare_visibility_count_in(self, cr, uid):
-        return self._da_assegnare_visibility_count(cr, uid, "in")
+    # @api.cr_uid
+    # def _da_assegnare_visibility_count_in(self, cr, uid):
+    #     return self._da_assegnare_visibility_count(cr, uid, "in")
+    #
+    # @api.cr_uid
+    # def _da_assegnare_visibility_count_out(self, cr, uid):
+    #     return self._da_assegnare_visibility_count(cr, uid, "out")
 
     @api.cr_uid
-    def _da_assegnare_visibility_count_out(self, cr, uid):
-        return self._da_assegnare_visibility_count(cr, uid, "out")
+    def _da_assegnare_visibility_count_total(self, cr, uid):
+        return self._da_assegnare_visibility_count(cr, uid, "")
 
     def _da_assegnare_visibility_count(self, cr, uid, protocollo_type):
-        if not protocollo_type:
-            return 0
+        # if not protocollo_type:
+        #     return 0
 
         time_start = datetime.datetime.now()
 
         sql_query = """SELECT COUNT(DISTINCT(pp.id)) 
             FROM protocollo_protocollo pp, hr_employee he, resource_resource rr
-            WHERE pp.type = '%s' AND
-                  pp.registration_employee_id = he.id AND
+            WHERE pp.registration_employee_id = he.id AND
                   he.resource_id = rr.id AND
                   rr.user_id = %s AND
                   pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
                   pp.id NOT IN (SELECT protocollo_id FROM protocollo_assegnazione WHERE tipologia_assegnazione = 'competenza' AND parent_id IS NULL)
-            """ % (protocollo_type, uid)
+            """ % (uid)
 
         cr.execute(sql_query)
         result = cr.fetchall()
@@ -974,9 +987,8 @@ class protocollo_protocollo(osv.Model):
         time_end = datetime.datetime.now()
         time_duration = time_end - time_start
 
-        _logger.info("_da_assegnare_visibility_count: %d - %s - %.03f s" % (
+        _logger.info("_da_assegnare_visibility_count: %d - %.03f s" % (
             count_value,
-            protocollo_type,
             float(time_duration.microseconds) / 1000000
         ))
 
@@ -1005,24 +1017,27 @@ class protocollo_protocollo(osv.Model):
         _logger.info("_assegnato_da_me_in_attesa_visibility_search" + str(end - start))
         return [('id', 'in', protocollo_visible_ids)]
 
-    @api.cr_uid
-    def _assegnato_da_me_in_attesa_visibility_count_in(self, cr, uid):
-        return self._assegnato_da_me_in_attesa_visibility_count(cr, uid, "in")
+    # @api.cr_uid
+    # def _assegnato_da_me_in_attesa_visibility_count_in(self, cr, uid):
+    #     return self._assegnato_da_me_in_attesa_visibility_count(cr, uid, "in")
+    #
+    # @api.cr_uid
+    # def _assegnato_da_me_in_attesa_visibility_count_out(self, cr, uid):
+    #     return self._assegnato_da_me_in_attesa_visibility_count(cr, uid, "out")
 
     @api.cr_uid
-    def _assegnato_da_me_in_attesa_visibility_count_out(self, cr, uid):
-        return self._assegnato_da_me_in_attesa_visibility_count(cr, uid, "out")
+    def _assegnato_da_me_in_attesa_visibility_count_total(self, cr, uid):
+        return self._assegnato_da_me_in_attesa_visibility_count(cr, uid, "")
 
     def _assegnato_da_me_in_attesa_visibility_count(self, cr, uid, protocollo_type):
-        if not protocollo_type:
-            return 0
+        # if not protocollo_type:
+        #     return 0
 
         time_start = datetime.datetime.now()
 
         sql_query = """SELECT COUNT(DISTINCT(pa.protocollo_id)) 
             FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
-            WHERE pp.type = '%s'
-                AND pp.id = pa.protocollo_id  
+            WHERE pp.id = pa.protocollo_id  
                 AND pa.assegnatore_id = he.id 
                 AND he.resource_id = rr.id 
                 AND rr.user_id = %d 
@@ -1035,7 +1050,7 @@ class protocollo_protocollo(osv.Model):
                     )
                 )
                 AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
-            """ % (protocollo_type, uid)
+            """ % (uid)
 
         cr.execute(sql_query)
         result = cr.fetchall()
@@ -1044,9 +1059,8 @@ class protocollo_protocollo(osv.Model):
         time_end = datetime.datetime.now()
         time_duration = time_end - time_start
 
-        _logger.info("_assegnato_da_me_in_attesa_visibility_count: %d - %s - %.03f s" % (
+        _logger.info("_assegnato_da_me_in_attesa_visibility_count: %d - %.03f s" % (
             count_value,
-            protocollo_type,
             float(time_duration.microseconds) / 1000000
         ))
 
@@ -1074,24 +1088,27 @@ class protocollo_protocollo(osv.Model):
         _logger.info("_assegnato_da_me_in_rifiutato_visibility_search" + str(end - start))
         return [('id', 'in', protocollo_visible_ids)]
 
-    @api.cr_uid
-    def _assegnato_da_me_in_rifiutato_visibility_count_in(self, cr, uid):
-        return self._assegnato_da_me_in_rifiutato_visibility_count(cr, uid, "in")
+    # @api.cr_uid
+    # def _assegnato_da_me_in_rifiutato_visibility_count_in(self, cr, uid):
+    #     return self._assegnato_da_me_in_rifiutato_visibility_count(cr, uid, "in")
+    #
+    # @api.cr_uid
+    # def _assegnato_da_me_in_rifiutato_visibility_count_out(self, cr, uid):
+    #     return self._assegnato_da_me_in_rifiutato_visibility_count(cr, uid, "out")
 
     @api.cr_uid
-    def _assegnato_da_me_in_rifiutato_visibility_count_out(self, cr, uid):
-        return self._assegnato_da_me_in_rifiutato_visibility_count(cr, uid, "out")
+    def _assegnato_da_me_in_rifiutato_visibility_count_total(self, cr, uid):
+        return self._assegnato_da_me_in_rifiutato_visibility_count(cr, uid, "")
 
     def _assegnato_da_me_in_rifiutato_visibility_count(self, cr, uid, protocollo_type):
-        if not protocollo_type:
-            return 0
+        # if not protocollo_type:
+        #     return 0
 
         time_start = datetime.datetime.now()
 
         sql_query = """SELECT COUNT(DISTINCT(pa.protocollo_id))
             FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
-            WHERE pp.type = '%s'
-                AND pp.id = pa.protocollo_id 
+            WHERE pp.id = pa.protocollo_id 
                 AND pa.assegnatore_id = he.id
                 AND he.resource_id = rr.id
                 AND rr.user_id = %d
@@ -1099,7 +1116,7 @@ class protocollo_protocollo(osv.Model):
                 AND pa.tipologia_assegnazione = 'competenza'
                 AND pa.state = 'rifiutato'
                 AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
-        """ % (protocollo_type, uid)
+        """ % (uid)
 
         cr.execute(sql_query)
         result = cr.fetchall()
@@ -1108,9 +1125,8 @@ class protocollo_protocollo(osv.Model):
         time_end = datetime.datetime.now()
         time_duration = time_end - time_start
 
-        _logger.info("_assegnato_da_me_in_rifiutato_visibility_count: %d - %s - %.03f s" % (
+        _logger.info("_assegnato_da_me_in_rifiutato_visibility_count: %d - %.03f s" % (
             count_value,
-            protocollo_type,
             float(time_duration.microseconds) / 1000000
         ))
 

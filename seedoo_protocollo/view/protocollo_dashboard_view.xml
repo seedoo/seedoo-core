@@ -13,7 +13,16 @@
             <field name="context">{'sharedmail_messages': True, 'pec_messages': True}</field>
         </record>
 
-        <!-- ActWindow Protocollo Board Uscita -->
+        <record model="ir.actions.act_window" id="protocollo_board_totale_act">
+            <field name="name">Board Protocollo</field>
+            <field name="res_model">tile.tile</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban</field>
+            <field name="view_id" ref="web_dashboard_tile.dashboard_tile_tile_tree_view"/>
+            <field name="domain">[('tag_tile','=','totale'),('configuration_active','=',True)]</field>
+        </record>
+
+{#        <!-- ActWindow Protocollo Board Uscita -->
         <record model="ir.actions.act_window" id="protocollo_board_uscita_act">
             <field name="name">Board Protocollo Uscita</field>
             <field name="res_model">tile.tile</field>
@@ -31,9 +40,9 @@
             <field name="view_mode">kanban</field>
             <field name="view_id" ref="web_dashboard_tile.dashboard_tile_tile_tree_view"/>
             <field name="domain">[('tag_tile','=','ingresso'),('configuration_active','=',True)]</field>
-        </record>
+        </record>#}
 
-        <!-- ActWindow Protocollo Board Assegnazioni Ingresso -->
+{#        <!-- ActWindow Protocollo Board Assegnazioni Ingresso -->
         <record model="ir.actions.act_window" id="protocollo_board_uscita_assegnazioni_act">
             <field name="name">Board Protocollo Assegnazioni Uscita</field>
             <field name="res_model">tile.tile</field>
@@ -51,7 +60,7 @@
             <field name="view_mode">kanban</field>
             <field name="view_id" ref="web_dashboard_tile.dashboard_tile_tile_tree_view"/>
             <field name="domain">[('tag_tile','=','ingresso_assegnazioni')]</field>
-        </record>
+        </record>#}
 
         <!-- Vista Protocollo Dashboard -->
         <record model="ir.ui.view" id="protocollo_dashboard_form">
@@ -59,31 +68,15 @@
             <field name="model">board.board</field>
             <field name="arch" type="xml">
                 <form string="Seedoo Dashboard" version="8.0" class="seedoo-dashboard-container">
-                    <!--<board style="1-1-1">-->
-                        <!--<column>-->
-                            <!--<action string="Generale" name="%(protocollo_board_generale_act)d"/>-->
-                        <!--</column>-->
-                    <!--</board>-->
                     <board style="2-1">
                         <column>
                             <action string="Generale" name="%(protocollo_board_generale_act)d"/>
-                            <action string="Protocolli in Ingresso" name="%(protocollo_board_ingresso_act)d"/>
-                            <action string="Protocolli in Uscita" name="%(protocollo_board_uscita_act)d"/>
+                            <action string="Protocolli" name="%(protocollo_board_totale_act)d"/>
                         </column>
                         <column>
                             <action string="I miei dati" name="%(act_employee_protocollo_kanban)d"/>
-                            <!--<action string="Assegnati da me in Ingresso" name="%(protocollo_board_ingresso_assegnazioni_act)d"/>-->
-                            <!--<action string="Assegnati da me in Uscita" name="%(protocollo_board_uscita_assegnazioni_act)d"/>-->
                         </column>
                     </board>
-                    <!--<board style="2-1">-->
-                        <!--<column>-->
-                            <!--<action string="Uscita" name="%(protocollo_board_uscita_act)d"/>-->
-                        <!--</column>-->
-                        <!--<column>-->
-                            <!--<action string="Assegnazioni Uscita" name="%(protocollo_board_uscita_assegnazioni_act)d"/>-->
-                        <!--</column>-->
-                    <!--</board>-->
                 </form>
             </field>
         </record>

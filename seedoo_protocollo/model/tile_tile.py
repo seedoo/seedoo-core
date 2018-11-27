@@ -53,6 +53,7 @@ class TileTile(models.Model):
 
     TAG_SELECTION = [
         ('generale', 'Generale'),
+        ('totale', 'Totale'),
         ('ingresso', 'Ingresso'),
         ('uscita', 'Uscita'),
         ('ingresso_assegnazioni', 'Assegnazioni / Ingresso'),
