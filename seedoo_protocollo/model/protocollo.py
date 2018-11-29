@@ -346,11 +346,10 @@ class protocollo_protocollo(orm.Model):
                                       name, args, context=None):
         res = dict.fromkeys(ids, False)
         for protocol in self.browse(cr, uid, ids, {'skip_check': True}):
-            res[protocol.id] = u"\n".join(
-                [line.name for line
-                 in protocol.sender_receivers
-                 ]
-            )
+            if protocol.type == 'internal':
+                res[protocol.id] = protocol.sender_internal_name
+            else:
+                res[protocol.id] = u"\n".join([line.name for line in protocol.sender_receivers])
         return res
 
     def action_apri_stampa_etichetta(self, cr, uid, ids, context=None):
