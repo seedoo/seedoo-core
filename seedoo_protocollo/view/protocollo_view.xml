@@ -501,7 +501,7 @@ this module contains the full copyright notices and license terms. -->
                             </div>
                             <div class="dati-protocollo-container" id="emergenza-container" attrs="{'invisible':[('registration_type','=', 'normal')]}">
                                 <div class="protocollo-accordion-toggle open">
-                                    <h4 class="accordion-toggle">Dati Protocollazione di Emergenza</h4>
+                                    <h4 class="accordion-toggle">Dati Protocollazione Emergenza</h4>
                                 </div>
                                 <div class="accordion-content accordion-open">
                                     <group col="8">
