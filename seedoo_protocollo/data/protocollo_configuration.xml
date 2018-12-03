@@ -7,15 +7,15 @@
             <field name="rinomina_documento_allegati" eval="False"/>
             <field name="rinomina_oggetto_mail_pec" eval="False"/>
             <field name="inserisci_testo_mailpec" eval="False"/>
-            <field name="genera_segnatura" eval="True"/>
+            <field name="genera_segnatura" eval="False"/>
             <field name="aggiungi_allegati_post_registrazione" eval="True"/>
             <field name="rinomina_documento_allegati" eval="True"/>
             <field name="segnatura_xml_parse" eval="True"/>
             <field name="segnatura_xml_invia" eval="True"/>
-            <field name="conferma_xml_parse" eval="True"/>
-            <field name="conferma_xml_invia" eval="True"/>
-            <field name="annullamento_xml_parse" eval="True"/>
-            <field name="annullamento_xml_invia" eval="True"/>
+            <field name="conferma_xml_parse" eval="False"/>
+            <field name="conferma_xml_invia" eval="False"/>
+            <field name="annullamento_xml_parse" eval="False"/>
+            <field name="annullamento_xml_invia" eval="False"/>
             <field name="assegnatari_competenza_uffici_required" eval="True"/>
             <field name="data_ricezione_required" eval="True"/>
             <field name="inserisci_testo_mailpec" eval="True"/>
