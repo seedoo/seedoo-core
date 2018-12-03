@@ -51,7 +51,7 @@ class protocollo_configurazione(orm.Model):
         'inserisci_testo_mailpec': False,
         'rinomina_documento_allegati': True,
         'rinomina_oggetto_mail_pec': True,
-        'genera_segnatura': True,
+        'genera_segnatura': False,
         'classificazione_required': False,
         'fascicolazione_required': False,
         'assegnatari_competenza_uffici_required': False,
@@ -59,7 +59,7 @@ class protocollo_configurazione(orm.Model):
         'assegnatari_conoscenza_uffici_required': False,
         'assegnatari_conoscenza_dipendenti_required': False,
         'documento_required': False,
-        'allegati_descrizione_required': True,
+        'allegati_descrizione_required': False,
         'data_ricezione_required': False,
         'aggiungi_allegati_post_registrazione': False,
         'lunghezza_massima_oggetto_mail': 256,
@@ -89,11 +89,11 @@ class protocollo_configurazione(orm.Model):
             ])
             if not employee_ids:
                 campi_obbligatori = campi_obbligatori + '<li>Ufficio del Protocollo: la tua utenza non ha dipendenti collegati all\'ufficio selezionato</li>'
-        if not protocollo.typology:
+        if protocollo.type != 'internal' and not protocollo.typology:
             campi_obbligatori = campi_obbligatori + '<li>Mezzo Trasmissione</li>'
         if not protocollo.subject:
             campi_obbligatori = campi_obbligatori + '<li>Oggetto</li>'
-        if not protocollo.sender_receivers:
+        if protocollo.type != 'internal' and not protocollo.sender_receivers:
             send_rec = protocollo.type == 'in' and '<li>Mittenti</li>' or '<li>Destinatari</li>'
             campi_obbligatori = campi_obbligatori + send_rec
         if protocollo.type == 'in' and (protocollo.pec or protocollo.sharedmail):
@@ -101,6 +101,9 @@ class protocollo_configurazione(orm.Model):
                 if not sr.name:
                     campi_obbligatori = campi_obbligatori + '<li>Nome Cognome/Ragione sociale del Mittente</li>'
                     break
+
+        if protocollo.type == 'internal' and not protocollo.sender_internal_name:
+            campi_obbligatori = campi_obbligatori + '<li>Mittente</li>'
 
         if protocollo.type == 'out' and protocollo.pec:
             for sr in protocollo.sender_receivers:

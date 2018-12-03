@@ -471,6 +471,8 @@ this module contains the full copyright notices and license terms. -->
                             <field name="pec" colspan="2" invisible="1"/>
                             <field name="sharedmail" colspan="2" invisible="1"/>
                             <field name="creation_date" class="seedoocustom_protocollo_creation_date" invisible="1"/>
+                            <field name="registration_type" invisible="1"/>
+                            <field name="emergency_active" invisible="1"/>
                         </div>
                         <!--<div id="stato-protocollo">-->
                             <!--<field name="state" invisible="1"/>-->
@@ -497,6 +499,20 @@ this module contains the full copyright notices and license terms. -->
                                     </group>
                                 </div>
                             </div>
+                            <div class="dati-protocollo-container" id="emergenza-container" attrs="{'invisible':[('registration_type','=', 'normal')]}">
+                                <div class="protocollo-accordion-toggle open">
+                                    <h4 class="accordion-toggle">Dati Protocollazione Emergenza</h4>
+                                </div>
+                                <div class="accordion-content accordion-open">
+                                    <group col="8">
+                                        <field name="emergency_protocol"
+                                               attrs="{'required':[('registration_type','=','emergency')]}"/>
+                                        <field name="emergency_receiving_date"
+                                               attrs="{'required':[('registration_type','=','emergency')]}"
+                                               on_change="on_change_emergency_receiving_date(emergency_receiving_date)"/>
+                                    </group>
+                                </div>
+                            </div>
                             <div class="dati-protocollo-container" id="documento-container">
                                 <div class="protocollo-accordion-toggle open">
                                     <h4 class="accordion-toggle">Dati Documento</h4>
@@ -511,7 +527,7 @@ this module contains the full copyright notices and license terms. -->
                                     </group>
                                     <group col="8">
                                         <group>
-                                            <field name="typology" on_change="on_change_typology(typology)" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}"/>
+                                            <field name="typology" attrs="{'invisible' : [('type','=','internal')]}" on_change="on_change_typology(typology)" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}"/>
                                             <field name="subject" attrs="{'required':[('state','!=','draft')]}" class="protocollo_oggetto"/>
                                             <field name="doc_content" filename="doc_fname" attrs="{'invisible':[('doc_id','=',False)]}"/>
                                             <field name="doc_description" attrs="{'invisible':[('doc_id','=',False)]}"/>
@@ -538,7 +554,7 @@ this module contains the full copyright notices and license terms. -->
                                                 <field name="server_pec_id" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}" attrs="{'invisible':['|',('pec','!=',True),('type','=','in')],
                                                                                                     'required': [('pec','=',True),('type','=','out')], 'readonly':[('state','!=','draft')]}"
                                                        class="seedoocustom_protocollo_server_pec_id"/>
-                                                <field name="receiving_date" attrs="{'invisible':[('type','=','out')]}" class="seedoocustom_protocollo_receiving_date"/>
+                                                <field name="receiving_date" attrs="{'invisible':['|', ('type','=','out'), ('type','=','internal')]}" class="seedoocustom_protocollo_receiving_date"/>
                                                 <field name="body" attrs="{'invisible':['|','|',('type','=','in'),('inserisci_testo_mailpec_visibility','=',False),'&amp;',('sharedmail','=',False),('pec','=',False)],'readonly':[('state','!=','draft')]}"
                                                        class="seedoocustom_protocollo_body"/>
                                             </group>
@@ -586,26 +602,41 @@ this module contains the full copyright notices and license terms. -->
                             </div>
                         </div>
 
-                        <group
-                               string="Informazioni Emergenza"
-                                   attrs="{'invisible':[('emergency_active','=', False)]}">
-                                <field name="emergency_active" invisible="1"/>
-                                <field name="registration_type"/>
-                        </group>
-                        <group string="Dati Emergenza"
-                               attrs="{'invisible':[('registration_type','=','normal')]}">
-                            <field name="emergency_protocol"
-                                   attrs="{'required':[('registration_type','=','emergency')]}"/>
-                            <field name="emergency_receiving_date"
-                                   attrs="{'required':[('registration_type','=','emergency')]}"
-                                   on_change="on_change_emergency_receiving_date(emergency_receiving_date)"/>
-                        </group>
                         <group>
                             <field name="user_id" readonly="1" options="{'no_open': True}" invisible="1"/>
                         </group>
 
                         <notebook class="protocollo_form_tabs">
-                            <page string="Mittente" attrs="{'invisible':['|',('type','!=','in')]}" class="tab-mittente tab-sr">
+                            <page string="Mittente" attrs="{'invisible':['|',('type','!=','internal')]}" class="tab-mittente tab-sr">
+                                <div class="oe_edit_only">
+                                    <button name="%(protocollo_aggiungi_sender_internal_action)d"
+                                            string="Aggiungi Mittente"
+                                            type="action"
+                                            attrs="{'invisible':['|',('state','!=','draft'),('sender_internal_name','!=', False)]}"
+                                            class="oe_highlight_positive btn_seedoo btn_aggiungi_assegnatari"/>
+                                    <newline/>
+                                    <button name="%(protocollo_aggiungi_sender_internal_action)d"
+                                            string="Modifica Mittente"
+                                            type="action"
+                                            attrs="{'invisible':['|',('state','!=','draft'),('sender_internal_name','=', False)]}"
+                                            class="oe_highlight_positive btn_seedoo btn_modifica_assegnatari"/>
+                                </div>
+                                <div class="box-sender-internal" attrs="{'invisible':[('sender_internal_name','=', False)]}">
+                                    <field name="sender_internal_employee_image" nolabel="1" widget='image' attrs="{'invisible':[('sender_internal_name','=', False)]}" class="oe_left oe_avatar"/>
+                                    <div class="dep-data">
+                                        <field name="sender_internal_department" options="{'no_open': True}" readonly="1" class="sender-department" string="Ufficio" attrs="{'invisible':[('sender_internal_department','=', False)]}"/>
+                                        <field name="sender_internal_employee" options="{'no_open': True}" readonly="1" class="sender-employee" string="Dipendente" attrs="{'invisible':[('sender_internal_employee','=', False)]}"/>
+                                    </div>
+                                    <field name="sender_internal_name" nolabel="1" readonly="1" string="Dipendente"/>
+                                    <button name="action_remove_sender_internal"
+                                            context="{'protocollo_id': active_id}"
+                                            string="x"
+                                            type="object"
+                                            attrs="{'invisible':['|',('state','!=','draft'),('sender_internal_name','=', False)]}"
+                                            class="oe_highlight_positive btn_seedoo btn_rimuovi_mittente"/>
+                                </div>
+                            </page>
+                            <page string="Mittente" attrs="{'invisible':[('type','!=','in')]}" class="tab-mittente tab-sr">
                                 <group col="4" colspan="4">
                                     <field name="senders" mode="kanban" nolabel="1" attrs="{'readonly':[('state','!=','draft')]}"/>
                                 </group>
@@ -837,7 +868,9 @@ this module contains the full copyright notices and license terms. -->
                            filter_domain="['|', ('name','ilike',self), ('registration_date','ilike',self)]"
                            string="Numero Protocollo"/>
                     <field name="user_id"/>
-                    <field name="sender_receivers"/>
+                    <field name="sender_receivers"
+                           filter_domain="['|', ('sender_receivers.name', 'ilike', self), ('sender_internal_name', 'ilike', self)]"
+                           string="Mittente/Destinatario"/>
                     <field name="sender_receivers"
                            string="Mittente/Destinatario E-mail"
                            filter_domain="[('sender_receivers.email', 'ilike', self)]"/>
@@ -891,6 +924,7 @@ this module contains the full copyright notices and license terms. -->
                     <group string="Tipo">
                         <filter string="Ingresso" name="in" domain="[('type','=','in')]"/>
                         <filter string="Uscita" name="out" domain="[('type','=','out')]"/>
+                        <filter string="Interno" name="internal" domain="[('type','=','internal')]"/>
                     </group>
                     <group string="Mezzo di trasmissione">
                         <filter string="E-mail" name="sharedmail" domain="[('sharedmail','=',True)]"/>

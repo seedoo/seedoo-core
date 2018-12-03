@@ -176,15 +176,18 @@ class protocollo_protocollo(osv.Model):
             ############################################################################################################
 
             start_time = time.time()
-            # un utente deve poter vedere i protocolli (IN e OUT) REGISTRATI dal suo UFFICIO di appartenenza
+            # un utente deve poter vedere i protocolli (IN, OUT, INTERNAL) REGISTRATI dal suo UFFICIO di appartenenza
             check_gruppo_in = self.user_has_groups(cr, current_user_id,
                                                    'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ufficio')
             check_gruppo_out = self.user_has_groups(cr, current_user_id,
                                                     'seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ufficio')
-            if (check_gruppo_in or check_gruppo_out) and employee_department_ids:
+            check_gruppo_internal = self.user_has_groups(cr, current_user_id,
+                                                    'seedoo_protocollo.group_vedi_protocolli_interno_registrati_ufficio')
+            if (check_gruppo_in or check_gruppo_out or check_gruppo_internal) and employee_department_ids:
                 types = []
                 if check_gruppo_in: types.append('in')
                 if check_gruppo_out: types.append('out')
+                if check_gruppo_internal: types.append('internal')
                 cr.execute('''
                     SELECT DISTINCT(pp.id)
                     FROM protocollo_protocollo pp
@@ -198,15 +201,18 @@ class protocollo_protocollo(osv.Model):
             _logger.info("---Query department  %s seconds ---" % (time.time() - start_time))
 
             start_time = time.time()
-            # un utente deve poter vedere i protocolli (IN e OUT) REGISTRATI da un UFFICIO FIGLIO del suo ufficio di appartenenza.
+            # un utente deve poter vedere i protocolli (IN, OUT, INTERNAL) REGISTRATI da un UFFICIO FIGLIO del suo ufficio di appartenenza.
             check_gruppo_in = self.user_has_groups(cr, current_user_id,
                                                    'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ufficio_figlio')
             check_gruppo_out = self.user_has_groups(cr, current_user_id,
                                                     'seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ufficio_figlio')
-            if (check_gruppo_in or check_gruppo_out) and employee_department_child_ids:
+            check_gruppo_internal = self.user_has_groups(cr, current_user_id,
+                                                    'seedoo_protocollo.group_vedi_protocolli_interno_registrati_ufficio_figlio')
+            if (check_gruppo_in or check_gruppo_out or check_gruppo_internal) and employee_department_child_ids:
                 types = []
                 if check_gruppo_in: types.append('in')
                 if check_gruppo_out: types.append('out')
+                if check_gruppo_internal: types.append('internal')
                 cr.execute('''
                     SELECT DISTINCT(pp.id)
                     FROM protocollo_protocollo pp
@@ -220,15 +226,18 @@ class protocollo_protocollo(osv.Model):
             _logger.info("---Query ids_department_childs  %s seconds ---" % (time.time() - start_time))
 
             start_time = time.time()
-            # un utente deve poter vedere QUALUNQUE protocollo (IN e OUT) in stato BOZZA appartenente alla sua AOO
+            # un utente deve poter vedere QUALUNQUE protocollo (IN, OUT, INTERNAL) in stato BOZZA appartenente alla sua AOO
             check_gruppo_in = self.user_has_groups(cr, current_user_id,
                                                    'seedoo_protocollo.group_vedi_protocolli_ingresso_bozza')
             check_gruppo_out = self.user_has_groups(cr, current_user_id,
                                                     'seedoo_protocollo.group_vedi_protocolli_uscita_bozza')
-            if (check_gruppo_in or check_gruppo_out) and aoo_ids:
+            check_gruppo_internal = self.user_has_groups(cr, current_user_id,
+                                                    'seedoo_protocollo.group_vedi_protocolli_interno_bozza')
+            if (check_gruppo_in or check_gruppo_out or check_gruppo_internal) and aoo_ids:
                 types = []
                 if check_gruppo_in: types.append('in')
                 if check_gruppo_out: types.append('out')
+                if check_gruppo_internal: types.append('internal')
                 protocollo_ids_aoo = self.search(cr, uid, [
                     ('type', 'in', types),
                     ('state', '=', 'draft'),
@@ -238,15 +247,18 @@ class protocollo_protocollo(osv.Model):
             _logger.info("---Query aoo  %s seconds ---" % (time.time() - start_time))
 
             start_time = time.time()
-            # un utente deve poter vedere QUALUNQUE protocollo (IN e OUT) REGISTRATO da un utente della sua AOO
+            # un utente deve poter vedere QUALUNQUE protocollo (IN, OUT, INTERNAL) REGISTRATO da un utente della sua AOO
             check_gruppo_in = self.user_has_groups(cr, current_user_id,
                                                    'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati')
             check_gruppo_out = self.user_has_groups(cr, current_user_id,
                                                     'seedoo_protocollo.group_vedi_protocolli_uscita_registrati')
-            if (check_gruppo_in or check_gruppo_out) and aoo_ids:
+            check_gruppo_internal = self.user_has_groups(cr, current_user_id,
+                                                    'seedoo_protocollo.group_vedi_protocolli_interno_registrati')
+            if (check_gruppo_in or check_gruppo_out or check_gruppo_internal) and aoo_ids:
                 types = []
                 if check_gruppo_in: types.append('in')
                 if check_gruppo_out: types.append('out')
+                if check_gruppo_internal: types.append('internal')
                 protocollo_ids_aoo = self.search(cr, uid, [
                     ('type', 'in', types),
                     ('registration_employee_id', '!=', False),
@@ -256,15 +268,18 @@ class protocollo_protocollo(osv.Model):
             _logger.info("---Query aoo 2  %s seconds ---" % (time.time() - start_time))
 
             start_time = time.time()
-            # un utente deve poter vedere i protocolli (IN e OUT) REGISTRATI e ASSEGNATI ad un UTENTE del suo UFFICIO di appartenenza
+            # un utente deve poter vedere i protocolli (IN, OUT, INTERNAL) REGISTRATI e ASSEGNATI ad un UTENTE del suo UFFICIO di appartenenza
             check_gruppo_in = self.user_has_groups(cr, current_user_id,
                                                    'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ass_ut_uff')
             check_gruppo_out = self.user_has_groups(cr, current_user_id,
                                                     'seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ass_ut_uff')
-            if (check_gruppo_in or check_gruppo_out) and employee_department_ids:
+            check_gruppo_internal = self.user_has_groups(cr, current_user_id,
+                                                    'seedoo_protocollo.group_vedi_protocolli_interno_registrati_ass_ut_uff')
+            if (check_gruppo_in or check_gruppo_out or check_gruppo_internal) and employee_department_ids:
                 types = []
                 if check_gruppo_in: types.append('in')
                 if check_gruppo_out: types.append('out')
+                if check_gruppo_internal: types.append('internal')
                 assegnazione_ids = assegnazione_obj.search(cr, uid, [
                     ('tipologia_assegnatario', '=', 'employee'),
                     ('parent_id', '=', False),
@@ -279,15 +294,18 @@ class protocollo_protocollo(osv.Model):
             _logger.info("---Query registrati_ass_ut_uff  %s seconds ---" % (time.time() - start_time))
 
             start_time = time.time()
-            # un utente deve poter vedere i protocolli (IN e OUT) REGISTRATI e ASSEGNATI ad un suo UFFICIO FIGLIO
+            # un utente deve poter vedere i protocolli (IN, OUT, INTERNAL) REGISTRATI e ASSEGNATI ad un suo UFFICIO FIGLIO
             check_gruppo_in = self.user_has_groups(cr, current_user_id,
                                                    'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ass_uff_fig')
             check_gruppo_out = self.user_has_groups(cr, current_user_id,
                                                     'seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ass_uff_fig')
-            if (check_gruppo_in or check_gruppo_out) and employee_department_child_ids:
+            check_gruppo_internal = self.user_has_groups(cr, current_user_id,
+                                                    'seedoo_protocollo.group_vedi_protocolli_interno_registrati_ass_uff_fig')
+            if (check_gruppo_in or check_gruppo_out or check_gruppo_internal) and employee_department_child_ids:
                 types = []
                 if check_gruppo_in: types.append('in')
                 if check_gruppo_out: types.append('out')
+                if check_gruppo_internal: types.append('internal')
                 assegnazione_ids = assegnazione_obj.search(cr, uid, [
                     ('tipologia_assegnatario', '=', 'department'),
                     #('assegnatario_department_parent_id', '=', employee.department_id.id)
@@ -307,10 +325,13 @@ class protocollo_protocollo(osv.Model):
                                                    'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ass_ut_uff_fig')
             check_gruppo_out = self.user_has_groups(cr, current_user_id,
                                                     'seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ass_ut_uff_fig')
-            if (check_gruppo_in or check_gruppo_out) and employee_department_child_ids:
+            check_gruppo_internal = self.user_has_groups(cr, current_user_id,
+                                                    'seedoo_protocollo.group_vedi_protocolli_interno_registrati_ass_ut_uff_fig')
+            if (check_gruppo_in or check_gruppo_out or check_gruppo_internal) and employee_department_child_ids:
                 types = []
                 if check_gruppo_in: types.append('in')
                 if check_gruppo_out: types.append('out')
+                if check_gruppo_internal: types.append('internal')
                 assegnazione_ids = assegnazione_obj.search(cr, uid, [
                     ('tipologia_assegnatario', '=', 'employee'),
                     ('parent_id', '=', False),
@@ -326,15 +347,18 @@ class protocollo_protocollo(osv.Model):
             _logger.info("---Query ass_ut_uff_fig  %s seconds ---" % (time.time() - start_time))
 
             start_time = time.time()
-            # un utente deve poter vedere i protocolli (IN e OUT) REGISTRATI, ASSEGNATI e RIFIUTATI da un UTENTE del suo UFFICIO
+            # un utente deve poter vedere i protocolli (IN, OUT, INTERNAL) REGISTRATI, ASSEGNATI e RIFIUTATI da un UTENTE del suo UFFICIO
             check_gruppo_in = self.user_has_groups(cr, current_user_id,
                                                    'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ass_rif_ut_uff')
             check_gruppo_out = self.user_has_groups(cr, current_user_id,
                                                     'seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ass_rif_ut_uff')
-            if (check_gruppo_in or check_gruppo_out) and employee_department_ids:
+            check_gruppo_internal = self.user_has_groups(cr, current_user_id,
+                                                    'seedoo_protocollo.group_vedi_protocolli_interno_registrati_ass_rif_ut_uff')
+            if (check_gruppo_in or check_gruppo_out or check_gruppo_internal) and employee_department_ids:
                 types = []
                 if check_gruppo_in: types.append('in')
                 if check_gruppo_out: types.append('out')
+                if check_gruppo_internal: types.append('internal')
                 assegnazione_ids = assegnazione_obj.search(cr, uid, [
                     ('tipologia_assegnatario', '=', 'employee'),
                     ('assegnatario_employee_department_id', 'in', employee_department_ids),
@@ -524,25 +548,28 @@ class protocollo_protocollo(osv.Model):
         protocollo_visible_ids = self.search(cr, uid, [('state', '=', 'draft'), ('user_id', '=', uid)])
         return [('id', 'in', protocollo_visible_ids)]
 
-    @api.cr_uid
-    def _bozza_creato_da_me_visibility_count_in(self, cr, uid):
-        return self._bozza_creato_da_me_visibility_count(cr, uid, "in")
+    # @api.cr_uid
+    # def _bozza_creato_da_me_visibility_count_in(self, cr, uid):
+    #     return self._bozza_creato_da_me_visibility_count(cr, uid, "in")
+    #
+    # @api.cr_uid
+    # def _bozza_creato_da_me_visibility_count_out(self, cr, uid):
+    #     return self._bozza_creato_da_me_visibility_count(cr, uid, "out")
 
     @api.cr_uid
-    def _bozza_creato_da_me_visibility_count_out(self, cr, uid):
-        return self._bozza_creato_da_me_visibility_count(cr, uid, "out")
+    def _bozza_creato_da_me_visibility_count_total(self, cr, uid):
+        return self._bozza_creato_da_me_visibility_count(cr, uid, "")
 
     def _bozza_creato_da_me_visibility_count(self, cr, uid, protocollo_type):
-        if not protocollo_type:
-            return 0
+        # if not protocollo_type:
+        #     return 0
 
         time_start = datetime.datetime.now()
 
         sql_query = """SELECT COUNT(pp.id)
                        FROM protocollo_protocollo pp
-                       WHERE pp.type = '%s'
-                             AND pp.state = 'draft'
-                            AND pp.user_id = %d""" % (protocollo_type, uid)
+                       WHERE pp.state = 'draft'
+                            AND pp.user_id = %d""" % (uid)
 
         cr.execute(sql_query)
         result = cr.fetchall()
@@ -551,9 +578,8 @@ class protocollo_protocollo(osv.Model):
         time_end = datetime.datetime.now()
         time_duration = time_end - time_start
 
-        _logger.info("_bozza_creato_da_me_visibility_count: %d - %s - %.03f s" % (
+        _logger.info("_bozza_creato_da_me_visibility_count: %d - %.03f s" % (
             count_value,
-            protocollo_type,
             float(time_duration.microseconds) / 1000000
         ))
 
@@ -584,24 +610,27 @@ class protocollo_protocollo(osv.Model):
         _logger.info("_assegnato_a_me_visibility_search: " + str(end - start))
         return [('id', 'in', protocollo_visible_ids)]
 
-    @api.cr_uid
-    def _assegnato_a_me_visibility_count_in(self, cr, uid):
-        return self._assegnato_a_me_visibility_count(cr, uid, "in")
+    # @api.cr_uid
+    # def _assegnato_a_me_visibility_count_in(self, cr, uid):
+    #     return self._assegnato_a_me_visibility_count(cr, uid, "in")
+    #
+    # @api.cr_uid
+    # def _assegnato_a_me_visibility_count_out(self, cr, uid):
+    #     return self._assegnato_a_me_visibility_count(cr, uid, "out")
 
     @api.cr_uid
-    def _assegnato_a_me_visibility_count_out(self, cr, uid):
-        return self._assegnato_a_me_visibility_count(cr, uid, "out")
+    def _assegnato_a_me_visibility_count_total(self, cr, uid):
+        return self._assegnato_a_me_visibility_count(cr, uid, "")
 
     def _assegnato_a_me_visibility_count(self, cr, uid, protocollo_type):
-        if not protocollo_type:
-            return 0
+        # if not protocollo_type:
+        #     return 0
 
         time_start = datetime.datetime.now()
 
         sql_query = """SELECT COUNT(DISTINCT(pa.protocollo_id)) 
             FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
-            WHERE pp.type = '%s'
-                AND pp.id = pa.protocollo_id
+            WHERE pp.id = pa.protocollo_id
                 AND pa.assegnatario_employee_id = he.id
                 AND he.resource_id = rr.id
                 AND rr.user_id = %d
@@ -611,7 +640,7 @@ class protocollo_protocollo(osv.Model):
                 AND pa.state = 'assegnato'
                 AND pa.parent_id IS NULL
                 AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
-        """ % (protocollo_type, uid)
+        """ % (uid)
 
         cr.execute(sql_query)
         result = cr.fetchall()
@@ -620,9 +649,8 @@ class protocollo_protocollo(osv.Model):
         time_end = datetime.datetime.now()
         time_duration = time_end - time_start
 
-        _logger.info("_assegnato_a_me_visibility_count: %d - %s - %.03f s" % (
+        _logger.info("_assegnato_a_me_visibility_count: %d - %.03f s" % (
             count_value,
-            protocollo_type,
             float(time_duration.microseconds) / 1000000
         ))
 
@@ -651,25 +679,28 @@ class protocollo_protocollo(osv.Model):
         _logger.info("_assegnato_cc_visibility_search: " + str(end - start))
         return [('id', 'in', protocollo_visible_ids)]
 
-    @api.cr_uid
-    def _assegnato_cc_visibility_count_in(self, cr, uid):
-        return self._assegnato_cc_visibility_count(cr, uid, "in")
+    # @api.cr_uid
+    # def _assegnato_cc_visibility_count_in(self, cr, uid):
+    #     return self._assegnato_cc_visibility_count(cr, uid, "in")
+    #
+    # @api.cr_uid
+    # def _assegnato_cc_visibility_count_out(self, cr, uid):
+    #     return self._assegnato_cc_visibility_count(cr, uid, "out")
 
     @api.cr_uid
-    def _assegnato_cc_visibility_count_out(self, cr, uid):
-        return self._assegnato_cc_visibility_count(cr, uid, "out")
+    def _assegnato_cc_visibility_count_total(self, cr, uid):
+        return self._assegnato_cc_visibility_count(cr, uid, "")
 
     def _assegnato_cc_visibility_count(self, cr, uid, protocollo_type):
-        if not protocollo_type:
-            return 0
+        # if not protocollo_type:
+        #     return 0
 
         time_start = datetime.datetime.now()
 
         sql_query = """
             SELECT COUNT(DISTINCT(pa.protocollo_id)) 
             FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
-            WHERE pp.type = '%s' AND
-                  pp.id = pa.protocollo_id AND
+            WHERE pp.id = pa.protocollo_id AND
                   (
                       (pa.tipologia_assegnatario = 'employee' AND pa.parent_id IS NULL AND pa.assegnatario_employee_id = he.id AND he.resource_id = rr.id AND rr.user_id = %s) OR 
                       (pa.tipologia_assegnatario = 'department' AND pa.assegnatario_department_id = he.department_id AND he.resource_id = rr.id AND rr.user_id = %s)
@@ -678,7 +709,7 @@ class protocollo_protocollo(osv.Model):
                   pa.tipologia_assegnazione = 'conoscenza' AND 
                   pa.state = 'assegnato' AND
                   pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
-        """ % (protocollo_type, uid, uid)
+        """ % (uid, uid)
 
         cr.execute(sql_query)
         result = cr.fetchall()
@@ -687,9 +718,8 @@ class protocollo_protocollo(osv.Model):
         time_end = datetime.datetime.now()
         time_duration = time_end - time_start
 
-        _logger.info("_assegnato_cc_visibility_count: %d - %s - %.03f s" % (
+        _logger.info("_assegnato_cc_visibility_count: %d - %.03f s" % (
             count_value,
-            protocollo_type,
             float(time_duration.microseconds) / 1000000
         ))
 
@@ -720,13 +750,13 @@ class protocollo_protocollo(osv.Model):
         _logger.info("_assegnato_a_me_cc_visibility_search: " + str(end - start))
         return [('id', 'in', protocollo_visible_ids)]
 
-    @api.cr_uid
-    def _assegnato_a_me_cc_visibility_count_in(self, cr, uid):
-        return self._assegnato_a_me_cc_visibility_count(cr, uid, "in")
-
-    @api.cr_uid
-    def _assegnato_a_me_cc_visibility_count_out(self, cr, uid):
-        return self._assegnato_a_me_cc_visibility_count(cr, uid, "out")
+    # @api.cr_uid
+    # def _assegnato_a_me_cc_visibility_count_in(self, cr, uid):
+    #     return self._assegnato_a_me_cc_visibility_count(cr, uid, "in")
+    #
+    # @api.cr_uid
+    # def _assegnato_a_me_cc_visibility_count_out(self, cr, uid):
+    #     return self._assegnato_a_me_cc_visibility_count(cr, uid, "out")
 
     def _assegnato_a_me_cc_visibility_count(self, cr, uid, protocollo_type):
         if not protocollo_type:
@@ -788,24 +818,27 @@ class protocollo_protocollo(osv.Model):
         _logger.info("_assegnato_a_mio_ufficio_visibility_search: " + str(end - start))
         return [('id', 'in', protocollo_visible_ids)]
 
-    @api.cr_uid
-    def _assegnato_a_mio_ufficio_visibility_count_in(self, cr, uid):
-        return self._assegnato_a_mio_ufficio_visibility_count(cr, uid, "in")
+    # @api.cr_uid
+    # def _assegnato_a_mio_ufficio_visibility_count_in(self, cr, uid):
+    #     return self._assegnato_a_mio_ufficio_visibility_count(cr, uid, "in")
+    #
+    # @api.cr_uid
+    # def _assegnato_a_mio_ufficio_visibility_count_out(self, cr, uid):
+    #     return self._assegnato_a_mio_ufficio_visibility_count(cr, uid, "out")
 
     @api.cr_uid
-    def _assegnato_a_mio_ufficio_visibility_count_out(self, cr, uid):
-        return self._assegnato_a_mio_ufficio_visibility_count(cr, uid, "out")
+    def _assegnato_a_mio_ufficio_visibility_count_total(self, cr, uid):
+        return self._assegnato_a_mio_ufficio_visibility_count(cr, uid, "")
 
     def _assegnato_a_mio_ufficio_visibility_count(self, cr, uid, protocollo_type):
-        if not protocollo_type:
-            return 0
+        # if not protocollo_type:
+        #     return 0
 
         time_start = datetime.datetime.now()
 
         sql_query = """SELECT COUNT(DISTINCT(pa.protocollo_id)) 
             FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_department hd, hr_employee he, resource_resource rr
-            WHERE pp.type = '%s'
-                AND pp.id = pa.protocollo_id 
+            WHERE pp.id = pa.protocollo_id 
                 AND pa.assegnatario_department_id = hd.id
                 AND hd.id = he.department_id
                 AND he.resource_id = rr.id
@@ -815,7 +848,7 @@ class protocollo_protocollo(osv.Model):
                 AND pa.tipologia_assegnazione = 'competenza'
                 AND pa.state = 'assegnato'
                 AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
-        """ % (protocollo_type, uid)
+        """ % (uid)
 
         cr.execute(sql_query)
         result = cr.fetchall()
@@ -824,9 +857,8 @@ class protocollo_protocollo(osv.Model):
         time_end = datetime.datetime.now()
         time_duration = time_end - time_start
 
-        _logger.info("_assegnato_a_mio_ufficio_visibility_count: %d - %s - %.03f s" % (
+        _logger.info("_assegnato_a_mio_ufficio_visibility_count: %d - %.03f s" % (
             count_value,
-            protocollo_type,
             float(time_duration.microseconds) / 1000000
         ))
 
@@ -856,24 +888,27 @@ class protocollo_protocollo(osv.Model):
         _logger.info("_assegnato_a_mio_ufficio_cc_visibility_search" + str(end - start))
         return [('id', 'in', protocollo_visible_ids)]
 
-    @api.cr_uid
-    def _assegnato_a_mio_ufficio_cc_visibility_count_in(self, cr, uid):
-        return self._assegnato_a_mio_ufficio_cc_visibility_count(cr, uid, "in")
+    # @api.cr_uid
+    # def _assegnato_a_mio_ufficio_cc_visibility_count_in(self, cr, uid):
+    #     return self._assegnato_a_mio_ufficio_cc_visibility_count(cr, uid, "in")
+    #
+    # @api.cr_uid
+    # def _assegnato_a_mio_ufficio_cc_visibility_count_out(self, cr, uid):
+    #     return self._assegnato_a_mio_ufficio_cc_visibility_count(cr, uid, "out")
 
     @api.cr_uid
-    def _assegnato_a_mio_ufficio_cc_visibility_count_out(self, cr, uid):
-        return self._assegnato_a_mio_ufficio_cc_visibility_count(cr, uid, "out")
+    def _assegnato_a_mio_ufficio_cc_visibility_count_total(self, cr, uid):
+        return self._assegnato_a_mio_ufficio_cc_visibility_count(cr, uid, "")
 
     def _assegnato_a_mio_ufficio_cc_visibility_count(self, cr, uid, protocollo_type):
-        if not protocollo_type:
-            return 0
+        # if not protocollo_type:
+        #     return 0
 
         time_start = datetime.datetime.now()
 
         sql_query = """SELECT COUNT(DISTINCT(pa.protocollo_id)) 
             FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_department hd, hr_employee he, resource_resource rr
-            WHERE pp.type = '%s'
-                AND pp.id = pa.protocollo_id 
+            WHERE pp.id = pa.protocollo_id 
                 AND pa.assegnatario_department_id = hd.id
                 AND hd.id=he.department_id
                 AND he.resource_id = rr.id
@@ -883,7 +918,7 @@ class protocollo_protocollo(osv.Model):
                 AND pa.tipologia_assegnazione = 'conoscenza'
                 AND pa.state = 'assegnato'
                 AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
-        """ % (protocollo_type, uid)
+        """ % (uid)
 
         cr.execute(sql_query)
         result = cr.fetchall()
@@ -892,9 +927,8 @@ class protocollo_protocollo(osv.Model):
         time_end = datetime.datetime.now()
         time_duration = time_end - time_start
 
-        _logger.info("_assegnato_a_mio_ufficio_cc_visibility_count: %d - %s - %.03f s" % (
+        _logger.info("_assegnato_a_mio_ufficio_cc_visibility_count: %d - %.03f s" % (
             count_value,
-            protocollo_type,
             float(time_duration.microseconds) / 1000000
         ))
 
@@ -919,29 +953,32 @@ class protocollo_protocollo(osv.Model):
         _logger.info("_da_assegnare_visibility_search" + str(end - start))
         return [('id', 'in', protocollo_visible_ids)]
 
-    @api.cr_uid
-    def _da_assegnare_visibility_count_in(self, cr, uid):
-        return self._da_assegnare_visibility_count(cr, uid, "in")
+    # @api.cr_uid
+    # def _da_assegnare_visibility_count_in(self, cr, uid):
+    #     return self._da_assegnare_visibility_count(cr, uid, "in")
+    #
+    # @api.cr_uid
+    # def _da_assegnare_visibility_count_out(self, cr, uid):
+    #     return self._da_assegnare_visibility_count(cr, uid, "out")
 
     @api.cr_uid
-    def _da_assegnare_visibility_count_out(self, cr, uid):
-        return self._da_assegnare_visibility_count(cr, uid, "out")
+    def _da_assegnare_visibility_count_total(self, cr, uid):
+        return self._da_assegnare_visibility_count(cr, uid, "")
 
     def _da_assegnare_visibility_count(self, cr, uid, protocollo_type):
-        if not protocollo_type:
-            return 0
+        # if not protocollo_type:
+        #     return 0
 
         time_start = datetime.datetime.now()
 
         sql_query = """SELECT COUNT(DISTINCT(pp.id)) 
             FROM protocollo_protocollo pp, hr_employee he, resource_resource rr
-            WHERE pp.type = '%s' AND
-                  pp.registration_employee_id = he.id AND
+            WHERE pp.registration_employee_id = he.id AND
                   he.resource_id = rr.id AND
                   rr.user_id = %s AND
                   pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
                   pp.id NOT IN (SELECT protocollo_id FROM protocollo_assegnazione WHERE tipologia_assegnazione = 'competenza' AND parent_id IS NULL)
-            """ % (protocollo_type, uid)
+            """ % (uid)
 
         cr.execute(sql_query)
         result = cr.fetchall()
@@ -950,9 +987,8 @@ class protocollo_protocollo(osv.Model):
         time_end = datetime.datetime.now()
         time_duration = time_end - time_start
 
-        _logger.info("_da_assegnare_visibility_count: %d - %s - %.03f s" % (
+        _logger.info("_da_assegnare_visibility_count: %d - %.03f s" % (
             count_value,
-            protocollo_type,
             float(time_duration.microseconds) / 1000000
         ))
 
@@ -981,24 +1017,27 @@ class protocollo_protocollo(osv.Model):
         _logger.info("_assegnato_da_me_in_attesa_visibility_search" + str(end - start))
         return [('id', 'in', protocollo_visible_ids)]
 
-    @api.cr_uid
-    def _assegnato_da_me_in_attesa_visibility_count_in(self, cr, uid):
-        return self._assegnato_da_me_in_attesa_visibility_count(cr, uid, "in")
+    # @api.cr_uid
+    # def _assegnato_da_me_in_attesa_visibility_count_in(self, cr, uid):
+    #     return self._assegnato_da_me_in_attesa_visibility_count(cr, uid, "in")
+    #
+    # @api.cr_uid
+    # def _assegnato_da_me_in_attesa_visibility_count_out(self, cr, uid):
+    #     return self._assegnato_da_me_in_attesa_visibility_count(cr, uid, "out")
 
     @api.cr_uid
-    def _assegnato_da_me_in_attesa_visibility_count_out(self, cr, uid):
-        return self._assegnato_da_me_in_attesa_visibility_count(cr, uid, "out")
+    def _assegnato_da_me_in_attesa_visibility_count_total(self, cr, uid):
+        return self._assegnato_da_me_in_attesa_visibility_count(cr, uid, "")
 
     def _assegnato_da_me_in_attesa_visibility_count(self, cr, uid, protocollo_type):
-        if not protocollo_type:
-            return 0
+        # if not protocollo_type:
+        #     return 0
 
         time_start = datetime.datetime.now()
 
         sql_query = """SELECT COUNT(DISTINCT(pa.protocollo_id)) 
             FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
-            WHERE pp.type = '%s'
-                AND pp.id = pa.protocollo_id  
+            WHERE pp.id = pa.protocollo_id  
                 AND pa.assegnatore_id = he.id 
                 AND he.resource_id = rr.id 
                 AND rr.user_id = %d 
@@ -1011,7 +1050,7 @@ class protocollo_protocollo(osv.Model):
                     )
                 )
                 AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
-            """ % (protocollo_type, uid)
+            """ % (uid)
 
         cr.execute(sql_query)
         result = cr.fetchall()
@@ -1020,9 +1059,8 @@ class protocollo_protocollo(osv.Model):
         time_end = datetime.datetime.now()
         time_duration = time_end - time_start
 
-        _logger.info("_assegnato_da_me_in_attesa_visibility_count: %d - %s - %.03f s" % (
+        _logger.info("_assegnato_da_me_in_attesa_visibility_count: %d - %.03f s" % (
             count_value,
-            protocollo_type,
             float(time_duration.microseconds) / 1000000
         ))
 
@@ -1050,24 +1088,27 @@ class protocollo_protocollo(osv.Model):
         _logger.info("_assegnato_da_me_in_rifiutato_visibility_search" + str(end - start))
         return [('id', 'in', protocollo_visible_ids)]
 
-    @api.cr_uid
-    def _assegnato_da_me_in_rifiutato_visibility_count_in(self, cr, uid):
-        return self._assegnato_da_me_in_rifiutato_visibility_count(cr, uid, "in")
+    # @api.cr_uid
+    # def _assegnato_da_me_in_rifiutato_visibility_count_in(self, cr, uid):
+    #     return self._assegnato_da_me_in_rifiutato_visibility_count(cr, uid, "in")
+    #
+    # @api.cr_uid
+    # def _assegnato_da_me_in_rifiutato_visibility_count_out(self, cr, uid):
+    #     return self._assegnato_da_me_in_rifiutato_visibility_count(cr, uid, "out")
 
     @api.cr_uid
-    def _assegnato_da_me_in_rifiutato_visibility_count_out(self, cr, uid):
-        return self._assegnato_da_me_in_rifiutato_visibility_count(cr, uid, "out")
+    def _assegnato_da_me_in_rifiutato_visibility_count_total(self, cr, uid):
+        return self._assegnato_da_me_in_rifiutato_visibility_count(cr, uid, "")
 
     def _assegnato_da_me_in_rifiutato_visibility_count(self, cr, uid, protocollo_type):
-        if not protocollo_type:
-            return 0
+        # if not protocollo_type:
+        #     return 0
 
         time_start = datetime.datetime.now()
 
         sql_query = """SELECT COUNT(DISTINCT(pa.protocollo_id))
             FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
-            WHERE pp.type = '%s'
-                AND pp.id = pa.protocollo_id 
+            WHERE pp.id = pa.protocollo_id 
                 AND pa.assegnatore_id = he.id
                 AND he.resource_id = rr.id
                 AND rr.user_id = %d
@@ -1075,7 +1116,7 @@ class protocollo_protocollo(osv.Model):
                 AND pa.tipologia_assegnazione = 'competenza'
                 AND pa.state = 'rifiutato'
                 AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
-        """ % (protocollo_type, uid)
+        """ % (uid)
 
         cr.execute(sql_query)
         result = cr.fetchall()
@@ -1084,9 +1125,8 @@ class protocollo_protocollo(osv.Model):
         time_end = datetime.datetime.now()
         time_duration = time_end - time_start
 
-        _logger.info("_assegnato_da_me_in_rifiutato_visibility_count: %d - %s - %.03f s" % (
+        _logger.info("_assegnato_da_me_in_rifiutato_visibility_count: %d - %.03f s" % (
             count_value,
-            protocollo_type,
             float(time_duration.microseconds) / 1000000
         ))
 
@@ -1368,6 +1408,8 @@ class protocollo_protocollo(osv.Model):
                     check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_registra_protocollo_ingresso')
                 elif protocollo.type == 'out':
                     check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_registra_protocollo_uscita')
+                elif protocollo.type == 'internal':
+                    check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_registra_protocollo_interno')
                 check = check and check_gruppi
 
             res.append((protocollo.id, check))
@@ -1390,6 +1432,8 @@ class protocollo_protocollo(osv.Model):
                     check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_annulla_protocollo_ingresso')
                 elif protocollo.type == 'out':
                     check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_annulla_protocollo_uscita')
+                elif protocollo.type == 'internal':
+                    check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_annulla_protocollo_interno')
                 check = check and check_gruppi
 
             if uid == protocollo.user_id.id or uid == SUPERUSER_ID:
@@ -1426,6 +1470,9 @@ class protocollo_protocollo(osv.Model):
                     elif protocollo.type == 'out':
                         check_gruppi = self.user_has_groups(cr, uid,
                                                             'seedoo_protocollo.group_prendi_in_carico_protocollo_uscita')
+                    elif protocollo.type == 'internal':
+                        check_gruppi = self.user_has_groups(cr, uid,
+                                                            'seedoo_protocollo.group_prendi_in_carico_protocollo_interno')
                     check = check and check_gruppi
                 elif self._check_stato_assegnatario_competenza(cr, uid, protocollo, 'assegnato'):
                     check = True
@@ -1458,6 +1505,9 @@ class protocollo_protocollo(osv.Model):
                     elif protocollo.type == 'out':
                         check_gruppi = self.user_has_groups(cr, uid,
                                                             'seedoo_protocollo.group_rifiuta_protocollo_uscita')
+                    elif protocollo.type == 'internal':
+                        check_gruppi = self.user_has_groups(cr, uid,
+                                                            'seedoo_protocollo.group_rifiuta_protocollo_interno')
                     check = check and check_gruppi
                 elif self._check_stato_assegnatario_competenza(cr, uid, protocollo, 'assegnato'):
                     check = True
@@ -1484,6 +1534,8 @@ class protocollo_protocollo(osv.Model):
                     check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_modifica_protocollo_ingresso')
                 elif protocollo.type == 'out':
                     check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_modifica_protocollo_uscita')
+                elif protocollo.type == 'internal':
+                    check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_modifica_protocollo_interno')
                 check = check and check_gruppi
 
             if uid == protocollo.user_id.id or uid == SUPERUSER_ID:
@@ -1530,7 +1582,9 @@ class protocollo_protocollo(osv.Model):
                 elif protocollo.type == 'out':
                     check = self.user_has_groups(cr, uid,
                                                  'seedoo_protocollo.group_modifica_classificazione_protocollo_uscita')
-
+                elif protocollo.type == 'internal':
+                    check = self.user_has_groups(cr, uid,
+                                                 'seedoo_protocollo.group_modifica_classificazione_protocollo_interno')
                 if check and (uid == protocollo.user_id.id or uid == SUPERUSER_ID):
                     check = True
                 else:
@@ -1558,6 +1612,8 @@ class protocollo_protocollo(osv.Model):
                                                         'seedoo_protocollo.group_classifica_protocollo_ingresso')
                 elif protocollo.type == 'out':
                     check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_classifica_protocollo_uscita')
+                elif protocollo.type == 'internal':
+                    check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_classifica_protocollo_interno')
                 check = check and check_gruppi
 
             if uid == protocollo.user_id.id or uid == SUPERUSER_ID:
@@ -1586,7 +1642,9 @@ class protocollo_protocollo(osv.Model):
                 elif protocollo.type == 'out':
                     check = self.user_has_groups(cr, uid,
                                                  'seedoo_protocollo.group_modifica_fascicolazione_protocollo_uscita')
-
+                elif protocollo.type == 'internal':
+                    check = self.user_has_groups(cr, uid,
+                                                 'seedoo_protocollo.group_modifica_fascicolazione_protocollo_interno')
             if not check and \
                     protocollo.state == 'draft' and \
                     (uid == protocollo.user_id.id or uid == SUPERUSER_ID):
@@ -1613,6 +1671,8 @@ class protocollo_protocollo(osv.Model):
                                                         'seedoo_protocollo.group_fascicola_protocollo_ingresso')
                 elif protocollo.type == 'out':
                     check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_fascicola_protocollo_uscita')
+                elif protocollo.type == 'internal':
+                    check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_fascicola_protocollo_interno')
                 check = check and check_gruppi
 
             if uid == protocollo.user_id.id or uid == SUPERUSER_ID:
@@ -1640,7 +1700,8 @@ class protocollo_protocollo(osv.Model):
                                                  'seedoo_protocollo.group_modifica_assegnatari_protocollo_ingresso')
                 elif protocollo.type == 'out':
                     check = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_modifica_assegnatari_protocollo_uscita')
-
+                elif protocollo.type == 'internal':
+                    check = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_modifica_assegnatari_protocollo_interno')
             if not check and \
                     protocollo.state == 'draft' and \
                     (uid == protocollo.user_id.id or uid == SUPERUSER_ID):
@@ -1668,6 +1729,9 @@ class protocollo_protocollo(osv.Model):
                 elif protocollo.type == 'out':
                     check_gruppi = self.user_has_groups(cr, uid,
                                                         'seedoo_protocollo.group_aggiungi_assegnatari_cc_protocollo_uscita')
+                elif protocollo.type == 'internal':
+                    check_gruppi = self.user_has_groups(cr, uid,
+                                                        'seedoo_protocollo.group_aggiungi_assegnatari_cc_protocollo_interno')
                 check = check and check_gruppi
 
             if uid == protocollo.user_id.id or uid == SUPERUSER_ID:
@@ -1700,6 +1764,8 @@ class protocollo_protocollo(osv.Model):
                     check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_assegna_protocollo_ingresso')
                 elif protocollo.type == 'out':
                     check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_assegna_protocollo_uscita')
+                elif protocollo.type == 'internal':
+                    check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_assegna_protocollo_interno')
                 check = check and check_gruppi
 
             if uid == protocollo.user_id.id or uid == SUPERUSER_ID:
@@ -1725,6 +1791,8 @@ class protocollo_protocollo(osv.Model):
                     check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_riassegna_protocollo_ingresso')
                 elif protocollo.type == 'out':
                     check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_riassegna_protocollo_uscita')
+                elif protocollo.type == 'internal':
+                    check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_riassegna_protocollo_interno')
                 check = check and check_gruppi
 
             if self._check_stato_assegnatore_competenza(cr, uid, protocollo, 'rifiutato') or uid==SUPERUSER_ID:
@@ -1981,6 +2049,7 @@ class protocollo_protocollo(osv.Model):
 
         return dict(res)
 
+
     ####################################################################################################################
 
     _columns = {
@@ -2116,8 +2185,7 @@ class protocollo_protocollo(osv.Model):
         'inserisci_testo_mailpec_visibility': fields.function(_inserisci_testo_mailpec_visibility, type='boolean',
                                                               string='Abilita testo PEC'),
         'carica_modifica_documento_visibility': fields.function(_carica_modifica_documento_visibility, type='boolean',
-                                                                string='Carica/Modifica documento')
-
+                                                                string='Carica/Modifica documento'),
     }
 
     def _default_protocollazione_riservata_visibility(self, cr, uid, context):

@@ -346,11 +346,10 @@ class protocollo_protocollo(orm.Model):
                                       name, args, context=None):
         res = dict.fromkeys(ids, False)
         for protocol in self.browse(cr, uid, ids, {'skip_check': True}):
-            res[protocol.id] = u"\n".join(
-                [line.name for line
-                 in protocol.sender_receivers
-                 ]
-            )
+            if protocol.type == 'internal':
+                res[protocol.id] = protocol.sender_internal_name
+            else:
+                res[protocol.id] = u"\n".join([line.name for line in protocol.sender_receivers])
         return res
 
     def action_apri_stampa_etichetta(self, cr, uid, ids, context=None):
@@ -512,11 +511,11 @@ class protocollo_protocollo(orm.Model):
                                               string="Codice e Nome Titolario",
                                               readonly=True),
         'emergency_protocol': fields.char(
-            'Protocollo Emergenza', size=64, required=False,
+            'Numero Protocollo in Emergenza', size=64, required=False,
             readonly=True,
             states={'draft': [('readonly', False)]}),
         'emergency_receiving_date': fields.datetime(
-            'Data Ricevimento in Emergenza', required=False,
+            'Data Registrazione in Emergenza', required=False,
             readonly=True,
             states={'draft': [('readonly', False)]}),
         'emergency_active': fields.boolean('Registro Emergenza Attivo'),
@@ -534,6 +533,11 @@ class protocollo_protocollo(orm.Model):
                                                 size=64,
                                                 required=False,
                                                 ),
+        'sender_internal_assegnatario': fields.many2one('protocollo.assegnatario', 'Assegnatario Mittente Interno'),
+        'sender_internal_name': fields.char('Protocollazione Interna Nome', size=512, readonly=True),
+        'sender_internal_employee': fields.many2one('hr.employee', 'Protocollazione Interna Dipendente', required=False),
+        'sender_internal_employee_image': fields.related('sender_internal_employee', 'image', type='binary', string='Immagine', readonly=True),
+        'sender_internal_department': fields.many2one('hr.department', 'Protocollazione Interna Ufficio', required=False),
         'sender_receivers': fields.one2many('protocollo.sender_receiver', 'protocollo_id', 'Mittenti/Destinatari'),
         'senders': fields.one2many('protocollo.sender_receiver', 'protocollo_id', 'Mittente',
                                    domain=[('source', '=', 'sender')]),
@@ -709,7 +713,7 @@ class protocollo_protocollo(orm.Model):
                     break
             reg_available = [e.id for e in er.emergency_ids
                              if not e.protocol_id]
-            if len(reg_available) < 2:
+            if len(reg_available) < 1:
                 emergency_registry_obj.write(cr,
                                              uid,
                                              [er.id],
@@ -1339,12 +1343,13 @@ class protocollo_protocollo(orm.Model):
             if configurazione.segnatura_xml_invia:
                 vals = {}
                 try:
-                    segnatura_xml = SegnaturaXML(prot, prot.name, prot.registration_date, cr, uid)
-                    xml = segnatura_xml.generate_segnatura_root()
-                    etree_tostring = etree.tostring(xml, pretty_print=True)
-                    vals['xml_signature'] = etree_tostring
-                    self.write(cr, uid, [prot.id], vals)
-                    self.allega_segnatura_xml(cr, uid, prot.id, prot.xml_signature)
+                    if not prot.xml_signature:
+                        segnatura_xml = SegnaturaXML(prot, prot.name, prot.registration_date, cr, uid)
+                        xml = segnatura_xml.generate_segnatura_root()
+                        etree_tostring = etree.tostring(xml, pretty_print=True)
+                        vals['xml_signature'] = etree_tostring
+                        self.write(cr, uid, [prot.id], vals)
+                        self.allega_segnatura_xml(cr, uid, prot.id, prot.xml_signature)
                 except Exception as e:
                     _logger.error(e)
 
@@ -1368,12 +1373,11 @@ class protocollo_protocollo(orm.Model):
             values['subject'] = subject
             values['body_html'] = prot.body
             values['body'] = prot.body
+            #TODO: email_from non necessariamente deve essere la username del' autenticazione del server SMTP
             values['email_from'] = mail_server.smtp_user
             values['reply_to'] = mail_server.in_server_id.user
             values['mail_server_id'] = mail_server.id
-            values['email_to'] = ','.join([sr for sr in
-                                           sender_receivers_pec_mails]
-                                          )
+            values['email_to'] = ','.join([sr for sr in sender_receivers_pec_mails])
             values['pec_to'] = values['email_to']
             values['pec_protocol_ref'] = prot.id
             values['pec_state'] = 'protocol'
@@ -1383,44 +1387,31 @@ class protocollo_protocollo(orm.Model):
             if prot.assigne_cc:
                 values['email_cc'] = self._get_assigne_cc_emails(
                     cr, uid, prot_id, context)
-            msg_id = mail_mail.create(cr, uid, values, context=context)
+
+            if prot.mail_out_ref and prot.state=='registered':
+                # se il protocollo è ancora in stato registrato non deve duplicare la email perchè ancora non è riuscito ad inviarla
+                msg_id = prot.mail_out_ref.id
+                mail_mail.write(cr, uid, [msg_id], values, context=context)
+            else:
+                msg_id = mail_mail.create(cr, uid, values, context=context)
             mail = mail_mail.browse(cr, uid, msg_id, context=context)
             # manage attachments
-            attachment_ids = ir_attachment.search(cr, uid,
-                                                  [('res_model',
-                                                    '=',
-                                                    'protocollo.protocollo'),
-                                                   ('res_id',
-                                                    '=',
-                                                    prot.id)]
-                                                  )
+            attachment_ids = ir_attachment.search(cr, uid, [('res_model', '=', 'protocollo.protocollo'), ('res_id', '=', prot.id)])
             if attachment_ids:
                 values['attachment_ids'] = [(6, 0, attachment_ids)]
-                mail_mail.write(
-                    cr, uid, msg_id,
-                    {'attachment_ids': [(6, 0, attachment_ids)]}
-                )
-            vals = {'mail_out_ref': mail.id,
-                    'mail_pec_ref': mail.mail_message_id.id}
+                mail_mail.write(cr, uid, msg_id, {'attachment_ids': [(6, 0, attachment_ids)]})
+            vals = {'mail_out_ref': mail.id, 'mail_pec_ref': mail.mail_message_id.id}
             self.write(cr, uid, [prot.id], vals)
             mail_mail.send(cr, uid, [msg_id], context=context)
             res = mail_mail.read(
                 cr, uid, [msg_id], ['state'], context=context
             )
 
-            action_class = "history_icon mail"
-            post_vars = {'subject': "Invio PEC",
-                         'body': "<div class='%s'><ul><li>PEC protocollo inviato a: %s</li></ul></div>" % (
-                             action_class, values['email_to']),
-                         'model': "protocollo.protocollo",
-                         'res_id': prot_id,
-                         }
-
             thread_pool = self.pool.get('protocollo.protocollo')
-            thread_pool.message_post(cr, uid, prot_id, type="notification", context=context, **post_vars)
 
             if res[0]['state'] != 'sent':
-                cr.rollback()
+                self._revert_workflow_data(cr, uid, prot)
+
                 action_class = "history_icon warning"
                 post_vars = {
                     'subject': "PEC protocollo non inviata",
@@ -1432,6 +1423,15 @@ class protocollo_protocollo(orm.Model):
                 cr.commit()
                 raise openerp.exceptions.Warning(_('Errore nella notifica del protocollo, la PEC protocollo non è stata inviata'))
             else:
+                action_class = "history_icon mail"
+                post_vars = {
+                    'subject': "Invio PEC",
+                    'body': "<div class='%s'><ul><li>PEC protocollo inviato a: %s</li></ul></div>" % (action_class, values['email_to']),
+                    'model': "protocollo.protocollo",
+                    'res_id': prot_id
+                }
+                thread_pool.message_post(cr, uid, prot_id, type="notification", context=context, **post_vars)
+
                 mail_message_obj = self.pool.get('mail.message')
                 mail_message_obj.write(cr, uid, mail.mail_message_id.id, {'direction': 'out'})
                 for sender_receiver_id in sender_receivers_pec_ids:
@@ -1498,12 +1498,11 @@ class protocollo_protocollo(orm.Model):
             values['subject'] = subject
             values['body_html'] = prot.body
             values['body'] = prot.body
+            # TODO: email_from non necessariamente deve essere la username dell'autenticazione del server SMTP
             values['email_from'] = mail_server.smtp_user
             values['reply_to'] = mail_server.in_server_id.user
             values['mail_server_id'] = mail_server.id
-            values['email_to'] = ','.join([sr for sr in
-                                           sender_receivers_mails]
-                                          )
+            values['email_to'] = ','.join([sr for sr in sender_receivers_mails])
             values['sharedmail_to'] = values['email_to']
             values['sharedmail_protocol_ref'] = prot.id
             values['sharedmail_state'] = 'protocol'
@@ -1511,45 +1510,30 @@ class protocollo_protocollo(orm.Model):
             values['server_sharedmail_id'] = fetchmail_server_id
 
             if prot.assigne_cc:
-                values['email_cc'] = self._get_assigne_cc_emails(
-                    cr, uid, prot_id, context)
-            msg_id = mail_mail.create(cr, uid, values, context=context)
+                values['email_cc'] = self._get_assigne_cc_emails(cr, uid, prot_id, context)
+
+            if prot.mail_out_ref and prot.state=='registered':
+                # se il protocollo è ancora in stato registrato non deve duplicare la email perchè ancora non è riuscito ad inviarla
+                msg_id = prot.mail_out_ref.id
+                mail_mail.write(cr, uid, [msg_id], values, context=context)
+            else:
+                msg_id = mail_mail.create(cr, uid, values, context=context)
             mail = mail_mail.browse(cr, uid, msg_id, context=context)
             # manage attachments
-            attachment_ids = ir_attachment.search(cr, uid,
-                                                  [('res_model',
-                                                    '=',
-                                                    'protocollo.protocollo'),
-                                                   ('res_id',
-                                                    '=',
-                                                    prot.id)]
-                                                  )
+            attachment_ids = ir_attachment.search(cr, uid, [('res_model', '=', 'protocollo.protocollo'), ('res_id', '=', prot.id)])
             if attachment_ids:
                 values['attachment_ids'] = [(6, 0, attachment_ids)]
-                mail_mail.write(
-                    cr, uid, msg_id,
-                    {'attachment_ids': [(6, 0, attachment_ids)]}
-                )
-            vals = {'mail_out_ref': mail.id,
-                    'mail_sharedmail_ref': mail.mail_message_id.id}
+                mail_mail.write(cr, uid, msg_id, {'attachment_ids': [(6, 0, attachment_ids)]})
+            vals = {'mail_out_ref': mail.id, 'mail_sharedmail_ref': mail.mail_message_id.id}
             self.write(cr, uid, [prot.id], vals)
             mail_mail.send(cr, uid, [msg_id], context=context)
-            res = mail_mail.read(
-                cr, uid, [msg_id], ['state'], context=context
-            )
+            res = mail_mail.read(cr, uid, [msg_id], ['state'], context=context)
 
-            action_class = "history_icon mail"
-            post_vars = {'subject': "Invio E-mail",
-                         'body': "<div class='%s'><ul><li>E-mail protocollo inviata a: %s</li></ul></div>" % (
-                             action_class, values['email_to']),
-                         'model': "protocollo.protocollo",
-                         'res_id': prot_id,
-                         }
             thread_pool = self.pool.get('protocollo.protocollo')
-            thread_pool.message_post(cr, uid, prot_id, type="notification", context=context, **post_vars)
 
             if res[0]['state'] != 'sent':
-                cr.rollback()
+                self._revert_workflow_data(cr, uid, prot)
+
                 action_class = "history_icon warning"
                 post_vars = {
                     'subject': "E-mail protocollo non inviata",
@@ -1561,6 +1545,15 @@ class protocollo_protocollo(orm.Model):
                 cr.commit()
                 raise openerp.exceptions.Warning(_('Errore nella notifica del protocollo, l\'e-mail protocollo non è stata inviata'))
             else:
+                action_class = "history_icon mail"
+                post_vars = {
+                    'subject': "Invio E-mail",
+                    'body': "<div class='%s'><ul><li>E-mail protocollo inviata a: %s</li></ul></div>" % (action_class, values['email_to']),
+                    'model': "protocollo.protocollo",
+                    'res_id': prot_id
+                }
+                thread_pool.message_post(cr, uid, prot_id, type="notification", context=context, **post_vars)
+
                 mail_message_obj = self.pool.get('mail.message')
                 mail_message_obj.write(cr, uid, mail.mail_message_id.id, {'direction_sharedmail': 'out'})
                 for sender_receiver_id in sender_receivers_ids:
@@ -1578,6 +1571,23 @@ class protocollo_protocollo(orm.Model):
                     protocollo, si sta cercando di inviare una pec \
                     su un tipo di protocollo non pec.'))
         return True
+
+    def _revert_workflow_data(self, cr, uid, prot):
+        data_obj = self.pool.get('ir.model.data')
+        act_registered = data_obj.get_object_reference(cr, uid, 'seedoo_protocollo', 'act_registered')
+        act_waiting = data_obj.get_object_reference(cr, uid, 'seedoo_protocollo', 'act_waiting')
+        workflow_workitem_obj = self.pool.get('workflow.workitem')
+        workflow_workitem_ids = workflow_workitem_obj.search(cr, uid, [
+            ('inst_id.res_type', '=', 'protocollo.protocollo'),
+            ('inst_id.res_id', '=', prot.id),
+            ('state', '=', 'running'),
+            ('act_id', '=', act_waiting[1])
+        ])
+        if workflow_workitem_ids:
+            workflow_workitem_obj.write(cr, uid, workflow_workitem_ids, {
+                'act_id': act_registered[1],
+                'state': 'complete'
+            })
 
     def get_mail_server(self, cr, uid, context=None):
         mail_server_obj = self.pool.get('ir.mail_server')
@@ -1986,6 +1996,26 @@ class protocollo_protocollo(orm.Model):
                 subtype=subtype, parent_id=parent_id,
                 attachments=attachments, context=new_context,
                 content_subtype=content_subtype, **kwargs)
+
+
+    def action_remove_sender_internal(self, cr, uid, ids, context=None):
+        protocollo_obj = self.pool.get('protocollo.protocollo').browse(cr, uid, context['protocollo_id'])
+        vals = {}
+        vals['sender_internal_assegnatario'] = False
+        vals['sender_internal_name'] = False
+        vals['sender_internal_employee'] = False
+        vals['sender_internal_department'] = False
+        protocollo_obj.write(vals)
+
+        return {
+            'name': 'Protocollo',
+            'view_type': 'form',
+            'view_mode': 'form,tree',
+            'res_model': 'protocollo.protocollo',
+            'res_id': context['protocollo_id'],
+            'context': context,
+            'type': 'ir.actions.act_window'
+        }
 
 
 class protocollo_journal(orm.Model):

@@ -634,3 +634,62 @@ table.oe_form_group.subject_modify_wizard tr > td {
 .body_mail_message {
     min-height:150px;
 }
+
+.openerp .box-sender-internal {
+
+    background: #f3f3f3;
+    height: 100px;
+    width: 300px;
+    padding: 10px;
+    position: relative;
+
+    .oe_avatar {
+        & > img {
+            height: 50px;
+            width: 50px;
+            float: left;
+        }
+    }
+
+    .oe_form_field_char {
+        float: left;
+        width: auto;
+    }
+
+    >.oe_form_field_char {
+        font-style: italic;
+        color: #aaa;
+    }
+
+    .btn_rimuovi_mittente {
+        position: absolute;
+        right: 5px;
+        top: 0;
+        background: rgba(255,255,255,0.6);
+        width: 20px;
+        height: 20px;
+        padding: 0;
+        color: #666;
+    }
+
+    .dep-data {
+        float: left;
+        width: 180px;
+        height: 60px;
+
+        .sender-department:before {
+            content: "\f1ad";
+            font-family: FontAwesome;
+        }
+
+        .sender-employee:before {
+            content: "\f007";
+            font-family: FontAwesome;
+        }
+
+        .oe_form_field {
+            font-weight: bold;
+            color:#666;
+        }
+    }
+}
