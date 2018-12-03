@@ -2049,6 +2049,7 @@ class protocollo_protocollo(osv.Model):
 
         return dict(res)
 
+
     ####################################################################################################################
 
     _columns = {
@@ -2184,8 +2185,7 @@ class protocollo_protocollo(osv.Model):
         'inserisci_testo_mailpec_visibility': fields.function(_inserisci_testo_mailpec_visibility, type='boolean',
                                                               string='Abilita testo PEC'),
         'carica_modifica_documento_visibility': fields.function(_carica_modifica_documento_visibility, type='boolean',
-                                                                string='Carica/Modifica documento')
-
+                                                                string='Carica/Modifica documento'),
     }
 
     def _default_protocollazione_riservata_visibility(self, cr, uid, context):
