@@ -471,6 +471,8 @@ this module contains the full copyright notices and license terms. -->
                             <field name="pec" colspan="2" invisible="1"/>
                             <field name="sharedmail" colspan="2" invisible="1"/>
                             <field name="creation_date" class="seedoocustom_protocollo_creation_date" invisible="1"/>
+                            <field name="registration_type" invisible="1"/>
+                            <field name="emergency_active" invisible="1"/>
                         </div>
                         <!--<div id="stato-protocollo">-->
                             <!--<field name="state" invisible="1"/>-->
@@ -494,6 +496,20 @@ this module contains the full copyright notices and license terms. -->
                                             <field name="type"/>
                                             <field name="reserved" on_change="on_change_reserved(reserved)" attrs="{'invisible':[('protocollazione_riservata_visibility','=',False)]}"/>
                                         </group>
+                                    </group>
+                                </div>
+                            </div>
+                            <div class="dati-protocollo-container" id="emergenza-container" attrs="{'invisible':[('registration_type','=', 'normal')]}">
+                                <div class="protocollo-accordion-toggle open">
+                                    <h4 class="accordion-toggle">Dati Protocollazione Emergenza</h4>
+                                </div>
+                                <div class="accordion-content accordion-open">
+                                    <group col="8">
+                                        <field name="emergency_protocol"
+                                               attrs="{'required':[('registration_type','=','emergency')]}"/>
+                                        <field name="emergency_receiving_date"
+                                               attrs="{'required':[('registration_type','=','emergency')]}"
+                                               on_change="on_change_emergency_receiving_date(emergency_receiving_date)"/>
                                     </group>
                                 </div>
                             </div>
@@ -586,20 +602,6 @@ this module contains the full copyright notices and license terms. -->
                             </div>
                         </div>
 
-                        <group
-                               string="Informazioni Emergenza"
-                                   attrs="{'invisible':[('emergency_active','=', False)]}">
-                                <field name="emergency_active" invisible="1"/>
-                                <field name="registration_type"/>
-                        </group>
-                        <group string="Dati Emergenza"
-                               attrs="{'invisible':[('registration_type','=','normal')]}">
-                            <field name="emergency_protocol"
-                                   attrs="{'required':[('registration_type','=','emergency')]}"/>
-                            <field name="emergency_receiving_date"
-                                   attrs="{'required':[('registration_type','=','emergency')]}"
-                                   on_change="on_change_emergency_receiving_date(emergency_receiving_date)"/>
-                        </group>
                         <group>
                             <field name="user_id" readonly="1" options="{'no_open': True}" invisible="1"/>
                         </group>

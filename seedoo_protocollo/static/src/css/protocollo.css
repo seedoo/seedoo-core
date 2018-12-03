@@ -943,6 +943,9 @@ table.oe_form_group.subject_modify_wizard tr > td {
 div.dati-protocollo-container {
   margin-top: 10px;
 }
+div.dati-protocollo-container h4 {
+  color: #afafaf;
+}
 div.dati-protocollo-container h4:before {
   font-family: FontAwesome;
   margin-right: 10px;
@@ -955,6 +958,13 @@ div.dati-protocollo-container h4:before {
 }
 #documento-container h4:before {
   content: "\f0f6";
+}
+#emergenza-container {
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+#emergenza-container h4:before {
+  content: "\f0fa";
 }
 #anteprima-container {
   margin: 0 0 30px 0;

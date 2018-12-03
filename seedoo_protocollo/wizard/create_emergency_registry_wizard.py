@@ -3,7 +3,7 @@
 # this module contains the full copyright notices and license terms.
 
 import logging
-from openerp.osv import fields, osv
+from openerp.osv import fields, osv, orm
 from openerp.tools.translate import _
 import datetime
 
@@ -72,7 +72,13 @@ class protocollo_emergency_registry_wizard(osv.TransientModel):
 
     def action_create(self, cr, uid, ids, context=None):
         wizard = self.browse(cr, uid, ids[0], context)
-        if wizard.name and wizard.date_start:
+        if wizard.name and wizard.date_start and wizard.date_end:
+            if wizard.date_start > wizard.date_end:
+                raise orm.except_orm(_("Avviso"), _("La data di fine deve essere successiva alla data di inizio"))
+
+            if wizard.number <= 0:
+                raise orm.except_orm(_("Avviso"), _("Il numero di protocolli deve essere maggiore di 0"))
+
             emergency_registry_obj = self.pool.get('protocollo.emergency.registry')
             emergency_registry_line_obj = self.pool.get('protocollo.emergency.registry.line')
             line_ids = []
@@ -97,6 +103,5 @@ class protocollo_emergency_registry_wizard(osv.TransientModel):
                 'type': 'ir.actions.act_window',
                 'context': context,
             }
-
 
         return {'type': 'ir.actions.act_window_close'}
