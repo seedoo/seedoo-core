@@ -713,7 +713,7 @@ class protocollo_protocollo(orm.Model):
                     break
             reg_available = [e.id for e in er.emergency_ids
                              if not e.protocol_id]
-            if len(reg_available) < 2:
+            if len(reg_available) < 1:
                 emergency_registry_obj.write(cr,
                                              uid,
                                              [er.id],
