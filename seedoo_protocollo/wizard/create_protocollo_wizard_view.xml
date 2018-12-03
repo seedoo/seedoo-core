@@ -27,6 +27,8 @@ this module contains the full copyright notices and license terms. -->
                                    required="1"
                                    attrs="{'readonly':[('registration_employee_department_id_readonly','=',True)]}"
                             />
+                            <field name="emergency_active" invisible="1"/>
+                            <field name="registration_type" required="1" attrs="{'invisible':[('emergency_active','=', False)]}"/>
                             <field name="type" required="1" attrs="{'readonly':[('type_readonly','=',True)]}"/>
                             <field name="type_readonly" invisible="1"/>
                             <field name="registration_employee_department_id_readonly" invisible="1"/>

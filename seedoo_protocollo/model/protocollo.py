@@ -511,11 +511,11 @@ class protocollo_protocollo(orm.Model):
                                               string="Codice e Nome Titolario",
                                               readonly=True),
         'emergency_protocol': fields.char(
-            'Protocollo Emergenza', size=64, required=False,
+            'Numero Protocollo in Emergenza', size=64, required=False,
             readonly=True,
             states={'draft': [('readonly', False)]}),
         'emergency_receiving_date': fields.datetime(
-            'Data Ricevimento in Emergenza', required=False,
+            'Data Registrazione in Emergenza', required=False,
             readonly=True,
             states={'draft': [('readonly', False)]}),
         'emergency_active': fields.boolean('Registro Emergenza Attivo'),
