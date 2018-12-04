@@ -28,7 +28,6 @@ from openerp.tools.translate import _
 from ..segnatura.annullamento_xml import AnnullamentoXML
 from ..segnatura.conferma_xml import ConfermaXML
 from ..segnatura.segnatura_xml import SegnaturaXML
-from datetime import datetime
 
 _logger = logging.getLogger(__name__)
 mimetypes.init()
@@ -199,8 +198,8 @@ class protocollo_protocollo(orm.Model):
                     if emergency_receiving_date < emergency_registry.date_start or emergency_receiving_date > emergency_registry.date_end:
 
 
-                        datetime_start = datetime.strptime(emergency_registry.date_start, '%Y-%m-%d %H:%M:%S')
-                        datetime_end = datetime.strptime(emergency_registry.date_end, '%Y-%m-%d %H:%M:%S')
+                        datetime_start = datetime.datetime.strptime(emergency_registry.date_start, '%Y-%m-%d %H:%M:%S')
+                        datetime_end = datetime.datetime.strptime(emergency_registry.date_end, '%Y-%m-%d %H:%M:%S')
                         raise orm.except_orm(_('Avviso'),
                                              _(
                                                  'La data di ricezione deve essere compresa nel periodo di apertura del registro di emergenza dal: %s al: %s'
