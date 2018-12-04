@@ -171,6 +171,24 @@ class protocollo_protocollo(osv.Model):
                 protocollo_ids_assegnatore = [res[0] for res in cr.fetchall()]
             _logger.info("---Query assegnatore %s seconds ---" % (time.time() - start_time))
 
+            start_time = time.time()
+            # un utente deve poter vedere i protocolli interni registrati di cui lui o il suo ufficio è il mittente
+            protocollo_ids_mittente = []
+            if employee_ids and employee_department_ids:
+                cr.execute('''
+                    SELECT DISTINCT(pp.id)
+                    FROM protocollo_protocollo pp
+                    WHERE pp.registration_employee_id IS NOT NULL AND
+                          pp.type = 'internal' AND
+                          (
+                            (pp.sender_internal_employee IN (''' + employee_ids_str + '''))
+                            OR
+                            (pp.sender_internal_department IN (''' + employee_department_ids_str + '''))
+                          )
+                ''')
+                protocollo_ids_mittente = [res[0] for res in cr.fetchall()]
+            _logger.info("---Query mittente %s seconds ---" % (time.time() - start_time))
+
             ############################################################################################################
             # Visibilità dei protocolli: permessi in configurazione
             ############################################################################################################
@@ -373,6 +391,19 @@ class protocollo_protocollo(osv.Model):
             _logger.info("---Query ass_rif_ut_uff  %s seconds ---" % (time.time() - start_time))
 
             start_time = time.time()
+            # un utente deve poter vedere i protocolli interni il cui MITTENTE è un UTENTE del suo UFFICIO
+            check_gruppo_internal = self.user_has_groups(cr, current_user_id,
+                                                         'seedoo_protocollo.group_vedi_protocolli_interno_registrati_mitt_ut_uff')
+            if check_gruppo_internal and employee_department_ids:
+                protocollo_visible_ids.extend(self.search(cr, uid, [
+                    ('type', '=', 'internal'),
+                    ('registration_employee_id', '!=', False),
+                    ('sender_internal_employee_department', 'in', employee_department_ids),
+                    ('reserved', '=', False)
+                ]))
+            _logger.info("---Query mitt_ut_uff  %s seconds ---" % (time.time() - start_time))
+
+            #start_time = time.time()
             # un utente deve poter vedere i protocolli (IN e OUT) REGISTRATI e ASSEGNATI DA un UTENTE del suo UFFICIO
             # check_gruppo_in = self.user_has_groups(cr, current_user_id,
             #                                        'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ass_da_ut_uff')
@@ -399,6 +430,7 @@ class protocollo_protocollo(osv.Model):
             protocollo_visible_ids.extend(protocollo_ids_created)
             protocollo_visible_ids.extend(protocollo_ids_assigned_not_refused)
             protocollo_visible_ids.extend(protocollo_ids_assegnatore)
+            protocollo_visible_ids.extend(protocollo_ids_mittente)
 
             protocollo_visible_ids = list(set(protocollo_visible_ids))
 

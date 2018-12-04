@@ -35,6 +35,7 @@ class protocollo_sender_internal_wizard(osv.TransientModel):
         vals['sender_internal_assegnatario'] = wizard.sender_internal_ref.id
         vals['sender_internal_name'] = wizard.sender_internal_ref.name
         vals['sender_internal_employee'] = wizard.sender_internal_ref.employee_id.id
+        vals['sender_internal_employee_department'] = wizard.sender_internal_ref.employee_id.department_id.id
         vals['sender_internal_department'] = wizard.sender_internal_ref.department_id.id
         protocollo_obj.write(cr, uid, [context['active_id']], vals)
 

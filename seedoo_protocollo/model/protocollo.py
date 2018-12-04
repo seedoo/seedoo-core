@@ -556,6 +556,7 @@ class protocollo_protocollo(orm.Model):
         'sender_internal_assegnatario': fields.many2one('protocollo.assegnatario', 'Assegnatario Mittente Interno'),
         'sender_internal_name': fields.char('Protocollazione Interna Nome', size=512, readonly=True),
         'sender_internal_employee': fields.many2one('hr.employee', 'Protocollazione Interna Dipendente', required=False),
+        'sender_internal_employee_department': fields.many2one('hr.department', 'Protocollazione Interna Ufficio del Dipendente', required=False),
         'sender_internal_department': fields.many2one('hr.department', 'Protocollazione Interna Ufficio', required=False),
         'sender_receivers': fields.one2many('protocollo.sender_receiver', 'protocollo_id', 'Mittenti/Destinatari'),
         'senders': fields.one2many('protocollo.sender_receiver', 'protocollo_id', 'Mittente',
@@ -2023,6 +2024,7 @@ class protocollo_protocollo(orm.Model):
         vals['sender_internal_assegnatario'] = False
         vals['sender_internal_name'] = False
         vals['sender_internal_employee'] = False
+        vals['sender_internal_employee_department'] = False
         vals['sender_internal_department'] = False
         protocollo_obj.write(vals)
 
