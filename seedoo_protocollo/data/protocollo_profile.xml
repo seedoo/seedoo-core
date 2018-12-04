@@ -104,6 +104,7 @@ this module contains the full copyright notices and license terms. -->
                 (4, ref('seedoo_protocollo.group_rifiuta_protocollo_interno')),
                 (4, ref('seedoo_protocollo.group_vedi_protocolli_interno_registrati_ufficio')),
                 (4, ref('seedoo_protocollo.group_vedi_protocolli_interno_registrati_ass_ut_uff')),
+                (4, ref('seedoo_protocollo.group_vedi_protocolli_interno_registrati_mitt_ut_uff')),
             ]"/>
             <field name="state">enabled</field>
         </record>
@@ -161,6 +162,7 @@ this module contains the full copyright notices and license terms. -->
                 (4, ref('seedoo_protocollo.group_vedi_protocolli_interno_registrati_ass_uff_fig')),
                 (4, ref('seedoo_protocollo.group_vedi_protocolli_interno_registrati_ass_ut_uff_fig')),
                 (4, ref('seedoo_protocollo.group_vedi_protocolli_interno_registrati_ass_ut_uff')),
+                (4, ref('seedoo_protocollo.group_vedi_protocolli_interno_registrati_mitt_ut_uff')),
             ]"/>
             <field name="state">enabled</field>
         </record>
@@ -269,6 +271,7 @@ this module contains the full copyright notices and license terms. -->
                 (4, ref('seedoo_protocollo.group_rifiuta_protocollo_interno')),
                 (4, ref('seedoo_protocollo.group_vedi_protocolli_interno_registrati_ufficio')),
                 (4, ref('seedoo_protocollo.group_vedi_protocolli_interno_registrati_ass_ut_uff')),
+                (4, ref('seedoo_protocollo.group_vedi_protocolli_interno_registrati_mitt_ut_uff')),
             ]"/>
             <field name="state">enabled</field>
         </record>
@@ -335,6 +338,7 @@ this module contains the full copyright notices and license terms. -->
                 (4, ref('seedoo_protocollo.group_vedi_protocolli_interno_registrati_ass_uff_fig')),
                 (4, ref('seedoo_protocollo.group_vedi_protocolli_interno_registrati_ass_ut_uff_fig')),
                 (4, ref('seedoo_protocollo.group_vedi_protocolli_interno_registrati_ass_ut_uff')),
+                (4, ref('seedoo_protocollo.group_vedi_protocolli_interno_registrati_mitt_ut_uff')),
             ]"/>
             <field name="state">enabled</field>
         </record>
@@ -460,6 +464,7 @@ this module contains the full copyright notices and license terms. -->
                 (4, ref('seedoo_protocollo.group_modifica_protocollo_interno')),
                 (4, ref('seedoo_protocollo.group_vedi_protocolli_interno_registrati_ufficio')),
                 (4, ref('seedoo_protocollo.group_vedi_protocolli_interno_registrati_ass_ut_uff')),
+                (4, ref('seedoo_protocollo.group_vedi_protocolli_interno_registrati_mitt_ut_uff')),
             ]"/>
             <field name="state">enabled</field>
         </record>
@@ -534,6 +539,7 @@ this module contains the full copyright notices and license terms. -->
                 (4, ref('seedoo_protocollo.group_vedi_protocolli_interno_registrati_ass_uff_fig')),
                 (4, ref('seedoo_protocollo.group_vedi_protocolli_interno_registrati_ass_ut_uff_fig')),
                 (4, ref('seedoo_protocollo.group_vedi_protocolli_interno_registrati_ass_ut_uff')),
+                (4, ref('seedoo_protocollo.group_vedi_protocolli_interno_registrati_mitt_ut_uff')),
             ]"/>
             <field name="state">enabled</field>
         </record>
