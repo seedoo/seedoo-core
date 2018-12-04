@@ -28,6 +28,7 @@ from openerp.tools.translate import _
 from ..segnatura.annullamento_xml import AnnullamentoXML
 from ..segnatura.conferma_xml import ConfermaXML
 from ..segnatura.segnatura_xml import SegnaturaXML
+from datetime import datetime
 
 _logger = logging.getLogger(__name__)
 mimetypes.init()
@@ -185,9 +186,29 @@ class protocollo_protocollo(orm.Model):
     def on_change_emergency_receiving_date(self, cr, uid, ids, emergency_receiving_date, context=None):
         values = {}
         if emergency_receiving_date:
-            values = {
-                'receiving_date': emergency_receiving_date
-            }
+            emergency_registry_obj = self.pool.get('protocollo.emergency.registry')
+            aoo_id = self._get_default_aoo_id(cr, uid)
+            if aoo_id:
+                reg_ids = emergency_registry_obj.search(cr, uid, [
+                    ('aoo_id', '=', aoo_id),
+                    ('state', '=', 'draft')
+                ])
+                if len(reg_ids) > 0:
+                    emergency_registry = emergency_registry_obj.browse(cr, SUPERUSER_ID, reg_ids[0])
+
+                    if emergency_receiving_date < emergency_registry.date_start or emergency_receiving_date > emergency_registry.date_end:
+
+
+                        datetime_start = datetime.strptime(emergency_registry.date_start, '%Y-%m-%d %H:%M:%S')
+                        datetime_end = datetime.strptime(emergency_registry.date_end, '%Y-%m-%d %H:%M:%S')
+                        raise orm.except_orm(_('Avviso'),
+                                             _(
+                                                 'La data di ricezione deve essere compresa nel periodo di apertura del registro di emergenza dal: %s al: %s'
+                                             %(datetime_start.strftime('%d-%m-%Y'), datetime_end.strftime('%d-%m-%Y'))))
+
+                    values = {
+                        'receiving_date': emergency_receiving_date
+                    }
         return {'value': values}
 
     def on_change_datas(self, cr, uid, ids, datas, context=None):
