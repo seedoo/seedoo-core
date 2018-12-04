@@ -51,7 +51,7 @@ this module contains the full copyright notices and license terms. -->
 
 
         <act_window id="dematerializzazione_importa_documenti_wizard_action"
-                    name="Importa"
+                    name="Importazione"
                     res_model="dematerializzazione.importa.documenti.step1.wizard"
                     view_type="form" view_mode="form"
                     target="new"/>

@@ -49,7 +49,7 @@ class dematerializzazione_importer(orm.Model):
         'description': fields.text('Descrizione Repository'),
         'tipologia_importazione': fields.selection(TIPOLOGIA_SELECTION, 'Tipologia Importazione', select=True,
                                                    required=True),
-        'tipologia_protocollo': fields.many2one('protocollo.typology', 'Tipologia Protocollo'),
+        'tipologia_protocollo': fields.many2one('protocollo.typology', 'Mezzo di Trasmissione'),
         'aoo_id': fields.many2one('protocollo.aoo', 'AOO', required=True),
         # 'employee_id': fields.many2one('hr.employee', 'Protocollatore'),
         'employee_ids': fields.many2many('hr.employee', 'dematerializzazione_importer_employee_rel', 'importer_id',

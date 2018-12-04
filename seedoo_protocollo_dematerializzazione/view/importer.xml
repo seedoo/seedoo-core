@@ -26,8 +26,9 @@ this module contains the full copyright notices and license terms. -->
                         <field name="tipologia_importazione"
                                on_change="on_change_tipologia_importazione(tipologia_importazione)" colspan="4"/>
                         <field name="aoo_id"
-                               options="{'no_quick_create': True, 'no_create_edit' : True}"
-                               on_change="on_change_aoo_id(aoo_id)" colspan="4"/>
+                               options="{'no_open': True}"
+                               on_change="on_change_aoo_id(aoo_id)"
+                               readonly="1" colspan="4"/>
                         <newline/>
                         <field name="tipologia_protocollo" colspan="4" select="1" widget="selection"
                                domain="[('aoo_id','=',aoo_id)]"
