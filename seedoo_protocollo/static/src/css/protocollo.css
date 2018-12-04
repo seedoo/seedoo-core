@@ -537,6 +537,7 @@ table.oe_form_group.subject_modify_wizard tr > td {
 .openerp .box-sender-internal .oe_form_field_char {
   float: left;
   width: auto;
+  padding: 0 10px;
 }
 .openerp .box-sender-internal > .oe_form_field_char {
   font-style: italic;
