@@ -557,7 +557,6 @@ class protocollo_protocollo(orm.Model):
         'sender_internal_assegnatario': fields.many2one('protocollo.assegnatario', 'Assegnatario Mittente Interno'),
         'sender_internal_name': fields.char('Protocollazione Interna Nome', size=512, readonly=True),
         'sender_internal_employee': fields.many2one('hr.employee', 'Protocollazione Interna Dipendente', required=False),
-        'sender_internal_employee_image': fields.related('sender_internal_employee', 'image', type='binary', string='Immagine', readonly=True),
         'sender_internal_department': fields.many2one('hr.department', 'Protocollazione Interna Ufficio', required=False),
         'sender_receivers': fields.one2many('protocollo.sender_receiver', 'protocollo_id', 'Mittenti/Destinatari'),
         'senders': fields.one2many('protocollo.sender_receiver', 'protocollo_id', 'Mittente',
