@@ -6,7 +6,7 @@ this module contains the full copyright notices and license terms. -->
     <data>
         <!-- wizard action on protocollo.protocollo -->
         <act_window id="protocollo_create_action"
-                    name="Crea Protocollo"
+                    name="Creazione Protocollo"
                     res_model="protocollo.create.wizard"
                     view_type="form" view_mode="form"
                     target="new"/>

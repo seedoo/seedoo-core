@@ -14,7 +14,7 @@ this module contains the full copyright notices and license terms. -->
                     <field name="importer_id" attrs="{'invisible':[('importer_id', '=', False)]}"/>
                 </xpath>
                 <xpath expr="//field[@name='registration_employee_department_name']" position="after">
-                    <button string="Stampa Etichetta" type="object"
+                    <button string="Genera Etichetta" type="object"
                                 attrs="{'invisible':[('state','=','draft')]}" colspan="4"
                                 name="action_apri_stampa_etichetta" class="oe_inline oe_button oe_highlight_positive btn_seedoo btn_stampa_etichetta button-form-protocollo"/>
                 </xpath>

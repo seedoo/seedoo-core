@@ -970,7 +970,7 @@ this module contains the full copyright notices and license terms. -->
                         <filter string="preso" name="filtro_preso_in_carico" domain="[('filtro_preso_in_carico_visibility', '=', True)]"/>
                         <filter string="rifiutato" name="filtro_rifiutato" domain="[('filtro_rifiutato_visibility', '=', True)]"/>
                         -->
-                        <filter string="In Attesa" name="filtro_in_attesa" domain="[('in_attesa', '=', True)]"/>
+                        <filter string="In Attesa di Presa in Carico" name="filtro_in_attesa" domain="[('in_attesa', '=', True)]"/>
                         <filter string="Prese in Carico" name="filtro_preso_in_carico" domain="[('preso', '=', True)]"/>
                         <filter string="Rifiutate" name="filtro_rifiutato" domain="[('rifiutato', '=', True)]"/>
                     </group>

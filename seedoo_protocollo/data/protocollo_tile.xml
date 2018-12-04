@@ -548,7 +548,7 @@
 
         <!--  Tile: Protocolli assegnati da me totali - Assegnato-->
         <record id="tile_protocollo_totali_assegnati_da_me_assegnato" model="tile.tile">
-            <field name="name">In attesa di presa in carico</field>
+            <field name="name">Assegnato da me</field>
             <field name="model_id" ref="seedoo_protocollo.model_protocollo_protocollo"/>
             <field name="action_id" ref="seedoo_protocollo.act_tile_protocollo_totali_assegnati_da_me_assegnato"/>
             <field name="mode">method</field>

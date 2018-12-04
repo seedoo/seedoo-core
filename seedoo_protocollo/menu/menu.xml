@@ -36,7 +36,7 @@ this module contains the full copyright notices and license terms. -->
                   id="protocollo_protocollo_draft_menu" sequence="20"
                   groups="group_vedi_menu_protocolli_bozze"/>
 
-        <menuitem name="Crea Protocollo" action="protocollo_create_action"
+        <menuitem name="Crea Bozza" action="protocollo_create_action"
                   parent="protocollo_doc"
                   id="crea_protocollo_menu" sequence="30"
                   groups="group_crea_protocollo_ingresso,group_crea_protocollo_uscita"/>
