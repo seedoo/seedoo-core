@@ -187,8 +187,11 @@
     		 			return (treeNode.doCheck !== false);
     		 		};
     		 		function onCheck(e, treeId, treeNode) {
-    		 			
-    		 			self.set_value(treeNode['id']);
+    		 			if (self.get('value') == treeNode['id']) {
+                            self.set_value(false);
+                        } else {
+    		 			    self.set_value(treeNode['id']);
+                        }
     		 		};
     		 		function expandParentNode(zTree, node) {
     		 			var pnode = false;

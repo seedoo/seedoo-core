@@ -21,7 +21,7 @@ class protocollo_aggiungi_assegnatari_wizard(osv.TransientModel):
         'assegnatario_competenza_id': fields.many2one('protocollo.assegnatario',
                                                       'Assegnatario per Competenza',
                                                       domain="[('assignable', '=', True)]",
-                                                      required=True),
+                                                      required=False),
         'assegnatario_conoscenza_ids': fields.many2many('protocollo.assegnatario',
                                                         'protocollo_aggiungi_assegnatari_rel',
                                                         'wizard_id',
@@ -33,6 +33,7 @@ class protocollo_aggiungi_assegnatari_wizard(osv.TransientModel):
         'conoscenza_reserved_error': fields.text('Errore Protocollazione Riservata', readonly=True),
         'assegnatari_empty': fields.boolean('Assegnatari Non Presenti'),
         'assegnatore_department_id_invisible': fields.boolean('Dipartimento Assegnatore Non Visibile', readonly=True),
+        'assegnatario_competenza_id_required': fields.boolean('Assegnatario per Competenza Obbligatorio', readonly=True),
     }
 
     def _default_reserved(self, cr, uid, context):
@@ -98,6 +99,15 @@ Se sono presenti assegnatari per conoscenza verranno rimossi al completamento de
         else:
             return True
 
+    def _default_assegnatario_competenza_id_required(self, cr, uid, context):
+        protocollo = None
+        if context and 'active_id' in context:
+            protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
+        if not protocollo or protocollo.state == 'draft':
+            return False
+        else:
+            return True
+
     _defaults = {
         'reserved': _default_reserved,
         'conoscenza_reserved_error': _default_conoscenza_reserved_error,
@@ -106,7 +116,8 @@ Se sono presenti assegnatari per conoscenza verranno rimossi al completamento de
         'assegnatario_conoscenza_ids': _default_assegnatario_conoscenza_ids,
         'display_motivation': _default_display_motivation,
         'assegnatari_empty': _default_assegnatari_empty,
-        'assegnatore_department_id_invisible': _default_assegnatore_department_id_invisible
+        'assegnatore_department_id_invisible': _default_assegnatore_department_id_invisible,
+        'assegnatario_competenza_id_required': _default_assegnatario_competenza_id_required
     }
 
     def action_save(self, cr, uid, ids, context=None):

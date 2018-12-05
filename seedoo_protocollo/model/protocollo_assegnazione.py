@@ -283,14 +283,16 @@ class protocollo_assegnazione(orm.Model):
 
 
     def salva_assegnazione_competenza(self, cr, uid, protocollo_id, assegnatario_id, assegnatore_id, force=False, smist_ut_uff=False):
-        if protocollo_id and assegnatario_id and assegnatore_id:
+        if protocollo_id and assegnatore_id:
 
-            assegnazione_ids = self.search(cr, uid, [
-                ('protocollo_id', '=', protocollo_id),
-                ('tipologia_assegnazione', '=', 'competenza'),
-                ('assegnatario_id', '=', assegnatario_id),
-                ('parent_id', '=', False)
-            ])
+            assegnazione_ids = []
+            if assegnatario_id:
+                assegnazione_ids = self.search(cr, uid, [
+                    ('protocollo_id', '=', protocollo_id),
+                    ('tipologia_assegnazione', '=', 'competenza'),
+                    ('assegnatario_id', '=', assegnatario_id),
+                    ('parent_id', '=', False)
+                ])
             if not assegnazione_ids or force:
                 # eliminazione delle vecchie assegnazioni
                 assegnazione_ids = self.search(cr, uid, [
@@ -300,8 +302,9 @@ class protocollo_assegnazione(orm.Model):
                 if assegnazione_ids:
                     self.unlink(cr, uid, assegnazione_ids)
 
-                # creazione della nuova assegnazione
-                self._crea_assegnazioni(cr, uid, protocollo_id, [assegnatario_id], assegnatore_id, 'competenza', smist_ut_uff)
+                if assegnatario_id:
+                    # creazione della nuova assegnazione
+                    self._crea_assegnazioni(cr, uid, protocollo_id, [assegnatario_id], assegnatore_id, 'competenza', smist_ut_uff)
 
 
     def salva_assegnazione_conoscenza(self, cr, uid, protocollo_id, assegnatario_ids, assegnatore_id, delete=True):

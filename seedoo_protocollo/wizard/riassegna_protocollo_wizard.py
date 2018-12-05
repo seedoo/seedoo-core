@@ -99,6 +99,7 @@ class protocollo_riassegna_wizard(osv.TransientModel):
                 ('tipologia_assegnazione', '=', 'competenza'),
                 ('parent_id', '=', False)
             ], limit=1)
+            assegnazione_competenza = None
             if assegnazione_competenza_ids:
                 assegnazione_competenza = assegnazione_obj.browse(cr, uid, assegnazione_competenza_ids[0])
             if assegnazione_competenza and assegnazione_competenza.assegnatario_id.id==assegnatario_competenza_id:

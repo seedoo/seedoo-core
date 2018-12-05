@@ -30,7 +30,9 @@
                                        options="{'limit': 5000, 'label': 'nome', 'all_checkable': true, 'field_no_checkbox': 'no_checkbox', 'css_class': 'tipologia', 'order': '-tipologia,nome'}"
                                        nolabel="1"
                                        context="{'reserved': reserved}"
+                                       attrs="{'required':[('assegnatario_competenza_id_required','=',True)]}"
                                 />
+                                <field name="assegnatario_competenza_id_required" invisible="1"/>
                             </group>
                             <group colspan="1" col="1">
                                 <separator string="Assegnatari per Conoscenza"/>
