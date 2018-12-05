@@ -139,13 +139,13 @@ class protocollo_configurazione(orm.Model):
 
             if protocollo.reserved:
                 if competenza_ufficio_found:
-                    campi_obbligatori = campi_obbligatori + '<li>Dipendente Assegnatario per Competenza: i protocollo riservati non possono avere uffici come assegnatari per competenza</li>'
+                    campi_obbligatori = campi_obbligatori + '<li>Dipendente Assegnatario per Competenza: i protocolli riservati non possono avere uffici come assegnatari per competenza</li>'
                 elif not competenza_dipendente_found:
                     campi_obbligatori = campi_obbligatori + '<li>Dipendente Assegnatario per Competenza</li>'
                 if conoscenza_ufficio_found or conoscenza_dipendente_found:
-                    campi_obbligatori = campi_obbligatori + '<li>Assegnatari per Conoscenza: i protocollo riservati non possono avere assegnatari per conoscenza</li>'
+                    campi_obbligatori = campi_obbligatori + '<li>Assegnatari per Conoscenza: i protocolli riservati non possono avere assegnatari per conoscenza</li>'
                 if protocollo.type == 'internal' and protocollo.sender_internal_department:
-                    campi_obbligatori = campi_obbligatori + '<li>Mittente: i protocollo riservati non possono avere assegnatari uffici come mittenti</li>'
+                    campi_obbligatori = campi_obbligatori + '<li>Mittente: i protocolli riservati non possono avere uffici come mittenti</li>'
             else:
                 if configurazione.assegnatari_competenza_uffici_required and \
                         not configurazione.assegnatari_competenza_dipendenti_required and \
