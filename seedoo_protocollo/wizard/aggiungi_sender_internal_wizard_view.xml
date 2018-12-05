@@ -14,7 +14,10 @@
                                    widget="m2o_tree"
                                    options="{'limit': 5000, 'label': 'nome', 'all_checkable': true, 'field_no_checkbox': 'no_checkbox', 'css_class': 'tipologia', 'order': '-tipologia,nome'}"
                                    nolabel="1"
+                                   context="{'reserved': reserved}"
                             />
+
+                            <field name="reserved" invisible="1"/>
                         </group>
                     </sheet>
                     <footer>

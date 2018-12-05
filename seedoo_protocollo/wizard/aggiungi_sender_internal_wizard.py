@@ -11,8 +11,16 @@ class protocollo_sender_internal_wizard(osv.TransientModel):
     _description = 'Aggiungi Mittente Interno'
 
     _columns = {
+        'reserved': fields.boolean('Riservato', readonly=True),
         'sender_internal_ref': fields.many2one('protocollo.assegnatario', 'Dipendente del Mittente Interno', domain="[('assignable', '=', True)]")
     }
+
+    def _default_reserved(self, cr, uid, context):
+        protocollo_obj = self.pool.get('protocollo.protocollo')
+        protocollo = protocollo_obj.browse(cr, uid, context['active_id'], {'skip_check': True})
+        if protocollo:
+            return protocollo.reserved
+        return False
 
     def _default_sender_internal_employee_id(self, cr, uid, context):
         protocollo_obj = self.pool.get('protocollo.protocollo')
@@ -25,6 +33,7 @@ class protocollo_sender_internal_wizard(osv.TransientModel):
         return False
 
     _defaults = {
+        'reserved': _default_reserved,
         'sender_internal_ref': _default_sender_internal_employee_id
     }
 
@@ -34,9 +43,9 @@ class protocollo_sender_internal_wizard(osv.TransientModel):
         vals = {}
         vals['sender_internal_assegnatario'] = wizard.sender_internal_ref.id
         vals['sender_internal_name'] = wizard.sender_internal_ref.name
-        vals['sender_internal_employee'] = wizard.sender_internal_ref.employee_id.id
-        vals['sender_internal_employee_department'] = wizard.sender_internal_ref.employee_id.department_id.id
-        vals['sender_internal_department'] = wizard.sender_internal_ref.department_id.id
+        vals['sender_internal_employee'] = wizard.sender_internal_ref.employee_id.id if wizard.sender_internal_ref.employee_id else False
+        vals['sender_internal_employee_department'] = wizard.sender_internal_ref.employee_id.department_id.id if wizard.sender_internal_ref.employee_id else False
+        vals['sender_internal_department'] = wizard.sender_internal_ref.department_id.id if wizard.sender_internal_ref.department_id else False
         protocollo_obj.write(cr, uid, [context['active_id']], vals)
 
         return {
