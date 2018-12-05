@@ -175,8 +175,9 @@ Se sono presenti assegnatari per conoscenza verranno rimossi al completamento de
                 body = body + "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#009900'> %s </span></li>" \
                               % ('Assegnatari Conoscenza', before['conoscenza'], after['conoscenza'])
             body += "</ul></div>"
+            subject_label = "Modifica assegnatari" if before['competenza'] or before['conoscenza'] else "Aggiunta assegnatari"
             post_vars = {
-                'subject': "%s%s" % ("Modifica assegnatari", ": " + wizard.motivation if wizard.motivation else ""),
+                'subject': "%s%s" % (subject_label, ": " + wizard.motivation if wizard.motivation else ""),
                 'body': body,
                 'model': "protocollo.protocollo",
                 'res_id': context['active_id']
