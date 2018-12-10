@@ -1550,6 +1550,35 @@ class protocollo_protocollo(osv.Model):
 
         return dict(res)
 
+    def _agli_atti_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
+        res = []
+
+        protocolli = self._get_protocolli(cr, uid, ids)
+        for protocollo in protocolli:
+            check = False
+
+            if protocollo.state in ('registered', 'sent'):
+                check = True
+
+            if check:
+                check_gruppi = False
+                if protocollo.type == 'in':
+                    check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_agli_atti_protocollo_ingresso')
+                elif protocollo.type == 'out':
+                    check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_agli_atti_protocollo_uscita')
+                elif protocollo.type == 'internal':
+                    check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_agli_atti_protocollo_interno')
+                check = check and check_gruppi
+
+            if self._check_stato_assegnatario_competenza(cr, uid, protocollo, 'preso') or uid == SUPERUSER_ID:
+                check = check and True
+            else:
+                check = False
+
+            res.append((protocollo.id, check))
+
+        return dict(res)
+
     def _modifica_dati_generali_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
 
@@ -2182,6 +2211,7 @@ class protocollo_protocollo(osv.Model):
         'prendi_in_carico_visibility': fields.function(_prendi_in_carico_visibility, type='boolean',
                                                        string='Prendi in Carico'),
         'rifiuta_visibility': fields.function(_rifiuta_visibility, type='boolean', string='Rifiuta'),
+        'agli_atti_visibility': fields.function(_agli_atti_visibility, type='boolean', string='Agli Atti'),
         'modifica_dati_generali_visibility': fields.function(_modifica_dati_generali_visibility, type='boolean',
                                                              string='Modifica Dati Generali'),
         'modifica_classificazione_visibility': fields.function(_modifica_classificazione_visibility, type='boolean',
