@@ -26,7 +26,7 @@ this module contains the full copyright notices and license terms. -->
                         <newline/>
                         <field name="assegnazione" widget="radio"/>
                     </group>
-                    <group string="Campi obbligatori per Registrazione Protocollo">
+                    <group string="Campi obbligatori per Registrazione Protocollo" class="seedoo_required_fields">
                         <field name="classificazione_required"/>
                         <field name="fascicolazione_required"/>
                         <field name="assegnatari_competenza_uffici_required"/>

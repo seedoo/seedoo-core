@@ -1932,6 +1932,7 @@ class protocollo_protocollo(orm.Model):
         )
 
     def carica_documenti_secondari(self, cr, uid, protocollo_id, file_data_list, context=None):
+        attachment_created_ids = []
         attachment_obj = self.pool.get('ir.attachment')
 
         attachment_ids = attachment_obj.search(cr, uid, [
@@ -1939,7 +1940,7 @@ class protocollo_protocollo(orm.Model):
             ('res_id', '=', protocollo_id),
             ('is_protocol', '=', True)
         ])
-        if attachment_ids:
+        if attachment_ids and (not context or not ('append' in context)):
             attachments = attachment_obj.browse(cr, uid, attachment_ids)
             for attachment in attachments:
                 if not attachment.is_main:
@@ -1948,7 +1949,7 @@ class protocollo_protocollo(orm.Model):
         nomi_allegati = ''
         counter = 0
         for file_data in file_data_list:
-            attachment_obj.create(
+            attachment_created_id = attachment_obj.create(
                 cr, uid,
                 {
                     'name': file_data['datas_fname'],
@@ -1960,6 +1961,7 @@ class protocollo_protocollo(orm.Model):
                     'res_id': protocollo_id,
                 }
             )
+            attachment_created_ids.append(attachment_created_id)
             nomi_allegati += file_data['datas_fname']
             if counter < len(file_data_list) - 1:
                 nomi_allegati += ', '
@@ -1978,6 +1980,8 @@ class protocollo_protocollo(orm.Model):
 
             thread_pool = self.pool.get('protocollo.protocollo')
             thread_pool.message_post(cr, uid, protocollo_id, type="notification", context=context, **post_vars)
+
+        return attachment_created_ids
 
     def _get_oggetto_mail_pec(self, cr, uid, subject, prot_name, prot_registration_date):
         prefix = "Prot. n. " + prot_name + " del " + prot_registration_date + " - "
