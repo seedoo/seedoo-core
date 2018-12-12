@@ -40,6 +40,7 @@ class hr_department(orm.Model):
         return [('id', 'in', list(set(department_ids)))]
 
     _columns = {
+        'code': fields.char("Codice della Risorsa dell'Organigramma", size=256),
         'description': fields.text('Descrizione Ufficio'),
         'assignable': fields.boolean('Attivo in Protocollazione'),
         'aoo_id': fields.many2one('protocollo.aoo', 'AOO', required=False),
@@ -61,6 +62,7 @@ class hr_employee(orm.Model):
     _inherit = 'hr.employee'
 
     _columns = {
+        'code': fields.char("Codice della Risorsa dell'Organigramma", size=256),
         'protocollo_registry_ids': fields.many2many('protocollo.registry', 'protocollo_registry_hr_employee_rel',
                                                     'employee_id', 'registry_id', 'Dipendenti Abilitati'),
         'aoo': fields.related('department_id', 'aoo_name', type='char', string='AOO', readonly=1),

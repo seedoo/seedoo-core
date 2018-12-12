@@ -16,29 +16,7 @@ this module contains the full copyright notices and license terms. -->
                 </field>
                 <field name="company_id" position="after">
                     <newline/>
-                    <field name="assignable"/>
-                    <newline/>
-                    <field name="description" colspan="4"/>
-                    <notebook colspan="6">
-                        <page string="Dipendenti">
-                            <field name="member_ids" colspan="6" nolabel="1" readonly="1"/>
-                        </page>
-                    </notebook>
-                </field>
-            </field>
-        </record>
-
-        <!--
-        <record id="view_configuration_department_form" model="ir.ui.view">
-            <field name="name">hr.department.form.protocollo</field>
-            <field name="model">hr.department</field>
-            <field name="mode">primary</field>
-            <field name="inherit_id" ref="hr.view_department_form"></field>
-            <field name="arch" type="xml">
-                <field name="parent_id" position="after">
-                    <field name="aoo_id" options="{'no_create': True}"/>
-                </field>
-                <field name="company_id" position="after">
+                    <field name="code"/>
                     <newline/>
                     <field name="assignable"/>
                     <newline/>
@@ -51,37 +29,6 @@ this module contains the full copyright notices and license terms. -->
                 </field>
             </field>
         </record>
-        -->
-
-        <!--
-        <record id="view_department_tree_protocollo" model="ir.ui.view">
-            <field name="name">hr.department.tree.protocollo</field>
-            <field name="model">hr.department</field>
-            <field name="mode">primary</field>
-            <field name="field_parent">child_ids</field>
-            <field name="inherit_id" ref="hr.view_department_tree"></field>
-            <field name="arch" type="xml">
-                <xpath expr="/tree[@string='Companies']" position="attributes">
-                    <attribute name="create">0</attribute>
-                    <attribute name="edit">0</attribute>
-                </xpath>
-            </field>
-        </record>
-        -->
-
-        <!--
-        <record id="view_configuration_department_tree" model="ir.ui.view">
-            <field name="name">hr.department.tree.protocollo</field>
-            <field name="model">hr.department</field>
-            <field name="mode">primary</field>
-            <field name="inherit_id" ref="hr.view_department_tree"></field>
-            <field name="arch" type="xml">
-                <field name="complete_name" position="after">
-                    <field name="parent_id"/>
-                </field>
-            </field>
-        </record>
-        -->
 
         <!-- INIZIO Scheda dati utente corrente per Dashboard -->
         <record model="ir.actions.act_window" id="act_employee_protocollo_kanban">
@@ -101,6 +48,9 @@ this module contains the full copyright notices and license terms. -->
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='user_id']" position="attributes">
                     <attribute name="options">{'no_quick_create':True,'no_create_edit':True}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='user_id']" position="after">
+                    <field name="code"/>
                 </xpath>
             </field>
         </record>
