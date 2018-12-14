@@ -142,6 +142,7 @@ class protocollo_protocollo(orm.Model):
         ('error', 'Errore Pec'),
         ('sent', 'Inviato'),
         ('canceled', 'Annullato'),
+        ('acts', 'Agli Atti')
     ]
 
     def seedoo_error(self, cr, uid):
@@ -1789,6 +1790,28 @@ class protocollo_protocollo(orm.Model):
                 raise orm.except_orm(_('Attenzione!'), _('Il protocollo non può più essere rifiutato!'))
         except Exception as e:
             raise orm.except_orm(_('Attenzione!'), _('Non sei più assegnatario di questo protocollo!'))
+        return True
+
+    def agli_atti(self, cr, uid, ids, motivazione, context=None):
+        rec = self.pool.get('res.users').browse(cr, uid, uid)
+        for id in ids:
+            protocollo = self.browse(cr, uid, id, {'skip_check': True})
+            esito_visibility = protocollo.agli_atti_visibility
+            protocollo.signal_workflow('acts')
+            if esito_visibility and protocollo.state=='acts':
+                action_class = "history_icon acts"
+                post_vars = {
+                    'subject': "Agli atti: %s" % motivazione,
+                    'body': "<div class='%s'><ul><li>Protocollo messo agli atti da <span style='color:#009900;'>%s</span></li></ul></div>" % (
+                        action_class, rec.name),
+                    'model': "protocollo.protocollo",
+                    'res_id': protocollo.id
+                }
+
+                thread_pool = self.pool.get('protocollo.protocollo')
+                thread_pool.message_post(cr, uid, protocollo.id, type="notification", context=context, **post_vars)
+            else:
+                raise orm.except_orm(_('Attenzione!'), _('Il protocollo non può più essere messo agli atti!'))
         return True
 
     def _verifica_dati_sender_receiver(self, cr, uid, vals, context):
