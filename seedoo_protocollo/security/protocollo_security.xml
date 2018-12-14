@@ -470,13 +470,28 @@ this module contains the full copyright notices and license terms. -->
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
 
-         <!--
-         <record model="ir.module.category" id="module_protocollo_management">
-                   <field name="name">Seedoo Protocollo</field>
-                   <field name="sequence">200</field>
-         </record>
-         -->
 
+        <!-- Permessi di attivazione per la ricezione delle notifiche assegnazione competenza/conoscenza -->
+        <record id="group_notifica_assegnazione_competenza_ufficio" model="res.groups">
+            <field name="name">Ricevi notifica assegnazione protocollo per competenza (ufficio)</field>
+            <field name="category_id" ref="module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+        <record id="group_notifica_assegnazione_competenza_utente" model="res.groups">
+            <field name="name">Ricevi notifica assegnazione protocollo per competenza (utente)</field>
+            <field name="category_id" ref="module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+        <record id="group_notifica_assegnazione_conoscenza_ufficio" model="res.groups">
+            <field name="name">Ricevi notifica assegnazione protocollo per conoscenza (ufficio)</field>
+            <field name="category_id" ref="module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+        <record id="group_notifica_assegnazione_conoscenza_utente" model="res.groups">
+            <field name="name">Ricevi notifica assegnazione protocollo per conoscenza (utente)</field>
+            <field name="category_id" ref="module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
 
     </data>
 

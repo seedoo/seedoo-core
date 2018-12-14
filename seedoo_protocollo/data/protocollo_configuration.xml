@@ -43,41 +43,38 @@
 
         <!-- Email template for protocol notification -->
         <record id="notify_protocol" model="email.template">
-            <field name="name">Notifica Protocollo</field>
-            <field name="model_id" ref="model_protocollo_protocollo"/>
-            <field name="email_from">${object.registry.company_id.email|safe}</field>
-            <field name="email_to">${object.assigne_emails|safe}</field>
-            <field name="subject"><![CDATA[Notifica Protocollo ${object.name} del ${object.registration_date}]]></field>
+            <field name="name">Assegnazione Protocollo</field>
+            <field name="model_id" ref="model_protocollo_assegnazione"/>
+            <field name="email_from">${object.protocollo_id.registry.company_id.email|safe}</field>
+            <field name="email_to">${object.assegnatario_employee_id.user_id.partner_id.email|safe}</field>
+            <field name="subject"><![CDATA[Assegnazione Protocollo ${object.protocollo_id.name} del ${format_tz(object.protocollo_id.registration_date, tz=user.tz, format='%d/%m/%Y %H:%M:%S')}]]></field>
             <field name="body_html">
                 <![CDATA[
                     <p>
-                        Notifica Protocollo ${object.name} del ${object.registration_date},
+                        Notifica Assegnazione Protocollo ${object.protocollo_id.name} del ${format_tz(object.protocollo_id.registration_date, tz=user.tz, format='%d/%m/%Y %H:%M:%S')}.
                     </p>
                     <p>
-                        Il protocollo è stato assegnato al tuo ufficio di appartenenza
+                        Il protocollo è stato assegnato ${object.parent_id and 'al tuo ufficio di appartenenza ' or ''}per ${object.tipologia_assegnazione}.
                     </p>
                     <p>
-                        Oggetto:  ${object.reserved and 'Riservato' or object.subject}
+                        Oggetto:  ${object.protocollo_id.subject}
                     </p>
                     <p>
-                        ${object.type == 'in' and 'Mittenti' or 'Destinatari'}:  ${object.sender_receivers_summary}
+                        ${object.protocollo_id.type in ['in', 'internal'] and 'Mittenti' or 'Destinatari'}:  ${object.protocollo_id.sender_receivers_summary}
                     </p>
                     <p>
                         Protocollo Riservato: ${object.reserved and 'SI' or 'NO'}
                     </p>
-                    <pre>
-                            ${object.registry.company_id.name|safe}
-                    </pre>
                 ]]>
             </field>
         </record>
 
         <record id="notify_reserved_protocol" model="email.template">
-            <field name="name">Notifica Protocollo</field>
+            <field name="name">Assegnazione Protocollo Riservato</field>
             <field name="model_id" ref="model_protocollo_protocollo"/>
             <field name="email_from">${object.registry.company_id.email|safe}</field>
             <field name="email_to">${object.aoo_id.reserved_employee_id.user_id.email|safe}</field>
-            <field name="subject"><![CDATA[Notifica Protocollo ${object.name} del ${object.registration_date}]]></field>
+            <field name="subject"><![CDATA[Assegnazione Protocollo ${object.name} del ${object.registration_date}]]></field>
             <field name="body_html">
                 <![CDATA[
                     <p>

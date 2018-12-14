@@ -137,7 +137,7 @@ class protocollo_protocollo(orm.Model):
     STATE_SELECTION = [
         ('draft', 'Bozza'),
         ('registered', 'Registrato'),
-        ('notified', 'Notificato'),
+        #('notified', 'Notificato'),
         ('waiting', 'Pec Inviata'),
         ('error', 'Errore Pec'),
         ('sent', 'Inviato'),
@@ -995,6 +995,16 @@ class protocollo_protocollo(orm.Model):
             wf_service.trg_validate(uid, 'protocollo.protocollo', ids[0], 'register', cr)
             res_conferma = self.action_send_conferma(cr, uid, ids)
 
+            protocollo_assegnazione_obj = self.pool.get('protocollo.assegnazione')
+            for protocollo_id in ids:
+                protocollo_assegnazione_ids = protocollo_assegnazione_obj.search(cr, uid, [
+                    ('protocollo_id', '=', protocollo_id),
+                    ('parent_id', '=', False)
+                ])
+                for protocollo_assegnazione_id in protocollo_assegnazione_ids:
+                    protocollo_assegnazione = protocollo_assegnazione_obj.browse(cr, uid, protocollo_assegnazione_id, {'skip_check': True})
+                    protocollo_assegnazione_obj.notifica_assegnazione(cr, uid, protocollo_assegnazione)
+
         if res_registrazione is not None:
             for item_res_registrazione in res_registrazione:
                 res.append(item_res_registrazione)
@@ -1177,22 +1187,22 @@ class protocollo_protocollo(orm.Model):
 
         return res_conferma
 
-    def action_notify(self, cr, uid, ids, *args):
-        email_template_obj = self.pool.get('email.template')
-        for prot in self.browse(cr, uid, ids):
-            if prot.type == 'in' and not prot.assegnazione_competenza_ids:
-                raise openerp.exceptions.Warning(_('Errore nella notifica del protocollo, mancano gli assegnatari'))
-            if prot.reserved:
-                template_reserved_id = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'seedoo_protocollo',
-                                                                                           'notify_reserved_protocol')[
-                    1]
-                email_template_obj.send_mail(cr, uid, template_reserved_id, prot.id, force_send=True)
-            if prot.assigne_emails:
-                template_id = \
-                    self.pool.get('ir.model.data').get_object_reference(cr, uid, 'seedoo_protocollo',
-                                                                        'notify_protocol')[1]
-                email_template_obj.send_mail(cr, uid, template_id, prot.id, force_send=True)
-        return True
+    # def action_notify(self, cr, uid, ids, *args):
+    #     email_template_obj = self.pool.get('email.template')
+    #     for prot in self.browse(cr, uid, ids):
+    #         if prot.type == 'in' and not prot.assegnazione_competenza_ids:
+    #             raise openerp.exceptions.Warning(_('Errore nella notifica del protocollo, mancano gli assegnatari'))
+    #         if prot.reserved:
+    #             template_reserved_id = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'seedoo_protocollo',
+    #                                                                                        'notify_reserved_protocol')[
+    #                 1]
+    #             email_template_obj.send_mail(cr, uid, template_reserved_id, prot.id, force_send=True)
+    #         if prot.assigne_emails:
+    #             template_id = \
+    #                 self.pool.get('ir.model.data').get_object_reference(cr, uid, 'seedoo_protocollo',
+    #                                                                     'notify_protocol')[1]
+    #             email_template_obj.send_mail(cr, uid, template_id, prot.id, force_send=True)
+    #     return True
 
     def action_notify_cancel(self, cr, uid, ids, *args):
         return True

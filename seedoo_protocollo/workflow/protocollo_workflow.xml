@@ -36,7 +36,7 @@ this module contains the full copyright notices and license terms. -->
         </record>
 
         <!-- In Protocol -->
-
+        <!--
         <record model="workflow.activity" id="act_notified">
             <field name="wkf_id" ref="wkf_protocollo"/>
             <field name="name">notified</field>
@@ -46,6 +46,7 @@ this module contains the full copyright notices and license terms. -->
             </field>
             <field name="kind">stopall</field>
         </record>
+        -->
 
         <!-- Out Protocol -->
 
@@ -121,11 +122,13 @@ this module contains the full copyright notices and license terms. -->
             <field name="signal">cancel</field>
         </record>
 
+        <!--
         <record model="workflow.transition" id="t50">
             <field name="act_from" ref="act_notified"/>
             <field name="act_to" ref="act_canceled"/>
             <field name="signal">cancel</field>
         </record>
+        -->
 
         <record model="workflow.transition" id="t60">
             <field name="act_from" ref="act_sent"/>
