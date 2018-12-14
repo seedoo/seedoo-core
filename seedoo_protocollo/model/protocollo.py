@@ -137,11 +137,12 @@ class protocollo_protocollo(orm.Model):
     STATE_SELECTION = [
         ('draft', 'Bozza'),
         ('registered', 'Registrato'),
-        ('notified', 'Notificato'),
+        #('notified', 'Notificato'),
         ('waiting', 'Pec Inviata'),
         ('error', 'Errore Pec'),
         ('sent', 'Inviato'),
         ('canceled', 'Annullato'),
+        ('acts', 'Agli Atti')
     ]
 
     def seedoo_error(self, cr, uid):
@@ -995,6 +996,16 @@ class protocollo_protocollo(orm.Model):
             wf_service.trg_validate(uid, 'protocollo.protocollo', ids[0], 'register', cr)
             res_conferma = self.action_send_conferma(cr, uid, ids)
 
+            protocollo_assegnazione_obj = self.pool.get('protocollo.assegnazione')
+            for protocollo_id in ids:
+                protocollo_assegnazione_ids = protocollo_assegnazione_obj.search(cr, uid, [
+                    ('protocollo_id', '=', protocollo_id),
+                    ('parent_id', '=', False)
+                ])
+                for protocollo_assegnazione_id in protocollo_assegnazione_ids:
+                    protocollo_assegnazione = protocollo_assegnazione_obj.browse(cr, uid, protocollo_assegnazione_id, {'skip_check': True})
+                    protocollo_assegnazione_obj.notifica_assegnazione(cr, uid, protocollo_assegnazione)
+
         if res_registrazione is not None:
             for item_res_registrazione in res_registrazione:
                 res.append(item_res_registrazione)
@@ -1177,22 +1188,22 @@ class protocollo_protocollo(orm.Model):
 
         return res_conferma
 
-    def action_notify(self, cr, uid, ids, *args):
-        email_template_obj = self.pool.get('email.template')
-        for prot in self.browse(cr, uid, ids):
-            if prot.type == 'in' and not prot.assegnazione_competenza_ids:
-                raise openerp.exceptions.Warning(_('Errore nella notifica del protocollo, mancano gli assegnatari'))
-            if prot.reserved:
-                template_reserved_id = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'seedoo_protocollo',
-                                                                                           'notify_reserved_protocol')[
-                    1]
-                email_template_obj.send_mail(cr, uid, template_reserved_id, prot.id, force_send=True)
-            if prot.assigne_emails:
-                template_id = \
-                    self.pool.get('ir.model.data').get_object_reference(cr, uid, 'seedoo_protocollo',
-                                                                        'notify_protocol')[1]
-                email_template_obj.send_mail(cr, uid, template_id, prot.id, force_send=True)
-        return True
+    # def action_notify(self, cr, uid, ids, *args):
+    #     email_template_obj = self.pool.get('email.template')
+    #     for prot in self.browse(cr, uid, ids):
+    #         if prot.type == 'in' and not prot.assegnazione_competenza_ids:
+    #             raise openerp.exceptions.Warning(_('Errore nella notifica del protocollo, mancano gli assegnatari'))
+    #         if prot.reserved:
+    #             template_reserved_id = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'seedoo_protocollo',
+    #                                                                                        'notify_reserved_protocol')[
+    #                 1]
+    #             email_template_obj.send_mail(cr, uid, template_reserved_id, prot.id, force_send=True)
+    #         if prot.assigne_emails:
+    #             template_id = \
+    #                 self.pool.get('ir.model.data').get_object_reference(cr, uid, 'seedoo_protocollo',
+    #                                                                     'notify_protocol')[1]
+    #             email_template_obj.send_mail(cr, uid, template_id, prot.id, force_send=True)
+    #     return True
 
     def action_notify_cancel(self, cr, uid, ids, *args):
         return True
@@ -1781,6 +1792,28 @@ class protocollo_protocollo(orm.Model):
             raise orm.except_orm(_('Attenzione!'), _('Non sei più assegnatario di questo protocollo!'))
         return True
 
+    def agli_atti(self, cr, uid, ids, motivazione, context=None):
+        rec = self.pool.get('res.users').browse(cr, uid, uid)
+        for id in ids:
+            protocollo = self.browse(cr, uid, id, {'skip_check': True})
+            esito_visibility = protocollo.agli_atti_visibility
+            protocollo.signal_workflow('acts')
+            if esito_visibility and protocollo.state=='acts':
+                action_class = "history_icon acts"
+                post_vars = {
+                    'subject': "Agli atti: %s" % motivazione,
+                    'body': "<div class='%s'><ul><li>Protocollo messo agli atti da <span style='color:#009900;'>%s</span></li></ul></div>" % (
+                        action_class, rec.name),
+                    'model': "protocollo.protocollo",
+                    'res_id': protocollo.id
+                }
+
+                thread_pool = self.pool.get('protocollo.protocollo')
+                thread_pool.message_post(cr, uid, protocollo.id, type="notification", context=context, **post_vars)
+            else:
+                raise orm.except_orm(_('Attenzione!'), _('Il protocollo non può più essere messo agli atti!'))
+        return True
+
     def _verifica_dati_sender_receiver(self, cr, uid, vals, context):
         if vals and vals.has_key('senders'):
             for mittente in vals['senders']:
@@ -1932,6 +1965,7 @@ class protocollo_protocollo(orm.Model):
         )
 
     def carica_documenti_secondari(self, cr, uid, protocollo_id, file_data_list, context=None):
+        attachment_created_ids = []
         attachment_obj = self.pool.get('ir.attachment')
 
         attachment_ids = attachment_obj.search(cr, uid, [
@@ -1939,7 +1973,7 @@ class protocollo_protocollo(orm.Model):
             ('res_id', '=', protocollo_id),
             ('is_protocol', '=', True)
         ])
-        if attachment_ids:
+        if attachment_ids and (not context or not ('append' in context)):
             attachments = attachment_obj.browse(cr, uid, attachment_ids)
             for attachment in attachments:
                 if not attachment.is_main:
@@ -1948,7 +1982,7 @@ class protocollo_protocollo(orm.Model):
         nomi_allegati = ''
         counter = 0
         for file_data in file_data_list:
-            attachment_obj.create(
+            attachment_created_id = attachment_obj.create(
                 cr, uid,
                 {
                     'name': file_data['datas_fname'],
@@ -1960,6 +1994,7 @@ class protocollo_protocollo(orm.Model):
                     'res_id': protocollo_id,
                 }
             )
+            attachment_created_ids.append(attachment_created_id)
             nomi_allegati += file_data['datas_fname']
             if counter < len(file_data_list) - 1:
                 nomi_allegati += ', '
@@ -1978,6 +2013,8 @@ class protocollo_protocollo(orm.Model):
 
             thread_pool = self.pool.get('protocollo.protocollo')
             thread_pool.message_post(cr, uid, protocollo_id, type="notification", context=context, **post_vars)
+
+        return attachment_created_ids
 
     def _get_oggetto_mail_pec(self, cr, uid, subject, prot_name, prot_registration_date):
         prefix = "Prot. n. " + prot_name + " del " + prot_registration_date + " - "

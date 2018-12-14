@@ -6,6 +6,9 @@ from openerp import SUPERUSER_ID, tools
 from openerp.osv import orm, fields, osv
 from openerp.tools.translate import _
 from util.selection import *
+import logging
+
+_logger = logging.getLogger(__name__)
 
 EMPLOYEE_MASK = 100000000
 DEPARTMENT_MASK = 200000000
@@ -265,6 +268,9 @@ class protocollo_assegnazione(orm.Model):
             vals['assegnatario_department_parent_id'] = assegnatario.department_id.parent_id.id if assegnatario.department_id.parent_id.id else False
 
         assegnazione_id = self.create(cr, uid, vals)
+        assegnazione = self.browse(cr, uid, assegnazione_id, {'skip_check': True})
+        self.notifica_assegnazione(cr, uid, assegnazione)
+
         return assegnazione_id
 
 
@@ -442,3 +448,30 @@ class protocollo_assegnazione(orm.Model):
                 return protocollo.registration_employee_department_id.id
 
         return False
+
+    def notifica_assegnazione(self, cr, uid, assegnazione):
+        if not assegnazione:
+            return
+        if assegnazione.protocollo_id.state == 'draft':
+            return
+        try:
+            data_obj = self.pool.get('ir.model.data')
+            email_template_obj = self.pool.get('email.template')
+            if assegnazione.tipologia_assegnatario == 'employee':
+                user = assegnazione.assegnatario_employee_id.user_id
+                if not user:
+                    return
+                notifica_permesso = 'seedoo_protocollo.group_notifica_assegnazione_' + assegnazione.tipologia_assegnazione
+                if assegnazione.parent_id:
+                    notifica_permesso += '_ufficio'
+                else:
+                    notifica_permesso += '_utente'
+                notifica_assegnazione = self.user_has_groups(cr, user.id, notifica_permesso)
+                if notifica_assegnazione:
+                    template_id = data_obj.get_object_reference(cr, uid, 'seedoo_protocollo', 'notify_protocol')[1]
+                    email_template_obj.send_mail(cr, uid, template_id, assegnazione.id, context={'skip_check': True})
+            else:
+                for child in assegnazione.child_ids:
+                    self.notifica_assegnazione(cr, uid, child)
+        except Exception as e:
+            _logger.error(e.message)

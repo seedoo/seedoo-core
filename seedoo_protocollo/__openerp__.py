@@ -65,6 +65,7 @@
         "wizard/registration_protocollo_wizard_view.xml",
         "wizard/confirm_operation_wizard_view.xml",
         "wizard/aggiungi_sender_internal_wizard_view.xml",
+        "wizard/agli_atti_protocollo_wizard_view.xml",
         "view/res_config.xml",
         "view/partner_view.xml",
         "view/offices_view.xml",

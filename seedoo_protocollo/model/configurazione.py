@@ -3,6 +3,7 @@
 # this module contains the full copyright notices and license terms.
 
 from openerp.osv import orm, fields
+from openerp.tools.translate import _
 
 
 class protocollo_configurazione(orm.Model):
@@ -74,54 +75,63 @@ class protocollo_configurazione(orm.Model):
         'select_attachments': True
     }
 
-    def verifica_campi_obbligatori(self, cr, uid, protocollo):
-        configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
-        configurazione = self.pool.get('protocollo.configurazione').browse(cr, uid, configurazione_ids[0])
 
-        campi_obbligatori = ''
+    def verifica_campi_non_configurati(self, cr, uid, protocollo):
+        errors = []
 
         if not protocollo.registration_employee_department_id:
-            campi_obbligatori = campi_obbligatori + '<li>Ufficio del Protocollo</li>'
+            errors.append(_("Ufficio del Protocollo"))
         else:
             employee_ids = self.pool.get('hr.employee').search(cr, uid, [
                 ('user_id', '=', uid),
                 ('department_id', '=', protocollo.registration_employee_department_id.id)
             ])
             if not employee_ids:
-                campi_obbligatori = campi_obbligatori + '<li>Ufficio del Protocollo: la tua utenza non ha dipendenti collegati all\'ufficio selezionato</li>'
+                errors.append(_("Ufficio del Protocollo: la tua utenza non ha dipendenti collegati all'ufficio selezionato"))
         if protocollo.type != 'internal' and not protocollo.typology:
-            campi_obbligatori = campi_obbligatori + '<li>Mezzo Trasmissione</li>'
+            errors.append(_("Mezzo Trasmissione"))
         if not protocollo.subject:
-            campi_obbligatori = campi_obbligatori + '<li>Oggetto</li>'
+            errors.append(_("Oggetto"))
         if protocollo.type != 'internal' and not protocollo.sender_receivers:
-            send_rec = protocollo.type == 'in' and '<li>Mittenti</li>' or '<li>Destinatari</li>'
-            campi_obbligatori = campi_obbligatori + send_rec
+            send_rec = protocollo.type == 'in' and _("Mittenti") or _("Destinatari")
+            errors.append(send_rec)
         if protocollo.type == 'in' and (protocollo.pec or protocollo.sharedmail):
             for sr in protocollo.sender_receivers:
                 if not sr.name:
-                    campi_obbligatori = campi_obbligatori + '<li>Nome Cognome/Ragione sociale del Mittente</li>'
+                    errors.append(_("Nome Cognome/Ragione sociale del Mittente"))
                     break
 
         if protocollo.type == 'internal' and not protocollo.sender_internal_name:
-            campi_obbligatori = campi_obbligatori + '<li>Mittente</li>'
+            errors.append(_("Mittente"))
 
         if protocollo.type == 'out' and protocollo.pec:
             for sr in protocollo.sender_receivers:
                 if not sr.pec_mail:
-                    campi_obbligatori = campi_obbligatori + '<li>Mail PEC dei Destinatari</li>'
+                    errors.append(_("Mail PEC dei Destinatari"))
                     break
 
         if protocollo.type == 'out' and protocollo.sharedmail:
             for sr in protocollo.sender_receivers:
                 if not sr.email:
-                    campi_obbligatori = campi_obbligatori + '<li>Mail dei Destinatari</li>'
+                    errors.append(_("Mail dei Destinatari"))
                     break
 
+        if not protocollo.doc_id.ids and protocollo.attachment_ids:
+            errors.append(_("Documento principale (obbligatorio se sono presenti allegati)"))
+
+        return errors
+
+
+    def verifica_campi_obbligatori(self, cr, uid, protocollo):
+        errors = self.verifica_campi_non_configurati(cr, uid, protocollo)
+
+        configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
+        configurazione = self.pool.get('protocollo.configurazione').browse(cr, uid, configurazione_ids[0])
         if configurazione:
             if configurazione.classificazione_required and not protocollo.classification:
-                campi_obbligatori = campi_obbligatori + '<li>Titolario</li>'
+                errors.append(_("Titolario"))
             if configurazione.fascicolazione_required and not protocollo.dossier_ids:
-                campi_obbligatori = campi_obbligatori + '<li>Fascicolario</li>'
+                errors.append(_("Fascicolario"))
 
             competenza_ufficio_found = False
             competenza_dipendente_found = False
@@ -139,46 +149,49 @@ class protocollo_configurazione(orm.Model):
 
             if protocollo.reserved:
                 if competenza_ufficio_found:
-                    campi_obbligatori = campi_obbligatori + '<li>Dipendente Assegnatario per Competenza: i protocolli riservati non possono avere uffici come assegnatari per competenza</li>'
+                    errors.append(_("Dipendente Assegnatario per Competenza: i protocollo riservati non possono avere uffici come assegnatari per competenza"))
                 elif not competenza_dipendente_found:
-                    campi_obbligatori = campi_obbligatori + '<li>Dipendente Assegnatario per Competenza</li>'
+                    errors.append(_("Dipendente Assegnatario per Competenza"))
                 if conoscenza_ufficio_found or conoscenza_dipendente_found:
-                    campi_obbligatori = campi_obbligatori + '<li>Assegnatari per Conoscenza: i protocolli riservati non possono avere assegnatari per conoscenza</li>'
+                    errors.append(_("Assegnatari per Conoscenza: i protocolli riservati non possono avere assegnatari per conoscenza"))
                 if protocollo.type == 'internal' and protocollo.sender_internal_department:
-                    campi_obbligatori = campi_obbligatori + '<li>Mittente: i protocolli riservati non possono avere uffici come mittenti</li>'
+                    errors.append(_("Mittente: i protocolli riservati non possono avere uffici come mittenti"))
             else:
                 if configurazione.assegnatari_competenza_uffici_required and \
                         not configurazione.assegnatari_competenza_dipendenti_required and \
                         not competenza_ufficio_found:
-                    campi_obbligatori = campi_obbligatori + '<li>Ufficio Assegnatario per Competenza</li>'
+                    errors.append(_("Ufficio Assegnatario per Competenza"))
                 if configurazione.assegnatari_competenza_dipendenti_required \
                         and not configurazione.assegnatari_competenza_uffici_required and \
                         not competenza_dipendente_found:
-                    campi_obbligatori = campi_obbligatori + '<li>Dipendente Assegnatario per Competenza</li>'
+                    errors.append(_("Dipendente Assegnatario per Competenza"))
                 if configurazione.assegnatari_competenza_dipendenti_required \
                         and configurazione.assegnatari_competenza_uffici_required \
                         and not competenza_ufficio_found and not competenza_dipendente_found:
-                    campi_obbligatori = campi_obbligatori + '<li>Assegnatario per Competenza</li>'
+                    errors.append(_("Assegnatario per Competenza"))
                 if configurazione.assegnatari_conoscenza_uffici_required and \
                         not conoscenza_ufficio_found:
-                    campi_obbligatori = campi_obbligatori + '<li>Uffici Assegnatari per Conoscenza</li>'
+                    errors.append(_("Uffici Assegnatari per Conoscenza"))
                 if configurazione.assegnatari_conoscenza_dipendenti_required and \
                         not conoscenza_dipendente_found:
-                    campi_obbligatori = campi_obbligatori + '<li>Dipendenti Assegnatari per Conoscenza</li>'
+                    errors.append(_("Dipendenti Assegnatari per Conoscenza"))
 
             if configurazione.documento_required and not protocollo.doc_id:
-                campi_obbligatori = campi_obbligatori + '<li>Documento principale</li>'
+                errors.append(_("Documento principale"))
             if configurazione.allegati_descrizione_required:
                 for attach in protocollo.attachment_ids:
                     if not attach.datas_description:
-                        campi_obbligatori = campi_obbligatori + '<li>Descrizione allegato: ' + attach.name.encode('utf-8') + '</li>'
+                        errors.append(_("Descrizione allegato: ") + attach.name.encode('utf-8'))
             if protocollo.type == 'in' and configurazione.data_ricezione_required and not protocollo.receiving_date:
-                campi_obbligatori = campi_obbligatori + '<li>Data di ricezione</li>'
+                errors.append(_("Data di ricezione"))
 
-            if not protocollo.doc_id.ids and protocollo.attachment_ids:
-                campi_obbligatori = campi_obbligatori + '<li>Documento principale (obbligatorio se sono presenti allegati)</li>'
-
-        if campi_obbligatori:
-            return '<div class="verifica-campi-container"><p><i class="fa fa-warning"/></i>Valorizzare correttamente i seguenti campi per procedere alla registrazione:</p><ul>' + campi_obbligatori + '</ul></div>'
+        if errors:
+            error_message_start = '<div class="verifica-campi-container"><p><i class="fa fa-warning"/></i>'
+            error_message_start += _("Valorizzare correttamente i seguenti campi per procedere alla registrazione:") + '</p><ul>'
+            error_message_end = '</ul></div>'
+            error_message = ''
+            for error in errors:
+                error_message += '<li>' + error + '</li>'
+            return error_message_start + error_message + error_message_end
 
         return True

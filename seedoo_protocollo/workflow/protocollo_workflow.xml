@@ -26,17 +26,10 @@ this module contains the full copyright notices and license terms. -->
             <field name="name">registered</field>
             <field name="kind">function</field>
             <field name="action">write({'state':'registered'})</field>
-            <!--<field name="action">check_journal()-->
-                <!--action_create_attachment()-->
-                <!--action_create_partners()-->
-                <!--action_register()-->
-                <!--write({'state':'registered'})-->
-                <!--action_send_conferma()-->
-            <!--</field>-->
         </record>
 
         <!-- In Protocol -->
-
+        <!--
         <record model="workflow.activity" id="act_notified">
             <field name="wkf_id" ref="wkf_protocollo"/>
             <field name="name">notified</field>
@@ -46,6 +39,7 @@ this module contains the full copyright notices and license terms. -->
             </field>
             <field name="kind">stopall</field>
         </record>
+        -->
 
         <!-- Out Protocol -->
 
@@ -57,7 +51,7 @@ this module contains the full copyright notices and license terms. -->
                 action_send()
                 write({'state':'sent'})
             </field>
-            <field name="kind">stopall</field>
+            <!--<field name="kind">stopall</field>-->
         </record>
 
         <!-- Pec Protocol -->
@@ -85,6 +79,14 @@ this module contains the full copyright notices and license terms. -->
             <field name="action">action_notify_cancel()
                 write({'state':'canceled'})
             </field>
+            <field name="kind">stopall</field>
+        </record>
+
+        <record model="workflow.activity" id="act_acts">
+            <field name="wkf_id" ref="wkf_protocollo"/>
+            <field name="name">acts</field>
+            <field name="kind">function</field>
+            <field name="action">write({'state':'acts'})</field>
             <field name="kind">stopall</field>
         </record>
 
@@ -121,11 +123,13 @@ this module contains the full copyright notices and license terms. -->
             <field name="signal">cancel</field>
         </record>
 
+        <!--
         <record model="workflow.transition" id="t50">
             <field name="act_from" ref="act_notified"/>
             <field name="act_to" ref="act_canceled"/>
             <field name="signal">cancel</field>
         </record>
+        -->
 
         <record model="workflow.transition" id="t60">
             <field name="act_from" ref="act_sent"/>
@@ -178,6 +182,18 @@ this module contains the full copyright notices and license terms. -->
             <field name="act_from" ref="act_error"/>
             <field name="act_to" ref="act_canceled"/>
             <field name="signal">cancel</field>
+        </record>
+
+        <record model="workflow.transition" id="t93">
+            <field name="act_from" ref="act_registered"/>
+            <field name="act_to" ref="act_acts"/>
+            <field name="signal">acts</field>
+        </record>
+
+        <record model="workflow.transition" id="t96">
+            <field name="act_from" ref="act_sent"/>
+            <field name="act_to" ref="act_acts"/>
+            <field name="signal">acts</field>
         </record>
 
     </data>
