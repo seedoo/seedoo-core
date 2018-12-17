@@ -18,15 +18,19 @@ this module contains the full copyright notices and license terms. -->
                         <field name="importer_ids" readonly="True" nolabel="1" colspan="4">
                             <tree>
                                 <field name="title"/>
+                                <field name="tipologia_importazione"/>
                                 <field name="address"/>
-                                <field name="description"/>
+                                <field name="cartella"/>
+                                <field name="percorso"/>
                                 <field name="locking_user_id"/>
                             </tree>
                             <form>
                                 <group col="4">
                                     <field name="title"/>
-                                    <field name="description"/>
+                                    <field name="tipologia_importazione"/>
                                     <field name="address"/>
+                                    <field name="cartella"/>
+                                    <field name="percorso"/>
                                     <field name="locking_user_id"/>
                                 </group>
                             </form>
