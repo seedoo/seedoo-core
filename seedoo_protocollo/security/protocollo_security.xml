@@ -32,7 +32,12 @@ this module contains the full copyright notices and license terms. -->
             <field name="category_id" ref="module_category_protocollo"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
-
+        <!-- Gruppo per la visualizzazione del menu "Archiviati" -->
+        <record id="group_vedi_menu_protocolli_archiviati" model="res.groups">
+            <field name="name">Vedi Menu Protocolli Archiviati</field>
+            <field name="category_id" ref="module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
         <!-- Menu "Documenti in Ingresso" -->
         <!-- Gruppo per la visualizzazione del menu "Crea Protocollo" -->
         <record id="group_crea_protocollo_ingresso" model="res.groups">
@@ -442,6 +447,12 @@ this module contains the full copyright notices and license terms. -->
 
         <record id="group_configurazione_aoo" model="res.groups">
             <field name="name">Configura AOO</field>
+            <field name="category_id" ref="module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+
+        <record id="group_configurazione_archivio" model="res.groups">
+            <field name="name">Configura Archivio</field>
             <field name="category_id" ref="module_category_protocollo"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>

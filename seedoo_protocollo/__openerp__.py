@@ -75,6 +75,7 @@
         "view/protocollo_view.xml",
         "view/protocollo_sender_receiver_view.xml",
         "view/protocollo_aoo_view.xml",
+        "view/protocollo_archivio_view.xml",
         "view/mail_pec_view.xml",
         "view/sharedmail_view.xml",
         "view/fetchmail_view.xml",

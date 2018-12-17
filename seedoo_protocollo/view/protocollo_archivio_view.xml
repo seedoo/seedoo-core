@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- Archivio -->
+        <record model="ir.ui.view" id="protocollo_archivio_form">
+            <field name="name">protocollo.archivio.form</field>
+            <field name="model">protocollo.archivio</field>
+            <field name="arch" type="xml">
+                <form string="Archivio" create="0">
+                    <sheet>
+                        <group col="4">
+                            <field name="id" invisible="1"/>
+                            <newline/>
+                            <field name="name"/>
+                            <field name="aoo_id"/>
+                            <field name="is_current"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model='ir.ui.view' id='protocollo_archivio_tree'>
+            <field name="name">protocollo.archivio.tree</field>
+            <field name="model">protocollo.archivio</field>
+            <field name="arch" type="xml">
+                <tree string="Archivi" >
+                    <field name="name"/>
+                    <field name="aoo_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="protocollo_archivio_action">
+            <field name="name">Archivio</field>
+            <field name="res_model">protocollo.archivio</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="protocollo_archivio_tree"/>
+        </record>
+
+    </data>
+</openerp>

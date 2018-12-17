@@ -53,6 +53,11 @@ this module contains the full copyright notices and license terms. -->
                   parent="protocollo_doc"
                   id="protocollo_protocollo_out_draft_others_menu" sequence="60"
                   groups="group_vedi_menu_richieste_protocollo"/>
+
+        <menuitem name="Archiviati" action="protocollo_protocollo_archiviati_act"
+                  parent="protocollo_doc"
+                  id="protocollo_protocollo_archiviati_menu" sequence="10"
+                  groups="group_vedi_menu_protocolli_registrati"/>
         <!--Protocollo-->
         <!--
         <menuitem action="protocollo_protocollo_not_classified_act"
@@ -121,6 +126,12 @@ this module contains the full copyright notices and license terms. -->
                   groups="group_configurazione_aoo"
                   parent="protocollo_configuration"
                   sequence="10"/>
+
+        <menuitem name="Archivio" id="protocollo_archivio_menu"
+                  action="protocollo_archivio_action"
+                  groups="group_configurazione_archivio"
+                  parent="protocollo_configuration"
+                  sequence="15"/>
 
         <menuitem name="Mezzi di Trasmissione"
                   action="protocollo_typology_act"

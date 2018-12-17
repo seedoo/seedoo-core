@@ -11,6 +11,7 @@ from . import fetchmail
 from . import protocollo_sender_receiver
 from . import protocollo
 from . import protocollo_aoo
+from . import protocollo_archivio
 from . import protocollo_messaggio_pec
 from . import protocollo_permissions
 from . import protocollo_permissions_new_api
