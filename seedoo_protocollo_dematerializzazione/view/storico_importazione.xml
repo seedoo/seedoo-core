@@ -21,7 +21,7 @@ this module contains the full copyright notices and license terms. -->
                             <field name="numero_file_importati"/>
                             <field name="numero_file_errore"/>
                         </group>
-                        <separator string="Storico Importazione Sorgenti"/>
+                        <separator string="Storico Importer"/>
                         <group col="4">
                             <field name="storico_importazione_importer_ids" nolabel="1"/>
                         </group>

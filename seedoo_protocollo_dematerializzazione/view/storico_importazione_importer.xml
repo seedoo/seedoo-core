@@ -12,14 +12,17 @@ this module contains the full copyright notices and license terms. -->
                 <form string="Storico Importazione Sorgente" create="0" edit="0">
                     <sheet>
                         <group col="4">
-                            <field name="name"/>
-                            <newline/>
-                            <field name="indirizzo"/>
-                            <field name="cartella"/>
-                            <newline/>
-                            <field name="esito"/>
-                            <newline/>
-                            <field name="errore" attrs="{'invisible':[('esito', '=', 'ok')]}" colspan="4"/>
+                            <group colspan="2">
+                                <field name="name"/>
+                                <field name="tipologia_importazione"/>
+                                <field name="esito"/>
+                                <field name="errore" attrs="{'invisible':[('esito', '=', 'ok')]}"/>
+                            </group>
+                            <group colspan="2">
+                                <field name="indirizzo"/>
+                                <field name="cartella"/>
+                                <field name="percorso"/>
+                            </group>
                         </group>
                         <separator string="Storico Importazione File"/>
                         <group col="4">
@@ -36,13 +39,14 @@ this module contains the full copyright notices and license terms. -->
             <field name="arch" type="xml">
                 <tree string="Storico Importazioni Sorgenti" create="0" edit="0">
                     <field name="name"/>
+                    <field name="tipologia_importazione"/>
                     <field name="indirizzo"/>
                     <field name="cartella"/>
+                    <field name="percorso"/>
                     <field name="esito"/>
                 </tree>
             </field>
         </record>
 
     </data>
-
 </openerp>

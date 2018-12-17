@@ -33,7 +33,7 @@ class dematerializzazione_importa_documenti_step1_wizard(osv.TransientModel):
         if len(employee_ids) > 0:
             importer_obj = self.pool.get('dematerializzazione.importer')
             importer_ids = importer_obj.search(cr, uid, [
-                ('import_attivo', '=', True),
+                ('state', '=', 'confirmed'),
                 ('employee_ids', 'in', employee_ids)
             ])
             importers = importer_obj.browse(cr, uid, importer_ids)
@@ -48,7 +48,7 @@ class dematerializzazione_importa_documenti_step1_wizard(osv.TransientModel):
         employee_obj = self.pool.get('hr.employee')
         employee_ids = employee_obj.search(cr, uid, [('user_id', '=', uid)])
         importer_ids = importer_obj.search(cr, uid, [
-            ('import_attivo', '=', True),
+            ('state', '=', 'confirmed'),
             ('employee_ids', 'in', employee_ids),
             ('locking_user_id', '=', uid)
         ])
@@ -77,7 +77,7 @@ class dematerializzazione_importa_documenti_step1_wizard(osv.TransientModel):
         employee_obj = self.pool.get('hr.employee')
         employee_ids = employee_obj.search(cr, uid, [('user_id', '=', uid)])
         importers = importer_obj.search(cr, uid, [
-            ('import_attivo', '=', 'True'),
+            ('state', '=', 'confirmed'),
             ('employee_ids', 'in', employee_ids),
             ('locking_user_id', '!=', False)
         ])

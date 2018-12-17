@@ -18,10 +18,19 @@ from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT as DSDF
 from ..utility.ean import EanUtility
 
 
+
+TIPOLOGIA_SELECTION = [
+    ('aggancio', 'Importazione e associazione a protocolli esistenti'),
+    ('creazione', 'Importazione base')
+]
+
+STATE_SELECTION = [
+    ('not_confirmed', 'Non Confermato'),
+    ('confirmed', 'Confermato')
+]
+
 class dematerializzazione_importer(orm.Model):
     _name = 'dematerializzazione.importer'
-
-    TIPOLOGIA_SELECTION = [('aggancio', 'Importazione e Aggancio'), ('creazione', 'Importazione e Creazione')]
 
     def on_change_tipologia_importazione(self, cr, uid, ids, aoo_id, context=None):
         values = {}
@@ -44,9 +53,8 @@ class dematerializzazione_importer(orm.Model):
 
     _columns = {
         # 'configurazione_id': fields.many2one('dematerializzazione.configurazione', 'Configurazione'),
-        'import_attivo': fields.boolean('Import attivo'),
-        'title': fields.char('Nome Repository', char=80, required=True),
-        'description': fields.text('Descrizione Repository'),
+        'title': fields.char('Nome Importer', char=80, required=True),
+        'description': fields.text('Descrizione Importer'),
         'tipologia_importazione': fields.selection(TIPOLOGIA_SELECTION, 'Tipologia Importazione', select=True,
                                                    required=True),
         'tipologia_protocollo': fields.many2one('protocollo.typology', 'Mezzo di Trasmissione'),
@@ -54,17 +62,16 @@ class dematerializzazione_importer(orm.Model):
         # 'employee_id': fields.many2one('hr.employee', 'Protocollatore'),
         'employee_ids': fields.many2many('hr.employee', 'dematerializzazione_importer_employee_rel', 'importer_id',
                                          'employee_id', 'Utenti', required=True),
-        'address': fields.char('Indirizzo', char=256, required=True),
-        'share': fields.char('Cartella Condivisa', char=256, required=True),
+        'address': fields.char('IP/Hostname', char=256, required=True),
+        'share': fields.char('Condivisione', char=256, required=True),
         'path': fields.char('Percorso', char=256, required=True),
         'processed_folder': fields.char('Cartella dei File Processati', char=256, required=True),
         'failed_folder': fields.char('Cartella dei File in Errore', char=256, required=True),
-        'auth': fields.boolean('Autenticazione'),
         'smb_domain': fields.char(string='Domain', char=100, required=False),
         'user': fields.char('Username', char=100),
         'password': fields.char('Password', char=100),
-        'test_connessione': fields.char('Verify connection', readonly=True),
-        'locking_user_id': fields.many2one('res.users', 'Utente importazione in corso')
+        'locking_user_id': fields.many2one('res.users', 'Utente importazione in corso'),
+        'state': fields.selection(STATE_SELECTION, 'Stato', select=True, required=True),
     }
     _rec_name = 'title'
 
@@ -75,11 +82,11 @@ class dematerializzazione_importer(orm.Model):
         return False
 
     _defaults = {
-        'import_attivo': False,
         'aoo_id': _get_default_aoo_id,
         'path': '/',
         'smb_domain': '',
-        'locking_user_id': False
+        'locking_user_id': False,
+        'state': 'not_confirmed'
     }
 
     file_search = SMB_FILE_ATTRIBUTE_READONLY | SMB_FILE_ATTRIBUTE_ARCHIVE
@@ -122,27 +129,50 @@ class dematerializzazione_importer(orm.Model):
             conn.deleteFiles(share, new_path)
         conn.rename(share, old_path, new_path)
 
+    def _process_ean(self, importer, file_abspath, file_content):
+        # Recupera l'ean dal nome del file
+        esito = True
+        errore = ''
+        ean = ''
+        try:
+            ean = os.path.splitext(os.path.basename(file_abspath.encode('utf-8')))[0]
+        except Exception as exception:
+            esito = False
+            errore = exception
+        return esito, errore, ean
+
     def _process_protocol_aggancio(self, cr, uid, conn, importer, file_to_import, storico_importer_id):
         protocollo_obj = self.pool.get('protocollo.protocollo')
         attachment_obj = self.pool.get('ir.attachment')
 
-        # Verifica la correttezza del nome del file rispetto alla sintassi dell'Ean13
-        file_abspath = os.path.join(importer.path, file_to_import.filename)
-        ean = os.path.splitext(os.path.basename(file_abspath.encode('utf-8')))[0]
-        errore = ''
         protocollo_id = None
+        file_abspath = os.path.join(importer.path, file_to_import.filename)
+        temp_fh = StringIO()
+        file_attributes, filesize = conn.retrieveFile(importer.share, file_abspath, temp_fh)
+        file_content = temp_fh.getvalue()
+        data_encoded = base64.encodestring(file_content)
+
+        if not filesize:
+            esito = False
+            errore = 'Errore nel caricamento del file'
+            return esito, errore, protocollo_id
+
+        esito, errore, ean = self._process_ean(importer, file_abspath, file_content)
+        if not esito:
+            return esito, errore, protocollo_id
+
         esito = EanUtility.ean_verify(ean)
 
         if not esito:
             esito = False
-            errore = 'Nome del file non valido - Controllo EAN errato'
+            errore = 'Controllo EAN errato'
             return esito, errore, protocollo_id
 
         protocollo_rif = EanUtility.ean_get_protocollo(ean)
 
         if not protocollo_rif[0]:
             esito = False
-            errore = 'Nome del file non valido - Anno e numero protocollo non conformi'
+            errore = 'Controllo EAN errato - Anno e numero protocollo non conformi'
             return esito, errore, protocollo_id
 
         protocol_ids = protocollo_obj.search(cr, SUPERUSER_ID, [
@@ -167,17 +197,7 @@ class dematerializzazione_importer(orm.Model):
             errore = 'Allegato già presente per il protocollo %s - %s' % (protocollo_rif[1], protocollo_rif[2])
             return esito, errore, protocollo_id
 
-        temp_fh = StringIO()
-        file_attributes, filesize = conn.retrieveFile(importer.share, file_abspath, temp_fh)
-        data_encoded = base64.encodestring(temp_fh.getvalue())
-
-        if not filesize:
-            esito = False
-            errore = 'Errore nel caricamento del file'
-            return esito, errore, protocollo_id
-
-        protocollo_obj.carica_documento_principale(cr, SUPERUSER_ID, prot.id, data_encoded,
-                                                   os.path.basename(file_abspath), "")
+        protocollo_obj.carica_documento_principale(cr, SUPERUSER_ID, prot.id, data_encoded, os.path.basename(file_abspath), "")
         protocollo_obj.associa_importer_protocollo(cr, SUPERUSER_ID, prot.id, storico_importer_id)
         return esito, errore, prot.id
 
@@ -335,7 +355,7 @@ class dematerializzazione_importer(orm.Model):
         employee_obj = self.pool.get('hr.employee')
         employee_ids = employee_obj.search(cr, uid, [('user_id', '=', uid)])
         importer_ids = importer_obj.search(cr, uid, [
-            ('import_attivo', '=', 'True'),
+            ('state', '=', 'confirmed'),
             ('employee_ids', 'in', employee_ids)
         ])
         importers = importer_obj.browse(cr, uid, importer_ids)
@@ -345,25 +365,27 @@ class dematerializzazione_importer(orm.Model):
                 raise orm.except_orm(_("Avviso"),
                                      _("Importazione già attivata dall'utente: " + str(importer.locking_user_id.name)))
 
-            if not importer.locking_user_id.id and importer.import_attivo:
+            if not importer.locking_user_id.id and importer.state=='confirmed':
                 esito_importer = True
                 conn = None
                 importer.lock_importer()
 
-                smb_domain = importer.auth and importer.smb_domain or ''
-                user = importer.auth and importer.user or ''
-                password = importer.auth and importer.password or ''
+                smb_domain = importer.smb_domain and importer.smb_domain or ''
+                user = importer.user and importer.user or ''
+                password = importer.password and importer.password or ''
                 local_name = importer.title.encode('ascii', 'ignore')
                 remote_name = importer.address.encode('ascii', 'ignore')
 
                 try:
                     storico_importer_id = storico_importer_obj.create(cr, uid, {
                         'name': importer.title,
+                        'tipologia_importazione': importer.tipologia_importazione,
                         'indirizzo': importer.address,
                         'cartella': importer.share,
+                        'percorso': importer.path,
                         'esito': 'ok',
                         'storico_importazione_id': storico_id,
-                    })
+                    }, context={'importer_id': importer.id})
 
                     conn = SMBConnection(
                         domain=smb_domain,
@@ -431,17 +453,17 @@ class dematerializzazione_importer(orm.Model):
         return storico_id
 
     def action_verifica_connessione(self, cr, uid, ids, context=None):
-        rec = self.browse(cr, uid, ids[0], context=context)
-
-        if rec.import_attivo:
+        for id in ids:
+            rec = self.browse(cr, uid, id, context=context)
             conn = None
 
-            smb_domain = rec.auth and rec.smb_domain or ''
-            user = rec.auth and rec.user or ''
-            password = rec.auth and rec.password or ''
+            smb_domain = rec.smb_domain and rec.smb_domain or ''
+            user = rec.user and rec.user or ''
+            password = rec.password and rec.password or ''
             local_name = rec.title.encode('ascii', 'ignore')
             remote_name = rec.address.encode('ascii', 'ignore')
             path = rec.path
+            errore = ''
 
             try:
                 conn = SMBConnection(
@@ -455,14 +477,20 @@ class dematerializzazione_importer(orm.Model):
                 self._directory_check(conn, rec.share, "/", path)
             except Exception as exception:
                 esito_test = False
+                errore = exception
+
+            conn.close()
 
             if esito_test:
-                self.write(cr, uid, ids[0], {'test_connessione': 'Connesso'}, context)
-                conn.close()
+                rec.write({'state': 'confirmed'})
             else:
-                self.write(cr, uid, ids[0], {'test_connessione': 'Fallito'}, context)
-                conn.close()
+                raise orm.except_orm(_('Test di connessione fallito!'), errore)
 
+
+    def action_reset_connessione(self, cr, uid, ids, context=None):
+        for id in ids:
+            rec = self.browse(cr, uid, id, context=context)
+            rec.write({'state': 'not_confirmed'})
 
     def lock_importer(self, cr, uid, ids):
         importer = self.write(cr, SUPERUSER_ID, ids, {'locking_user_id': uid})
@@ -473,4 +501,3 @@ class dematerializzazione_importer(orm.Model):
         importer = self.write(cr, SUPERUSER_ID, ids, {'locking_user_id': False})
         cr.commit()
         return True
-

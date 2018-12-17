@@ -18,55 +18,50 @@ this module contains the full copyright notices and license terms. -->
             <field name="model">dematerializzazione.importer</field>
             <field name="arch" type="xml">
                 <form string="Importer">
-                    <group string="Impostazioni Generali" col="4">
-                        <field name="import_attivo"/>
-                        <newline/>
-                        <field name="title" colspan="4"/>
-                        <field name="description" colspan="4"/>
-                        <field name="tipologia_importazione"
-                               on_change="on_change_tipologia_importazione(tipologia_importazione)" colspan="4"/>
-                        <field name="aoo_id"
-                               options="{'no_open': True}"
-                               on_change="on_change_aoo_id(aoo_id)"
-                               readonly="1" colspan="4"/>
-                        <newline/>
-                        <field name="tipologia_protocollo" colspan="4" select="1" widget="selection"
-                               domain="[('aoo_id','=',aoo_id)]"
-                               attrs="{'invisible':['|',('tipologia_importazione', '=', 'aggancio'),('tipologia_importazione', '=', False)]}"/>
-                        <field name="employee_ids" colspan="4"
-                               domain="[('department_id.aoo_id','=',aoo_id)]"
-                               options="{'no_quick_create': True, 'no_create_edit' : True}"
-                               required="True">
-                        </field>
-                    </group>
-                    <group string="Configurazione Repository" col="6">
-                        <field name="address"/>
-                        <field name="share"/>
-                        <field name="path"/>
-                        <newline/>
-                        <field name="processed_folder"/>
-                        <field name="failed_folder"/>
-                    </group>
-                    <group string="Autenticazione" col="6">
-                        <field name="auth"/>
-                        <newline/>
-                        <field name="smb_domain"
-                               attrs="{'invisible': [('auth', '=', False)]}"
-                               style="width: 50%"/>
-                        <newline/>
-                        <field name="user"
-                               attrs="{'invisible': [('auth', '=', False)], 'required': [('auth', '=', True)]}"
-                               style="width: 50%"/>
-                        <newline/>
-                        <field name="password" password="True"
-                               attrs="{'invisible': [('auth', '=', False)]}"
-                               style="width: 50%"/>
-                    </group>
-                    <group string="Verifica connessione" col="4">
-                        <button string="Verifica connessione" name="action_verifica_connessione" type="object"
+                    <header>
+                        <button string="Test &amp; Conferma" name="action_verifica_connessione"
+                                type="object" attrs="{'invisible':[('state', '=', 'confirmed')]}"
                                 class="oe_highlight"/>
-                        <field name="test_connessione"/>
-                     </group>
+                        <button string="Reset Conferma" name="action_reset_connessione"
+                                type="object" attrs="{'invisible':[('state', '=', 'not_confirmed')]}"
+                                class="oe_highlight"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group string="Impostazioni Generali" col="4">
+                            <field name="title" colspan="4"/>
+                            <field name="description" colspan="4"/>
+                            <field name="tipologia_importazione"
+                                   on_change="on_change_tipologia_importazione(tipologia_importazione)" colspan="4"/>
+                            <field name="aoo_id"
+                                   options="{'no_open': True}"
+                                   on_change="on_change_aoo_id(aoo_id)"
+                                   readonly="1" colspan="4"/>
+                            <newline/>
+                            <field name="tipologia_protocollo" colspan="4" select="1" widget="selection"
+                                   domain="[('aoo_id','=',aoo_id)]"
+                                   attrs="{'invisible':['|',('tipologia_importazione', '=', 'aggancio'),('tipologia_importazione', '=', False)]}"/>
+                            <field name="employee_ids" colspan="4"
+                                   domain="[('department_id.aoo_id','=',aoo_id)]"
+                                   options="{'no_quick_create': True, 'no_create_edit' : True}"
+                                   required="True">
+                            </field>
+                        </group>
+                        <group col="4">
+                            <group string="Informazioni sul server" colspan="2">
+                                <field name="address" attrs="{'readonly':[('state', '=', 'confirmed')]}"/>
+                                <field name="share" attrs="{'readonly':[('state', '=', 'confirmed')]}"/>
+                                <field name="path" attrs="{'readonly':[('state', '=', 'confirmed')]}"/>
+                                <field name="processed_folder" attrs="{'readonly':[('state', '=', 'confirmed')]}"/>
+                                <field name="failed_folder" attrs="{'readonly':[('state', '=', 'confirmed')]}"/>
+                            </group>
+                            <group string="Informazioni di accesso" colspan="2">
+                                <field name="smb_domain" attrs="{'readonly':[('state', '=', 'confirmed')]}" style="width: 50%"/>
+                                <field name="user" attrs="{'readonly':[('state', '=', 'confirmed')]}" style="width: 50%"/>
+                                <field name="password" password="True" attrs="{'readonly':[('state', '=', 'confirmed')]}" style="width: 50%"/>
+                            </group>
+                        </group>
+                    </sheet>
                 </form>
             </field>
         </record>
@@ -80,7 +75,6 @@ this module contains the full copyright notices and license terms. -->
                     <field name="description"/>
                     <field name="tipologia_importazione"/>
                     <field name="tipologia_protocollo"/>
-                    <field name="import_attivo"/>
                 </tree>
             </field>
         </record>
