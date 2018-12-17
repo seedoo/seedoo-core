@@ -92,6 +92,13 @@ class protocollo_aoo(orm.Model):
         aoo_id = super(protocollo_aoo, self).create(cr, uid, vals, context=context)
         aoo = self.browse(cr, uid, aoo_id)
 
+        archivio_obj = self.pool.get('protocollo.archivio')
+        archivio_current_id = archivio_obj.create(cr, uid, {
+            'name': 'Archivio corrente - ' + aoo.ident_code,
+            'aoo_id': aoo_id,
+            'is_current': True
+        })
+
         sequence_obj = self.pool.get('ir.sequence')
         sequence_id = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'seedoo_protocollo', 'seq_def_protocollo')[1]
 

@@ -76,7 +76,7 @@ class protocollo_protocollo(osv.Model):
     ####################################################################################################################
     # Visibilità dei protocolli
     ####################################################################################################################
-    def _get_protocollo_visibile_ids(self, cr, uid, current_user_id):
+    def _get_protocollo_visibile_ids(self, cr, uid, current_user_id, archivio_ids):
         protocollo_visible_ids = []
 
         assegnazione_obj = self.pool.get('protocollo.assegnazione')
@@ -101,6 +101,7 @@ class protocollo_protocollo(osv.Model):
             employee_ids_str = ', '.join(map(str, employee_ids))
             employee_department_ids_str = ', '.join(map(str, employee_department_ids))
             employee_department_child_ids_str = ', '.join(map(str, employee_department_child_ids))
+            archivio_ids_str = ', '.join(map(str, archivio_ids))
 
             ############################################################################################################
             # Visibilità dei protocolli: casi base
@@ -112,7 +113,8 @@ class protocollo_protocollo(osv.Model):
                 SELECT DISTINCT(pp.id)
                 FROM protocollo_protocollo pp
                 WHERE pp.state = 'draft' AND 
-                      pp.user_id = %s
+                      pp.user_id = %s AND 
+                      pp.archivio_id IN (''' + archivio_ids_str + ''')
             ''', (current_user_id, ))
             protocollo_ids_drafts = [res[0] for res in cr.fetchall()]
             _logger.info("---Query draft %s seconds ---" % (time.time() - start_time))
@@ -124,7 +126,8 @@ class protocollo_protocollo(osv.Model):
                 cr.execute('''
                     SELECT DISTINCT(pp.id)
                     FROM protocollo_protocollo pp
-                    WHERE pp.registration_employee_id IN (''' + employee_ids_str + ''')
+                    WHERE pp.registration_employee_id IN (''' + employee_ids_str + ''') AND
+                          pp.archivio_id IN (''' + archivio_ids_str + ''')
                 ''')
                 protocollo_ids_created = [res[0] for res in cr.fetchall()]
             _logger.info("---Query created %s seconds ---" % (time.time() - start_time))
@@ -149,7 +152,8 @@ class protocollo_protocollo(osv.Model):
                               WHERE pa.tipologia_assegnatario = 'employee' AND
                                     pa.assegnatario_employee_department_id IN (''' + employee_department_ids_str + ''') AND
                                     pa.state = 'rifiutato'
-                          )
+                          ) AND
+                          pp.archivio_id IN (''' + archivio_ids_str + ''')
                 ''')
                 protocollo_ids_assigned_not_refused = [res[0] for res in cr.fetchall()]
             _logger.info("---Query assigned_not_refused %s seconds ---" % (time.time() - start_time))
@@ -166,7 +170,8 @@ class protocollo_protocollo(osv.Model):
                           pa.protocollo_id = pp.id AND
                           pa.assegnatore_id IN (''' + employee_ids_str + ''') AND 
                           pa.tipologia_assegnazione = 'competenza' AND 
-                          pa.parent_id IS NULL
+                          pa.parent_id IS NULL AND
+                          pp.archivio_id IN (''' + archivio_ids_str + ''')
                 ''')
                 protocollo_ids_assegnatore = [res[0] for res in cr.fetchall()]
             _logger.info("---Query assegnatore %s seconds ---" % (time.time() - start_time))
@@ -184,7 +189,8 @@ class protocollo_protocollo(osv.Model):
                             (pp.sender_internal_employee IN (''' + employee_ids_str + '''))
                             OR
                             (pp.sender_internal_department IN (''' + employee_department_ids_str + '''))
-                          )
+                          ) AND
+                          pp.archivio_id IN (''' + archivio_ids_str + ''')
                 ''')
                 protocollo_ids_mittente = [res[0] for res in cr.fetchall()]
             _logger.info("---Query mittente %s seconds ---" % (time.time() - start_time))
@@ -212,7 +218,8 @@ class protocollo_protocollo(osv.Model):
                     WHERE pp.registration_employee_id IS NOT NULL AND
                           pp.registration_employee_department_id IN (''' + employee_department_ids_str + ''') AND
                           pp.reserved=FALSE AND
-                          pp.type IN (''' + str(types).strip('[]') + ''')
+                          pp.type IN (''' + str(types).strip('[]') + ''') AND
+                          pp.archivio_id IN (''' + archivio_ids_str + ''')
                 ''')
                 protocollo_ids_department = [res[0] for res in cr.fetchall()]
                 protocollo_visible_ids.extend(protocollo_ids_department)
@@ -238,6 +245,7 @@ class protocollo_protocollo(osv.Model):
                           pp.registration_employee_department_id IN (''' + employee_department_child_ids_str + ''') AND
                           pp.reserved=FALSE AND
                           pp.type IN (''' + str(types).strip('[]') + ''')
+                          pp.archivio_id IN (''' + archivio_ids_str + ''')
                 ''')
                 protocollo_ids_department_childs = [res[0] for res in cr.fetchall()]
                 protocollo_visible_ids.extend(protocollo_ids_department_childs)
@@ -259,7 +267,8 @@ class protocollo_protocollo(osv.Model):
                 protocollo_ids_aoo = self.search(cr, uid, [
                     ('type', 'in', types),
                     ('state', '=', 'draft'),
-                    ('aoo_id', 'in', aoo_ids)
+                    ('aoo_id', 'in', aoo_ids),
+                    ('archivio_id', 'in', archivio_ids)
                 ])
                 protocollo_visible_ids.extend(protocollo_ids_aoo)
             _logger.info("---Query aoo  %s seconds ---" % (time.time() - start_time))
@@ -280,7 +289,8 @@ class protocollo_protocollo(osv.Model):
                 protocollo_ids_aoo = self.search(cr, uid, [
                     ('type', 'in', types),
                     ('registration_employee_id', '!=', False),
-                    ('aoo_id', 'in', aoo_ids)
+                    ('aoo_id', 'in', aoo_ids),
+                    ('archivio_id', 'in', archivio_ids)
                 ])
                 protocollo_visible_ids.extend(protocollo_ids_aoo)
             _logger.info("---Query aoo 2  %s seconds ---" % (time.time() - start_time))
@@ -307,7 +317,8 @@ class protocollo_protocollo(osv.Model):
                     ('type', 'in', types),
                     ('registration_employee_id', '!=', False),
                     ('assegnazione_ids', 'in', assegnazione_ids),
-                    ('reserved', '=', False)
+                    ('reserved', '=', False),
+                    ('archivio_id', 'in', archivio_ids)
                 ]))
             _logger.info("---Query registrati_ass_ut_uff  %s seconds ---" % (time.time() - start_time))
 
@@ -333,7 +344,8 @@ class protocollo_protocollo(osv.Model):
                     ('type', 'in', types),
                     ('registration_employee_id', '!=', False),
                     ('assegnazione_ids', 'in', assegnazione_ids),
-                    ('reserved', '=', False)
+                    ('reserved', '=', False),
+                    ('archivio_id', 'in', archivio_ids)
                 ]))
             _logger.info("---Query ass_uff_fig  %s seconds ---" % (time.time() - start_time))
 
@@ -360,7 +372,8 @@ class protocollo_protocollo(osv.Model):
                     ('type', 'in', types),
                     ('registration_employee_id', '!=', False),
                     ('assegnazione_ids', 'in', assegnazione_ids),
-                    ('reserved', '=', False)
+                    ('reserved', '=', False),
+                    ('archivio_id', 'in', archivio_ids)
                 ]))
             _logger.info("---Query ass_ut_uff_fig  %s seconds ---" % (time.time() - start_time))
 
@@ -386,7 +399,8 @@ class protocollo_protocollo(osv.Model):
                     ('type', 'in', types),
                     ('registration_employee_id', '!=', False),
                     ('assegnazione_ids', 'in', assegnazione_ids),
-                    ('reserved', '=', False)
+                    ('reserved', '=', False),
+                    ('archivio_id', 'in', archivio_ids)
                 ]))
             _logger.info("---Query ass_rif_ut_uff  %s seconds ---" % (time.time() - start_time))
 
@@ -399,7 +413,8 @@ class protocollo_protocollo(osv.Model):
                     ('type', '=', 'internal'),
                     ('registration_employee_id', '!=', False),
                     ('sender_internal_employee_department', 'in', employee_department_ids),
-                    ('reserved', '=', False)
+                    ('reserved', '=', False),
+                    ('archivio_id', 'in', archivio_ids)
                 ]))
             _logger.info("---Query mitt_ut_uff  %s seconds ---" % (time.time() - start_time))
 
@@ -440,14 +455,51 @@ class protocollo_protocollo(osv.Model):
 
         return protocollo_visible_ids
 
+        ####################################################################################################################
+        # Visibilità dei protocolli
+        ####################################################################################################################
+
+    def _get_protocollo_archivio_ids(self, cr, archivio_ids):
+        protocollo_archivio_ids = []
+
+        ############################################################################################################
+        # Visibilità dei protocolli archiviati
+        ############################################################################################################
+        archivio_ids_str = ', '.join(map(str, archivio_ids))
+        start_time = time.time()
+        # un utente deve poter vedere i protocolli in bozza (IN e OUT) creati da lui
+        cr.execute('''
+             SELECT DISTINCT(pp.id)
+             FROM protocollo_protocollo pp
+             WHERE pp.archivio_id IN (''' + archivio_ids_str + ''')
+         ''')
+        protocollo_ids_archivio = [res[0] for res in cr.fetchall()]
+        _logger.info("---Query draft %s seconds ---" % (time.time() - start_time))
+
+        # _logger.info("--- %s seconds ---" % (time.time() - start_time_total))
+        _logger.info("--- %s start ---" % (start_time))
+        _logger.info("--- %s len ---" % (len(protocollo_ids_archivio)))
+
+        return protocollo_ids_archivio
+
     def _is_visible(self, cr, uid, ids, name, arg, context=None):
         return {}
 
     def _is_visible_search(self, cr, uid, obj, name, args, domain=None, context=None):
         protocollo_visible_ids = []
+        protocollo_archivio_obj = self.pool.get('protocollo.archivio')
+        is_current = True
         if context and context.has_key('uid') and context['uid']:
             current_user_id = context['uid']
-            protocollo_visible_ids = self._get_protocollo_visibile_ids(cr, SUPERUSER_ID, current_user_id)
+            if 'is_current_archive' in context:
+                is_current = context['is_current_archive']
+            archivio_ids = protocollo_archivio_obj._get_archivio_ids(cr, current_user_id, is_current)
+            check_gruppo_archive = self.user_has_groups(cr, current_user_id, 'seedoo_protocollo.group_vedi_protocolli_archiviati')
+            if is_current or not check_gruppo_archive:
+                protocollo_visible_ids = self._get_protocollo_visibile_ids(cr, SUPERUSER_ID, current_user_id, archivio_ids)
+            else:
+                protocollo_visible_ids = self._get_protocollo_archivio_ids(cr, archivio_ids)
+
         return [('id', 'in', protocollo_visible_ids)]
 
     def check_access_rule(self, cr, uid, ids, operation, context=None):

@@ -605,6 +605,7 @@ class protocollo_protocollo(orm.Model):
                                                 domain="[('sharedmail', '=', True),('user_sharedmail_ids', 'in', uid)]"),
         'server_pec_id': fields.many2one('fetchmail.server', 'Account PEC',
                                          domain="[('pec', '=', True),('user_ids', 'in', uid)]"),
+        'is_imported': fields.boolean('Protocollo Importato', readonly=True),
 
     }
 
@@ -669,6 +670,7 @@ class protocollo_protocollo(orm.Model):
         'aoo_id': _get_default_aoo_id,
         'server_sharedmail_id': _get_def_sharedmail_server,
         'server_pec_id': _get_def_pec_server,
+        'is_imported': False,
     }
 
     _sql_constraints = [
