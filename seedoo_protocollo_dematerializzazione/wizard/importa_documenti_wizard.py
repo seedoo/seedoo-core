@@ -27,6 +27,17 @@ class dematerializzazione_importa_documenti_step1_wizard(osv.TransientModel):
             'Importer'),
     }
 
+    def _get_importer_values(self, importer):
+        return {
+            'title': importer.title,
+            'description': importer.description,
+            'tipologia_importazione': importer.tipologia_importazione,
+            'address': importer.address,
+            'cartella': importer.share,
+            'percorso': importer.path,
+            'locking_user_id': importer.locking_user_id
+        }
+
     def _default_importers(self, cr, uid, context):
         importers = []
         employee_obj = self.pool.get('hr.employee')
@@ -36,7 +47,7 @@ class dematerializzazione_importa_documenti_step1_wizard(osv.TransientModel):
             importer_ids = importer_obj.search(cr, uid, [
                 ('state', '=', 'confirmed'),
                 ('employee_ids', 'in', employee_ids)
-            ])
+            ], order='id')
             importers = importer_obj.browse(cr, uid, importer_ids)
         return importers
 
@@ -59,15 +70,7 @@ class dematerializzazione_importa_documenti_step1_wizard(osv.TransientModel):
         importers = self._default_importers(cr, uid, context)
         res = []
         for importer in importers:
-            res.append({
-                'title': importer.title,
-                'description': importer.description,
-                'tipologia_importazione': importer.tipologia_importazione,
-                'address': importer.address,
-                'cartella': importer.share,
-                'percorso': importer.path,
-                'locking_user_id': importer.locking_user_id
-            })
+            res.append(self._get_importer_values(importer))
         return res
 
     _defaults = {
