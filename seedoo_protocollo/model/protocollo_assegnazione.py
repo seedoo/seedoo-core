@@ -439,6 +439,22 @@ class protocollo_assegnazione(orm.Model):
                 return employee.department_id.id
 
         protocollo = protocollo_obj.browse(cr, uid, protocollo_id, {'skip_check': True})
+
+        # se il protocollo è stato registrato e l'utente corrente ha un dipendente che ha preso in carico il protocollo,
+        # allora l'ufficio dell'assegnatore è lo stesso dell'assegnatario per competenza
+        if protocollo.state != 'draft':
+            assegnazione_ids = self.search(cr, uid, [
+                ('protocollo_id', '=', protocollo_id),
+                ('tipologia_assegnazione', '=', 'competenza'),
+                ('assegnatario_employee_id', 'in', employee_ids),
+                ('state', '=', 'preso')
+            ])
+            if assegnazione_ids:
+                assegnazione = self.browse(cr, uid, assegnazione_ids[0])
+                return assegnazione.assegnatario_employee_department_id.id
+
+        # se l'utente non ha un dipendete fra gli assegnatari allora si controlla se l'utente ha un dipendente
+        # appartenente all'ufficio di protocollazione, al fine usare quest'ultimo come ufficio dell'assegnatore
         if protocollo.registration_employee_department_id:
             employee_ids = employee_obj.search(cr, uid, [
                 ('id', 'in', employee_ids),
