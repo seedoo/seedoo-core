@@ -244,7 +244,7 @@ class protocollo_protocollo(osv.Model):
                     WHERE pp.registration_employee_id IS NOT NULL AND
                           pp.registration_employee_department_id IN (''' + employee_department_child_ids_str + ''') AND
                           pp.reserved=FALSE AND
-                          pp.type IN (''' + str(types).strip('[]') + ''')
+                          pp.type IN (''' + str(types).strip('[]') + ''') AND
                           pp.archivio_id IN (''' + archivio_ids_str + ''')
                 ''')
                 protocollo_ids_department_childs = [res[0] for res in cr.fetchall()]
