@@ -8,11 +8,6 @@ from openerp.tools.translate import _
 class protocollo_archivio(orm.Model):
     _name = 'protocollo.archivio'
 
-    STATE_SELECTION = [
-        ('corrente', 'Corrente'),
-        ('deposito', 'Deposito'),
-    ]
-
     _columns = {
         'name': fields.char('Nome', size=256, required=True),
         'aoo_id': fields.many2one('protocollo.aoo', 'AOO', required=True),

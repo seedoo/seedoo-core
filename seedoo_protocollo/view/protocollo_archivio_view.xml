@@ -24,10 +24,12 @@
         <record model='ir.ui.view' id='protocollo_archivio_tree'>
             <field name="name">protocollo.archivio.tree</field>
             <field name="model">protocollo.archivio</field>
+            <field name="field_parent">child_ids</field>
             <field name="arch" type="xml">
                 <tree string="Archivi" >
                     <field name="name"/>
                     <field name="aoo_id"/>
+                    <field name="is_current"/>
                 </tree>
             </field>
         </record>

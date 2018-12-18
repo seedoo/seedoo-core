@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This file is part of Seedoo.  The COPYRIGHT file at the top level of
+this module contains the full copyright notices and license terms. -->
+
+<openerp>
+    <data>
+        <!-- wizard action -->
+        <act_window id="create_protocollo_archivio_action"
+                    name="Crea Archivio Protocollo"
+                    res_model="protocollo.archivio.wizard"
+                    view_type="form" view_mode="form"
+                    target="new"/>
+
+        <!-- wizard view -->
+        <record id="protocollo_archivio_view" model="ir.ui.view">
+            <field name="name">Crea Protocollo Archivio</field>
+            <field name="model">protocollo.archivio.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Protocollo Archivio" version="7.0">
+                    <group col="4">
+                        <field name="name" colspan="4"/>
+                        <field name="interval_type"/>
+                        <newline/>
+                        <field name="date_start"/>
+                        <field name="date_end"/>
+                        <field name="year_start"/>
+                        <field name="year_end"/>
+                        <field name="protocol_start"/>
+                        <field name="protocol_end"/>
+                    </group>
+                    <footer>
+                        <button string="Crea" name="action_create" type="object" class="oe_highlight"/>
+                        <button string="Abbandona" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</openerp>

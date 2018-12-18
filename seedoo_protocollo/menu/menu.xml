@@ -127,11 +127,21 @@ this module contains the full copyright notices and license terms. -->
                   parent="protocollo_configuration"
                   sequence="10"/>
 
-        <menuitem name="Archivio" id="protocollo_archivio_menu"
-                  action="protocollo_archivio_action"
-                  groups="group_configurazione_archivio"
-                  parent="protocollo_configuration"
-                  sequence="15"/>
+
+        <menuitem name="Archivio"
+                action="protocollo_archivio_action"
+                parent="protocollo_configuration"
+                id="protocollo_archivio_menu"
+                groups="group_configurazione_archivio"
+                sequence="15"/>
+
+        <menuitem
+                icon="STOCK_EXECUTE"
+                name="Crea Archivio"
+                action="create_protocollo_archivio_action"
+                id="menu_protocollo_archivio_create"
+                groups="group_configurazione_archivio"
+                parent="protocollo_archivio_menu"/>
 
         <menuitem name="Mezzi di Trasmissione"
                   action="protocollo_typology_act"

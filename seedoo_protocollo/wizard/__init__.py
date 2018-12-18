@@ -22,5 +22,6 @@ from . import aggiungi_assegnatari_conoscenza_protocollo_wizard
 from . import riassegna_protocollo_wizard
 from . import aggiungi_sender_internal_wizard
 from . import agli_atti_protocollo_wizard
+from . import create_protocollo_archivio_wizard
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
