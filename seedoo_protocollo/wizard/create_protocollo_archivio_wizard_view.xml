@@ -21,12 +21,12 @@ this module contains the full copyright notices and license terms. -->
                         <field name="name" colspan="4"/>
                         <field name="interval_type"/>
                         <newline/>
-                        <field name="date_start"/>
-                        <field name="date_end"/>
-                        <field name="year_start"/>
-                        <field name="year_end"/>
-                        <field name="protocol_start"/>
-                        <field name="protocol_end"/>
+                        <field name="date_start" attrs="{'invisible':[('interval_type','!=','date')],'required':[('interval_type','=','date')]}"/>
+                        <field name="date_end" attrs="{'invisible':[('interval_type','!=','date')],'required':[('interval_type','=','date')]}"/>
+                        <field name="year_start" attrs="{'invisible':[('interval_type','!=','number')],'required':[('interval_type','=','number')]}"/>
+                        <field name="year_end" attrs="{'invisible':[('interval_type','!=','number')],'required':[('interval_type','=','number')]}"/>
+                        <field name="protocol_start" attrs="{'invisible':[('interval_type','!=','number')],'required':[('interval_type','=','number')]}"/>
+                        <field name="protocol_end" attrs="{'invisible':[('interval_type','!=','number')],'required':[('interval_type','=','number')]}"/>
                     </group>
                     <footer>
                         <button string="Crea" name="action_create" type="object" class="oe_highlight"/>
