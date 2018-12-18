@@ -15,26 +15,7 @@ this module contains the full copyright notices and license terms. -->
                     </group>
                     <group attrs="{'invisible':[('verifica_importer', '=', False)]}" col="4">
                         <separator string="La procedura effettua l'importazione dalle seguenti sorgenti" colspan="4"/>
-                        <field name="importer_ids" readonly="True" nolabel="1" colspan="4">
-                            <tree>
-                                <field name="title"/>
-                                <field name="tipologia_importazione"/>
-                                <field name="address"/>
-                                <field name="cartella"/>
-                                <field name="percorso"/>
-                                <field name="locking_user_id"/>
-                            </tree>
-                            <form>
-                                <group col="4">
-                                    <field name="title"/>
-                                    <field name="tipologia_importazione"/>
-                                    <field name="address"/>
-                                    <field name="cartella"/>
-                                    <field name="percorso"/>
-                                    <field name="locking_user_id"/>
-                                </group>
-                            </form>
-                        </field>
+                        <field name="importer_ids" readonly="True" nolabel="1" colspan="4"/>
                     </group>
                     <group>
                         <field name="verifica_importer" invisible="True"/>
@@ -53,6 +34,37 @@ this module contains the full copyright notices and license terms. -->
             </field>
         </record>
 
+        <record id="dematerializzazione_importa_documenti_imp_step1_wizard_form_view" model="ir.ui.view">
+            <field name="name">dematerializzazione.importa.documenti.imp.step1.wizard</field>
+            <field name="model">dematerializzazione.importa.documenti.imp.step1.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group col="4">
+                        <field name="title"/>
+                        <field name="tipologia_importazione"/>
+                        <field name="address"/>
+                        <field name="cartella"/>
+                        <field name="percorso"/>
+                        <field name="locking_user_id"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="dematerializzazione_importa_documenti_imp_step1_wizard_tree_view" model="ir.ui.view">
+            <field name="name">dematerializzazione.importa.documenti.imp.step1.wizard</field>
+            <field name="model">dematerializzazione.importa.documenti.imp.step1.wizard</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="title"/>
+                    <field name="tipologia_importazione"/>
+                    <field name="address"/>
+                    <field name="cartella"/>
+                    <field name="percorso"/>
+                    <field name="locking_user_id"/>
+                </tree>
+            </field>
+        </record>
 
         <act_window id="dematerializzazione_importa_documenti_wizard_action"
                     name="Importazione"

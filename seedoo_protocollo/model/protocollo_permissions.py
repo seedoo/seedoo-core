@@ -1823,7 +1823,7 @@ class protocollo_protocollo(osv.Model):
         for protocollo in protocolli:
             check = False
 
-            if protocollo.state in ('registered', 'notified', 'waiting', 'sent', 'error'):
+            if protocollo.state in ('registered', 'notified', 'waiting', 'sent', 'error') and protocollo.assegnazione_competenza_ids:
                 check = True
 
             if check:
