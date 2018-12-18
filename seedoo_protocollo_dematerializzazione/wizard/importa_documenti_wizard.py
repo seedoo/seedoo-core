@@ -3,6 +3,7 @@
 # this module contains the full copyright notices and license terms.
 
 import logging
+from ..model.importer import TIPOLOGIA_SELECTION
 from openerp.osv import fields, osv
 from openerp.tools.translate import _
 
@@ -61,7 +62,10 @@ class dematerializzazione_importa_documenti_step1_wizard(osv.TransientModel):
             res.append({
                 'title': importer.title,
                 'description': importer.description,
+                'tipologia_importazione': importer.tipologia_importazione,
                 'address': importer.address,
+                'cartella': importer.share,
+                'percorso': importer.path,
                 'locking_user_id': importer.locking_user_id
             })
         return res
@@ -107,10 +111,13 @@ class dematerializzazione_importa_documenti_imp_step1_wizard(osv.TransientModel)
     _name = 'dematerializzazione.importa.documenti.imp.step1.wizard'
     _columns = {
         'wizard_id': fields.many2one('dematerializzazione.importa.documenti.step1.wizard'),
-        'title': fields.char('Nome', char=80, required=True),
+        'title': fields.char('Nome Importer', char=80, required=True),
         'description': fields.text('Descrizione'),
-        'address': fields.char('Indirizzo', char=256, required=True),
-        'locking_user_id': fields.many2one('res.users', 'Importazione attiva')
+        'tipologia_importazione': fields.selection(TIPOLOGIA_SELECTION, 'Tipologia Importazione', select=True, required=True),
+        'address': fields.char('IP/Hostname', char=256, required=True),
+        'cartella': fields.char('Condivisione', char=256, required=True),
+        'percorso': fields.char('Percorso', char=256, required=True),
+        'locking_user_id': fields.many2one('res.users', 'Importazione in corso')
     }
 
 
