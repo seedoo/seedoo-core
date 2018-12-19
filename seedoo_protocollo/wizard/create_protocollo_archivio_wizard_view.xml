@@ -8,18 +8,23 @@ this module contains the full copyright notices and license terms. -->
         <act_window id="create_protocollo_archivio_action"
                     name="Crea Archivio Protocollo"
                     res_model="protocollo.archivio.wizard"
-                    view_type="form" view_mode="form"
+                    view_type="form"
+                    view_mode="form"
                     target="new"/>
 
         <!-- wizard view -->
         <record id="protocollo_archivio_view" model="ir.ui.view">
-            <field name="name">Crea Protocollo Archivio</field>
+            <field name="name">Archivio Protocollo</field>
             <field name="model">protocollo.archivio.wizard</field>
             <field name="arch" type="xml">
                 <form string="Protocollo Archivio" version="7.0">
                     <group col="4">
-                        <field name="name" colspan="4"/>
-                        <field name="interval_type"/>
+                        <field name="archive_exists" invisible="1"/>
+                        <field name="name" attrs="{'invisible':[('archive_exists','=', True)],'required':[('archive_exists','=',False)]}"/>
+                        <newline/>
+                        <field name="archivio_id" attrs="{'invisible':[('archive_exists','=', False)],'required':[('archive_exists','=',True)]}" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                        <newline/>
+                        <field name="interval_type" />
                         <newline/>
                         <field name="date_start" attrs="{'invisible':[('interval_type','!=','date')],'required':[('interval_type','=','date')]}"/>
                         <field name="date_end" attrs="{'invisible':[('interval_type','!=','date')],'required':[('interval_type','=','date')]}"/>
@@ -29,7 +34,9 @@ this module contains the full copyright notices and license terms. -->
                         <field name="protocol_end" attrs="{'invisible':[('interval_type','!=','number')],'required':[('interval_type','=','number')]}"/>
                     </group>
                     <footer>
-                        <button string="Crea" name="action_create" type="object" class="oe_highlight"/>
+                        <button string="Crea" name="action_create" type="object" class="oe_highlight" attrs="{'invisible':['|',('archive_exists','=', True),('interval_type','!=','none')]}"/>
+                        <button string="Crea e Archivia" name="action_create" type="object" class="oe_highlight" attrs="{'invisible':['|',('archive_exists','=', True),'&amp;',('interval_type','!=','date'),('interval_type','!=', 'number')]}"/>
+                        <button string="Archivia" name="action_create" type="object" class="oe_highlight" attrs="{'invisible':['|',('archive_exists','=', False),'&amp;',('interval_type','!=', 'date'),('interval_type','!=','number')]}"/>
                         <button string="Abbandona" class="oe_link" special="cancel"/>
                     </footer>
                 </form>

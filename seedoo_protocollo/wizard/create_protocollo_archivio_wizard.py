@@ -13,16 +13,20 @@ _logger = logging.getLogger(__name__)
 
 class protocollo_archivio_wizard(osv.TransientModel):
     """
-        A wizard to manage the creation of Archivio Protocollo
+        A wizard to manage the creation/update of Archivio Protocollo
     """
-    STATE_SELECTION = [
-        ('none', 'Nessuna archiviazione'),
-        ('date', 'Intervallo per data'),
-        ('number', 'Intervallo per numero'),
-    ]
-
     _name = 'protocollo.archivio.wizard'
     _description = 'Crea Archivio Protocollo'
+
+    def get_interval_type(self, cr, uid, context=None):
+        interval_options = [('date', 'Intervallo per data'),('number', 'Intervallo per numero')]
+
+        if context and 'archive_exists' in context and context['archive_exists']:
+            return interval_options
+
+        interval_options.insert(0, ('none', 'Nessuna archiviazione'))
+        return interval_options
+
 
     def get_protocol_year(self, cr, uid, context=None):
         protocollo_archivio_obj = self.pool.get('protocollo.archivio')
@@ -40,9 +44,11 @@ class protocollo_archivio_wizard(osv.TransientModel):
         return year_res
 
     _columns = {
-        'name': fields.char('Nome Archivio', size=256, required=True, readonly=False),
+        'archive_exists': fields.boolean('Archivio esistente'),
+        'name': fields.char('Nome Archivio', size=256, readonly=False),
+        'archivio_id': fields.many2one('protocollo.archivio', 'Archivio', readonly=False, domain="[('is_current','=',False)]"),
         'aoo_id': fields.many2one('protocollo.aoo', 'AOO', required=True, readonly=True),
-        'interval_type': fields.selection(STATE_SELECTION, 'Tipo di intervallo', required=True),
+        'interval_type': fields.selection(get_interval_type, 'Tipo di intervallo', required=True),
         'date_start': fields.datetime('Data Inizio', required=False),
         'date_end': fields.datetime('Data Fine', required=False),
         'year_start': fields.selection(get_protocol_year, 'Anno Inizio', required=False),
@@ -51,41 +57,39 @@ class protocollo_archivio_wizard(osv.TransientModel):
         'protocol_end': fields.char('Protocollo Fine', required=False),
     }
 
-    def _get_default_name(self, cr, uid, wizard):
+    def get_default_archive_exists(self, cr, uid, context):
+        if context and 'archive_exists' in context and context['archive_exists']:
+            return True
+        return False
+
+    def get_default_name(self, cr, uid, wizard):
         #TODO
         return "Archivio di Deposito"
 
+    def get_default_archivio_id(self, cr, uid, context):
+        if context and 'archive_exists' in context and context['archive_exists']:
+            if context['archivio_id']:
+                return context['archivio_id']
+        return False
 
-    def get_default_protocol_start(self, cr, uid, wizard):
-        protocollo_obj = self.pool.get('protocollo.protocollo')
-        protocollo_archivio_obj = self.pool.get('protocollo.archivio')
-        aoo_id = self.get_default_aoo_id(cr, uid, [])
-        archivio_corrente = protocollo_archivio_obj._get_archivio_ids(cr, uid, True)
-        start_protocol_ids = protocollo_obj.search(cr, uid, [
-            ('aoo_id', '=', aoo_id),
-            ('state', 'in', ['registered', 'notified', 'sent', 'waiting', 'error', 'canceled']),
-            ('archivio_id', '=', archivio_corrente)
-        ], order='name asc', limit=1)
-        if len(start_protocol_ids) > 0:
-            start_protocol = protocollo_obj.browse(cr, uid, start_protocol_ids[0])
-            return start_protocol.name
-        return 0
+    def get_default_interval_type(self, cr, uid, context):
+        if context and 'archive_exists' in context and context['archive_exists']:
+            return False
+        return 'none'
 
-    def get_default_protocol_end(self, cr, uid, wizard):
-        protocollo_obj = self.pool.get('protocollo.protocollo')
-        protocollo_archivio_obj = self.pool.get('protocollo.archivio')
-        aoo_id = self.get_default_aoo_id(cr, uid, [])
-        archivio_corrente = protocollo_archivio_obj._get_archivio_ids(cr, uid, True)
-        start_protocol_ids = protocollo_obj.search(cr, uid, [
-            ('aoo_id', '=', aoo_id),
-            ('state', 'in', ['registered', 'notified', 'sent', 'waiting', 'error', 'canceled']),
-            ('archivio_id', '=', archivio_corrente)
-        ], order='name desc', limit=1)
-        if len(start_protocol_ids) > 0:
-            start_protocol = protocollo_obj.browse(cr, uid, start_protocol_ids[0])
-            return start_protocol.name
+    def get_default_year_start(self, cr, uid, context):
+        return self.get_default_limits(cr, uid, 'year', 'start')
 
-    def get_default_aoo_id(self, cr, uid, wizard):
+    def get_default_year_end(self, cr, uid, context):
+        return self.get_default_limits(cr, uid, 'year', 'end')
+
+    def get_default_protocol_start(self, cr, uid, context):
+        return self.get_default_limits(cr, uid, 'name', 'start')
+
+    def get_default_protocol_end(self, cr, uid, context):
+        return self.get_default_limits(cr, uid, 'name', 'end')
+
+    def get_default_aoo_id(self, cr, uid, context):
         aoo_ids = self.pool.get('protocollo.aoo').search(cr, uid, [])
         for aoo_id in aoo_ids:
             check = self.pool.get('protocollo.aoo').is_visible_to_protocol_action(cr, uid, aoo_id)
@@ -93,10 +97,37 @@ class protocollo_archivio_wizard(osv.TransientModel):
                 return aoo_id
         return False
 
+    def get_default_limits(self, cr, uid, lim_field, lim_type):
+        if lim_type == 'end':
+            ord = 'name desc'
+        else:
+            ord = 'name asc'
+        protocollo_obj = self.pool.get('protocollo.protocollo')
+        protocollo_archivio_obj = self.pool.get('protocollo.archivio')
+        aoo_id = self.get_default_aoo_id(cr, uid, [])
+        archivio_corrente = protocollo_archivio_obj._get_archivio_ids(cr, uid, True)
+        start_protocol_ids = protocollo_obj.search(cr, uid, [
+            ('aoo_id', '=', aoo_id),
+            ('state', 'in', ['registered', 'notified', 'sent', 'waiting', 'error', 'canceled']),
+            ('archivio_id', '=', archivio_corrente)
+        ], order=ord, limit=1)
+        if len(start_protocol_ids) > 0:
+            start_protocol = protocollo_obj.browse(cr, uid, start_protocol_ids[0])
+            if lim_field == 'name':
+                return start_protocol.name
+            else:
+                return start_protocol.year
+        return False
+
+
     _defaults = {
-        'name': _get_default_name,
-        'interval_type': 'none',
+        'archive_exists': get_default_archive_exists,
+        'name': get_default_name,
+        'archivio_id': get_default_archivio_id,
+        'interval_type': get_default_interval_type,
         'aoo_id': get_default_aoo_id,
+        'year_start': get_default_year_start,
+        'year_end': get_default_year_end,
         'protocol_start': get_default_protocol_start,
         'protocol_end': get_default_protocol_end,
     }
@@ -108,14 +139,12 @@ class protocollo_archivio_wizard(osv.TransientModel):
         protocollo_archivio_obj = self.pool.get('protocollo.archivio')
         archivio_corrente = protocollo_archivio_obj._get_archivio_ids(cr, uid, True)
         archivio_ids_str = ', '.join(map(str, archivio_corrente))
-        if wizard.name and wizard.aoo_id and wizard.interval_type:
 
+        #Selezione dei protocolli da archiviare
+        if wizard.interval_type in ('date', 'number'):
             if wizard.interval_type == 'date':
                 if wizard.date_start > wizard.date_end:
                     raise orm.except_orm(_("Avviso"), _("La data di fine deve essere successiva alla data di inizio"))
-
-                # if wizard.number <= 0:
-                #     raise orm.except_orm(_("Avviso"), _("Il numero di protocolli deve essere maggiore di 0"))
 
                 protocollo_ids = protocollo_obj.search(cr, uid, [
                     ('aoo_id', '=', wizard.aoo_id.id),
@@ -149,6 +178,9 @@ class protocollo_archivio_wizard(osv.TransientModel):
 
                 protocollo_ids = [res[0] for res in cr.fetchall()]
 
+        #Selezione dell'archivio da creazione o da preselezione dal wizard
+        if not wizard.archive_exists:
+            #Creazione dell'archivio
             vals = {
                 'name': wizard.name,
                 'aoo_id': wizard.aoo_id.id,
@@ -157,16 +189,21 @@ class protocollo_archivio_wizard(osv.TransientModel):
                 'date_end': wizard.date_end,
             }
             protocollo_archivio_id = protocollo_archivio_obj.create(cr, uid, vals)
+        else:
+            # Archivio da wizard
+            protocollo_archivio_id = wizard.archivio_id
 
-            if wizard.interval_type in ('date', 'number'):
-                if len(protocollo_ids) == 0:
-                    raise orm.except_orm(_("Avviso"), _("Nessun protocollo presente in archivio corrente nell\'intervallo selezionato"))
-                if protocollo_archivio_id:
-                    protocollo_obj.write(cr, uid, protocollo_ids, {'archivio_id': protocollo_archivio_id}, context=context)
+        #Aggiunta dei protocolli all'archivio creato o preselezionato
+        if wizard.interval_type in ('date', 'number'):
+            if len(protocollo_ids) == 0:
+                raise orm.except_orm(_("Avviso"), _("Nessun protocollo presente in archivio corrente nell\'intervallo selezionato"))
+            if protocollo_archivio_id:
+                protocollo_obj.write(cr, uid, protocollo_ids, {'archivio_id': protocollo_archivio_id}, context=context)
+                _logger.info("Archiviati %d protocolli", (len(protocollo_ids)))
 
             return {
                 'view_type': 'form',
-                'view_mode': 'form',
+                'view_mode': 'form,tree',
                 'res_model': 'protocollo.emergency.registry',
                 'res_id': protocollo_archivio_id,
                 'type': 'ir.actions.act_window',
