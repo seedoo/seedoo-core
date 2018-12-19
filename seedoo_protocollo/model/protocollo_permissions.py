@@ -494,11 +494,12 @@ class protocollo_protocollo(osv.Model):
             if 'is_current_archive' in context:
                 is_current = context['is_current_archive']
             archivio_ids = protocollo_archivio_obj._get_archivio_ids(cr, current_user_id, is_current)
-            check_gruppo_archive = self.user_has_groups(cr, current_user_id, 'seedoo_protocollo.group_vedi_protocolli_archiviati')
-            if is_current or not check_gruppo_archive:
-                protocollo_visible_ids = self._get_protocollo_visibile_ids(cr, SUPERUSER_ID, current_user_id, archivio_ids)
-            else:
-                protocollo_visible_ids = self._get_protocollo_archivio_ids(cr, archivio_ids)
+            if len(archivio_ids) > 0:
+                check_gruppo_archive = self.user_has_groups(cr, current_user_id, 'seedoo_protocollo.group_vedi_protocolli_archiviati')
+                if is_current or not check_gruppo_archive:
+                    protocollo_visible_ids = self._get_protocollo_visibile_ids(cr, SUPERUSER_ID, current_user_id, archivio_ids)
+                else:
+                    protocollo_visible_ids = self._get_protocollo_archivio_ids(cr, archivio_ids)
 
         return [('id', 'in', protocollo_visible_ids)]
 
