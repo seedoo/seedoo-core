@@ -43,6 +43,7 @@ class dematerializzazione_storico_importazione(orm.Model):
         'name': fields.function(_model_name_get_fnc, type='char', string='Nome', store=True),
         'inizio': fields.datetime('Inizio'),
         'fine': fields.datetime('Fine'),
+        'user_id': fields.many2one('res.users', 'Autore', readonly=True),
         'modalita': fields.selection(MODALITA_SELECTION, 'Modalità', select=True),
         'esito': fields.selection(ESITO_SELECTION, 'Esito', select=True),
         'numero_file_importati': fields.function(_model_numero_file_importati_get_fnc, type='integer', string='File Importati'),

@@ -15,6 +15,9 @@ this module contains the full copyright notices and license terms. -->
                             <group colspan="2">
                                 <field name="name"/>
                                 <field name="tipologia_importazione"/>
+                                <field name="inizio"/>
+                                <field name="fine"/>
+                                <field name="user_id" options="{'no_open': True}"/>
                                 <field name="esito"/>
                                 <field name="errore" attrs="{'invisible':[('esito', '=', 'ok')]}"/>
                             </group>

@@ -12,6 +12,9 @@ class dematerializzazione_storico_importazione_importer(orm.Model):
 
     _columns = {
         'name': fields.char('Nome Importer', char=80, required=True),
+        'inizio': fields.datetime('Inizio'),
+        'fine': fields.datetime('Fine'),
+        'user_id': fields.related('storico_importazione_id', 'user_id', type='many2one', relation='res.users', string='Autore'),
         'tipologia_importazione': fields.selection(TIPOLOGIA_SELECTION, 'Tipologia Importazione', select=True, required=True),
         'indirizzo': fields.char('IP/Hostname', char=256, required=True),
         'cartella': fields.char('Condivisione', char=256, required=True),

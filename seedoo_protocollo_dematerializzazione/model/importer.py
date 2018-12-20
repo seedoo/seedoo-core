@@ -38,7 +38,7 @@ class dematerializzazione_importer(orm.Model):
             values = {
                 # 'aoo_id': False,
                 'tipologia_protocollo': False,
-                'employee_ids': []
+                'user_ids': []
             }
         return {'value': values}
 
@@ -47,7 +47,7 @@ class dematerializzazione_importer(orm.Model):
         if aoo_id:
             values = {
                 'tipologia_protocollo': False,
-                'employee_ids': []
+                'user_ids': []
             }
         return {'value': values}
 
@@ -59,9 +59,7 @@ class dematerializzazione_importer(orm.Model):
                                                    required=True),
         'tipologia_protocollo': fields.many2one('protocollo.typology', 'Mezzo di Trasmissione'),
         'aoo_id': fields.many2one('protocollo.aoo', 'AOO', required=True),
-        # 'employee_id': fields.many2one('hr.employee', 'Protocollatore'),
-        'employee_ids': fields.many2many('hr.employee', 'dematerializzazione_importer_employee_rel', 'importer_id',
-                                         'employee_id', 'Utenti', required=True),
+        'user_ids': fields.many2many('res.users', 'dematerializzazione_importer_user_rel', 'importer_id', 'user_id', 'Utenti', required=True),
         'address': fields.char('IP/Hostname', char=256, required=True),
         'share': fields.char('Condivisione', char=256, required=True),
         'path': fields.char('Percorso', char=256, required=True),
@@ -202,7 +200,7 @@ class dematerializzazione_importer(orm.Model):
         return esito, errore, prot.id
 
     def _process_protocol_creazione(self, cr, uid, conn, importer, file_to_import, storico_importer_id, import_counter):
-        ir_model_data_obj = self.pool.get('ir.model.data')
+        employee_obj = self.pool.get('hr.employee')
         gedoc_document_obj = self.pool.get('gedoc.document')
         attachment_obj = self.pool.get('ir.attachment')
 
@@ -215,25 +213,9 @@ class dematerializzazione_importer(orm.Model):
             file_fullpath = os.path.join(importer.path, file_to_import.filename)
             file_attributes, filesize = conn.retrieveFile(importer.share, file_fullpath, temp_fh)
             data_encoded = base64.encodestring(temp_fh.getvalue())
+            employee_ids = employee_obj.search(cr, uid, [('user_id', '=', uid)])
 
             if filesize > 0:
-                # now = datetime.datetime.now().strftime(DSDF)
-                # name = 'Nuovo Protocollo del ' + now + ' (%s) ' % import_counter
-                # vals = {
-                #     'name': name,
-                #     'typology': importer.tipologia_protocollo.id,
-                #     'creation_date': datetime.datetime.now().strftime('%Y%m%d %H:%M:%S'),
-                #     'receiving_date': datetime.datetime.now().strftime('%Y%m%d %H:%M:%S'),
-                #     'type': 'in',
-                #     'aoo_id': importer.aoo_id.id,
-                #     'user_id': importer.employee_id.user_id.id,
-                #     'mimetype': 'application/pdf',
-                #     'importer_id': storico_importer_id
-                # }
-                # protocollo_obj = self.pool.get('protocollo.protocollo')
-                # protocollo_id = protocollo_obj.create(cr, uid, vals, context={})
-                # protocollo_obj.carica_documento_principale(cr, uid, protocollo_id, data_encoded, file_to_import.filename, "")
-
                 now = datetime.datetime.now().strftime(DSDF)
                 name = 'Nuovo Documento del ' + now + ' (%s) ' % import_counter
 
@@ -243,7 +225,7 @@ class dematerializzazione_importer(orm.Model):
                     'main_doc_id': False,
                     'user_id': uid,
                     'data_doc': datetime.datetime.now().strftime('%Y%m%d %H:%M:%S'),
-                    'employee_comp_ids': [(6, 0, importer.employee_ids.ids)],
+                    'employee_comp_ids': [(6, 0, employee_ids)],
                     'aoo_id': importer.aoo_id.id,
                     'imported': True,
                     'importer_id': storico_importer_id,
@@ -345,6 +327,7 @@ class dematerializzazione_importer(orm.Model):
 
         storico_id = storico_obj.create(cr, uid, {
             'inizio': now,
+            'user_id': uid,
             'modalita': modalita,
             'esito': 'errore'
         })
@@ -352,11 +335,9 @@ class dematerializzazione_importer(orm.Model):
         # configurazione_ids = self.pool.get('dematerializzazione.configurazione').search(cr, uid, [])
         # configurazione = self.pool.get('dematerializzazione.configurazione').browse(cr, uid, configurazione_ids[0])
 
-        employee_obj = self.pool.get('hr.employee')
-        employee_ids = employee_obj.search(cr, uid, [('user_id', '=', uid)])
         importer_ids = importer_obj.search(cr, uid, [
             ('state', '=', 'confirmed'),
-            ('employee_ids', 'in', employee_ids)
+            ('user_ids', '=', uid)
         ])
         importers = importer_obj.browse(cr, uid, importer_ids)
 
@@ -379,6 +360,7 @@ class dematerializzazione_importer(orm.Model):
                 try:
                     storico_importer_id = storico_importer_obj.create(cr, uid, {
                         'name': importer.title,
+                        'inizio': datetime.datetime.now(),
                         'tipologia_importazione': importer.tipologia_importazione,
                         'indirizzo': importer.address,
                         'cartella': importer.share,
@@ -440,6 +422,9 @@ class dematerializzazione_importer(orm.Model):
                         'errore': exception
                     })
                 finally:
+                    storico_importer_obj.write(cr, uid, [storico_importer_id], {
+                        'fine': datetime.datetime.now()
+                    })
                     importer.unlock_importer()
                     if conn:
                         conn.close()

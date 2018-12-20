@@ -16,6 +16,8 @@ this module contains the full copyright notices and license terms. -->
                             <field name="fine"/>
                             <field name="modalita"/>
                             <newline/>
+                            <field name="user_id" options="{'no_open': True}"/>
+                            <newline/>
                             <field name="esito"/>
                             <newline/>
                             <field name="numero_file_importati"/>
@@ -38,6 +40,7 @@ this module contains the full copyright notices and license terms. -->
                     <field name="inizio"/>
                     <field name="fine"/>
                     <field name="modalita"/>
+                    <field name="user_id"/>
                     <field name="esito"/>
                     <field name="numero_file_importati"/>
                     <field name="numero_file_errore"/>

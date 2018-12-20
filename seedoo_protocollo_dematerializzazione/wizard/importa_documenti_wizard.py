@@ -39,16 +39,12 @@ class dematerializzazione_importa_documenti_step1_wizard(osv.TransientModel):
         }
 
     def _default_importers(self, cr, uid, context):
-        importers = []
-        employee_obj = self.pool.get('hr.employee')
-        employee_ids = employee_obj.search(cr, uid, [('user_id', '=', uid)])
-        if len(employee_ids) > 0:
-            importer_obj = self.pool.get('dematerializzazione.importer')
-            importer_ids = importer_obj.search(cr, uid, [
-                ('state', '=', 'confirmed'),
-                ('employee_ids', 'in', employee_ids)
-            ], order='id')
-            importers = importer_obj.browse(cr, uid, importer_ids)
+        importer_obj = self.pool.get('dematerializzazione.importer')
+        importer_ids = importer_obj.search(cr, uid, [
+            ('state', '=', 'confirmed'),
+            ('user_ids', 'in', uid)
+        ], order='id')
+        importers = importer_obj.browse(cr, uid, importer_ids)
         return importers
 
     def _default_verifica_importer(self, cr, uid, context):
@@ -57,11 +53,9 @@ class dematerializzazione_importa_documenti_step1_wizard(osv.TransientModel):
 
     def _default_verifica_locked_importer(self, cr, uid, context):
         importer_obj = self.pool.get('dematerializzazione.importer')
-        employee_obj = self.pool.get('hr.employee')
-        employee_ids = employee_obj.search(cr, uid, [('user_id', '=', uid)])
         importer_ids = importer_obj.search(cr, uid, [
             ('state', '=', 'confirmed'),
-            ('employee_ids', 'in', employee_ids),
+            ('user_ids', '=', uid),
             ('locking_user_id', '=', uid)
         ])
         return len(importer_ids)
@@ -81,11 +75,9 @@ class dematerializzazione_importa_documenti_step1_wizard(osv.TransientModel):
 
     def unlock_blocked_importer(self, cr, uid, ids, context=None):
         importer_obj = self.pool.get('dematerializzazione.importer')
-        employee_obj = self.pool.get('hr.employee')
-        employee_ids = employee_obj.search(cr, uid, [('user_id', '=', uid)])
         importers = importer_obj.search(cr, uid, [
             ('state', '=', 'confirmed'),
-            ('employee_ids', 'in', employee_ids),
+            ('user_ids', '=', uid),
             ('locking_user_id', '!=', False)
         ])
         for importer in importer_obj.browse(cr, uid, importers):
