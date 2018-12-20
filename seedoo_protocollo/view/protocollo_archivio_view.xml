@@ -38,8 +38,7 @@
                     <field name="name"/>
                     <field name="aoo_id"/>
                     <field name="is_current"/>
-                    <field name="archivia_protocollo_visibility"/>
-                    <field name="elimina_protocollo_visibility"/>
+                    <field name="configura_protocollo_visibility"/>
                     <templates>
                         <t t-name="kanban-box">
                             <div t-attf-class="oe_kanban_card oe_kanban_global_click oe_archivio_protocollo is_current_#{record.is_current.raw_value}">
@@ -48,7 +47,7 @@
                                     <ul class="oe_dropdown_menu">
                                         <li>
                                             <a type="action" t-attf-data-context="{'archivio_id':{{record.id.value}}, 'archive_exists':True}" name="%(seedoo_protocollo.create_protocollo_archivio_action)d"
-                                               attrs="{'invisible':[('archivia_protocollo_visibility','=',False)]}" >
+                                               attrs="{'invisible':[('configura_protocollo_visibility','=',False)]}" >
                                                 Archivia protocolli
                                             </a>
                                         </li>

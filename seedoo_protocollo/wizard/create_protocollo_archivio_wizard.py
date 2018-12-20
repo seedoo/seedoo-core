@@ -78,16 +78,16 @@ class protocollo_archivio_wizard(osv.TransientModel):
         return 'none'
 
     def get_default_year_start(self, cr, uid, context):
-        return self.get_default_limits(cr, uid, 'year', 'start')
+        return self.get_default_limits(cr, uid, 'year', 'start', context)
 
     def get_default_year_end(self, cr, uid, context):
-        return self.get_default_limits(cr, uid, 'year', 'end')
+        return self.get_default_limits(cr, uid, 'year', 'end', context)
 
     def get_default_protocol_start(self, cr, uid, context):
-        return self.get_default_limits(cr, uid, 'name', 'start')
+        return self.get_default_limits(cr, uid, 'name', 'start', context)
 
     def get_default_protocol_end(self, cr, uid, context):
-        return self.get_default_limits(cr, uid, 'name', 'end')
+        return self.get_default_limits(cr, uid, 'name', 'end', context)
 
     def get_default_aoo_id(self, cr, uid, context):
         aoo_ids = self.pool.get('protocollo.aoo').search(cr, uid, [])
@@ -97,7 +97,7 @@ class protocollo_archivio_wizard(osv.TransientModel):
                 return aoo_id
         return False
 
-    def get_default_limits(self, cr, uid, lim_field, lim_type):
+    def get_default_limits(self, cr, uid, lim_field, lim_type, context):
         if lim_type == 'end':
             ord = 'name desc'
         else:
@@ -201,14 +201,9 @@ class protocollo_archivio_wizard(osv.TransientModel):
                 protocollo_obj.write(cr, uid, protocollo_ids, {'archivio_id': protocollo_archivio_id}, context=context)
                 _logger.info("Archiviati %d protocolli", (len(protocollo_ids)))
 
-            return {
-                'view_type': 'form',
-                'view_mode': 'form,tree',
-                'res_model': 'protocollo.archivio',
-                'res_id': protocollo_archivio_id,
-                'type': 'ir.actions.act_window',
-                'context': context,
-                'target': 'self',
-            }
+            protocollo_archivio = self.pool.get('protocollo.archivio').browse(cr, uid, protocollo_archivio_id)
+
+            context.update({'archivio_id': protocollo_archivio_id, 'is_current': False})
+            return protocollo_archivio.go_to_archive_action()
 
         return {'type': 'ir.actions.act_window_close'}

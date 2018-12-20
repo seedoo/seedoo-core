@@ -28,19 +28,7 @@ class protocollo_archivio(orm.Model):
             res[id] = count_value
         return res
 
-    def _archivia_protocollo_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
-        if isinstance(ids, (list, tuple)) and not len(ids):
-            return []
-        if isinstance(ids, (long, int)):
-            ids = [ids]
-        res = dict.fromkeys(ids, False)
-        for id in ids:
-            check = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_archivia_protocollo')
-            res[id] = check
-
-        return res
-
-    def _elimina_protocollo_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
+    def _configura_protocollo_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         if isinstance(ids, (list, tuple)) and not len(ids):
             return []
         if isinstance(ids, (long, int)):
@@ -57,8 +45,7 @@ class protocollo_archivio(orm.Model):
         'aoo_id': fields.many2one('protocollo.aoo', 'AOO', required=True),
         'is_current': fields.boolean('Corrente'),
         'total': fields.function(_get_protocolli_archiviati_count, 'Numero totale protocolli', type='integer', string= 'PEC - Numero invii'),
-        'archivia_protocollo_visibility': fields.function(_archivia_protocollo_visibility, type='boolean', string='Archivia protocolli'),
-        'elimina_protocollo_visibility': fields.function(_elimina_protocollo_visibility, type='boolean', string='Configura ed elimina protocolli'),
+        'configura_protocollo_visibility': fields.function(_configura_protocollo_visibility, type='boolean', string='Archivia protocolli'),
     }
 
     def _get_archivio_ids(self, cr, uid, is_current=True, context=None):
@@ -86,8 +73,13 @@ class protocollo_archivio(orm.Model):
         view_tree_rec = model_data_obj.get_object_reference(cr, uid, 'seedoo_protocollo', 'protocollo_protocollo_tree')
         form_id = view_form_rec and view_form_rec[1] or False
         tree_id = view_tree_rec and view_tree_rec[1] or False
+        archivio_id = False
+        if context and 'archivio_id' in context:
+            archivio_id = context['archivio_id']
+        elif len(ids) == 1:
+            archivio_id = ids[0]
         return {
-            'name': 'PEC',
+            'name': 'Archivio',
             'view_type': 'form',
             'view_mode': 'tree,form',
             'views': [(tree_id, 'tree'), (form_id, 'form')],
@@ -96,7 +88,7 @@ class protocollo_archivio(orm.Model):
             'target': 'current',
             'type': 'ir.actions.act_window',
             'context': "{'is_current_archive': False}",
-            'domain': [('archivio_id', '=', context.get('archivio_id', False))]
+            'domain': [('archivio_id', '=', archivio_id)]
             # 'flags': {'form': {'options': {'mode': 'view'}}}
         }
 
