@@ -579,11 +579,45 @@ table.oe_form_group.subject_modify_wizard tr > td {
 .oe_kanban_card.oe_kanban_global_click.oe_archivio_protocollo {
   border-radius: 0 !important;
   min-width: 400px;
-  min-height: 90px;
+  min-height: 105px !important;
+}
+.oe_kanban_card.oe_kanban_global_click.oe_archivio_protocollo ul.oe_dropdown_menu.oe_opened {
+  right: 0;
+  left: auto !important;
+  width: 80%;
+}
+.oe_kanban_card.oe_kanban_global_click.oe_archivio_protocollo .oe_dropdown_toggle.oe_dropdown_kanban {
+  background-color: transparent !important;
+  width: 100%;
+  position: absolute;
+  text-align: right;
+  height: 100px;
+  line-height: 70px;
+}
+.oe_kanban_card.oe_kanban_global_click.oe_archivio_protocollo a.oe_kanban_action.oe_kanban_action_a {
+  height: 30px;
+  line-height: 30px;
 }
 .oe_kanban_card.oe_kanban_global_click.oe_archivio_protocollo .oe_dropdown_kanban:before {
   content: "\f187";
   font-size: 30px;
+  color: #555;
+}
+.oe_kanban_card.oe_kanban_global_click.oe_archivio_protocollo.is_current_true .oe_dropdown_kanban:before {
+  color: #326e38;
+}
+.oe_kanban_card.oe_kanban_global_click.oe_archivio_protocollo .oe_kanban_action_button {
+  height: 35px;
+  width: 100px;
+  position: absolute;
+}
+.oe_kanban_card.oe_kanban_global_click.oe_archivio_protocollo .archivio-protocolli-totali {
+  height: 40px;
+  line-height: 40px;
+}
+.oe_kanban_card.oe_kanban_global_click.oe_archivio_protocollo .archivio-protocolli-actions {
+  margin-bottom: 10px;
+  height: 25px;
 }
 .openerp .oe_notebook > li.ui-state-active > a.ui-tabs-anchor {
   color: #666 !important;

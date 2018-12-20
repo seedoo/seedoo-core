@@ -191,7 +191,7 @@ class protocollo_archivio_wizard(osv.TransientModel):
             protocollo_archivio_id = protocollo_archivio_obj.create(cr, uid, vals)
         else:
             # Archivio da wizard
-            protocollo_archivio_id = wizard.archivio_id
+            protocollo_archivio_id = wizard.archivio_id.id
 
         #Aggiunta dei protocolli all'archivio creato o preselezionato
         if wizard.interval_type in ('date', 'number'):
@@ -208,6 +208,7 @@ class protocollo_archivio_wizard(osv.TransientModel):
                 'res_id': protocollo_archivio_id,
                 'type': 'ir.actions.act_window',
                 'context': context,
+                'target': 'self',
             }
 
         return {'type': 'ir.actions.act_window_close'}

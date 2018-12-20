@@ -38,19 +38,22 @@
                     <field name="name"/>
                     <field name="aoo_id"/>
                     <field name="is_current"/>
+                    <field name="archivia_protocollo_visibility"/>
+                    <field name="elimina_protocollo_visibility"/>
                     <templates>
                         <t t-name="kanban-box">
-                            <div t-attf-class="oe_kanban_card oe_kanban_global_click oe_archivio_protocollo">
+                            <div t-attf-class="oe_kanban_card oe_kanban_global_click oe_archivio_protocollo is_current_#{record.is_current.raw_value}">
                                 <div class="oe_dropdown_toggle oe_dropdown_kanban ">
                                     <span class="oe_e">v</span>
                                     <ul class="oe_dropdown_menu">
                                         <li>
-                                            <a type="edit">Sales Teams
-                                                Settings
+                                            <a type="action" t-attf-data-context="{'archivio_id':{{record.id.value}}, 'archive_exists':True}" name="%(seedoo_protocollo.create_protocollo_archivio_action)d"
+                                               attrs="{'invisible':[('archivia_protocollo_visibility','=',False)]}" >
+                                                Archivia protocolli
                                             </a>
                                         </li>
                                         <li>
-                                            <a type="delete">Delete</a>
+                                            <a type="open">Dettagli archivio</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -58,17 +61,18 @@
                                     <strong>
                                         <field name="name"/>
                                     </strong>
-                                    <t t-if="is_current == True">
-                                        <span class="folder-is-current">
-                                            Archivio corrente
-                                        </span>
-
+                                    <div class="archivio-protocolli-totali">
+                                        Numero protocolli: <field name="total"/>
+                                    </div>
+                                    <div class="archivio-protocolli-actions">
                                         <button name="go_to_archive_action"
-                                                string="Archivia protocolli"
+                                                title="Archivia protocolli"
                                                 type="object"
                                                 t-attf-data-context="{'archivio_id' : {{record.id.value}}, 'is_current':False}"
-                                                class="oe_highlight_positive btn_seedoo btn_rimuovi_mittente"/>
-                                    </t>
+                                                class="oe_button oe_form_button oe_highlight_positive btn_seedoo btn_fascicola">
+                                            Apri
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </t>

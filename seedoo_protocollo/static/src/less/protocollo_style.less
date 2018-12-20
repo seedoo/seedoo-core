@@ -707,10 +707,52 @@ table.oe_form_group.subject_modify_wizard tr > td {
 
     border-radius: 0 !important;
     min-width: 400px;
-    min-height: 90px;
+    min-height: 105px !important;
+
+    ul.oe_dropdown_menu.oe_opened {
+        right: 0;
+        left: auto !important;
+        width: 80%;
+    }
+    .oe_dropdown_toggle.oe_dropdown_kanban {
+        background-color: transparent !important;
+        width: 100%;
+        position: absolute;
+        text-align: right;
+        height: 100px;
+        line-height: 70px;
+    }
+    a.oe_kanban_action.oe_kanban_action_a {
+        height: 30px;
+        line-height: 30px;
+    }
+
 
     .oe_dropdown_kanban:before {
         content: "\f187";
         font-size: 30px;
+        color:#555;
+    }
+
+    &.is_current_true {
+        .oe_dropdown_kanban:before {
+            color: #326e38;
+        }
+    }
+
+    .oe_kanban_action_button {
+        height: 35px;
+        width: 100px;
+        position: absolute;
+    }
+
+    .archivio-protocolli-totali {
+        height: 40px;
+        line-height: 40px;
+    }
+
+    .archivio-protocolli-actions {
+        margin-bottom: 10px;
+        height: 25px;
     }
 }
