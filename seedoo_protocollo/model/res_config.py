@@ -52,6 +52,8 @@ class protocollo_config_settings(osv.osv_memory):
                  type='boolean', string='Dipendenti assegnatari per conoscenza'),
         'documento_required': fields.related('config_id', 'documento_required',
                  type='boolean', string='Documento principale'),
+        'documento_descrizione_required': fields.related('config_id', 'documento_descrizione_required',
+                                                        type='boolean', string='Descrizione documento'),
         'allegati_descrizione_required': fields.related('config_id', 'allegati_descrizione_required',
                                              type='boolean', string='Descrizione allegati'),
         'data_ricezione_required': fields.related('config_id', 'data_ricezione_required',
