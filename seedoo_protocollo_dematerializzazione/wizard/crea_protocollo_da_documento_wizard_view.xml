@@ -20,7 +20,7 @@ this module contains the full copyright notices and license terms. -->
                                    required="1" colspan="4"/>
                             <field name="doc_principale" options="{'no_create_edit': 1, 'no_create': 1, 'no_open': True}"/>
                             <newline/>
-                            <field name="doc_description" required="1"/>
+                            <field name="doc_description" attrs="{'required':[('documento_descrizione_required_wizard','=',True)]}"/>
                             <newline/>
                             <group colspan="4">
                                 <div id="protocollo-accordion">
@@ -40,6 +40,7 @@ this module contains the full copyright notices and license terms. -->
                             </group>
 
                             <field name="registration_employee_department_id_invisible" invisible="1"/>
+                            <field name="documento_descrizione_required_wizard" invisible="1"/>
                         </group>
                     </sheet>
                     <footer>

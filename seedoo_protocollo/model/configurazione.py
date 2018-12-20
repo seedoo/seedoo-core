@@ -28,6 +28,7 @@ class protocollo_configurazione(orm.Model):
         'assegnatari_conoscenza_dipendenti_required': fields.boolean('Dipendenti assegnatari per conoscenza Obbligatori'),
 
         'documento_required': fields.boolean('Documento Obbligatorio'),
+        'documento_descrizione_required': fields.boolean('Descrizione Documento Obbligatoria'),
         'allegati_descrizione_required': fields.boolean('Descrizione allegati Obbligatoria'),
         'data_ricezione_required': fields.boolean('Data Ricezione (in ingresso) Obbligatoria'),
 
@@ -60,6 +61,7 @@ class protocollo_configurazione(orm.Model):
         'assegnatari_conoscenza_uffici_required': False,
         'assegnatari_conoscenza_dipendenti_required': False,
         'documento_required': False,
+        'documento_descrizione_required': False,
         'allegati_descrizione_required': False,
         'data_ricezione_required': False,
         'aggiungi_allegati_post_registrazione': False,
@@ -178,6 +180,8 @@ class protocollo_configurazione(orm.Model):
 
             if configurazione.documento_required and not protocollo.doc_id:
                 errors.append(_("Documento principale"))
+            if configurazione.documento_descrizione_required and protocollo.doc_id and not protocollo.doc_id.datas_description:
+                errors.append(_("Descrizione documento principale"))
             if configurazione.allegati_descrizione_required:
                 for attach in protocollo.attachment_ids:
                     if not attach.datas_description:

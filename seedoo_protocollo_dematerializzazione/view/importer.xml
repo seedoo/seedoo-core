@@ -41,8 +41,7 @@ this module contains the full copyright notices and license terms. -->
                             <field name="tipologia_protocollo" colspan="4" select="1" widget="selection"
                                    domain="[('aoo_id','=',aoo_id)]"
                                    attrs="{'invisible':['|',('tipologia_importazione', '=', 'aggancio'),('tipologia_importazione', '=', False)]}"/>
-                            <field name="employee_ids" colspan="4"
-                                   domain="[('department_id.aoo_id','=',aoo_id)]"
+                            <field name="user_ids" colspan="4"
                                    options="{'no_quick_create': True, 'no_create_edit' : True}"
                                    required="True">
                             </field>

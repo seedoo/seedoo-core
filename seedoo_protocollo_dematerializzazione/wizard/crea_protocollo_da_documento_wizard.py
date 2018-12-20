@@ -19,6 +19,7 @@ class CreaProtocolloDaDocumentoWizard(osv.TransientModel):
         'doc_fname': fields.related('doc_principale', 'datas_fname', type='char', readonly=True),
         'doc_description': fields.char('Descrizione documento', size=256, readonly=False),
         'preview': fields.binary('Anteprima allegato PDF'),
+        'documento_descrizione_required_wizard': fields.boolean('Descrizione documento obbligatorio', readonly=1)
     }
 
     def _default_registration_employee_department_id(self, cr, uid, context):
@@ -51,11 +52,17 @@ class CreaProtocolloDaDocumentoWizard(osv.TransientModel):
             return self.pool.get('ir.attachment').browse(cr, uid, attachment_id).datas
         return False
 
+    def _default_documento_descrizione_wizard_required(self, cr, uid, context):
+        configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
+        configurazione = self.pool.get('protocollo.configurazione').browse(cr, uid, configurazione_ids[0])
+        return configurazione.documento_descrizione_required
+
     _defaults = {
         'registration_employee_department_id': _default_registration_employee_department_id,
         'registration_employee_department_id_invisible': _default_registration_employee_department_id_invisible,
         'doc_principale': _default_doc_principale,
         'preview': _default_preview,
+        'documento_descrizione_required_wizard': _default_documento_descrizione_wizard_required
     }
 
     def action_save(self, cr, uid, ids, context=None):

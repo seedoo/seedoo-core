@@ -20,7 +20,8 @@ this module contains the full copyright notices and license terms. -->
                         </group>
                         <newline/>
                         <group col="2">
-                            <field colspan="2" name="datas_description" required="1"/>
+                            <field colspan="2" name="datas_description" attrs="{'required':[('documento_descrizione_required_wizard','=',True)]}"/>
+                            <field name="documento_descrizione_required_wizard" invisible="1"/>
                         </group>
                     </group>
                     <group>

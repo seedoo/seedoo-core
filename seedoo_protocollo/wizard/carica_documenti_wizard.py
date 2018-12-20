@@ -20,6 +20,7 @@ class protocollo_carica_documenti_step1_wizard(osv.TransientModel):
             'wizard_id',
             'Documenti Secondari'),
         'error_description': fields.text('Errore', readonly=True),
+        'documento_descrizione_required_wizard': fields.boolean('Descrizione documento obbligatorio', readonly=1)
     }
 
     def _default_datas_fname(self, cr, uid, context):
@@ -58,17 +59,23 @@ class protocollo_carica_documenti_step1_wizard(osv.TransientModel):
                 })
         return res
 
+    def _default_documento_descrizione_wizard_required(self, cr, uid, context):
+        configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
+        configurazione = self.pool.get('protocollo.configurazione').browse(cr, uid, configurazione_ids[0])
+        return configurazione.documento_descrizione_required
+
     _defaults = {
         'datas_fname': _default_datas_fname,
         'datas': _default_datas,
         'datas_description': _default_datas_description,
         'document_ids': _default_document_ids,
+        'documento_descrizione_required_wizard': _default_documento_descrizione_wizard_required
     }
 
     def action_save(self, cr, uid, ids, context=None):
         wizard = self.browse(cr, uid, ids[0], context)
 
-        if wizard.datas and wizard.datas_fname and wizard.datas_description:
+        if wizard.datas and wizard.datas_fname:
             wizard_datas_encoded = wizard.datas.decode('base64').encode('base64')
             document_datas_encoded_list = []
 
