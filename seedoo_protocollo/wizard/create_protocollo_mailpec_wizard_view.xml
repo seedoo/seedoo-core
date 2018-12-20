@@ -38,7 +38,7 @@ this module contains the full copyright notices and license terms. -->
                                    on_change="on_change_attachment(doc_principale)"
                                    />
                             <newline/>
-                            <field name="doc_description" required="1"/>
+                            <field name="doc_description" attrs="{'required':[('documento_descrizione_required_wizard','=',True)]}"/>
                             <newline/>
                             <group colspan="4">
                                 <div id="protocollo-accordion">
@@ -59,6 +59,7 @@ this module contains the full copyright notices and license terms. -->
 
                             <field name="registration_employee_department_id_invisible" invisible="1"/>
                             <field name="sender_receivers" invisible="1"/>
+                            <field name="documento_descrizione_required_wizard" invisible="1"/>
                         </group>
                     </sheet>
                     <footer>

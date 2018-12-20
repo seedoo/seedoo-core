@@ -139,6 +139,7 @@ class ProtocolloMailPecWizard(osv.TransientModel):
             'Mittenti/Destinatari',
             required=True,
             limit=1),
+        'documento_descrizione_required_wizard': fields.boolean('Descrizione documento obbligatorio', readonly=1)
         # 'dossier_ids': fields.many2many(
         #     'protocollo.dossier',
         #     'dossier_protocollo_pec_rel',
@@ -226,6 +227,11 @@ class ProtocolloMailPecWizard(osv.TransientModel):
             })
         return res
 
+    def _default_documento_descrizione_wizard_required(self, cr, uid, context):
+        configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
+        configurazione = self.pool.get('protocollo.configurazione').browse(cr, uid, configurazione_ids[0])
+        return configurazione.documento_descrizione_required
+
     _defaults = {
         'registration_employee_department_id': _default_registration_employee_department_id,
         'registration_employee_department_id_invisible': _default_registration_employee_department_id_invisible,
@@ -233,7 +239,8 @@ class ProtocolloMailPecWizard(osv.TransientModel):
         'message_id': _default_id,
         'receiving_date': _default_receiving_date,
         'body': _default_body,
-        'sender_receivers': _default_sender_receivers
+        'sender_receivers': _default_sender_receivers,
+        'documento_descrizione_required_wizard': _default_documento_descrizione_wizard_required
         # 'doc_principale': _default_doc_principale,
     }
 
