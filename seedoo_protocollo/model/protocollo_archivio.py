@@ -33,6 +33,23 @@ class protocollo_archivio(orm.Model):
         archivio_current_check = archivio_obj.search(cr, uid, [('aoo_id', '=', aoo_ids[0]), ('is_current', '=', True)], context=context)
         return len(archivio_current_check)
 
+    def go_to_archive_action(self, cr, uid, ids, context=None):
+        model_data_obj = self.pool.get('ir.model.data')
+        view_rec = model_data_obj.get_object_reference(cr, uid, 'seedoo_protocollo', 'protocollo_protocollo_tree')
+        view_id = view_rec and view_rec[1] or False
+        return {
+            'name': 'PEC',
+            'view_type': 'tree',
+            'view_mode': 'tree',
+            'view_id': [view_id],
+            'res_model': 'protocollo.protocollo',
+            'target': 'current',
+            'type': 'ir.actions.act_window',
+            'context': "{'is_current_archive': False}",
+            'domain': [('archivio_id', '=', context.get('archivio_id', False))]
+            # 'flags': {'form': {'options': {'mode': 'view'}}}
+        }
+
 class protocollo_protocollo(orm.Model):
 
     _inherit = 'protocollo.protocollo'

@@ -30,10 +30,56 @@
             </field>
         </record>
 
+         <record id="protocollo_archivio_kanban" model="ir.ui.view">
+            <field name="name">protocollo.archivio.kanban</field>
+            <field name="model">protocollo.archivio</field>
+            <field name="arch" type="xml">
+                <kanban class="oe_background_grey">
+                    <field name="name"/>
+                    <field name="aoo_id"/>
+                    <field name="is_current"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_card oe_kanban_global_click oe_archivio_protocollo">
+                                <div class="oe_dropdown_toggle oe_dropdown_kanban ">
+                                    <span class="oe_e">v</span>
+                                    <ul class="oe_dropdown_menu">
+                                        <li>
+                                            <a type="edit">Sales Teams
+                                                Settings
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a type="delete">Delete</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="oe_kanban_content">
+                                    <strong>
+                                        <field name="name"/>
+                                    </strong>
+                                    <t t-if="is_current == True">
+                                        <span class="folder-is-current">
+                                            Archivio corrente
+                                        </span>
+
+                                        <button name="go_to_archive_action"
+                                                string="Archivia protocolli"
+                                                type="object"
+                                                t-attf-data-context="{'archivio_id' : {{record.id.value}}, 'is_current':False}"
+                                                class="oe_highlight_positive btn_seedoo btn_rimuovi_mittente"/>
+                                    </t>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
         <record model='ir.ui.view' id='protocollo_archivio_tree'>
             <field name="name">protocollo.archivio.tree</field>
             <field name="model">protocollo.archivio</field>
-            <field name="field_parent">child_ids</field>
             <field name="arch" type="xml">
                 <tree string="Archivi" >
                     <field name="name"/>
@@ -46,9 +92,8 @@
         <record model="ir.actions.act_window" id="protocollo_archivio_action">
             <field name="name">Archivio</field>
             <field name="res_model">protocollo.archivio</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="protocollo_archivio_tree"/>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="view_id" ref="protocollo_archivio_kanban"/>
         </record>
 
     </data>

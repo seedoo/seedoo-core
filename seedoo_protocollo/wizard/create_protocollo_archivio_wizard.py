@@ -204,7 +204,7 @@ class protocollo_archivio_wizard(osv.TransientModel):
             return {
                 'view_type': 'form',
                 'view_mode': 'form,tree',
-                'res_model': 'protocollo.emergency.registry',
+                'res_model': 'protocollo.archivio',
                 'res_id': protocollo_archivio_id,
                 'type': 'ir.actions.act_window',
                 'context': context,
