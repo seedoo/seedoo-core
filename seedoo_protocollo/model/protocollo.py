@@ -1088,11 +1088,20 @@ class protocollo_protocollo(orm.Model):
                         raise openerp.exceptions.Warning(_('Errore nella ridenominazione degli allegati'))
 
                     thread_pool = self.pool.get('protocollo.protocollo')
+
                     action_class = "history_icon registration"
+                    body = "<div class='%s'><ul><li>Creato protocollo %s</li>" % (action_class, prot_number)
+                    ass_com = ', '.join([a.assegnatario_id.nome for a in prot.assegnazione_competenza_ids])
+                    ass_con = ', '.join([a.assegnatario_id.nome for a in prot.assegnazione_conoscenza_ids])
+                    if ass_com or ass_con:
+                        if ass_com:
+                            body = body + "<li>%s: <span> %s </span></li>" % ('Assegnatario Competenza', ass_com)
+                        if ass_con:
+                            body = body + "<li>%s: <span> %s </span></li>" % ('Assegnatari Conoscenza', ass_con)
+                    body += "</ul></div>"
                     post_vars = {
                         'subject': "Registrazione protocollo",
-                        'body': "<div class='%s'><ul><li>Creato protocollo %s</li></ul></div>" % (
-                            action_class, prot_number),
+                        'body': body,
                         'model': "protocollo.protocollo",
                         'res_id': prot.id,
                     }
