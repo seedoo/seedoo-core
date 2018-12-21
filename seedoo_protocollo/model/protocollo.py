@@ -998,15 +998,16 @@ class protocollo_protocollo(orm.Model):
             wf_service.trg_validate(uid, 'protocollo.protocollo', ids[0], 'register', cr)
             res_conferma = self.action_send_conferma(cr, uid, ids)
 
-            protocollo_assegnazione_obj = self.pool.get('protocollo.assegnazione')
-            for protocollo_id in ids:
-                protocollo_assegnazione_ids = protocollo_assegnazione_obj.search(cr, uid, [
-                    ('protocollo_id', '=', protocollo_id),
-                    ('parent_id', '=', False)
-                ])
-                for protocollo_assegnazione_id in protocollo_assegnazione_ids:
-                    protocollo_assegnazione = protocollo_assegnazione_obj.browse(cr, uid, protocollo_assegnazione_id, {'skip_check': True})
-                    protocollo_assegnazione_obj.notifica_assegnazione(cr, uid, protocollo_assegnazione)
+            if not context or not ('notifica_assegnazione' in context) or context['notifica_assegnazione']:
+                protocollo_assegnazione_obj = self.pool.get('protocollo.assegnazione')
+                for protocollo_id in ids:
+                    protocollo_assegnazione_ids = protocollo_assegnazione_obj.search(cr, uid, [
+                        ('protocollo_id', '=', protocollo_id),
+                        ('parent_id', '=', False)
+                    ])
+                    for protocollo_assegnazione_id in protocollo_assegnazione_ids:
+                        protocollo_assegnazione = protocollo_assegnazione_obj.browse(cr, uid, protocollo_assegnazione_id, {'skip_check': True})
+                        protocollo_assegnazione_obj.notifica_assegnazione(cr, uid, protocollo_assegnazione)
 
         if res_registrazione is not None:
             for item_res_registrazione in res_registrazione:
