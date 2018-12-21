@@ -34,3 +34,7 @@ class ResPartner(models.Model):
     ident_code = fields.Char(track_visibility='onchange')
     ammi_code = fields.Char(track_visibility='onchange')
     ipa_code = fields.Char(track_visibility='onchange')
+
+    signup_token = fields.Char(groups="base.group_erp_manager,seedoo_protocollo.group_configurazione_utenti")
+    signup_type = fields.Char(groups="base.group_erp_manager,seedoo_protocollo.group_configurazione_utenti")
+    signup_expiration = fields.Datetime(groups="base.group_erp_manager,seedoo_protocollo.group_configurazione_utenti")

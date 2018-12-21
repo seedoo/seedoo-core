@@ -72,7 +72,7 @@ class hr_employee(orm.Model):
     def create(self, cr, uid, vals, context=None):
         new_context = dict(context or {})
         icp = self.pool.get('ir.config_parameter')
-        if safe_eval(icp.get_param(cr, uid, 'auth_signup.disable_email_create_employee', 'False')):
+        if safe_eval(icp.get_param(cr, SUPERUSER_ID, 'auth_signup.disable_email_create_employee', 'False')):
             new_context['mail_notify_noemail'] = True
         employee_id = super(hr_employee, self).create(cr, uid, vals, context=new_context)
         self.pool.get('ir.rule').clear_cache(cr, uid)

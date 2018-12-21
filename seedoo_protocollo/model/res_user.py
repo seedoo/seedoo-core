@@ -71,7 +71,7 @@ class res_users(orm.Model):
     def create(self, cr, uid, vals, context=None):
         new_context = dict(context or {})
         icp = self.pool.get('ir.config_parameter')
-        if safe_eval(icp.get_param(cr, uid, 'auth_signup.disable_email_create_user', 'False')):
+        if safe_eval(icp.get_param(cr, SUPERUSER_ID, 'auth_signup.disable_email_create_user', 'False')):
             new_context['no_reset_password'] = True
         user_id = super(res_users, self).create(cr, uid, vals, context=new_context)
         if vals and vals.has_key('profile_id') and vals['profile_id']:
