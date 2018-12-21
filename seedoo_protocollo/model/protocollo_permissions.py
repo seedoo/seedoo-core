@@ -1217,6 +1217,63 @@ class protocollo_protocollo(osv.Model):
 
         return count_value
 
+    def _da_mettere_agli_atti_visibility(self, cr, uid, ids, name, arg, context=None):
+        return {}
+
+    def _da_mettere_agli_atti_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
+        start = int(round(time.time() * 1000))
+        cr.execute('''
+            SELECT DISTINCT(pa.protocollo_id) 
+            FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
+            WHERE pp.id = pa.protocollo_id AND 
+                  pa.assegnatario_employee_id = he.id AND
+                  he.resource_id = rr.id AND
+                  rr.user_id = %s AND
+                  pp.registration_employee_id IS NOT NULL AND
+                  pa.tipologia_assegnatario = 'employee' AND 
+                  pa.tipologia_assegnazione = 'competenza' AND
+                  pa.state = 'preso' AND
+                  pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
+        ''', (uid,))
+        protocollo_visible_ids = [res[0] for res in cr.fetchall()]
+        end = int(round(time.time() * 1000))
+        _logger.info("_da_mettere_agli_atti_visibility_search" + str(end - start))
+        return [('id', 'in', protocollo_visible_ids)]
+
+    @api.cr_uid
+    def _da_mettere_agli_atti_visibility_count_total(self, cr, uid):
+        return self._da_mettere_agli_atti_visibility_count(cr, uid, "")
+
+    def _da_mettere_agli_atti_visibility_count(self, cr, uid, protocollo_type):
+        time_start = datetime.datetime.now()
+
+        sql_query = """SELECT COUNT(DISTINCT(pa.protocollo_id)) 
+            FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
+            WHERE pp.id = pa.protocollo_id AND 
+                  pa.assegnatario_employee_id = he.id AND
+                  he.resource_id = rr.id AND
+                  rr.user_id = %s AND
+                  pp.registration_employee_id IS NOT NULL AND
+                  pa.tipologia_assegnatario = 'employee' AND 
+                  pa.tipologia_assegnazione = 'competenza' AND
+                  pa.state = 'preso' AND
+                  pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
+        """ % (uid)
+
+        cr.execute(sql_query)
+        result = cr.fetchall()
+        count_value = result[0][0]
+
+        time_end = datetime.datetime.now()
+        time_duration = time_end - time_start
+
+        _logger.info("_da_mettere_agli_atti_visibility_count: %d - %.03f s" % (
+            count_value,
+            float(time_duration.microseconds) / 1000000
+        ))
+
+        return count_value
+
     ####################################################################################################################
     # Filtri sulle viste tree dei protocolli
     ####################################################################################################################
@@ -2193,6 +2250,9 @@ class protocollo_protocollo(osv.Model):
         'assegnato_da_me_in_rifiutato_visibility': fields.function(_assegnato_da_me_in_rifiutato_visibility,
                                                                    fnct_search=_assegnato_da_me_in_rifiutato_visibility_search,
                                                                    type='boolean', string='Rifiutato'),
+        'da_mettere_agli_atti_visibility': fields.function(_da_mettere_agli_atti_visibility,
+                                                                fnct_search=_da_mettere_agli_atti_visibility_search,
+                                                                type='boolean', string='Da Mettere Agli Atti'),
 
         'filtro_assegnazione_competenza_dipendente_ids': fields.function(_get_assegnazione_competenza_dipendente_ids,
                                                           fnct_search=_search_assegnazione_competenza_dipendente_ids,
