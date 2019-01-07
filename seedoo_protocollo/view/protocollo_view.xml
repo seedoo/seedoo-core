@@ -366,11 +366,11 @@ this module contains the full copyright notices and license terms. -->
                                         </group>
                                         <group>
                                             <field name="aoo_id" options="{'no_open': True}" readonly="1"/>
+                                            <field name="archivio_id" options="{'no_open': True}" readonly="1"/>
                                             <field name="registry" options="{'no_open': True}"/>
                                             <field name="type"/>
                                             <field name="reserved" on_change="on_change_reserved(reserved)" attrs="{'invisible':[('protocollazione_riservata_visibility','=',False)]}"/>
-                                            <field name="archivio_id" options="{'no_open': True}" readonly="1"/>
-                                            <field name="is_current_archive" readonly="1"/>
+                                            <field name="is_current_archive" invisible="1"/>
                                         </group>
                                     </group>
                                 </div>
