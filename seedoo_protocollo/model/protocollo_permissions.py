@@ -597,20 +597,23 @@ class protocollo_protocollo(osv.Model):
 
     def _non_fascicolati_visibility_count(self, cr, uid):
         time_start = datetime.datetime.now()
+        archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)])
+        current_archivio_id = archivio_ids[0]
 
         sql_query = """SELECT COUNT(DISTINCT(pa.protocollo_id)) 
             FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
             WHERE pp.id = pa.protocollo_id
+                AND pp.archivio_id = %d
                 AND pa.assegnatario_employee_id = he.id
                 AND he.resource_id = rr.id
-                AND rr.user_id = %d
+                AND rr.user_id = %s
                 AND pp.registration_employee_id IS NOT NULL
                 AND pa.tipologia_assegnatario = 'employee'
                 AND pa.tipologia_assegnazione = 'competenza'
                 AND pa.state = 'preso' 
                 AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
                 AND pp.id NOT IN (SELECT protocollo_id FROM dossier_protocollo_rel)
-        """ % (uid,)
+        """ % (current_archivio_id, uid, )
 
         cr.execute(sql_query)
         result = cr.fetchall()
@@ -712,10 +715,13 @@ class protocollo_protocollo(osv.Model):
         #     return 0
 
         time_start = datetime.datetime.now()
+        archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)])
+        current_archivio_id = archivio_ids[0]
 
         sql_query = """SELECT COUNT(DISTINCT(pa.protocollo_id)) 
             FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
-            WHERE pp.id = pa.protocollo_id
+            WHERE pp.id = pa.protocollo_id 
+                AND pp.archivio_id = %d 
                 AND pa.assegnatario_employee_id = he.id
                 AND he.resource_id = rr.id
                 AND rr.user_id = %d
@@ -725,7 +731,7 @@ class protocollo_protocollo(osv.Model):
                 AND pa.state = 'assegnato'
                 AND pa.parent_id IS NULL
                 AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
-        """ % (uid)
+        """ % (current_archivio_id, uid)
 
         cr.execute(sql_query)
         result = cr.fetchall()
@@ -781,11 +787,14 @@ class protocollo_protocollo(osv.Model):
         #     return 0
 
         time_start = datetime.datetime.now()
+        archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)])
+        current_archivio_id = archivio_ids[0]
 
         sql_query = """
             SELECT COUNT(DISTINCT(pa.protocollo_id)) 
             FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
-            WHERE pp.id = pa.protocollo_id AND
+            WHERE pp.archivio_id = %d 
+                  AND pp.id = pa.protocollo_id AND
                   (
                       (pa.tipologia_assegnatario = 'employee' AND pa.parent_id IS NULL AND pa.assegnatario_employee_id = he.id AND he.resource_id = rr.id AND rr.user_id = %s) OR 
                       (pa.tipologia_assegnatario = 'department' AND pa.assegnatario_department_id = he.department_id AND he.resource_id = rr.id AND rr.user_id = %s)
@@ -794,7 +803,7 @@ class protocollo_protocollo(osv.Model):
                   pa.tipologia_assegnazione = 'conoscenza' AND 
                   pa.state = 'assegnato' AND
                   pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
-        """ % (uid, uid)
+        """ % (current_archivio_id, uid, uid)
 
         cr.execute(sql_query)
         result = cr.fetchall()
@@ -848,10 +857,13 @@ class protocollo_protocollo(osv.Model):
             return 0
 
         time_start = datetime.datetime.now()
+        archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)])
+        current_archivio_id = archivio_ids[0]
 
         sql_query = """SELECT COUNT(DISTINCT(pa.protocollo_id)) 
             FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
-            WHERE pp.type = '%s'
+            WHERE pp.archivio_id = %d 
+                AND pp.type = '%s'
                 AND pp.id = pa.protocollo_id 
                 AND pa.assegnatario_employee_id = he.id
                 AND he.resource_id = rr.id
@@ -862,7 +874,7 @@ class protocollo_protocollo(osv.Model):
                 AND pa.state = 'assegnato'
                 AND pa.parent_id IS NULL
                 AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
-        """ % (protocollo_type, uid)
+        """ % (current_archivio_id, protocollo_type, uid)
 
         cr.execute(sql_query)
         result = cr.fetchall()
@@ -920,10 +932,13 @@ class protocollo_protocollo(osv.Model):
         #     return 0
 
         time_start = datetime.datetime.now()
+        archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)])
+        current_archivio_id = archivio_ids[0]
 
         sql_query = """SELECT COUNT(DISTINCT(pa.protocollo_id)) 
             FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_department hd, hr_employee he, resource_resource rr
-            WHERE pp.id = pa.protocollo_id 
+            WHERE pp.archivio_id = %d 
+                AND pp.id = pa.protocollo_id 
                 AND pa.assegnatario_department_id = hd.id
                 AND hd.id = he.department_id
                 AND he.resource_id = rr.id
@@ -933,7 +948,7 @@ class protocollo_protocollo(osv.Model):
                 AND pa.tipologia_assegnazione = 'competenza'
                 AND pa.state = 'assegnato'
                 AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
-        """ % (uid)
+        """ % (current_archivio_id, uid)
 
         cr.execute(sql_query)
         result = cr.fetchall()
@@ -990,10 +1005,13 @@ class protocollo_protocollo(osv.Model):
         #     return 0
 
         time_start = datetime.datetime.now()
+        archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)])
+        current_archivio_id = archivio_ids[0]
 
         sql_query = """SELECT COUNT(DISTINCT(pa.protocollo_id)) 
             FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_department hd, hr_employee he, resource_resource rr
-            WHERE pp.id = pa.protocollo_id 
+            WHERE pp.archivio_id = %d 
+                AND pp.id = pa.protocollo_id 
                 AND pa.assegnatario_department_id = hd.id
                 AND hd.id=he.department_id
                 AND he.resource_id = rr.id
@@ -1003,7 +1021,7 @@ class protocollo_protocollo(osv.Model):
                 AND pa.tipologia_assegnazione = 'conoscenza'
                 AND pa.state = 'assegnato'
                 AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
-        """ % (uid)
+        """ % (current_archivio_id, uid)
 
         cr.execute(sql_query)
         result = cr.fetchall()
@@ -1055,15 +1073,18 @@ class protocollo_protocollo(osv.Model):
         #     return 0
 
         time_start = datetime.datetime.now()
+        archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)])
+        current_archivio_id = archivio_ids[0]
 
         sql_query = """SELECT COUNT(DISTINCT(pp.id)) 
             FROM protocollo_protocollo pp, hr_employee he, resource_resource rr
-            WHERE pp.registration_employee_id = he.id AND
+            WHERE pp.archivio_id = %d AND
+                  pp.registration_employee_id = he.id AND
                   he.resource_id = rr.id AND
                   rr.user_id = %s AND
                   pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
                   pp.id NOT IN (SELECT protocollo_id FROM protocollo_assegnazione WHERE tipologia_assegnazione = 'competenza' AND parent_id IS NULL)
-            """ % (uid)
+            """ % (current_archivio_id, uid)
 
         cr.execute(sql_query)
         result = cr.fetchall()
@@ -1119,10 +1140,13 @@ class protocollo_protocollo(osv.Model):
         #     return 0
 
         time_start = datetime.datetime.now()
+        archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)])
+        current_archivio_id = archivio_ids[0]
 
         sql_query = """SELECT COUNT(DISTINCT(pa.protocollo_id)) 
             FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
-            WHERE pp.id = pa.protocollo_id  
+            WHERE pp.archivio_id = %d 
+                AND pp.id = pa.protocollo_id  
                 AND pa.assegnatore_id = he.id 
                 AND he.resource_id = rr.id 
                 AND rr.user_id = %d 
@@ -1135,7 +1159,7 @@ class protocollo_protocollo(osv.Model):
                     )
                 )
                 AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
-            """ % (uid)
+            """ % (current_archivio_id, uid)
 
         cr.execute(sql_query)
         result = cr.fetchall()
@@ -1190,10 +1214,13 @@ class protocollo_protocollo(osv.Model):
         #     return 0
 
         time_start = datetime.datetime.now()
+        archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)])
+        current_archivio_id = archivio_ids[0]
 
         sql_query = """SELECT COUNT(DISTINCT(pa.protocollo_id))
             FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
-            WHERE pp.id = pa.protocollo_id 
+            WHERE pp.archivio_id = %d 
+                AND pp.id = pa.protocollo_id 
                 AND pa.assegnatore_id = he.id
                 AND he.resource_id = rr.id
                 AND rr.user_id = %d
@@ -1201,7 +1228,7 @@ class protocollo_protocollo(osv.Model):
                 AND pa.tipologia_assegnazione = 'competenza'
                 AND pa.state = 'rifiutato'
                 AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
-        """ % (uid)
+        """ % (current_archivio_id, uid)
 
         cr.execute(sql_query)
         result = cr.fetchall()
@@ -1246,10 +1273,13 @@ class protocollo_protocollo(osv.Model):
 
     def _da_mettere_agli_atti_visibility_count(self, cr, uid, protocollo_type):
         time_start = datetime.datetime.now()
+        archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)])
+        current_archivio_id = archivio_ids[0]
 
         sql_query = """SELECT COUNT(DISTINCT(pa.protocollo_id)) 
             FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
-            WHERE pp.id = pa.protocollo_id AND 
+            WHERE pp.archivio_id = %d AND
+                  pp.id = pa.protocollo_id AND 
                   pa.assegnatario_employee_id = he.id AND
                   he.resource_id = rr.id AND
                   rr.user_id = %s AND
@@ -1258,7 +1288,7 @@ class protocollo_protocollo(osv.Model):
                   pa.tipologia_assegnazione = 'competenza' AND
                   pa.state = 'preso' AND
                   pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
-        """ % (uid)
+        """ % (current_archivio_id, uid)
 
         cr.execute(sql_query)
         result = cr.fetchall()
