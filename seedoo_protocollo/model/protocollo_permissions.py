@@ -576,19 +576,29 @@ class protocollo_protocollo(osv.Model):
         start = int(round(time.time() * 1000))
 
         cr.execute('''
-            SELECT DISTINCT(pa.protocollo_id) 
-            FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
-            WHERE pp.id = pa.protocollo_id
-                AND pa.assegnatario_employee_id = he.id
-                AND he.resource_id = rr.id
-                AND rr.user_id = %s
-                AND pp.registration_employee_id IS NOT NULL
-                AND pa.tipologia_assegnatario = 'employee'
-                AND pa.tipologia_assegnazione = 'competenza'
-                AND pa.state = 'preso' 
-                AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
-                AND pp.id NOT IN (SELECT protocollo_id FROM dossier_protocollo_rel)
-        ''', (uid,))
+            SELECT DISTINCT(p.id) FROM (
+                SELECT DISTINCT(pa.protocollo_id) AS id
+                FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
+                WHERE pp.id = pa.protocollo_id
+                    AND pa.assegnatario_employee_id = he.id
+                    AND he.resource_id = rr.id
+                    AND rr.user_id = %s
+                    AND pp.registration_employee_id IS NOT NULL
+                    AND pa.tipologia_assegnatario = 'employee'
+                    AND pa.tipologia_assegnazione = 'competenza'
+                    AND pa.state = 'preso' 
+                    AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
+                    AND pp.id NOT IN (SELECT protocollo_id FROM dossier_protocollo_rel)
+                    
+                UNION SELECT DISTINCT(pp.id) AS id
+                    FROM protocollo_protocollo pp, hr_employee he, resource_resource rr
+                    WHERE pp.registration_employee_id = he.id
+                        AND he.resource_id = rr.id
+                        AND rr.user_id = %s
+                        AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
+                        AND pp.id NOT IN (SELECT protocollo_id FROM dossier_protocollo_rel))
+                        p
+        ''', (uid,uid))
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
 
         end = int(round(time.time() * 1000))
@@ -600,20 +610,31 @@ class protocollo_protocollo(osv.Model):
         archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)])
         current_archivio_id = archivio_ids[0]
 
-        sql_query = """SELECT COUNT(DISTINCT(pa.protocollo_id)) 
-            FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
-            WHERE pp.id = pa.protocollo_id
-                AND pp.archivio_id = %d
-                AND pa.assegnatario_employee_id = he.id
-                AND he.resource_id = rr.id
-                AND rr.user_id = %s
-                AND pp.registration_employee_id IS NOT NULL
-                AND pa.tipologia_assegnatario = 'employee'
-                AND pa.tipologia_assegnazione = 'competenza'
-                AND pa.state = 'preso' 
-                AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
-                AND pp.id NOT IN (SELECT protocollo_id FROM dossier_protocollo_rel)
-        """ % (current_archivio_id, uid, )
+        sql_query = """SELECT COUNT ( DISTINCT(p.id)) FROM (
+            SELECT DISTINCT(pa.protocollo_id) AS id
+                FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
+                WHERE pp.id = pa.protocollo_id
+                    AND pp.archivio_id = %d
+                    AND pa.assegnatario_employee_id = he.id
+                    AND he.resource_id = rr.id
+                    AND rr.user_id = %s
+                    AND pp.registration_employee_id IS NOT NULL
+                    AND pa.tipologia_assegnatario = 'employee'
+                    AND pa.tipologia_assegnazione = 'competenza'
+                    AND pa.state = 'preso'
+                    AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
+                    AND pp.id NOT IN (SELECT protocollo_id FROM dossier_protocollo_rel)
+            
+            UNION SELECT DISTINCT(pp.id) AS id
+                FROM protocollo_protocollo pp, hr_employee he, resource_resource rr
+                WHERE pp.archivio_id = %d
+                    AND pp.registration_employee_id = he.id
+                    AND he.resource_id = rr.id
+                    AND rr.user_id = %s
+                    AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
+                    AND pp.id NOT IN (SELECT protocollo_id FROM dossier_protocollo_rel))
+                    p
+        """ % (current_archivio_id, uid, current_archivio_id, uid,)
 
         cr.execute(sql_query)
         result = cr.fetchall()
