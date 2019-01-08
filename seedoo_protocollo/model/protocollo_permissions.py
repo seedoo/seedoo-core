@@ -1065,12 +1065,12 @@ class protocollo_protocollo(osv.Model):
         start = int(round(time.time() * 1000))
         cr.execute('''
             SELECT DISTINCT(pp.id) 
-            FROM protocollo_protocollo pp, hr_employee he, resource_resource rr
-            WHERE pp.registration_employee_id = he.id AND
-                  he.resource_id = rr.id AND
-                  rr.user_id = %s AND
-                  pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
-                  pp.id NOT IN (SELECT protocollo_id FROM protocollo_assegnazione WHERE tipologia_assegnazione = 'competenza' AND parent_id IS NULL)
+            FROM protocollo_protocollo AS pp
+            INNER JOIN hr_employee AS he ON pp.registration_employee_id = he.id
+            INNER JOIN resource_resource AS rr ON he.resource_id = rr.id AND rr.user_id = %s 
+            LEFT JOIN protocollo_assegnazione AS pa ON pp.id=pa.protocollo_id AND pa.tipologia_assegnazione = 'competenza'
+            WHERE pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND 
+                  pa.protocollo_id IS NULL
         ''', (uid,))
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
         end = int(round(time.time() * 1000))
@@ -1098,14 +1098,14 @@ class protocollo_protocollo(osv.Model):
         current_archivio_id = archivio_ids[0]
 
         sql_query = """SELECT COUNT(DISTINCT(pp.id)) 
-            FROM protocollo_protocollo pp, hr_employee he, resource_resource rr
-            WHERE pp.archivio_id = %d AND
-                  pp.registration_employee_id = he.id AND
-                  he.resource_id = rr.id AND
-                  rr.user_id = %s AND
-                  pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
-                  pp.id NOT IN (SELECT protocollo_id FROM protocollo_assegnazione WHERE tipologia_assegnazione = 'competenza' AND parent_id IS NULL)
-            """ % (current_archivio_id, uid)
+            FROM protocollo_protocollo AS pp
+            INNER JOIN hr_employee AS he ON pp.registration_employee_id = he.id
+            INNER JOIN resource_resource AS rr ON he.resource_id = rr.id AND rr.user_id = %s 
+            LEFT JOIN protocollo_assegnazione AS pa ON pp.id=pa.protocollo_id AND pa.tipologia_assegnazione = 'competenza'
+            WHERE pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
+                  pp.archivio_id = %d AND 
+                  pa.protocollo_id IS NULL
+            """ % (uid, current_archivio_id)
 
         cr.execute(sql_query)
         result = cr.fetchall()
