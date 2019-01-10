@@ -483,7 +483,7 @@ this module contains the full copyright notices and license terms. -->
                         </group>
 
                         <notebook class="protocollo_form_tabs">
-                            <page string="Mittente" attrs="{'invisible':['|',('type','!=','internal')]}" class="tab-mittente tab-sr">
+                            <page string="Mittente" attrs="{'invisible':[('type','=','in')]}" class="tab-mittente tab-sr">
                                 <div class="oe_edit_only">
                                     <button name="%(protocollo_aggiungi_sender_internal_action)d"
                                             string="Aggiungi Mittente"
@@ -738,7 +738,8 @@ this module contains the full copyright notices and license terms. -->
                     <field name="registration_date_to" invisible="1"/>
                     <field name="registration_date"/>
                     <field name="registration_employee_name"/>
-                    <field name="sender_receivers_summary"/>
+                    <field name="senders_summary"/>
+                    <field name="receivers_summary"/>
                     <field name="subject"/>
                     <field name="typology"/>
                     <field name="state"/>
@@ -760,14 +761,23 @@ this module contains the full copyright notices and license terms. -->
                            string="Numero Protocollo"/>
                     <field name="user_id"/>
                     <field name="sender_receivers"
-                           filter_domain="['|', ('sender_receivers.name', 'ilike', self), ('sender_internal_name', 'ilike', self)]"
-                           string="Mittente/Destinatario"/>
+                           filter_domain="['|', ('sender_internal_name', 'ilike', self), '&amp;', ('sender_receivers.name', 'ilike', self), ('sender_receivers.source', '=', 'sender')]"
+                           string="Mittente"/>
                     <field name="sender_receivers"
-                           string="Mittente/Destinatario E-mail"
-                           filter_domain="[('sender_receivers.email', 'ilike', self)]"/>
+                           filter_domain="[('sender_receivers.name', 'ilike', self), ('sender_receivers.source', '=', 'receiver')]"
+                           string="Destinatario"/>
                     <field name="sender_receivers"
-                           string="Mittente/Destinatario PEC"
-                           filter_domain="[('sender_receivers.pec_mail', 'ilike', self)]"/>
+                           string="Mittente E-mail"
+                           filter_domain="[('sender_receivers.email', 'ilike', self), ('sender_receivers.source', '=', 'sender')]"/>
+                    <field name="sender_receivers"
+                           string="Destinatario E-mail"
+                           filter_domain="[('sender_receivers.email', 'ilike', self), ('sender_receivers.source', '=', 'receiver')]"/>
+                    <field name="sender_receivers"
+                           string="Mittente PEC"
+                           filter_domain="[('sender_receivers.pec_mail', 'ilike', self), ('sender_receivers.source', '=', 'sender')]"/>
+                    <field name="sender_receivers"
+                           string="Destinatario PEC"
+                           filter_domain="[('sender_receivers.pec_mail', 'ilike', self), ('sender_receivers.source', '=', 'receiver')]"/>
                     <field name="subject"/>
                     <field name="registration_date_from"
                            filter_domain="[('registration_date','&gt;=',self)]"

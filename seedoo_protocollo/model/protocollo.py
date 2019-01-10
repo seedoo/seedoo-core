@@ -363,14 +363,22 @@ class protocollo_protocollo(orm.Model):
         res = []
         return [('id', 'in', res)]
 
-    def _get_sender_receivers_summary(self, cr, uid, ids,
-                                      name, args, context=None):
+    def _get_senders_summary(self, cr, uid, ids, name, args, context=None):
         res = dict.fromkeys(ids, False)
         for protocol in self.browse(cr, uid, ids, {'skip_check': True}):
-            if protocol.type == 'internal':
+            if protocol.type == 'internal' or protocol.type == 'out':
                 res[protocol.id] = protocol.sender_internal_name
             else:
-                res[protocol.id] = u"\n".join([line.name for line in protocol.sender_receivers])
+                res[protocol.id] = u"\n".join([line.name for line in protocol.senders])
+        return res
+
+    def _get_receivers_summary(self, cr, uid, ids, name, args, context=None):
+        res = dict.fromkeys(ids, False)
+        for protocol in self.browse(cr, uid, ids, {'skip_check': True}):
+            if protocol.type == 'out':
+                res[protocol.id] = u"\n".join([line.name for line in protocol.receivers])
+            else:
+                res[protocol.id] = ''
         return res
 
     def action_apri_stampa_etichetta(self, cr, uid, ids, context=None):
@@ -564,12 +572,8 @@ class protocollo_protocollo(orm.Model):
                                    domain=[('source', '=', 'sender')]),
         'receivers': fields.one2many('protocollo.sender_receiver', 'protocollo_id', 'Destinatari',
                                      domain=[('source', '=', 'receiver')]),
-
-        'sender_receivers_summary': fields.function(
-            _get_sender_receivers_summary,
-            type="char",
-            string="Mittenti/Destinatari",
-            store=False),
+        'senders_summary': fields.function(_get_senders_summary, type="char", string="Mittente", store=False),
+        'receivers_summary': fields.function(_get_receivers_summary, type="char", string="Destinatari", store=False),
         'assigne_emails': fields.function(_get_assigne_emails, type='char', string='Email Destinatari'),
         'assigne_cc': fields.boolean('Inserisci gli Assegnatari in CC'),
         'dossier_ids': fields.many2many('protocollo.dossier', 'dossier_protocollo_rel', 'protocollo_id', 'dossier_id',
