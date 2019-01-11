@@ -126,10 +126,21 @@ Se sono presenti assegnatari per conoscenza verranno rimossi al completamento de
         protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
         save_history = protocollo.state != 'draft'
         wizard = self.browse(cr, uid, ids[0], context)
-        employee_ids = self.pool.get('hr.employee').search(cr, uid, [
-            ('department_id', '=', wizard.assegnatore_department_id.id),
-            ('user_id', '=', uid)
-        ])
+
+        assegnatore_id = False
+        if context and 'call_by_modifica_assegnatari' in context and protocollo.state!='draft':
+            if protocollo.assegnazione_competenza_ids:
+                assegnatore_id = protocollo.assegnazione_competenza_ids[0].assegnatore_id.id
+            elif protocollo.assegnazione_conoscenza_ids:
+                assegnatore_id = protocollo.assegnazione_conoscenza_ids[0].assegnatore_id.id
+        else:
+            # se il protocollo è in stato bozza allora la modifica viene fatta solo
+            employee_ids = self.pool.get('hr.employee').search(cr, uid, [
+                ('department_id', '=', wizard.assegnatore_department_id.id),
+                ('user_id', '=', uid)
+            ])
+            assegnatore_id = employee_ids[0] if employee_ids else False
+
 
         if 'assegnatari_initial_state' in context:
             check_assegnatari = []
@@ -147,7 +158,7 @@ Se sono presenti assegnatari per conoscenza verranno rimossi al completamento de
             uid,
             context.get('active_id', False),
             wizard.assegnatario_competenza_id.id if wizard.assegnatario_competenza_id else False,
-            employee_ids[0] if employee_ids else False
+            assegnatore_id
         )
         if save_history:
             after['competenza'] = wizard.assegnatario_competenza_id.nome
@@ -167,7 +178,7 @@ Se sono presenti assegnatari per conoscenza verranno rimossi al completamento de
             uid,
             context.get('active_id', False),
             assegnatario_conoscenza_to_save_ids,
-            employee_ids[0] if employee_ids else False
+            assegnatore_id
         )
         if save_history:
             after['conoscenza'] = ', '.join([a.assegnatario_id.nome for a in protocollo.assegnazione_conoscenza_ids])

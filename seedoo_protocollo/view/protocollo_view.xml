@@ -578,7 +578,7 @@ this module contains the full copyright notices and license terms. -->
                                             type="action"
                                             attrs="{'invisible':['|',('assegnazione_first_level_ids','=',[]),('modifica_assegnatari_visibility','=',False)]}"
                                             class="oe_highlight_positive btn_seedoo btn_modifica_assegnatari"
-                                            context="{'assegnatari_initial_state':assegnazione_first_level_ids}"/>
+                                            context="{'assegnatari_initial_state':assegnazione_first_level_ids, 'call_by_modifica_assegnatari': True}"/>
                                     <button name="%(protocollo_aggiungi_assegnatari_cc_action)d"
                                             string="Aggiungi Assegnatari Conoscenza"
                                             type="action"
