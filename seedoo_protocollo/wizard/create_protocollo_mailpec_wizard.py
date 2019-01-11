@@ -254,7 +254,7 @@ class ProtocolloMailPecWizard(osv.TransientModel):
         vals = {}
         vals['type'] = 'in'
         vals['receiving_date'] = wizard.receiving_date
-        vals['subject'] = wizard.subject
+        vals['subject'] = wizard.subject if wizard.select_doc_principale=='eml' else ''
         vals['body'] = wizard.body
         vals['mail_pec_ref'] = context['active_id']
         vals['user_id'] = uid
