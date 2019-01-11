@@ -24,10 +24,9 @@ this module contains the full copyright notices and license terms. -->
                         </group>
                     </sheet>
                     <footer>
-                        <button string="Agli Atti"
+                        <button string="Metti Agli Atti"
                                 name="agli_atti" type="object"
                                 class="oe_highlight"/>
-                        o
                         <button string="Abbandona" class="oe_link"
                                 special="cancel"/>
                     </footer>
