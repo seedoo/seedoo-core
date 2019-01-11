@@ -37,8 +37,7 @@ class TileTile(models.Model):
         if not configurazione.non_fascicolati_active:
             self._remove_tile_from_ids(cr, uid, ids, 'seedoo_protocollo', 'tile_protocollo_non_fascicolati')
         if configurazione.assegnatari_competenza_uffici_required or configurazione.assegnatari_competenza_dipendenti_required:
-            self._remove_tile_from_ids(cr, uid, ids, 'seedoo_protocollo', 'tile_protocollo_ingresso_da_assegnare')
-            self._remove_tile_from_ids(cr, uid, ids, 'seedoo_protocollo', 'tile_protocollo_uscita_da_assegnare')
+            self._remove_tile_from_ids(cr, uid, ids, 'seedoo_protocollo', 'act_tile_protocollo_totali_da_assegnare')
 
         return [('id', 'in', ids)]
 

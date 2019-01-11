@@ -70,7 +70,7 @@
                 <form string="Seedoo Dashboard" version="8.0" class="seedoo-dashboard-container">
                     <board style="2-1">
                         <column>
-                            <action string="Generale" name="%(protocollo_board_generale_act)d"/>
+                            <action string="Da Protocollare" name="%(protocollo_board_generale_act)d"/>
                             <action string="Protocolli" name="%(protocollo_board_totale_act)d"/>
                         </column>
                         <column>

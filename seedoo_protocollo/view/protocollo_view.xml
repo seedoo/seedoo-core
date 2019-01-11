@@ -833,12 +833,15 @@ this module contains the full copyright notices and license terms. -->
                         <filter string="Altro" name="pec" domain="[('pec','=',False), ('sharedmail','=',False)]"/>
                     </group>
                     <group string="Protocolli">
-                        <filter string="Registrati da me" name="registrato_da_me" domain="[('user_id','=',uid),('state','!=','draft')]"/>
+                        <filter string="Senza Documento" name="senza_documento" domain="[('doc_id','=',False)]"/>
                         <filter string="Annullati" name="annullati" domain="[('state','=','canceled')]"/>
-                        <filter string="Non Classificati" name="non_classificato" domain="[('state','in',('registered','notified','sent','waiting','error')),('classification','=',False)]"/>
-                        <filter string="Non Fascicolati" name="non_fascicolato" domain="[('state','in',('registered','notified','sent','waiting','error')),('dossier_ids','=',False)]"/>
+                        <filter string="Da Classificare" name="non_classificato" domain="[('state','in',('registered','notified','sent','waiting','error')),('classification','=',False)]"/>
+                        <filter string="Da Fascicolare" name="non_fascicolato" domain="[('state','in',('registered','notified','sent','waiting','error')),('dossier_ids','=',False)]"/>
                         <filter string="Da Assegnare" name="da_assegnare" domain="[('da_assegnare_visibility','=',True)]"/>
-                        <filter string="Da Mettere agli atti" name="da_mettere_agli_atti" domain="[('da_mettere_agli_atti_visibility','=',True)]"/>
+                        <filter string="Da Mettere agli Atti" name="da_mettere_agli_atti" domain="[('da_mettere_agli_atti_visibility','=',True)]"/>
+                    </group>
+                    <group string="Protocolli Registrati">
+                        <filter string="Da me" name="registrato_da_me" domain="[('user_id','=',uid),('state','!=','draft')]"/>
                     </group>
                     <group string="PEC in uscita">
                         <filter string="In attesa" name="waiting" domain="[('state','=','waiting')]"/>
