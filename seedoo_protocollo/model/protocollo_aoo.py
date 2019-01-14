@@ -94,7 +94,7 @@ class protocollo_aoo(orm.Model):
 
         archivio_obj = self.pool.get('protocollo.archivio')
         archivio_current_id = archivio_obj.create(cr, uid, {
-            'name': 'Archivio corrente - ' + aoo.ident_code,
+            'name': 'Archivio Corrente',
             'aoo_id': aoo_id,
             'is_current': True
         })
