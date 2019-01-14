@@ -1,4 +1,5 @@
 import base64
+import datetime
 import os
 import random
 import re
@@ -6,16 +7,13 @@ import string
 import tempfile
 from io import BytesIO
 from subprocess import call
-from time import strftime
 
 import barcode
 import pytz
-import datetime
 from PIL import Image
 from barcode.writer import SVGWriter
 from lxml import etree
 from reportlab.pdfbase import pdfdoc, pdfmetrics
-from reportlab.pdfbase.pdfmetrics import stringWidth
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfgen import canvas
 
@@ -26,8 +24,8 @@ from ..utility.dimension import DimensionUtility
 
 
 class Etichetta(http.Controller):
-    @http.route("/seedoo/etichetta/<int:protocol_id>", auth="public")
-    def object(self, protocol_id, **kw):
+    @http.route("/seedoo/etichetta/<string:protocol_number>", auth="public")
+    def etichetta(self, protocol_number, **kw):
         uid = SUPERUSER_ID
         cr = http.request.cr
         ir_model_data_obj = request.registry.get('ir.model.data')
@@ -35,40 +33,46 @@ class Etichetta(http.Controller):
         ir_model_data = ir_model_data_obj.browse(cr, uid, ir_model_data_id)
         configurazione = request.registry.get(ir_model_data.model).browse(cr, uid, ir_model_data.res_id)
 
-        document = http.request \
-            .env["protocollo.protocollo"] \
-            .with_context({'skip_check': True}) \
-            .search([["id", "=", protocol_id]])
+        filename, file_extension = os.path.splitext(protocol_number)
+        if len(filename) != 11:
+            return "Error in protocol number"
 
-        if len(document) == 0:
+        protocol_year = filename[0:4]
+        protocol_name = filename[4:11]
+
+        document = http.request.env["protocollo.protocollo"].with_context({'skip_check': True}).search([
+            ("year", "=", int(protocol_year)),
+            ("name", "=", protocol_name)
+        ])
+
+        if not document:
             return "Document not found"
-
-        number = document.name
 
         dest_tz = pytz.timezone("Europe/Rome")
         date_obj = datetime.datetime.strptime(document.registration_date, "%Y-%m-%d %H:%M:%S")
         date_obj_dest = pytz.utc.localize(date_obj).astimezone(dest_tz)
 
         year = document.year
-        type = document.type  # IN or OUT
+        name = document.name
+        protocol_type = document.type  # IN or OUT
         ammi_code = document.registry.company_id.ammi_code
         ident_code = document.aoo_id.ident_code
         header_code = ammi_code + " - " + ident_code if ammi_code else ident_code
         registry_code = document.registry.code
 
-        barcode_text = "%04d0%s" % (year, number)
-        if type == "in":
+        barcode_text = "%04d0%s" % (year, name)
+
+        if protocol_type == "in":
             type_str = "Ingresso"
-        elif type == "out":
+        elif protocol_type == "out":
             type_str = "Uscita"
         else:
             type_str = "Interno"
-        prot_str = "%s" % (number)
+
+        prot_str = "%s" % name
         datetime_str = date_obj_dest.strftime("%Y-%m-%d %H:%M:%S")
 
-        filename = re.sub(r"[^\w\s]", "", number)
-        filename = re.sub(r"\s+", " ", filename)
-        filename = "%s - %s.pdf" % (strftime("%Y-%m-%d %H-%M-%S"), filename)
+        filename = "%s.pdf" % re.sub(r"[^\w\s]", "", filename)
 
         tmp_filename = os.path.join(tempfile.gettempdir(), filename)
 
@@ -186,9 +190,11 @@ class Etichetta(http.Controller):
         company_logo = Image.new("RGB", company_logo_png.size, (255, 255, 255))
         company_logo.paste(company_logo_png, (0, 0), company_logo_png)
 
-        company_logo_filename = os.path.join(tempfile.gettempdir(),
-                                             "".join(random.choice(string.ascii_letters + string.digits)
-                                                     for _ in range(32)))
+        company_logo_filename = os.path.join(
+            tempfile.gettempdir(),
+            "".join(random.choice(string.ascii_letters + string.digits) for _ in range(32))
+        )
+
         company_logo_image = open(company_logo_filename, "wb")
         company_logo.save(company_logo_image, format="PNG")
         company_logo_image.close()
@@ -197,6 +203,7 @@ class Etichetta(http.Controller):
                       pos.x_p(61), pos.y_p(61),
                       preserveAspectRatio=True,
                       width=pos.x_p(38), height=pos.y_p(38))
+
         os.remove(company_logo_filename)
 
         pdf.save()
@@ -206,9 +213,13 @@ class Etichetta(http.Controller):
 
         os.remove(tmp_filename)
 
-        return request.make_response(pdf_content,
-                                     [("Content-Type", "application/pdf"),
-                                      ("Content-Disposition", "inline; filename=%s" % filename)])
+        return request.make_response(
+            data=pdf_content,
+            headers=[
+                ("Content-Type", "application/pdf"),
+                ("Content-Disposition", "inline; filename=%s" % filename)
+            ]
+        )
 
 
 class LabelPosition:

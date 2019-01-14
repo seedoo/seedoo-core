@@ -383,28 +383,45 @@ class protocollo_protocollo(orm.Model):
 
     def action_apri_stampa_etichetta(self, cr, uid, ids, context=None):
         context = dict(context or {})
-        if not ids:
-            return {}
+
+        if len(ids) != 1:
+            raise osv.except_osv(
+                _("Error!"),
+                _("This action can be triggered for one record only")
+            )
+
         # for session in self.browse(cr, uid, ids, context=context):
         #     if session.user_id.id != uid:
         #         raise osv.except_osv(
         #             _('Error!'),
         #             _(
         #                 "You cannot use the session of another users. This session is owned by %s. Please first close this one to use this point of sale." % session.user_id.name))
-        context.update({'active_id': ids[0]})
-        action_class = "history_icon print"
-        post_vars = {'subject': "Stampa Etichetta",
-                     'body': "<div class='%s'><ul><li>Generata l'etichetta</li></ul></div>" % action_class,
-                     'model': "protocollo.protocollo",
-                     'res_id': context['active_id'],
-                     }
 
-        thread_pool = self.pool.get('protocollo.protocollo')
-        thread_pool.message_post(cr, uid, context['active_id'], type="notification", context=context, **post_vars)
+        protocolloid = ids[0]
+
+        context.update({
+            "active_id": protocolloid
+        })
+
+        action_class = "history_icon print"
+
+        post_vars = {
+            "subject": "Stampa Etichetta",
+            "body": "<div class='%s'><ul><li>Generata l'etichetta</li></ul></div>" % action_class,
+            "model": "protocollo.protocollo",
+            "res_id": protocolloid,
+        }
+
+        protocollo_obj = self.pool.get("protocollo.protocollo")
+        protocollo_obj.message_post(cr, uid, protocolloid, type="notification", context=context, **post_vars)
+
+        protocollo_id = protocollo_obj.browse(cr, uid, [protocolloid])
+
+        result_filename = "%04d%s.pdf" % (protocollo_id.year, protocollo_id.name)
 
         return {
-            'type': 'ir.actions.act_url',
-            'url': '/seedoo/etichetta/%d' % ids[0],
+            "type": "ir.actions.act_url",
+            "url": "/seedoo/etichetta/%s" % result_filename
         }
 
     _columns = {
