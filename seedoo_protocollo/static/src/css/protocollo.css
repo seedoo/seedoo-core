@@ -26,6 +26,9 @@
   color: #7c7bad;
   font-family: "FontAwesome";
 }
+.openerp .oe_leftbar > div > div > div > div.oe_secondary_menus_container {
+  position: inherit !important;
+}
 .openerp .history_icon.print::after {
   content: "\f02a";
 }
@@ -627,6 +630,13 @@ table.oe_form_group.subject_modify_wizard tr > td {
   margin-bottom: 10px;
   height: 25px;
 }
+td.sender_internal_name span.oe_form_char_content {
+  font-weight: bold !important;
+}
+div.box-sender-internal .icon_item_type div:hover {
+  color: #ccc;
+  background-color: white;
+}
 .openerp .oe_notebook > li.ui-state-active > a.ui-tabs-anchor {
   color: #666 !important;
 }
@@ -849,7 +859,7 @@ table.oe_form_group.subject_modify_wizard tr > td {
   height: 85px;
 }
 .container_classification .oe_form_uri:hover {
-  background-color: #ccc;
+  background-color: transparent;
 }
 .container_classification .oe_form_uri:before {
   content: "\f0e8";

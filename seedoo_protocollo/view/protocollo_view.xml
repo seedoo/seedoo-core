@@ -483,6 +483,11 @@ this module contains the full copyright notices and license terms. -->
                         </group>
 
                         <notebook class="protocollo_form_tabs">
+                            <page string="Destinatari" attrs="{'invisible':[('type','!=','out')]}" class="tab-destintari tab-sr">
+                                <group col="4" colspan="4">
+                                    <field name="receivers" mode="kanban" nolabel="1" class="container_sr" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                </group>
+                            </page>
                             <page string="Mittente" attrs="{'invisible':[('type','=','in')]}" class="tab-mittente tab-sr">
                                 <div class="oe_edit_only">
                                     <button name="%(protocollo_aggiungi_sender_internal_action)d"
@@ -532,12 +537,6 @@ this module contains the full copyright notices and license terms. -->
                                     <field name="senders" mode="kanban" nolabel="1" attrs="{'readonly':[('state','!=','draft')]}"/>
                                 </group>
                             </page>
-                            <page string="Destinatari" attrs="{'invisible':[('type','!=','out')]}" class="tab-destintari tab-sr">
-                                <group col="4" colspan="4">
-                                    <field name="receivers" mode="kanban" nolabel="1" class="container_sr" attrs="{'readonly':[('state','!=','draft')]}"/>
-                                </group>
-                            </page>
-
                             <!--<page string="Preview" attrs="{'invisible':[('mimetype','!=','application/pdf')]}">-->
                                 <!--<field name="preview" noupload="True"-->
                                        <!--nolabel="1"-->
@@ -561,7 +560,7 @@ this module contains the full copyright notices and license terms. -->
                                                 class="oe_highlight_positive btn_seedoo btn_modifica_classificazione"/>
                                     </div>
                                     <newline/>
-                                    <field name="classification" nolabel="1" readonly="1" colspan="4" class="container_classification"
+                                    <field name="classification" nolabel="1" readonly="1" colspan="4" class="container_classification" options="{'no_open': True}"
                                            attrs="{'invisible':['|',('classification','=', False)]}" />
                                 </group>
                             </page>
