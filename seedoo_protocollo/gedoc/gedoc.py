@@ -158,6 +158,8 @@ class documento_protocollato(osv.osv):
         'doc_description': fields.char('Descrizione documento', readonly=True),
         'protocol_name': fields.char('Numero Protocollo', readonly=True),
         'protocol_registration_date': fields.char('Data Registrazione', readonly=True),
+        'protocol_registration_date_from': fields.function(lambda *a, **k: {}, method=True, type='date', string="Inizio Data Ricerca"),
+        'protocol_registration_date_to': fields.function(lambda *a, **k: {}, method=True, type='date', string="Fine  Data Ricerca"),
         'protocol_doc_id': fields.integer('Documento principale', readonly=True),
         'doc_index_content': fields.text('Contenuto indicizzato', readonly=True),
         'doc_file_type': fields.char('Tipo di file', readonly=True),

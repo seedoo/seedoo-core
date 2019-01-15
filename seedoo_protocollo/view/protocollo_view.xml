@@ -757,7 +757,7 @@ this module contains the full copyright notices and license terms. -->
                 <search string="Protocolli">
                     <field name="type"/>
                     <field name="name"
-                           filter_domain="['|', ('name','ilike',self), ('registration_date','ilike',self)]"
+                           filter_domain="[('name','ilike',self)]"
                            string="Numero Protocollo"/>
                     <field name="user_id"/>
                     <field name="sender_receivers"
