@@ -21,6 +21,7 @@
 from openerp import SUPERUSER_ID
 from openerp.osv import fields, osv
 
+
 class dematerializzazione_config_settings(osv.osv_memory):
     _name = 'dematerializzazione.config.settings'
     _inherit = 'res.config.settings'
@@ -28,16 +29,38 @@ class dematerializzazione_config_settings(osv.osv_memory):
     _columns = {
         'config_id': fields.many2one('dematerializzazione.configurazione', string='Configurazione', required=True),
 
-        'etichetta_altezza': fields.related('config_id', 'etichetta_altezza', type='integer', string='Altezza Etichetta'),
-        'etichetta_larghezza': fields.related('config_id', 'etichetta_larghezza', type='integer', string='Larghezza Etichetta'),
-        #'importer_ids': fields.related('config_id', 'importer_ids', type='one2many', relation='dematerializzazione.importer', string='Importer'),
+        "etichetta_altezza": fields.related(
+            "config_id",
+            "etichetta_altezza",
+            type="integer",
+            string="Altezza (mm)"
+        ),
+        "etichetta_larghezza": fields.related(
+            "config_id",
+            "etichetta_larghezza",
+            type="integer",
+            string="Larghezza (mm)"
+        ),
+        "etichetta_logo": fields.related(
+            "config_id",
+            "etichetta_logo",
+            type="binary",
+            string="Logo"
+        ),
+
+        # 'importer_ids': fields.related('config_id', 'importer_ids', type='one2many', relation='dematerializzazione.importer', string='Importer'),
 
         'cron_id': fields.many2one('ir.cron', string='Cron', required=True),
 
         'active': fields.related('cron_id', 'active', type='boolean', string='Attiva'),
         'interval_number': fields.related('cron_id', 'interval_number', type='integer', string='Intervallo'),
         'interval_type': fields.related('cron_id', 'interval_type', type='selection', selection=[('minutes', 'Minuti'),
-            ('hours', 'Ore'), ('work_days','Giorni Lavorativi'), ('days', 'Giorni'),('weeks', 'Settimane'), ('months', 'Mesi')],
+                                                                                                 ('hours', 'Ore'), (
+                                                                                                     'work_days',
+                                                                                                     'Giorni Lavorativi'),
+                                                                                                 ('days', 'Giorni'),
+                                                                                                 ('weeks', 'Settimane'),
+                                                                                                 ('months', 'Mesi')],
                                         string='Tipologia Intervallo'),
         'nextcall': fields.related('cron_id', 'nextcall', type='datetime', string='Data Prossima Esecuzione'),
     }
@@ -50,7 +73,8 @@ class dematerializzazione_config_settings(osv.osv_memory):
 
     def _default_cron_id(self, cr, uid, context):
         ir_model_data_obj = self.pool.get('ir.model.data')
-        ir_model_data_id = ir_model_data_obj.search(cr, uid, [('name', '=', 'ir_cron_mail_dematerializzazione_importer')])[0]
+        ir_model_data_id = \
+            ir_model_data_obj.search(cr, uid, [('name', '=', 'ir_cron_mail_dematerializzazione_importer')])[0]
         ir_model_data = ir_model_data_obj.browse(cr, uid, ir_model_data_id)
         return ir_model_data.res_id
 
@@ -60,12 +84,13 @@ class dematerializzazione_config_settings(osv.osv_memory):
     }
 
     def on_change_config_id(self, cr, uid, ids, config_id, context=None):
-        config_data = self.pool.get('dematerializzazione.configurazione').read(cr, uid, [config_id], [], context=context)[0]
+        config_data = \
+            self.pool.get('dematerializzazione.configurazione').read(cr, uid, [config_id], [], context=context)[0]
         values = {}
         for fname, v in config_data.items():
             if fname in self._columns:
                 values[fname] = v[0] if v and self._columns[fname]._type == 'many2one' else v
-        return {'value' : values}
+        return {'value': values}
 
     def on_change_cron_id(self, cr, uid, ids, cron_id, context=None):
         cron_data = self.pool.get('ir.cron').read(cr, uid, [cron_id], [], context=context)[0]
@@ -73,7 +98,7 @@ class dematerializzazione_config_settings(osv.osv_memory):
         for fname, v in cron_data.items():
             if fname in self._columns:
                 values[fname] = v[0] if v and self._columns[fname]._type == 'many2one' else v
-        return {'value' : values}
+        return {'value': values}
 
     # FIXME in trunk for god sake. Change the fields above to fields.char instead of fields.related,
     # and create the function set_website who will set the value on the website_id

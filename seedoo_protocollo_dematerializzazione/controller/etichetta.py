@@ -25,7 +25,7 @@ from ..utility.dimension import DimensionUtility
 
 class Etichetta(http.Controller):
     @http.route("/seedoo/etichetta/<string:protocol_number>", auth="public")
-    def etichetta(self, protocol_number, **kw):
+    def etichetta(self, protocol_number):
         uid = SUPERUSER_ID
         cr = http.request.cr
         ir_model_data_obj = request.registry.get('ir.model.data')
@@ -185,7 +185,9 @@ class Etichetta(http.Controller):
         temp_text.textOut("del %s" % datetime_str)
         pdf.drawText(temp_text)
 
-        company_logo_data = base64.b64decode(document.registry.company_id.logo_web)
+        logo_base64_content = configurazione.etichetta_logo or document.registry.company_id.logo_web
+
+        company_logo_data = base64.b64decode(logo_base64_content)
         company_logo_png = Image.open(BytesIO(company_logo_data))
         company_logo = Image.new("RGB", company_logo_png.size, (255, 255, 255))
         company_logo.paste(company_logo_png, (0, 0), company_logo_png)

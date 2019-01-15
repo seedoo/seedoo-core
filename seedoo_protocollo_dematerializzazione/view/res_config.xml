@@ -19,6 +19,10 @@ this module contains the full copyright notices and license terms. -->
                         <field name="etichetta_altezza"/>
                         <newline/>
                         <field name="etichetta_larghezza"/>
+                        <newline/>
+                        <field name="etichetta_logo"
+                               widget="image"
+                               class="oe_avatar"/>
                         <field name="config_id" invisible="True" on_change="on_change_config_id(config_id)"/>
                     </group>
                     <!--
@@ -46,6 +50,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="view_mode">form</field>
             <field name="target">inline</field>
         </record>
-    </data>
 
+    </data>
 </openerp>
