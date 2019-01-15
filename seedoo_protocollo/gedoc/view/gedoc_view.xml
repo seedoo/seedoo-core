@@ -96,6 +96,11 @@
             <field name="model">documento.protocollato</field>
             <field name="arch" type="xml">
                 <search string="Documenti">
+                    <field name="protocol_name"/>
+                    <field name="protocol_registration_date"/>
+                    <field name="doc_description"/>
+                    <field name="protocol_subject"/>
+                    <field name="doc_index_content"/>
                     <group string="Formato">
                         <filter string="Pdf" name="format_pdf" domain="[('doc_file_type','like','pdf')]"/>
                         <filter string="Immagine" name="format_image" domain="[('doc_file_type','like','image')]"/>
