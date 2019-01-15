@@ -110,17 +110,19 @@ class protocollo_configurazione(orm.Model):
             errors.append(_("Mezzo Trasmissione"))
         if not protocollo.subject:
             errors.append(_("Oggetto"))
+
+        if protocollo.type != 'in' and not protocollo.sender_internal_name:
+            errors.append(_("Mittente"))
+
         if protocollo.type != 'internal' and not protocollo.sender_receivers:
-            send_rec = protocollo.type == 'in' and _("Mittenti") or _("Destinatari")
+            send_rec = protocollo.type == 'in' and _("Mittente") or _("Destinatario")
             errors.append(send_rec)
+
         if protocollo.type == 'in' and (protocollo.pec or protocollo.sharedmail):
             for sr in protocollo.sender_receivers:
                 if not sr.name:
                     errors.append(_("Nome Cognome/Ragione sociale del Mittente"))
                     break
-
-        if protocollo.type == 'internal' and not protocollo.sender_internal_name:
-            errors.append(_("Mittente"))
 
         if protocollo.type == 'out' and protocollo.pec:
             for sr in protocollo.sender_receivers:
