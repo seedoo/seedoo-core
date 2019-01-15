@@ -27,6 +27,16 @@ class protocollo_configurazione(orm.Model):
         'assegnatari_conoscenza_uffici_required': fields.boolean('Uffici assegnatari per conoscenza Obbligatori'),
         'assegnatari_conoscenza_dipendenti_required': fields.boolean('Dipendenti assegnatari per conoscenza Obbligatori'),
 
+        'classificazione_senza_doc_required': fields.boolean('Classificazione Obbligatoria (senza documento)'),
+        'fascicolazione_senza_doc_required': fields.boolean('Fascicolazione Obbligatoria (senza documento)'),
+
+        'assegnatari_competenza_uffici_senza_doc_required': fields.boolean('Uffici assegnatari per competenza Obbligatori (senza documento)'),
+        'assegnatari_competenza_dipendenti_senza_doc_required': fields.boolean(
+            'Dipendenti assegnatari per competenza Obbligatori (senza documento)'),
+        'assegnatari_conoscenza_uffici_senza_doc_required': fields.boolean('Uffici assegnatari per conoscenza Obbligatori (senza documento)'),
+        'assegnatari_conoscenza_dipendenti_senza_doc_required': fields.boolean(
+            'Dipendenti assegnatari per conoscenza Obbligatori (senza documento)'),
+
         'documento_required': fields.boolean('Documento Obbligatorio'),
         'documento_descrizione_required': fields.boolean('Descrizione Documento Obbligatoria'),
         'allegati_descrizione_required': fields.boolean('Descrizione allegati Obbligatoria'),
@@ -60,6 +70,12 @@ class protocollo_configurazione(orm.Model):
         'assegnatari_competenza_dipendenti_required': False,
         'assegnatari_conoscenza_uffici_required': False,
         'assegnatari_conoscenza_dipendenti_required': False,
+        'classificazione_senza_doc_required': False,
+        'fascicolazione_senza_doc_required': False,
+        'assegnatari_competenza_uffici_senza_doc_required': False,
+        'assegnatari_competenza_dipendenti_senza_doc_required': False,
+        'assegnatari_conoscenza_uffici_senza_doc_required': False,
+        'assegnatari_conoscenza_dipendenti_senza_doc_required': False,
         'documento_required': False,
         'documento_descrizione_required': False,
         'allegati_descrizione_required': False,
@@ -130,10 +146,16 @@ class protocollo_configurazione(orm.Model):
         configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
         configurazione = self.pool.get('protocollo.configurazione').browse(cr, uid, configurazione_ids[0])
         if configurazione:
-            if configurazione.classificazione_required and not protocollo.classification:
-                errors.append(_("Titolario"))
-            if configurazione.fascicolazione_required and not protocollo.dossier_ids:
-                errors.append(_("Fascicolario"))
+            if protocollo.doc_id:
+                if configurazione.classificazione_required and not protocollo.classification:
+                    errors.append(_("Titolario"))
+                if configurazione.fascicolazione_required and not protocollo.dossier_ids:
+                    errors.append(_("Fascicolario"))
+            else:
+                if configurazione.classificazione_senza_doc_required and not protocollo.classification:
+                    errors.append(_("Titolario"))
+                if configurazione.fascicolazione_senza_doc_required and not protocollo.dossier_ids:
+                    errors.append(_("Fascicolario"))
 
             competenza_ufficio_found = False
             competenza_dipendente_found = False
@@ -159,24 +181,45 @@ class protocollo_configurazione(orm.Model):
                 if protocollo.type == 'internal' and protocollo.sender_internal_department:
                     errors.append(_("Mittente: i protocolli riservati non possono avere uffici come mittenti"))
             else:
-                if configurazione.assegnatari_competenza_uffici_required and \
-                        not configurazione.assegnatari_competenza_dipendenti_required and \
-                        not competenza_ufficio_found:
-                    errors.append(_("Ufficio Assegnatario per Competenza"))
-                if configurazione.assegnatari_competenza_dipendenti_required \
-                        and not configurazione.assegnatari_competenza_uffici_required and \
-                        not competenza_dipendente_found:
-                    errors.append(_("Dipendente Assegnatario per Competenza"))
-                if configurazione.assegnatari_competenza_dipendenti_required \
-                        and configurazione.assegnatari_competenza_uffici_required \
-                        and not competenza_ufficio_found and not competenza_dipendente_found:
-                    errors.append(_("Assegnatario per Competenza"))
-                if configurazione.assegnatari_conoscenza_uffici_required and \
-                        not conoscenza_ufficio_found:
-                    errors.append(_("Uffici Assegnatari per Conoscenza"))
-                if configurazione.assegnatari_conoscenza_dipendenti_required and \
-                        not conoscenza_dipendente_found:
-                    errors.append(_("Dipendenti Assegnatari per Conoscenza"))
+                if protocollo.doc_id:
+                    if configurazione.assegnatari_competenza_uffici_required and \
+                            not configurazione.assegnatari_competenza_dipendenti_required and \
+                            not competenza_ufficio_found:
+                        errors.append(_("Ufficio Assegnatario per Competenza"))
+                    if configurazione.assegnatari_competenza_dipendenti_required \
+                            and not configurazione.assegnatari_competenza_uffici_required and \
+                            not competenza_dipendente_found:
+                        errors.append(_("Dipendente Assegnatario per Competenza"))
+                    if configurazione.assegnatari_competenza_dipendenti_required \
+                            and configurazione.assegnatari_competenza_uffici_required \
+                            and not competenza_ufficio_found and not competenza_dipendente_found:
+                        errors.append(_("Assegnatario per Competenza"))
+                    if configurazione.assegnatari_conoscenza_uffici_required and \
+                            not conoscenza_ufficio_found:
+                        errors.append(_("Uffici Assegnatari per Conoscenza"))
+                    if configurazione.assegnatari_conoscenza_dipendenti_required and \
+                            not conoscenza_dipendente_found:
+                        errors.append(_("Dipendenti Assegnatari per Conoscenza"))
+                else:
+                    if configurazione.assegnatari_competenza_uffici_senza_doc_required and \
+                            not configurazione.assegnatari_competenza_dipendenti_senza_doc_required and \
+                            not competenza_ufficio_found:
+                        errors.append(_("Ufficio Assegnatario per Competenza"))
+                    if configurazione.assegnatari_competenza_dipendenti_senza_doc_required \
+                            and not configurazione.assegnatari_competenza_uffici_senza_doc_required and \
+                            not competenza_dipendente_found:
+                        errors.append(_("Dipendente Assegnatario per Competenza"))
+                    if configurazione.assegnatari_competenza_dipendenti_senza_doc_required \
+                            and configurazione.assegnatari_competenza_uffici_senza_doc_required \
+                            and not competenza_ufficio_found and not competenza_dipendente_found:
+                        errors.append(_("Assegnatario per Competenza"))
+                    if configurazione.assegnatari_conoscenza_uffici_senza_doc_required and \
+                            not conoscenza_ufficio_found:
+                        errors.append(_("Uffici Assegnatari per Conoscenza"))
+                    if configurazione.assegnatari_conoscenza_dipendenti_senza_doc_required and \
+                            not conoscenza_dipendente_found:
+                        errors.append(_("Dipendenti Assegnatari per Conoscenza"))
+
 
             if configurazione.documento_required and not protocollo.doc_id:
                 errors.append(_("Documento principale"))
