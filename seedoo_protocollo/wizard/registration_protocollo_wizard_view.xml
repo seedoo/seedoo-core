@@ -54,7 +54,7 @@ this module contains the full copyright notices and license terms. -->
                     target="new"/>
 
         <record id="protocollo_registration_response_wizard" model="ir.ui.view">
-            <field name="name">Protocollo Registration Response Wizard</field>
+            <field name="name">Esito Registrazione Protocollo</field>
             <field name="model">protocollo.registration.response.wizard</field>
             <field name="arch" type="xml">
             <form string="Esito Registrazione" class="protocollo_registration_container">

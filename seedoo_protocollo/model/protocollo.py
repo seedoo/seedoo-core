@@ -633,7 +633,8 @@ class protocollo_protocollo(orm.Model):
     def _get_default_name(self, cr, uid, context=None):
         if context is None:
             context = {}
-        dest_tz = pytz.timezone("Europe/Rome")
+        user = self.pool.get('res.users').browse(cr, SUPERUSER_ID, uid)
+        dest_tz = pytz.timezone(user.partner_id.tz) or pytz.timezone("Europe/Rome")
         now = datetime.datetime.now(dest_tz).strftime(DSDF)
         # now = datetime.datetime.now().strftime(
         #     DSDF)
@@ -1040,6 +1041,9 @@ class protocollo_protocollo(orm.Model):
         return res
 
     def action_register(self, cr, uid, ids, context=None, *args):
+        user = self.pool.get('res.users').browse(cr, SUPERUSER_ID, uid)
+        ##TODO: prendere il timezone dal browser del client in sostituzione del timezone del res user per renderlo coerente con le viste di Odoo
+        dest_tz = pytz.timezone(user.partner_id.tz) or pytz.timezone("Europe/Rome")
         # self.lock.acquire()
         configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
         configurazione = self.pool.get('protocollo.configurazione').browse(cr, uid, configurazione_ids[0])
@@ -1089,6 +1093,7 @@ class protocollo_protocollo(orm.Model):
 
                     now = datetime.datetime.now()
                     vals['year'] = now.year
+                    registration_time = datetime.datetime.now(dest_tz).strftime(DSDF)
                     self.write(cr, uid, [prot.id], vals, {'skip_check': True})
 
                     try:
@@ -1142,7 +1147,7 @@ class protocollo_protocollo(orm.Model):
 
                     res_registrazione = {"Registrazione": {"Res": True,
                                                            "Msg": "Protocollo Nr. %s del %s registrato correttamente" % (
-                                                               prot_number, prot.registration_date)}}
+                                                               prot_number, registration_time)}}
                 except Exception as e:
                     _logger.error(e)
                     # res_registrazione = {"Registrazione":{"Res": False, "Msg": "Errore nella registrazione del protocollo"}}
