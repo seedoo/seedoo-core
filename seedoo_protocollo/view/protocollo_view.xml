@@ -604,7 +604,7 @@ this module contains the full copyright notices and license terms. -->
                                                 string="Aggiungi Fascicolazione"
                                                 type="action"
                                                 attrs="{'invisible':['|',('dossier_ids','!=',[(6, False, [])]),('state','!=','draft')]}"
-                                                class="oe_highlight_positive btn_seedoo"
+                                                class="oe_highlight_positive btn_seedoo btn_aggiungi_fascicolazione"
                                                 context="{'initial_mode':'edit'}"
                                         />
                                         <newline/>
@@ -612,7 +612,7 @@ this module contains the full copyright notices and license terms. -->
                                                 string="Modifica Fascicolazione"
                                                 type="action"
                                                 attrs="{'invisible':['|',('dossier_ids','=',[(6, False, [])]),('modifica_fascicolazione_visibility','=',False)]}"
-                                                class="oe_highlight_positive btn_seedoo"
+                                                class="oe_highlight_positive btn_seedoo btn_modifica_fascicolazione"
                                                 context="{'initial_mode':'edit'}"
                                         />
                                     </div>

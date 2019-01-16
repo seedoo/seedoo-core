@@ -40,9 +40,12 @@ this module contains the full copyright notices and license terms. -->
                             </group>
                         </div>
                         <group class="message_data">
-                            <field name="subject" colspan="4"/>
+                            <group>
+                                <field name="subject"/>
+                            </group>
+                            <newline/>
                             <group class="body-message-container">
-                                <field name="body" colspan="4" string="Corpo del messaggio"/>
+                                <field name="body" string="Corpo del messaggio"/>
                             </group>
                             <field name="attachment_ids" invisible="1"/>
                             <group>
