@@ -735,9 +735,9 @@ this module contains the full copyright notices and license terms. -->
             <field name="name">Responsabile Servizio Protocollo (RSP)</field>
             <field name="groups_id" eval="[
                 (4, ref('base.group_sharedmail_reader')),
-                (4, ref('base.group_sharedmail_writer')),
+                (4, ref('base.group_sharedmail_sent')),
                 (4, ref('base.group_pec_reader')),
-                (4, ref('base.group_pec_writer')),
+                (4, ref('base.group_pec_sent')),
                 (4, ref('seedoo_gedoc.group_gedoc_user')),
                 (4, ref('seedoo_protocollo.group_protocollo_user')),
                 (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_registrati')),
@@ -817,9 +817,9 @@ this module contains the full copyright notices and license terms. -->
             <field name="name">SysAdmin</field>
             <field name="groups_id" eval="[
                 (4, ref('base.group_sharedmail_reader')),
-                (4, ref('base.group_sharedmail_writer')),
+                (4, ref('base.group_sharedmail_sent')),
                 (4, ref('base.group_pec_reader')),
-                (4, ref('base.group_pec_writer')),
+                (4, ref('base.group_pec_sent')),
                 (4, ref('seedoo_gedoc.group_gedoc_user')),
                 (4, ref('seedoo_protocollo.group_protocollo_user')),
                 (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_registrati')),
