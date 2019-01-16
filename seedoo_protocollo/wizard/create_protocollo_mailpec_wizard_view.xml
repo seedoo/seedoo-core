@@ -42,7 +42,7 @@ this module contains the full copyright notices and license terms. -->
                             <newline/>
                             <group colspan="4">
                                 <div id="protocollo-accordion">
-                                    <div class="dati-protocollo-container" id="anteprima-container" attrs="{'invisible':[('preview','=',False)]}">
+                                    <div class="dati-protocollo-container" id="anteprima-container" attrs="{'invisible':['|',('preview','=',False),('select_doc_principale', 'in', ('testo','eml', False))]}">
                                         <div class="protocollo-accordion-toggle button-form-protocollo">
                                             <h4 class="accordion-toggle">Anteprima</h4>
                                         </div>
@@ -50,7 +50,7 @@ this module contains the full copyright notices and license terms. -->
                                             <field name="preview" string="Anteprima Allegato" noupload="True" colspan="4"
                                                nolabel="1"
                                                options="{'uploadbutton':false}"
-                                               attrs="{'invisible':[('preview', '=' , False)], 'readonly':True}"
+                                               attrs="{'invisible':['|',('preview','=',False),('select_doc_principale', 'in', ('testo','eml', False))], 'readonly':True}"
                                                widget="pdfviewer"/>
                                         </div>
                                     </div>
