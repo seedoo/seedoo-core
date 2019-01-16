@@ -18,12 +18,15 @@
                             <field name="classification"
                                    widget="m2o_tree"
                                    options="{'limit': 5000, 'label': 'complete_name', 'all_checkable': false, 'order': 'sequence'}"
-                                   colspan="4" />
+                                   attrs="{'required':[('classification_required','=',True)]}"
+                                   colspan="4"
+                            />
                             <field name="motivation" attrs="{'invisible':[('display_motivation','=',False)], 'required':[('display_motivation','=',True)]}"
                                    colspan="4"/>
                         </group>
                         <field name="display_motivation" invisible="1"/>
                         <field name="classification_empty" invisible="1"/>
+                        <field name="classification_required" invisible="1"/>
                     </sheet>
                     <footer>
                         <button string="Ok" name="action_save" type="object" attrs="{'invisible':[('classification_empty','=',True)]}" class="oe_highlight"/>
