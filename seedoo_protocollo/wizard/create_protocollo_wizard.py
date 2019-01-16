@@ -128,5 +128,5 @@ class create_protocollo_wizard(osv.TransientModel):
             'res_id': protocollo_id,
             'context': context,
             'type': 'ir.actions.act_window',
-            'flags': {'form': {'action_buttons': True, 'options': {'mode': 'edit'}}}
+            'flags': {'initial_mode': 'edit'}
         }
