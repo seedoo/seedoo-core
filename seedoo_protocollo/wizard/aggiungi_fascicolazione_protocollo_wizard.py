@@ -119,7 +119,7 @@ class protocollo_aggiungi_fascicolazione_wizard(osv.TransientModel):
         thread_pool = self.pool.get('protocollo.protocollo')
         thread_pool.message_post(cr, uid, context['active_id'], type="notification", context=new_context, **post_vars)
 
-        return {
+        protocollo_action = {
                 'name': 'Protocollo',
                 'view_type': 'form',
                 'view_mode': 'form,tree',
@@ -128,4 +128,7 @@ class protocollo_aggiungi_fascicolazione_wizard(osv.TransientModel):
                 'context': context,
                 'type': 'ir.actions.act_window'
         }
+        if context and 'initial_mode' in context and context['initial_mode']=='edit':
+            protocollo_action['flags'] = {'initial_mode': 'edit'}
+        return protocollo_action
 

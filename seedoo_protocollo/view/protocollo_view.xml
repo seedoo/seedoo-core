@@ -551,13 +551,17 @@ this module contains the full copyright notices and license terms. -->
                                                 string="Aggiungi Classificazione"
                                                 type="action"
                                                 attrs="{'invisible':['|',('classification','!=',False),('state','!=','draft')]}"
-                                                class="oe_highlight_positive btn_seedoo btn_aggiungi_classificazione"/>
+                                                class="oe_highlight_positive btn_seedoo btn_aggiungi_classificazione"
+                                                context="{'initial_mode':'edit'}"
+                                        />
                                         <newline/>
                                         <button name="%(protocollo_aggiungi_classificazione_action)d"
                                                 string="Modifica Classificazione"
                                                 type="action"
                                                 attrs="{'invisible':['|',('classification','=',False),('modifica_classificazione_visibility','=',False)]}"
-                                                class="oe_highlight_positive btn_seedoo btn_modifica_classificazione"/>
+                                                class="oe_highlight_positive btn_seedoo btn_modifica_classificazione"
+                                                context="{'initial_mode':'edit'}"
+                                        />
                                     </div>
                                     <newline/>
                                     <field name="classification" nolabel="1" readonly="1" colspan="4" class="container_classification" options="{'no_open': True}"
@@ -571,19 +575,22 @@ this module contains the full copyright notices and license terms. -->
                                             type="action"
                                             attrs="{'invisible':['|',('assegnazione_first_level_ids','!=',[]),'&amp;',('id','!=',False),('modifica_assegnatari_visibility','=',False)]}"
                                             class="oe_highlight_positive btn_seedoo btn_aggiungi_assegnatari"
-                                            context="{'assegnatari_initial_state':assegnazione_first_level_ids}"/>
+                                            context="{'assegnatari_initial_state':assegnazione_first_level_ids, 'initial_mode':'edit'}"
+                                    />
                                     <button name="%(protocollo_aggiungi_assegnatari_action)d"
                                             string="Modifica Assegnatari"
                                             type="action"
                                             attrs="{'invisible':['|',('assegnazione_first_level_ids','=',[]),('modifica_assegnatari_visibility','=',False)]}"
                                             class="oe_highlight_positive btn_seedoo btn_modifica_assegnatari"
-                                            context="{'assegnatari_initial_state':assegnazione_first_level_ids, 'call_by_modifica_assegnatari': True}"/>
+                                            context="{'assegnatari_initial_state':assegnazione_first_level_ids, 'call_by_modifica_assegnatari': True, 'initial_mode':'edit'}"
+                                    />
                                     <button name="%(protocollo_aggiungi_assegnatari_cc_action)d"
                                             string="Aggiungi Assegnatari Conoscenza"
                                             type="action"
                                             attrs="{'invisible':['|',('aggiungi_assegnatari_cc_visibility','=',False),('reserved','=',True)]}"
                                             class="oe_highlight_positive btn_seedoo btn_aggiungi_assegnatari_cc"
-                                            context="{'assegnatari_initial_state':assegnazione_first_level_ids}"/>
+                                            context="{'assegnatari_initial_state':assegnazione_first_level_ids}"
+                                    />
                                 </div>
 
                                 <group col="4">
@@ -597,13 +604,17 @@ this module contains the full copyright notices and license terms. -->
                                                 string="Aggiungi Fascicolazione"
                                                 type="action"
                                                 attrs="{'invisible':['|',('dossier_ids','!=',[(6, False, [])]),('state','!=','draft')]}"
-                                                class="oe_highlight_positive btn_seedoo"/>
+                                                class="oe_highlight_positive btn_seedoo"
+                                                context="{'initial_mode':'edit'}"
+                                        />
                                         <newline/>
                                         <button name="%(protocollo_aggiungi_fascicolazione_action)d"
                                                 string="Modifica Fascicolazione"
                                                 type="action"
                                                 attrs="{'invisible':['|',('dossier_ids','=',[(6, False, [])]),('modifica_fascicolazione_visibility','=',False)]}"
-                                                class="oe_highlight_positive btn_seedoo"/>
+                                                class="oe_highlight_positive btn_seedoo"
+                                                context="{'initial_mode':'edit'}"
+                                        />
                                     </div>
                                     <newline/>
                                     <field name="dossier_ids" nolabel="1" readonly="1"

@@ -55,6 +55,7 @@ class protocollo_sender_internal_wizard(osv.TransientModel):
                 'res_model': 'protocollo.protocollo',
                 'res_id': context['active_id'],
                 'context': context,
-                'type': 'ir.actions.act_window'
+                'type': 'ir.actions.act_window',
+                'flags': {'initial_mode': 'edit'}
         }
 

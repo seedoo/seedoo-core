@@ -156,7 +156,7 @@ class protocollo_aggiungi_classificazione_step1_wizard(osv.TransientModel):
 
             self.classification_save(cr, uid, protocollo, wizard.classification, wizard.motivation, '', context)
 
-        return {
+        protocollo_action = {
                 'name': 'Protocollo',
                 'view_type': 'form',
                 'view_mode': 'form,tree',
@@ -165,6 +165,9 @@ class protocollo_aggiungi_classificazione_step1_wizard(osv.TransientModel):
                 'context': context,
                 'type': 'ir.actions.act_window'
         }
+        if context and 'initial_mode' in context and context['initial_mode']=='edit':
+            protocollo_action['flags'] = {'initial_mode': 'edit'}
+        return protocollo_action
 
 
 
@@ -199,7 +202,7 @@ class protocollo_aggiungi_classificazione_step2_wizard(osv.TransientModel):
         self.pool.get('protocollo.aggiungi.classificazione.step1.wizard').classification_save(
             cr, uid, protocollo, classification, context['motivation'], history, context
         )
-        return {
+        protocollo_action = {
                 'name': 'Protocollo',
                 'view_type': 'form',
                 'view_mode': 'form,tree',
@@ -208,6 +211,9 @@ class protocollo_aggiungi_classificazione_step2_wizard(osv.TransientModel):
                 'context': context,
                 'type': 'ir.actions.act_window'
         }
+        if context and 'initial_mode' in context and context['initial_mode'] == 'edit':
+            protocollo_action['flags'] = {'initial_mode': 'edit'}
+        return protocollo_action
 
     def action_no(self, cr, uid, ids, context=None):
         protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
@@ -215,7 +221,7 @@ class protocollo_aggiungi_classificazione_step2_wizard(osv.TransientModel):
         self.pool.get('protocollo.aggiungi.classificazione.step1.wizard').classification_save(
             cr, uid, protocollo, classification, context['motivation'], '', context
         )
-        return {
+        protocollo_action = {
                 'name': 'Protocollo',
                 'view_type': 'form',
                 'view_mode': 'form,tree',
@@ -224,3 +230,6 @@ class protocollo_aggiungi_classificazione_step2_wizard(osv.TransientModel):
                 'context': context,
                 'type': 'ir.actions.act_window'
         }
+        if context and 'initial_mode' in context and context['initial_mode'] == 'edit':
+            protocollo_action['flags'] = {'initial_mode': 'edit'}
+        return protocollo_action

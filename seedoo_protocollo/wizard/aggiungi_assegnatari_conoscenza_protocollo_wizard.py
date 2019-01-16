@@ -110,5 +110,6 @@ class protocollo_aggiungi_assegnatari_conoscenza_wizard(osv.TransientModel):
                 'res_model': 'protocollo.protocollo',
                 'res_id': context['active_id'],
                 'context': context,
-                'type': 'ir.actions.act_window'
+                'type': 'ir.actions.act_window',
+                'flags': {'initial_mode': 'edit'}
         }
