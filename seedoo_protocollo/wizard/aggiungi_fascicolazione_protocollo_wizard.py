@@ -57,7 +57,7 @@ class protocollo_aggiungi_fascicolazione_wizard(osv.TransientModel):
 
     def _default_display_motivation(self, cr, uid, context):
         protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
-        if protocollo.registration_employee_id:
+        if protocollo.state!='draft' and protocollo.dossier_ids:
             return True
         else:
             return False
@@ -105,7 +105,7 @@ class protocollo_aggiungi_fascicolazione_wizard(osv.TransientModel):
                               % (str(key), before_item.encode("utf-8"), after[key].encode("utf-8"))
 
 
-        post_vars = {'subject': "%s: %s" % (operation_label, wizard.cause),
+        post_vars = {'subject': "%s%s" % (operation_label, ": " + wizard.cause if wizard.cause else ""),
                      'body': body,
                      'model': "protocollo.protocollo",
                      'res_id': context['active_id'],

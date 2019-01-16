@@ -84,9 +84,9 @@ class protocollo_config_settings(osv.osv_memory):
         'lunghezza_massima_oggetto_pec': fields.related('config_id', 'lunghezza_massima_oggetto_pec', type='integer', string='Lunghezza massima dell\'oggetto della PEC', help='Inserire 0 per non limitare l\'oggetto'),
 
         'non_classificati_active': fields.related('config_id', 'non_classificati_active', type='boolean',
-                                                  string='Visualizza Box "Non Classificati"'),
+                                                  string='Visualizza Box "Da Classificare"'),
         'non_fascicolati_active': fields.related('config_id', 'non_fascicolati_active', type='boolean',
-                                                  string='Visualizza Box "Non Fascicolati"'),
+                                                  string='Visualizza Box "Da Fascicolare"'),
 
         'sostituisci_assegnatari': fields.related('config_id', 'sostituisci_assegnatari', type='boolean',
                                                  string='Sostituisci Assegnatari Default in Modifica Classificazione'),

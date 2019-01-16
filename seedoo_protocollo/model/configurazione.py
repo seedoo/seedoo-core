@@ -47,8 +47,8 @@ class protocollo_configurazione(orm.Model):
         'lunghezza_massima_oggetto_pec': fields.integer('Lunghezza massima oggetto PEC'),
         'email_pec_unique': fields.boolean('PEC/Email Univoca'),
 
-        'non_classificati_active': fields.boolean('Visualizza Box "Non Classificati" nella Dashboard'),
-        'non_fascicolati_active': fields.boolean('Visualizza Box "Non Fascicolati" nella Dashboard'),
+        'non_classificati_active': fields.boolean('Visualizza Box "Da Classificare" nella Dashboard'),
+        'non_fascicolati_active': fields.boolean('Visualizza Box "Da Fascicolare" nella Dashboard'),
 
         'sostituisci_assegnatari': fields.boolean('Sostituisci Assegnatari Default in Modifica Classificazione'),
 

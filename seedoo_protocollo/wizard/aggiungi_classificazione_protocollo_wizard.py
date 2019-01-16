@@ -25,7 +25,7 @@ class protocollo_aggiungi_classificazione_step1_wizard(osv.TransientModel):
 
     def _default_display_motivation(self, cr, uid, context):
         protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
-        if protocollo.registration_employee_id:
+        if protocollo.state!='draft' and protocollo.classification:
             return True
         else:
             return False
