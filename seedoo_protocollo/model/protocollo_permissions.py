@@ -569,6 +569,56 @@ class protocollo_protocollo(osv.Model):
     # Visibilità dei protocolli nella dashboard
     ####################################################################################################################
 
+    def _non_classificati_visibility(self, cr, uid, ids, name, arg, context=None):
+        return {}
+
+    def _non_classificati_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
+        start = int(round(time.time() * 1000))
+
+        cr.execute('''
+            SELECT DISTINCT(pp.id) AS id
+            FROM protocollo_protocollo pp, hr_employee he, resource_resource rr
+            WHERE pp.classification IS NULL 
+                AND pp.registration_employee_id = he.id
+                AND he.resource_id = rr.id
+                AND rr.user_id = %s
+                AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
+        ''', (uid,))
+        protocollo_visible_ids = [res[0] for res in cr.fetchall()]
+
+        end = int(round(time.time() * 1000))
+        _logger.info("_non_classificati_visibility_search: " + str(end - start))
+        return [('id', 'in', protocollo_visible_ids)]
+
+    def _non_classificati_visibility_count(self, cr, uid):
+        time_start = datetime.datetime.now()
+        archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)])
+        current_archivio_id = archivio_ids[0]
+
+        sql_query = """SELECT COUNT(DISTINCT(pp.id)) AS id
+            FROM protocollo_protocollo pp, hr_employee he, resource_resource rr
+            WHERE pp.classification IS NULL 
+                AND pp.archivio_id = %d
+                AND pp.registration_employee_id = he.id
+                AND he.resource_id = rr.id
+                AND rr.user_id = %s
+                AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
+        """ % (current_archivio_id, uid)
+
+        cr.execute(sql_query)
+        result = cr.fetchall()
+        count_value = result[0][0]
+
+        time_end = datetime.datetime.now()
+        time_duration = time_end - time_start
+
+        _logger.info("_non_classificati_visibility_count: %d - %.03f s" % (
+            count_value,
+            float(time_duration.microseconds) / 1000000
+        ))
+
+        return count_value
+
     def _non_fascicolati_visibility(self, cr, uid, ids, name, arg, context=None):
         return {}
 
@@ -2273,6 +2323,9 @@ class protocollo_protocollo(osv.Model):
         'is_visible': fields.function(_is_visible, fnct_search=_is_visible_search, type='boolean', string='Visibile'),
 
         # Visibilità dei protocolli nella dashboard
+        'non_classificati_visibility': fields.function(_non_classificati_visibility,
+                                                         fnct_search=_non_classificati_visibility_search,
+                                                         type='boolean', string='Non Classificati'),
         'non_fascicolati_visibility': fields.function(_non_fascicolati_visibility,
                                                          fnct_search=_non_fascicolati_visibility_search,
                                                          type='boolean', string='Non Fascicolati'),
