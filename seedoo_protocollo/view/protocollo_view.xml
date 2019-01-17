@@ -854,8 +854,9 @@ this module contains the full copyright notices and license terms. -->
                         <filter string="Da me" name="registrato_da_me" domain="[('user_id','=',uid),('state','!=','draft')]"/>
                     </group>
                     <group string="PEC in uscita">
-                        <filter string="In attesa" name="waiting" domain="[('state','=','waiting')]"/>
-                        <filter string="Errore" name="error" domain="[('state','=','error')]"/>
+                        <filter string="In attesa di ricevute" name="waiting" domain="[('state','=','waiting')]"/>
+                        <filter string="In errore" name="error" domain="[('state','=','error')]"/>
+                        <filter string="Consegnate" name="delivered" domain="[('type','=','out'),('pec','=',True),('state','=','sent')]"/>
                     </group>
                     <group string="Protocolli Assegnati">
                         <filter string="A me per Competenza" name="filtro_a_me_competenza" domain="[('filtro_a_me_competenza_visibility', '=', True)]"/>
