@@ -1536,7 +1536,7 @@ class protocollo_protocollo(orm.Model):
         if context is None:
             context = {}
         prot = self.browse(cr, uid, prot_id)
-        if prot.type == 'out' and prot.typology.name == 'Email':
+        if prot.type == 'out' and prot.typology.sharedmail:
             configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
             configurazione = self.pool.get('protocollo.configurazione').browse(cr, uid, configurazione_ids[0])
             mail_mail = self.pool.get('mail.mail')
