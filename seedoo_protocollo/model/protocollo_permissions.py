@@ -1984,6 +1984,8 @@ class protocollo_protocollo(osv.Model):
 
             if uid == protocollo.user_id.id or uid == SUPERUSER_ID:
                 check = check and True
+            else:
+                check = False
 
             res.append((protocollo.id, check))
 
