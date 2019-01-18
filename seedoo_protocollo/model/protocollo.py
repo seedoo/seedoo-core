@@ -43,7 +43,8 @@ class protocollo_typology(orm.Model):
         'sharedmail': fields.boolean('Shared Mail'),
         'pec': fields.boolean('PEC'),
         'aoo_id': fields.many2one('protocollo.aoo', 'AOO', required=True),
-        'display_order': fields.integer('Ordine visualizzazione')
+        'display_order': fields.integer('Ordine visualizzazione'),
+        'active': fields.boolean('Attivo')
     }
 
     def _get_default_aoo_id(self, cr, uid, context=None):
@@ -54,7 +55,8 @@ class protocollo_typology(orm.Model):
 
     _defaults = {
         'aoo_id': _get_default_aoo_id,
-        'display_order': 100
+        'display_order': 100,
+        'active': True
     }
 
 
