@@ -53,9 +53,10 @@
                                                 Archivia protocolli
                                             </a>
                                         </li>
+                                        <!--
                                         <li>
                                             <a type="open">Dettagli archivio</a>
-                                        </li>
+                                        </li>-->
                                     </ul>
                                 </div>
                                 <div class="oe_kanban_content">
