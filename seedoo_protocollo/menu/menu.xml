@@ -10,8 +10,8 @@ this module contains the full copyright notices and license terms. -->
         <menuitem name="Documenti" parent="menu_root_protocollo"
                   id="protocollo_doc" sequence="10"/>
 
-        <menuitem name="Archivistica" parent="menu_root_protocollo"
-                  id="protocollo_protocollo_menu" sequence="30"/>
+        <!--<menuitem name="Archivistica" parent="menu_root_protocollo"
+                  id="protocollo_protocollo_menu" sequence="30"/>-->
 
         <menuitem name="Gestione Registri" parent="menu_root_protocollo"
                   id="protocollo_registry_menu" sequence="40"/>
