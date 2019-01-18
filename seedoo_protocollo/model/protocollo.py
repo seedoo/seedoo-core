@@ -203,7 +203,7 @@ class protocollo_protocollo(orm.Model):
                         datetime_end = datetime.datetime.strptime(emergency_registry.date_end, '%Y-%m-%d %H:%M:%S')
                         raise orm.except_orm(_('Avviso'),
                                              _(
-                                                 'La data di ricezione deve essere compresa nel periodo di apertura del registro di emergenza dal: %s al: %s'
+                                                 'La data di registrazione deve essere compresa nel periodo di apertura del registro di emergenza dal: %s al: %s'
                                              %(datetime_start.strftime('%d-%m-%Y'), datetime_end.strftime('%d-%m-%Y'))))
 
                     values = {

@@ -836,6 +836,7 @@ this module contains the full copyright notices and license terms. -->
                         <filter string="Ingresso" name="in" domain="[('type','=','in')]"/>
                         <filter string="Uscita" name="out" domain="[('type','=','out')]"/>
                         <filter string="Interno" name="internal" domain="[('type','=','internal')]"/>
+                        <filter string="Emergenza" name="emergenza" domain="[('registration_type','=','emergency')]"/>
                     </group>
                     <group string="Mezzo di trasmissione">
                         <filter string="E-mail" name="sharedmail" domain="[('sharedmail','=',True)]"/>
