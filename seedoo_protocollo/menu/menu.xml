@@ -107,7 +107,7 @@ this module contains the full copyright notices and license terms. -->
                   <!--action="action_organigramma"-->
                   <!--sequence="45"/>-->
 
-        <menuitem action="protocollo_classification_act"
+        <!--<menuitem action="protocollo_classification_act"
                   parent="protocollo_protocollo_menu"
                   id="protocollo_classification_menu"
                   name="Titolario"
@@ -117,7 +117,7 @@ this module contains the full copyright notices and license terms. -->
                   parent="protocollo_protocollo_menu"
                   id="protocollo_dossier_read_menu"
                   name="Fascicoli"
-                  sequence="60"/>
+                  sequence="60"/>-->
 
 
         <!-- Configurazione-->
