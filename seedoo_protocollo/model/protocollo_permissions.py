@@ -583,6 +583,7 @@ class protocollo_protocollo(osv.Model):
                 AND he.resource_id = rr.id
                 AND rr.user_id = %s
                 AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
+                AND pp.is_imported = FALSE
         ''', (uid,))
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
 
@@ -603,6 +604,7 @@ class protocollo_protocollo(osv.Model):
                 AND he.resource_id = rr.id
                 AND rr.user_id = %s
                 AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
+                AND pp.is_imported = FALSE
         """ % (current_archivio_id, uid)
 
         cr.execute(sql_query)
@@ -1120,7 +1122,8 @@ class protocollo_protocollo(osv.Model):
             INNER JOIN resource_resource AS rr ON he.resource_id = rr.id AND rr.user_id = %s 
             LEFT JOIN protocollo_assegnazione AS pa ON pp.id=pa.protocollo_id AND pa.tipologia_assegnazione = 'competenza'
             WHERE pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND 
-                  pa.protocollo_id IS NULL
+                  pa.protocollo_id IS NULL AND 
+                  pp.is_imported = FALSE
         ''', (uid,))
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
         end = int(round(time.time() * 1000))
@@ -1154,7 +1157,8 @@ class protocollo_protocollo(osv.Model):
             LEFT JOIN protocollo_assegnazione AS pa ON pp.id=pa.protocollo_id AND pa.tipologia_assegnazione = 'competenza'
             WHERE pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
                   pp.archivio_id = %d AND 
-                  pa.protocollo_id IS NULL
+                  pa.protocollo_id IS NULL AND 
+                  pp.is_imported = FALSE
             """ % (uid, current_archivio_id)
 
         cr.execute(sql_query)
