@@ -377,6 +377,10 @@
 .seedoo-dashboard-container .oe_employee_image {
   margin-bottom: 15px;
 }
+.seedoo-dashboard-container .oe_kanban_record:hover {
+  opacity: 0.7;
+  transition: opacity 0.2s linear;
+}
 .openerp .oe_kanban_view .oe_dashboard_tile .tile_label {
   padding: 5px;
   font-size: 13px !important;
@@ -646,6 +650,11 @@ div.box-sender-internal .icon_item_type div:hover {
   color: #ccc;
   background-color: white;
 }
+.oe_clear.ui-tabs.ui-widget.ui-widget-content.ui-corner-all.protocollo_form_tabs {
+  border-bottom: 1px solid #ddd;
+  min-height: 220px;
+  margin-top: 30px;
+}
 .openerp .oe_notebook > li.ui-state-active > a.ui-tabs-anchor {
   color: #666 !important;
 }
@@ -722,6 +731,7 @@ div.box-sender-internal .icon_item_type div:hover {
 .protocollo_form_tabs ul.ui-tabs-nav li a {
   text-transform: uppercase;
   font-size: 14px;
+  background: #ededed;
 }
 .protocollo_form_tabs ul.ui-tabs-nav li a:before {
   font-family: FontAwesome;
@@ -749,6 +759,16 @@ div.box-sender-internal .icon_item_type div:hover {
 }
 .protocollo_form_tabs ul.ui-tabs-nav li:nth-child(8) a:before {
   content: "\f121";
+}
+.protocollo_form_tabs li.ui-tabs-active {
+  border-top: 3px solid #5078b1;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  margin-right: 2px;
+}
+.protocollo_form_tabs li.ui-tabs-active .ui-tabs-anchor {
+  margin-right: 0 !important;
 }
 .protocollo_form_tabs .btn_seedoo {
   margin-top: 12px !important;

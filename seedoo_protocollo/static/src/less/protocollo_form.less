@@ -103,6 +103,7 @@
     li a {
       text-transform: uppercase;
       font-size:14px;
+      background: #ededed;
     }
 
     li a:before {
@@ -139,6 +140,18 @@
 
     li:nth-child(8) a:before {
       content:"\f121";
+    }
+  }
+
+  li.ui-tabs-active {
+    border-top: 3px solid #5078b1;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    margin-right: 2px;
+
+    .ui-tabs-anchor {
+      margin-right: 0 !important;
     }
   }
 
