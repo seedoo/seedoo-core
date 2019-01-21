@@ -859,7 +859,7 @@ this module contains the full copyright notices and license terms. -->
                     <group string="PEC in uscita">
                         <filter string="In attesa di ricevute" name="waiting" domain="[('state','=','waiting')]"/>
                         <filter string="In errore" name="error" domain="[('state','=','error')]"/>
-                        <filter string="Consegnate" name="delivered" domain="[('type','=','out'),('pec','=',True),('state','=','sent')]"/>
+                        <filter string="Consegnate" name="delivered" domain="[('type','=','out'),('receivers.pec_messaggio_ids.accettazione_ref','!=',False),('receivers.pec_messaggio_ids.consegna_ref','!=',False),'|',('state','=','sent'),('state','=','acts')]"/>
                     </group>
                     <group string="Protocolli Assegnati">
                         <filter string="A me per Competenza" name="filtro_a_me_competenza" domain="[('filtro_a_me_competenza_visibility', '=', True)]"/>
