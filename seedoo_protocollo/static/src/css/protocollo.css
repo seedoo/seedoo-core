@@ -345,6 +345,14 @@
 .openerp button.btn_stampa_etichetta:hover {
   background-color: #999 !important;
 }
+.openerp button.btn_stampa_etichetta {
+  background-color: #fff !important;
+  color: #666 !important;
+  border: 1px solid #aaa !important;
+}
+.openerp button.btn_stampa_etichetta:before {
+  color: #326e38 !important;
+}
 /**Storico Protocollo**/
 .openerp .oe_mail .oe_msg.oe_msg_composer_compact,
 .openerp .oe_mail .oe_msg.oe_msg_expandable {
@@ -1072,8 +1080,14 @@ div.dati-protocollo-container h4:before {
 #anteprima-container {
   margin: 0 0 30px 0;
 }
-#anteprima-container .protocollo-accordion-toggle:hover {
-  background-color: #666;
+#anteprima-container .protocollo-accordion-toggle.button-form-protocollo {
+  background-color: steelblue !important;
+}
+#anteprima-container .protocollo-accordion-toggle.button-form-protocollo h4 {
+  color: white;
+}
+#anteprima-container .protocollo-accordion-toggle.button-form-protocollo:hover {
+  background-color: #666 !important;
 }
 #anteprima-container h4 {
   line-height: 20px;
