@@ -128,7 +128,7 @@ class protocollo_registration_confirmation_wizard(models.TransientModel):
         context.update({'registration_message': res})
 
         return {
-            'name': 'Conferma Registrazione Protocollo',
+            'name': 'Esito Registrazione Protocollo',
             'view_type': 'form',
             'view_mode': 'form',
             'res_model': 'protocollo.registration.response.wizard',
