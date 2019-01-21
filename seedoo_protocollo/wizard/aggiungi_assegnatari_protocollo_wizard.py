@@ -12,6 +12,15 @@ class protocollo_aggiungi_assegnatari_wizard(osv.TransientModel):
     _name = 'protocollo.aggiungi.assegnatari.wizard'
     _description = 'Aggiungi Assegnatari'
 
+    def _get_assegnatore_call_by_modifica_assegnatari(self, protocollo):
+        assegnatore = False
+        if protocollo.assegnazione_competenza_ids:
+            assegnatore = protocollo.assegnazione_competenza_ids[0].assegnatore_id
+        elif protocollo.assegnazione_conoscenza_ids:
+            assegnatore = protocollo.assegnazione_conoscenza_ids[0].assegnatore_id
+        return assegnatore
+
+
     _columns = {
         'reserved': fields.boolean('Riservato', readonly=True),
         'assegnatore_department_id': fields.many2one('hr.department',
@@ -50,10 +59,18 @@ Se sono presenti assegnatari per conoscenza verranno rimossi al completamento de
 '''
 
     def _default_assegnatore_department_id(self, cr, uid, context):
-        return self.pool.get('protocollo.assegnazione').get_default_assegnatore_department_id(cr, uid, context['active_id'])
+        assegnatore_department_id = False
+        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
+        if context and 'call_by_modifica_assegnatari' in context and protocollo.state != 'draft':
+            assegnatore = self._get_assegnatore_call_by_modifica_assegnatari(protocollo)
+            if assegnatore:
+                assegnatore_department_id = assegnatore.department_id.id
+        else:
+            assegnatore_department_id = self.pool.get('protocollo.assegnazione').get_default_assegnatore_department_id(cr, uid, context['active_id'])
+        return assegnatore_department_id
 
     def _default_assegnatore_department_id_invisible(self, cr, uid, context):
-        department_id = self.pool.get('protocollo.assegnazione').get_default_assegnatore_department_id(cr, uid, context['active_id'])
+        department_id = self._default_assegnatore_department_id(cr, uid, context)
         if department_id:
             return True
         return False
@@ -129,10 +146,9 @@ Se sono presenti assegnatari per conoscenza verranno rimossi al completamento de
 
         assegnatore_id = False
         if context and 'call_by_modifica_assegnatari' in context and protocollo.state!='draft':
-            if protocollo.assegnazione_competenza_ids:
-                assegnatore_id = protocollo.assegnazione_competenza_ids[0].assegnatore_id.id
-            elif protocollo.assegnazione_conoscenza_ids:
-                assegnatore_id = protocollo.assegnazione_conoscenza_ids[0].assegnatore_id.id
+            assegnatore = self._get_assegnatore_call_by_modifica_assegnatari(protocollo)
+            if assegnatore:
+                assegnatore_id = assegnatore.id
         else:
             # se il protocollo è in stato bozza allora la modifica viene fatta solo
             employee_ids = self.pool.get('hr.employee').search(cr, uid, [
