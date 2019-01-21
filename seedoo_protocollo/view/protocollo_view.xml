@@ -855,6 +855,12 @@ this module contains the full copyright notices and license terms. -->
                     <group string="Protocolli Registrati">
                         <filter string="Da me" name="registrato_da_me" domain="[('user_id','=',uid),('state','!=','draft')]"/>
                     </group>
+                    <group string="Protocollati">
+                        <filter string="Ieri" name="registered_yesterday" domain="
+                         [('registration_date','&gt;',(context_today()-relativedelta(days=1)).strftime('%Y-%m-%d 00:00:00')),('registration_date','&lt;=',(context_today()-relativedelta(days=1)).strftime('%Y-%m-%d 23:59:59'))]"/>
+                        <filter string="Oggi" name="registered_today" domain="
+                        [('registration_date','&gt;',(context_today()).strftime('%Y-%m-%d 00:00:00')),('registration_date','&lt;=',(context_today()).strftime('%Y-%m-%d 23:59:59'))]"/>
+                    </group>
                     <group string="PEC in uscita">
                         <filter string="Da inviare" name="to_sent" domain="[('type','=','out'),('pec','=',True),('state','=','registered')]"/>
                         <filter string="In attesa di ricevute" name="waiting" domain="[('state','=','waiting')]"/>
