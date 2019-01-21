@@ -44,7 +44,7 @@
             <field name="mode">domain</field>
             <field name="domain">[('server_id.pec', '=', True), ('pec_type', '=', 'posta-certificata'), ('server_id.user_ids', 'in', uid), ('pec_state', '=', 'new')]</field>
             <field name="font_color">#ffffff</field>
-            <field name="background_color">#9B59B6</field>
+            <field name="background_color">#5DA4B6</field>
             <field name="sequence_tile">2</field>
             <field name="icon_tile">fa fa-envelope-o</field>
             <field name="tag_tile">generale</field>
@@ -59,7 +59,7 @@
             <field name="method">_non_classificati_visibility_count</field>
             <field name="font_color">#ffffff</field>
             <field name="background_color">#34495E</field>
-            <field name="sequence_tile">40</field>
+            <field name="sequence_tile">75</field>
             <field name="icon_tile">fa fa-th-list</field>
             <field name="tag_tile">totale</field>
         </record>
