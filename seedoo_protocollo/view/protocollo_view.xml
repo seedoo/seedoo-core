@@ -81,9 +81,8 @@ this module contains the full copyright notices and license terms. -->
             <field name="inherit_id" ref="seedoo_gedoc.protocollo_dossier_form"/>
             <field name="arch" type="xml">
                 <page string="Documenti" position="before">
-                    <page string="Protocolli" >
-                        <field name="protocollo_ids" domain="[('state','in',('notified','sent'))]" nolabel="1"
-                                options="{'no_create': True, 'no_create_edit': True}"/>
+                    <page string="Documenti Protocollati" >
+                        <field name="protocollo_ids" nolabel="1" options="{'no_create': True, 'no_create_edit': True}"/>
                         <newline/>
                     </page>
                 </page>
@@ -605,7 +604,7 @@ this module contains the full copyright notices and license terms. -->
                                         <button name="%(protocollo_aggiungi_fascicolazione_action)d"
                                                 string="Aggiungi Fascicolazione"
                                                 type="action"
-                                                attrs="{'invisible':['|',('dossier_ids','!=',[(6, False, [])]),('state','!=','draft')]}"
+                                                attrs="{'invisible':['|',('dossier_ids','!=',[(6, False, [])]),('modifica_fascicolazione_visibility','=',False)]}"
                                                 class="oe_highlight_positive btn_seedoo btn_aggiungi_fascicolazione"
                                                 context="{'initial_mode':'edit'}"
                                         />
