@@ -856,6 +856,7 @@ this module contains the full copyright notices and license terms. -->
                         <filter string="Da me" name="registrato_da_me" domain="[('user_id','=',uid),('state','!=','draft')]"/>
                     </group>
                     <group string="PEC in uscita">
+                        <filter string="Da inviare" name="to_sent" domain="[('type','=','out'),('pec','=',True),('state','=','registered')]"/>
                         <filter string="In attesa di ricevute" name="waiting" domain="[('state','=','waiting')]"/>
                         <filter string="In errore" name="error" domain="[('state','=','error')]"/>
                         <filter string="Consegnate" name="delivered" domain="[('type','=','out'),('receivers.pec_messaggio_ids.accettazione_ref','!=',False),('receivers.pec_messaggio_ids.consegna_ref','!=',False),'|',('state','=','sent'),('state','=','acts')]"/>
