@@ -1047,7 +1047,8 @@ div.box-sender-internal .icon_item_type div:hover {
   float: right;
   margin-top: 5px;
   margin-bottom: 5px;
-  background-color: #cccccccf;
+  background-color: #ccc;
+  opacity: 0.85;
   border: 1px solid #a5a5a5;
 }
 .oe_searchview_drawer .col-md-7 {
