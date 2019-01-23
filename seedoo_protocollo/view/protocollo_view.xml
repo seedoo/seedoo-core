@@ -766,7 +766,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="model">protocollo.protocollo</field>
             <field name="arch" type="xml">
                 <search string="Protocolli">
-                    <field name="type"/>
+                    <field name="type" />
                     <field name="name"
                            filter_domain="[('name','ilike',self)]"
                            string="Numero Protocollo"/>
@@ -839,12 +839,21 @@ this module contains the full copyright notices and license terms. -->
                         <filter string="Interno" name="internal" domain="[('type','=','internal')]"/>
                         <filter string="Emergenza" name="emergenza" domain="[('registration_type','=','emergency')]"/>
                     </group>
-                    <group string="Mezzo di trasmissione">
+                    <group string="Mezzo">
                         <filter string="E-mail" name="sharedmail" domain="[('sharedmail','=',True)]"/>
                         <filter string="PEC" name="pec" domain="[('pec','=',True)]"/>
                         <filter string="Altro" name="pec" domain="[('pec','=',False), ('sharedmail','=',False)]"/>
                     </group>
-                    <group string="Protocolli">
+                    <group string="Registrati">
+                        <filter string="Da me" name="registrato_da_me" domain="[('user_id','=',uid),('state','!=','draft')]"/>
+                    </group>
+                    <group string="Data">
+                        <filter string="Ieri" name="registered_yesterday" domain="
+                         [('registration_date','&gt;',(context_today()-relativedelta(days=1)).strftime('%Y-%m-%d 00:00:00')),('registration_date','&lt;=',(context_today()-relativedelta(days=1)).strftime('%Y-%m-%d 23:59:59'))]"/>
+                        <filter string="Oggi" name="registered_today" domain="
+                        [('registration_date','&gt;',(context_today()).strftime('%Y-%m-%d 00:00:00')),('registration_date','&lt;=',(context_today()).strftime('%Y-%m-%d 23:59:59'))]"/>
+                    </group>
+                    <group string="Worfklow">
                         <filter string="Senza Documento" name="senza_documento" domain="[('doc_id','=',False)]"/>
                         <filter string="Annullati" name="annullati" domain="[('state','=','canceled')]"/>
                         <filter string="Da Classificare" name="non_classificato" domain="[('state','in',('registered','notified','sent','waiting','error')),('classification','=',False)]"/>
@@ -852,22 +861,13 @@ this module contains the full copyright notices and license terms. -->
                         <filter string="Da Assegnare" name="da_assegnare" domain="[('da_assegnare_visibility','=',True)]"/>
                         <filter string="Da Mettere agli Atti" name="da_mettere_agli_atti" domain="[('da_mettere_agli_atti_visibility','=',True)]"/>
                     </group>
-                    <group string="Protocolli Registrati">
-                        <filter string="Da me" name="registrato_da_me" domain="[('user_id','=',uid),('state','!=','draft')]"/>
-                    </group>
-                    <group string="Protocollati">
-                        <filter string="Ieri" name="registered_yesterday" domain="
-                         [('registration_date','&gt;',(context_today()-relativedelta(days=1)).strftime('%Y-%m-%d 00:00:00')),('registration_date','&lt;=',(context_today()-relativedelta(days=1)).strftime('%Y-%m-%d 23:59:59'))]"/>
-                        <filter string="Oggi" name="registered_today" domain="
-                        [('registration_date','&gt;',(context_today()).strftime('%Y-%m-%d 00:00:00')),('registration_date','&lt;=',(context_today()).strftime('%Y-%m-%d 23:59:59'))]"/>
-                    </group>
-                    <group string="PEC in uscita">
+                    <group string="PEC">
                         <filter string="Da inviare" name="to_sent" domain="[('type','=','out'),('pec','=',True),('state','=','registered')]"/>
                         <filter string="In attesa di ricevute" name="waiting" domain="[('state','=','waiting')]"/>
                         <filter string="In errore" name="error" domain="[('state','=','error')]"/>
                         <filter string="Consegnate" name="delivered" domain="[('type','=','out'),('receivers.pec_messaggio_ids.accettazione_ref','!=',False),('receivers.pec_messaggio_ids.consegna_ref','!=',False),'|',('state','=','sent'),('state','=','acts')]"/>
                     </group>
-                    <group string="Protocolli Assegnati">
+                    <group string="Assegnati">
                         <filter string="A me per Competenza" name="filtro_a_me_competenza" domain="[('filtro_a_me_competenza_visibility', '=', True)]"/>
                         <filter string="A me per CC" name="filtro_a_me_conoscenza" domain="[('filtro_a_me_conoscenza_visibility', '=', True)]"/>
                         <filter string="Al mio Ufficio per Competenza" name="filtro_a_mio_ufficio_visibility" domain="[('filtro_a_mio_ufficio_visibility', '=', True)]"/>
