@@ -73,6 +73,40 @@ class protocollo_protocollo(osv.Model):
             return True
         return False
 
+    def _check_stato_assegnatario_conoscenza(self, cr, uid, protocollo, stato, assegnatario_uid=None):
+        if not assegnatario_uid:
+            assegnatario_uid = uid
+        assegnazione_obj = self.pool.get('protocollo.assegnazione')
+        assegnazione_ids = assegnazione_obj.search(cr, uid, [
+            ('assegnatario_employee_id.user_id.id', '=', assegnatario_uid),
+            ('protocollo_id', '=', protocollo.id),
+            ('tipologia_assegnazione', '=', 'conoscenza'),
+            ('tipologia_assegnatario', '=', 'employee'),
+            ('state', '=', stato)
+        ])
+        if len(assegnazione_ids) > 0:
+            return True
+        return False
+
+    def _check_stato_assegnatario_conoscenza_ufficio(self, cr, uid, protocollo, stato, assegnatario_uid=None):
+        if not assegnatario_uid:
+            assegnatario_uid = uid
+        cr.execute('''
+                    SELECT DISTINCT(pa.protocollo_id)
+                    FROM protocollo_assegnazione pa, hr_employee he, resource_resource rr
+                    WHERE pa.protocollo_id = %s AND
+                          pa.tipologia_assegnatario = 'department' AND 
+                          pa.tipologia_assegnazione = 'conoscenza' AND
+                          pa.state = %s AND
+                          pa.assegnatario_department_id = he.department_id AND
+                          he.resource_id = rr.id AND
+                          rr.user_id = %s
+                ''', (str(protocollo.id), stato, str(assegnatario_uid)))
+        assegnazione_ids = [res[0] for res in cr.fetchall()]
+        if len(assegnazione_ids) > 0:
+            return True
+        return False
+
     ####################################################################################################################
     # Visibilità dei protocolli
     ####################################################################################################################
@@ -1757,6 +1791,39 @@ class protocollo_protocollo(osv.Model):
 
         return dict(res)
 
+    def _segna_come_letto_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
+        res = []
+
+        protocolli = self._get_protocolli(cr, uid, ids)
+        for protocollo in protocolli:
+            check = False
+
+
+            #TODO: modificare controllando per singolo ufficio
+            if protocollo.state in ('registered', 'notified', 'waiting', 'sent', 'error') and \
+                     protocollo.assegnazione_conoscenza_ids:
+                check = True
+
+            if check:
+                check = self._check_stato_assegnatario_conoscenza(cr, uid, protocollo, 'assegnato')
+                check_gruppi = False
+                if protocollo.type == 'in':
+                    check_gruppi = self.user_has_groups(cr, uid,
+                                                        'seedoo_protocollo.group_segna_come_letto_protocollo_ingresso')
+                elif protocollo.type == 'out':
+                    check_gruppi = self.user_has_groups(cr, uid,
+                                                        'seedoo_protocollo.group_segna_come_letto_protocollo_uscita')
+                elif protocollo.type == 'internal':
+                    check_gruppi = self.user_has_groups(cr, uid,
+                                                        'seedoo_protocollo.group_segna_come_letto_protocollo_interno')
+                check = check and check_gruppi
+            else:
+                check = False
+
+            res.append((protocollo.id, check))
+
+        return dict(res)
+
     def _agli_atti_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
 
@@ -2426,6 +2493,7 @@ class protocollo_protocollo(osv.Model):
         'prendi_in_carico_visibility': fields.function(_prendi_in_carico_visibility, type='boolean',
                                                        string='Prendi in Carico'),
         'rifiuta_visibility': fields.function(_rifiuta_visibility, type='boolean', string='Rifiuta'),
+        'segna_come_letto_visibility': fields.function(_segna_come_letto_visibility, type='boolean', string='Segna come letto'),
         'agli_atti_visibility': fields.function(_agli_atti_visibility, type='boolean', string='Agli Atti'),
         'modifica_dati_generali_visibility': fields.function(_modifica_dati_generali_visibility, type='boolean',
                                                              string='Modifica Dati Generali'),

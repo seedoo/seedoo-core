@@ -1832,6 +1832,33 @@ class protocollo_protocollo(orm.Model):
             raise orm.except_orm(_('Attenzione!'), _('Non sei più assegnatario di questo protocollo!'))
         return True
 
+    def segna_come_letto(self, cr, uid, ids, motivazione, context=None):
+        rec = self.pool.get('res.users').browse(cr, uid, uid)
+
+        try:
+            check_permission = self.browse(cr, uid, ids, {'skip_check': True}).segna_come_letto_visibility
+            if check_permission == True:
+                action_class = "history_icon taken"
+                post_vars = {'subject': "Segnato come letto",
+                             'body': "<div class='%s'><ul><li>Protocollo letto da <span style='color:#009900;'>%s</span></li></ul></div>" % (
+                                 action_class, rec.name),
+                             'model': "protocollo.protocollo",
+                             'res_id': ids[0],
+                             }
+
+                thread_pool = self.pool.get('protocollo.protocollo')
+                thread_pool.message_post(cr, uid, ids[0], type="notification", context=context, **post_vars)
+
+                # l'invio della notifica avviene prima della modifica dello stato, perchè se fatta dopo, in alcuni casi,
+                # potrebbe non avere più i permessi di scrittura sul protocollo
+                # self.pool.get('protocollo.stato.dipendente').modifica_stato_dipendente(cr, uid, ids, 'preso')
+                self.pool.get('protocollo.assegnazione').modifica_stato_assegnazione_conoscenza(cr, uid, ids, 'letto')
+            else:
+                raise orm.except_orm(_('Azione Non Valida!'), _('Il protocollo non può più essere preso in carico!'))
+        except Exception as e:
+            raise orm.except_orm(_('Azione Non Valida!'), _('Non sei più assegnatario di questo protocollo'))
+        return True
+
     def agli_atti(self, cr, uid, ids, motivazione, context=None):
         rec = self.pool.get('res.users').browse(cr, uid, uid)
         for id in ids:

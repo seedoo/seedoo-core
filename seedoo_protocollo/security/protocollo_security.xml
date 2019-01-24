@@ -94,6 +94,12 @@ this module contains the full copyright notices and license terms. -->
             <field name="category_id" ref="module_category_protocollo"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
+        <!-- Button "Segna come letto" nella vista form protocollo in ingresso -->
+        <record id="group_segna_come_letto_protocollo_ingresso" model="res.groups">
+            <field name="name">Segna come letto Protocolli in Ingresso Assegnati Ufficio</field>
+            <field name="category_id" ref="module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
         <!-- Button "Agli Atti" nella vista form protocollo in ingresso -->
         <record id="group_agli_atti_protocollo_ingresso" model="res.groups">
             <field name="name">Metti Agli Atti Protocolli in Ingresso</field>
@@ -187,6 +193,12 @@ this module contains the full copyright notices and license terms. -->
         <!-- Button "Rifiuta" nella vista form protocollo in uscita -->
         <record id="group_rifiuta_protocollo_uscita" model="res.groups">
             <field name="name">Rifiuta Protocolli in Uscita Assegnati Ufficio</field>
+            <field name="category_id" ref="module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+        <!-- Button "Segna come letto" nella vista form protocollo in uscita -->
+        <record id="group_segna_come_letto_protocollo_uscita" model="res.groups">
+            <field name="name">Segna come letto Protocolli in Uscita Assegnati Ufficio</field>
             <field name="category_id" ref="module_category_protocollo"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
@@ -289,6 +301,12 @@ this module contains the full copyright notices and license terms. -->
         <!-- Button "Rifiuta" nella vista form protocollo interno -->
         <record id="group_rifiuta_protocollo_interno" model="res.groups">
             <field name="name">Rifiuta Protocolli Interni Assegnati Ufficio</field>
+            <field name="category_id" ref="module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+        <!-- Button "Segna come letto" nella vista form protocollo interno -->
+        <record id="group_segna_come_letto_protocollo_interno" model="res.groups">
+            <field name="name">Segna come letto Protocolli Interni Assegnati Ufficio</field>
             <field name="category_id" ref="module_category_protocollo"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>

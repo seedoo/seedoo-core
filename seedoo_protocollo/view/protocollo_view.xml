@@ -259,6 +259,11 @@ this module contains the full copyright notices and license terms. -->
                                 attrs="{'invisible':[('rifiuta_visibility','=',False)]}"
                                 class="oe_highlight_warning btn_seedoo btn_rifiuta_presa_in_carico"/>
 
+                        <button string="Segna come letto"
+                                type="object" name="segna_come_letto"
+                                attrs="{'invisible':[('segna_come_letto_visibility','=',False)]}"
+                                class="oe_highlight btn_seedoo btn_presa_in_carico"/>
+
                         <button name="%(protocollo_agli_atti_action)d" string="Agli Atti" type="action"
                                 attrs="{'invisible':[('agli_atti_visibility','=',False)]}"
                                 class="oe_highlight_positive btn_seedoo btn_agli_atti"/>
@@ -319,6 +324,7 @@ this module contains the full copyright notices and license terms. -->
                             <field name="annulla_visibility"/>
                             <field name="prendi_in_carico_visibility"/>
                             <field name="rifiuta_visibility"/>
+                            <field name="segna_come_letto_visibility"/>
                             <field name="agli_atti_visibility"/>
                             <field name="modifica_dati_generali_visibility"/>
                             <field name="modifica_classificazione_visibility"/>

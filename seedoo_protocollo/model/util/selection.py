@@ -15,5 +15,6 @@ TIPO_ASSEGNATARIO_SELECTION = [
 STATE_ASSEGNATARIO_SELECTION = [
     ('assegnato', 'Assegnato'),
     ('preso', 'Preso In Carico'),
-    ('rifiutato', 'Rifiutato')
+    ('rifiutato', 'Rifiutato'),
+    ('letto', 'Letto')
 ]
