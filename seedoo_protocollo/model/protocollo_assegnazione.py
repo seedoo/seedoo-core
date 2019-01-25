@@ -499,7 +499,7 @@ class protocollo_assegnazione(orm.Model):
                 if assegnazione.parent_id:
                     assegnazioni_da_leggere_ids = self.search(cr, uid, [
                         ('protocollo_id', '=', protocollo_id),
-                        ('parent_id', '=', assegnazione.parent_id),
+                        ('parent_id', '=', assegnazione.parent_id.id),
                         ('tipologia_assegnazione', '=', 'conoscenza'),
                         ('tipologia_assegnatario', '=', 'employee'),
                         ('state', '=', 'assegnato')
