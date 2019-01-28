@@ -252,8 +252,9 @@ this module contains the full copyright notices and license terms. -->
             <field name="model">mail.message</field>
             <field name="inherit_id" ref="l10n_it_pec_messages.pec_message_search_view"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='email_from']" position="after">
-                    <field name="pec_cc" string="CC PEC"/>
+                <xpath expr="//field[@name='date']" position="replace">
+                    <field name="pec_to" string="A"/>
+                    <field name="pec_cc" string="CC"/>
                     <field name="subject" string="Oggetto"/>
                     <field name="body" string="Contenuto"/>
                     <field name="pec_msg_id" string="PEC Id"/>
@@ -313,8 +314,8 @@ this module contains the full copyright notices and license terms. -->
             <field name="model">mail.message</field>
             <field name="inherit_id" ref="sharedmail.sharedmail_message_search_view"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='email_from']" position="after">
-                    <field name="email_from" string="Mittente"/>
+                <xpath expr="//field[@name='date']" position="replace">
+                    <field name="sharedmail_to" string="A"/>
                     <field name="sharedmail_cc" string="CC"/>
                     <field name="subject" string="Oggetto"/>
                     <field name="body" string="Contenuto"/>
