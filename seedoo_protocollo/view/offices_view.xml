@@ -52,6 +52,12 @@ this module contains the full copyright notices and license terms. -->
                 <xpath expr="//field[@name='user_id']" position="after">
                     <field name="code"/>
                 </xpath>
+                <xpath expr="//page[@string='Personal Information']" position="attributes">
+                    <attribute name="groups">base.group_hr_user,seedoo_protocollo.group_configurazione_dipendenti</attribute>
+                </xpath>
+                <xpath expr="//page[@string='HR Settings']" position="attributes">
+                    <attribute name="groups">base.group_hr_user,seedoo_protocollo.group_configurazione_dipendenti</attribute>
+                </xpath>
             </field>
         </record>
 
