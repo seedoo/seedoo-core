@@ -73,7 +73,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="priority">100</field>
             <field name="arch" type="xml">
                 <tree string="E-mail da Protocollare" create="false" edit="false" delete="false">
-                    <field name="email_from"/>
+                    <field name="email_from" string="Mittente"/>
                     <field name="subject"/>
                     <field name="date"/>
                     <field name="sharedmail_server_user" string="Account"/>

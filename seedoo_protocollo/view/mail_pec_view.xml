@@ -11,7 +11,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="priority">10</field>
             <field name="arch" type="xml">
                 <tree string="Messages">
-                    <field name="email_from"/>
+                    <field name="email_from" string="Mittente"/>
                     <field name="message_to"/>
                     <field name="date"/>
                     <field name="subject"/>
@@ -252,7 +252,17 @@ this module contains the full copyright notices and license terms. -->
             <field name="model">mail.message</field>
             <field name="inherit_id" ref="l10n_it_pec_messages.pec_message_search_view"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='date']" position="after">
+                <xpath expr="//field[@name='email_from']" position="after">
+                    <field name="pec_cc" string="CC PEC"/>
+                    <field name="subject" string="Oggetto"/>
+                    <field name="body" string="Contenuto"/>
+                    <field name="pec_msg_id" string="PEC Id"/>
+                    <field name="date"
+                           filter_domain="[('date','&gt;=',self)]"
+                           string="Data dal:"/>
+                    <field name="date"
+                           filter_domain="[('date','&lt;=',self)]"
+                           string="Data entro il:"/>
                     <group string="Stato">
                         <filter string="Protocollato" name="protocollato" domain="[('pec_state','=','protocol')]"/>
                         <filter string="Da protocollare" name="da_protocollare" domain="[('pec_state','=','new')]"/>
@@ -303,7 +313,17 @@ this module contains the full copyright notices and license terms. -->
             <field name="model">mail.message</field>
             <field name="inherit_id" ref="sharedmail.sharedmail_message_search_view"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='date']" position="after">
+                <xpath expr="//field[@name='email_from']" position="after">
+                    <field name="email_from" string="Mittente"/>
+                    <field name="sharedmail_cc" string="CC"/>
+                    <field name="subject" string="Oggetto"/>
+                    <field name="body" string="Contenuto"/>
+                    <field name="date"
+                           filter_domain="[('date','&gt;=',self)]"
+                           string="Data dal:"/>
+                    <field name="date"
+                           filter_domain="[('date','&lt;=',self)]"
+                           string="Data entro il:"/>
                     <group string="Stato">
                         <filter string="Protocollato" name="protocollato" domain="[('sharedmail_state','=','protocol')]"/>
                         <filter string="Da protocollare" name="da_protocollare" domain="[('sharedmail_state','=','new')]"/>
