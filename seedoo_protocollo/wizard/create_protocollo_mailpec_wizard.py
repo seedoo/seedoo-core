@@ -408,6 +408,7 @@ class ProtocolloMailPecWizard(osv.TransientModel):
             'views': [(resource_id, 'form')],
             'type': 'ir.actions.act_window',
             'context': context,
+            'flags': {'initial_mode': 'edit'}
         }
 
     def elaboraSegnatura(self, cr, uid, protocollo_obj, mail_message):
