@@ -10,17 +10,18 @@
             <field name="email_from">${ctx.receipt_email_from}</field>
             <field name="email_to">${ctx.receipt_email_to}</field>
             <field name="auto_delete" eval="False"/>
-            <field name="subject"><![CDATA[(Prot.N. ${object.name} del ${format_tz(object.registration_date, tz=user.tz, format='%d-%m-%Y %H:%M:%S')}) Conferma Vostro Messaggio : ${object.subject}]]></field>
+            <field name="subject"><![CDATA[(Prot.N. ${object.name} del ${format_tz(object.registration_date, tz=user.tz, format='%d-%m-%Y %H:%M:%S')}) Conferma Prot. Vostro Messaggio : ${object.subject}]]></field>
             <field name="body_html">
                 <![CDATA[
+                    <p>Salve,</p>
                     <p>
-                        L'Amministrazione [${object.aoo_id.company_id.ammi_code or ''}] ${object.aoo_id.company_id.name}, Area Organizzativa Omogenea [${object.aoo_id.ident_code}] ${object.aoo_id.name} le comunica che la sua email dal titolo:
+                        l'organizzazione [${object.aoo_id.company_id.ammi_code or ''}] ${object.aoo_id.company_id.name}, Area Organizzativa Omogenea [${object.aoo_id.ident_code}] ${object.aoo_id.name} le comunica che la sua PEC dal titolo:
                     </p>
                     <p>
-                        POSTA CERTIFICATA: ${object.subject}
+                        ${object.subject}
                     </p>
                     <p>
-                        è stata registrata con il seguente identificativo: n. ${object.name} del ${format_tz(object.registration_date, tz=user.tz, format='%d-%m-%Y %H:%M:%S')}
+                        è stata protocollata con il seguente identificativo: n. ${object.name} del ${format_tz(object.registration_date, tz=user.tz, format='%d-%m-%Y %H:%M:%S')}
                     </p>
                     <p>
                        Cordiali saluti

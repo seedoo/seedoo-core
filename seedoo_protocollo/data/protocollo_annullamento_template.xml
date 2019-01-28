@@ -14,8 +14,9 @@
 
             <field name="body_html">
                 <![CDATA[
+                    <p>Salve,</p>
                     <p>
-                        L'Amministrazione [${object.aoo_id.company_id.ammi_code or ''}] ${object.aoo_id.company_id.name}, Area Organizzativa Omogenea [${object.aoo_id.ident_code}] ${object.aoo_id.name} le comunica che la sua email dal titolo:
+                        l'organizzazione [${object.aoo_id.company_id.ammi_code or ''}] ${object.aoo_id.company_id.name}, Area Organizzativa Omogenea [${object.aoo_id.ident_code}] ${object.aoo_id.name} le comunica che la sua email dal titolo:
                     </p>
                     <p>
                         "${object.subject}" protocollata con N. ${object.name}
