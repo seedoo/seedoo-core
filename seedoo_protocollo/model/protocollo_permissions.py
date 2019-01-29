@@ -1200,6 +1200,23 @@ class protocollo_protocollo(osv.Model):
         _logger.info("_da_assegnare_visibility_search" + str(end - start))
         return [('id', 'in', protocollo_visible_ids)]
 
+    def _da_assegnare_general_visibility(self, cr, uid, ids, name, arg, context=None):
+        return {}
+
+    def _da_assegnare_general_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
+        start = int(round(time.time() * 1000))
+        cr.execute('''
+            SELECT DISTINCT(pp.id) 
+            FROM protocollo_protocollo AS pp
+            LEFT JOIN protocollo_assegnazione AS pa ON pp.id=pa.protocollo_id AND pa.tipologia_assegnazione = 'competenza'
+            WHERE pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND 
+                  pa.protocollo_id IS NULL
+        ''', (uid,))
+        protocollo_visible_ids = [res[0] for res in cr.fetchall()]
+        end = int(round(time.time() * 1000))
+        _logger.info("_da_assegnare_general_visibility_search" + str(end - start))
+        return [('id', 'in', protocollo_visible_ids)]
+
     # @api.cr_uid
     # def _da_assegnare_visibility_count_in(self, cr, uid):
     #     return self._da_assegnare_visibility_count(cr, uid, "in")
@@ -1410,6 +1427,26 @@ class protocollo_protocollo(osv.Model):
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
         end = int(round(time.time() * 1000))
         _logger.info("_da_mettere_agli_atti_visibility_search" + str(end - start))
+        return [('id', 'in', protocollo_visible_ids)]
+
+    def _da_mettere_agli_atti_general_visibility(self, cr, uid, ids, name, arg, context=None):
+        return {}
+
+    def _da_mettere_agli_atti_general_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
+        start = int(round(time.time() * 1000))
+        cr.execute('''
+            SELECT DISTINCT(pa.protocollo_id) 
+            FROM protocollo_protocollo pp, protocollo_assegnazione pa
+            WHERE pp.id = pa.protocollo_id AND 
+                  pp.registration_employee_id IS NOT NULL AND
+                  pa.tipologia_assegnatario = 'employee' AND 
+                  pa.tipologia_assegnazione = 'competenza' AND
+                  pa.state = 'preso' AND
+                  pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
+        ''', (uid,))
+        protocollo_visible_ids = [res[0] for res in cr.fetchall()]
+        end = int(round(time.time() * 1000))
+        _logger.info("_da_mettere_agli_atti_general_visibility_search" + str(end - start))
         return [('id', 'in', protocollo_visible_ids)]
 
     @api.cr_uid
@@ -2457,6 +2494,9 @@ class protocollo_protocollo(osv.Model):
         'da_assegnare_visibility': fields.function(_da_assegnare_visibility,
                                                                 fnct_search=_da_assegnare_visibility_search,
                                                                 type='boolean', string='Da Assegnare'),
+        'da_assegnare_general_visibility': fields.function(_da_assegnare_general_visibility,
+                                                                fnct_search=_da_assegnare_general_visibility_search,
+                                                                type='boolean', string='Da Assegnare'),
         'assegnato_da_me_in_attesa_visibility': fields.function(_assegnato_da_me_in_attesa_visibility,
                                                                 fnct_search=_assegnato_da_me_in_attesa_visibility_search,
                                                                 type='boolean', string='In Attesa'),
@@ -2465,6 +2505,9 @@ class protocollo_protocollo(osv.Model):
                                                                    type='boolean', string='Rifiutato'),
         'da_mettere_agli_atti_visibility': fields.function(_da_mettere_agli_atti_visibility,
                                                                 fnct_search=_da_mettere_agli_atti_visibility_search,
+                                                                type='boolean', string='Da Mettere Agli Atti'),
+        'da_mettere_agli_atti_general_visibility': fields.function(_da_mettere_agli_atti_general_visibility,
+                                                                fnct_search=_da_mettere_agli_atti_general_visibility_search,
                                                                 type='boolean', string='Da Mettere Agli Atti'),
 
         'filtro_assegnazione_competenza_dipendente_ids': fields.function(_get_assegnazione_competenza_dipendente_ids,

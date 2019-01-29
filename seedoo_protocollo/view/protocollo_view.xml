@@ -865,8 +865,8 @@ this module contains the full copyright notices and license terms. -->
                         <filter string="Annullati" name="annullati" domain="[('state','=','canceled')]"/>
                         <filter string="Da Classificare" name="non_classificato" domain="[('state','in',('registered','notified','sent','waiting','error')),('classification','=',False)]"/>
                         <filter string="Da Fascicolare" name="non_fascicolato" domain="[('state','in',('registered','notified','sent','waiting','error')),('dossier_ids','=',False)]"/>
-                        <filter string="Da Assegnare" name="da_assegnare" domain="[('da_assegnare_visibility','=',True)]"/>
-                        <filter string="Da Mettere agli Atti" name="da_mettere_agli_atti" domain="[('da_mettere_agli_atti_visibility','=',True)]"/>
+                        <filter string="Da Assegnare" name="da_assegnare" domain="[('da_assegnare_general_visibility','=',True)]"/>
+                        <filter string="Da Mettere agli Atti" name="da_mettere_agli_atti" domain="[('da_mettere_agli_atti_general_visibility','=',True)]"/>
                     </group>
                     <group string="PEC">
                         <filter string="Da inviare" name="to_sent" domain="[('type','=','out'),('pec','=',True),('state','=','registered')]"/>
