@@ -13,7 +13,7 @@ class protocollo_aggiungi_classificazione_step1_wizard(osv.TransientModel):
     _description = 'Aggiungi Classificazione'
 
     _columns = {
-        'classification': fields.many2one('protocollo.classification', 'Titolario di Classificazione', required=False),
+        'classification': fields.many2one('protocollo.classification', 'Titolario di Classificazione', domain="[('is_visible', '=', True)]", required=False),
         'motivation': fields.text('Motivazione'),
         'display_motivation': fields.boolean('Visualizza Motivazione', readonly=True),
         'classification_empty': fields.boolean('Titolario Vuoto'),
@@ -63,7 +63,8 @@ class protocollo_aggiungi_classificazione_step1_wizard(osv.TransientModel):
         if save_history:
             before = protocollo.classification.name if protocollo.classification else ''
         self.pool.get('protocollo.protocollo').write(cr, uid, [context['active_id']], {
-            'classification': classification.id if classification else False
+            'classification': classification.id if classification else False,
+            'classification_name': classification.complete_name if classification else False,
         }, {'skip_check': True})
         if save_history:
             after = classification.name if classification else ''
@@ -139,7 +140,7 @@ class protocollo_aggiungi_classificazione_step1_wizard(osv.TransientModel):
                 else:
                     context['display_replace_message'] = False
 
-                if protocollo.type=='in' and wizard.classification and wizard.classification.assignee_default_in and wizard.classification.assignee_default_in.active:
+                if protocollo.type=='in' and wizard.classification and wizard.classification.assignee_default_in and wizard.classification.assignee_default_in.is_visible:
                     context['assignee_default_id'] = wizard.classification.assignee_default_in.id
                     context['classification_id'] = wizard.classification.id
                     context['motivation'] = wizard.motivation
@@ -152,7 +153,7 @@ class protocollo_aggiungi_classificazione_step1_wizard(osv.TransientModel):
                         'target': 'new',
                         'context': context
                     }
-                elif protocollo.type=='out' and wizard.classification and wizard.classification.assignee_default_out and wizard.classification.assignee_default_out.active:
+                elif protocollo.type=='out' and wizard.classification and wizard.classification.assignee_default_out and wizard.classification.assignee_default_out.is_visible:
                     context['assignee_default_id'] = wizard.classification.assignee_default_in.id
                     context['classification_id'] = wizard.classification.id
                     context['motivation'] = wizard.motivation

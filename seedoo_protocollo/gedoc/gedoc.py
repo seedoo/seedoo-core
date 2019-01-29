@@ -12,9 +12,9 @@ class protocollo_classification(osv.Model):
     _columns = {
         'aoo_id': fields.many2one('protocollo.aoo', 'AOO', required=True),
         'assignee_default_in': fields.many2one('protocollo.assegnatario', 'Assegnatario Default Protocollo Ingresso',
-                                               domain=[('tipologia', '=', 'department'),('active', '=', True)]),
+                                               domain=[('tipologia', '=', 'department'),('is_visible', '=', True)]),
         'assignee_default_out': fields.many2one('protocollo.assegnatario', 'Assegnatario Default Protocollo Uscita',
-                                               domain=[('tipologia', '=', 'department'),('active', '=', True)])
+                                               domain=[('tipologia', '=', 'department'),('is_visible', '=', True)])
     }
 
     def _get_default_aoo_id(self, cr, uid, context=None):

@@ -75,6 +75,38 @@ class protocollo_classification(osv.Model):
             classification_ids = [res[0] for res in cr.fetchall()]
         return [('id', 'in', classification_ids)]
 
+    def _get_child_ids(self, cr, uid, classification):
+        res = []
+        for child in classification.child_ids:
+            res.append(child.id)
+            child_res = self._get_child_ids(cr, uid, child)
+            res = res + child_res
+        return res
+
+    def _get_classification_not_visibile_ids(self, cr, uid):
+        classification_not_visible_ids = []
+        classification_not_active_ids = self.search(cr, uid, [('active', '=', False)])
+        for classification_not_active_id in classification_not_active_ids:
+            if not (classification_not_active_id in classification_not_visible_ids):
+                classification_not_visible_ids.append(classification_not_active_id)
+                classification_not_active = self.browse(cr, uid, classification_not_active_id)
+                classification_not_visible_ids += self._get_child_ids(cr, uid, classification_not_active)
+        return classification_not_visible_ids
+
+    def _is_visible(self, cr, uid, ids, name, arg, context=None):
+        res = []
+        classification_not_visible_ids = self._get_classification_not_visibile_ids(cr, uid)
+        for id in ids:
+            if id in classification_not_visible_ids:
+                res.append((id, False))
+            else:
+                res.append((id, True))
+        return dict(res)
+
+    def _is_visible_search(self, cr, uid, obj, name, args, domain=None, context=None):
+        classification_not_visible_ids = self._get_classification_not_visibile_ids(cr, uid)
+        return [('id', 'not in', classification_not_visible_ids)]
+
     _columns = {
         'name': fields.char(
             'Nome', size=256, required=True),
@@ -111,10 +143,13 @@ class protocollo_classification(osv.Model):
             'Fascicoli',
         ),
         'sequence': fields.integer('Ordine di visualizzazione', help="Sequence"),
+        'active': fields.boolean('Attivo'),
+        'is_visible': fields.function(_is_visible, fnct_search=_is_visible_search, type='boolean', string='Visibile'),
     }
 
-    _default = {
-        'sequence': 10
+    _defaults = {
+        'sequence': 10,
+        'active': True
     }
 
 

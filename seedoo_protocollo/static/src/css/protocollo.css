@@ -892,7 +892,7 @@ div.box-sender-internal .icon_item_type div:hover {
   margin-bottom: 15px;
   margin-left: 3px;
 }
-.container_classification .oe_form_uri {
+.container_classification .oe_form_char_content {
   color: #666 !important;
   text-decoration: none !important;
   font-weight: bold;
@@ -901,10 +901,10 @@ div.box-sender-internal .icon_item_type div:hover {
   right: 10px;
   height: 85px;
 }
-.container_classification .oe_form_uri:hover {
+.container_classification .oe_form_char_content:hover {
   background-color: transparent;
 }
-.container_classification .oe_form_uri:before {
+.container_classification .oe_form_char_content:before {
   content: "\f0e8";
   font-family: FontAwesome, sans-serif;
   border: 1px solid #eee;

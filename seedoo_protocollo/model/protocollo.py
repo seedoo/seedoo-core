@@ -553,11 +553,7 @@ class protocollo_protocollo(orm.Model):
                                           states={
                                               'draft': [('readonly', False)]
                                           }),
-        'classification_code': fields.related('classification',
-                                              'code',
-                                              type="char",
-                                              string="Codice e Nome Titolario",
-                                              readonly=True),
+        'classification_name': fields.char('Codice e Nome Titolario', size=256, readonly=True),
         'emergency_protocol': fields.char(
             'Numero Protocollo in Emergenza', size=64, required=False,
             readonly=True,

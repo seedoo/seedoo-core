@@ -571,8 +571,9 @@ this module contains the full copyright notices and license terms. -->
                                         />
                                     </div>
                                     <newline/>
-                                    <field name="classification" nolabel="1" readonly="1" colspan="4" class="container_classification" options="{'no_open': True}"
+                                    <field name="classification_name" nolabel="1" readonly="1" colspan="4" class="container_classification"
                                            attrs="{'invisible':['|',('classification','=', False)]}" />
+                                    <field name="classification" invisible="1"/>
                                 </group>
                             </page>
                             <page string="Assegnatari">
