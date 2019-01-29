@@ -12,7 +12,7 @@ class protocollo_sender_internal_wizard(osv.TransientModel):
 
     _columns = {
         'reserved': fields.boolean('Riservato', readonly=True),
-        'sender_internal_ref': fields.many2one('protocollo.assegnatario', 'Dipendente del Mittente Interno', domain="[('assignable', '=', True)]")
+        'sender_internal_ref': fields.many2one('protocollo.assegnatario', 'Dipendente del Mittente Interno', domain="[('is_visible', '=', True)]")
     }
 
     def _default_reserved(self, cr, uid, context):

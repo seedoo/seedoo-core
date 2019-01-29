@@ -7,7 +7,7 @@ this module contains the full copyright notices and license terms. -->
         <record id="protocollo_dept_uor0" model="hr.department">
             <field name="name">Amministrazione</field>
             <field name="aoo_id" ref="seedoo_protocollo.protocollo_aoo_default"/>
-            <field name="assignable">True</field>
+            <field name="active">True</field>
         </record>
     </data>
 </openerp>

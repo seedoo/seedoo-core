@@ -30,6 +30,38 @@ class protocollo_assegnatario(osv.osv):
             new_args.append(new_arg)
         return new_args
 
+    def _get_child_ids(self, cr, uid, assegnatario):
+        res = []
+        for child in assegnatario.child_ids:
+            res.append(child.id)
+            child_res = self._get_child_ids(cr, uid, child)
+            res = res + child_res
+        return res
+
+    def _get_assegnatario_not_visibile_ids(self, cr, uid):
+        assegnatario_not_visible_ids = []
+        assegnatario_not_active_ids = self.search(cr, uid, [('active', '=', False)])
+        for assegnatario_not_active_id in assegnatario_not_active_ids:
+            if not (assegnatario_not_active_id in assegnatario_not_visible_ids):
+                assegnatario_not_visible_ids.append(assegnatario_not_active_id)
+                assegnatario_not_active = self.browse(cr, uid, assegnatario_not_active_id)
+                assegnatario_not_visible_ids += self._get_child_ids(cr, uid, assegnatario_not_active)
+        return assegnatario_not_visible_ids
+
+    def _is_visible(self, cr, uid, ids, name, arg, context=None):
+        res = []
+        assegnatario_not_visible_ids = self._get_assegnatario_not_visibile_ids(cr, uid)
+        for id in ids:
+            if id in assegnatario_not_visible_ids:
+                res.append((id, False))
+            else:
+                res.append((id, True))
+        return dict(res)
+
+    def _is_visible_search(self, cr, uid, obj, name, args, domain=None, context=None):
+        assegnatario_not_visible_ids = self._get_assegnatario_not_visibile_ids(cr, uid)
+        return [('id', 'not in', assegnatario_not_visible_ids)]
+
     def _no_checkbox_get_fnc(self, cr, uid, ids, prop, unknow_none, context=None):
         if context is None:
             context = {}
@@ -65,9 +97,10 @@ class protocollo_assegnatario(osv.osv):
         'employee_id': fields.many2one('hr.employee', 'Dipendente', readonly=True),
         'department_id': fields.many2one('hr.department', 'Dipartimento', readonly=True),
         'parent_id': fields.many2one('protocollo.assegnatario', 'Ufficio di Appartenenza', readonly=True),
-        'assignable': fields.boolean(string='Assegnabile'),
+        'active': fields.boolean(string='Attivo'),
         'child_ids': fields.one2many('protocollo.assegnatario', 'parent_id', 'Figli'),
         'no_checkbox': fields.function(_no_checkbox_get_fnc, type='boolean', string='No Checkbox'),
+        'is_visible': fields.function(_is_visible, fnct_search=_is_visible_search, type='boolean', string='Visibile'),
     }
 
     def name_get(self, cr, uid, ids, context=None):
@@ -98,9 +131,9 @@ class protocollo_assegnatario(osv.osv):
                   e.id AS employee_id,
                   NULL AS department_id,
                   %s + e.department_id AS parent_id,
-                  d.assignable AS assignable
-                FROM hr_employee e, hr_department d
-                WHERE e.department_id=d.id
+                  r.active AS active
+                FROM hr_employee e, resource_resource r
+                WHERE e.resource_id=r.id
               )
               UNION
               (
@@ -111,7 +144,7 @@ class protocollo_assegnatario(osv.osv):
                   NULL AS employee_id,
                   d.id AS department_id,
                   %s + d.parent_id AS parent_id,
-                  d.assignable AS assignable
+                  d.active AS active
                 FROM hr_department d
               )
         """, (EMPLOYEE_MASK, DEPARTMENT_MASK, DEPARTMENT_MASK, DEPARTMENT_MASK))

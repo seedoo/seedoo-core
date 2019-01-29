@@ -18,7 +18,7 @@ this module contains the full copyright notices and license terms. -->
                     <newline/>
                     <field name="code"/>
                     <newline/>
-                    <field name="assignable"/>
+                    <field name="active"/>
                     <newline/>
                     <field name="description" colspan="4"/>
                     <notebook colspan="6">

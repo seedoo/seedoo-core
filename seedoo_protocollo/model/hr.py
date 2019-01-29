@@ -42,13 +42,17 @@ class hr_department(orm.Model):
     _columns = {
         'code': fields.char("Codice della Risorsa dell'Organigramma", size=256),
         'description': fields.text('Descrizione Ufficio'),
-        'assignable': fields.boolean('Attivo in Protocollazione'),
+        'active': fields.boolean('Attivo'),
         'aoo_id': fields.many2one('protocollo.aoo', 'AOO', required=False),
         'aoo_name': fields.related('aoo_id', 'name', type='char', string='Nome AOO', readonly=1),
         'all_child_ids': fields.function(_get_all_child_ids, type='one2many', relation='hr.department',
                                          string='Uffici figli di tutti i livelli sottostanti'),
         'can_used_to_protocol': fields.function(_can_used_to_protocol, fnct_search=_can_used_to_protocol_search,
                                                 type='boolean', string='Può essere usato per protocollare'),
+    }
+
+    _defaults = {
+        'active': True
     }
 
     def write(self, cr, uid, ids, vals, context=None):

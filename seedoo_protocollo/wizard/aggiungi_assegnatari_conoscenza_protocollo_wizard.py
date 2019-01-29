@@ -23,7 +23,7 @@ class protocollo_aggiungi_assegnatari_conoscenza_wizard(osv.TransientModel):
                                                         'wizard_id',
                                                         'assegnatario_id',
                                                         'Assegnatari Conoscenza',
-                                                        domain="[('assignable', '=', True)]"),
+                                                        domain="[('is_visible', '=', True)]"),
         'motivation': fields.text('Motivazione'),
         'assegnatari_empty': fields.boolean('Assegnatari Non Presenti'),
         'assegnatore_department_id_invisible': fields.boolean('Dipartimento Assegnatore Non Visibile', readonly=True),

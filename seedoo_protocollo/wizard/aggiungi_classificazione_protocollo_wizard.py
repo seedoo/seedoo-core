@@ -139,7 +139,7 @@ class protocollo_aggiungi_classificazione_step1_wizard(osv.TransientModel):
                 else:
                     context['display_replace_message'] = False
 
-                if protocollo.type=='in' and wizard.classification and wizard.classification.assignee_default_in and wizard.classification.assignee_default_in.assignable:
+                if protocollo.type=='in' and wizard.classification and wizard.classification.assignee_default_in and wizard.classification.assignee_default_in.active:
                     context['assignee_default_id'] = wizard.classification.assignee_default_in.id
                     context['classification_id'] = wizard.classification.id
                     context['motivation'] = wizard.motivation
@@ -152,7 +152,7 @@ class protocollo_aggiungi_classificazione_step1_wizard(osv.TransientModel):
                         'target': 'new',
                         'context': context
                     }
-                elif protocollo.type=='out' and wizard.classification and wizard.classification.assignee_default_out and wizard.classification.assignee_default_out.assignable:
+                elif protocollo.type=='out' and wizard.classification and wizard.classification.assignee_default_out and wizard.classification.assignee_default_out.active:
                     context['assignee_default_id'] = wizard.classification.assignee_default_in.id
                     context['classification_id'] = wizard.classification.id
                     context['motivation'] = wizard.motivation

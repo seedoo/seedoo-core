@@ -84,7 +84,6 @@
                 <field name="assegnatario_competenza_id" position="attributes">
                     <attribute name="domain">
                     [
-                        ('assignable', '=', True),
                         '|',
                         ('parent_id.department_id', '=', assegnatore_department_id),
                         ('parent_id.department_id', 'in', assegnatore_department_child_ids[0][2])
