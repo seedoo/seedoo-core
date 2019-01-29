@@ -104,8 +104,11 @@ class res_partner(orm.Model):
 
         return ''
 
-    def check_field_in_create(self, cr, uid, vals):
+    def check_field_in_create(self, cr, uid, vals, context):
         errors = ''
+        if context.has_key('show_pec_email') and context['show_pec_email'] and vals.has_key('email'):
+            vals['pec_mail'] = vals['email']
+            del (vals['email'])
         if vals.has_key('pec_mail') and vals['pec_mail']:
             pec_mail_error = self.check_email_field(cr, uid, [('pec_mail', '=', vals['pec_mail'])], 'Mail PEC', vals['pec_mail'], False)
             if pec_mail_error:
@@ -129,7 +132,7 @@ class res_partner(orm.Model):
         self.dispatch_email_error(errors)
 
     def create(self, cr, uid, vals, context=None):
-        self.check_field_in_create(cr, uid, vals)
+        self.check_field_in_create(cr, uid, vals, context)
         return super(res_partner, self).create(cr, uid, vals, context=context)
 
     def write(self, cr, uid, ids, vals, context=None):
