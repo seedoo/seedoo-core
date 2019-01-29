@@ -834,7 +834,7 @@ this module contains the full copyright notices and license terms. -->
                     <field name="assegnazione_conoscenza_ids"
                            string="Assegnatario Ufficio CC"
                            filter_domain="[('filtro_assegnazione_conoscenza_ufficio_ids', 'ilike', self)]"/>
-                    <field name="classification"/>
+                    <field name="classification_name" string="Titolario" filter_domain="[('classification_name', 'ilike', self)]"/>
                     <field name="notes"/>
                     <field name="typology"/>
                     <field name="dossier_ids" string="Fascicolo"/>
