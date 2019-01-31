@@ -64,7 +64,7 @@ class protocollo_aggiungi_classificazione_step1_wizard(osv.TransientModel):
             before = protocollo.classification.name if protocollo.classification else ''
         self.pool.get('protocollo.protocollo').write(cr, uid, [context['active_id']], {
             'classification': classification.id if classification else False,
-            'classification_name': classification.complete_name if classification else False,
+            'classification_name': classification.path_name if classification else False,
         }, {'skip_check': True})
         if save_history:
             after = classification.name if classification else ''

@@ -75,6 +75,31 @@ class protocollo_classification(osv.Model):
             classification_ids = [res[0] for res in cr.fetchall()]
         return [('id', 'in', classification_ids)]
 
+    def _path_name_get(self, cr, uid, id, context=None):
+        read = self.read(cr, uid, id, ['name', 'parent_id'], context=context)
+        name = read['name']
+        if read['parent_id']:
+            name = self._path_name_get(cr, uid, read['parent_id'][0]) + ' / ' + read['name']
+        return name
+
+    def _path_name_get_fnc(self, cr, uid, ids, prop, unknow_none, context=None):
+        if isinstance(ids, (list, tuple)) and not len(ids):
+            return dict([])
+        if isinstance(ids, (long, int)):
+            ids = [ids]
+        reads = self.read(cr, uid, ids, ['name', 'code', 'parent_id'], context=context)
+        res = []
+        for record in reads:
+            name = record['name']
+            if record['parent_id']:
+                name = self._path_name_get(cr, uid, record['parent_id'][0]) + ' / ' + record['name']
+            if record['code']:
+                name = record['code'] + ' - ' + name
+            else:
+                name = name
+            res.append((record['id'], name))
+        return dict(res)
+
     def _get_child_ids(self, cr, uid, classification):
         res = []
         for child in classification.child_ids:
@@ -120,6 +145,10 @@ class protocollo_classification(osv.Model):
         'complete_name': fields.function(
             _name_get_fnc,
             fnct_search=_name_search_fnc,
+            type='char',
+            string='Nome Completo'),
+        'path_name': fields.function(
+            _path_name_get_fnc,
             type='char',
             string='Nome Completo'),
         'description': fields.text('Descrizione'),
