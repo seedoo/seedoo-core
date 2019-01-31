@@ -625,9 +625,9 @@ class protocollo_protocollo(orm.Model):
                                    string='Registro', store=True, readonly=True),
         'protocol_request': fields.boolean('Richiesta Protocollo', readonly=True),
         'server_sharedmail_id': fields.many2one('fetchmail.server', 'Account Email',
-                                                domain="[('sharedmail', '=', True),('user_sharedmail_ids', 'in', uid)]"),
+                                                domain="[('sharedmail', '=', True),('user_sharedmail_ids', 'in', uid),('state','=','done')]"),
         'server_pec_id': fields.many2one('fetchmail.server', 'Account PEC',
-                                         domain="[('pec', '=', True),('user_ids', 'in', uid)]"),
+                                         domain="[('pec', '=', True),('user_ids', 'in', uid),('state','=','done')]"),
         'is_imported': fields.boolean('Protocollo Importato', readonly=True),
 
     }
@@ -670,12 +670,12 @@ class protocollo_protocollo(orm.Model):
 
     def _get_def_sharedmail_server(self, cr, uid, context=None):
         res = self.pool.get('fetchmail.server').search(cr, uid,
-                                                       [('user_sharedmail_ids', 'in', uid), ('sharedmail', '=', True)],
+                                                       [('user_sharedmail_ids', 'in', uid), ('sharedmail', '=', True),('state','=','done')],
                                                        context=context)
         return res and res[0] or False
 
     def _get_def_pec_server(self, cr, uid, context=None):
-        res = self.pool.get('fetchmail.server').search(cr, uid, [('user_ids', 'in', uid), ('pec', '=', True)],
+        res = self.pool.get('fetchmail.server').search(cr, uid, [('user_ids', 'in', uid), ('pec', '=', True), ('state', '=','done')],
                                                        context=context)
         return res and res[0] or False
 
