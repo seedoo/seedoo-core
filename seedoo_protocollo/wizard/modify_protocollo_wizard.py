@@ -93,8 +93,8 @@ class wizard(osv.TransientModel):
         'body': fields.html('Corpo della mail'),
         'classification': fields.many2one('protocollo.classification', 'Titolario di Classificazione', required=False,),
         'sender_protocol': fields.char('Protocollo Mittente', required=False,),
-        'server_sharedmail_id': fields.many2one('fetchmail.server', 'Account Email', domain="[('sharedmail', '=', True),('user_sharedmail_ids', 'in', uid)]"),
-        'server_pec_id': fields.many2one('fetchmail.server', 'Account PEC', domain="[('pec', '=', True),('user_ids', 'in', uid)]"),
+        'server_sharedmail_id': fields.many2one('fetchmail.server', 'Account Email', domain="[('sharedmail', '=', True),('user_sharedmail_ids', 'in', uid),('state','=','done')]"),
+        'server_pec_id': fields.many2one('fetchmail.server', 'Account PEC', domain="[('pec', '=', True),('user_ids', 'in', uid),('state','=','done')]"),
         'dossier_ids': fields.many2many(
             'protocollo.dossier',
             'dossier_protocollo_pec_rel',
