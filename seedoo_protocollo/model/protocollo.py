@@ -2209,7 +2209,7 @@ class protocollo_journal(orm.Model):
                         last_date = (last_journal_date + datetime.timedelta(days=day))
                         protocol_ids = protocollo_obj.search(cr, uid, [
                             ('aoo_id', '=', aoo_id),
-                            ('state', 'in', ['registered', 'notified', 'sent', 'waiting', 'error', 'canceled']),
+                            ('state', 'in', ['registered', 'notified', 'sent', 'waiting', 'error', 'canceled', 'acts']),
                             ('registration_date', '>', last_date.strftime(DSDT) + ' 00:00:00'),
                             ('registration_date', '<', last_date.strftime(DSDT) + ' 23:59:59'),
                         ])
@@ -2235,7 +2235,7 @@ class protocollo_journal(orm.Model):
                     yesterday = today + datetime.timedelta(days=-1)
                     protocol_ids = protocollo_obj.search(cr, uid, [
                         ('aoo_id', '=', aoo_id),
-                        ('state', 'in', ['registered', 'notified', 'sent', 'waiting', 'error', 'canceled']),
+                        ('state', 'in', ['registered', 'notified', 'sent', 'waiting', 'error', 'canceled', 'acts']),
                         ('registration_date', '>', yesterday.strftime(DSDT) + ' 00:00:00'),
                         ('registration_date', '<', yesterday.strftime(DSDT) + ' 23:59:59'),
                     ])
