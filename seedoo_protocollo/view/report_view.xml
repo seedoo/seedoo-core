@@ -11,7 +11,7 @@ this module contains the full copyright notices and license terms. -->
                     <t t-call="report.external_layout">
                         <div class="page">
                             <h3>Registro Giornaliero -
-                                <span t-field="o.aoo_id.name"/>
+                                <span t-field="o.user_id.company_id.name"/>
                             </h3>
                             <h4>Registro di protocollo del
                                 <span t-field="o.date"/>
@@ -28,10 +28,19 @@ this module contains the full copyright notices and license terms. -->
                                         width="14%">Data
                                     </th>
                                     <th style="padding: 2px 5px 2px 2px;"
-                                        width="40%">Oggetto
+                                        width="15%">Oggetto
                                     </th>
                                     <th style="padding: 2px 5px 2px 2px;"
-                                        width="32%">Mittente/Destinatario
+                                        width="15%">Impronta
+                                    </th>
+                                    <th style="padding: 2px 5px 2px 2px;"
+                                        width="27%">Mittente/Destinatario
+                                    </th>
+                                    <th style="padding: 2px 5px 2px 2px;"
+                                        width="10%">Prot. Mittente
+                                    </th>
+                                    <th style="padding: 2px 5px 2px 2px;"
+                                        width="15%">Registr. Mittente
                                     </th>
                                 </tr>
                                 <t t-foreach="o.protocol_ids" t-as="protocol">
@@ -48,17 +57,29 @@ this module contains the full copyright notices and license terms. -->
                                             style="padding: 2px 5px 2px 2px;">
                                             <span t-field="protocol.registration_date"/>
                                         </td>
-                                        <td width="40%"
+                                        <td width="15%"
                                             style="padding: 2px 5px 2px 2px;">
                                             <span t-field="protocol.subject"/>
                                         </td>
-                                        <td width="32%"
+                                        <td width="15%"
+                                            style="padding: 2px 5px 2px 2px;">
+                                            <span t-field="protocol.fingerprint"/>
+                                        </td>
+                                        <td width="27%"
                                             style="padding: 2px 5px 2px 2px;">
                                             <t t-foreach="protocol.sender_receivers"
                                                t-as="sr">
                                                 <span t-field="sr.name"/>
                                                 <br/>
                                             </t>
+                                        </td>
+                                        <td width="10%"
+                                            style="padding: 2px 5px 2px 2px;">
+                                            <span t-field="protocol.sender_protocol"/>
+                                        </td>
+                                        <td width="15%"
+                                            style="padding: 2px 5px 2px 2px;">
+                                            <span t-field="protocol.sender_registration_date"/>
                                         </td>
                                     </tr>
                                 </t>

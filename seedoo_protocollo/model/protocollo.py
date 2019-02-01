@@ -2159,7 +2159,7 @@ class protocollo_journal(orm.Model):
             'protocollo_journal_rel',
             'journal_id',
             'protocollo_id',
-            'Protocollazioni della Giornata',
+            'Protocollazioni della Giornataa',
             required=False,
             readonly=True),
         'state': fields.selection(
