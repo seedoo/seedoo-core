@@ -4,8 +4,24 @@ this module contains the full copyright notices and license terms. -->
 
 <openerp>
     <data>
-        <report
-                id="report_protocollo_journal_qweb"
+
+        <record id="paperformat_euro_landscape" model="report.paperformat">
+            <field name="name">European A4 Landscape</field>
+            <field name="default" eval="True" />
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">20</field>
+            <field name="margin_bottom">20</field>
+            <field name="margin_left">20</field>
+            <field name="margin_right">20</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">35</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report id="report_protocollo_journal_qweb"
                 model="protocollo.journal"
                 string="Stampa Registro Giornaliero"
                 report_type="qweb-pdf"
@@ -14,6 +30,11 @@ this module contains the full copyright notices and license terms. -->
                 attachment_use="True"
                 attachment="(object.state in ('closed')) and ('registro'+(object.date or '').replace('/','_')+'.pdf')"
         />
+
+        <record id="seedoo_protocollo.report_protocollo_journal_qweb" model="ir.actions.report.xml">
+            <field name="paperformat_id"
+            ref="seedoo_protocollo.paperformat_euro_landscape"/>
+       </record>
 
     </data>
 </openerp>
