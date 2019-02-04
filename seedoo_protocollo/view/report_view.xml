@@ -87,11 +87,7 @@ this module contains the full copyright notices and license terms. -->
                                         </td>
                                         <td width="15%"
                                             style="padding: 2px 5px 2px 2px;">
-                                            <span t-field="protocol.sender_protocol"/> del <span t-field="protocol.sender_registration_date"/>
-                                        </td>
-                                        <td width="15%"
-                                            style="padding: 2px 5px 2px 2px;">
-
+                                            <span t-if="protocol.sender_protocol" t-field="protocol.sender_protocol"/> del <span t-field="protocol.sender_registration_date"/>
                                         </td>
                                     </tr>
                                 </t>
