@@ -46,6 +46,6 @@ class ConversionUtility:
     @staticmethod
     def remove_img(body=""):
         soup = BeautifulSoup(body)
-        if soup.image:
+        if soup.img:
             soup.img.decompose()
         return str(soup)
