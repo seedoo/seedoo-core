@@ -44,8 +44,12 @@ class ConversionUtility:
         return pdf_content
 
     @staticmethod
-    def remove_img(body=""):
-        soup = BeautifulSoup(body)
-        if soup.img:
+    def remove_img(content=""):
+        ret = content
+
+        while "<img" in ret:
+            soup = BeautifulSoup(ret)
             soup.img.decompose()
-        return str(soup)
+            ret = str(soup)
+
+        return ret

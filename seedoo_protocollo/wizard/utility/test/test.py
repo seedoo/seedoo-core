@@ -16,12 +16,12 @@ def remove_img(content=""):
 
 if __name__ == "__main__":
     mypath = os.path.dirname(__file__)
-    body_files = [x for x in os.listdir(mypath) if x.startswith("body-") and os.path.isfile(x)]
+    body_files = [x for x in os.listdir(mypath)]
 
     for body_file in body_files:
         print("Parsing %s" % body_file)
 
-        fd = open(body_file, "r")
+        fd = open(os.path.join(mypath, body_file), "r")
         body = fd.read()
         fd.close()
 
