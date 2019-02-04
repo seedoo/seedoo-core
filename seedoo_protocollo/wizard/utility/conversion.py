@@ -4,6 +4,7 @@ import random
 import string
 
 import pypandoc
+from BeautifulSoup import BeautifulSoup
 
 
 class ConversionUtility:
@@ -21,8 +22,10 @@ class ConversionUtility:
         if css_file and len(css_file) > 0 and os.path.isfile(css_file):
             extra_args.append("--css=%s" % css_file)
 
+        cleaned_body = ConversionUtility.remove_img(body)
+
         pypandoc.convert(
-            body,
+            cleaned_body,
             "html5",
             outputfile=tempfile,
             format="html",
@@ -39,3 +42,9 @@ class ConversionUtility:
 
         os.remove(tempfile)
         return pdf_content
+
+    @staticmethod
+    def remove_img(body=""):
+        soup = BeautifulSoup(body)
+        soup.img.decompose()
+        return str(soup)

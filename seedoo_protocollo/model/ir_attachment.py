@@ -127,3 +127,12 @@ class ir_attachment(osv.Model):
         new_context = dict(context or {})
         new_context['skip_check'] = True
         return super(ir_attachment, self).check(cr, uid, ids, mode, context=new_context, values=None)
+
+
+    def _file_read(self, cr, uid, fname, bin_size=False):
+        result = False
+        try:
+            result = super(ir_attachment, self)._file_read(cr, uid, fname, bin_size)
+        except OSError, e:
+            _logger.exception("_read_file reading %s", fname)
+        return result
