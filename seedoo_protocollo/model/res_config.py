@@ -96,6 +96,7 @@ class protocollo_config_settings(osv.osv_memory):
         'select_eml': fields.related('config_id', 'select_eml', type='boolean', string='Abilita Scelta Intero Messaggio (file .EML)'),
         'select_body': fields.related('config_id', 'select_body', type='boolean', string='Abilita Scelta Corpo del Messaggio'),
         'select_attachments': fields.related('config_id', 'select_attachments', type='boolean', string='Abilita Scelta Allegati'),
+        'ammi_logo': fields.related('config_id', 'ammi_logo', type='binary', attacchment=True, string="Logo")
     }
 
     def _default_config_id(self, cr, uid, context):
