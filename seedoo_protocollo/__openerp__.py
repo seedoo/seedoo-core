@@ -103,7 +103,7 @@
     ],
     "qweb": [
         "static/src/xml/base.xml",
-        "static/src/xml/mail.xml",
+        #"static/src/xml/mail.xml",
     ],
     "css": [
         "static/src/css/protocollo.css",

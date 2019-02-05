@@ -134,6 +134,7 @@ class protocollo_protocollo(orm.Model):
     _name = 'protocollo.protocollo'
 
     _inherit = 'mail.thread'
+    _mail_flat_thread = False
     _order = 'creation_date desc,name desc'
 
     STATE_SELECTION = [
