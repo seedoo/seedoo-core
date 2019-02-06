@@ -106,7 +106,7 @@ class res_partner(orm.Model):
 
     def check_field_in_create(self, cr, uid, vals, context):
         errors = ''
-        if context.has_key('show_pec_email') and context['show_pec_email'] and vals.has_key('email'):
+        if context and context.has_key('show_pec_email') and context['show_pec_email'] and vals.has_key('email'):
             vals['pec_mail'] = vals['email']
             del (vals['email'])
         if vals.has_key('pec_mail') and vals['pec_mail']:
