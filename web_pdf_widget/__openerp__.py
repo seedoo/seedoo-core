@@ -4,7 +4,7 @@
 
 {
     "name": "Pdf Viewer Widget",
-    "version": "8.0.1.8.1",
+    "version": "8.0.1.8.2",
     "category": "Usability",
     "summary": "Protocollo Informatico PA",
     "author": "Agile Business Group, Innoviu, Flosslab",
