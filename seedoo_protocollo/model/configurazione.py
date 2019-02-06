@@ -56,7 +56,8 @@ class protocollo_configurazione(orm.Model):
 
         'select_eml': fields.boolean('Abilita Scelta Intero Messaggio (file .EML)'),
         'select_body': fields.boolean('Abilita Scelta Corpo del Messaggio'),
-        'select_attachments': fields.boolean('Abilita Scelta Allegati')
+        'select_attachments': fields.boolean('Abilita Scelta Allegati'),
+        'ammi_logo': fields.binary('Logo', attacchment=True)
     }
 
     _defaults = {
