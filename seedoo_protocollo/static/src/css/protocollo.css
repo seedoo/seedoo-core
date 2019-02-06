@@ -1099,6 +1099,9 @@ div.box-sender-internal .icon_item_type div:hover {
   font-size: 11px !important;
   color: #ddd;
 }
+.oe_protocollo_chatter .oe_msg_notification .oe_msg_icons {
+  padding-right: 30px;
+}
 .protocollo-accordion-toggle {
   cursor: pointer;
   text-transform: uppercase;
