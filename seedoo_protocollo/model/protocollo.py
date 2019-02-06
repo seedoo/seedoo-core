@@ -1962,9 +1962,8 @@ class protocollo_protocollo(orm.Model):
                 try:
                     vals = {}
                     prot_number = prot.name
-                    # prot_number = self.name_get(cr, uid, protocollo_id, context=None)
                     prot_complete_name = prot.name
-                    prot_date = fields.datetime.now()
+                    prot_date = prot.registration_date
                     if prot.doc_id:
                         prot_datas = prot.doc_id.datas
                         if prot.mimetype == 'application/pdf' and configurazione.genera_segnatura:
@@ -1978,18 +1977,7 @@ class protocollo_protocollo(orm.Model):
                         )
                         vals['fingerprint'] = fingerprint
                         vals['datas'] = 0
-                    vals['name'] = prot_number
-                    vals['registration_date'] = prot_date
-                    now = datetime.datetime.now()
-                    vals['year'] = now.year
                     self.write(cr, uid, [prot.id], vals, {'skip_check': True})
-
-                    # Generazione della segnatura spostata al momento dell'invio della PEC
-                    # if configurazione.genera_xml_segnatura:
-                    #     segnatura_xml = SegnaturaXML(prot, prot_number, prot_date, cr, uid)
-                    #     xml = segnatura_xml.generate_segnatura_root()
-                    #     etree_tostring = etree.tostring(xml, pretty_print=True)
-                    #     vals['xml_signature'] = etree_tostring
 
                     action_class = "history_icon upload"
                     post_vars = {'subject': "Upload Documento",
