@@ -265,7 +265,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="name">protocollo.sender_receiver.kanban</field>
             <field name="model">protocollo.sender_receiver</field>
             <field name="arch" type="xml">
-                <kanban>
+                <kanban create="0">
                     <field name="type"/>
                     <field name="pec_invio_status"/>
                     <field name="pec_accettazione_status"/>
@@ -275,7 +275,6 @@ this module contains the full copyright notices and license terms. -->
                     <templates>
                         <t t-name="kanban-box">
                             <div class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_color_border item_box" >
-                                <a t-if="! read_only_mode" type="delete" style="position: absolute; right: 5px; padding: 0 4px; display: inline-block;background: rgba(255,255,255,0.6);">X</a>
                                 <a type="open" class="protocollo_sr_box">
                                     <table class="oe_kanban_table">
                                         <tr>
@@ -322,6 +321,11 @@ this module contains the full copyright notices and license terms. -->
                                         </tr>
                                     </table>
                                 </a>
+                                <button name="%(protocollo_aggiungi_sender_internal_action)d"
+                                        string="Modifica"
+                                        type="action"
+                                        t-if="! read_only_mode"
+                                        class="oe_highlight_positive"/>
                             </div>
                         </t>
                     </templates>
