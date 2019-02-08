@@ -1917,11 +1917,70 @@ class protocollo_protocollo(orm.Model):
         return super(protocollo_protocollo, self).unlink(
             cr, uid, unlink_ids, context=context)
 
-    def copy(self, cr, uid, pid, default=None, context=None):
-        raise orm.except_orm(_('Azione Non Valida!'),
-                             _('Impossibile duplicare un protocollo')
-                             )
-        return True
+    def copy(self, cr, uid, id, default=None, context=None):
+        protocollo_obj = self.pool.get('protocollo.protocollo')
+        department_obj = self.pool.get('hr.department')
+        assegnazione_obj = self.pool.get('protocollo.assegnazione')
+        protocollo = protocollo_obj.browse(cr, uid, id)
+
+        if protocollo.type == 'in' and (protocollo.typology.pec or protocollo.typology.sharedmail):
+            raise orm.except_orm(_('Azione Non Valida!'), ('Impossibile duplicare un protocollo in ingresso di tipo PEC o e-mail'))
+
+        if protocollo.registration_type == 'emergency':
+            raise orm.except_orm(_('Azione Non Valida!'), ('Impossibile duplicare un protocollo in emergenza'))
+
+        sender_receiver_obj = self.pool.get('protocollo.sender_receiver')
+        sender_receiver = []
+        department = []
+        assegnazione_conoscenza = []
+        assegnazione_competenza = []
+
+        for sr in protocollo.sender_receivers:
+            sr_copy_id = sender_receiver_obj.copy(cr, uid, sr.id, {}, context=context)
+            sender_receiver.append(sr_copy_id)
+
+        department_ids = department_obj.search(cr, uid, [('can_used_to_protocol', '=', True)])
+        if department_ids:
+            department = department_obj.browse(cr, uid, department_ids[0])
+
+        vals = {}
+        vals['type'] = protocollo.type
+        vals['receiving_date'] = protocollo.receiving_date
+        vals['subject'] = protocollo.subject
+        vals['body'] = protocollo.body
+        vals['user_id'] = uid
+        vals['registration_employee_department_id'] = department and department.id or False
+        vals['registration_employee_department_name'] = department and department.complete_name or False
+        vals['state'] = 'draft'
+        vals['typology'] = protocollo.typology.id
+        vals['senders'] = protocollo.senders
+        vals['receivers'] = protocollo.receivers
+        vals['reserved'] = protocollo.reserved
+        vals['sender_receivers'] = [[6, 0, sender_receiver]]
+        vals['classification'] = protocollo.classification.id
+        vals['classification_name'] = protocollo.classification_name
+        vals['sender_internal_name'] = protocollo.sender_internal_name
+        vals['sender_internal_assegnatario'] = protocollo.sender_internal_assegnatario.id
+        vals['sender_internal_name'] = protocollo.sender_internal_name
+        vals['sender_internal_employee'] = protocollo.sender_internal_employee.id
+        vals['sender_internal_employee_department'] = protocollo.sender_internal_employee_department.id
+        vals['sender_internal_department'] = protocollo.sender_internal_department.id
+
+        protocollo_id = protocollo_obj.create(cr, uid, vals)
+        protocollo_new = protocollo_obj.browse(cr, uid, protocollo_id)
+        assegnazione_vals = {'protocollo_id': protocollo_id}
+
+        for assegnazione in protocollo.assegnazione_competenza_ids:
+            assegnazione_copy_id = assegnazione_obj.copy(cr, uid, assegnazione.id, assegnazione_vals, context=context)
+            assegnazione_obj.write(cr, uid, assegnazione_copy_id, {'state': 'assegnato'}, context=context)
+            assegnazione_competenza.append(assegnazione_copy_id)
+
+        for assegnazione in protocollo.assegnazione_conoscenza_ids:
+            assegnazione_copy_id = assegnazione_obj.copy(cr, uid, assegnazione.id, assegnazione_vals, context=context)
+            assegnazione_obj.write(cr, uid, assegnazione_copy_id, {'state': 'assegnato'}, context=context)
+            assegnazione_conoscenza.append(assegnazione_copy_id)
+
+        return protocollo_id
 
     def carica_documento_principale(self, cr, uid, protocollo_id, datas, datas_fname, datas_description, context=None):
 
