@@ -2230,6 +2230,8 @@ class protocollo_protocollo(osv.Model):
                     check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_riassegna_per_smist_protocollo_ingresso')
                 elif protocollo.type == 'out':
                     check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_riassegna_per_smist_protocollo_uscita')
+                elif protocollo.type == 'internal':
+                    check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_riassegna_per_smist_protocollo_interno')
                 check = check and check_gruppi
 
             if self._check_stato_assegnatario_competenza(cr, uid, protocollo, 'preso') or \
@@ -2259,6 +2261,8 @@ class protocollo_protocollo(osv.Model):
                     check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_riassegna_per_smist_ut_uff_protocollo_ingresso')
                 elif protocollo.type == 'out':
                     check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_riassegna_per_smist_ut_uff_protocollo_uscita')
+                elif protocollo.type == 'internal':
+                    check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_riassegna_per_smist_ut_uff_protocollo_interno')
                 check = check and check_gruppi
 
             if self._check_stato_assegnatario_competenza(cr, uid, protocollo, 'preso') or \
