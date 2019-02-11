@@ -248,13 +248,11 @@ this module contains the full copyright notices and license terms. -->
                             </group>
                             <field name="add_pec_receiver_visibility" invisible="1"/>
 
-                            <!--<footer>-->
-                                <!--<div class="oe_edit_only">-->
-                                    <!--<button name="aggiungi_destinatario_pec_action" string="Aggiungi Destinatario" type="object" class="oe_highlight"-->
-                                          <!--attrs="{'invisible':[('add_pec_receiver_visibility','=',False)]}"/>-->
-                                    <!--<button string="Cancel" class="oe_link" special="cancel" attrs="{'invisible':[('add_pec_receiver_visibility','=',False)]}" />-->
-                                <!--</div>-->
-                            <!--</footer>-->
+                            <footer class="sender_receiver_footer">
+                                <div class="oe_edit_only">
+
+                                </div>
+                            </footer>
                         </group>
                     </sheet>
                 </form>
@@ -275,6 +273,12 @@ this module contains the full copyright notices and license terms. -->
                     <templates>
                         <t t-name="kanban-box">
                             <div class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_color_border item_box" >
+                                <button t-if="! read_only_mode"
+                                        name="elimina_mittente_destinatario"
+                                        string="x"
+                                        type="object"
+                                        class="oe_highlight_positive btn_seedoo btn_rimuovi_mittente"
+                                />
                                 <a type="open" class="protocollo_sr_box">
                                     <table class="oe_kanban_table">
                                         <tr>
@@ -321,11 +325,6 @@ this module contains the full copyright notices and license terms. -->
                                         </tr>
                                     </table>
                                 </a>
-                                <button name="%(protocollo_aggiungi_sender_internal_action)d"
-                                        string="Modifica"
-                                        type="action"
-                                        t-if="! read_only_mode"
-                                        class="oe_highlight_positive"/>
                             </div>
                         </t>
                     </templates>

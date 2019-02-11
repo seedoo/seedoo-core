@@ -2124,7 +2124,46 @@ class protocollo_protocollo(orm.Model):
             'res_model': 'protocollo.protocollo',
             'res_id': context['protocollo_id'],
             'context': context,
-            'type': 'ir.actions.act_window'
+            'type': 'ir.actions.act_window',
+            'flags': {'initial_mode': 'edit'}
+        }
+
+
+    def crea_mittente(self, cr, uid, ids, context={}):
+        model_data_obj = self.pool.get('ir.model.data')
+        view_rec = model_data_obj.get_object_reference(cr, uid, 'seedoo_protocollo', 'protocollo_create_mittente_destinatario_wizard_view')
+        view_id = view_rec and view_rec[1] or False
+
+        context['default_source'] = 'sender'
+        context['default_protocollo_id'] = ids[0]
+        return {
+            'name': 'Aggiungi Mittente',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'view_id': view_id,
+            'res_model': 'protocollo.create.mittente.destinatario.wizard',
+            'context': context,
+            'type': 'ir.actions.act_window',
+            'target': 'new'
+        }
+
+
+    def crea_destinatario(self, cr, uid, ids, context={}):
+        model_data_obj = self.pool.get('ir.model.data')
+        view_rec = model_data_obj.get_object_reference(cr, uid, 'seedoo_protocollo', 'protocollo_create_mittente_destinatario_wizard_view')
+        view_id = view_rec and view_rec[1] or False
+
+        context['default_source'] = 'receiver'
+        context['default_protocollo_id'] = ids[0]
+        return {
+            'name': 'Aggiungi Destinatario',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'view_id': view_id,
+            'res_model': 'protocollo.create.mittente.destinatario.wizard',
+            'context': context,
+            'type': 'ir.actions.act_window',
+            'target': 'new'
         }
 
 

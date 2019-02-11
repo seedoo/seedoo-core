@@ -492,7 +492,22 @@ this module contains the full copyright notices and license terms. -->
                         <notebook class="protocollo_form_tabs">
                             <page string="Destinatari" attrs="{'invisible':[('type','!=','out')]}" class="tab-destintari tab-sr">
                                 <group col="4" colspan="4">
-                                    <field name="receivers" mode="kanban" nolabel="1" class="container_sr" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                    <div class="oe_form_buttons">
+                                        <button name="crea_destinatario"
+                                                string="Aggiungi Destinatario"
+                                                type="object"
+                                                attrs="{'invisible':[('state','!=','draft')]}"
+                                                class="oe_highlight_positive oe_edit_only btn_seedoo oe_kanban_button_new"
+                                        />
+                                        <button name="%(protocollo_create_destinatari_da_gruppo_wizard_action)d"
+                                                string="Aggiungi Destinatari da Gruppo"
+                                                type="action"
+                                                attrs="{'invisible':[('state','!=','draft')]}"
+                                                class="oe_highlight_positive oe_edit_only btn_seedoo oe_kanban_button_new"
+                                        />
+                                    </div>
+                                    <newline/>
+                                    <field name="receivers" mode="kanban" nolabel="1" class="container_sr" attrs="{'readonly':[('state','!=','draft')]}" colspan="4"/>
                                 </group>
                             </page>
                             <page string="Mittente" attrs="{'invisible':[('type','=','in')]}" class="tab-mittente tab-sr">
@@ -536,12 +551,21 @@ this module contains the full copyright notices and license terms. -->
                                             string="x"
                                             type="object"
                                             attrs="{'invisible':['|',('state','!=','draft'),('sender_internal_name','=', False)]}"
-                                            class="oe_highlight_positive btn_seedoo btn_rimuovi_mittente"/>
+                                            class="oe_highlight_positive btn_seedoo btn_rimuovi_mittente oe_edit_only"/>
                                 </div>
                             </page>
                             <page string="Mittente" attrs="{'invisible':[('type','!=','in')]}" class="tab-mittente tab-sr">
                                 <group col="4" colspan="4">
-                                    <field name="senders" mode="kanban" nolabel="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                    <div class="oe_form_buttons">
+                                        <button name="crea_mittente"
+                                                string="Aggiungi Mittente"
+                                                type="object"
+                                                attrs="{'invisible':['|',('state','!=','draft'),('senders','!=',[])]}"
+                                                class="oe_highlight_positive oe_edit_only btn_seedoo oe_kanban_button_new"
+                                        />
+                                    </div>
+                                    <newline/>
+                                    <field name="senders" mode="kanban" nolabel="1" attrs="{'readonly':[('state','!=','draft')]}" colspan="4"/>
                                 </group>
                             </page>
                             <!--<page string="Preview" attrs="{'invisible':[('mimetype','!=','application/pdf')]}">-->
