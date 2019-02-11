@@ -240,7 +240,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="name">protocollo.protocollo.form</field>
             <field name="model">protocollo.protocollo</field>
             <field name="arch" type="xml">
-                <form string="Protocollo" create="0" version="7.0">
+                <form string="Protocollo" version="7.0">
                     <header>
                         <button name="%(protocollo_registration_confirmation_action)d" string="Registra Protocollo" type="action"
                                 attrs="{'invisible':[('registra_visibility','=',False)]}"
@@ -354,6 +354,7 @@ this module contains the full copyright notices and license terms. -->
                             <field name="creation_date" class="seedoocustom_protocollo_creation_date" invisible="1"/>
                             <field name="registration_type" invisible="1"/>
                             <field name="emergency_active" invisible="1"/>
+                            <field name="registration_employee_department_id_readonly" invisible="1"/>
                         </div>
                         <!--<div id="stato-protocollo">-->
                             <!--<field name="state" invisible="1"/>-->
@@ -369,7 +370,13 @@ this module contains the full copyright notices and license terms. -->
                                             <field name="name"/>
                                             <field name="registration_date"/>
                                             <field name="registration_employee_name" readonly="1"/>
-                                            <field name="registration_employee_department_name" readonly="1"/>
+                                            <field name="registration_employee_department_name" string="Ufficio" readonly="1" attrs="{'invisible':[('state','=','draft'), ('registration_employee_department_id_readonly','=',False)]}"/>
+                                            <field name="registration_employee_department_id" on_change="on_change_registration_employee_department(registration_employee_department_id)"
+                                                   domain="[('can_used_to_protocol', '=', True)]"
+                                                   widget="selection"
+                                                   required="1"
+                                                   attrs="{'readonly':[('registration_employee_department_id_readonly','=',True)], 'invisible':[('state','!=','draft')]}"
+                                            />
                                         </group>
                                         <group>
                                             <field name="aoo_id" options="{'no_open': True}" readonly="1"/>

@@ -242,6 +242,15 @@ class protocollo_protocollo(orm.Model):
                 values['sharedmail'] = True
         return {'value': values}
 
+    def on_change_registration_employee_department(self, cr, uid, ids, department_id, context=None):
+        values = {}
+        if department_id:
+            department = self.pool.get('hr.department').browse(cr, uid, department_id)
+            values = {
+                'registration_employee_department_name': department.complete_name,
+            }
+        return {'value': values}
+
     def on_change_reserved(self, cr, uid, ids, reserved, context=None):
         values = {}
         if reserved:
@@ -447,8 +456,9 @@ class protocollo_protocollo(orm.Model):
         'user_id': fields.many2one('res.users', 'Protocollatore', readonly=True),
         'registration_employee_id': fields.many2one('hr.employee', 'Protocollatore', readonly=True),
         'registration_employee_name': fields.char('Protocollatore', size=512, readonly=True),
-        'registration_employee_department_id': fields.many2one('hr.department', 'Ufficio', readonly=True),
-        'registration_employee_department_name': fields.char('Ufficio', size=512, readonly=True),
+        'registration_employee_department_id': fields.many2one('hr.department', 'Ufficio'),
+        'registration_employee_department_name': fields.char('Ufficio', size=512),
+        'registration_employee_department_id_readonly': fields.boolean('Campo registration_employee_department_id readonly', readonly=True),
         'registration_type': fields.selection(
             [
                 ('normal', 'Normale'),
@@ -676,6 +686,12 @@ class protocollo_protocollo(orm.Model):
                                                        context=context)
         return res and res[0] or False
 
+    def _default_registration_employee_department_id_readonly(self, cr, uid, context):
+        department_ids = self.pool.get('hr.department').search(cr, uid, [('can_used_to_protocol', '=', True)])
+        if len(department_ids) == 1:
+            return True
+        return False
+
     _defaults = {
         'registration_type': 'normal',
         'emergency_active': _get_default_is_emergency_active,
@@ -692,6 +708,7 @@ class protocollo_protocollo(orm.Model):
         'server_sharedmail_id': _get_def_sharedmail_server,
         'server_pec_id': _get_def_pec_server,
         'is_imported': False,
+        'registration_employee_department_id_readonly': _default_registration_employee_department_id_readonly
     }
 
     _sql_constraints = [
@@ -1900,6 +1917,9 @@ class protocollo_protocollo(orm.Model):
 
     def write(self, cr, uid, ids, vals, context=None):
         vals = self._verifica_dati_sender_receiver(cr, uid, vals, context)
+        if 'registration_employee_department_id' in vals:
+            department = self.pool.get('hr.department').browse(cr, uid, vals['registration_employee_department_id'])
+            vals['registration_employee_department_name'] = department and department.complete_name or False
         protocollo_id = super(protocollo_protocollo, self).write(cr, uid, ids, vals, context=context)
         return protocollo_id
 
@@ -1949,8 +1969,8 @@ class protocollo_protocollo(orm.Model):
         vals['subject'] = protocollo.subject
         vals['body'] = protocollo.body
         vals['user_id'] = uid
-        vals['registration_employee_department_id'] = department and department.id or False
-        vals['registration_employee_department_name'] = department and department.complete_name or False
+        vals['registration_employee_department_id'] = len(department_ids) == 1 and department.id or False
+        vals['registration_employee_department_name'] = len(department_ids) == 1 and department.complete_name or False
         vals['state'] = 'draft'
         vals['typology'] = protocollo.typology.id
         vals['senders'] = protocollo.senders
