@@ -372,6 +372,21 @@ class protocollo_sender_receiver(orm.Model):
         self.check_field_in_write(cr, uid, ids, vals)
         return super(protocollo_sender_receiver, self).write(cr, uid, ids, vals, context=context)
 
+    def elimina_mittente_destinatario(self, cr, uid, ids, context={}):
+        mittente_destinatario = self.browse(cr, uid, ids[0])
+        protocollo = mittente_destinatario.protocollo_id
+        self.unlink(cr, uid, ids, context)
+        return {
+            'name': 'Protocollo',
+            'view_type': 'form',
+            'view_mode': 'form,tree',
+            'res_model': 'protocollo.protocollo',
+            'res_id': protocollo.id,
+            'context': context,
+            'type': 'ir.actions.act_window',
+            'flags': {'initial_mode': 'edit'}
+        }
+
     # def aggiungi_destinatario_pec_action(self, cr, uid, ids, context=None):
     #     return True
 
