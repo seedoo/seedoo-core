@@ -375,7 +375,7 @@ this module contains the full copyright notices and license terms. -->
                                                    domain="[('can_used_to_protocol', '=', True)]"
                                                    widget="selection"
                                                    required="1"
-                                                   attrs="{'readonly':[('registration_employee_department_id_readonly','=',True)], 'invisible':[('state','!=','draft')]}"
+                                                   attrs="{'readonly':[('registration_employee_department_id_readonly','=',True)], 'invisible':['|', ('registration_employee_department_id_readonly','=',True), ('state','!=','draft')]}"
                                             />
                                         </group>
                                         <group>

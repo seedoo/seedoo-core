@@ -46,7 +46,7 @@ class create_mittente_destinatario_wizard(osv.TransientModel):
             'view_type': 'form',
             'view_mode': 'form,tree',
             'res_model': 'protocollo.protocollo',
-            'res_id': context['active_id'],
+            'res_id': context['default_protocollo_id'],
             'context': context,
             'type': 'ir.actions.act_window',
             'flags': {'initial_mode': 'edit'}
