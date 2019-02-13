@@ -1105,6 +1105,31 @@ div.box-sender-internal .icon_item_type div:hover {
 .openerp .oe_form .oe_form_required select[name="registration_employee_department_id"] {
   width: 95%;
 }
+.openerp .protocollo_form_tabs button.oe_highlight_positive.btn_seedoo.btn_rimuovi_mittente.oe_kanban_action.oe_kanban_action_button {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 0;
+  border: 0;
+  box-shadow: none;
+  color: black;
+  position: absolute;
+  right: 10px;
+  top: 0;
+}
+.openerp .protocollo_form_tabs button.oe_highlight_positive.btn_seedoo.btn_rimuovi_mittente.oe_kanban_action.oe_kanban_action_button:hover {
+  background: #646464;
+  color: white;
+}
+.openerp .protocollo_form_tabs button.oe_highlight_positive.btn_seedoo.btn_rimuovi_mittente.oe_kanban_action.oe_kanban_action_button:before {
+  content: "x";
+  position: absolute;
+  color: #666;
+  top: 0px;
+  left: 7px;
+  font-size: 12px;
+  text-transform: uppercase;
+  line-height: 21px;
+  padding: 0;
+}
 .protocollo-accordion-toggle {
   cursor: pointer;
   text-transform: uppercase;
