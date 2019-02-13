@@ -45,7 +45,7 @@ class protocollo_sender_receiver(orm.Model):
                 'ident_code': partner.ident_code,
                 'ammi_code': partner.ammi_code,
                 'ipa_code': partner.ipa_code,
-                'name': partner.name,
+                'name': partner.display_name,
                 'street': partner.street,
                 'city': partner.city,
                 'country_id': (
