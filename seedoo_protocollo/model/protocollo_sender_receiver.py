@@ -253,7 +253,7 @@ class protocollo_sender_receiver(orm.Model):
         'ammi_code': fields.char('Codice iPA', size=256, required=False),
         'ipa_code': fields.char('Codice Unità Organizzativa', size=256, required=False),
         'save_partner': fields.boolean('Salva', help='Se spuntato salva i dati in anagrafica.'),
-        'partner_id': fields.many2one('res.partner', 'Copia Anagrafica da Rubrica'),
+        'partner_id': fields.many2one('res.partner', 'Cerca in Contatti'),
         'name': fields.char('Nome Cognome/Ragione Sociale', size=512, required=True),
         'street': fields.char('Via/Piazza num civico', size=128),
         'street2': fields.char('Street2'),
