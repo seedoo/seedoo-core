@@ -240,7 +240,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="name">protocollo.protocollo.form</field>
             <field name="model">protocollo.protocollo</field>
             <field name="arch" type="xml">
-                <form string="Protocollo" version="7.0">
+                <form string="Protocollo" create="0" version="7.0">
                     <header>
                         <button name="%(protocollo_registration_confirmation_action)d" string="Registra Protocollo" type="action"
                                 attrs="{'invisible':[('registra_visibility','=',False)]}"
