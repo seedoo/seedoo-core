@@ -407,3 +407,31 @@ class protocollo_sender_receiver(orm.Model):
 
     # def aggiungi_destinatario_pec_action(self, cr, uid, ids, context=None):
     #     return True
+
+    def copy(self, cr, uid, id, default=None, context=None):
+        sender_receiver_obj = self.pool.get('protocollo.sender_receiver')
+        sender_receiver = sender_receiver_obj.browse(cr, uid, id)
+        vals = {
+            'ammi_code': sender_receiver.ammi_code,
+            'ident_code': sender_receiver.ident_code,
+            'ipa_code': sender_receiver.ipa_code,
+            'name': sender_receiver.name,
+            'display_name': sender_receiver.display_name,
+            'street': sender_receiver.street,
+            'city': sender_receiver.city,
+            'country_id': sender_receiver.country_id.id,
+            'email': sender_receiver.email,
+            'phone': sender_receiver.phone,
+            'mobile': sender_receiver.mobile,
+            'pec_mail': sender_receiver.pec_mail,
+            'fax': sender_receiver.fax,
+            'zip': sender_receiver.zip,
+            'notes': sender_receiver.notes,
+            'pa_type': sender_receiver.pa_type,
+            'partner_id': sender_receiver.partner_id.id,
+            'send_type': sender_receiver.send_type,
+            'source': sender_receiver.source,
+            'type': sender_receiver.type,
+        }
+
+        return sender_receiver_obj.create(cr, uid, vals)

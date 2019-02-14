@@ -242,6 +242,15 @@ class protocollo_protocollo(orm.Model):
                 values['sharedmail'] = True
         return {'value': values}
 
+    def on_change_registration_employee_department(self, cr, uid, ids, department_id, context=None):
+        values = {}
+        if department_id:
+            department = self.pool.get('hr.department').browse(cr, uid, department_id)
+            values = {
+                'registration_employee_department_name': department.complete_name,
+            }
+        return {'value': values}
+
     def on_change_reserved(self, cr, uid, ids, reserved, context=None):
         values = {}
         if reserved:
@@ -447,8 +456,9 @@ class protocollo_protocollo(orm.Model):
         'user_id': fields.many2one('res.users', 'Protocollatore', readonly=True),
         'registration_employee_id': fields.many2one('hr.employee', 'Protocollatore', readonly=True),
         'registration_employee_name': fields.char('Protocollatore', size=512, readonly=True),
-        'registration_employee_department_id': fields.many2one('hr.department', 'Ufficio', readonly=True),
-        'registration_employee_department_name': fields.char('Ufficio', size=512, readonly=True),
+        'registration_employee_department_id': fields.many2one('hr.department', 'Ufficio'),
+        'registration_employee_department_name': fields.char('Ufficio', size=512),
+        'registration_employee_department_id_readonly': fields.boolean('Campo registration_employee_department_id readonly', readonly=True),
         'registration_type': fields.selection(
             [
                 ('normal', 'Normale'),
@@ -676,6 +686,12 @@ class protocollo_protocollo(orm.Model):
                                                        context=context)
         return res and res[0] or False
 
+    def _default_registration_employee_department_id_readonly(self, cr, uid, context):
+        department_ids = self.pool.get('hr.department').search(cr, uid, [('can_used_to_protocol', '=', True)])
+        if len(department_ids) == 1:
+            return True
+        return False
+
     _defaults = {
         'registration_type': 'normal',
         'emergency_active': _get_default_is_emergency_active,
@@ -692,6 +708,7 @@ class protocollo_protocollo(orm.Model):
         'server_sharedmail_id': _get_def_sharedmail_server,
         'server_pec_id': _get_def_pec_server,
         'is_imported': False,
+        'registration_employee_department_id_readonly': _default_registration_employee_department_id_readonly
     }
 
     _sql_constraints = [
@@ -1905,6 +1922,9 @@ class protocollo_protocollo(orm.Model):
 
     def write(self, cr, uid, ids, vals, context=None):
         vals = self._verifica_dati_sender_receiver(cr, uid, vals, context)
+        if 'registration_employee_department_id' in vals:
+            department = self.pool.get('hr.department').browse(cr, uid, vals['registration_employee_department_id'])
+            vals['registration_employee_department_name'] = department and department.complete_name or False
         protocollo_id = super(protocollo_protocollo, self).write(cr, uid, ids, vals, context=context)
         return protocollo_id
 
@@ -1922,11 +1942,80 @@ class protocollo_protocollo(orm.Model):
         return super(protocollo_protocollo, self).unlink(
             cr, uid, unlink_ids, context=context)
 
-    def copy(self, cr, uid, pid, default=None, context=None):
-        raise orm.except_orm(_('Azione Non Valida!'),
-                             _('Impossibile duplicare un protocollo')
-                             )
-        return True
+    def action_clona_protocollo(self, cr, uid, ids, context=None):
+        protocollo_obj = self.pool.get('protocollo.protocollo')
+        department_obj = self.pool.get('hr.department')
+        assegnazione_obj = self.pool.get('protocollo.assegnazione')
+        protocollo = protocollo_obj.browse(cr, uid, ids)
+
+        if protocollo.type == 'in' and (protocollo.typology.pec or protocollo.typology.sharedmail):
+            raise orm.except_orm(_('Azione Non Valida!'), ('Impossibile duplicare un protocollo in ingresso di tipo PEC o e-mail'))
+
+        if protocollo.registration_type == 'emergency':
+            raise orm.except_orm(_('Azione Non Valida!'), ('Impossibile duplicare un protocollo in emergenza'))
+
+        sender_receiver_obj = self.pool.get('protocollo.sender_receiver')
+        sender_receiver = []
+        department = []
+        assegnazione_conoscenza = []
+        assegnazione_competenza = []
+
+        for sr in protocollo.sender_receivers:
+            sr_copy_id = sender_receiver_obj.copy(cr, uid, sr.id, {}, context=context)
+            sender_receiver.append(sr_copy_id)
+
+        department_ids = department_obj.search(cr, uid, [('can_used_to_protocol', '=', True)])
+        if department_ids:
+            department = department_obj.browse(cr, uid, department_ids[0])
+
+        vals = {}
+        vals['type'] = protocollo.type
+        vals['receiving_date'] = protocollo.receiving_date
+        vals['subject'] = protocollo.subject
+        vals['body'] = protocollo.body
+        vals['user_id'] = uid
+        vals['registration_employee_department_id'] = len(department_ids) == 1 and department.id or False
+        vals['registration_employee_department_name'] = len(department_ids) == 1 and department.complete_name or False
+        vals['state'] = 'draft'
+        vals['typology'] = protocollo.typology.id
+        vals['senders'] = protocollo.senders
+        vals['receivers'] = protocollo.receivers
+        vals['reserved'] = protocollo.reserved
+        vals['sender_receivers'] = [[6, 0, sender_receiver]]
+        vals['classification'] = protocollo.classification.id
+        vals['classification_name'] = protocollo.classification_name
+        vals['sender_internal_name'] = protocollo.sender_internal_name
+        vals['sender_internal_assegnatario'] = protocollo.sender_internal_assegnatario.id
+        vals['sender_internal_name'] = protocollo.sender_internal_name
+        vals['sender_internal_employee'] = protocollo.sender_internal_employee.id
+        vals['sender_internal_employee_department'] = protocollo.sender_internal_employee_department.id
+        vals['sender_internal_department'] = protocollo.sender_internal_department.id
+
+        protocollo_id = protocollo_obj.create(cr, uid, vals)
+        protocollo_new = protocollo_obj.browse(cr, uid, protocollo_id)
+        assegnazione_vals = {'protocollo_id': protocollo_id}
+
+        for assegnazione in protocollo.assegnazione_competenza_ids:
+            assegnazione_copy_id = assegnazione_obj.copy(cr, uid, assegnazione.id, assegnazione_vals, context=context)
+            assegnazione_obj.write(cr, uid, assegnazione_copy_id, {'state': 'assegnato'}, context=context)
+            assegnazione_competenza.append(assegnazione_copy_id)
+
+        for assegnazione in protocollo.assegnazione_conoscenza_ids:
+            assegnazione_copy_id = assegnazione_obj.copy(cr, uid, assegnazione.id, assegnazione_vals, context=context)
+            assegnazione_obj.write(cr, uid, assegnazione_copy_id, {'state': 'assegnato'}, context=context)
+            assegnazione_conoscenza.append(assegnazione_copy_id)
+
+        return {
+            'name': 'Protocollo',
+            'view_type': 'form',
+            'view_mode': 'form,tree',
+            'res_model': 'protocollo.protocollo',
+            'res_id': protocollo_id,
+            'context': context,
+            'type': 'ir.actions.act_window',
+            'flags': {'initial_mode': 'edit'}
+        }
+
 
     def carica_documento_principale(self, cr, uid, protocollo_id, datas, datas_fname, datas_description, context=None):
 
