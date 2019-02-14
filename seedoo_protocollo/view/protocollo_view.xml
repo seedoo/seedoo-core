@@ -1176,6 +1176,14 @@ this module contains the full copyright notices and license terms. -->
             <field name="view_mode">tree,form</field>
         </record>
 
+        <record id="action_server_clona_protocollo" model="ir.actions.server">
+            <field name="name">Clona Protocollo</field>
+            <field name="type">ir.actions.server</field>
+            <field name="state">code</field>
+            <field name="model_id" ref="model_protocollo_protocollo" />
+            <field name="code">action = self.action_clona_protocollo(cr, uid, context.get('active_ids', []), context)</field>
+        </record>
+
 
         <!-- Assegnatari Ufficio -->
         <!--

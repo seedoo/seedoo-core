@@ -1937,11 +1937,11 @@ class protocollo_protocollo(orm.Model):
         return super(protocollo_protocollo, self).unlink(
             cr, uid, unlink_ids, context=context)
 
-    def copy(self, cr, uid, id, default=None, context=None):
+    def action_clona_protocollo(self, cr, uid, ids, context=None):
         protocollo_obj = self.pool.get('protocollo.protocollo')
         department_obj = self.pool.get('hr.department')
         assegnazione_obj = self.pool.get('protocollo.assegnazione')
-        protocollo = protocollo_obj.browse(cr, uid, id)
+        protocollo = protocollo_obj.browse(cr, uid, ids)
 
         if protocollo.type == 'in' and (protocollo.typology.pec or protocollo.typology.sharedmail):
             raise orm.except_orm(_('Azione Non Valida!'), ('Impossibile duplicare un protocollo in ingresso di tipo PEC o e-mail'))
@@ -2000,7 +2000,17 @@ class protocollo_protocollo(orm.Model):
             assegnazione_obj.write(cr, uid, assegnazione_copy_id, {'state': 'assegnato'}, context=context)
             assegnazione_conoscenza.append(assegnazione_copy_id)
 
-        return protocollo_id
+        return {
+            'name': 'Protocollo',
+            'view_type': 'form',
+            'view_mode': 'form,tree',
+            'res_model': 'protocollo.protocollo',
+            'res_id': protocollo_id,
+            'context': context,
+            'type': 'ir.actions.act_window',
+            'flags': {'initial_mode': 'edit'}
+        }
+
 
     def carica_documento_principale(self, cr, uid, protocollo_id, datas, datas_fname, datas_description, context=None):
 
