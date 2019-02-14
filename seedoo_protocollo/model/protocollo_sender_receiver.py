@@ -13,16 +13,21 @@ class protocollo_sender_receiver(orm.Model):
     _name = 'protocollo.sender_receiver'
 
     def on_change_type(self, cr, uid, ids, type, context=None):
-
-        res = {}
+        value = {}
+        domain = {}
         if 'is_type_selection' in context:
-            res['value'] = {
+            value = {
                 'partner_id': False,
                 'pa_type': False,
                 'ident_code': False,
                 'ammi_code': False
             }
-        return res
+        if type:
+            if type == 'individual':
+                domain = {'title': [('domain', '=', 'contact')]}
+            else:
+                domain = {'title': [('domain', '=', 'partner')]}
+        return {'value': value, 'domain': domain}
 
     def on_change_pa_type(self, cr, uid, ids, pa_type, context=None):
         res = {'value': {}}
@@ -48,15 +53,18 @@ class protocollo_sender_receiver(orm.Model):
                 'name': partner.display_name,
                 'street': partner.street,
                 'city': partner.city,
-                'country_id': (
-                    partner.country_id and
-                    partner.country_id.id or False),
+                'country_id': (partner.country_id and partner.country_id.id or False),
                 'email': partner.email,
                 'phone': partner.phone,
                 'mobile': partner.mobile,
                 'pec_mail': partner.pec_mail,
                 'fax': partner.fax,
                 'zip': partner.zip,
+                'street2': partner.street2,
+                'state_id': (partner.state_id and partner.state_id.id or False),
+                'function': partner.function,
+                'website': partner.website,
+                'title': (partner.title and partner.title.id or False),
                 'save_partner': False,
                 'partner_id': False
             }
@@ -77,6 +85,11 @@ class protocollo_sender_receiver(orm.Model):
                 'pec_mail': False,
                 'fax': False,
                 'zip': False,
+                'street2': False,
+                'state_id': False,
+                'function': False,
+                'website': False,
+                'title': False,
                 'save_partner': False,
                 'partner_id': False
             }
@@ -243,14 +256,19 @@ class protocollo_sender_receiver(orm.Model):
         'partner_id': fields.many2one('res.partner', 'Copia Anagrafica da Rubrica'),
         'name': fields.char('Nome Cognome/Ragione Sociale', size=512, required=True),
         'street': fields.char('Via/Piazza num civico', size=128),
+        'street2': fields.char('Street2'),
         'zip': fields.char('Cap', change_default=True, size=24),
         'city': fields.char('Citta\'', size=128),
+        'state_id': fields.many2one("res.country.state", 'Provincia', ondelete='restrict'),
         'country_id': fields.many2one('res.country', 'Paese'),
+        'function': fields.char('Posizione lavorativa'),
         'email': fields.char('Email', size=240),
-        'pec_mail': fields.char('PEC', size=240),
+        'pec_mail': fields.char('Email PEC', size=240),
         'phone': fields.char('Telefono', size=64),
         'fax': fields.char('Fax', size=64),
         'mobile': fields.char('Cellulare', size=64),
+        'website': fields.char('Website'),
+        'title': fields.many2one('res.partner.title', 'Qualifica'),
         'notes': fields.text('Note'),
         'send_type': fields.many2one('protocollo.typology', 'Canale di Spedizione'),
         'send_date': fields.date('Data Spedizione'),

@@ -35,6 +35,11 @@ class create_mittente_destinatario_wizard(osv.TransientModel):
                 'pec_mail': wizard.pec_mail,
                 'fax': wizard.fax,
                 'zip': wizard.zip,
+                'street2': wizard.street2,
+                'state_id': (wizard.state_id and wizard.state_id.id or False),
+                'function': wizard.function,
+                'website': wizard.website,
+                'title': (wizard.title and wizard.title.id or False),
                 'save_partner': wizard.save_partner,
                 'partner_id': False,
                 'protocollo_id': wizard.protocollo_id.id

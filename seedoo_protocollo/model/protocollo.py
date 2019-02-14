@@ -982,7 +982,12 @@ class protocollo_protocollo(orm.Model):
             'pa_type': send_rec.pa_type,
             'ident_code': send_rec.ident_code,
             'ammi_code': send_rec.ammi_code,
-            'ipa_code': send_rec.ipa_code
+            'ipa_code': send_rec.ipa_code,
+            'street2': send_rec.street2,
+            'state_id': (send_rec.state_id and send_rec.state_id.id or False),
+            'function': send_rec.function,
+            'website': send_rec.website,
+            'title': (send_rec.title and send_rec.title.id or False),
         }
         return values
 

@@ -53,6 +53,11 @@ class create_destinatari_da_gruppo_wizard(osv.TransientModel):
                     'pec_mail': partner.pec_mail,
                     'fax': partner.fax,
                     'zip': partner.zip,
+                    'street2': partner.street2,
+                    'state_id': (partner.state_id and partner.state_id.id or False),
+                    'function': partner.function,
+                    'website': partner.website,
+                    'title': (partner.title and partner.title.id or False),
                     'save_partner': False,
                     'partner_id': False,
                     'protocollo_id': context['active_id']
