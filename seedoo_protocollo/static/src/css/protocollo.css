@@ -1130,6 +1130,9 @@ div.box-sender-internal .icon_item_type div:hover {
   line-height: 21px;
   padding: 0;
 }
+.openerp .oe_form .oe_form_group .oe_form_group_cell.oe_group_right {
+  padding-left: 30px !important;
+}
 .protocollo-accordion-toggle {
   cursor: pointer;
   text-transform: uppercase;

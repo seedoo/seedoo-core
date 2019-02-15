@@ -432,6 +432,11 @@ class protocollo_sender_receiver(orm.Model):
             'send_type': sender_receiver.send_type,
             'source': sender_receiver.source,
             'type': sender_receiver.type,
+            'street2': sender_receiver.street2,
+            'state_id': sender_receiver.state_id.id,
+            'function': sender_receiver.function,
+            'website': sender_receiver.website,
+            'title': sender_receiver.title.id,
         }
 
         return sender_receiver_obj.create(cr, uid, vals)
