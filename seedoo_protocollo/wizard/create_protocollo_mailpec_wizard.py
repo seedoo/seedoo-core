@@ -419,7 +419,9 @@ class ProtocolloMailPecWizard(osv.TransientModel):
         for attach in mail_message.attachment_ids:
             if attach.name.lower() == 'segnatura.xml':
                 attach_path = self.pool.get('ir.attachment')._full_path(cr, uid, attach.store_fname)
-                tree = etree.parse(attach_path)
+                xml = open(attach_path, "rb").read()
+                content_encode = xml.decode("latin").encode("utf8")
+                tree = etree.fromstring(content_encode)
                 segnatura_xml = SegnaturaXMLParser(tree)
 
                 srvals_mittente = self.getDatiSegnaturaMittente(segnatura_xml)

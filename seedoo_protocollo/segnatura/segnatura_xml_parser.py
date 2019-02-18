@@ -16,6 +16,8 @@ class SegnaturaXMLParser:
     def __init__(self, tree):
         if isinstance(tree, etree._ElementTree):
             self._root = tree.getroot()
+        else:
+            self._root = tree
         pass
 
     def generate_segnatura_root(self):
