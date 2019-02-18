@@ -85,11 +85,11 @@ this module contains the full copyright notices and license terms. -->
                                     <label for="street" string="Indirizzo"/>
                                     <div>
                                         <field name="street" placeholder="Via..." class="street_protocollo_sender_receiver_form"/>
-                                        <field name="street2" class="street_protocollo_sender_receiver_form"/>
+                                        <field name="street2" class="street2_protocollo_sender_receiver_form"/>
                                         <div class="address_format">
                                             <field name="city" placeholder="Città" style="width: 40%%" class="city_protocollo_sender_receiver_form"/>
                                             <field name="state_id" placeholder="Provincia" style="width: 37%%" options="{'no_open': True}" class="oe_no_button city_protocollo_sender_receiver_form"/>
-                                            <field name="zip" placeholder="CAP" style="width: 20%%" class="email_protocollo_sender_receiver_form"/>
+                                            <field name="zip" placeholder="CAP" style="width: 20%%" class="zip_protocollo_sender_receiver_form"/>
                                         </div>
                                         <field name="country_id" placeholder="Nazione" options="{'no_open': True, 'no_create': True}" class="oe_no_button country_id_protocollo_sender_receiver_form"/>
                                     </div>
@@ -101,7 +101,7 @@ this module contains the full copyright notices and license terms. -->
                                     <field name="phone" class="phone_protocollo_sender_receiver_form"/>
                                     <field name="mobile" class="mobile_protocollo_sender_receiver_form"/>
                                     <field name="fax" class="fax_protocollo_sender_receiver_form"/>
-                                    <field name="email" widget="email" on_change="on_change_email(email, save_partner)"/>
+                                    <field name="email" widget="email" on_change="on_change_email(email, save_partner)" class="email_protocollo_sender_receiver_form"/>
                                     <field name="pec_mail" widget="email" on_change="on_change_pec_mail(pec_mail, save_partner)"
                                            attrs="{'required':[('add_pec_receiver_visibility','=',True)]}" class="pec_mail_protocollo_sender_receiver_form"/>
                                     <field name="title" options="{'no_open': True}"/>

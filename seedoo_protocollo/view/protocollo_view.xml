@@ -504,7 +504,7 @@ this module contains the full copyright notices and license terms. -->
                                                 string="Aggiungi Destinatario"
                                                 type="object"
                                                 attrs="{'invisible':[('state','!=','draft')]}"
-                                                class="oe_highlight_positive oe_edit_only btn_seedoo oe_kanban_button_new"
+                                                class="oe_highlight_positive oe_edit_only btn_seedoo oe_kanban_button_new aggiungi_destinatario"
                                         />
                                         <button name="%(protocollo_create_destinatari_da_gruppo_wizard_action)d"
                                                 string="Aggiungi Destinatari da Gruppo"
@@ -517,7 +517,7 @@ this module contains the full copyright notices and license terms. -->
                                     <field name="receivers" mode="kanban" nolabel="1" class="container_sr" attrs="{'readonly':[('state','!=','draft')]}" colspan="4"/>
                                 </group>
                             </page>
-                            <page string="Mittente" attrs="{'invisible':[('type','=','in')]}" class="tab-mittente tab-sr">
+                            <page string="Mittente" attrs="{'invisible':[('type','=','in')]}" class="tab-mittente tab-internal tab-sr">
                                 <div class="oe_edit_only">
                                     <button name="%(protocollo_aggiungi_sender_internal_action)d"
                                             string="Aggiungi Mittente"
@@ -568,7 +568,7 @@ this module contains the full copyright notices and license terms. -->
                                                 string="Aggiungi Mittente"
                                                 type="object"
                                                 attrs="{'invisible':['|',('state','!=','draft'),('senders','!=',[])]}"
-                                                class="oe_highlight_positive oe_edit_only btn_seedoo oe_kanban_button_new"
+                                                class="oe_highlight_positive oe_edit_only btn_seedoo oe_kanban_button_new aggiungi_mittente"
                                         />
                                     </div>
                                     <newline/>
