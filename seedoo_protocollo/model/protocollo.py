@@ -272,7 +272,7 @@ class protocollo_protocollo(orm.Model):
         res = []
         for record in reads:
             name = record['name']
-            if record['state'] != 'draft':
+            if record['registration_date']:
                 name = self.calculate_complete_name(record['registration_date'], name)
                 # year = record['registration_date'][:4]
                 # name = year + name
@@ -631,11 +631,13 @@ class protocollo_protocollo(orm.Model):
         'registry': fields.related('aoo_id', 'registry_id', type='many2one', relation='protocollo.registry',
                                    string='Registro', store=True, readonly=True),
         'protocol_request': fields.boolean('Richiesta Protocollo', readonly=True),
+
         'server_sharedmail_id': fields.many2one('fetchmail.server', 'Account Email',
                                                 domain="[('sharedmail', '=', True),('user_sharedmail_ids', 'in', uid),('state','=','done')]"),
         'server_pec_id': fields.many2one('fetchmail.server', 'Account PEC',
                                          domain="[('pec', '=', True),('user_ids', 'in', uid),('state','=','done')]"),
         'is_imported': fields.boolean('Protocollo Importato', readonly=True),
+        'request_user_id': fields.many2one('res.users', 'Autore Richiesta di protocollo', readonly=True),
 
     }
 
