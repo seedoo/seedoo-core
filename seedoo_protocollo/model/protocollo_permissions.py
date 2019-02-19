@@ -110,10 +110,345 @@ class protocollo_protocollo(osv.Model):
     ####################################################################################################################
     # Visibilità dei protocolli
     ####################################################################################################################
+    def get_protocollo_base_visibile_ids(self, cr, uid, current_user_id, archivio_ids, archivio_ids_str,
+                                          employee_ids, employee_ids_str,
+                                          employee_department_ids, employee_department_ids_str):
+        protocollo_visible_ids = []
+
+        start_time = time.time()
+        # un utente deve poter vedere i protocolli in bozza (IN e OUT) creati da lui
+        cr.execute('''
+            SELECT DISTINCT(pp.id)
+            FROM protocollo_protocollo pp
+            WHERE pp.state = 'draft' AND 
+                  pp.user_id = %s AND 
+                  pp.archivio_id IN (''' + archivio_ids_str + ''')
+        ''', (current_user_id,))
+        protocollo_ids_drafts = [res[0] for res in cr.fetchall()]
+        protocollo_visible_ids.extend(protocollo_ids_drafts)
+        _logger.info("---Query draft %s seconds ---" % (time.time() - start_time))
+
+        start_time = time.time()
+        # un utente deve poter vedere i protocolli (IN e OUT) registrati da lui
+        if employee_ids:
+            cr.execute('''
+                SELECT DISTINCT(pp.id)
+                FROM protocollo_protocollo pp
+                WHERE pp.registration_employee_id IN (''' + employee_ids_str + ''') AND
+                      pp.archivio_id IN (''' + archivio_ids_str + ''')
+            ''')
+            protocollo_ids_created = [res[0] for res in cr.fetchall()]
+            protocollo_visible_ids.extend(protocollo_ids_created)
+        _logger.info("---Query created %s seconds ---" % (time.time() - start_time))
+
+        start_time = time.time()
+        # un utente deve poter vedere i protocolli registrati (IN e OUT) assegnati a lui o al suo ufficio,
+        # purchè lui o un dipendente del suo ufficio non abbia rifiutato la presa in carico
+        if employee_ids and employee_department_ids:
+            cr.execute('''
+                SELECT DISTINCT(pa.protocollo_id)
+                FROM protocollo_assegnazione pa, protocollo_protocollo pp
+                WHERE pp.registration_employee_id IS NOT NULL AND
+                      pa.protocollo_id = pp.id AND
+                      (
+                          (pa.tipologia_assegnatario = 'employee' AND pa.assegnatario_employee_id IN (''' + employee_ids_str + ''') AND pa.parent_id IS NULL) OR 
+                          (pa.tipologia_assegnatario = 'department' AND pa.assegnatario_department_id  IN (''' + employee_department_ids_str + '''))
+                      ) AND
+                      (
+                          pa.protocollo_id NOT IN (
+                              SELECT DISTINCT(pa.protocollo_id)
+                              FROM protocollo_assegnazione pa
+                              WHERE pa.tipologia_assegnatario = 'employee' AND
+                                    pa.assegnatario_employee_department_id IN (''' + employee_department_ids_str + ''') AND
+                                    pa.state = 'rifiutato'
+                          ) 
+                          OR 
+                          pa.protocollo_id IN (
+                            SELECT DISTINCT(pa.protocollo_id)
+                                FROM protocollo_assegnazione pa
+                                WHERE pa.tipologia_assegnatario = 'employee' AND pa.assegnatario_employee_id IN (''' + employee_ids_str + ''') AND 
+                                pa.tipologia_assegnazione = 'conoscenza'
+                          )
+                      )
+                      AND
+                      pp.archivio_id IN (''' + archivio_ids_str + ''')
+            ''')
+            protocollo_ids_assigned_not_refused = [res[0] for res in cr.fetchall()]
+            protocollo_visible_ids.extend(protocollo_ids_assigned_not_refused)
+        _logger.info("---Query assigned_not_refused %s seconds ---" % (time.time() - start_time))
+
+        start_time = time.time()
+        # un utente deve poter vedere i protocolli (IN e OUT) registrati di cui è autore della assegnazione per
+        # competenza (assegnatore)
+        if employee_ids:
+            cr.execute('''
+                SELECT DISTINCT(pa.protocollo_id)
+                FROM protocollo_assegnazione pa, protocollo_protocollo pp
+                WHERE pp.registration_employee_id IS NOT NULL AND
+                      pa.protocollo_id = pp.id AND
+                      pa.assegnatore_id IN (''' + employee_ids_str + ''') AND 
+                      pa.tipologia_assegnazione = 'competenza' AND 
+                      pa.parent_id IS NULL AND
+                      pp.archivio_id IN (''' + archivio_ids_str + ''')
+            ''')
+            protocollo_ids_assegnatore = [res[0] for res in cr.fetchall()]
+            protocollo_visible_ids.extend(protocollo_ids_assegnatore)
+        _logger.info("---Query assegnatore %s seconds ---" % (time.time() - start_time))
+
+        start_time = time.time()
+        # un utente deve poter vedere i protocolli interni registrati di cui lui o il suo ufficio è il mittente
+        if employee_ids and employee_department_ids:
+            cr.execute('''
+                SELECT DISTINCT(pp.id)
+                FROM protocollo_protocollo pp
+                WHERE pp.registration_employee_id IS NOT NULL AND
+                      pp.type = 'internal' AND
+                      (
+                        (pp.sender_internal_employee IN (''' + employee_ids_str + '''))
+                        OR
+                        (pp.sender_internal_department IN (''' + employee_department_ids_str + '''))
+                      ) AND
+                      pp.archivio_id IN (''' + archivio_ids_str + ''')
+            ''')
+            protocollo_ids_mittente = [res[0] for res in cr.fetchall()]
+            protocollo_visible_ids.extend(protocollo_ids_mittente)
+        _logger.info("---Query mittente %s seconds ---" % (time.time() - start_time))
+
+        return protocollo_visible_ids
+
+
+    def get_protocollo_configuration_visibile_ids(self, cr, uid, current_user_id, archivio_ids, archivio_ids_str,
+                                          employee_ids, employee_ids_str,
+                                          employee_department_ids, employee_department_ids_str,
+                                          employee_department_child_ids, employee_department_child_ids_str, aoo_ids):
+        protocollo_visible_ids = []
+        assegnazione_obj = self.pool.get('protocollo.assegnazione')
+
+        start_time = time.time()
+        # un utente deve poter vedere i protocolli (IN, OUT, INTERNAL) REGISTRATI dal suo UFFICIO di appartenenza
+        check_gruppo_in = self.user_has_groups(cr, current_user_id,
+                                               'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ufficio')
+        check_gruppo_out = self.user_has_groups(cr, current_user_id,
+                                                'seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ufficio')
+        check_gruppo_internal = self.user_has_groups(cr, current_user_id,
+                                                     'seedoo_protocollo.group_vedi_protocolli_interno_registrati_ufficio')
+        if (check_gruppo_in or check_gruppo_out or check_gruppo_internal) and employee_department_ids:
+            types = []
+            if check_gruppo_in: types.append('in')
+            if check_gruppo_out: types.append('out')
+            if check_gruppo_internal: types.append('internal')
+            cr.execute('''
+                SELECT DISTINCT(pp.id)
+                FROM protocollo_protocollo pp
+                WHERE pp.registration_employee_id IS NOT NULL AND
+                      pp.registration_employee_department_id IN (''' + employee_department_ids_str + ''') AND
+                      pp.reserved=FALSE AND
+                      pp.type IN (''' + str(types).strip('[]') + ''') AND
+                      pp.archivio_id IN (''' + archivio_ids_str + ''')
+            ''')
+            protocollo_ids_department = [res[0] for res in cr.fetchall()]
+            protocollo_visible_ids.extend(protocollo_ids_department)
+        _logger.info("---Query department  %s seconds ---" % (time.time() - start_time))
+
+        start_time = time.time()
+        # un utente deve poter vedere i protocolli (IN, OUT, INTERNAL) REGISTRATI da un UFFICIO FIGLIO del suo ufficio di appartenenza.
+        check_gruppo_in = self.user_has_groups(cr, current_user_id,
+                                               'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ufficio_figlio')
+        check_gruppo_out = self.user_has_groups(cr, current_user_id,
+                                                'seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ufficio_figlio')
+        check_gruppo_internal = self.user_has_groups(cr, current_user_id,
+                                                     'seedoo_protocollo.group_vedi_protocolli_interno_registrati_ufficio_figlio')
+        if (check_gruppo_in or check_gruppo_out or check_gruppo_internal) and employee_department_child_ids:
+            types = []
+            if check_gruppo_in: types.append('in')
+            if check_gruppo_out: types.append('out')
+            if check_gruppo_internal: types.append('internal')
+            cr.execute('''
+                SELECT DISTINCT(pp.id)
+                FROM protocollo_protocollo pp
+                WHERE pp.registration_employee_id IS NOT NULL AND
+                      pp.registration_employee_department_id IN (''' + employee_department_child_ids_str + ''') AND
+                      pp.reserved=FALSE AND
+                      pp.type IN (''' + str(types).strip('[]') + ''') AND
+                      pp.archivio_id IN (''' + archivio_ids_str + ''')
+            ''')
+            protocollo_ids_department_childs = [res[0] for res in cr.fetchall()]
+            protocollo_visible_ids.extend(protocollo_ids_department_childs)
+        _logger.info("---Query ids_department_childs  %s seconds ---" % (time.time() - start_time))
+
+        start_time = time.time()
+        # un utente deve poter vedere QUALUNQUE protocollo (IN, OUT, INTERNAL) in stato BOZZA appartenente alla sua AOO
+        check_gruppo_in = self.user_has_groups(cr, current_user_id,
+                                               'seedoo_protocollo.group_vedi_protocolli_ingresso_bozza')
+        check_gruppo_out = self.user_has_groups(cr, current_user_id,
+                                                'seedoo_protocollo.group_vedi_protocolli_uscita_bozza')
+        check_gruppo_internal = self.user_has_groups(cr, current_user_id,
+                                                     'seedoo_protocollo.group_vedi_protocolli_interno_bozza')
+        if (check_gruppo_in or check_gruppo_out or check_gruppo_internal) and aoo_ids:
+            types = []
+            if check_gruppo_in: types.append('in')
+            if check_gruppo_out: types.append('out')
+            if check_gruppo_internal: types.append('internal')
+            protocollo_ids_aoo = self.search(cr, uid, [
+                ('type', 'in', types),
+                ('state', '=', 'draft'),
+                ('aoo_id', 'in', aoo_ids),
+                ('archivio_id', 'in', archivio_ids)
+            ])
+            protocollo_visible_ids.extend(protocollo_ids_aoo)
+        _logger.info("---Query aoo  %s seconds ---" % (time.time() - start_time))
+
+        start_time = time.time()
+        # un utente deve poter vedere QUALUNQUE protocollo (IN, OUT, INTERNAL) REGISTRATO da un utente della sua AOO
+        check_gruppo_in = self.user_has_groups(cr, current_user_id,
+                                               'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati')
+        check_gruppo_out = self.user_has_groups(cr, current_user_id,
+                                                'seedoo_protocollo.group_vedi_protocolli_uscita_registrati')
+        check_gruppo_internal = self.user_has_groups(cr, current_user_id,
+                                                     'seedoo_protocollo.group_vedi_protocolli_interno_registrati')
+        if (check_gruppo_in or check_gruppo_out or check_gruppo_internal) and aoo_ids:
+            types = []
+            if check_gruppo_in: types.append('in')
+            if check_gruppo_out: types.append('out')
+            if check_gruppo_internal: types.append('internal')
+            protocollo_ids_aoo = self.search(cr, uid, [
+                ('type', 'in', types),
+                ('registration_employee_id', '!=', False),
+                ('aoo_id', 'in', aoo_ids),
+                ('archivio_id', 'in', archivio_ids)
+            ])
+            protocollo_visible_ids.extend(protocollo_ids_aoo)
+        _logger.info("---Query aoo 2  %s seconds ---" % (time.time() - start_time))
+
+        start_time = time.time()
+        # un utente deve poter vedere i protocolli (IN, OUT, INTERNAL) REGISTRATI e ASSEGNATI ad un UTENTE del suo UFFICIO di appartenenza
+        check_gruppo_in = self.user_has_groups(cr, current_user_id,
+                                               'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ass_ut_uff')
+        check_gruppo_out = self.user_has_groups(cr, current_user_id,
+                                                'seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ass_ut_uff')
+        check_gruppo_internal = self.user_has_groups(cr, current_user_id,
+                                                     'seedoo_protocollo.group_vedi_protocolli_interno_registrati_ass_ut_uff')
+        if (check_gruppo_in or check_gruppo_out or check_gruppo_internal) and employee_department_ids:
+            types = []
+            if check_gruppo_in: types.append('in')
+            if check_gruppo_out: types.append('out')
+            if check_gruppo_internal: types.append('internal')
+            assegnazione_ids = assegnazione_obj.search(cr, uid, [
+                ('tipologia_assegnatario', '=', 'employee'),
+                ('parent_id', '=', False),
+                ('assegnatario_employee_department_id', 'in', employee_department_ids)
+            ])
+            protocollo_visible_ids.extend(self.search(cr, uid, [
+                ('type', 'in', types),
+                ('registration_employee_id', '!=', False),
+                ('assegnazione_ids', 'in', assegnazione_ids),
+                ('reserved', '=', False),
+                ('archivio_id', 'in', archivio_ids)
+            ]))
+        _logger.info("---Query registrati_ass_ut_uff  %s seconds ---" % (time.time() - start_time))
+
+        start_time = time.time()
+        # un utente deve poter vedere i protocolli (IN, OUT, INTERNAL) REGISTRATI e ASSEGNATI ad un suo UFFICIO FIGLIO
+        check_gruppo_in = self.user_has_groups(cr, current_user_id,
+                                               'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ass_uff_fig')
+        check_gruppo_out = self.user_has_groups(cr, current_user_id,
+                                                'seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ass_uff_fig')
+        check_gruppo_internal = self.user_has_groups(cr, current_user_id,
+                                                     'seedoo_protocollo.group_vedi_protocolli_interno_registrati_ass_uff_fig')
+        if (check_gruppo_in or check_gruppo_out or check_gruppo_internal) and employee_department_child_ids:
+            types = []
+            if check_gruppo_in: types.append('in')
+            if check_gruppo_out: types.append('out')
+            if check_gruppo_internal: types.append('internal')
+            assegnazione_ids = assegnazione_obj.search(cr, uid, [
+                ('tipologia_assegnatario', '=', 'department'),
+                # ('assegnatario_department_parent_id', '=', employee.department_id.id)
+                ('assegnatario_department_id', 'in', employee_department_child_ids)
+            ])
+            protocollo_visible_ids.extend(self.search(cr, uid, [
+                ('type', 'in', types),
+                ('registration_employee_id', '!=', False),
+                ('assegnazione_ids', 'in', assegnazione_ids),
+                ('reserved', '=', False),
+                ('archivio_id', 'in', archivio_ids)
+            ]))
+        _logger.info("---Query ass_uff_fig  %s seconds ---" % (time.time() - start_time))
+
+        start_time = time.time()
+        # un utente deve poter vedere i protocolli (IN e OUT) REGISTRATI e ASSEGNATI ad un UTENTE di un suo UFFICIO FIGLIO
+        check_gruppo_in = self.user_has_groups(cr, current_user_id,
+                                               'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ass_ut_uff_fig')
+        check_gruppo_out = self.user_has_groups(cr, current_user_id,
+                                                'seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ass_ut_uff_fig')
+        check_gruppo_internal = self.user_has_groups(cr, current_user_id,
+                                                     'seedoo_protocollo.group_vedi_protocolli_interno_registrati_ass_ut_uff_fig')
+        if (check_gruppo_in or check_gruppo_out or check_gruppo_internal) and employee_department_child_ids:
+            types = []
+            if check_gruppo_in: types.append('in')
+            if check_gruppo_out: types.append('out')
+            if check_gruppo_internal: types.append('internal')
+            assegnazione_ids = assegnazione_obj.search(cr, uid, [
+                ('tipologia_assegnatario', '=', 'employee'),
+                ('parent_id', '=', False),
+                # ('assegnatario_employee_department_id.parent_id.id', '=', employee.department_id.id)
+                ('assegnatario_employee_department_id', 'in', employee_department_child_ids)
+            ])
+            protocollo_visible_ids.extend(self.search(cr, uid, [
+                ('type', 'in', types),
+                ('registration_employee_id', '!=', False),
+                ('assegnazione_ids', 'in', assegnazione_ids),
+                ('reserved', '=', False),
+                ('archivio_id', 'in', archivio_ids)
+            ]))
+        _logger.info("---Query ass_ut_uff_fig  %s seconds ---" % (time.time() - start_time))
+
+        start_time = time.time()
+        # un utente deve poter vedere i protocolli (IN, OUT, INTERNAL) REGISTRATI, ASSEGNATI e RIFIUTATI da un UTENTE del suo UFFICIO
+        check_gruppo_in = self.user_has_groups(cr, current_user_id,
+                                               'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ass_rif_ut_uff')
+        check_gruppo_out = self.user_has_groups(cr, current_user_id,
+                                                'seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ass_rif_ut_uff')
+        check_gruppo_internal = self.user_has_groups(cr, current_user_id,
+                                                     'seedoo_protocollo.group_vedi_protocolli_interno_registrati_ass_rif_ut_uff')
+        if (check_gruppo_in or check_gruppo_out or check_gruppo_internal) and employee_department_ids:
+            types = []
+            if check_gruppo_in: types.append('in')
+            if check_gruppo_out: types.append('out')
+            if check_gruppo_internal: types.append('internal')
+            assegnazione_ids = assegnazione_obj.search(cr, uid, [
+                ('tipologia_assegnatario', '=', 'employee'),
+                ('assegnatario_employee_department_id', 'in', employee_department_ids),
+                ('state', '=', 'rifiutato')
+            ])
+            protocollo_visible_ids.extend(self.search(cr, uid, [
+                ('type', 'in', types),
+                ('registration_employee_id', '!=', False),
+                ('assegnazione_ids', 'in', assegnazione_ids),
+                ('reserved', '=', False),
+                ('archivio_id', 'in', archivio_ids)
+            ]))
+        _logger.info("---Query ass_rif_ut_uff  %s seconds ---" % (time.time() - start_time))
+
+        start_time = time.time()
+        # un utente deve poter vedere i protocolli interni il cui MITTENTE è un UTENTE del suo UFFICIO
+        check_gruppo_internal = self.user_has_groups(cr, current_user_id,
+                                                     'seedoo_protocollo.group_vedi_protocolli_interno_registrati_mitt_ut_uff')
+        if check_gruppo_internal and employee_department_ids:
+            protocollo_visible_ids.extend(self.search(cr, uid, [
+                ('type', '=', 'internal'),
+                ('registration_employee_id', '!=', False),
+                ('sender_internal_employee_department', 'in', employee_department_ids),
+                ('reserved', '=', False),
+                ('archivio_id', 'in', archivio_ids)
+            ]))
+        _logger.info("---Query mitt_ut_uff  %s seconds ---" % (time.time() - start_time))
+
+        return protocollo_visible_ids
+
+
     def _get_protocollo_visibile_ids(self, cr, uid, current_user_id, archivio_ids):
         protocollo_visible_ids = []
 
-        assegnazione_obj = self.pool.get('protocollo.assegnazione')
         employee_obj = self.pool.get('hr.employee')
         employee_ids = employee_obj.search(cr, uid, [('user_id', '=', current_user_id)])
         start_time = time.time()
@@ -140,368 +475,29 @@ class protocollo_protocollo(osv.Model):
             ############################################################################################################
             # Visibilità dei protocolli: casi base
             ############################################################################################################
-
-            start_time = time.time()
-            # un utente deve poter vedere i protocolli in bozza (IN e OUT) creati da lui
-            cr.execute('''
-                SELECT DISTINCT(pp.id)
-                FROM protocollo_protocollo pp
-                WHERE pp.state = 'draft' AND 
-                      pp.user_id = %s AND 
-                      pp.archivio_id IN (''' + archivio_ids_str + ''')
-            ''', (current_user_id, ))
-            protocollo_ids_drafts = [res[0] for res in cr.fetchall()]
-            _logger.info("---Query draft %s seconds ---" % (time.time() - start_time))
-
-            start_time = time.time()
-            # un utente deve poter vedere i protocolli (IN e OUT) registrati da lui
-            protocollo_ids_created = []
-            if employee_ids:
-                cr.execute('''
-                    SELECT DISTINCT(pp.id)
-                    FROM protocollo_protocollo pp
-                    WHERE pp.registration_employee_id IN (''' + employee_ids_str + ''') AND
-                          pp.archivio_id IN (''' + archivio_ids_str + ''')
-                ''')
-                protocollo_ids_created = [res[0] for res in cr.fetchall()]
-            _logger.info("---Query created %s seconds ---" % (time.time() - start_time))
-
-            start_time = time.time()
-            # un utente deve poter vedere i protocolli registrati (IN e OUT) assegnati a lui o al suo ufficio,
-            # purchè lui o un dipendente del suo ufficio non abbia rifiutato la presa in carico
-            protocollo_ids_assigned_not_refused = []
-            if employee_ids and employee_department_ids:
-                cr.execute('''
-                    SELECT DISTINCT(pa.protocollo_id)
-                    FROM protocollo_assegnazione pa, protocollo_protocollo pp
-                    WHERE pp.registration_employee_id IS NOT NULL AND
-                          pa.protocollo_id = pp.id AND
-                          (
-                              (pa.tipologia_assegnatario = 'employee' AND pa.assegnatario_employee_id IN (''' + employee_ids_str + ''') AND pa.parent_id IS NULL) OR 
-                              (pa.tipologia_assegnatario = 'department' AND pa.assegnatario_department_id  IN (''' + employee_department_ids_str + '''))
-                          ) AND
-                          (
-                              pa.protocollo_id NOT IN (
-                                  SELECT DISTINCT(pa.protocollo_id)
-                                  FROM protocollo_assegnazione pa
-                                  WHERE pa.tipologia_assegnatario = 'employee' AND
-                                        pa.assegnatario_employee_department_id IN (''' + employee_department_ids_str + ''') AND
-                                        pa.state = 'rifiutato'
-                              ) 
-                              OR 
-                              pa.protocollo_id IN (
-				                SELECT DISTINCT(pa.protocollo_id)
-				                    FROM protocollo_assegnazione pa
-				                    WHERE pa.tipologia_assegnatario = 'employee' AND pa.assegnatario_employee_id IN (''' + employee_ids_str + ''') AND 
-				                    pa.tipologia_assegnazione = 'conoscenza'
-				              )
-                          )
-                          AND
-                          pp.archivio_id IN (''' + archivio_ids_str + ''')
-                ''')
-                protocollo_ids_assigned_not_refused = [res[0] for res in cr.fetchall()]
-            _logger.info("---Query assigned_not_refused %s seconds ---" % (time.time() - start_time))
-
-            start_time = time.time()
-            # un utente deve poter vedere i protocolli (IN e OUT) registrati di cui è autore della assegnazione per
-            # competenza (assegnatore)
-            protocollo_ids_assegnatore = []
-            if employee_ids:
-                cr.execute('''
-                    SELECT DISTINCT(pa.protocollo_id)
-                    FROM protocollo_assegnazione pa, protocollo_protocollo pp
-                    WHERE pp.registration_employee_id IS NOT NULL AND
-                          pa.protocollo_id = pp.id AND
-                          pa.assegnatore_id IN (''' + employee_ids_str + ''') AND 
-                          pa.tipologia_assegnazione = 'competenza' AND 
-                          pa.parent_id IS NULL AND
-                          pp.archivio_id IN (''' + archivio_ids_str + ''')
-                ''')
-                protocollo_ids_assegnatore = [res[0] for res in cr.fetchall()]
-            _logger.info("---Query assegnatore %s seconds ---" % (time.time() - start_time))
-
-            start_time = time.time()
-            # un utente deve poter vedere i protocolli interni registrati di cui lui o il suo ufficio è il mittente
-            protocollo_ids_mittente = []
-            if employee_ids and employee_department_ids:
-                cr.execute('''
-                    SELECT DISTINCT(pp.id)
-                    FROM protocollo_protocollo pp
-                    WHERE pp.registration_employee_id IS NOT NULL AND
-                          pp.type = 'internal' AND
-                          (
-                            (pp.sender_internal_employee IN (''' + employee_ids_str + '''))
-                            OR
-                            (pp.sender_internal_department IN (''' + employee_department_ids_str + '''))
-                          ) AND
-                          pp.archivio_id IN (''' + archivio_ids_str + ''')
-                ''')
-                protocollo_ids_mittente = [res[0] for res in cr.fetchall()]
-            _logger.info("---Query mittente %s seconds ---" % (time.time() - start_time))
+            protocollo_base_visible_ids = self.get_protocollo_base_visibile_ids(
+                cr, uid, current_user_id, archivio_ids, archivio_ids_str, employee_ids, employee_ids_str,
+                employee_department_ids, employee_department_ids_str)
+            protocollo_visible_ids.extend(protocollo_base_visible_ids)
+            ############################################################################################################
 
             ############################################################################################################
             # Visibilità dei protocolli: permessi in configurazione
             ############################################################################################################
-
-            start_time = time.time()
-            # un utente deve poter vedere i protocolli (IN, OUT, INTERNAL) REGISTRATI dal suo UFFICIO di appartenenza
-            check_gruppo_in = self.user_has_groups(cr, current_user_id,
-                                                   'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ufficio')
-            check_gruppo_out = self.user_has_groups(cr, current_user_id,
-                                                    'seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ufficio')
-            check_gruppo_internal = self.user_has_groups(cr, current_user_id,
-                                                    'seedoo_protocollo.group_vedi_protocolli_interno_registrati_ufficio')
-            if (check_gruppo_in or check_gruppo_out or check_gruppo_internal) and employee_department_ids:
-                types = []
-                if check_gruppo_in: types.append('in')
-                if check_gruppo_out: types.append('out')
-                if check_gruppo_internal: types.append('internal')
-                cr.execute('''
-                    SELECT DISTINCT(pp.id)
-                    FROM protocollo_protocollo pp
-                    WHERE pp.registration_employee_id IS NOT NULL AND
-                          pp.registration_employee_department_id IN (''' + employee_department_ids_str + ''') AND
-                          pp.reserved=FALSE AND
-                          pp.type IN (''' + str(types).strip('[]') + ''') AND
-                          pp.archivio_id IN (''' + archivio_ids_str + ''')
-                ''')
-                protocollo_ids_department = [res[0] for res in cr.fetchall()]
-                protocollo_visible_ids.extend(protocollo_ids_department)
-            _logger.info("---Query department  %s seconds ---" % (time.time() - start_time))
-
-            start_time = time.time()
-            # un utente deve poter vedere i protocolli (IN, OUT, INTERNAL) REGISTRATI da un UFFICIO FIGLIO del suo ufficio di appartenenza.
-            check_gruppo_in = self.user_has_groups(cr, current_user_id,
-                                                   'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ufficio_figlio')
-            check_gruppo_out = self.user_has_groups(cr, current_user_id,
-                                                    'seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ufficio_figlio')
-            check_gruppo_internal = self.user_has_groups(cr, current_user_id,
-                                                    'seedoo_protocollo.group_vedi_protocolli_interno_registrati_ufficio_figlio')
-            if (check_gruppo_in or check_gruppo_out or check_gruppo_internal) and employee_department_child_ids:
-                types = []
-                if check_gruppo_in: types.append('in')
-                if check_gruppo_out: types.append('out')
-                if check_gruppo_internal: types.append('internal')
-                cr.execute('''
-                    SELECT DISTINCT(pp.id)
-                    FROM protocollo_protocollo pp
-                    WHERE pp.registration_employee_id IS NOT NULL AND
-                          pp.registration_employee_department_id IN (''' + employee_department_child_ids_str + ''') AND
-                          pp.reserved=FALSE AND
-                          pp.type IN (''' + str(types).strip('[]') + ''') AND
-                          pp.archivio_id IN (''' + archivio_ids_str + ''')
-                ''')
-                protocollo_ids_department_childs = [res[0] for res in cr.fetchall()]
-                protocollo_visible_ids.extend(protocollo_ids_department_childs)
-            _logger.info("---Query ids_department_childs  %s seconds ---" % (time.time() - start_time))
-
-            start_time = time.time()
-            # un utente deve poter vedere QUALUNQUE protocollo (IN, OUT, INTERNAL) in stato BOZZA appartenente alla sua AOO
-            check_gruppo_in = self.user_has_groups(cr, current_user_id,
-                                                   'seedoo_protocollo.group_vedi_protocolli_ingresso_bozza')
-            check_gruppo_out = self.user_has_groups(cr, current_user_id,
-                                                    'seedoo_protocollo.group_vedi_protocolli_uscita_bozza')
-            check_gruppo_internal = self.user_has_groups(cr, current_user_id,
-                                                    'seedoo_protocollo.group_vedi_protocolli_interno_bozza')
-            if (check_gruppo_in or check_gruppo_out or check_gruppo_internal) and aoo_ids:
-                types = []
-                if check_gruppo_in: types.append('in')
-                if check_gruppo_out: types.append('out')
-                if check_gruppo_internal: types.append('internal')
-                protocollo_ids_aoo = self.search(cr, uid, [
-                    ('type', 'in', types),
-                    ('state', '=', 'draft'),
-                    ('aoo_id', 'in', aoo_ids),
-                    ('archivio_id', 'in', archivio_ids)
-                ])
-                protocollo_visible_ids.extend(protocollo_ids_aoo)
-            _logger.info("---Query aoo  %s seconds ---" % (time.time() - start_time))
-
-            start_time = time.time()
-            # un utente deve poter vedere QUALUNQUE protocollo (IN, OUT, INTERNAL) REGISTRATO da un utente della sua AOO
-            check_gruppo_in = self.user_has_groups(cr, current_user_id,
-                                                   'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati')
-            check_gruppo_out = self.user_has_groups(cr, current_user_id,
-                                                    'seedoo_protocollo.group_vedi_protocolli_uscita_registrati')
-            check_gruppo_internal = self.user_has_groups(cr, current_user_id,
-                                                    'seedoo_protocollo.group_vedi_protocolli_interno_registrati')
-            if (check_gruppo_in or check_gruppo_out or check_gruppo_internal) and aoo_ids:
-                types = []
-                if check_gruppo_in: types.append('in')
-                if check_gruppo_out: types.append('out')
-                if check_gruppo_internal: types.append('internal')
-                protocollo_ids_aoo = self.search(cr, uid, [
-                    ('type', 'in', types),
-                    ('registration_employee_id', '!=', False),
-                    ('aoo_id', 'in', aoo_ids),
-                    ('archivio_id', 'in', archivio_ids)
-                ])
-                protocollo_visible_ids.extend(protocollo_ids_aoo)
-            _logger.info("---Query aoo 2  %s seconds ---" % (time.time() - start_time))
-
-            start_time = time.time()
-            # un utente deve poter vedere i protocolli (IN, OUT, INTERNAL) REGISTRATI e ASSEGNATI ad un UTENTE del suo UFFICIO di appartenenza
-            check_gruppo_in = self.user_has_groups(cr, current_user_id,
-                                                   'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ass_ut_uff')
-            check_gruppo_out = self.user_has_groups(cr, current_user_id,
-                                                    'seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ass_ut_uff')
-            check_gruppo_internal = self.user_has_groups(cr, current_user_id,
-                                                    'seedoo_protocollo.group_vedi_protocolli_interno_registrati_ass_ut_uff')
-            if (check_gruppo_in or check_gruppo_out or check_gruppo_internal) and employee_department_ids:
-                types = []
-                if check_gruppo_in: types.append('in')
-                if check_gruppo_out: types.append('out')
-                if check_gruppo_internal: types.append('internal')
-                assegnazione_ids = assegnazione_obj.search(cr, uid, [
-                    ('tipologia_assegnatario', '=', 'employee'),
-                    ('parent_id', '=', False),
-                    ('assegnatario_employee_department_id', 'in', employee_department_ids)
-                ])
-                protocollo_visible_ids.extend(self.search(cr, uid, [
-                    ('type', 'in', types),
-                    ('registration_employee_id', '!=', False),
-                    ('assegnazione_ids', 'in', assegnazione_ids),
-                    ('reserved', '=', False),
-                    ('archivio_id', 'in', archivio_ids)
-                ]))
-            _logger.info("---Query registrati_ass_ut_uff  %s seconds ---" % (time.time() - start_time))
-
-            start_time = time.time()
-            # un utente deve poter vedere i protocolli (IN, OUT, INTERNAL) REGISTRATI e ASSEGNATI ad un suo UFFICIO FIGLIO
-            check_gruppo_in = self.user_has_groups(cr, current_user_id,
-                                                   'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ass_uff_fig')
-            check_gruppo_out = self.user_has_groups(cr, current_user_id,
-                                                    'seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ass_uff_fig')
-            check_gruppo_internal = self.user_has_groups(cr, current_user_id,
-                                                    'seedoo_protocollo.group_vedi_protocolli_interno_registrati_ass_uff_fig')
-            if (check_gruppo_in or check_gruppo_out or check_gruppo_internal) and employee_department_child_ids:
-                types = []
-                if check_gruppo_in: types.append('in')
-                if check_gruppo_out: types.append('out')
-                if check_gruppo_internal: types.append('internal')
-                assegnazione_ids = assegnazione_obj.search(cr, uid, [
-                    ('tipologia_assegnatario', '=', 'department'),
-                    #('assegnatario_department_parent_id', '=', employee.department_id.id)
-                    ('assegnatario_department_id', 'in', employee_department_child_ids)
-                ])
-                protocollo_visible_ids.extend(self.search(cr, uid, [
-                    ('type', 'in', types),
-                    ('registration_employee_id', '!=', False),
-                    ('assegnazione_ids', 'in', assegnazione_ids),
-                    ('reserved', '=', False),
-                    ('archivio_id', 'in', archivio_ids)
-                ]))
-            _logger.info("---Query ass_uff_fig  %s seconds ---" % (time.time() - start_time))
-
-            start_time = time.time()
-            # un utente deve poter vedere i protocolli (IN e OUT) REGISTRATI e ASSEGNATI ad un UTENTE di un suo UFFICIO FIGLIO
-            check_gruppo_in = self.user_has_groups(cr, current_user_id,
-                                                   'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ass_ut_uff_fig')
-            check_gruppo_out = self.user_has_groups(cr, current_user_id,
-                                                    'seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ass_ut_uff_fig')
-            check_gruppo_internal = self.user_has_groups(cr, current_user_id,
-                                                    'seedoo_protocollo.group_vedi_protocolli_interno_registrati_ass_ut_uff_fig')
-            if (check_gruppo_in or check_gruppo_out or check_gruppo_internal) and employee_department_child_ids:
-                types = []
-                if check_gruppo_in: types.append('in')
-                if check_gruppo_out: types.append('out')
-                if check_gruppo_internal: types.append('internal')
-                assegnazione_ids = assegnazione_obj.search(cr, uid, [
-                    ('tipologia_assegnatario', '=', 'employee'),
-                    ('parent_id', '=', False),
-                    #('assegnatario_employee_department_id.parent_id.id', '=', employee.department_id.id)
-                    ('assegnatario_employee_department_id', 'in', employee_department_child_ids)
-                ])
-                protocollo_visible_ids.extend(self.search(cr, uid, [
-                    ('type', 'in', types),
-                    ('registration_employee_id', '!=', False),
-                    ('assegnazione_ids', 'in', assegnazione_ids),
-                    ('reserved', '=', False),
-                    ('archivio_id', 'in', archivio_ids)
-                ]))
-            _logger.info("---Query ass_ut_uff_fig  %s seconds ---" % (time.time() - start_time))
-
-            start_time = time.time()
-            # un utente deve poter vedere i protocolli (IN, OUT, INTERNAL) REGISTRATI, ASSEGNATI e RIFIUTATI da un UTENTE del suo UFFICIO
-            check_gruppo_in = self.user_has_groups(cr, current_user_id,
-                                                   'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ass_rif_ut_uff')
-            check_gruppo_out = self.user_has_groups(cr, current_user_id,
-                                                    'seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ass_rif_ut_uff')
-            check_gruppo_internal = self.user_has_groups(cr, current_user_id,
-                                                    'seedoo_protocollo.group_vedi_protocolli_interno_registrati_ass_rif_ut_uff')
-            if (check_gruppo_in or check_gruppo_out or check_gruppo_internal) and employee_department_ids:
-                types = []
-                if check_gruppo_in: types.append('in')
-                if check_gruppo_out: types.append('out')
-                if check_gruppo_internal: types.append('internal')
-                assegnazione_ids = assegnazione_obj.search(cr, uid, [
-                    ('tipologia_assegnatario', '=', 'employee'),
-                    ('assegnatario_employee_department_id', 'in', employee_department_ids),
-                    ('state', '=', 'rifiutato')
-                ])
-                protocollo_visible_ids.extend(self.search(cr, uid, [
-                    ('type', 'in', types),
-                    ('registration_employee_id', '!=', False),
-                    ('assegnazione_ids', 'in', assegnazione_ids),
-                    ('reserved', '=', False),
-                    ('archivio_id', 'in', archivio_ids)
-                ]))
-            _logger.info("---Query ass_rif_ut_uff  %s seconds ---" % (time.time() - start_time))
-
-            start_time = time.time()
-            # un utente deve poter vedere i protocolli interni il cui MITTENTE è un UTENTE del suo UFFICIO
-            check_gruppo_internal = self.user_has_groups(cr, current_user_id,
-                                                         'seedoo_protocollo.group_vedi_protocolli_interno_registrati_mitt_ut_uff')
-            if check_gruppo_internal and employee_department_ids:
-                protocollo_visible_ids.extend(self.search(cr, uid, [
-                    ('type', '=', 'internal'),
-                    ('registration_employee_id', '!=', False),
-                    ('sender_internal_employee_department', 'in', employee_department_ids),
-                    ('reserved', '=', False),
-                    ('archivio_id', 'in', archivio_ids)
-                ]))
-            _logger.info("---Query mitt_ut_uff  %s seconds ---" % (time.time() - start_time))
-
-            #start_time = time.time()
-            # un utente deve poter vedere i protocolli (IN e OUT) REGISTRATI e ASSEGNATI DA un UTENTE del suo UFFICIO
-            # check_gruppo_in = self.user_has_groups(cr, current_user_id,
-            #                                        'seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ass_da_ut_uff')
-            # check_gruppo_out = self.user_has_groups(cr, current_user_id,
-            #                                         'seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ass_da_ut_uff')
-            # if (check_gruppo_in or check_gruppo_out) and employee_department_ids:
-            #     types = []
-            #     if check_gruppo_in: types.append('in')
-            #     if check_gruppo_out: types.append('out')
-            #     assegnazione_ids = assegnazione_obj.search(cr, uid, [
-            #         ('tipologia_assegnazione', '=', 'competenza'),
-            #         ('parent_id', '=', False),
-            #         ('assegnatore_department_id', 'in', employee_department_ids)
-            #     ])
-            #     protocollo_visible_ids.extend(self.search(cr, uid, [
-            #         ('type', 'in', types),
-            #         ('registration_employee_id', '!=', False),
-            #         ('assegnazione_ids', 'in', assegnazione_ids),
-            #         ('reserved', '=', False)
-            #     ]))
-            # _logger.info("---Query ass_da_ut_uff  %s seconds ---" % (time.time() - start_time))
-
-            protocollo_visible_ids.extend(protocollo_ids_drafts)
-            protocollo_visible_ids.extend(protocollo_ids_created)
-            protocollo_visible_ids.extend(protocollo_ids_assigned_not_refused)
-            protocollo_visible_ids.extend(protocollo_ids_assegnatore)
-            protocollo_visible_ids.extend(protocollo_ids_mittente)
+            protocollo_configuration_visible_ids = self.get_protocollo_configuration_visibile_ids(
+                cr, uid, current_user_id, archivio_ids, archivio_ids_str, employee_ids, employee_ids_str,
+                employee_department_ids, employee_department_ids_str,
+                employee_department_child_ids, employee_department_child_ids_str, aoo_ids)
+            protocollo_visible_ids.extend(protocollo_configuration_visible_ids)
+            ############################################################################################################
 
             protocollo_visible_ids = list(set(protocollo_visible_ids))
 
-        # _logger.info("--- %s seconds ---" % (time.time() - start_time_total))
         _logger.info("--- %s start ---" % (start_time))
         _logger.info("--- %s len ---" % (len(protocollo_visible_ids)))
 
         return protocollo_visible_ids
 
-        ####################################################################################################################
-        # Visibilità dei protocolli
-        ####################################################################################################################
 
     def _get_protocollo_archivio_ids(self, cr, archivio_ids):
         protocollo_archivio_ids = []
