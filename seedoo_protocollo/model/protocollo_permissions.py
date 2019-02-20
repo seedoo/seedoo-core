@@ -1956,6 +1956,104 @@ class protocollo_protocollo(osv.Model):
 
         return dict(res)
 
+    def _aggiungi_mittenti_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
+        res = []
+
+        protocolli = self._get_protocolli(cr, uid, ids)
+        for protocollo in protocolli:
+            check = False
+
+            if protocollo.type=='in' and protocollo.state in ['draft'] and not protocollo.senders:
+                check = True
+
+            res.append((protocollo.id, check))
+
+        return dict(res)
+
+    def _modifica_mittenti_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
+        res = []
+
+        protocolli = self._get_protocolli(cr, uid, ids)
+        for protocollo in protocolli:
+            check = False
+
+            if protocollo.type=='in' and protocollo.state in ['draft']:
+                check = True
+
+            res.append((protocollo.id, check))
+
+        return dict(res)
+
+    def _aggiungi_destinatari_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
+        res = []
+
+        protocolli = self._get_protocolli(cr, uid, ids)
+        for protocollo in protocolli:
+            check = False
+
+            if protocollo.type=='out' and protocollo.state in ['draft']:
+                check = True
+
+            res.append((protocollo.id, check))
+
+        return dict(res)
+
+    def _modifica_destinatari_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
+        res = []
+
+        protocolli = self._get_protocolli(cr, uid, ids)
+        for protocollo in protocolli:
+            check = False
+
+            if protocollo.type=='out' and protocollo.state in ['draft']:
+                check = True
+
+            res.append((protocollo.id, check))
+
+        return dict(res)
+
+    def _aggiungi_mittente_interno_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
+        res = []
+
+        protocolli = self._get_protocolli(cr, uid, ids)
+        for protocollo in protocolli:
+            check = False
+
+            if protocollo.type in ['out', 'internal'] and protocollo.state in ['draft'] and not protocollo.sender_internal_name:
+                check = True
+
+            res.append((protocollo.id, check))
+
+        return dict(res)
+
+    def _modifica_mittente_interno_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
+        res = []
+
+        protocolli = self._get_protocolli(cr, uid, ids)
+        for protocollo in protocolli:
+            check = False
+
+            if protocollo.type in ['out', 'internal'] and protocollo.state in ['draft'] and protocollo.sender_internal_name:
+                check = True
+
+            res.append((protocollo.id, check))
+
+        return dict(res)
+
+    def _aggiungi_classificazione_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
+        res = []
+
+        protocolli = self._get_protocolli(cr, uid, ids)
+        for protocollo in protocolli:
+            check = False
+
+            if protocollo.state in ['draft'] and not protocollo.classification:
+                check = True
+
+            res.append((protocollo.id, check))
+
+        return dict(res)
+
     #TODO: attualmente rendiamo il button visibile solo al protocollatore, in futuro dovrà essere estesa anche all'assegnatore
     def _modifica_classificazione_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
@@ -1963,19 +2061,6 @@ class protocollo_protocollo(osv.Model):
         protocolli = self._get_protocolli(cr, uid, ids)
         for protocollo in protocolli:
             check = False
-
-            # if protocollo.state != 'canceled':
-            #     if protocollo.type == 'in':
-            #         check = self.user_has_groups(cr, uid,
-            #                                      'seedoo_protocollo.group_modifica_classificazione_protocollo_ingresso')
-            #     elif protocollo.type == 'out':
-            #         check = self.user_has_groups(cr, uid,
-            #                                      'seedoo_protocollo.group_modifica_classificazione_protocollo_uscita')
-            #
-            # if not check and \
-            #         protocollo.state == 'draft' and \
-            #         (uid == protocollo.user_id.id or uid == SUPERUSER_ID):
-            #     check = True
 
             if protocollo.state == 'draft' and (uid == protocollo.user_id.id or uid == SUPERUSER_ID):
                 check = True
@@ -2576,6 +2661,14 @@ class protocollo_protocollo(osv.Model):
         'agli_atti_visibility': fields.function(_agli_atti_visibility, type='boolean', string='Agli Atti'),
         'modifica_dati_generali_visibility': fields.function(_modifica_dati_generali_visibility, type='boolean',
                                                              string='Modifica Dati Generali'),
+        'aggiungi_mittenti_visibility': fields.function(_aggiungi_mittenti_visibility, type='boolean', string='Aggiungi Mittenti'),
+        'modifica_mittenti_visibility': fields.function(_modifica_mittenti_visibility, type='boolean', string='Modifica Mittenti'),
+        'aggiungi_destinatari_visibility': fields.function(_aggiungi_destinatari_visibility, type='boolean', string='Aggiungi Destinatari'),
+        'modifica_destinatari_visibility': fields.function(_modifica_destinatari_visibility, type='boolean', string='Modifica Destinatari'),
+        'aggiungi_mittente_interno_visibility': fields.function(_aggiungi_mittente_interno_visibility, type='boolean', string='Aggiungi Mittente Interno'),
+        'modifica_mittente_interno_visibility': fields.function(_modifica_mittente_interno_visibility, type='boolean', string='Modifica Mittente Interno'),
+        'aggiungi_classificazione_visibility': fields.function(_aggiungi_classificazione_visibility, type='boolean',
+                                                               string='Aggiungi Classificazione'),
         'modifica_classificazione_visibility': fields.function(_modifica_classificazione_visibility, type='boolean',
                                                                string='Modifica Classificazione'),
         'classifica_visibility': fields.function(_classifica_visibility, type='boolean', string='Classifica'),

@@ -327,6 +327,13 @@ this module contains the full copyright notices and license terms. -->
                             <field name="segna_come_letto_visibility"/>
                             <field name="agli_atti_visibility"/>
                             <field name="modifica_dati_generali_visibility"/>
+                            <field name="aggiungi_mittenti_visibility"/>
+                            <field name="modifica_mittenti_visibility"/>
+                            <field name="aggiungi_destinatari_visibility"/>
+                            <field name="modifica_destinatari_visibility"/>
+                            <field name="aggiungi_mittente_interno_visibility"/>
+                            <field name="modifica_mittente_interno_visibility"/>
+                            <field name="aggiungi_classificazione_visibility"/>
                             <field name="modifica_classificazione_visibility"/>
                             <field name="classifica_visibility"/>
                             <field name="modifica_fascicolazione_visibility"/>
@@ -503,18 +510,18 @@ this module contains the full copyright notices and license terms. -->
                                         <button name="crea_destinatario"
                                                 string="Aggiungi Destinatario"
                                                 type="object"
-                                                attrs="{'invisible':[('state','!=','draft')]}"
+                                                attrs="{'invisible':[('aggiungi_destinatari_visibility','=',False)]}"
                                                 class="oe_highlight_positive oe_edit_only btn_seedoo oe_kanban_button_new aggiungi_destinatario"
                                         />
                                         <button name="%(protocollo_create_destinatari_da_gruppo_wizard_action)d"
                                                 string="Aggiungi Destinatari da Gruppo"
                                                 type="action"
-                                                attrs="{'invisible':[('state','!=','draft')]}"
+                                                attrs="{'invisible':[('aggiungi_destinatari_visibility','=',False)]}"
                                                 class="oe_highlight_positive oe_edit_only btn_seedoo oe_kanban_button_new"
                                         />
                                     </div>
                                     <newline/>
-                                    <field name="receivers" mode="kanban" nolabel="1" class="container_sr" attrs="{'readonly':[('state','!=','draft')]}" colspan="4"/>
+                                    <field name="receivers" mode="kanban" nolabel="1" class="container_sr" attrs="{'readonly':[('modifica_destinatari_visibility','=',False)]}" colspan="4"/>
                                 </group>
                             </page>
                             <page string="Mittente" attrs="{'invisible':[('type','=','in')]}" class="tab-mittente tab-internal tab-sr">
@@ -522,13 +529,13 @@ this module contains the full copyright notices and license terms. -->
                                     <button name="%(protocollo_aggiungi_sender_internal_action)d"
                                             string="Aggiungi Mittente"
                                             type="action"
-                                            attrs="{'invisible':['|',('state','!=','draft'),('sender_internal_name','!=', False)]}"
+                                            attrs="{'invisible':[('aggiungi_mittente_interno_visibility','=',False)]}"
                                             class="oe_highlight_positive btn_seedoo btn_aggiungi_assegnatari"/>
                                     <newline/>
                                     <button name="%(protocollo_aggiungi_sender_internal_action)d"
                                             string="Modifica Mittente"
                                             type="action"
-                                            attrs="{'invisible':['|',('state','!=','draft'),('sender_internal_name','=', False)]}"
+                                            attrs="{'invisible':[('modifica_mittente_interno_visibility','=',False)]}"
                                             class="oe_highlight_positive btn_seedoo btn_modifica_assegnatari"/>
                                 </div>
                                 <div class="box-sender-internal" attrs="{'invisible':[('sender_internal_name','=', False)]}">
@@ -557,7 +564,7 @@ this module contains the full copyright notices and license terms. -->
                                             context="{'protocollo_id': active_id}"
                                             string="x"
                                             type="object"
-                                            attrs="{'invisible':['|',('state','!=','draft'),('sender_internal_name','=', False)]}"
+                                            attrs="{'invisible':[('modifica_mittente_interno_visibility','=',False)]}"
                                             class="oe_highlight_positive btn_seedoo btn_rimuovi_mittente oe_edit_only"/>
                                 </div>
                             </page>
@@ -567,12 +574,12 @@ this module contains the full copyright notices and license terms. -->
                                         <button name="crea_mittente"
                                                 string="Aggiungi Mittente"
                                                 type="object"
-                                                attrs="{'invisible':['|',('state','!=','draft'),('senders','!=',[])]}"
+                                                attrs="{'invisible':[('aggiungi_mittenti_visibility','=',False)]}"
                                                 class="oe_highlight_positive oe_edit_only btn_seedoo oe_kanban_button_new aggiungi_mittente"
                                         />
                                     </div>
                                     <newline/>
-                                    <field name="senders" mode="kanban" nolabel="1" attrs="{'readonly':[('state','!=','draft')]}" colspan="4"/>
+                                    <field name="senders" mode="kanban" nolabel="1" attrs="{'readonly':[('modifica_mittenti_visibility','=',False)]}" colspan="4"/>
                                 </group>
                             </page>
                             <!--<page string="Preview" attrs="{'invisible':[('mimetype','!=','application/pdf')]}">-->
@@ -588,7 +595,7 @@ this module contains the full copyright notices and license terms. -->
                                         <button name="%(protocollo_aggiungi_classificazione_action)d"
                                                 string="Aggiungi Classificazione"
                                                 type="action"
-                                                attrs="{'invisible':['|',('classification','!=',False),('state','!=','draft')]}"
+                                                attrs="{'invisible':[('aggiungi_classificazione_visibility','=',False)]}"
                                                 class="oe_highlight_positive btn_seedoo btn_aggiungi_classificazione"
                                                 context="{'initial_mode':'edit'}"
                                         />
