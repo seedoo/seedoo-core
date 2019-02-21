@@ -39,7 +39,7 @@ this module contains the full copyright notices and license terms. -->
         <menuitem name="Crea Protocollo" action="protocollo_create_action"
                   parent="protocollo_doc"
                   id="crea_protocollo_menu" sequence="30"
-                  groups="group_crea_protocollo_ingresso,group_crea_protocollo_uscita"/>
+                  groups="group_crea_protocollo_ingresso,group_crea_protocollo_uscita,group_crea_protocollo_interno"/>
 
         <menuitem name="PEC" action="protocollo_pec_act" sequence="40"
                   parent="protocollo_doc" id="protocollo_pec_menu"
