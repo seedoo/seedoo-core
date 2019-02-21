@@ -2062,22 +2062,16 @@ class protocollo_protocollo(osv.Model):
         for protocollo in protocolli:
             check = False
 
-            if protocollo.state == 'draft' and (uid == protocollo.user_id.id or uid == SUPERUSER_ID):
-                check = True
-            elif protocollo.state != 'draft' and protocollo.state != 'canceled':
-                if protocollo.type == 'in':
-                    check = self.user_has_groups(cr, uid,
-                                                 'seedoo_protocollo.group_modifica_classificazione_protocollo_ingresso')
-                elif protocollo.type == 'out':
-                    check = self.user_has_groups(cr, uid,
-                                                 'seedoo_protocollo.group_modifica_classificazione_protocollo_uscita')
-                elif protocollo.type == 'internal':
-                    check = self.user_has_groups(cr, uid,
-                                                 'seedoo_protocollo.group_modifica_classificazione_protocollo_interno')
-                if check and (uid == protocollo.user_id.id or uid == SUPERUSER_ID):
+            if protocollo.classification and (uid == protocollo.user_id.id or uid == SUPERUSER_ID):
+                if protocollo.state == 'draft':
                     check = True
-                else:
-                    check = False
+                elif protocollo.state in ['registered', 'notified', 'waiting', 'sent', 'error']:
+                    if protocollo.type == 'in':
+                        check = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_modifica_classificazione_protocollo_ingresso')
+                    elif protocollo.type == 'out':
+                        check = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_modifica_classificazione_protocollo_uscita')
+                    elif protocollo.type == 'internal':
+                        check = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_modifica_classificazione_protocollo_interno')
 
             res.append((protocollo.id, check))
 
@@ -2097,8 +2091,7 @@ class protocollo_protocollo(osv.Model):
             if check:
                 check_gruppi = False
                 if protocollo.type == 'in':
-                    check_gruppi = self.user_has_groups(cr, uid,
-                                                        'seedoo_protocollo.group_classifica_protocollo_ingresso')
+                    check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_classifica_protocollo_ingresso')
                 elif protocollo.type == 'out':
                     check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_classifica_protocollo_uscita')
                 elif protocollo.type == 'internal':
@@ -2176,6 +2169,20 @@ class protocollo_protocollo(osv.Model):
 
         return dict(res)
 
+    def _aggiungi_assegnatari_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
+        res = []
+
+        protocolli = self._get_protocolli(cr, uid, ids)
+        for protocollo in protocolli:
+            check = False
+
+            if protocollo.state == 'draft' and not protocollo.assegnazione_first_level_ids:
+                check = True
+
+            res.append((protocollo.id, check))
+
+        return dict(res)
+
     def _modifica_assegnatari_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
 
@@ -2183,18 +2190,17 @@ class protocollo_protocollo(osv.Model):
         for protocollo in protocolli:
             check = False
 
-            if protocollo.state != 'canceled':
-                if protocollo.type == 'in':
-                    check = self.user_has_groups(cr, uid,
-                                                 'seedoo_protocollo.group_modifica_assegnatari_protocollo_ingresso')
-                elif protocollo.type == 'out':
-                    check = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_modifica_assegnatari_protocollo_uscita')
-                elif protocollo.type == 'internal':
-                    check = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_modifica_assegnatari_protocollo_interno')
-            if not check and \
-                    protocollo.state == 'draft' and \
-                    (uid == protocollo.user_id.id or uid == SUPERUSER_ID):
-                check = True
+            if protocollo.assegnazione_first_level_ids:
+
+                if protocollo.state == 'draft' and (uid == protocollo.user_id.id or uid == SUPERUSER_ID):
+                    check = True
+                elif protocollo.state in ['registered', 'notified', 'waiting', 'sent', 'error']:
+                    if protocollo.type == 'in':
+                        check = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_modifica_assegnatari_protocollo_ingresso')
+                    elif protocollo.type == 'out':
+                        check = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_modifica_assegnatari_protocollo_uscita')
+                    elif protocollo.type == 'internal':
+                        check = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_modifica_assegnatari_protocollo_interno')
 
             res.append((protocollo.id, check))
 
@@ -2207,20 +2213,18 @@ class protocollo_protocollo(osv.Model):
         for protocollo in protocolli:
             check = False
 
-            if protocollo.state in ('registered', 'notified', 'waiting', 'sent', 'error') and protocollo.assegnazione_competenza_ids:
+            if protocollo.state in ('registered', 'notified', 'waiting', 'sent', 'error') \
+                    and protocollo.assegnazione_competenza_ids and not protocollo.reserved:
                 check = True
 
             if check:
                 check_gruppi = False
                 if protocollo.type == 'in':
-                    check_gruppi = self.user_has_groups(cr, uid,
-                                                        'seedoo_protocollo.group_aggiungi_assegnatari_cc_protocollo_ingresso')
+                    check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_aggiungi_assegnatari_cc_protocollo_ingresso')
                 elif protocollo.type == 'out':
-                    check_gruppi = self.user_has_groups(cr, uid,
-                                                        'seedoo_protocollo.group_aggiungi_assegnatari_cc_protocollo_uscita')
+                    check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_aggiungi_assegnatari_cc_protocollo_uscita')
                 elif protocollo.type == 'internal':
-                    check_gruppi = self.user_has_groups(cr, uid,
-                                                        'seedoo_protocollo.group_aggiungi_assegnatari_cc_protocollo_interno')
+                    check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_aggiungi_assegnatari_cc_protocollo_interno')
                 check = check and check_gruppi
 
             if uid == protocollo.user_id.id or uid == SUPERUSER_ID:
@@ -2677,16 +2681,13 @@ class protocollo_protocollo(osv.Model):
         'modifica_destinatari_visibility': fields.function(_modifica_destinatari_visibility, type='boolean', string='Modifica Destinatari'),
         'aggiungi_mittente_interno_visibility': fields.function(_aggiungi_mittente_interno_visibility, type='boolean', string='Aggiungi Mittente Interno'),
         'modifica_mittente_interno_visibility': fields.function(_modifica_mittente_interno_visibility, type='boolean', string='Modifica Mittente Interno'),
-        'aggiungi_classificazione_visibility': fields.function(_aggiungi_classificazione_visibility, type='boolean',
-                                                               string='Aggiungi Classificazione'),
-        'modifica_classificazione_visibility': fields.function(_modifica_classificazione_visibility, type='boolean',
-                                                               string='Modifica Classificazione'),
+        'aggiungi_classificazione_visibility': fields.function(_aggiungi_classificazione_visibility, type='boolean', string='Aggiungi Classificazione'),
+        'modifica_classificazione_visibility': fields.function(_modifica_classificazione_visibility, type='boolean', string='Modifica Classificazione'),
         'classifica_visibility': fields.function(_classifica_visibility, type='boolean', string='Classifica'),
-        'modifica_fascicolazione_visibility': fields.function(_modifica_fascicolazione_visibility, type='boolean',
-                                                               string='Modifica Fascicolazione'),
+        'modifica_fascicolazione_visibility': fields.function(_modifica_fascicolazione_visibility, type='boolean', string='Modifica Fascicolazione'),
         'fascicola_visibility': fields.function(_fascicola_visibility, type='boolean', string='Fascicola'),
-        'modifica_assegnatari_visibility': fields.function(_modifica_assegnatari_visibility, type='boolean',
-                                                           string='Modifica Assegnatari'),
+        'aggiungi_assegnatari_visibility': fields.function(_aggiungi_assegnatari_visibility, type='boolean', string='Aggiungi Assegnatari'),
+        'modifica_assegnatari_visibility': fields.function(_modifica_assegnatari_visibility, type='boolean', string='Modifica Assegnatari'),
         'aggiungi_assegnatari_cc_visibility': fields.function(_aggiungi_assegnatari_cc_visibility, type='boolean',
                                                               string='Aggiungi Assegnatari Conoscenza'),
         'assegna_visibility': fields.function(_assegna_visibility, type='boolean', string='Assegna'),
