@@ -1079,7 +1079,7 @@ class protocollo_protocollo(orm.Model):
 
             self.pool.get('protocollo.configurazione').verifica_campi_obbligatori(cr, uid, prot)
 
-            if prot.state == 'draft':
+            if not prot.registration_date:
                 try:
                     vals = {}
                     prot_number = self._get_next_number(cr, uid, prot)
