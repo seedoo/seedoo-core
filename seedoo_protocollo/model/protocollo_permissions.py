@@ -2528,22 +2528,32 @@ class protocollo_protocollo(osv.Model):
 
         return dict(res)
 
-    def _carica_modifica_documento_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
+    def _carica_documento_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
         check = False
         protocolli = self._get_protocolli(cr, uid, ids)
         for protocollo in protocolli:
 
-            if protocollo.state in 'draft':
-                check = True
-
-            if protocollo.state in 'registered' and protocollo.user_id.id == uid:
+            if not protocollo.doc_id and \
+                    (protocollo.state in 'draft' or (protocollo.state in 'registered' and protocollo.user_id.id == uid)):
                 check = True
 
             res.append((protocollo.id, check))
 
         return dict(res)
 
+    def _modifica_documento_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
+        res = []
+        check = False
+        protocolli = self._get_protocolli(cr, uid, ids)
+        for protocollo in protocolli:
+
+            if protocollo.doc_id and protocollo.state in ['draft']:
+                check = True
+
+            res.append((protocollo.id, check))
+
+        return dict(res)
 
     ####################################################################################################################
 
@@ -2701,8 +2711,8 @@ class protocollo_protocollo(osv.Model):
             string='Aggiungi Allegati Post Registrazione'),
         'inserisci_testo_mailpec_visibility': fields.function(_inserisci_testo_mailpec_visibility, type='boolean',
                                                               string='Abilita testo PEC'),
-        'carica_modifica_documento_visibility': fields.function(_carica_modifica_documento_visibility, type='boolean',
-                                                                string='Carica/Modifica documento'),
+        'carica_documento_visibility': fields.function(_carica_documento_visibility, type='boolean', string='Carica documento'),
+        'modifica_documento_visibility': fields.function(_modifica_documento_visibility, type='boolean', string='Modifica documento'),
     }
 
     def _default_protocollazione_riservata_visibility(self, cr, uid, context):
@@ -2710,7 +2720,8 @@ class protocollo_protocollo(osv.Model):
 
     _defaults = {
         'protocollazione_riservata_visibility': _default_protocollazione_riservata_visibility,
-        'carica_modifica_documento_visibility': True
+        'carica_documento_visibility': True,
+        'modifica_documento_visibility': True
     }
 
     def init(self, cr):

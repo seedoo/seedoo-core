@@ -351,7 +351,8 @@ this module contains the full copyright notices and license terms. -->
                             <field name="modifica_email_visibility"/>
                             <!--<field name="aggiungi_pec_visibility"/>-->
                             <field name="protocollazione_riservata_visibility"/>
-                            <field name="carica_modifica_documento_visibility"/>
+                            <field name="carica_documento_visibility"/>
+                            <field name="modifica_documento_visibility"/>
                             <field name="aggiungi_allegati_post_registrazione_visibility"/>
                             <field name="inserisci_testo_mailpec_visibility"/>
                             <field name="doc_id" invisible="1"/>
@@ -433,11 +434,11 @@ this module contains the full copyright notices and license terms. -->
                                             <group colspan="2">
                                                 <div class="oe_edit_only">
                                                     <button string="Carica Documento" type="action" class="oe_inline oe_highlight_positive oe_button btn_seedoo btn_carica_documenti button-form-protocollo"
-                                                        attrs="{'invisible':['|',('doc_id','!=',False),('carica_modifica_documento_visibility','=', False)]}"
+                                                        attrs="{'invisible':[('carica_documento_visibility','=',False)]}"
                                                         name="%(protocollo_carica_documenti_wizard_action)d"/>
                                                     <newline/>
                                                     <button string="Modifica Documento" type="action" class="oe_inline oe_highlight_positive oe_button btn_seedoo btn_carica_documenti button-form-protocollo"
-                                                        attrs="{'invisible':['|',('doc_id','=',False),'&amp;',('doc_id','!=',False),('state','!=','draft')]}"
+                                                        attrs="{'invisible':[('modifica_documento_visibility','=',False)]}"
                                                         name="%(protocollo_carica_documenti_wizard_action)d"/>
                                                     <field name="mimetype" invisible="1"/>
                                                 </div>
