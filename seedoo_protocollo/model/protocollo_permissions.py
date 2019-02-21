@@ -2110,6 +2110,28 @@ class protocollo_protocollo(osv.Model):
 
         return dict(res)
 
+    def _aggiungi_fascicolazione_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
+        res = []
+
+        protocolli = self._get_protocolli(cr, uid, ids)
+        for protocollo in protocolli:
+            check = False
+
+            if not protocollo.dossier_ids:
+                if protocollo.state == 'draft' and (uid == protocollo.user_id.id or uid == SUPERUSER_ID):
+                    check = True
+                elif protocollo.state in ['registered', 'notified', 'waiting', 'sent', 'error']:
+                    if protocollo.type == 'in':
+                        check = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_modifica_fascicolazione_protocollo_ingresso')
+                    elif protocollo.type == 'out':
+                        check = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_modifica_fascicolazione_protocollo_uscita')
+                    elif protocollo.type == 'internal':
+                        check = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_modifica_fascicolazione_protocollo_interno')
+
+            res.append((protocollo.id, check))
+
+        return dict(res)
+
     def _modifica_fascicolazione_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
 
@@ -2117,20 +2139,16 @@ class protocollo_protocollo(osv.Model):
         for protocollo in protocolli:
             check = False
 
-            if protocollo.state != 'canceled':
-                if protocollo.type == 'in':
-                    check = self.user_has_groups(cr, uid,
-                                                 'seedoo_protocollo.group_modifica_fascicolazione_protocollo_ingresso')
-                elif protocollo.type == 'out':
-                    check = self.user_has_groups(cr, uid,
-                                                 'seedoo_protocollo.group_modifica_fascicolazione_protocollo_uscita')
-                elif protocollo.type == 'internal':
-                    check = self.user_has_groups(cr, uid,
-                                                 'seedoo_protocollo.group_modifica_fascicolazione_protocollo_interno')
-            if not check and \
-                    protocollo.state == 'draft' and \
-                    (uid == protocollo.user_id.id or uid == SUPERUSER_ID):
-                check = True
+            if protocollo.dossier_ids:
+                if protocollo.state == 'draft' and (uid == protocollo.user_id.id or uid == SUPERUSER_ID):
+                    check = True
+                elif protocollo.state in ['registered', 'notified', 'waiting', 'sent', 'error']:
+                    if protocollo.type == 'in':
+                        check = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_modifica_fascicolazione_protocollo_ingresso')
+                    elif protocollo.type == 'out':
+                        check = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_modifica_fascicolazione_protocollo_uscita')
+                    elif protocollo.type == 'internal':
+                        check = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_modifica_fascicolazione_protocollo_interno')
 
             res.append((protocollo.id, check))
 
@@ -2517,7 +2535,7 @@ class protocollo_protocollo(osv.Model):
         return dict(res)
 
     #TODO: aggiungere condizioni per stabilire la visualizzazione del button
-    def _aggiungi_allegati_post_registrazione_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
+    def _carica_allegati_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
         check = False
         configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
@@ -2525,7 +2543,8 @@ class protocollo_protocollo(osv.Model):
         protocolli = self._get_protocolli(cr, uid, ids)
         for protocollo in protocolli:
 
-            if configurazione.aggiungi_allegati_post_registrazione:
+            if protocollo.state == 'draft' or \
+                    (protocollo.state == 'registered' and configurazione.aggiungi_allegati_post_registrazione):
                 check = True
 
             res.append((protocollo.id, check))
@@ -2684,6 +2703,7 @@ class protocollo_protocollo(osv.Model):
         'aggiungi_classificazione_visibility': fields.function(_aggiungi_classificazione_visibility, type='boolean', string='Aggiungi Classificazione'),
         'modifica_classificazione_visibility': fields.function(_modifica_classificazione_visibility, type='boolean', string='Modifica Classificazione'),
         'classifica_visibility': fields.function(_classifica_visibility, type='boolean', string='Classifica'),
+        'aggiungi_fascicolazione_visibility': fields.function(_aggiungi_fascicolazione_visibility, type='boolean', string='Aggiungi Fascicolazione'),
         'modifica_fascicolazione_visibility': fields.function(_modifica_fascicolazione_visibility, type='boolean', string='Modifica Fascicolazione'),
         'fascicola_visibility': fields.function(_fascicola_visibility, type='boolean', string='Fascicola'),
         'aggiungi_assegnatari_visibility': fields.function(_aggiungi_assegnatari_visibility, type='boolean', string='Aggiungi Assegnatari'),
@@ -2707,13 +2727,11 @@ class protocollo_protocollo(osv.Model):
                                                      string='Modifica e-mail'),
         'protocollazione_riservata_visibility': fields.function(_protocollazione_riservata_visibility, type='boolean',
                                                                 string='Protocollazione Riservata'),
-        'aggiungi_allegati_post_registrazione_visibility': fields.function(
-            _aggiungi_allegati_post_registrazione_visibility, type='boolean',
-            string='Aggiungi Allegati Post Registrazione'),
         'inserisci_testo_mailpec_visibility': fields.function(_inserisci_testo_mailpec_visibility, type='boolean',
                                                               string='Abilita testo PEC'),
         'carica_documento_visibility': fields.function(_carica_documento_visibility, type='boolean', string='Carica documento'),
         'modifica_documento_visibility': fields.function(_modifica_documento_visibility, type='boolean', string='Modifica documento'),
+        'carica_allegati_visibility': fields.function(_carica_allegati_visibility, type='boolean', string='Carica Allegati'),
     }
 
     def _default_protocollazione_riservata_visibility(self, cr, uid, context):

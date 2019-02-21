@@ -336,6 +336,7 @@ this module contains the full copyright notices and license terms. -->
                             <field name="aggiungi_classificazione_visibility"/>
                             <field name="modifica_classificazione_visibility"/>
                             <field name="classifica_visibility"/>
+                            <field name="aggiungi_fascicolazione_visibility"/>
                             <field name="modifica_fascicolazione_visibility"/>
                             <field name="fascicola_visibility"/>
                             <field name="aggiungi_assegnatari_visibility"/>
@@ -354,7 +355,7 @@ this module contains the full copyright notices and license terms. -->
                             <field name="protocollazione_riservata_visibility"/>
                             <field name="carica_documento_visibility"/>
                             <field name="modifica_documento_visibility"/>
-                            <field name="aggiungi_allegati_post_registrazione_visibility"/>
+                            <field name="carica_allegati_visibility"/>
                             <field name="inserisci_testo_mailpec_visibility"/>
                             <field name="doc_id" invisible="1"/>
                             <field name="doc_fname" invisible="1"/>
@@ -651,7 +652,7 @@ this module contains the full copyright notices and license terms. -->
                                         <button name="%(protocollo_aggiungi_fascicolazione_action)d"
                                                 string="Aggiungi Fascicolazione"
                                                 type="action"
-                                                attrs="{'invisible':['|',('dossier_ids','!=',[(6, False, [])]),('modifica_fascicolazione_visibility','=',False)]}"
+                                                attrs="{'invisible':[('aggiungi_fascicolazione_visibility','=',False)]}"
                                                 class="oe_highlight_positive btn_seedoo btn_aggiungi_fascicolazione"
                                                 context="{'initial_mode':'edit'}"
                                         />
@@ -659,7 +660,7 @@ this module contains the full copyright notices and license terms. -->
                                         <button name="%(protocollo_aggiungi_fascicolazione_action)d"
                                                 string="Modifica Fascicolazione"
                                                 type="action"
-                                                attrs="{'invisible':['|',('dossier_ids','=',[(6, False, [])]),('modifica_fascicolazione_visibility','=',False)]}"
+                                                attrs="{'invisible':[('modifica_fascicolazione_visibility','=',False)]}"
                                                 class="oe_highlight_positive btn_seedoo btn_modifica_fascicolazione"
                                                 context="{'initial_mode':'edit'}"
                                         />
@@ -669,7 +670,6 @@ this module contains the full copyright notices and license terms. -->
                                            widget="many2many_kanban"
                                            options="{'limit': 10, 'no_create': True}"
                                            domain="[('state','=','open')]"
-                                           attrs="{'readonly':[('state','!=','draft')]}"
                                            colspan="4"
                                            class="protocollo_dossier_container">
                                         <kanban>
@@ -709,7 +709,7 @@ this module contains the full copyright notices and license terms. -->
                                 <group col="4" colspan="4">
                                     <div class="oe_edit_only">
                                         <button string="Carica Allegati" type="action" class="oe_inline oe_highlight_positive oe_button btn_seedoo btn_carica_documenti button-form-protocollo"
-                                                    attrs="{'invisible':['|',('state','not in',('draft','registered')),'&amp;',('state','in',('registered')),('aggiungi_allegati_post_registrazione_visibility','=',False)]}"
+                                                    attrs="{'invisible':[('carica_allegati_visibility','=',False)]}"
                                                     name="%(protocollo_carica_allegati_wizard_action)d"/>
                                     </div>
                                     <field name="attachment_ids" colspan="4" widget="many2many_kanban" nolabel="1" class="container_allegati">
