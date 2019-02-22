@@ -694,6 +694,12 @@ class protocollo_protocollo(orm.Model):
             return True
         return False
 
+    def _get_registration_employee_department_id(self, cr, uid, context):
+        department_ids = self.pool.get('hr.department').search(cr, uid, [('can_used_to_protocol', '=', True)])
+        if department_ids:
+            return department_ids[0]
+        return False
+
     _defaults = {
         'registration_type': 'normal',
         'emergency_active': _get_default_is_emergency_active,
