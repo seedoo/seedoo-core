@@ -49,15 +49,18 @@ this module contains the full copyright notices and license terms. -->
                   parent="protocollo_doc" id="protocollo_sharedmail_menu"
                   groups="group_sharedmail_protocollo"/>
 
+        <!--
         <menuitem name="Richieste Protocollo" action="protocollo_protocollo_out_draft_others_act"
                   parent="protocollo_doc"
                   id="protocollo_protocollo_out_draft_others_menu" sequence="60"
                   groups="group_vedi_menu_richieste_protocollo"/>
+        -->
 
         <menuitem name="Archiviati" action="protocollo_archivio_action"
                   parent="protocollo_doc"
                   id="protocollo_protocollo_archiviati_menu" sequence="90"
                   groups="group_vedi_menu_protocolli_archiviati"/>
+
         <!--Protocollo-->
         <!--
         <menuitem action="protocollo_protocollo_not_classified_act"

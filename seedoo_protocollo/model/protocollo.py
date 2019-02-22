@@ -1931,16 +1931,16 @@ class protocollo_protocollo(orm.Model):
         return protocollo_id
 
     def unlink(self, cr, uid, ids, context=None):
-        stat = self.read(cr, uid, ids, ['state'], context=context)
+        stat = self.read(cr, uid, ids, ['registration_date'], context=context)
         unlink_ids = []
         for t in stat:
-            if t['state'] in ('draft'):
+            if not t['registration_date']:
                 unlink_ids.append(t['id'])
             else:
-                raise orm.except_orm(_('Azione Non Valida!'),
-                                     _('Solo i protocolli in stato \
-                                     compilazione possono essere eliminati.')
-                                     )
+                raise orm.except_orm(
+                    _('Azione Non Valida!'),
+                    _('I protocolli registrati non possono essere eliminati!')
+                )
         return super(protocollo_protocollo, self).unlink(
             cr, uid, unlink_ids, context=context)
 

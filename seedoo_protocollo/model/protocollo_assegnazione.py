@@ -557,7 +557,7 @@ class protocollo_assegnazione(orm.Model):
 
         # se il protocollo è stato registrato e l'utente corrente ha un dipendente che ha preso in carico il protocollo,
         # allora l'ufficio dell'assegnatore è lo stesso dell'assegnatario per competenza
-        if protocollo.state != 'draft':
+        if protocollo.registration_date:
             assegnazione_ids = self.search(cr, uid, [
                 ('protocollo_id', '=', protocollo_id),
                 ('tipologia_assegnazione', '=', 'competenza'),
@@ -583,7 +583,7 @@ class protocollo_assegnazione(orm.Model):
     def notifica_assegnazione(self, cr, uid, assegnazione):
         if not assegnazione:
             return
-        if assegnazione.protocollo_id.state == 'draft':
+        if not assegnazione.protocollo_id.registration_date:
             return
         try:
             data_obj = self.pool.get('ir.model.data')

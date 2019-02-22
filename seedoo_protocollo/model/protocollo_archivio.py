@@ -19,7 +19,7 @@ class protocollo_archivio(orm.Model):
         for id in ids:
             sql_query = """SELECT COUNT(pp.id)
                                FROM protocollo_protocollo pp
-                               WHERE pp.state != 'draft'
+                               WHERE pp.registration_date IS NOT NULL
                                     AND pp.archivio_id = %d""" % (id)
 
             cr.execute(sql_query)

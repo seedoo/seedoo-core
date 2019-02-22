@@ -964,7 +964,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="view_mode">tree,form,graph</field>
             <field name="view_id" ref="protocollo_protocollo_tree"/>
             <field name="search_view_id" ref="protocollo_protocollo_search"/>
-            <field name="domain">[('state','!=','draft')] </field>
+            <field name="domain">[('registration_date','!=',False)] </field>
             <field name="context">{'is_current_archive': True}</field>
         </record>
 
@@ -989,7 +989,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="search_view_id" ref="protocollo_protocollo_search"/>
             <field name="context">{'default_type':'out'}</field>
         </record>
-        -->
 
         <record model="ir.actions.act_window" id="protocollo_protocollo_out_draft_others_act">
             <field name="name">Richieste protocollo</field>
@@ -1031,6 +1030,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="search_view_id" ref="protocollo_protocollo_search"/>
             <field name="domain">[('state','in',('registered','notified','sent','waiting','error')),('dossier_ids','=',False)]</field>
         </record>
+        -->
 
         <record model="ir.actions.act_window" id="protocollo_protocollo_archiviati_act">
             <field name="name">Archiviati</field>
@@ -1039,7 +1039,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="view_mode">tree,form,graph</field>
             <field name="view_id" ref="protocollo_protocollo_tree"/>
             <field name="search_view_id" ref="protocollo_protocollo_search"/>
-            <field name="domain">[('state','!=','draft')] </field>
+            <field name="domain">[('registration_date','!=',False)] </field>
             <field name="context">{'is_current_archive': False}</field>
         </record>
 
