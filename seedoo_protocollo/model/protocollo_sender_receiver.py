@@ -369,7 +369,7 @@ class protocollo_sender_receiver(orm.Model):
         sender_receiver = super(protocollo_sender_receiver, self).create(cr, uid, vals, context=context)
         sender_receiver_obj = self.browse(cr, uid, sender_receiver, {'skip_check': True})
 
-        if sender_receiver_obj.protocollo_id.state != "draft":
+        if sender_receiver_obj.protocollo_id.registration_date:
             action_class = "history_icon update"
             body = "<div class='%s'><ul><li>" \
                    "Aggiunto il destinatario %s (%s)</li></ul></div>" \
