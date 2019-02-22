@@ -1177,13 +1177,19 @@ this module contains the full copyright notices and license terms. -->
         </record>
 
         <record id="action_server_clona_protocollo" model="ir.actions.server">
-            <field name="name">Clona Protocollo</field>
+            <field name="name">Copia dati</field>
             <field name="type">ir.actions.server</field>
             <field name="state">code</field>
             <field name="model_id" ref="model_protocollo_protocollo" />
             <field name="code">action = self.action_clona_protocollo(cr, uid, context.get('active_ids', []), context)</field>
         </record>
 
+       <record model="ir.values" id="ir_values_action_server_clona_protocollo">
+           <field name="key2" eval="'client_action_relate'"/>
+           <field name="model" eval="'protocollo.protocollo'"/>
+           <field name="name">Copia dati</field>
+           <field name="value" eval="'ir.actions.server,%d'%action_server_clona_protocollo"/>
+       </record>
 
         <!-- Assegnatari Ufficio -->
         <!--
