@@ -26,7 +26,7 @@ class protocollo_aggiungi_classificazione_step1_wizard(osv.TransientModel):
 
     def _default_display_motivation(self, cr, uid, context):
         protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
-        if protocollo.state!='draft' and protocollo.classification:
+        if protocollo.registration_date and protocollo.classification:
             return True
         else:
             return False
@@ -42,7 +42,7 @@ class protocollo_aggiungi_classificazione_step1_wizard(osv.TransientModel):
         protocollo = None
         if context and 'active_id' in context:
             protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
-        if not protocollo or protocollo.state == 'draft':
+        if not protocollo or not protocollo.registration_date:
             return False
         else:
             return True
@@ -58,7 +58,7 @@ class protocollo_aggiungi_classificazione_step1_wizard(osv.TransientModel):
     def classification_save(self, cr, uid, protocollo, classification, motivation, competenza_history, context):
         before = ''
         after = ''
-        save_history = protocollo.state != 'draft'
+        save_history = True if protocollo.registration_date else False
 
         if save_history:
             before = protocollo.classification.name if protocollo.classification else ''
@@ -101,7 +101,7 @@ class protocollo_aggiungi_classificazione_step1_wizard(osv.TransientModel):
         before = ''
         after = ''
         history = ''
-        save_history = protocollo.state != 'draft'
+        save_history = True if protocollo.registration_date else False
         employee_ids = self.pool.get('hr.employee').search(cr, uid, [
             ('department_id', '=', protocollo.registration_employee_department_id.id),
             ('user_id', '=', uid)
@@ -134,8 +134,8 @@ class protocollo_aggiungi_classificazione_step1_wizard(osv.TransientModel):
             configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
             configurazione = self.pool.get('protocollo.configurazione').browse(cr, uid, configurazione_ids[0])
 
-            if protocollo.state=='draft' or configurazione.sostituisci_assegnatari:
-                if protocollo.state!='draft' and protocollo.assegnazione_competenza_ids:
+            if protocollo.registration_date or configurazione.sostituisci_assegnatari:
+                if protocollo.registration_date and protocollo.assegnazione_competenza_ids:
                     context['display_replace_message'] = True
                 else:
                     context['display_replace_message'] = False

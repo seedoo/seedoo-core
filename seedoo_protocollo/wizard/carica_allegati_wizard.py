@@ -84,7 +84,7 @@ class protocollo_carica_allegati_step1_wizard(osv.TransientModel):
                 document_datas_encoded = document.datas.decode('base64').encode('base64')
 
                 filename = document.datas_fname
-                if protocollo.state not in ['draft'] and configurazione.rinomina_documento_allegati:
+                if protocollo.registration_date and configurazione.rinomina_documento_allegati:
                     filename = protocollo_obj._get_name_documento_allegato(cr, uid, document.datas_fname, protocollo.name, 'Prot', False)
 
                 if document_datas_encoded == protocollo.doc_id.datas:

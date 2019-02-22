@@ -17,13 +17,13 @@ class protocollo_aggiungi_fascicolazione_wizard(osv.TransientModel):
     _name = 'protocollo.aggiungi.fascicolazione.wizard'
     _description = 'Fascicola Protocollo'
 
-    def  set_before(self, before, label, value):
+    def  set_before(self, before, value):
         if not value:
             value = ''
         before += value + '\n'
         return before
 
-    def set_after(self, after, label, value):
+    def set_after(self, after, value):
         after += value + '\n'
         return after
 
@@ -57,7 +57,7 @@ class protocollo_aggiungi_fascicolazione_wizard(osv.TransientModel):
 
     def _default_display_motivation(self, cr, uid, context):
         protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
-        if protocollo.state!='draft' and protocollo.dossier_ids:
+        if protocollo.registration_date and protocollo.dossier_ids:
             return True
         else:
             return False
@@ -72,52 +72,46 @@ class protocollo_aggiungi_fascicolazione_wizard(osv.TransientModel):
 
     def action_save(self, cr, uid, ids, context=None):
         vals = {}
-        before = {}
-        after = {}
         wizard = self.browse(cr, uid, ids[0], context)
         protocollo_obj = self.pool.get('protocollo.protocollo')
         protocollo = protocollo_obj.browse(cr, uid, context['active_id'], {'skip_check': True})
-        operation_label = "Inserimento fascicolazione" if len(protocollo.dossier_ids.ids) == 0 else "Modifica fascicolazione"
-        before['Fascicolo'] = ""
-        after['Fascicolo'] = ""
+
+        before = ''
+        after = ''
+        save_history = True if protocollo.registration_date else False
+
         vals['dossier_ids'] = [[6, 0, [d.id for d in wizard.dossier_ids]]]
-        before['Fascicolo'] = self.set_before(
-            before['Fascicolo'],
-            'Fascicolo',
-            ', '.join([d.name for d in protocollo.dossier_ids])
-        )
-        after['Fascicolo'] = self.set_after(
-            after['Fascicolo'],
-            'Fascicolo',
-            ', '.join([dw.name for dw in wizard.dossier_ids])
-        )
+        if save_history:
+            before = self.set_before('', ', '.join([d.name for d in protocollo.dossier_ids]))
+            after = self.set_after('', ', '.join([dw.name for dw in wizard.dossier_ids]))
+            operation_label = "Inserimento fascicolazione" if len(protocollo.dossier_ids.ids) == 0 else "Modifica fascicolazione"
 
         protocollo_obj.write(cr, uid, [context['active_id']], vals)
 
-        action_class = "history_icon update"
-        body = "<div class='%s'><ul>" % action_class
-        for key, before_item in before.items():
-            if before[key] != after[key]:
+        if save_history:
+            action_class = "history_icon update"
+            body = "<div class='%s'><ul>" % action_class
+            if before != after:
                 body = body + "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#009900'> %s </span></li>" \
-                                % (str(key), before_item.encode("utf-8"), after[key].encode("utf-8"))
+                                % ('Fascicolo', before.encode("utf-8"), after.encode("utf-8"))
             else:
                 body = body + "<li>%s: <span style='color:#999'> %s</span> -> <span style='color:#999'> %s </span></li>" \
-                              % (str(key), before_item.encode("utf-8"), after[key].encode("utf-8"))
+                              % ('Fascicolo', before.encode("utf-8"), after.encode("utf-8"))
 
+            post_vars = {
+                'subject': "%s%s" % (operation_label, ": " + wizard.cause if wizard.cause else ""),
+                'body': body,
+                'model': "protocollo.protocollo",
+                'res_id': context['active_id']
+            }
+            body += "</ul></div>"
 
-        post_vars = {'subject': "%s%s" % (operation_label, ": " + wizard.cause if wizard.cause else ""),
-                     'body': body,
-                     'model': "protocollo.protocollo",
-                     'res_id': context['active_id'],
-                    }
-        body += "</ul></div>"
+            new_context = dict(context).copy()
+            # if protocollo.typology.name == 'PEC':
+            new_context.update({'pec_messages': True})
 
-        new_context = dict(context).copy()
-        # if protocollo.typology.name == 'PEC':
-        new_context.update({'pec_messages': True})
-
-        thread_pool = self.pool.get('protocollo.protocollo')
-        thread_pool.message_post(cr, uid, context['active_id'], type="notification", context=new_context, **post_vars)
+            thread_pool = self.pool.get('protocollo.protocollo')
+            thread_pool.message_post(cr, uid, context['active_id'], type="notification", context=new_context, **post_vars)
 
         protocollo_action = {
                 'name': 'Protocollo',
