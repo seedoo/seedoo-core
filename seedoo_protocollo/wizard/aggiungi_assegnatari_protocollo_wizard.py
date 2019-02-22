@@ -61,7 +61,7 @@ Se sono presenti assegnatari per conoscenza verranno rimossi al completamento de
     def _default_assegnatore_department_id(self, cr, uid, context):
         assegnatore_department_id = False
         protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
-        if context and 'call_by_modifica_assegnatari' in context and protocollo.state != 'draft':
+        if context and 'call_by_modifica_assegnatari' in context and protocollo.registration_date:
             assegnatore = self._get_assegnatore_call_by_modifica_assegnatari(protocollo)
             if assegnatore:
                 assegnatore_department_id = assegnatore.department_id.id
@@ -104,7 +104,7 @@ Se sono presenti assegnatari per conoscenza verranno rimossi al completamento de
 
     def _default_display_motivation(self, cr, uid, context):
         protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
-        if protocollo.state!='draft' and protocollo.assegnazione_competenza_ids:
+        if protocollo.registration_date and protocollo.assegnazione_competenza_ids:
             return True
         else:
             return False
@@ -120,7 +120,7 @@ Se sono presenti assegnatari per conoscenza verranno rimossi al completamento de
         protocollo = None
         if context and 'active_id' in context:
             protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
-        if not protocollo or protocollo.state == 'draft':
+        if not protocollo or not protocollo.registration_date:
             return False
         else:
             return True
@@ -141,11 +141,11 @@ Se sono presenti assegnatari per conoscenza verranno rimossi al completamento de
         before = {'competenza': '', 'conoscenza': ''}
         after = {'competenza': '', 'conoscenza': ''}
         protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
-        save_history = protocollo.state != 'draft'
+        save_history = True if protocollo.registration_date else False
         wizard = self.browse(cr, uid, ids[0], context)
 
         assegnatore_id = False
-        if context and 'call_by_modifica_assegnatari' in context and protocollo.state!='draft':
+        if context and 'call_by_modifica_assegnatari' in context and protocollo.registration_date:
             assegnatore = self._get_assegnatore_call_by_modifica_assegnatari(protocollo)
             if assegnatore:
                 assegnatore_id = assegnatore.id
