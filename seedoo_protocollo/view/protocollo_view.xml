@@ -431,7 +431,7 @@ this module contains the full copyright notices and license terms. -->
                                             <field name="subject" attrs="{'required':[('state','!=','draft')]}" class="protocollo_oggetto"/>
                                             <field name="doc_content" filename="doc_fname" attrs="{'invisible':[('doc_id','=',False)]}"/>
                                             <field name="doc_description" attrs="{'invisible':[('doc_id','=',False)]}"/>
-                                            <field name="fingerprint" attrs="{'invisible':['|', ('state','=','draft'),('doc_id','=',False)]}" readonly="1"/>
+                                            <field name="fingerprint" attrs="{'invisible':['|', ('registration_date','=',False),('doc_id','=',False)]}" readonly="1"/>
                                             <newline/>
                                             <group colspan="2">
                                                 <div class="oe_edit_only">
@@ -449,13 +449,13 @@ this module contains the full copyright notices and license terms. -->
                                         <div class="emailpec-container">
                                             <group>
                                                 <field name="server_sharedmail_id" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}" attrs="{'invisible':['|',('sharedmail','!=',True),('type','=','in')],
-                                                                                                'required': [('sharedmail','=',True),('type','=','out')], 'readonly':[('state','!=','draft')]}"
+                                                                                                'required': [('sharedmail','=',True),('type','=','out')], 'readonly':[('registration_date','!=',False)]}"
                                                        class="seedoocustom_protocollo_server_sharedmail_id"/>
                                                 <field name="server_pec_id" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}" attrs="{'invisible':['|',('pec','!=',True),('type','=','in')],
-                                                                                                    'required': [('pec','=',True),('type','=','out')], 'readonly':[('state','!=','draft')]}"
+                                                                                                    'required': [('pec','=',True),('type','=','out')], 'readonly':[('registration_date','!=',False)]}"
                                                        class="seedoocustom_protocollo_server_pec_id"/>
                                                 <field name="receiving_date" attrs="{'invisible':['|', ('type','=','out'), ('type','=','internal')]}" class="seedoocustom_protocollo_receiving_date"/>
-                                                <field name="body" attrs="{'invisible':['|','|',('type','=','in'),('inserisci_testo_mailpec_visibility','=',False),'&amp;',('sharedmail','=',False),('pec','=',False)],'readonly':[('state','!=','draft')]}"
+                                                <field name="body" attrs="{'invisible':['|','|',('type','=','in'),('inserisci_testo_mailpec_visibility','=',False),'&amp;',('sharedmail','=',False),('pec','=',False)],'readonly':[('registration_date','!=',False)]}"
                                                        class="seedoocustom_protocollo_body"/>
                                             </group>
                                         </div>
@@ -495,8 +495,8 @@ this module contains the full copyright notices and license terms. -->
                                 <div class="accordion-content accordion-open">
                                     <newline/>
                                     <group col="4">
-                                        <field name="sender_registration_date" attrs="{'invisible':[('type','!=','in')],'readonly':[('state','!=','draft')]}"/>
-                                        <field name="sender_protocol" attrs="{'invisible':[('type','!=','in')], 'readonly':[('state','!=','draft')]}"/>
+                                        <field name="sender_registration_date" attrs="{'invisible':[('type','!=','in')],'readonly':[('registration_date','!=',False)]}"/>
+                                        <field name="sender_protocol" attrs="{'invisible':[('type','!=','in')], 'readonly':[('registration_date','!=',False)]}"/>
                                     </group>
                                 </div>
                             </div>
@@ -892,7 +892,7 @@ this module contains the full copyright notices and license terms. -->
                         <filter string="Altro" name="pec" domain="[('pec','=',False), ('sharedmail','=',False)]"/>
                     </group>
                     <group string="Registrati">
-                        <filter string="Da me" name="registrato_da_me" domain="[('user_id','=',uid),('state','!=','draft')]"/>
+                        <filter string="Da me" name="registrato_da_me" domain="[('user_id','=',uid),('registration_date','!=',False)]"/>
                     </group>
                     <group string="Data">
                         <filter string="Ieri" name="registered_yesterday" domain="
