@@ -2150,7 +2150,8 @@ class protocollo_protocollo(orm.Model):
 
         text = 'o' if counter == 1 else 'i'
 
-        if counter > 0:
+        prot = self.browse(cr, uid, protocollo_id, {'skip_check': True})
+        if prot.registration_date and counter > 0:
             action_class = "history_icon upload"
             post_vars = {'subject': "Upload Documento",
                          'body': "<div class='%s'><ul><li>Aggiunt%s %d allegat%s: <i>%s</i></li></ul></div>" % (
