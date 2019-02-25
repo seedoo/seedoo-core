@@ -2160,7 +2160,7 @@ class protocollo_protocollo(orm.Model):
         text = 'o' if counter == 1 else 'i'
 
         prot = self.browse(cr, uid, protocollo_id, {'skip_check': True})
-        if prot.registration_date and counter > 0:
+        if prot.state in self.get_history_state_list(cr, uid) and counter > 0:
             action_class = "history_icon upload"
             post_vars = {'subject': "Upload Documento",
                          'body': "<div class='%s'><ul><li>Aggiunt%s %d allegat%s: <i>%s</i></li></ul></div>" % (
@@ -2200,13 +2200,9 @@ class protocollo_protocollo(orm.Model):
                      content_subtype='html', **kwargs):
         new_context = dict(context or {})
         new_context['skip_check'] = True
-        protocollo_obj = self.pool.get('protocollo.protocollo')
-        protocollo = protocollo_obj.browse(cr, uid, thread_id, new_context)
-        history_state_list = protocollo_obj.get_history_state_list(cr, uid)
-        if not (protocollo.state in history_state_list) and \
-                str(subject).find('Registrazione') != 0 and \
-                str(subject).find('Errore Generazione') != 0 and \
-                new_context.has_key('is_mailpec_to_draft') == False:
+        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, thread_id, new_context)
+        if protocollo.state == 'draft' and str(subject).find('Registrazione') != 0 and str(subject).find(
+                'Errore Generazione') != 0 and new_context.has_key('is_mailpec_to_draft') == False:
             pass
         else:
             return super(protocollo_protocollo, self).message_post(
