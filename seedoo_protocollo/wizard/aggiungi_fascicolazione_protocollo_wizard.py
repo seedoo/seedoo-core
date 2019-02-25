@@ -56,8 +56,9 @@ class protocollo_aggiungi_fascicolazione_wizard(osv.TransientModel):
         return [(6, 0, dossier_ids)]
 
     def _default_display_motivation(self, cr, uid, context):
-        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
-        if protocollo.registration_date and protocollo.dossier_ids:
+        protocollo_obj = self.pool.get('protocollo.protocollo')
+        protocollo = protocollo_obj.browse(cr, uid, context['active_id'], {'skip_check': True})
+        if protocollo.state in protocollo_obj.get_history_state_list(cr, uid) and protocollo.dossier_ids:
             return True
         else:
             return False
@@ -78,7 +79,7 @@ class protocollo_aggiungi_fascicolazione_wizard(osv.TransientModel):
 
         before = ''
         after = ''
-        save_history = True if protocollo.registration_date else False
+        save_history = True if protocollo.state in protocollo_obj.get_history_state_list(cr, uid) else False
 
         vals['dossier_ids'] = [[6, 0, [d.id for d in wizard.dossier_ids]]]
         if save_history:

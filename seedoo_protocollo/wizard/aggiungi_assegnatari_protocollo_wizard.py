@@ -103,8 +103,9 @@ Se sono presenti assegnatari per conoscenza verranno rimossi al completamento de
         return False
 
     def _default_display_motivation(self, cr, uid, context):
-        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
-        if protocollo.registration_date and protocollo.assegnazione_competenza_ids:
+        protocollo_obj = self.pool.get('protocollo.protocollo')
+        protocollo = protocollo_obj.browse(cr, uid, context['active_id'], {'skip_check': True})
+        if protocollo.state in protocollo_obj.get_history_state_list(cr, uid) and protocollo.assegnazione_competenza_ids:
             return True
         else:
             return False
@@ -140,8 +141,9 @@ Se sono presenti assegnatari per conoscenza verranno rimossi al completamento de
     def action_save(self, cr, uid, ids, context=None):
         before = {'competenza': '', 'conoscenza': ''}
         after = {'competenza': '', 'conoscenza': ''}
-        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
-        save_history = True if protocollo.registration_date else False
+        protocollo_obj = self.pool.get('protocollo.protocollo')
+        protocollo = protocollo_obj.browse(cr, uid, context['active_id'], {'skip_check': True})
+        save_history = True if protocollo.state in protocollo_obj.get_history_state_list(cr, uid) else False
         wizard = self.browse(cr, uid, ids[0], context)
 
         assegnatore_id = False

@@ -25,8 +25,9 @@ class protocollo_aggiungi_classificazione_step1_wizard(osv.TransientModel):
         return protocollo.classification.id
 
     def _default_display_motivation(self, cr, uid, context):
-        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
-        if protocollo.registration_date and protocollo.classification:
+        protocollo_obj = self.pool.get('protocollo.protocollo')
+        protocollo = protocollo_obj.browse(cr, uid, context['active_id'], {'skip_check': True})
+        if protocollo.state in protocollo_obj.get_history_state_list(cr, uid) and protocollo.classification:
             return True
         else:
             return False
@@ -58,7 +59,8 @@ class protocollo_aggiungi_classificazione_step1_wizard(osv.TransientModel):
     def classification_save(self, cr, uid, protocollo, classification, motivation, competenza_history, context):
         before = ''
         after = ''
-        save_history = True if protocollo.registration_date else False
+        protocollo_obj = self.pool.get('protocollo.protocollo')
+        save_history = True if protocollo.state in protocollo_obj.get_history_state_list(cr, uid) else False
 
         if save_history:
             before = protocollo.classification.name if protocollo.classification else ''
@@ -101,7 +103,8 @@ class protocollo_aggiungi_classificazione_step1_wizard(osv.TransientModel):
         before = ''
         after = ''
         history = ''
-        save_history = True if protocollo.registration_date else False
+        protocollo_obj = self.pool.get('protocollo.protocollo')
+        save_history = True if protocollo.state in protocollo_obj.get_history_state_list(cr, uid) else False
         employee_ids = self.pool.get('hr.employee').search(cr, uid, [
             ('department_id', '=', protocollo.registration_employee_department_id.id),
             ('user_id', '=', uid)

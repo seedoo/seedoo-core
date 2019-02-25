@@ -148,6 +148,9 @@ class protocollo_protocollo(orm.Model):
         ('acts', 'Agli Atti')
     ]
 
+    def get_history_state_list(self, cr, uid):
+        return ['registered', 'waiting', 'error', 'sent', 'canceled', 'acts']
+
     def seedoo_error(self, cr, uid):
         user = self.pool.get('res.users').browse(cr, SUPERUSER_ID, uid)
 
@@ -2197,9 +2200,13 @@ class protocollo_protocollo(orm.Model):
                      content_subtype='html', **kwargs):
         new_context = dict(context or {})
         new_context['skip_check'] = True
-        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, thread_id, new_context)
-        if protocollo.state == 'draft' and str(subject).find('Registrazione') != 0 and str(subject).find(
-                'Errore Generazione') != 0 and new_context.has_key('is_mailpec_to_draft') == False:
+        protocollo_obj = self.pool.get('protocollo.protocollo')
+        protocollo = protocollo_obj.browse(cr, uid, thread_id, new_context)
+        history_state_list = protocollo_obj.get_history_state_list(cr, uid)
+        if not (protocollo.state in history_state_list) and \
+                str(subject).find('Registrazione') != 0 and \
+                str(subject).find('Errore Generazione') != 0 and \
+                new_context.has_key('is_mailpec_to_draft') == False:
             pass
         else:
             return super(protocollo_protocollo, self).message_post(
