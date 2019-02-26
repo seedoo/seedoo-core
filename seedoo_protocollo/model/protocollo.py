@@ -148,6 +148,9 @@ class protocollo_protocollo(orm.Model):
         ('acts', 'Agli Atti')
     ]
 
+    def get_state_list(self, cr, uid, context=None):
+        return self.STATE_SELECTION
+
     def get_history_state_list(self, cr, uid):
         return ['registered', 'waiting', 'error', 'sent', 'canceled', 'acts']
 
@@ -622,9 +625,7 @@ class protocollo_protocollo(orm.Model):
                                                        readonly=True),
 
         'notes': fields.text('Note'),
-        'state': fields.selection(
-            STATE_SELECTION, 'Stato', readonly=True,
-            help="Lo stato del protocollo.", select=True),
+        'state': fields.selection(lambda s, *a, **k: s.get_state_list(*a, **k), string='Stato', readonly=True, help="Lo stato del protocollo.", select=True),
         'year': fields.integer('Anno', required=True),
         'attachment_ids': fields.one2many('ir.attachment', 'res_id', 'Allegati', readonly=True,
                                           domain=[('res_model', '=', 'protocollo.protocollo')]),

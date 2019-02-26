@@ -314,7 +314,7 @@ this module contains the full copyright notices and license terms. -->
 
                         <field name="state" widget="statusbar"
                                statusbar_colors='{"draft":"blue","notified":"green","registered":"notified", "sent":"green","error":"red","canceled":"red"}'
-                               options="{'visible': 'draft,registered'}"/>
+                               options="{'visible': 'registered'}"/>
                     </header>
 
                     <sheet>
