@@ -624,7 +624,7 @@ class protocollo_protocollo(orm.Model):
                                                                ('tipologia_assegnazione', '=', 'conoscenza')],
                                                        readonly=True),
 
-        'notes': fields.text('Note'),
+        'notes': fields.text('Altro'),
         'state': fields.selection(lambda s, *a, **k: s.get_state_list(*a, **k), string='Stato', readonly=True, help="Lo stato del protocollo.", select=True),
         'year': fields.integer('Anno', required=True),
         'attachment_ids': fields.one2many('ir.attachment', 'res_id', 'Allegati', readonly=True,
