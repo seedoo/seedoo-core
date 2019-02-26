@@ -1970,7 +1970,7 @@ class protocollo_protocollo(orm.Model):
 
         vals = {}
         vals['type'] = protocollo.type
-        vals['receiving_date'] = protocollo.receiving_date
+        #vals['receiving_date'] = protocollo.receiving_date
         vals['subject'] = protocollo.subject
         vals['body'] = protocollo.body
         vals['user_id'] = uid
