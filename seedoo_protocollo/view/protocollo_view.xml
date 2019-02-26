@@ -358,6 +358,8 @@ this module contains the full copyright notices and license terms. -->
                             <field name="carica_allegati_visibility"/>
                             <field name="inserisci_testo_mailpec_visibility"/>
                             <field name="subject_editability"/>
+                            <field name="typology_editability"/>
+                            <field name="notes_editability"/>
                             <field name="doc_id" invisible="1"/>
                             <field name="doc_fname" invisible="1"/>
                             <field name="pec" colspan="2" invisible="1"/>
@@ -428,7 +430,7 @@ this module contains the full copyright notices and license terms. -->
                                     </group>
                                     <group col="8">
                                         <group>
-                                            <field name="typology" attrs="{'invisible' : [('type','=','internal')]}" on_change="on_change_typology(typology)" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}"/>
+                                            <field name="typology" attrs="{'invisible' : [('type','=','internal')], 'readonly':[('typology_editability','=',False)]}" on_change="on_change_typology(typology)" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}"/>
                                             <field name="subject" attrs="{'required':[('state','!=','draft')], 'readonly':[('subject_editability','=',False)]}" class="protocollo_oggetto"/>
                                             <field name="doc_content" filename="doc_fname" attrs="{'invisible':[('doc_id','=',False)]}"/>
                                             <field name="doc_description" attrs="{'invisible':[('doc_id','=',False)]}"/>
@@ -758,9 +760,9 @@ this module contains the full copyright notices and license terms. -->
                                 </field>
                                 </group>
                             </page>
-                            <page string="Note">
+                            <page string="Altro">
                                 <label for="notes"/>
-                                <field name="notes" colspan="4"/>
+                                <field name="notes" nolabel="1" attrs="{'readonly':[('notes_editability','=',False)]}" colspan="4"/>
                             </page>
                             <!--<page string="Segnatura XML"-->
                                   <!--groups="base.group_system">-->
