@@ -360,6 +360,8 @@ this module contains the full copyright notices and license terms. -->
                             <field name="subject_editability"/>
                             <field name="typology_editability"/>
                             <field name="notes_editability"/>
+                            <field name="sender_protocol_editability"/>
+                            <field name="sender_registration_date_editability"/>
                             <field name="doc_id" invisible="1"/>
                             <field name="doc_fname" invisible="1"/>
                             <field name="pec" colspan="2" invisible="1"/>
@@ -498,8 +500,8 @@ this module contains the full copyright notices and license terms. -->
                                 <div class="accordion-content accordion-open">
                                     <newline/>
                                     <group col="4">
-                                        <field name="sender_registration_date" attrs="{'invisible':[('type','!=','in')],'readonly':[('registration_date','!=',False)]}"/>
-                                        <field name="sender_protocol" attrs="{'invisible':[('type','!=','in')], 'readonly':[('registration_date','!=',False)]}"/>
+                                        <field name="sender_registration_date" attrs="{'invisible':[('type','!=','in')],'readonly':[('sender_registration_date_editability','=',False)]}"/>
+                                        <field name="sender_protocol" attrs="{'invisible':[('type','!=','in')], 'readonly':[('sender_protocol_editability','=',False)]}"/>
                                     </group>
                                 </div>
                             </div>
@@ -761,7 +763,6 @@ this module contains the full copyright notices and license terms. -->
                                 </group>
                             </page>
                             <page string="Altro">
-                                <label for="notes"/>
                                 <field name="notes" nolabel="1" attrs="{'readonly':[('notes_editability','=',False)]}" colspan="4"/>
                             </page>
                             <!--<page string="Segnatura XML"-->
