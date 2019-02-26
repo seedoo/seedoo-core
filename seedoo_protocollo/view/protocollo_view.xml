@@ -790,7 +790,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="name">protocollo.protocollo.tree</field>
             <field name="model">protocollo.protocollo</field>
             <field name="arch" type="xml">
-                <tree string="Protocolli" version="7.0" create="0" default_order="registration_date desc"
+                <tree string="Protocolli" version="7.0" create="0" default_order="registration_date desc, create_date desc"
                       colors="#7c7bad:state=='registered';green:pec_notifications_sum=='True';green:state=='notified';green:state=='sent';orange:state=='waiting';red:state=='canceled';red:state=='error';">
                     <field name="type"/>
                     <field name="name"/>
