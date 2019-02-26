@@ -357,6 +357,7 @@ this module contains the full copyright notices and license terms. -->
                             <field name="modifica_documento_visibility"/>
                             <field name="carica_allegati_visibility"/>
                             <field name="inserisci_testo_mailpec_visibility"/>
+                            <field name="subject_editability"/>
                             <field name="doc_id" invisible="1"/>
                             <field name="doc_fname" invisible="1"/>
                             <field name="pec" colspan="2" invisible="1"/>
@@ -428,7 +429,7 @@ this module contains the full copyright notices and license terms. -->
                                     <group col="8">
                                         <group>
                                             <field name="typology" attrs="{'invisible' : [('type','=','internal')]}" on_change="on_change_typology(typology)" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}"/>
-                                            <field name="subject" attrs="{'required':[('state','!=','draft')]}" class="protocollo_oggetto"/>
+                                            <field name="subject" attrs="{'required':[('state','!=','draft')], 'readonly':[('subject_editability','=',False)]}" class="protocollo_oggetto"/>
                                             <field name="doc_content" filename="doc_fname" attrs="{'invisible':[('doc_id','=',False)]}"/>
                                             <field name="doc_description" attrs="{'invisible':[('doc_id','=',False)]}"/>
                                             <field name="fingerprint" attrs="{'invisible':['|', ('registration_date','=',False),('doc_id','=',False)]}" readonly="1"/>
