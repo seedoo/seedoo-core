@@ -539,8 +539,7 @@ class protocollo_protocollo(orm.Model):
                                              string="Fine  Data ricezione Ricerca"),
         'subject': fields.text('Oggetto',
                                required=False,
-                               readonly=True,
-                               states={'draft': [('readonly', False)]}),
+                               readonly=True),
         'datas_fname': fields.char(
             'Nome Documento', size=256, readonly=False),
         'datas': fields.binary('File Documento',
