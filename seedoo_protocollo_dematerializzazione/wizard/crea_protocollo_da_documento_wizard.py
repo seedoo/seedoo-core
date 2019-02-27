@@ -70,6 +70,7 @@ class CreaProtocolloDaDocumentoWizard(osv.TransientModel):
         protocollo_obj = self.pool.get('protocollo.protocollo')
 
         document = self.pool.get('gedoc.document').browse(cr, uid, context.get('active_id'))
+        employee = self.pool.get('hr.employee').get_department_employee(cr, uid, wizard.registration_employee_department_id.id)
 
         vals = {}
         vals['type'] = 'in'
@@ -78,6 +79,8 @@ class CreaProtocolloDaDocumentoWizard(osv.TransientModel):
         vals['doc_imported_ref'] = context.get('active_id')
         vals['registration_employee_department_id'] = wizard.registration_employee_department_id.id
         vals['registration_employee_department_name'] = wizard.registration_employee_department_id.complete_name
+        vals['registration_employee_id'] = employee.id
+        vals['registration_employee_name'] = employee.name_related
         protocollo_id = protocollo_obj.create(cr, uid, vals)
 
         protocollo_obj.carica_documento_principale(cr, uid, protocollo_id, wizard.preview, wizard.doc_fname,

@@ -12,10 +12,10 @@ class Protocollo(models.Model):
     rifiutato = fields.Boolean(string='Rifiutato', compute='_compute_state_assegnazione', store=True, readonly=True)
 
     @api.multi
-    @api.depends('registration_employee_id', 'assegnazione_competenza_ids.state')
+    @api.depends('registration_date', 'assegnazione_competenza_ids.state')
     def _compute_state_assegnazione(self):
         for protocollo in self:
-            if protocollo.registration_employee_id:
+            if protocollo.registration_date:
                 protocollo.in_attesa = True
                 for assegnazione_competenza in protocollo.assegnazione_competenza_ids:
                     if assegnazione_competenza.state == 'preso':

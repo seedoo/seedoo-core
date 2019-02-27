@@ -113,11 +113,14 @@ class create_protocollo_wizard(osv.TransientModel):
 
     def action_create(self, cr, uid, ids, context=None):
         wizard = self.browse(cr, uid, ids[0], context)
+        employee = self.pool.get('hr.employee').get_department_employee(cr, uid, wizard.registration_employee_department_id.id)
         values = {
             'type': wizard.type,
             'registration_type': wizard.registration_type,
             'registration_employee_department_id': wizard.registration_employee_department_id.id,
-            'registration_employee_department_name': wizard.registration_employee_department_id.complete_name
+            'registration_employee_department_name': wizard.registration_employee_department_id.complete_name,
+            'registration_employee_id': employee.id,
+            'registration_employee_name': employee.name_related
         }
         protocollo_id = self.pool.get('protocollo.protocollo').create(cr, uid, values)
         return {

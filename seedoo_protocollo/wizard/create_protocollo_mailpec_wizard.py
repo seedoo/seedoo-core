@@ -251,6 +251,8 @@ class ProtocolloMailPecWizard(osv.TransientModel):
         protocollo_typology_obj = self.pool.get('protocollo.typology')
         mail_message_obj = self.pool.get('mail.message')
         mail_message = mail_message_obj.browse(cr, uid, context['active_id'], context=context)
+        employee = self.pool.get('hr.employee').get_department_employee(cr, uid, wizard.registration_employee_department_id.id)
+
         vals = {}
         vals['type'] = 'in'
         vals['receiving_date'] = wizard.receiving_date
@@ -260,6 +262,8 @@ class ProtocolloMailPecWizard(osv.TransientModel):
         vals['user_id'] = uid
         vals['registration_employee_department_id'] = wizard.registration_employee_department_id.id
         vals['registration_employee_department_name'] = wizard.registration_employee_department_id.complete_name
+        vals['registration_employee_id'] = employee.id
+        vals['registration_employee_name'] = employee.name_related
         sender_receiver = []
 
         is_pec = False

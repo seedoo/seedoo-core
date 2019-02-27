@@ -87,3 +87,12 @@ class hr_employee(orm.Model):
         if vals and vals.has_key('department_id') and vals['department_id']:
             self.pool.get('ir.rule').clear_cache(cr, uid)
         return res
+
+    def get_department_employee(self, cr, uid, department_id):
+        employee_ids = self.search(cr, uid, [
+            ('user_id', '=', uid),
+            ('department_id', '=', department_id)
+        ], limit=1)
+        if employee_ids:
+            return self.browse(cr, uid, employee_ids[0])
+        return None

@@ -1096,13 +1096,13 @@ class protocollo_protocollo(orm.Model):
                     vals['name'] = prot_number
                     vals['registration_date'] = prot_date
 
-                    employee_ids = self.pool.get('hr.employee').search(cr, uid, [
-                        ('user_id', '=', uid),
-                        ('department_id', '=', prot.registration_employee_department_id.id)
-                    ])
-                    employee = self.pool.get('hr.employee').browse(cr, uid, employee_ids[0])
-                    vals['registration_employee_id'] = employee.id
-                    vals['registration_employee_name'] = employee.name_related
+                    # employee_ids = self.pool.get('hr.employee').search(cr, uid, [
+                    #     ('user_id', '=', uid),
+                    #     ('department_id', '=', prot.registration_employee_department_id.id)
+                    # ])
+                    # employee = self.pool.get('hr.employee').browse(cr, uid, employee_ids[0])
+                    # vals['registration_employee_id'] = employee.id
+                    # vals['registration_employee_name'] = employee.name_related
 
                     # prot_complete_name = self.calculate_complete_name(prot_date, prot_number)
                     attachment_obj = self.pool.get('ir.attachment')
@@ -1956,6 +1956,7 @@ class protocollo_protocollo(orm.Model):
     def action_clona_protocollo(self, cr, uid, ids, context=None):
         protocollo_obj = self.pool.get('protocollo.protocollo')
         department_obj = self.pool.get('hr.department')
+        employee_obj = self.pool.get('hr.employee')
         assegnazione_obj = self.pool.get('protocollo.assegnazione')
         protocollo = protocollo_obj.browse(cr, uid, ids)
 
@@ -1976,8 +1977,10 @@ class protocollo_protocollo(orm.Model):
             sender_receiver.append(sr_copy_id)
 
         department_ids = department_obj.search(cr, uid, [('can_used_to_protocol', '=', True)])
+        employee = None
         if department_ids:
             department = department_obj.browse(cr, uid, department_ids[0])
+            employee = employee_obj.get_department_employee(cr, uid, department_ids[0])
 
         vals = {}
         vals['type'] = protocollo.type
@@ -1987,6 +1990,8 @@ class protocollo_protocollo(orm.Model):
         vals['user_id'] = uid
         vals['registration_employee_department_id'] = len(department_ids) == 1 and department.id or False
         vals['registration_employee_department_name'] = len(department_ids) == 1 and department.complete_name or False
+        vals['registration_employee_id'] = employee and employee.id or False
+        vals['registration_employee_name'] = employee and employee.name_related or False
         vals['state'] = 'draft'
         vals['typology'] = protocollo.typology.id
         vals['senders'] = protocollo.senders

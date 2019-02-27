@@ -134,7 +134,8 @@ class protocollo_protocollo(osv.Model):
             cr.execute('''
                 SELECT DISTINCT(pp.id)
                 FROM protocollo_protocollo pp
-                WHERE pp.registration_employee_id IN (''' + employee_ids_str + ''') AND
+                WHERE pp.registration_date IS NOT NULL AND
+                      pp.registration_employee_id IN (''' + employee_ids_str + ''') AND
                       pp.archivio_id IN (''' + archivio_ids_str + ''')
             ''')
             protocollo_ids_created = [res[0] for res in cr.fetchall()]
@@ -148,7 +149,7 @@ class protocollo_protocollo(osv.Model):
             cr.execute('''
                 SELECT DISTINCT(pa.protocollo_id)
                 FROM protocollo_assegnazione pa, protocollo_protocollo pp
-                WHERE pp.registration_employee_id IS NOT NULL AND
+                WHERE pp.registration_date IS NOT NULL AND
                       pa.protocollo_id = pp.id AND
                       (
                           (pa.tipologia_assegnatario = 'employee' AND pa.assegnatario_employee_id IN (''' + employee_ids_str + ''') AND pa.parent_id IS NULL) OR 
@@ -184,7 +185,7 @@ class protocollo_protocollo(osv.Model):
             cr.execute('''
                 SELECT DISTINCT(pa.protocollo_id)
                 FROM protocollo_assegnazione pa, protocollo_protocollo pp
-                WHERE pp.registration_employee_id IS NOT NULL AND
+                WHERE pp.registration_date IS NOT NULL AND
                       pa.protocollo_id = pp.id AND
                       pa.assegnatore_id IN (''' + employee_ids_str + ''') AND 
                       pa.tipologia_assegnazione = 'competenza' AND 
@@ -201,7 +202,7 @@ class protocollo_protocollo(osv.Model):
             cr.execute('''
                 SELECT DISTINCT(pp.id)
                 FROM protocollo_protocollo pp
-                WHERE pp.registration_employee_id IS NOT NULL AND
+                WHERE pp.registration_date IS NOT NULL AND
                       pp.type = 'internal' AND
                       (
                         (pp.sender_internal_employee IN (''' + employee_ids_str + '''))
@@ -240,7 +241,7 @@ class protocollo_protocollo(osv.Model):
             cr.execute('''
                 SELECT DISTINCT(pp.id)
                 FROM protocollo_protocollo pp
-                WHERE pp.registration_employee_id IS NOT NULL AND
+                WHERE pp.registration_date IS NOT NULL AND
                       pp.registration_employee_department_id IN (''' + employee_department_ids_str + ''') AND
                       pp.reserved=FALSE AND
                       pp.type IN (''' + str(types).strip('[]') + ''') AND
@@ -266,7 +267,7 @@ class protocollo_protocollo(osv.Model):
             cr.execute('''
                 SELECT DISTINCT(pp.id)
                 FROM protocollo_protocollo pp
-                WHERE pp.registration_employee_id IS NOT NULL AND
+                WHERE pp.registration_date IS NOT NULL AND
                       pp.registration_employee_department_id IN (''' + employee_department_child_ids_str + ''') AND
                       pp.reserved=FALSE AND
                       pp.type IN (''' + str(types).strip('[]') + ''') AND
@@ -313,7 +314,7 @@ class protocollo_protocollo(osv.Model):
             if check_gruppo_internal: types.append('internal')
             protocollo_ids_aoo = self.search(cr, uid, [
                 ('type', 'in', types),
-                ('registration_employee_id', '!=', False),
+                ('registration_date', '!=', False),
                 ('aoo_id', 'in', aoo_ids),
                 ('archivio_id', 'in', archivio_ids)
             ])
@@ -340,7 +341,7 @@ class protocollo_protocollo(osv.Model):
             ])
             protocollo_visible_ids.extend(self.search(cr, uid, [
                 ('type', 'in', types),
-                ('registration_employee_id', '!=', False),
+                ('registration_date', '!=', False),
                 ('assegnazione_ids', 'in', assegnazione_ids),
                 ('reserved', '=', False),
                 ('archivio_id', 'in', archivio_ids)
@@ -367,7 +368,7 @@ class protocollo_protocollo(osv.Model):
             ])
             protocollo_visible_ids.extend(self.search(cr, uid, [
                 ('type', 'in', types),
-                ('registration_employee_id', '!=', False),
+                ('registration_date', '!=', False),
                 ('assegnazione_ids', 'in', assegnazione_ids),
                 ('reserved', '=', False),
                 ('archivio_id', 'in', archivio_ids)
@@ -395,7 +396,7 @@ class protocollo_protocollo(osv.Model):
             ])
             protocollo_visible_ids.extend(self.search(cr, uid, [
                 ('type', 'in', types),
-                ('registration_employee_id', '!=', False),
+                ('registration_date', '!=', False),
                 ('assegnazione_ids', 'in', assegnazione_ids),
                 ('reserved', '=', False),
                 ('archivio_id', 'in', archivio_ids)
@@ -422,7 +423,7 @@ class protocollo_protocollo(osv.Model):
             ])
             protocollo_visible_ids.extend(self.search(cr, uid, [
                 ('type', 'in', types),
-                ('registration_employee_id', '!=', False),
+                ('registration_date', '!=', False),
                 ('assegnazione_ids', 'in', assegnazione_ids),
                 ('reserved', '=', False),
                 ('archivio_id', 'in', archivio_ids)
@@ -436,7 +437,7 @@ class protocollo_protocollo(osv.Model):
         if check_gruppo_internal and employee_department_ids:
             protocollo_visible_ids.extend(self.search(cr, uid, [
                 ('type', '=', 'internal'),
-                ('registration_employee_id', '!=', False),
+                ('registration_date', '!=', False),
                 ('sender_internal_employee_department', 'in', employee_department_ids),
                 ('reserved', '=', False),
                 ('archivio_id', 'in', archivio_ids)
@@ -675,7 +676,7 @@ class protocollo_protocollo(osv.Model):
                     AND pa.assegnatario_employee_id = he.id
                     AND he.resource_id = rr.id
                     AND rr.user_id = %s
-                    AND pp.registration_employee_id IS NOT NULL
+                    AND pp.registration_date IS NOT NULL
                     AND pa.tipologia_assegnatario = 'employee'
                     AND pa.tipologia_assegnazione = 'competenza'
                     AND pa.state = 'preso' 
@@ -710,7 +711,7 @@ class protocollo_protocollo(osv.Model):
                     AND pa.assegnatario_employee_id = he.id
                     AND he.resource_id = rr.id
                     AND rr.user_id = %s
-                    AND pp.registration_employee_id IS NOT NULL
+                    AND pp.registration_date IS NOT NULL
                     AND pa.tipologia_assegnatario = 'employee'
                     AND pa.tipologia_assegnazione = 'competenza'
                     AND pa.state = 'preso'
@@ -799,7 +800,7 @@ class protocollo_protocollo(osv.Model):
                   pa.assegnatario_employee_id = he.id AND
                   he.resource_id = rr.id AND
                   rr.user_id = %s AND
-                  pp.registration_employee_id IS NOT NULL AND
+                  pp.registration_date IS NOT NULL AND
                   pa.tipologia_assegnatario = 'employee' AND 
                   pa.tipologia_assegnazione = 'competenza' AND
                   pa.state = 'assegnato' AND
@@ -838,7 +839,7 @@ class protocollo_protocollo(osv.Model):
                 AND pa.assegnatario_employee_id = he.id
                 AND he.resource_id = rr.id
                 AND rr.user_id = %d
-                AND pp.registration_employee_id IS NOT NULL
+                AND pp.registration_date IS NOT NULL
                 AND pa.tipologia_assegnatario = 'employee'
                 AND pa.tipologia_assegnazione = 'competenza'
                 AND pa.state = 'assegnato'
@@ -885,7 +886,7 @@ class protocollo_protocollo(osv.Model):
                             FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
                             WHERE pp.id = pa.protocollo_id AND
                                   pa.assegnatario_employee_id = he.id AND he.resource_id = rr.id AND rr.user_id = ''' + str(uid) + ''' AND
-                                  pp.registration_employee_id IS NOT NULL AND
+                                  pp.registration_date IS NOT NULL AND
                                   pa.tipologia_assegnazione = 'conoscenza' AND
                                   pa.state = 'assegnato' AND
                                   pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
@@ -938,7 +939,7 @@ class protocollo_protocollo(osv.Model):
                   AND pp.id = pa.protocollo_id AND
                       (pa.assegnatario_employee_id = he.id AND he.resource_id = rr.id AND rr.user_id = %s)
                   AND 
-                  pp.registration_employee_id IS NOT NULL AND 
+                  pp.registration_date IS NOT NULL AND 
                   pa.tipologia_assegnazione = 'conoscenza' AND 
                   pa.state = 'assegnato' AND
                   pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
@@ -971,7 +972,7 @@ class protocollo_protocollo(osv.Model):
                   pa.assegnatario_employee_id = he.id AND
                   he.resource_id = rr.id AND
                   rr.user_id = %s AND
-                  pp.registration_employee_id IS NOT NULL AND
+                  pp.registration_date IS NOT NULL AND
                   pa.tipologia_assegnatario = 'employee' AND 
                   pa.tipologia_assegnazione = 'conoscenza' AND
                   pa.state = 'assegnato' AND
@@ -1007,7 +1008,7 @@ class protocollo_protocollo(osv.Model):
                 AND pa.assegnatario_employee_id = he.id
                 AND he.resource_id = rr.id
                 AND rr.user_id = %d
-                AND pp.registration_employee_id IS NOT NULL
+                AND pp.registration_date IS NOT NULL
                 AND pa.tipologia_assegnatario = 'employee' 
                 AND pa.tipologia_assegnazione = 'conoscenza'
                 AND pa.state = 'assegnato'
@@ -1043,7 +1044,7 @@ class protocollo_protocollo(osv.Model):
                   hd.id=he.department_id AND
                   he.resource_id = rr.id AND
                   rr.user_id = %s AND
-                  pp.registration_employee_id IS NOT NULL AND
+                  pp.registration_date IS NOT NULL AND
                   pa.tipologia_assegnatario = 'department' AND 
                   pa.tipologia_assegnazione = 'competenza' AND
                   pa.state = 'assegnato' AND
@@ -1082,7 +1083,7 @@ class protocollo_protocollo(osv.Model):
                 AND hd.id = he.department_id
                 AND he.resource_id = rr.id
                 AND rr.user_id = %d
-                AND pp.registration_employee_id IS NOT NULL
+                AND pp.registration_date IS NOT NULL
                 AND pa.tipologia_assegnatario = 'department' 
                 AND pa.tipologia_assegnazione = 'competenza'
                 AND pa.state = 'assegnato'
@@ -1116,7 +1117,7 @@ class protocollo_protocollo(osv.Model):
                   hd.id=he.department_id AND
                   he.resource_id = rr.id AND
                   rr.user_id = %s AND
-                  pp.registration_employee_id IS NOT NULL AND
+                  pp.registration_date IS NOT NULL AND
                   pa.tipologia_assegnatario = 'department' AND 
                   pa.tipologia_assegnazione = 'conoscenza' AND
                   pa.state = 'assegnato' AND
@@ -1155,7 +1156,7 @@ class protocollo_protocollo(osv.Model):
                 AND hd.id=he.department_id
                 AND he.resource_id = rr.id
                 AND rr.user_id = %d
-                AND pp.registration_employee_id IS NOT NULL
+                AND pp.registration_date IS NOT NULL
                 AND pa.tipologia_assegnatario = 'department' 
                 AND pa.tipologia_assegnazione = 'conoscenza'
                 AND pa.state = 'assegnato'
@@ -1270,7 +1271,7 @@ class protocollo_protocollo(osv.Model):
                   pa.assegnatore_id = he.id AND
                   he.resource_id = rr.id AND
                   rr.user_id = %s AND
-                  pp.registration_employee_id IS NOT NULL AND
+                  pp.registration_date IS NOT NULL AND
                   pa.tipologia_assegnazione = 'competenza' AND
                   pa.state = 'assegnato' AND
                   (pa.tipologia_assegnatario = 'department' OR (pa.tipologia_assegnatario = 'employee' AND pa.parent_id IS NULL)) AND
@@ -1308,7 +1309,7 @@ class protocollo_protocollo(osv.Model):
                 AND pa.assegnatore_id = he.id 
                 AND he.resource_id = rr.id 
                 AND rr.user_id = %d 
-                AND pp.registration_employee_id IS NOT NULL 
+                AND pp.registration_date IS NOT NULL 
                 AND pa.tipologia_assegnazione = 'competenza' 
                 AND pa.state = 'assegnato' 
                 AND (pa.tipologia_assegnatario = 'department'
@@ -1345,7 +1346,7 @@ class protocollo_protocollo(osv.Model):
                   pa.assegnatore_id = he.id AND
                   he.resource_id = rr.id AND
                   rr.user_id = %s AND
-                  pp.registration_employee_id IS NOT NULL AND
+                  pp.registration_date IS NOT NULL AND
                   pa.tipologia_assegnazione = 'competenza' AND
                   pa.state = 'rifiutato' AND 
                   pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
@@ -1382,7 +1383,7 @@ class protocollo_protocollo(osv.Model):
                 AND pa.assegnatore_id = he.id
                 AND he.resource_id = rr.id
                 AND rr.user_id = %d
-                AND pp.registration_employee_id IS NOT NULL
+                AND pp.registration_date IS NOT NULL
                 AND pa.tipologia_assegnazione = 'competenza'
                 AND pa.state = 'rifiutato'
                 AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
@@ -1414,7 +1415,7 @@ class protocollo_protocollo(osv.Model):
                   pa.assegnatario_employee_id = he.id AND
                   he.resource_id = rr.id AND
                   rr.user_id = %s AND
-                  pp.registration_employee_id IS NOT NULL AND
+                  pp.registration_date IS NOT NULL AND
                   pa.tipologia_assegnatario = 'employee' AND 
                   pa.tipologia_assegnazione = 'competenza' AND
                   pa.state = 'preso' AND
@@ -1434,7 +1435,7 @@ class protocollo_protocollo(osv.Model):
             SELECT DISTINCT(pa.protocollo_id) 
             FROM protocollo_protocollo pp, protocollo_assegnazione pa
             WHERE pp.id = pa.protocollo_id AND 
-                  pp.registration_employee_id IS NOT NULL AND
+                  pp.registration_date IS NOT NULL AND
                   pa.tipologia_assegnatario = 'employee' AND 
                   pa.tipologia_assegnazione = 'competenza' AND
                   pa.state = 'preso' AND
@@ -1461,7 +1462,7 @@ class protocollo_protocollo(osv.Model):
                   pa.assegnatario_employee_id = he.id AND
                   he.resource_id = rr.id AND
                   rr.user_id = %s AND
-                  pp.registration_employee_id IS NOT NULL AND
+                  pp.registration_date IS NOT NULL AND
                   pa.tipologia_assegnatario = 'employee' AND 
                   pa.tipologia_assegnazione = 'competenza' AND
                   pa.state = 'preso' AND
@@ -1545,7 +1546,7 @@ class protocollo_protocollo(osv.Model):
                   pa.assegnatario_employee_id = he.id AND
                   he.resource_id = rr.id AND
                   rr.user_id = %s AND
-                  pp.registration_employee_id IS NOT NULL AND
+                  pp.registration_date IS NOT NULL AND
                   pa.tipologia_assegnatario = 'employee' AND 
                   pa.parent_id IS NULL AND
                   pa.tipologia_assegnazione = 'competenza'
@@ -1568,7 +1569,7 @@ class protocollo_protocollo(osv.Model):
                   pa.assegnatario_employee_id = he.id AND
                   he.resource_id = rr.id AND
                   rr.user_id = %s AND
-                  pp.registration_employee_id IS NOT NULL AND
+                  pp.registration_date IS NOT NULL AND
                   pa.tipologia_assegnatario = 'employee' AND 
                   pa.parent_id IS NULL AND
                   pa.tipologia_assegnazione = 'conoscenza'
@@ -1591,7 +1592,7 @@ class protocollo_protocollo(osv.Model):
                   hd.id=he.department_id AND
                   he.resource_id = rr.id AND
                   rr.user_id = %s AND
-                  pp.registration_employee_id IS NOT NULL AND
+                  pp.registration_date IS NOT NULL AND
                   pa.tipologia_assegnatario = 'department' AND 
                   pa.tipologia_assegnazione = 'competenza'
         ''', (uid,))
@@ -1613,7 +1614,7 @@ class protocollo_protocollo(osv.Model):
                   hd.id=he.department_id AND
                   he.resource_id = rr.id AND
                   rr.user_id = %s AND
-                  pp.registration_employee_id IS NOT NULL AND
+                  pp.registration_date IS NOT NULL AND
                   pa.tipologia_assegnatario = 'department' AND 
                   pa.tipologia_assegnazione = 'conoscenza'
         ''', (uid,))
@@ -1635,7 +1636,7 @@ class protocollo_protocollo(osv.Model):
                   pa.assegnatore_id = he.id AND
                   he.resource_id = rr.id AND
                   rr.user_id = %s AND
-                  pp.registration_employee_id IS NOT NULL AND
+                  pp.registration_date IS NOT NULL AND
                   (pa.tipologia_assegnatario = 'department' OR (pa.tipologia_assegnatario = 'employee' AND pa.parent_id IS NULL)) 
         ''', (uid,))
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
@@ -1654,7 +1655,7 @@ class protocollo_protocollo(osv.Model):
             WHERE pp.id = pa.protocollo_id AND 
                   pa.assegnatore_id = he.id AND
                   he.resource_id = rr.id AND
-                  pp.registration_employee_id IS NOT NULL AND
+                  pp.registration_date IS NOT NULL AND
                   pa.tipologia_assegnazione = 'competenza'
         ''', (uid,))
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
@@ -1673,7 +1674,7 @@ class protocollo_protocollo(osv.Model):
             WHERE pp.id = pa.protocollo_id AND 
                   pa.assegnatore_id = he.id AND
                   he.resource_id = rr.id AND
-                  pp.registration_employee_id IS NOT NULL AND
+                  pp.registration_date IS NOT NULL AND
                   pa.tipologia_assegnazione = 'conoscenza'
         ''', (uid,))
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
@@ -2807,6 +2808,15 @@ class protocollo_protocollo(osv.Model):
     }
 
     def init(self, cr):
+
+        cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_protocollo_registration_date\'')
+        if not cr.fetchone():
+            cr.execute("""
+            CREATE INDEX idx_protocollo_protocollo_registration_date
+            ON public.protocollo_protocollo
+            USING btree
+            (registration_date);
+        """)
         cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_protocollo_registration_employee_id\'')
         if not cr.fetchone():
             cr.execute("""
