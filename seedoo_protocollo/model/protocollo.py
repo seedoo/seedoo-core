@@ -135,7 +135,7 @@ class protocollo_protocollo(orm.Model):
 
     _inherit = 'mail.thread'
     _mail_flat_thread = False
-    _order = 'creation_date desc,name desc'
+    _order = 'id desc'
 
     STATE_SELECTION = [
         ('draft', 'Bozza'),

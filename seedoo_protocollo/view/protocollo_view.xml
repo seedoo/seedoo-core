@@ -794,7 +794,6 @@ this module contains the full copyright notices and license terms. -->
                       colors="#7c7bad:state=='registered';green:pec_notifications_sum=='True';green:state=='notified';green:state=='sent';orange:state=='waiting';red:state=='canceled';red:state=='error';">
                     <field name="type"/>
                     <field name="name"/>
-                    <field name="name" invisible="1"/>
                     <field name="sender_receivers" invisible="1"/>
                     <field name="registration_date_from" invisible="1"/>
                     <field name="registration_date_to" invisible="1"/>
