@@ -357,11 +357,7 @@ this module contains the full copyright notices and license terms. -->
                             <field name="modifica_documento_visibility"/>
                             <field name="carica_allegati_visibility"/>
                             <field name="inserisci_testo_mailpec_visibility"/>
-                            <field name="subject_editability"/>
-                            <field name="typology_editability"/>
-                            <field name="notes_editability"/>
-                            <field name="sender_protocol_editability"/>
-                            <field name="sender_registration_date_editability"/>
+                            <field name="protocollo_fields_editability"/>
                             <field name="doc_id" invisible="1"/>
                             <field name="doc_fname" invisible="1"/>
                             <field name="pec" colspan="2" invisible="1"/>
@@ -432,8 +428,8 @@ this module contains the full copyright notices and license terms. -->
                                     </group>
                                     <group col="8">
                                         <group>
-                                            <field name="typology" attrs="{'invisible' : [('type','=','internal')], 'readonly':[('typology_editability','=',False)]}" on_change="on_change_typology(typology)" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}"/>
-                                            <field name="subject" attrs="{'required':[('state','!=','draft')], 'readonly':[('subject_editability','=',False)]}" class="protocollo_oggetto"/>
+                                            <field name="typology" attrs="{'invisible' : [('type','=','internal')], 'readonly':[('protocollo_fields_editability','=',False)]}" on_change="on_change_typology(typology)" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}"/>
+                                            <field name="subject" attrs="{'required':[('state','!=','draft')], 'readonly':[('protocollo_fields_editability','=',False)]}" class="protocollo_oggetto"/>
                                             <field name="doc_content" filename="doc_fname" attrs="{'invisible':[('doc_id','=',False)]}"/>
                                             <field name="doc_description" attrs="{'invisible':[('doc_id','=',False)]}"/>
                                             <field name="fingerprint" attrs="{'invisible':['|', ('registration_date','=',False),('doc_id','=',False)]}" readonly="1"/>
@@ -454,13 +450,13 @@ this module contains the full copyright notices and license terms. -->
                                         <div class="emailpec-container">
                                             <group>
                                                 <field name="server_sharedmail_id" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}" attrs="{'invisible':['|',('sharedmail','!=',True),('type','=','in')],
-                                                                                                'required': [('sharedmail','=',True),('type','=','out')], 'readonly':[('registration_date','!=',False)]}"
+                                                                                                'required': [('sharedmail','=',True),('type','=','out')], 'readonly':[('protocollo_fields_editability','=',False)]}"
                                                        class="seedoocustom_protocollo_server_sharedmail_id"/>
                                                 <field name="server_pec_id" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}" attrs="{'invisible':['|',('pec','!=',True),('type','=','in')],
-                                                                                                    'required': [('pec','=',True),('type','=','out')], 'readonly':[('registration_date','!=',False)]}"
+                                                                                                    'required': [('pec','=',True),('type','=','out')], 'readonly':[('protocollo_fields_editability','=',False)]}"
                                                        class="seedoocustom_protocollo_server_pec_id"/>
                                                 <field name="receiving_date" attrs="{'invisible':['|', ('type','=','out'), ('type','=','internal')]}" class="seedoocustom_protocollo_receiving_date"/>
-                                                <field name="body" attrs="{'invisible':['|','|',('type','=','in'),('inserisci_testo_mailpec_visibility','=',False),'&amp;',('sharedmail','=',False),('pec','=',False)],'readonly':[('registration_date','!=',False)]}"
+                                                <field name="body" attrs="{'invisible':['|','|',('type','=','in'),('inserisci_testo_mailpec_visibility','=',False),'&amp;',('sharedmail','=',False),('pec','=',False)],'readonly':[('protocollo_fields_editability','=',False)]}"
                                                        class="seedoocustom_protocollo_body"/>
                                             </group>
                                         </div>
@@ -500,8 +496,8 @@ this module contains the full copyright notices and license terms. -->
                                 <div class="accordion-content accordion-open">
                                     <newline/>
                                     <group col="4">
-                                        <field name="sender_registration_date" attrs="{'invisible':[('type','!=','in')],'readonly':[('sender_registration_date_editability','=',False)]}"/>
-                                        <field name="sender_protocol" attrs="{'invisible':[('type','!=','in')], 'readonly':[('sender_protocol_editability','=',False)]}"/>
+                                        <field name="sender_registration_date" attrs="{'invisible':[('type','!=','in')],'readonly':[('protocollo_fields_editability','=',False)]}"/>
+                                        <field name="sender_protocol" attrs="{'invisible':[('type','!=','in')], 'readonly':[('protocollo_fields_editability','=',False)]}"/>
                                     </group>
                                 </div>
                             </div>
@@ -763,7 +759,7 @@ this module contains the full copyright notices and license terms. -->
                                 </group>
                             </page>
                             <page string="Altro">
-                                <field name="notes" nolabel="1" attrs="{'readonly':[('notes_editability','=',False)]}" colspan="4"/>
+                                <field name="notes" nolabel="1" attrs="{'readonly':[('protocollo_fields_editability','=',False)]}" colspan="4"/>
                             </page>
                             <!--<page string="Segnatura XML"-->
                                   <!--groups="base.group_system">-->

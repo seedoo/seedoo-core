@@ -2582,52 +2582,7 @@ class protocollo_protocollo(osv.Model):
     ####################################################################################################################
     # Modificabilità dei campi
     ####################################################################################################################
-    def _typology_editability(self, cr, uid, ids, prop, unknow_none, context=None):
-        res = []
-        check = False
-        protocolli = self._get_protocolli(cr, uid, ids)
-        for protocollo in protocolli:
-            if protocollo.state == 'draft':
-                check = True
-            res.append((protocollo.id, check))
-
-        return dict(res)
-
-    def _subject_editability(self, cr, uid, ids, prop, unknow_none, context=None):
-        res = []
-        check = False
-        protocolli = self._get_protocolli(cr, uid, ids)
-        for protocollo in protocolli:
-            if protocollo.state == 'draft':
-                check = True
-            res.append((protocollo.id, check))
-
-        return dict(res)
-
-    def _notes_editability(self, cr, uid, ids, prop, unknow_none, context=None):
-        res = []
-        check = False
-        protocolli = self._get_protocolli(cr, uid, ids)
-        for protocollo in protocolli:
-            if protocollo.state == 'draft':
-                check = True
-            res.append((protocollo.id, check))
-
-        return dict(res)
-
-    def _sender_registration_date_editability(self, cr, uid, ids, prop, unknow_none, context=None):
-        res = []
-        check = False
-        protocolli = self._get_protocolli(cr, uid, ids)
-        for protocollo in protocolli:
-            if protocollo.state == 'draft':
-                check = True
-            res.append((protocollo.id, check))
-
-        return dict(res)
-
-
-    def _sender_protocol_editability(self, cr, uid, ids, prop, unknow_none, context=None):
+    def _protocollo_fields_editability(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
         check = False
         protocolli = self._get_protocolli(cr, uid, ids)
@@ -2791,11 +2746,7 @@ class protocollo_protocollo(osv.Model):
         'carica_documento_visibility': fields.function(_carica_documento_visibility, type='boolean', string='Carica documento'),
         'modifica_documento_visibility': fields.function(_modifica_documento_visibility, type='boolean', string='Modifica documento'),
         'carica_allegati_visibility': fields.function(_carica_allegati_visibility, type='boolean', string='Carica Allegati'),
-        'typology_editability': fields.function(_typology_editability, type='boolean', string='Mezzo di trasmissione'),
-        'subject_editability': fields.function(_subject_editability, type='boolean', string='Oggetto'),
-        'notes_editability': fields.function(_notes_editability, type='boolean', string='Altro'),
-        'sender_protocol_editability': fields.function(_notes_editability, type='boolean', string='Protocollo Mittente'),
-        'sender_registration_date_editability': fields.function(_notes_editability, type='boolean', string='Data Registrazione Mittente'),
+        'protocollo_fields_editability': fields.function(_protocollo_fields_editability, type='boolean', string='Modificabilità Campi Protocollo'),
     }
 
     def _default_protocollazione_riservata_visibility(self, cr, uid, context):
