@@ -2334,8 +2334,8 @@ class protocollo_protocollo(orm.Model):
                 typology = self.pool.get('protocollo.typology').browse(cr, uid, vals['typology'])
                 after_typology = typology.id if typology else False
             if before_typology != after_typology:
-                before['Tipologia'] = protocollo.typology.name if protocollo.typology else ''
-                after['Tipologia'] = typology.name if typology else ''
+                before['Mezzo di trasmissione'] = protocollo.typology.name if protocollo.typology else ''
+                after['Mezzo di trasmissione'] = typology.name if typology else ''
 
         if 'server_sharedmail_id' in vals:
             before_server_sharedmail = protocollo.server_sharedmail_id.id if protocollo.server_sharedmail_id else False
@@ -2381,6 +2381,11 @@ class protocollo_protocollo(orm.Model):
                 else:
                     after[receiving_date_label] = ''
 
+        self._save_history(cr, uid, protocollo_id, before, after, 'Modifica dati documento', cause)
+
+        before = {}
+        after = {}
+
         if 'sender_registration_date' in vals:
             if protocollo.sender_registration_date != vals['sender_registration_date']:
                 sender_label = 'Data registrazione mittente'
@@ -2398,20 +2403,30 @@ class protocollo_protocollo(orm.Model):
                 before['Protocollo mittente'] = protocollo.sender_protocol if protocollo.sender_protocol else ''
                 after['Protocollo mittente'] = vals['sender_protocol'] if vals['sender_protocol'] else ''
 
+        self._save_history(cr, uid, protocollo_id, before, after, 'Modifica dati protocollo mittente', cause)
+
+        before = {}
+        after = {}
+
         if 'notes' in vals:
             if protocollo.notes != vals['notes']:
                 before['Altro'] = protocollo.notes if protocollo.notes else ''
                 after['Altro'] = vals['notes'] if vals['notes'] else ''
 
+        self._save_history(cr, uid, protocollo_id, before, after, 'Modifica altro', cause)
+
+    def _save_history(self, cr, uid, protocollo_id, before, after, section, cause):
+        protocollo_obj = self.pool.get('protocollo.protocollo')
+
         body = ''
         for key, before_item in before.items():
             body = body + "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#009900'> %s </span></li>" \
-                       % (str(key), before_item, after[key])
+                   % (str(key), before_item, after[key])
         if body:
             action_class = "history_icon update"
             body_complete = "<div class='%s'><ul>" % action_class
             body_complete += body + "</ul></div>"
-            history_subject = "Modifica dati generali"
+            history_subject = section
             if cause:
                 history_subject += ": %s" % cause
 
