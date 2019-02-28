@@ -39,6 +39,9 @@ class protocollo_sender_internal_wizard(osv.TransientModel):
 
     def action_save(self, cr, uid, ids, context=None):
         protocollo_obj = self.pool.get('protocollo.protocollo')
+        protocollo = protocollo_obj.browse(cr, uid, context['active_id'], {'skip_check': True})
+        save_history = protocollo.state in protocollo_obj.get_history_state_list(cr, uid)
+
         wizard = self.browse(cr, uid, ids[0], context)
         vals = {}
         vals['sender_internal_assegnatario'] = wizard.sender_internal_ref.id
@@ -46,6 +49,26 @@ class protocollo_sender_internal_wizard(osv.TransientModel):
         vals['sender_internal_employee'] = wizard.sender_internal_ref.employee_id.id if wizard.sender_internal_ref.employee_id else False
         vals['sender_internal_employee_department'] = wizard.sender_internal_ref.employee_id.department_id.id if wizard.sender_internal_ref.employee_id else False
         vals['sender_internal_department'] = wizard.sender_internal_ref.department_id.id if wizard.sender_internal_ref.department_id else False
+
+        if save_history:
+            old_sender_internal_id = protocollo.sender_internal_assegnatario.id if protocollo.sender_internal_assegnatario else False
+            old_sender_internal_name = protocollo.sender_internal_assegnatario.name if protocollo.sender_internal_assegnatario else ''
+            operation_label = "Inserimento mittente" if not old_sender_internal_id else "Modifica mittente"
+
+            if old_sender_internal_id != vals['sender_internal_assegnatario']:
+                action_class = "history_icon update"
+                body = "<div class='%s'><ul>" % action_class
+                body += "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#009900'> %s </span></li>" \
+                              % ('Mittente', old_sender_internal_name, vals['sender_internal_name'])
+                body += "</ul></div>"
+                post_vars = {
+                    'subject': operation_label,
+                    'body': body,
+                    'model': 'protocollo.protocollo',
+                    'res_id': context['active_id']
+                }
+                protocollo_obj.message_post(cr, uid, context['active_id'], type="notification", context={'pec_messages': True},  **post_vars)
+
         protocollo_obj.write(cr, uid, [context['active_id']], vals)
 
         return {

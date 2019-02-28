@@ -185,8 +185,6 @@ class wizard(osv.TransientModel):
 
     def action_save(self, cr, uid, ids, context=None):
         vals = {}
-        before = {}
-        after = {}
         wizard = self.browse(cr, uid, ids[0], context)
         protocollo_obj = self.pool.get('protocollo.protocollo')
         protocollo = protocollo_obj.browse(cr, uid, context['active_id'], {'skip_check': True})
@@ -211,72 +209,32 @@ class wizard(osv.TransientModel):
                     _('Il metodo di spedizione PEC'
                       ' non puo\' essere inserito in questa fase.')
                 )
-            else:
-                before['Tipologia'] = protocollo.typology.name
-                after['Tipologia'] = wizard.typology.name
 
         if wizard.server_sharedmail_id.id != protocollo.server_sharedmail_id.id:
-            before['Account E-mail'] = protocollo.server_sharedmail_id.name
-            after['Account E-mail'] = wizard.server_sharedmail_id.name
             vals['server_sharedmail_id'] = wizard.server_sharedmail_id.id
 
         if wizard.server_pec_id.id != protocollo.server_pec_id.id:
-            before['Account PEC'] = protocollo.server_pec_id.name
-            after['Account PEC'] = wizard.server_pec_id.name
             vals['server_pec_id'] = wizard.server_pec_id.id
 
         if wizard.subject != protocollo.subject:
             vals['subject'] = wizard.subject
-            before['Oggetto'] = protocollo.subject
-            after['Oggetto'] = wizard.subject
 
         if wizard.body != protocollo.body:
             vals['body'] = wizard.body
-            before['Corpo della mail'] = protocollo.body
-            after['Corpo della mail'] = wizard.body
 
         if protocollo.receiving_date != wizard.receiving_date:
             vals['receiving_date'] = wizard.receiving_date
-            before['Data ricezione'] = protocollo.receiving_date
-            after['Data ricezione'] = wizard.receiving_date
 
-        protocollo_obj.write(cr, uid, [context['active_id']], vals)
-
-
-        body = ''
-        for key, before_item in before.items():
-            if before[key] != after[key]:
-                body = body + "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#009900'> %s </span></li>" \
-                                % (str(key), before_item, after[key])
-            else:
-                body = body + "<li>%s: <span style='color:#666'> %s</span> -> <span style='color:#666'> %s </span></li>" \
-                              % (str(key), before_item, after[key])
-        if body:
-            action_class = "history_icon update"
-            body_complete = "<div class='%s'><ul>" % action_class
-            body_complete += body + "</ul></div>"
-
-            post_vars = {'subject': "Modifica dati generali: %s" % wizard.cause,
-                         'body': body_complete,
-                         'model': "protocollo.protocollo",
-                         'res_id': context['active_id'],
-                        }
-
-            new_context = dict(context).copy()
-            # if protocollo.typology.name == 'PEC':
-            new_context.update({'pec_messages': True})
-
-            thread_pool = self.pool.get('protocollo.protocollo')
-            thread_pool.message_post(cr, uid, context['active_id'], type="notification", context=new_context, **post_vars)
+        protocollo_obj.write(cr, uid, [context['active_id']], vals, {'cause': wizard.cause})
 
         return {
-                'name': 'Protocollo',
-                'view_type': 'form',
-                'view_mode': 'form,tree',
-                'res_model': 'protocollo.protocollo',
-                'res_id': context['active_id'],
-                'context': context,
-                'type': 'ir.actions.act_window',
-                'flags': {'initial_mode': 'edit'}
+            'name': 'Protocollo',
+            'view_type': 'form',
+            'view_mode': 'form,tree',
+            'res_model': 'protocollo.protocollo',
+            'res_id': context['active_id'],
+            'context': context,
+            'type': 'ir.actions.act_window',
+            'flags': {'initial_mode': 'edit'}
         }
 

@@ -366,34 +366,26 @@ class protocollo_sender_receiver(orm.Model):
             vals.update(copy_vals['value'])
             vals['partner_id'] = False
         self.check_field_in_create(cr, uid, vals)
-        sender_receiver = super(protocollo_sender_receiver, self).create(cr, uid, vals, context=context)
-        sender_receiver_obj = self.browse(cr, uid, sender_receiver, {'skip_check': True})
-
-        if sender_receiver_obj.protocollo_id.registration_date:
-            action_class = "history_icon update"
-            body = "<div class='%s'><ul><li>" \
-                   "Aggiunto il destinatario %s (%s)</li></ul></div>" \
-                    % (action_class, vals.get("name"), vals.get("pec_mail"))
-
-            post_vars = {'subject': "Aggiunta destinatario PEC",
-                         'body': body,
-                         'model': "protocollo.protocollo",
-                         'res_id': sender_receiver_obj.protocollo_id.id,
-                        }
-
-            thread_pool = self.pool.get('protocollo.protocollo')
-            thread_pool.message_post(cr, uid, sender_receiver_obj.protocollo_id.id, type="notification", context=context, **post_vars)
-
-        return sender_receiver
+        sender_receiver_id = super(protocollo_sender_receiver, self).create(cr, uid, vals, context=context)
+        sender_receiver = self.browse(cr, uid, sender_receiver_id, {'skip_check': True})
+        self.save_history(cr, uid, sender_receiver, 'create', context=context)
+        return sender_receiver_id
 
     def write(self, cr, uid, ids, vals, context=None):
         self.check_field_in_write(cr, uid, ids, vals)
+        if isinstance(ids, int):
+            ids = [ids]
+        for sender_receiver_id in ids:
+            sender_receiver = self.browse(cr, uid, sender_receiver_id, {'skip_check': True})
+            self.save_history(cr, uid, sender_receiver, 'write', vals, context=context)
         return super(protocollo_sender_receiver, self).write(cr, uid, ids, vals, context=context)
 
     def elimina_mittente_destinatario(self, cr, uid, ids, context={}):
         mittente_destinatario = self.browse(cr, uid, ids[0])
         protocollo = mittente_destinatario.protocollo_id
+        self.save_history(cr, uid, mittente_destinatario, 'unlink', context=context)
         self.unlink(cr, uid, ids, context)
+
         return {
             'name': 'Protocollo',
             'view_type': 'form',
@@ -404,9 +396,6 @@ class protocollo_sender_receiver(orm.Model):
             'type': 'ir.actions.act_window',
             'flags': {'initial_mode': 'edit'}
         }
-
-    # def aggiungi_destinatario_pec_action(self, cr, uid, ids, context=None):
-    #     return True
 
     def copy(self, cr, uid, id, default=None, context=None):
         sender_receiver_obj = self.pool.get('protocollo.sender_receiver')
@@ -440,3 +429,48 @@ class protocollo_sender_receiver(orm.Model):
         }
 
         return sender_receiver_obj.create(cr, uid, vals)
+
+
+    def save_history(self, cr, uid, sender_receiver, operation, vals={}, context={}):
+        protocollo_obj = self.pool.get('protocollo.protocollo')
+        save_history = True if sender_receiver.protocollo_id.state in protocollo_obj.get_history_state_list(cr, uid) else False
+        if save_history and str(self) == 'protocollo.sender_receiver':
+            if operation == 'create':
+                operation_label = 'Inserimento '
+                template = "<li>%s: <span style='color:#009900'> %s </span></li>"
+            elif operation == 'write':
+                operation_label = 'Modifica '
+                template = "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#009900'> %s </span></li>"
+            else:
+                operation_label = 'Cancellazione '
+                template = "<li>%s: <span style='color:#990000'> %s </span></li>"
+            operation_label += 'mittente' if sender_receiver.source == 'sender' else 'destinatario'
+            action_class = 'history_icon update'
+
+
+            body = "<div class='%s'><ul>" % action_class
+            if operation == 'write':
+                if 'name' in vals:
+                    if sender_receiver.name != vals['name']:
+                        body += template % ('Nome Cognome/Ragione Sociale', sender_receiver.name, vals['name'])
+                if 'email' in vals:
+                    if sender_receiver.email != vals['email']:
+                        body += template % ('Email', sender_receiver.email, vals['email'])
+                if 'pec_mail' in vals:
+                    if sender_receiver.pec_mail != vals['pec_mail']:
+                        body += template % ('Email PEC', sender_receiver.pec_mail, vals['pec_mail'])
+            else:
+                template
+                if sender_receiver.email:
+                    body += template % ('Email', sender_receiver.email)
+                if sender_receiver.pec_mail:
+                    body += template % ('Email PEC', sender_receiver.pec_mail)
+            body += "</ul></div>"
+
+            post_vars = {
+                'subject': "%s: %s" % (operation_label, sender_receiver.name),
+                'body': body,
+                'model': 'protocollo.protocollo',
+                'res_id': sender_receiver.protocollo_id.id
+            }
+            protocollo_obj.message_post(cr, uid, sender_receiver.protocollo_id.id, type="notification", context=context, **post_vars)

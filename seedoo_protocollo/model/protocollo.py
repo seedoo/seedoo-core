@@ -33,6 +33,24 @@ _logger = logging.getLogger(__name__)
 mimetypes.init()
 
 
+def convert_datetime(value, from_timezone="UTC", to_timezone="Europe/Rome", format_from='%Y-%m-%d %H:%M:%S', format_to='%Y-%m-%d %H:%M:%S', to_datetime=False):
+    if not value:
+        return None
+
+    timezone_from = pytz.timezone(from_timezone)
+    timezone_to = pytz.timezone(to_timezone)
+
+    stripped_value = value.split(".")[0]
+    datetime_from = datetime.datetime.strptime(stripped_value, format_from)
+    localized_value = timezone_from.localize(datetime_from)
+    datetime_to = localized_value.astimezone(timezone_to)
+
+    if to_datetime:
+        return datetime_to
+
+    return datetime_to.strftime(format_to)
+
+
 class protocollo_typology(orm.Model):
     _name = 'protocollo.typology'
 
@@ -1936,6 +1954,11 @@ class protocollo_protocollo(orm.Model):
         if 'registration_employee_department_id' in vals:
             department = self.pool.get('hr.department').browse(cr, uid, vals['registration_employee_department_id'])
             vals['registration_employee_department_name'] = department and department.complete_name or False
+        cause = context['cause'] if context and ('cause' in context) else ''
+        if isinstance(ids, int):
+            ids = [ids]
+        for protocollo_id in ids:
+            self.save_general_data_history(cr, uid, protocollo_id, cause, vals)
         protocollo_id = super(protocollo_protocollo, self).write(cr, uid, ids, vals, context=context)
         return protocollo_id
 
@@ -2091,7 +2114,7 @@ class protocollo_protocollo(orm.Model):
                     self.write(cr, uid, [prot.id], vals, {'skip_check': True})
 
                     action_class = "history_icon upload"
-                    post_vars = {'subject': "Upload Documento",
+                    post_vars = {'subject': "Upload documento",
                                  'body': "<div class='%s'><ul><li>Aggiunto documento principale: %s</li></ul></div>" % (
                                      action_class, datas_fname),
                                  'model': "protocollo.protocollo",
@@ -2167,7 +2190,7 @@ class protocollo_protocollo(orm.Model):
         prot = self.browse(cr, uid, protocollo_id, {'skip_check': True})
         if prot.state in self.get_history_state_list(cr, uid) and counter > 0:
             action_class = "history_icon upload"
-            post_vars = {'subject': "Upload Documento",
+            post_vars = {'subject': "Upload documento",
                          'body': "<div class='%s'><ul><li>Aggiunt%s %d allegat%s: <i>%s</i></li></ul></div>" % (
                              action_class, text, len(file_data_list), text, nomi_allegati),
                          'model': "protocollo.protocollo",
@@ -2219,14 +2242,30 @@ class protocollo_protocollo(orm.Model):
 
 
     def action_remove_sender_internal(self, cr, uid, ids, context=None):
-        protocollo_obj = self.pool.get('protocollo.protocollo').browse(cr, uid, context['protocollo_id'])
+        protocollo_obj = self.pool.get('protocollo.protocollo')
+        protocollo = protocollo_obj.browse(cr, uid, context['protocollo_id'])
         vals = {}
         vals['sender_internal_assegnatario'] = False
         vals['sender_internal_name'] = False
         vals['sender_internal_employee'] = False
         vals['sender_internal_employee_department'] = False
         vals['sender_internal_department'] = False
-        protocollo_obj.write(vals)
+
+        if protocollo.state in protocollo_obj.get_history_state_list(cr, uid):
+            action_class = "history_icon update"
+            body = "<div class='%s'><ul>" % action_class
+            body += "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#009900'> %s </span></li>" \
+                    % ('Mittente', protocollo.sender_internal_name, '')
+            body += "</ul></div>"
+            post_vars = {
+                'subject': "Cancellazione mittente",
+                'body': body,
+                'model': 'protocollo.protocollo',
+                'res_id': context['active_id']
+            }
+            protocollo_obj.message_post(cr, uid, context['active_id'], type="notification", context={'pec_messages': True}, **post_vars)
+
+        protocollo.write(vals)
 
         return {
             'name': 'Protocollo',
@@ -2276,6 +2315,115 @@ class protocollo_protocollo(orm.Model):
             'type': 'ir.actions.act_window',
             'target': 'new'
         }
+
+
+    def save_general_data_history(self, cr, uid, protocollo_id, cause, vals):
+        before = {}
+        after = {}
+        protocollo_obj = self.pool.get('protocollo.protocollo')
+        protocollo = protocollo_obj.browse(cr, uid, protocollo_id, {'skip_check': True})
+
+        if not (protocollo.state in self.get_history_state_list(cr, uid)):
+            return
+
+        if 'typology' in vals:
+            before_typology = protocollo.typology.id if protocollo.typology else False
+            after_typology = False
+            typology = None
+            if vals['typology']:
+                typology = self.pool.get('protocollo.typology').browse(cr, uid, vals['typology'])
+                after_typology = typology.id if typology else False
+            if before_typology != after_typology:
+                before['Tipologia'] = protocollo.typology.name if protocollo.typology else ''
+                after['Tipologia'] = typology.name if typology else ''
+
+        if 'server_sharedmail_id' in vals:
+            before_server_sharedmail = protocollo.server_sharedmail_id.id if protocollo.server_sharedmail_id else False
+            after_server_sharedmail = False
+            server_sharedmail = None
+            if vals['server_sharedmail_id']:
+                server_sharedmail = self.pool.get('fetchmail.server').browse(cr, uid, vals['server_sharedmail_id'])
+                after_server_sharedmail = server_sharedmail.id if server_sharedmail else False
+            if before_server_sharedmail != after_server_sharedmail:
+                before['Account E-mail'] = protocollo.server_sharedmail_id.name if protocollo.server_sharedmail_id else ''
+                after['Account E-mail'] = server_sharedmail.name if server_sharedmail else ''
+
+        if 'server_pec_id' in vals:
+            before_server_pec = protocollo.server_pec_id.id if protocollo.server_pec_id else False
+            after_server_pec = False
+            server_pec = None
+            if vals['server_pec_id']:
+                server_pec = self.pool.get('fetchmail.server').browse(cr, uid, vals['server_pec_id'])
+                after_server_pec = server_pec.id if server_pec else False
+            if before_server_pec != after_server_pec:
+                before['Account PEC'] = protocollo.server_pec_id.name if protocollo.server_pec_id else ''
+                after['Account PEC'] = server_pec.name if server_pec else ''
+
+        if 'subject' in vals:
+            if protocollo.subject != vals['subject']:
+                before['Oggetto'] = protocollo.subject if protocollo.subject else ''
+                after['Oggetto'] = vals['subject'] if vals['subject'] else ''
+
+        if 'body' in vals:
+            if protocollo.body != vals['body']:
+                before['Corpo della mail'] = protocollo.body if protocollo.body else ''
+                after['Corpo della mail'] = vals['body'] if vals['body'] else ''
+
+        if 'receiving_date' in vals:
+            if protocollo.receiving_date != vals['receiving_date']:
+                receiving_date_label = 'Data ricezione'
+                if protocollo.receiving_date:
+                    before[receiving_date_label] = convert_datetime(protocollo.receiving_date, format_to='%d/%m/%Y %H:%M:%S')
+                else:
+                    before[receiving_date_label] = ''
+                if vals['receiving_date']:
+                    after[receiving_date_label] = convert_datetime(vals['receiving_date'], format_to='%d/%m/%Y %H:%M:%S')
+                else:
+                    after[receiving_date_label] = ''
+
+        if 'sender_registration_date' in vals:
+            if protocollo.sender_registration_date != vals['sender_registration_date']:
+                sender_label = 'Data registrazione mittente'
+                if protocollo.sender_registration_date:
+                    before[sender_label] = convert_datetime(protocollo.sender_registration_date, format_from='%Y-%m-%d', format_to='%d/%m/%Y')
+                else:
+                    before[sender_label] = ''
+                if vals['sender_registration_date']:
+                    after[sender_label] = convert_datetime(vals['sender_registration_date'], format_from='%Y-%m-%d', format_to='%d/%m/%Y')
+                else:
+                    after[sender_label] = ''
+
+        if 'sender_protocol' in vals:
+            if protocollo.sender_protocol != vals['sender_protocol']:
+                before['Protocollo mittente'] = protocollo.sender_protocol if protocollo.sender_protocol else ''
+                after['Protocollo mittente'] = vals['sender_protocol'] if vals['sender_protocol'] else ''
+
+        if 'notes' in vals:
+            if protocollo.notes != vals['notes']:
+                before['Altro'] = protocollo.notes if protocollo.notes else ''
+                after['Altro'] = vals['notes'] if vals['notes'] else ''
+
+        body = ''
+        for key, before_item in before.items():
+            body = body + "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#009900'> %s </span></li>" \
+                       % (str(key), before_item, after[key])
+        if body:
+            action_class = "history_icon update"
+            body_complete = "<div class='%s'><ul>" % action_class
+            body_complete += body + "</ul></div>"
+            history_subject = "Modifica dati generali"
+            if cause:
+                history_subject += ": %s" % cause
+
+            post_vars = {
+                'subject': history_subject,
+                'body': body_complete,
+                'model': 'protocollo.protocollo',
+                'res_id': protocollo_id
+            }
+
+            context = {'pec_messages': True}
+            protocollo_obj.message_post(cr, uid, protocollo_id, type="notification", context=context, **post_vars)
 
 
 class protocollo_journal(orm.Model):
