@@ -394,7 +394,7 @@ this module contains the full copyright notices and license terms. -->
                                             <field name="archivio_id" options="{'no_open': True}" readonly="1"/>
                                             <field name="registry" options="{'no_open': True}"/>
                                             <field name="type"/>
-                                            <field name="reserved" on_change="on_change_reserved(reserved)" attrs="{'invisible':[('protocollazione_riservata_visibility','=',False)]}"/>
+                                            <field name="reserved" on_change="on_change_reserved(reserved)" attrs="{'invisible':[('protocollazione_riservata_visibility','=',False)], 'readonly':[('protocollo_fields_editability','=',False)]}"/>
                                             <field name="is_current_archive" invisible="1"/>
                                         </group>
                                     </group>
@@ -455,7 +455,7 @@ this module contains the full copyright notices and license terms. -->
                                                 <field name="server_pec_id" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}" attrs="{'invisible':['|',('pec','!=',True),('type','=','in')],
                                                                                                     'required': [('pec','=',True),('type','=','out')], 'readonly':[('protocollo_fields_editability','=',False)]}"
                                                        class="seedoocustom_protocollo_server_pec_id"/>
-                                                <field name="receiving_date" attrs="{'invisible':['|', ('type','=','out'), ('type','=','internal')]}" class="seedoocustom_protocollo_receiving_date"/>
+                                                <field name="receiving_date" attrs="{'invisible':['|', ('type','=','out'), ('type','=','internal')], 'readonly':[('protocollo_fields_editability','=',False)]}" class="seedoocustom_protocollo_receiving_date"/>
                                                 <field name="body" attrs="{'invisible':['|','|',('type','=','in'),('inserisci_testo_mailpec_visibility','=',False),'&amp;',('sharedmail','=',False),('pec','=',False)],'readonly':[('protocollo_fields_editability','=',False)]}"
                                                        class="seedoocustom_protocollo_body"/>
                                             </group>
