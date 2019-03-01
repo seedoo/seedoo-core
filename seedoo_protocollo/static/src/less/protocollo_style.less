@@ -339,7 +339,7 @@
     content:"\f00c";
 }
 
-.btn_registra_protocollo::before {
+.btn_registra_protocollo::before, .btn_registra_richiesta::before {
     content:"\f0e3";
 }
 
@@ -347,11 +347,11 @@
     content:"\f014";
 }
 
-.btn_presa_in_carico::before {
+.btn_presa_in_carico::before, .btn_presa_in_carico_richiesta::before {
     content:"\f046";
 }
 
-.btn_rifiuta_presa_in_carico::before {
+.btn_rifiuta_presa_in_carico::before, .btn_rifiuta_presa_in_carico_richiesta::before {
     content:"\f147";
 }
 
@@ -391,7 +391,7 @@
     content:"\f0e8";
 }
 
-.btn_invia_pec::before {
+.btn_invia_pec::before, .btn_invia_richiesta::before {
     content:"\f003";
 }
 
@@ -423,12 +423,12 @@
     font-weight:bold;
 }
 
-.btn_rifiuta_presa_in_carico {
+.btn_rifiuta_presa_in_carico, .btn_rifiuta_presa_in_carico_richiesta {
     background-color: #f59704 !important;
 }
 
 .openerp {
-    button.btn_presa_in_carico, button.btn_rifiuta_presa_in_carico, button.btn_stampa_etichetta {
+    button.btn_presa_in_carico, button.btn_presa_in_carico_richiesta, button.btn_rifiuta_presa_in_carico, button.btn_rifiuta_presa_in_carico_richiesta, button.btn_stampa_etichetta {
         &:hover {
             background-color:#999 !important;
         }

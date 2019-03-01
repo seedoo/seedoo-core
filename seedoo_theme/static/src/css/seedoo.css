@@ -222,11 +222,11 @@ button.oe_button.oe_form_button_edit::before {
   background-color:steelblue;
 }
 
-.openerp button.btn_invia_pec{
+.openerp button.btn_invia_pec, .openerp button.btn_invia_richiesta{
   background-color:#679B41 !important;
 }
 
-.openerp button.btn_presa_in_carico {
+.openerp button.btn_presa_in_carico, .openerp button.btn_presa_in_carico_richiesta {
   background-color:#679B41 !important;
 }
 
