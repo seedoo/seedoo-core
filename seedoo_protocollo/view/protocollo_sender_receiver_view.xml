@@ -47,67 +47,72 @@ this module contains the full copyright notices and license terms. -->
                 <form string="Mittenti/Destinatari">
                     <sheet>
                         <group colspan="4" col="4">
-                            <group>
-                                <field name="partner_id" on_change="on_change_partner(partner_id)" options="{'no_quick_create': True, 'no_create_edit': True}"/>
-                            </group>
-                            <group class="general" string="Info Anagrafiche" colspan="4" col="4">
-                                <field name="type" on_change="on_change_type(type)" context="{'is_type_selection':True}" attrs="{'readonly': [('partner_id','!=',False)]}"/>
-                                <newline/>
-                                <field name="pa_type" placeholder="" attrs="{'invisible': [('type','!=', 'government')], 'readonly': [('partner_id','!=',False)]}" on_change="on_change_pa_type(pa_type)"/>
-                                <newline/>
-                                <field name="ammi_code" attrs="{'invisible': ['|', ('type','!=', 'government'), ('pa_type','!=', 'pa')], 'readonly': [('partner_id','!=',False)]}"/>
-                                <newline/>
-                                <field name="ident_code" attrs="{'invisible': ['|', ('type','!=', 'government'), ('pa_type','!=', 'aoo')], 'readonly': [('partner_id','!=',False)]}"/>
-                                <newline/>
-                                <field name="ipa_code" attrs="{'invisible': ['|', ('type','!=', 'government'), ('pa_type','!=', 'uo')], 'readonly': [('partner_id','!=',False)]}" />
-                                <newline/>
-                                <field name="name" attrs="{'readonly': [('partner_id','!=',False)]}" class="name_protocollo_sender_receiver_form"/>
-                            </group>
-
-                            <newline/>
-                            <group>
+                            <div class="box-anagrafica">
                                 <group>
-                                    <label for="street" string="Indirizzo"/>
-                                    <div>
-                                        <field name="street" placeholder="Via..." class="street_protocollo_sender_receiver_form"/>
-                                        <field name="street2" class="street2_protocollo_sender_receiver_form"/>
-                                        <div class="address_format">
-                                            <field name="city" placeholder="Città" style="width: 40%%" class="city_protocollo_sender_receiver_form"/>
-                                            <field name="state_id" placeholder="Provincia" style="width: 37%%" options="{'no_open': True}" class="oe_no_button city_protocollo_sender_receiver_form"/>
-                                            <field name="zip" placeholder="CAP" style="width: 20%%" class="zip_protocollo_sender_receiver_form"/>
+                                    <field name="partner_id" on_change="on_change_partner(partner_id)" options="{'no_quick_create': True, 'no_create_edit': True}"/>
+                                </group>
+                                <group class="general" string="Info Anagrafiche" colspan="4" col="4">
+                                    <field name="type" on_change="on_change_type(type)" context="{'is_type_selection':True}" attrs="{'readonly': [('partner_id','!=',False)]}"/>
+                                    <newline/>
+                                    <field name="pa_type" placeholder="" attrs="{'invisible': [('type','!=', 'government')], 'readonly': [('partner_id','!=',False)]}" on_change="on_change_pa_type(pa_type)"/>
+                                    <newline/>
+                                    <field name="ammi_code" attrs="{'invisible': ['|', ('type','!=', 'government'), ('pa_type','!=', 'pa')], 'readonly': [('partner_id','!=',False)]}"/>
+                                    <newline/>
+                                    <field name="ident_code" attrs="{'invisible': ['|', ('type','!=', 'government'), ('pa_type','!=', 'aoo')], 'readonly': [('partner_id','!=',False)]}"/>
+                                    <newline/>
+                                    <field name="ipa_code" attrs="{'invisible': ['|', ('type','!=', 'government'), ('pa_type','!=', 'uo')], 'readonly': [('partner_id','!=',False)]}" />
+                                    <newline/>
+                                    <field name="name" attrs="{'readonly': [('partner_id','!=',False)]}" class="name_protocollo_sender_receiver_form"/>
+                                </group>
+
+                                <newline/>
+                                <group>
+                                    <group>
+                                        <label for="street" string="Indirizzo"/>
+                                        <div>
+                                            <field name="street" placeholder="Via..." class="street_protocollo_sender_receiver_form"/>
+                                            <field name="street2" class="street2_protocollo_sender_receiver_form"/>
+                                            <div class="address_format">
+                                                <field name="city" placeholder="Città" style="width: 40%%" class="city_protocollo_sender_receiver_form"/>
+                                                <field name="state_id" placeholder="Provincia" style="width: 37%%" options="{'no_open': True}" class="oe_no_button city_protocollo_sender_receiver_form"/>
+                                                <field name="zip" placeholder="CAP" style="width: 20%%" class="zip_protocollo_sender_receiver_form"/>
+                                            </div>
+                                            <field name="country_id" placeholder="Nazione" options="{'no_open': True, 'no_create': True}" class="oe_no_button country_id_protocollo_sender_receiver_form"/>
                                         </div>
-                                        <field name="country_id" placeholder="Nazione" options="{'no_open': True, 'no_create': True}" class="oe_no_button country_id_protocollo_sender_receiver_form"/>
-                                    </div>
-                                    <field name="website" widget="url" placeholder="es. www.odoo.com"/>
+                                        <field name="website" widget="url" placeholder="es. www.odoo.com"/>
+                                    </group>
+                                    <group>
+                                        <field name="function" placeholder="ad esempio, Direttore Vendite"
+                                               attrs="{'invisible': [('type','!=', 'individual')]}"/>
+                                        <field name="phone" class="phone_protocollo_sender_receiver_form"/>
+                                        <field name="mobile" class="mobile_protocollo_sender_receiver_form"/>
+                                        <field name="fax" class="fax_protocollo_sender_receiver_form"/>
+                                        <field name="email" widget="email" on_change="on_change_email(email, save_partner)" class="email_protocollo_sender_receiver_form"/>
+                                        <field name="pec_mail" widget="email" on_change="on_change_pec_mail(pec_mail, save_partner)"
+                                               attrs="{'required':[('add_pec_receiver_visibility','=',True)]}" class="pec_mail_protocollo_sender_receiver_form"/>
+                                        <field name="title" options="{'no_open': True}"/>
+                                    </group>
                                 </group>
-                                <group>
-                                    <field name="function" placeholder="ad esempio, Direttore Vendite"
-                                           attrs="{'invisible': [('type','!=', 'individual')]}"/>
-                                    <field name="phone" class="phone_protocollo_sender_receiver_form"/>
-                                    <field name="mobile" class="mobile_protocollo_sender_receiver_form"/>
-                                    <field name="fax" class="fax_protocollo_sender_receiver_form"/>
-                                    <field name="email" widget="email" on_change="on_change_email(email, save_partner)" class="email_protocollo_sender_receiver_form"/>
-                                    <field name="pec_mail" widget="email" on_change="on_change_pec_mail(pec_mail, save_partner)"
-                                           attrs="{'required':[('add_pec_receiver_visibility','=',True)]}" class="pec_mail_protocollo_sender_receiver_form"/>
-                                    <field name="title" options="{'no_open': True}"/>
+
+
+                                <newline/>
+                                <group class="shipping" string="Info di Spedizione" colspan="4" col="4" attrs="{'invisible':[('send_date','=',False)]}">
+                                    <field name="send_date"/>
+                                    <field name="send_type" invisible="1"/>
+                                    <field name="protocol_state" invisible="1"/>
+                                    <field name="protocol_pec" string="PEC" invisible="1"/>
+                                    <field name="protocol_sharedmail" string="Sharedmail" invisible="1"/>
                                 </group>
-                            </group>
 
-
-                            <newline/>
-                            <group class="shipping" string="Info di Spedizione" colspan="4" col="4" attrs="{'invisible':[('send_date','=',False)]}">
-                                <field name="send_date"/>
-                                <field name="send_type" invisible="1"/>
-                                <field name="protocol_state" invisible="1"/>
-                                <field name="protocol_pec" string="PEC" invisible="1"/>
-                                <field name="protocol_sharedmail" string="Sharedmail" invisible="1"/>
-                            </group>
-
-                            <newline/>
-                            <group class="note" string="Note" colspan="4" col="4" attrs="{'invisible':[('notes','=',False)]}">
-                                <field name="notes" nolabel="1" colspan="4"/>
-                            </group>
-
+                                <newline/>
+                                <group class="note" string="Note" colspan="4" col="4" attrs="{'invisible':[('notes','=',False)]}">
+                                    <field name="notes" nolabel="1" colspan="4"/>
+                                </group>
+                                <group nolabel="1" colspan="4" col="4" attrs="{'invisible': [('partner_id','!=',False)]}">
+                                    <field name="save_partner" on_change="on_change_save_partner(pec_mail, email, save_partner)"
+                                           attrs="{'readonly': [('partner_id','!=',False)], 'invisible': [('partner_id','!=',False)]}"/>
+                                </group>
+                            </div>
                             <newline/>
                             <group string="Info E-mail" col="4" attrs="{'invisible':[('protocol_sharedmail','!=',True)]}" nolabel="1">
                                 <field name="sharedmail_messaggio_ids" widget="many2many_kanban" nolabel="1" class="container_messaggi_pec">
@@ -149,7 +154,7 @@ this module contains the full copyright notices and license terms. -->
                                     </kanban>
                                 </field>
                             </group>
-
+                            <newline/>
                             <group string="Info PEC" col="4" attrs="{'invisible':[('protocol_pec','!=',True)]}" nolabel="1">
                                 <field name="pec_messaggio_ids" widget="many2many_kanban" nolabel="1" class="container_messaggi_pec">
                                     <kanban quick_create="false" create="false">
@@ -258,10 +263,6 @@ this module contains the full copyright notices and license terms. -->
                                 </field>
                             </group>
                             <newline/>
-                            <group string="Salva contatto nella rubrica" colspan="4" col="4" attrs="{'invisible': [('partner_id','!=',False)]}">
-                                <field name="save_partner" on_change="on_change_save_partner(pec_mail, email, save_partner)"
-                                       nolabel="1" attrs="{'readonly': [('partner_id','!=',False)], 'invisible': [('partner_id','!=',False)]}"/>
-                            </group>
                             <field name="add_pec_receiver_visibility" invisible="1"/>
 
                             <footer class="sender_receiver_footer">
