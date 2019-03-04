@@ -60,18 +60,15 @@ this module contains the full copyright notices and license terms. -->
         </record>
 
         <!-- mail.message search: wall view !-->
-        <record model="ir.ui.view" id="view_message_search_seedoo">
-            <field name="name">mail.message.search.seedoo</field>
+        <record model="ir.ui.view" id="view_message_search_protocol">
+            <field name="name">mail.message.search.protocol</field>
             <field name="model">mail.message</field>
             <field name="priority">10</field>
             <field name="inherit_id" ref="mail.view_message_search"/>
             <field name="arch" type="xml">
                 <field name="parent_id" position="after">
-                    <field name="email_from"/>
-                    <field name="pec_cc" string="CC PEC"/>
-                    <field name="sharedmail_cc" string="CC E-mail"/>
+                    <field name="email_from" string="Da"/>
                     <field name="body" string="Contenuto"/>
-                    <field name="pec_msg_id" string="PEC Id"/>
                     <field name="date"
                            filter_domain="[('date','&gt;=',self)]"
                            string="Data dal:"/>
@@ -94,11 +91,6 @@ this module contains the full copyright notices and license terms. -->
                         <filter string="PEC Uscita" name="direction_pec_out" domain="[('direction','=', 'out')]"/>
                         <filter string="E-mail Ingresso" name="direction_sharedmail_in" domain="[('direction_sharedmail','=', 'in')]"/>
                         <filter string="E-mail Uscita" name="direction_sharedmail_out" domain="[('direction_sharedmail','=', 'out')]"/>
-                    </group>
-                    <group string="Tipologia PEC">
-                        <filter string="PEC" name="pec" domain="[('pec_type','=','posta-certificata')]"/>
-                        <filter string="Ricevuta Accettazione" name="accettazione" domain="[('pec_type','=','accettazione')]"/>
-                        <filter string="Ricevuta Consegna" name="avvenuta_consegna" domain="[('pec_type','=','avvenuta-consegna')]"/>
                     </group>
                     <group expand="0" string="Group By">
                         <filter string="Da" name="thread" domain="[]" context="{'group_by':'email_from'}"/>
@@ -251,29 +243,13 @@ this module contains the full copyright notices and license terms. -->
             <field name="model">mail.message</field>
             <field name="inherit_id" ref="l10n_it_pec_messages.pec_message_search_view"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='email_from']" position="replace">
-                    <field name="pec_to" string="A"/>
-                    <field name="pec_cc" string="CC"/>
-                    <field name="subject" string="Oggetto"/>
-                    <field name="body" string="Contenuto"/>
-                    <field name="pec_msg_id" string="PEC Id"/>
-                    <field name="date"
-                           filter_domain="[('date','&gt;=',self)]"
-                           string="Data dal:"/>
-                    <field name="date"
-                           filter_domain="[('date','&lt;=',self)]"
-                           string="Data entro il:"/>
-                    <group string="Stato">
+                <group string='Tipologia PEC' position="after">
+                     <group string="Stato">
                         <filter string="Protocollato" name="protocollato" domain="[('pec_state','=','protocol')]"/>
                         <filter string="Da protocollare" name="da_protocollare" domain="[('pec_state','=','new')]"/>
                         <filter string="Non protocollato" name="non_protocollato" domain="[('pec_state','=','not_protocol')]"/>
                     </group>
-                    <group string="Tipologia PEC">
-                        <filter string="PEC" name="pec" domain="[('pec_type','=','posta-certificata')]"/>
-                        <filter string="Ricevuta Accettazione" name="accettazione" domain="[('pec_type','=','accettazione')]"/>
-                        <filter string="Ricevuta Consegna" name="avvenuta_consegna" domain="[('pec_type','=','avvenuta-consegna')]"/>
-                    </group>
-                </xpath>
+                </group>
             </field>
         </record>
 
@@ -313,23 +289,13 @@ this module contains the full copyright notices and license terms. -->
             <field name="model">mail.message</field>
             <field name="inherit_id" ref="sharedmail.sharedmail_message_search_view"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='email_from']" position="replace">
-                    <field name="sharedmail_to" string="A"/>
-                    <field name="sharedmail_cc" string="CC"/>
-                    <field name="subject" string="Oggetto"/>
-                    <field name="body" string="Contenuto"/>
-                    <field name="date"
-                           filter_domain="[('date','&gt;=',self)]"
-                           string="Data dal:"/>
-                    <field name="date"
-                           filter_domain="[('date','&lt;=',self)]"
-                           string="Data entro il:"/>
+                <search string="Message" position="inside">
                     <group string="Stato">
                         <filter string="Protocollato" name="protocollato" domain="[('sharedmail_state','=','protocol')]"/>
                         <filter string="Da protocollare" name="da_protocollare" domain="[('sharedmail_state','=','new')]"/>
                         <filter string="Non protocollato" name="non_protocollato" domain="[('sharedmail_state','=','not_protocol')]"/>
                     </group>
-                </xpath>
+                </search>
             </field>
         </record>
 
