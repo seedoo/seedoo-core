@@ -1140,6 +1140,13 @@ div.box-sender-internal .icon_item_type div:hover {
 .openerp .oe_form .oe_form_group .oe_form_group_cell.oe_group_right {
   padding-left: 30px !important;
 }
+.openerp .box-anagrafica {
+  padding: 5px 10px;
+  background-color: #f3f3f3;
+}
+.openerp .oe_horizontal_separator {
+  font-size: 18px;
+}
 .protocollo-accordion-toggle {
   cursor: pointer;
   text-transform: uppercase;
