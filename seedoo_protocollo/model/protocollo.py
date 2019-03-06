@@ -466,7 +466,6 @@ class protocollo_protocollo(orm.Model):
             string='N. Protocollo'),
         'name': fields.char('Numero Protocollo',
                             size=256,
-                            required=True,
                             readonly=True),
         'registration_date': fields.datetime('Data Registrazione',
                                              readonly=True),
@@ -662,15 +661,13 @@ class protocollo_protocollo(orm.Model):
 
     }
 
-    def _get_default_name(self, cr, uid, context=None):
-        if context is None:
-            context = {}
-        user = self.pool.get('res.users').browse(cr, SUPERUSER_ID, uid)
-        dest_tz = pytz.timezone(user.partner_id.tz) or pytz.timezone("Europe/Rome")
-        now = datetime.datetime.now(dest_tz).strftime(DSDF)
-        # now = datetime.datetime.now().strftime(
-        #     DSDF)
-        return 'Nuovo Protocollo del ' + now
+    # def _get_default_name(self, cr, uid, context=None):
+    #     if context is None:
+    #         context = {}
+    #     user = self.pool.get('res.users').browse(cr, SUPERUSER_ID, uid)
+    #     dest_tz = pytz.timezone(user.partner_id.tz) or pytz.timezone("Europe/Rome")
+    #     now = datetime.datetime.now(dest_tz).strftime(DSDF)
+    #     return 'Nuovo Protocollo del ' + now
 
     def _get_default_year(self, cr, uid, context=None):
         if context is None:
@@ -724,7 +721,7 @@ class protocollo_protocollo(orm.Model):
     _defaults = {
         'registration_type': 'normal',
         'emergency_active': _get_default_is_emergency_active,
-        'name': _get_default_name,
+        # 'name': _get_default_name,
         'creation_date': fields.date.context_today,
         # 'receiving_date': lambda *a: time.strftime(
         #     DSDF),
