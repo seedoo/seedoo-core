@@ -10,8 +10,8 @@ this module contains the full copyright notices and license terms. -->
             <field name="model">protocollo.protocollo</field>
             <field name="inherit_id" ref="seedoo_protocollo.protocollo_protocollo_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='doc_content']" position="after">
-                    <field name="importer_id" attrs="{'invisible':[('importer_id', '=', False)]}"/>
+                <xpath expr="//field[@name='fingerprint']" position="after">
+                    <field name="importer_id" string="Importazione" attrs="{'invisible':[('importer_id', '=', False)]}"/>
                 </xpath>
                 <xpath expr="//field[@name='registration_employee_department_name']" position="after">
                     <button string="Genera Etichetta" type="object"

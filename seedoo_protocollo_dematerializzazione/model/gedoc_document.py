@@ -96,7 +96,7 @@ class gedoc_document(osv.Model):
 
 
     _columns = {
-        'importer_id': fields.many2one('dematerializzazione.storico.importazione.importer', 'Importer', readonly=True),
+        'importer_id': fields.many2one('dematerializzazione.storico.importazione.importer', 'Importazione', readonly=True),
         'imported': fields.boolean('Importato', readonly=True),
         'protocollo_id': fields.many2one('protocollo.protocollo', 'Protocollo', readonly=True),
         'typology_id': fields.many2one('protocollo.typology', 'Tipologia', readonly=True),

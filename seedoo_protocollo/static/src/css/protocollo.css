@@ -874,9 +874,6 @@ div.box-sender-internal .icon_item_type div:hover {
 .oe_form_editable label.seedoocustom_protocollo_server_sharedmail_id {
   margin-left: 50px;
 }
-.oe_form_editable label.seedoocustom_protocollo_receiving_date {
-  margin-left: 50px;
-}
 .oe_form_editable label.seedoocustom_protocollo_body {
   margin-left: 50px;
 }
@@ -884,9 +881,6 @@ div.box-sender-internal .icon_item_type div:hover {
   margin-left: 95px;
 }
 .oe_form_readonly label.seedoocustom_protocollo_server_sharedmail_id {
-  margin-left: 95px;
-}
-.oe_form_readonly label.seedoocustom_protocollo_receiving_date {
   margin-left: 95px;
 }
 .oe_form_readonly label.seedoocustom_protocollo_body {
@@ -1179,6 +1173,7 @@ div.box-sender-internal .icon_item_type div:hover {
 }
 div.dati-protocollo-container {
   margin-top: 10px;
+  margin-bottom: 30px;
 }
 div.dati-protocollo-container h4 {
   color: #afafaf;

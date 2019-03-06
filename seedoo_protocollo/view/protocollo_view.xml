@@ -373,7 +373,7 @@ this module contains the full copyright notices and license terms. -->
                         <div id="protocollo-accordion">
                             <div class="dati-protocollo-container" id="protocollo-container">
                                 <div class="protocollo-accordion-toggle open">
-                                    <h4 class="accordion-toggle">Dati Protocollo</h4>
+                                    <h4 class="accordion-toggle">Protocollo</h4>
                                 </div>
                                 <div class="accordion-content accordion-open">
                                     <group col="8">
@@ -414,9 +414,29 @@ this module contains the full copyright notices and license terms. -->
                                     </group>
                                 </div>
                             </div>
+
+                            <div class="dati-protocollo-container" id="mittente-container" attrs="{'invisible':[('type','!=','in')]}">
+                                <div class="protocollo-accordion-toggle">
+                                    <h4 class="accordion-toggle">Protocollo Mittente</h4>
+                                </div>
+                                <div class="accordion-content">
+                                    <newline/>
+                                    <group col="4">
+                                        <group>
+                                            <field name="sender_registration_date"
+                                                   attrs="{'invisible':[('type','!=','in')],'readonly':[('protocollo_fields_editability','=',False)]}"/>
+                                            <newline/>
+                                            <field name="sender_protocol"
+                                                   attrs="{'invisible':[('type','!=','in')], 'readonly':[('protocollo_fields_editability','=',False)]}"/>
+                                        </group>
+                                        <group/>
+                                    </group>
+                                </div>
+                            </div>
+
                             <div class="dati-protocollo-container" id="documento-container">
                                 <div class="protocollo-accordion-toggle open">
-                                    <h4 class="accordion-toggle">Dati Documento</h4>
+                                    <h4 class="accordion-toggle">Documento</h4>
                                 </div>
                                 <div class="accordion-content accordion-open">
                                      <group>
@@ -429,10 +449,10 @@ this module contains the full copyright notices and license terms. -->
                                     <group col="8">
                                         <group>
                                             <field name="typology" attrs="{'invisible' : [('type','=','internal')], 'readonly':[('protocollo_fields_editability','=',False)]}" on_change="on_change_typology(typology)" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}"/>
+                                            <field name="receiving_date" attrs="{'invisible':['|', ('type','=','out'), ('type','=','internal')], 'readonly':[('protocollo_fields_editability','=',False)]}" class="seedoocustom_protocollo_receiving_date"/>
                                             <field name="subject" attrs="{'required':[('state','!=','draft')], 'readonly':[('protocollo_fields_editability','=',False)]}" class="protocollo_oggetto"/>
                                             <field name="doc_content" filename="doc_fname" attrs="{'invisible':[('doc_id','=',False)]}"/>
                                             <field name="doc_description" attrs="{'invisible':[('doc_id','=',False)]}"/>
-                                            <field name="fingerprint" attrs="{'invisible':['|', ('registration_date','=',False),('doc_id','=',False)]}" readonly="1"/>
                                             <newline/>
                                             <group colspan="2">
                                                 <div class="oe_edit_only">
@@ -447,19 +467,21 @@ this module contains the full copyright notices and license terms. -->
                                                 </div>
                                             </group>
                                         </group>
-                                        <div class="emailpec-container">
-                                            <group>
-                                                <field name="server_sharedmail_id" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}" attrs="{'invisible':['|',('sharedmail','!=',True),('type','=','in')],
-                                                                                                'required': [('sharedmail','=',True),('type','=','out')], 'readonly':[('protocollo_fields_editability','=',False)]}"
-                                                       class="seedoocustom_protocollo_server_sharedmail_id"/>
-                                                <field name="server_pec_id" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}" attrs="{'invisible':['|',('pec','!=',True),('type','=','in')],
-                                                                                                    'required': [('pec','=',True),('type','=','out')], 'readonly':[('protocollo_fields_editability','=',False)]}"
-                                                       class="seedoocustom_protocollo_server_pec_id"/>
-                                                <field name="receiving_date" attrs="{'invisible':['|', ('type','=','out'), ('type','=','internal')], 'readonly':[('protocollo_fields_editability','=',False)]}" class="seedoocustom_protocollo_receiving_date"/>
-                                                <field name="body" attrs="{'invisible':['|','|',('type','=','in'),('inserisci_testo_mailpec_visibility','=',False),'&amp;',('sharedmail','=',False),('pec','=',False)],'readonly':[('protocollo_fields_editability','=',False)]}"
-                                                       class="seedoocustom_protocollo_body"/>
-                                            </group>
-                                        </div>
+                                        <group>
+                                            <div class="emailpec-container">
+                                                <group>
+                                                    <field name="fingerprint" attrs="{'invisible':['|', ('registration_date','=',False),('doc_id','=',False)]}" readonly="1"/>
+                                                    <field name="server_sharedmail_id" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}" attrs="{'invisible':['|',('sharedmail','!=',True),('type','=','in')],
+                                                                                                    'required': [('sharedmail','=',True),('type','=','out')], 'readonly':[('protocollo_fields_editability','=',False)]}"
+                                                           class="seedoocustom_protocollo_server_sharedmail_id"/>
+                                                    <field name="server_pec_id" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}" attrs="{'invisible':['|',('pec','!=',True),('type','=','in')],
+                                                                                                        'required': [('pec','=',True),('type','=','out')], 'readonly':[('protocollo_fields_editability','=',False)]}"
+                                                           class="seedoocustom_protocollo_server_pec_id"/>
+                                                    <field name="body" attrs="{'invisible':['|','|',('type','=','in'),('inserisci_testo_mailpec_visibility','=',False),'&amp;',('sharedmail','=',False),('pec','=',False)],'readonly':[('protocollo_fields_editability','=',False)]}"
+                                                           class="seedoocustom_protocollo_body"/>
+                                                </group>
+                                            </div>
+                                        </group>
                                     </group>
                                 </div>
                             </div>
@@ -489,18 +511,6 @@ this module contains the full copyright notices and license terms. -->
                                 </div>
                             </div>
 
-                            <div class="dati-protocollo-container" id="mittente-container" attrs="{'invisible':[('type','!=','in')]}">
-                                <div class="protocollo-accordion-toggle open">
-                                    <h4 class="accordion-toggle">Dati Protocollo Mittente</h4>
-                                </div>
-                                <div class="accordion-content accordion-open">
-                                    <newline/>
-                                    <group col="4">
-                                        <field name="sender_registration_date" attrs="{'invisible':[('type','!=','in')],'readonly':[('protocollo_fields_editability','=',False)]}"/>
-                                        <field name="sender_protocol" attrs="{'invisible':[('type','!=','in')], 'readonly':[('protocollo_fields_editability','=',False)]}"/>
-                                    </group>
-                                </div>
-                            </div>
                         </div>
 
                         <group>
