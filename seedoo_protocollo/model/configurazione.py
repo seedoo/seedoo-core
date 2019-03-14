@@ -95,20 +95,42 @@ class protocollo_configurazione(orm.Model):
     }
 
 
+    def verifica_user_protocollatore(self, cr, uid):
+        return True
+
+
     def verifica_campi_non_configurati(self, cr, uid, protocollo):
         errors = []
 
+        verifica_user = self.verifica_user_protocollatore(cr, uid)
+
         if not protocollo.registration_employee_department_id:
             errors.append(_("Ufficio del Protocollo"))
-        else:
-            employee_ids = self.pool.get('hr.employee').search(cr, uid, [
-                ('user_id', '=', uid),
-                ('department_id', '=', protocollo.registration_employee_department_id.id)
-            ])
-            if not employee_ids:
-                errors.append(_("Ufficio del Protocollo: la tua utenza non ha dipendenti collegati all'ufficio selezionato"))
+
+        if not protocollo.registration_employee_id:
+            errors.append(_("Protocollatore"))
+
+        if not protocollo.user_id and verifica_user:
+            errors.append(_("Utente del Protocollatore"))
+
+        if protocollo.registration_employee_id and protocollo.registration_employee_department_id:
+            if not protocollo.registration_employee_id.department_id:
+                errors.append(_("Protocollatore: non è associato a nessun ufficio"))
+            elif protocollo.registration_employee_id.department_id.id != protocollo.registration_employee_department_id.id:
+                errors.append(_("Protocollatore: è associato ad un ufficio diverso dall'Ufficio del Protocollo"))
+
+        if protocollo.registration_employee_id and protocollo.user_id:
+            if not protocollo.registration_employee_id.user_id:
+                errors.append(_("Protocollatore: non è associato a nessun utente"))
+            elif protocollo.registration_employee_id.user_id.id != protocollo.user_id.id:
+                errors.append(_("Protocollatore: è associato ad un utente diverso dall'Utente del Protocollatore"))
+            elif verifica_user:
+                if protocollo.user_id.id != uid:
+                    errors.append(_("Protocollatore: l'utente corrente è diverso dall'Utente del Protocollatore"))
+
         if protocollo.type != 'internal' and not protocollo.typology:
             errors.append(_("Mezzo Trasmissione"))
+
         if not protocollo.subject:
             errors.append(_("Oggetto"))
 
