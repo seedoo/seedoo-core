@@ -384,11 +384,14 @@ class protocollo_assegnazione(orm.Model):
                 self._crea_assegnazioni(cr, uid, protocollo_id, assegnatario_to_create_ids, assegnatore_id, 'conoscenza')
 
 
-    def modifica_stato_assegnazione(self, cr, uid, protocollo_ids, state):
+    def modifica_stato_assegnazione(self, cr, uid, protocollo_ids, state, assegnatario_employee_id=None):
         employee_obj = self.pool.get('hr.employee')
-        employee_ids = employee_obj.search(cr, uid, [('user_id', '=', uid)])
-        if len(employee_ids) == 0:
-            raise orm.except_orm('Attenzione!', 'Non è stato trovato il dipendente per la tua utenza!')
+        if assegnatario_employee_id:
+            employee_ids = [assegnatario_employee_id]
+        else:
+            employee_ids = employee_obj.search(cr, uid, [('user_id', '=', uid)])
+            if len(employee_ids) == 0:
+                raise orm.except_orm('Attenzione!', 'Non è stato trovato il dipendente per la tua utenza!')
 
         for protocollo_id in protocollo_ids:
             # verifica che il protocollo non abbia uno stato diverso da 'Assegnato'
