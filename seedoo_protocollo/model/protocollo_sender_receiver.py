@@ -377,7 +377,9 @@ class protocollo_sender_receiver(orm.Model):
             ids = [ids]
         for sender_receiver_id in ids:
             sender_receiver = self.browse(cr, uid, sender_receiver_id, {'skip_check': True})
-            self.save_history(cr, uid, sender_receiver, 'write', vals, context=context)
+            if 'pec_messaggio_ids' not in vals and \
+                    ('to_resend' not in vals or not vals['to_resend']):
+                self.save_history(cr, uid, sender_receiver, 'write', vals, context=context)
         return super(protocollo_sender_receiver, self).write(cr, uid, ids, vals, context=context)
 
     def elimina_mittente_destinatario(self, cr, uid, ids, context={}):
