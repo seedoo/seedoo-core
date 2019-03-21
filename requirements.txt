@@ -1,7 +1,7 @@
 BeautifulSoup==3.2.1
 codicefiscale==0.9
 PyXB==1.2.4
-pyBarcode==0.7
+pyBarcode==0.8b1
 pypandoc==1.4
 pysmb==1.1.19
 python-magic==0.4.13
