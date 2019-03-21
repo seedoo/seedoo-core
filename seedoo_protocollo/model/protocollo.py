@@ -476,7 +476,8 @@ class protocollo_protocollo(orm.Model):
                                                 method=True,
                                                 type='date',
                                                 string="Fine  Data Ricerca"),
-        'user_id': fields.many2one('res.users', 'Protocollatore', readonly=True),
+        'create_uid': fields.many2one('res.users', 'Utente Creatore del Protocollo', readonly=True),
+        'user_id': fields.many2one('res.users', 'Utente del Protocollatore', readonly=True),
         'registration_employee_id': fields.many2one('hr.employee', 'Protocollatore', readonly=True),
         'registration_employee_name': fields.char('Protocollatore', size=512, readonly=True),
         'registration_employee_department_id': fields.many2one('hr.department', 'Ufficio'),
@@ -1823,11 +1824,13 @@ class protocollo_protocollo(orm.Model):
     #             return True
     #     return False
 
-    def prendi_in_carico(self, cr, uid, ids, context=None):
+    def prendi_in_carico(self, cr, uid, ids, context={}):
         rec = self.pool.get('res.users').browse(cr, uid, uid)
 
         try:
-            check_permission = self.browse(cr, uid, ids, {'skip_check': True}).prendi_in_carico_visibility
+            new_context = context.copy()
+            new_context['skip_check'] = True
+            check_permission = self.browse(cr, uid, ids, new_context).prendi_in_carico_visibility
             if check_permission == True:
                 action_class = "history_icon taken"
                 post_vars = {'subject': "Presa in carico",
@@ -1842,8 +1845,10 @@ class protocollo_protocollo(orm.Model):
 
                 # l'invio della notifica avviene prima della modifica dello stato, perchè se fatta dopo, in alcuni casi,
                 # potrebbe non avere più i permessi di scrittura sul protocollo
-                # self.pool.get('protocollo.stato.dipendente').modifica_stato_dipendente(cr, uid, ids, 'preso')
-                self.pool.get('protocollo.assegnazione').modifica_stato_assegnazione(cr, uid, ids, 'preso')
+                assegnatario_employee_id = None
+                if context and 'assegnatario_employee_id' in context and context['assegnatario_employee_id']:
+                    assegnatario_employee_id = context['assegnatario_employee_id']
+                self.pool.get('protocollo.assegnazione').modifica_stato_assegnazione(cr, uid, ids, 'preso', assegnatario_employee_id)
             else:
                 raise orm.except_orm(_('Azione Non Valida!'), _('Il protocollo non può più essere preso in carico!'))
         except Exception as e:
@@ -1853,7 +1858,9 @@ class protocollo_protocollo(orm.Model):
     def rifiuta_presa_in_carico(self, cr, uid, ids, motivazione, context=None):
         rec = self.pool.get('res.users').browse(cr, uid, uid)
         try:
-            check_permission = self.browse(cr, uid, ids, {'skip_check': True}).rifiuta_visibility
+            new_context = context.copy()
+            new_context['skip_check'] = True
+            check_permission = self.browse(cr, uid, ids, new_context).rifiuta_visibility
             if check_permission == True:
                 action_class = "history_icon refused"
                 post_vars = {
@@ -1869,8 +1876,10 @@ class protocollo_protocollo(orm.Model):
 
                 # l'invio della notifica avviene prima della modifica dello stato, perchè se fatta dopo, in alcuni casi,
                 # potrebbe non avere più i permessi di scrittura sul protocollo
-                # self.pool.get('protocollo.stato.dipendente').modifica_stato_dipendente(cr, uid, ids, 'rifiutato')
-                self.pool.get('protocollo.assegnazione').modifica_stato_assegnazione(cr, uid, ids, 'rifiutato')
+                assegnatario_employee_id = None
+                if context and 'assegnatario_employee_id' in context and context['assegnatario_employee_id']:
+                    assegnatario_employee_id = context['assegnatario_employee_id']
+                self.pool.get('protocollo.assegnazione').modifica_stato_assegnazione(cr, uid, ids, 'rifiutato', assegnatario_employee_id)
             else:
                 raise orm.except_orm(_('Attenzione!'), _('Il protocollo non può più essere rifiutato!'))
         except Exception as e:

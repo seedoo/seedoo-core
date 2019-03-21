@@ -24,17 +24,19 @@ class protocollo_protocollo(osv.Model):
         protocolli = self.browse(cr, uid, ids, {'skip_check': True})
         return protocolli
 
-    def _check_stato_assegnatario_competenza(self, cr, uid, protocollo, stato, assegnatario_uid=None):
-        if not assegnatario_uid:
-            assegnatario_uid = uid
-        assegnazione_obj = self.pool.get('protocollo.assegnazione')
-        assegnazione_ids = assegnazione_obj.search(cr, uid, [
-            ('assegnatario_employee_id.user_id.id', '=', assegnatario_uid),
+    def _check_stato_assegnatario_competenza(self, cr, uid, protocollo, stato, assegnatario_employee_id=None):
+        domain = [
             ('protocollo_id', '=', protocollo.id),
             ('tipologia_assegnazione', '=', 'competenza'),
             ('tipologia_assegnatario', '=', 'employee'),
             ('state', '=', stato)
-        ])
+        ]
+        if assegnatario_employee_id:
+            domain.append(('assegnatario_employee_id.id', '=', assegnatario_employee_id))
+        else:
+            domain.append(('assegnatario_employee_id.user_id.id', '=', uid))
+        assegnazione_obj = self.pool.get('protocollo.assegnazione')
+        assegnazione_ids = assegnazione_obj.search(cr, uid, domain)
         if len(assegnazione_ids) > 0:
             return True
         return False
@@ -54,20 +56,30 @@ class protocollo_protocollo(osv.Model):
             return True
         return False
 
-    def _check_stato_assegnatario_competenza_ufficio(self, cr, uid, protocollo, stato, assegnatario_uid=None):
-        if not assegnatario_uid:
-            assegnatario_uid = uid
-        cr.execute('''
-                    SELECT DISTINCT(pa.protocollo_id)
-                    FROM protocollo_assegnazione pa, hr_employee he, resource_resource rr
-                    WHERE pa.protocollo_id = %s AND
-                          pa.tipologia_assegnatario = 'department' AND 
-                          pa.tipologia_assegnazione = 'competenza' AND
-                          pa.state = %s AND
-                          pa.assegnatario_department_id = he.department_id AND
-                          he.resource_id = rr.id AND
-                          rr.user_id = %s
-                ''', (str(protocollo.id), stato, str(assegnatario_uid)))
+    def _check_stato_assegnatario_competenza_ufficio(self, cr, uid, protocollo, stato, assegnatario_employee_id=None):
+        if assegnatario_employee_id:
+            cr.execute('''
+                SELECT DISTINCT(pa.protocollo_id)
+                FROM protocollo_assegnazione pa, hr_employee he, resource_resource rr
+                WHERE pa.protocollo_id = %s AND
+                      pa.tipologia_assegnatario = 'department' AND 
+                      pa.tipologia_assegnazione = 'competenza' AND
+                      pa.state = %s AND
+                      pa.assegnatario_department_id = he.department_id AND
+                      he.id = %s
+            ''', (str(protocollo.id), stato, str(assegnatario_employee_id)))
+        else:
+            cr.execute('''
+                SELECT DISTINCT(pa.protocollo_id)
+                FROM protocollo_assegnazione pa, hr_employee he, resource_resource rr
+                WHERE pa.protocollo_id = %s AND
+                      pa.tipologia_assegnatario = 'department' AND 
+                      pa.tipologia_assegnazione = 'competenza' AND
+                      pa.state = %s AND
+                      pa.assegnatario_department_id = he.department_id AND
+                      he.resource_id = rr.id AND
+                      rr.user_id = %s
+            ''', (str(protocollo.id), stato, str(uid)))
         assegnazione_ids = [res[0] for res in cr.fetchall()]
         if len(assegnazione_ids) > 0:
             return True
@@ -1804,20 +1816,21 @@ class protocollo_protocollo(osv.Model):
                 check = True
 
             if check:
+                assegnatario_employee_id = None
+                if context and 'assegnatario_employee_id' in context and context['assegnatario_employee_id']:
+                    assegnatario_employee_id = context['assegnatario_employee_id']
                 if protocollo.assegnazione_competenza_ids[0].tipologia_assegnatario == 'department':
-                    check = self._check_stato_assegnatario_competenza_ufficio(cr, uid, protocollo, 'assegnato')
-                    check_gruppi = False
-                    if protocollo.type == 'in':
-                        check_gruppi = self.user_has_groups(cr, uid,
-                                                            'seedoo_protocollo.group_prendi_in_carico_protocollo_ingresso')
-                    elif protocollo.type == 'out':
-                        check_gruppi = self.user_has_groups(cr, uid,
-                                                            'seedoo_protocollo.group_prendi_in_carico_protocollo_uscita')
-                    elif protocollo.type == 'internal':
-                        check_gruppi = self.user_has_groups(cr, uid,
-                                                            'seedoo_protocollo.group_prendi_in_carico_protocollo_interno')
-                    check = check and check_gruppi
-                elif self._check_stato_assegnatario_competenza(cr, uid, protocollo, 'assegnato'):
+                    check = self._check_stato_assegnatario_competenza_ufficio(cr, uid, protocollo, 'assegnato', assegnatario_employee_id)
+                    if not assegnatario_employee_id:
+                        check_gruppi = False
+                        if protocollo.type == 'in':
+                            check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_prendi_in_carico_protocollo_ingresso')
+                        elif protocollo.type == 'out':
+                            check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_prendi_in_carico_protocollo_uscita')
+                        elif protocollo.type == 'internal':
+                            check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_prendi_in_carico_protocollo_interno')
+                        check = check and check_gruppi
+                elif self._check_stato_assegnatario_competenza(cr, uid, protocollo, 'assegnato', assegnatario_employee_id):
                     check = True
                 else:
                     check = False
@@ -1839,20 +1852,22 @@ class protocollo_protocollo(osv.Model):
                 check = True
 
             if check:
+                assegnatario_employee_id = None
+                if context and 'assegnatario_employee_id' in context and context['assegnatario_employee_id']:
+                    assegnatario_employee_id = context['assegnatario_employee_id']
                 if protocollo.assegnazione_competenza_ids[0].tipologia_assegnatario == 'department':
-                    check = self._check_stato_assegnatario_competenza_ufficio(cr, uid, protocollo, 'assegnato')
-                    check_gruppi = False
-                    if protocollo.type == 'in':
-                        check_gruppi = self.user_has_groups(cr, uid,
-                                                            'seedoo_protocollo.group_rifiuta_protocollo_ingresso')
-                    elif protocollo.type == 'out':
-                        check_gruppi = self.user_has_groups(cr, uid,
-                                                            'seedoo_protocollo.group_rifiuta_protocollo_uscita')
-                    elif protocollo.type == 'internal':
-                        check_gruppi = self.user_has_groups(cr, uid,
-                                                            'seedoo_protocollo.group_rifiuta_protocollo_interno')
-                    check = check and check_gruppi
-                elif self._check_stato_assegnatario_competenza(cr, uid, protocollo, 'assegnato'):
+                    check = self._check_stato_assegnatario_competenza_ufficio(cr, uid, protocollo, 'assegnato', assegnatario_employee_id)
+                    if not assegnatario_employee_id:
+                        check = self._check_stato_assegnatario_competenza_ufficio(cr, uid, protocollo, 'assegnato')
+                        check_gruppi = False
+                        if protocollo.type == 'in':
+                            check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_rifiuta_protocollo_ingresso')
+                        elif protocollo.type == 'out':
+                            check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_rifiuta_protocollo_uscita')
+                        elif protocollo.type == 'internal':
+                            check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_rifiuta_protocollo_interno')
+                        check = check and check_gruppi
+                elif self._check_stato_assegnatario_competenza(cr, uid, protocollo, 'assegnato', assegnatario_employee_id):
                     check = True
                 else:
                     check = False
