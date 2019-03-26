@@ -6,7 +6,7 @@ import logging
 import time
 import functools
 
-from openerp import SUPERUSER_ID, api
+from openerp import SUPERUSER_ID, api, _
 from openerp.osv import fields, osv
 
 _logger = logging.getLogger(__name__)
@@ -1803,77 +1803,84 @@ class protocollo_protocollo(osv.Model):
 
         return dict(res)
 
+    def prendi_in_carico_validation(self, cr, uid, protocollo, context={}):
+        if not (protocollo.state in ('registered', 'notified', 'waiting', 'sent', 'error')):
+            return False, _("il protocollo non può essere preso in carico nello stato attuale")
+
+        if not protocollo.assegnazione_competenza_ids:
+            return False, _("il protocollo non ha nessuna assegnazione per competenza")
+
+        if protocollo.assegnazione_competenza_ids[0].state != 'assegnato':
+            return False, _("lo stato dell'assegnazione per competenza deve essere 'Assegnato'")
+
+        assegnatario_employee_id = None
+        if context and 'assegnatario_employee_id' in context and context['assegnatario_employee_id']:
+            assegnatario_employee_id = context['assegnatario_employee_id']
+
+        if protocollo.assegnazione_competenza_ids[0].tipologia_assegnatario == 'department':
+            if not self._check_stato_assegnatario_competenza_ufficio(cr, uid, protocollo, 'assegnato', assegnatario_employee_id):
+                return False, _("il dipendente non è un assegnatario per competenza del protocollo")
+            if not assegnatario_employee_id:
+                if protocollo.type == 'in':
+                    if not self.user_has_groups(cr, uid, 'seedoo_protocollo.group_prendi_in_carico_protocollo_ingresso'):
+                        return False, _("l'utente non possiede il permesso 'Presa in Carico Protocolli in Ingresso Assegnati Ufficio'")
+                elif protocollo.type == 'out':
+                    if not self.user_has_groups(cr, uid, 'seedoo_protocollo.group_prendi_in_carico_protocollo_uscita'):
+                        return False, _("l'utente non possiede il permesso 'Presa in Carico Protocolli in Uscita Assegnati Ufficio'")
+                elif protocollo.type == 'internal':
+                    if not self.user_has_groups(cr, uid, 'seedoo_protocollo.group_prendi_in_carico_protocollo_interno'):
+                        return False, _("l'utente non possiede il permesso 'Presa in Carico Protocolli Interni Assegnati Ufficio'")
+        elif not self._check_stato_assegnatario_competenza(cr, uid, protocollo, 'assegnato', assegnatario_employee_id):
+            return False, _("il dipendente non è un assegnatario per competenza del protocollo")
+
+        return True, None
+
     def _prendi_in_carico_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
-
         protocolli = self._get_protocolli(cr, uid, ids)
         for protocollo in protocolli:
-            check = False
-
-            if protocollo.state in ('registered', 'notified', 'waiting', 'sent', 'error') and \
-                    protocollo.assegnazione_competenza_ids and \
-                    protocollo.assegnazione_competenza_ids[0].state == 'assegnato':
-                check = True
-
-            if check:
-                assegnatario_employee_id = None
-                if context and 'assegnatario_employee_id' in context and context['assegnatario_employee_id']:
-                    assegnatario_employee_id = context['assegnatario_employee_id']
-                if protocollo.assegnazione_competenza_ids[0].tipologia_assegnatario == 'department':
-                    check = self._check_stato_assegnatario_competenza_ufficio(cr, uid, protocollo, 'assegnato', assegnatario_employee_id)
-                    if not assegnatario_employee_id:
-                        check_gruppi = False
-                        if protocollo.type == 'in':
-                            check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_prendi_in_carico_protocollo_ingresso')
-                        elif protocollo.type == 'out':
-                            check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_prendi_in_carico_protocollo_uscita')
-                        elif protocollo.type == 'internal':
-                            check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_prendi_in_carico_protocollo_interno')
-                        check = check and check_gruppi
-                elif self._check_stato_assegnatario_competenza(cr, uid, protocollo, 'assegnato', assegnatario_employee_id):
-                    check = True
-                else:
-                    check = False
-
+            check, error = self.prendi_in_carico_validation(cr, uid, protocollo, context)
             res.append((protocollo.id, check))
-
         return dict(res)
+
+    def rifiuta_validation(self, cr, uid, protocollo, context={}):
+        if not (protocollo.state in ('registered', 'notified', 'waiting', 'sent', 'error')):
+            return False, _("il protocollo non può essere preso in carico nello stato attuale")
+
+        if not protocollo.assegnazione_competenza_ids:
+            return False, _("il protocollo non ha nessuna assegnazione per competenza")
+
+        if protocollo.assegnazione_competenza_ids[0].state != 'assegnato':
+            return False, _("lo stato dell'assegnazione per competenza deve essere 'Assegnato'")
+
+        assegnatario_employee_id = None
+        if context and 'assegnatario_employee_id' in context and context['assegnatario_employee_id']:
+            assegnatario_employee_id = context['assegnatario_employee_id']
+
+        if protocollo.assegnazione_competenza_ids[0].tipologia_assegnatario == 'department':
+            if not self._check_stato_assegnatario_competenza_ufficio(cr, uid, protocollo, 'assegnato', assegnatario_employee_id):
+                return False, _("il dipendente non è un assegnatario per competenza del protocollo")
+            if not assegnatario_employee_id:
+                if protocollo.type == 'in':
+                    if not self.user_has_groups(cr, uid, 'seedoo_protocollo.group_rifiuta_protocollo_ingresso'):
+                        return False, _("l'utente non possiede il permesso 'Rifiuta Protocolli in Ingresso Assegnati Ufficio'")
+                elif protocollo.type == 'out':
+                    if not self.user_has_groups(cr, uid, 'seedoo_protocollo.group_rifiuta_protocollo_uscita'):
+                        return False, _("l'utente non possiede il permesso 'Rifiuta Protocolli in Uscita Assegnati Ufficio'")
+                elif protocollo.type == 'internal':
+                    if not self.user_has_groups(cr, uid, 'seedoo_protocollo.group_rifiuta_protocollo_interno'):
+                        return False, _("l'utente non possiede il permesso 'Rifiuta Protocolli Interni Assegnati Ufficio'")
+        elif not self._check_stato_assegnatario_competenza(cr, uid, protocollo, 'assegnato', assegnatario_employee_id):
+            return False, _("il dipendente non è un assegnatario per competenza del protocollo")
+
+        return True, None
 
     def _rifiuta_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
-
         protocolli = self._get_protocolli(cr, uid, ids)
         for protocollo in protocolli:
-            check = False
-
-            if protocollo.state in ('registered', 'notified', 'waiting', 'sent', 'error') and \
-                    protocollo.assegnazione_competenza_ids and \
-                    protocollo.assegnazione_competenza_ids[0].state == 'assegnato':
-                check = True
-
-            if check:
-                assegnatario_employee_id = None
-                if context and 'assegnatario_employee_id' in context and context['assegnatario_employee_id']:
-                    assegnatario_employee_id = context['assegnatario_employee_id']
-                if protocollo.assegnazione_competenza_ids[0].tipologia_assegnatario == 'department':
-                    check = self._check_stato_assegnatario_competenza_ufficio(cr, uid, protocollo, 'assegnato', assegnatario_employee_id)
-                    if not assegnatario_employee_id:
-                        check = self._check_stato_assegnatario_competenza_ufficio(cr, uid, protocollo, 'assegnato')
-                        check_gruppi = False
-                        if protocollo.type == 'in':
-                            check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_rifiuta_protocollo_ingresso')
-                        elif protocollo.type == 'out':
-                            check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_rifiuta_protocollo_uscita')
-                        elif protocollo.type == 'internal':
-                            check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_rifiuta_protocollo_interno')
-                        check = check and check_gruppi
-                elif self._check_stato_assegnatario_competenza(cr, uid, protocollo, 'assegnato', assegnatario_employee_id):
-                    check = True
-                else:
-                    check = False
-
+            check, error = self.rifiuta_validation(cr, uid, protocollo, context)
             res.append((protocollo.id, check))
-
         return dict(res)
 
     def _segna_come_letto_visibility(self, cr, uid, ids, prop, unknow_none, context=None):

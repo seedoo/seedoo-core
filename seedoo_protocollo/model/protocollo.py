@@ -1825,60 +1825,70 @@ class protocollo_protocollo(orm.Model):
     #     return False
 
     def prendi_in_carico(self, cr, uid, ids, context={}):
-        rec = self.pool.get('res.users').browse(cr, uid, uid)
-
         try:
             new_context = context.copy()
             new_context['skip_check'] = True
-            check_permission = self.browse(cr, uid, ids, new_context).prendi_in_carico_visibility
+            protocollo = self.browse(cr, uid, ids, new_context)
+            check_permission, error = self.prendi_in_carico_validation(cr, uid, protocollo, new_context)
             if check_permission == True:
-                action_class = "history_icon taken"
-                post_vars = {'subject': "Presa in carico",
-                             'body': "<div class='%s'><ul><li>Protocollo preso in carico da <span style='color:#009900;'>%s</span></li></ul></div>" % (
-                                 action_class, rec.name),
-                             'model': "protocollo.protocollo",
-                             'res_id': ids[0],
-                             }
-
-                thread_pool = self.pool.get('protocollo.protocollo')
-                thread_pool.message_post(cr, uid, ids[0], type="notification", context=context, **post_vars)
-
-                # l'invio della notifica avviene prima della modifica dello stato, perchè se fatta dopo, in alcuni casi,
-                # potrebbe non avere più i permessi di scrittura sul protocollo
+                assegnatario_name = None
                 assegnatario_employee_id = None
                 if context and 'assegnatario_employee_id' in context and context['assegnatario_employee_id']:
                     assegnatario_employee_id = context['assegnatario_employee_id']
-                self.pool.get('protocollo.assegnazione').modifica_stato_assegnazione(cr, uid, ids, 'preso', assegnatario_employee_id)
-            else:
-                raise orm.except_orm(_('Azione Non Valida!'), _('Il protocollo non può più essere preso in carico!'))
-        except Exception as e:
-            raise orm.except_orm(_('Azione Non Valida!'), _('Non sei più assegnatario di questo protocollo'))
-        return True
+                    employee = self.pool.get('hr.employee').browse(cr, uid, context['assegnatario_employee_id'])
+                    assegnatario_name = employee.name
+                else:
+                    user = self.pool.get('res.users').browse(cr, uid, uid)
+                    assegnatario_name = user.name
 
-    def rifiuta_presa_in_carico(self, cr, uid, ids, motivazione, context=None):
-        rec = self.pool.get('res.users').browse(cr, uid, uid)
-        try:
-            new_context = context.copy()
-            new_context['skip_check'] = True
-            check_permission = self.browse(cr, uid, ids, new_context).rifiuta_visibility
-            if check_permission == True:
-                action_class = "history_icon refused"
+                action_class = "history_icon taken"
                 post_vars = {
-                    'subject': "Rifiuto assegnazione: %s" % motivazione,
-                    'body': "<div class='%s'><ul><li>Assegnazione rifiutata da <span style='color:#990000;'>%s</span></li></ul></div>" % (
-                        action_class, rec.name),
+                    'subject': "Presa in carico",
+                    'body': "<div class='%s'><ul><li>Protocollo preso in carico da <span style='color:#009900;'>%s</span></li></ul></div>" % (action_class, assegnatario_name),
                     'model': "protocollo.protocollo",
                     'res_id': ids[0]
                 }
 
-                thread_pool = self.pool.get('protocollo.protocollo')
-                thread_pool.message_post(cr, uid, ids[0], type="notification", context=context, **post_vars)
+                self.message_post(cr, uid, ids[0], type="notification", context=context, **post_vars)
 
                 # l'invio della notifica avviene prima della modifica dello stato, perchè se fatta dopo, in alcuni casi,
                 # potrebbe non avere più i permessi di scrittura sul protocollo
+                self.pool.get('protocollo.assegnazione').modifica_stato_assegnazione(cr, uid, ids, 'preso', assegnatario_employee_id)
+            else:
+                raise orm.except_orm(_('Azione Non Valida!'), error)
+        except Exception as e:
+            raise orm.except_orm(_('Azione Non Valida!'), _('Non sei più assegnatario di questo protocollo'))
+        return True
+
+    def rifiuta_presa_in_carico(self, cr, uid, ids, motivazione, context={}):
+        try:
+            new_context = context.copy()
+            new_context['skip_check'] = True
+            protocollo = self.browse(cr, uid, ids, new_context)
+            check_permission, error = self.rifiuta_validation(cr, uid, protocollo, new_context)
+            if check_permission == True:
+                assegnatario_name = None
                 assegnatario_employee_id = None
                 if context and 'assegnatario_employee_id' in context and context['assegnatario_employee_id']:
                     assegnatario_employee_id = context['assegnatario_employee_id']
+                    employee = self.pool.get('hr.employee').browse(cr, uid, context['assegnatario_employee_id'])
+                    assegnatario_name = employee.name
+                else:
+                    user = self.pool.get('res.users').browse(cr, uid, uid)
+                    assegnatario_name = user.name
+
+                action_class = "history_icon refused"
+                post_vars = {
+                    'subject': "Rifiuto assegnazione: %s" % motivazione,
+                    'body': "<div class='%s'><ul><li>Assegnazione rifiutata da <span style='color:#990000;'>%s</span></li></ul></div>" % (action_class, assegnatario_name),
+                    'model': "protocollo.protocollo",
+                    'res_id': ids[0]
+                }
+
+                self.message_post(cr, uid, ids[0], type="notification", context=context, **post_vars)
+
+                # l'invio della notifica avviene prima della modifica dello stato, perchè se fatta dopo, in alcuni casi,
+                # potrebbe non avere più i permessi di scrittura sul protocollo
                 self.pool.get('protocollo.assegnazione').modifica_stato_assegnazione(cr, uid, ids, 'rifiutato', assegnatario_employee_id)
             else:
                 raise orm.except_orm(_('Attenzione!'), _('Il protocollo non può più essere rifiutato!'))
