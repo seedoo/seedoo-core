@@ -605,7 +605,7 @@ this module contains the full copyright notices and license terms. -->
                             <!--</page>-->
                             <page string="Classificazione">
                                 <group col="4">
-                                    <div class="oe_edit_only">
+                                    <div class="oe_edit_only container_classification_header">
                                         <button name="%(protocollo_aggiungi_classificazione_action)d"
                                                 string="Aggiungi Classificazione"
                                                 type="action"
@@ -659,7 +659,7 @@ this module contains the full copyright notices and license terms. -->
                             </page>
                             <page string="Fascicoli">
                                 <group col="4">
-                                    <div class="oe_edit_only">
+                                    <div class="oe_edit_only container_fascicolazione_header">
                                         <button name="%(protocollo_aggiungi_fascicolazione_action)d"
                                                 string="Aggiungi Fascicolazione"
                                                 type="action"

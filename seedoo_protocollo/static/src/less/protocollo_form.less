@@ -33,13 +33,13 @@
   a.protocollo_dossier_box h6.dossier_title:before {
     content: "\f115";
     font-family: FontAwesome;
-    font-size: 24px;
+    font-size: 21px;
     color: #ccc;
     background-color: white;
     border: 1px solid #eee;
     height: 40px;
-    width: 37px;
-    padding: 4px 7px;
+    width: 40px;
+    padding: 9px 9px;
     float: left;
     margin-right:5px;
     margin-bottom: 30px;
@@ -56,7 +56,9 @@
   
   a.protocollo_attachments_box {
     .item_box {
-        width: 200px;
+        width: 300px;
+        margin-top: 12px;
+        margin-right: 15px;
 
         h3 {
           font-size:12px;
@@ -72,18 +74,30 @@
 
     .icon_item_type {
       i.fa {
-        font-size:32px;
-        line-height: 44px;
+        font-size:21px;
+        line-height: 36px;
       }
     }
   }
 }
 
 
-.protocollo_dossier_container .oe_kanban_buttons button.oe_kanban_button_new.oe_highlight {
-  background: steelblue !important;
-  margin: 12px 0 18px 2px;
-  min-width:180px;
+.protocollo_dossier_container  {
+
+  .oe_kanban_record {
+    margin-top: 12px !important;
+  }
+
+  .oe_kanban_box_content {
+    margin-right: 15px !important;
+  }
+
+  .oe_kanban_buttons button.oe_kanban_button_new.oe_highlight {
+    background: steelblue !important;
+    margin: 12px 0 18px 2px;
+    min-width:180px;
+  }
+
 }
 
 
@@ -163,7 +177,30 @@
     overflow-x: hidden !important;
   }
 
+  .oe_kanban_record {
+    padding: 0 !important;
+  }
 
+  .oe_form_buttons > button {
+    margin-bottom: 10px !important;
+  }
+
+  button[data-string="x"] {
+
+    background-color: rgba(200, 200, 200, 0.6);
+
+    &:before {
+      font-family: sans-serif;
+    }
+  }
+}
+
+.container_classification_header, .container_fascicolazione_header {
+  &.oe_edit_only {
+    button.oe_form_button {
+      margin-bottom: 10px !important;
+    }
+  }
 }
 
 .container_messaggi_pec {
@@ -286,14 +323,14 @@
 }
 
 .container_classification {
-    width: 280px !important;
-    padding: 8px !important;
+    width: 300px !important;
+    padding: 10px !important;
     position: relative;
     height: 100px;
-    margin-top: 15px;
+    margin-top: 12px;
     background: #f3f3f3;
     margin-bottom: 15px;
-    margin-left: 3px;
+    margin-left: 0;
 
     .oe_form_char_content {
       color: #666 !important;
@@ -314,11 +351,13 @@
       font-family: FontAwesome, sans-serif;
       border: 1px solid #eee;
       background: white;
-      padding: 5px 10px;
-      font-size: 26px;
+      padding: 4px 8px;
+      font-size: 21px;
       color: #ccc;
       float: left;
       margin-right: 10px;
+      width: 40px;
+      height: 40px;
     }
 }
 

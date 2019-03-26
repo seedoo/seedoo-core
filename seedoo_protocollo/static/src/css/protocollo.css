@@ -103,9 +103,9 @@
   color: #ccc;
   background-color: white;
   border: 1px solid #eee;
-  height: 50px;
-  width: 50px;
-  line-height: 50px;
+  height: 40px;
+  width: 40px;
+  line-height: 40px;
   overflow: hidden;
 }
 .openerp .icon_item_type div {
@@ -123,7 +123,7 @@
 }
 .openerp .icon_item_type div::after {
   font-family: "FontAwesome";
-  font-size: 28px;
+  font-size: 21px;
   visibility: visible;
   opacity: 1;
 }
@@ -242,10 +242,10 @@
   margin: 2px 0;
 }
 .item_box .pec_button_col {
-  width: 60px;
+  width: 50px;
 }
 .openerp td.oe_kanban_messaggio.pec_button_col + td {
-  padding-right: 20px !important;
+  padding-right: 25px !important;
 }
 .item_box .pec_descr_col span {
   width: 50px;
@@ -575,6 +575,7 @@ table.oe_form_group.subject_modify_wizard tr > td {
   height: 100px;
   width: 300px;
   padding: 10px;
+  margin-top: 21px;
   position: relative;
 }
 .openerp .box-sender-internal .oe_avatar > img {
@@ -585,7 +586,7 @@ table.oe_form_group.subject_modify_wizard tr > td {
 .openerp .box-sender-internal .oe_form_field_char {
   float: left;
   width: auto;
-  padding: 0 10px;
+  padding: 0 20px 0 10px;
 }
 .openerp .box-sender-internal > .oe_form_field_char {
   font-style: italic;
@@ -663,6 +664,7 @@ table.oe_form_group.subject_modify_wizard tr > td {
 }
 td.sender_internal_name span.oe_form_char_content {
   font-weight: bold !important;
+  color: #666;
 }
 div.box-sender-internal .icon_item_type div:hover {
   color: #ccc;
@@ -700,13 +702,13 @@ div.box-sender-internal .icon_item_type div:hover {
 .openerp .oe_kanban_view a.protocollo_dossier_box h6.dossier_title:before {
   content: "\f115";
   font-family: FontAwesome;
-  font-size: 24px;
+  font-size: 21px;
   color: #ccc;
   background-color: white;
   border: 1px solid #eee;
   height: 40px;
-  width: 37px;
-  padding: 4px 7px;
+  width: 40px;
+  padding: 9px 9px;
   float: left;
   margin-right: 5px;
   margin-bottom: 30px;
@@ -720,7 +722,9 @@ div.box-sender-internal .icon_item_type div:hover {
   -moz-transition: all 0.3s linear;
 }
 .openerp .oe_kanban_view a.protocollo_attachments_box .item_box {
-  width: 200px;
+  width: 300px;
+  margin-top: 12px;
+  margin-right: 15px;
 }
 .openerp .oe_kanban_view a.protocollo_attachments_box .item_box h3 {
   font-size: 12px;
@@ -732,8 +736,14 @@ div.box-sender-internal .icon_item_type div:hover {
   padding: 0;
 }
 .openerp .oe_kanban_view a.protocollo_attachments_box .icon_item_type i.fa {
-  font-size: 32px;
-  line-height: 44px;
+  font-size: 21px;
+  line-height: 36px;
+}
+.protocollo_dossier_container .oe_kanban_record {
+  margin-top: 12px !important;
+}
+.protocollo_dossier_container .oe_kanban_box_content {
+  margin-right: 15px !important;
 }
 .protocollo_dossier_container .oe_kanban_buttons button.oe_kanban_button_new.oe_highlight {
   background: steelblue !important;
@@ -793,6 +803,22 @@ div.box-sender-internal .icon_item_type div:hover {
 }
 .protocollo_form_tabs .oe_list {
   overflow-x: hidden !important;
+}
+.protocollo_form_tabs .oe_kanban_record {
+  padding: 0 !important;
+}
+.protocollo_form_tabs .oe_form_buttons > button {
+  margin-bottom: 10px !important;
+}
+.protocollo_form_tabs button[data-string="x"] {
+  background-color: rgba(200, 200, 200, 0.6);
+}
+.protocollo_form_tabs button[data-string="x"]:before {
+  font-family: sans-serif;
+}
+.container_classification_header.oe_edit_only button.oe_form_button,
+.container_fascicolazione_header.oe_edit_only button.oe_form_button {
+  margin-bottom: 10px !important;
 }
 .container_messaggi_pec .oe_module_vignette {
   padding: 0;
@@ -887,14 +913,14 @@ div.box-sender-internal .icon_item_type div:hover {
   margin-left: 95px;
 }
 .container_classification {
-  width: 280px !important;
-  padding: 8px !important;
+  width: 300px !important;
+  padding: 10px !important;
   position: relative;
   height: 100px;
-  margin-top: 15px;
+  margin-top: 12px;
   background: #f3f3f3;
   margin-bottom: 15px;
-  margin-left: 3px;
+  margin-left: 0;
 }
 .container_classification .oe_form_char_content {
   color: #666 !important;
@@ -913,11 +939,13 @@ div.box-sender-internal .icon_item_type div:hover {
   font-family: FontAwesome, sans-serif;
   border: 1px solid #eee;
   background: white;
-  padding: 5px 10px;
-  font-size: 26px;
+  padding: 4px 8px;
+  font-size: 21px;
   color: #ccc;
   float: left;
   margin-right: 10px;
+  width: 40px;
+  height: 40px;
 }
 .container_aggiungi_classificazione_step1 div.oe_horizontal_separator {
   font-size: 16px;
