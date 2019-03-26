@@ -28,7 +28,7 @@ class protocollo_aggiungi_fascicolazione_wizard(osv.TransientModel):
         return after
 
     _columns = {
-        'name': fields.char('Numero Protocollo', size=256, required=True, readonly=True),
+        'name': fields.char('Numero Protocollo', size=256, readonly=True),
         'registration_date': fields.datetime('Data Registrazione', readonly=True),
         'type': fields.selection([('out', 'Uscita'),('in', 'Ingresso'),('internal', 'Interno')], 'Tipo', size=32, required=True, readonly=True),
         'cause': fields.text('Motivo della Modifica', required=False),
