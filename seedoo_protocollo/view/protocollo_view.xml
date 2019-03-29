@@ -358,6 +358,8 @@ this module contains the full copyright notices and license terms. -->
                             <field name="carica_allegati_visibility"/>
                             <field name="inserisci_testo_mailpec_visibility"/>
                             <field name="protocollo_fields_editability"/>
+                            <field name="server_sharedmail_id_required"/>
+                            <field name="server_pec_id_required"/>
                             <field name="doc_id" invisible="1"/>
                             <field name="doc_fname" invisible="1"/>
                             <field name="pec" colspan="2" invisible="1"/>
@@ -472,10 +474,10 @@ this module contains the full copyright notices and license terms. -->
                                                 <group>
                                                     <field name="fingerprint" attrs="{'invisible':['|', ('registration_date','=',False),('doc_id','=',False)]}" readonly="1"/>
                                                     <field name="server_sharedmail_id" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}" attrs="{'invisible':['|',('sharedmail','!=',True),('type','=','in')],
-                                                                                                    'required': [('sharedmail','=',True),('type','=','out')], 'readonly':[('protocollo_fields_editability','=',False)]}"
+                                                                                                    'required': [('server_sharedmail_id_required','=',True)], 'readonly':[('protocollo_fields_editability','=',False)]}"
                                                            class="seedoocustom_protocollo_server_sharedmail_id"/>
                                                     <field name="server_pec_id" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}" attrs="{'invisible':['|',('pec','!=',True),('type','=','in')],
-                                                                                                        'required': [('pec','=',True),('type','=','out')], 'readonly':[('protocollo_fields_editability','=',False)]}"
+                                                                                                        'required': [('server_pec_id_required','=',True)], 'readonly':[('protocollo_fields_editability','=',False)]}"
                                                            class="seedoocustom_protocollo_server_pec_id"/>
                                                     <field name="body" attrs="{'invisible':['|','|',('type','=','in'),('inserisci_testo_mailpec_visibility','=',False),'&amp;',('sharedmail','=',False),('pec','=',False)],'readonly':[('protocollo_fields_editability','=',False)]}"
                                                            class="seedoocustom_protocollo_body"/>
