@@ -40,7 +40,7 @@ class protocollo_assegnatario(osv.osv):
 
     def _get_assegnatario_not_visibile_ids(self, cr, uid):
         assegnatario_not_visible_ids = []
-        assegnatario_not_active_ids = self.search(cr, uid, [('active', '=', False)])
+        assegnatario_not_active_ids = self.search(cr, uid, ['|',('active', '=', False),'&',('tipologia', '=', 'department'),('aoo_id', '=', False)])
         for assegnatario_not_active_id in assegnatario_not_active_ids:
             if not (assegnatario_not_active_id in assegnatario_not_visible_ids):
                 assegnatario_not_visible_ids.append(assegnatario_not_active_id)
@@ -96,6 +96,7 @@ class protocollo_assegnatario(osv.osv):
         'tipologia': fields.selection(TIPO_ASSEGNATARIO_SELECTION, 'Tipologia', readonly=True),
         'employee_id': fields.many2one('hr.employee', 'Dipendente', readonly=True),
         'department_id': fields.many2one('hr.department', 'Dipartimento', readonly=True),
+        'aoo_id': fields.many2one('protocollo.aoo', 'AOO', readonly=True),
         'parent_id': fields.many2one('protocollo.assegnatario', 'Ufficio di Appartenenza', readonly=True),
         'active': fields.boolean(string='Attivo'),
         'child_ids': fields.one2many('protocollo.assegnatario', 'parent_id', 'Figli'),
@@ -130,6 +131,7 @@ class protocollo_assegnatario(osv.osv):
                   'employee' AS tipologia,
                   e.id AS employee_id,
                   NULL AS department_id,
+                  NULL AS aoo_id,
                   %s + e.department_id AS parent_id,
                   r.active AS active
                 FROM hr_employee e, resource_resource r
@@ -143,6 +145,7 @@ class protocollo_assegnatario(osv.osv):
                   'department' AS tipologia,
                   NULL AS employee_id,
                   d.id AS department_id,
+                  d.aoo_id AS aoo_id,
                   %s + d.parent_id AS parent_id,
                   d.active AS active
                 FROM hr_department d
