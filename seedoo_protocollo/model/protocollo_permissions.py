@@ -2616,30 +2616,6 @@ class protocollo_protocollo(osv.Model):
         return dict(res)
     ####################################################################################################################
 
-    ####################################################################################################################
-    # Obbligatorietà dei campi
-    ####################################################################################################################
-    def _server_sharedmail_id_required(self, cr, uid, ids, prop, unknow_none, context=None):
-        res = []
-        check = False
-        protocolli = self._get_protocolli(cr, uid, ids)
-        for protocollo in protocolli:
-            if protocollo.sharedmail and protocollo.type=='out':
-                check = True
-            res.append((protocollo.id, check))
-        return dict(res)
-
-    def _server_pec_id_required(self, cr, uid, ids, prop, unknow_none, context=None):
-        res = []
-        check = False
-        protocolli = self._get_protocolli(cr, uid, ids)
-        for protocollo in protocolli:
-            if protocollo.pec and protocollo.type=='out':
-                check = True
-            res.append((protocollo.id, check))
-        return dict(res)
-    ####################################################################################################################
-
     _columns = {
         # Visibilità dei protocolli
         'is_visible': fields.function(_is_visible, fnct_search=_is_visible_search, type='boolean', string='Visibile'),
