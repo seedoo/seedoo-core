@@ -472,7 +472,8 @@ this module contains the full copyright notices and license terms. -->
                                         <group>
                                             <div class="emailpec-container">
                                                 <group>
-                                                    <field name="fingerprint" attrs="{'invisible':['|', ('registration_date','=',False),('doc_id','=',False)]}" readonly="1"/>
+                                                    <field name="fingerprint" attrs="{'invisible':['|', ('registration_date','=',False),('doc_id','=',False)]}" readonly="1"
+                                                           class="seedoocustom_protocollo_fingerprint"/>
                                                     <field name="server_sharedmail_id" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}" attrs="{'invisible':['|',('sharedmail','!=',True),('type','=','in')],
                                                                                                     'required': [('server_sharedmail_id_required','=',True)], 'readonly':[('protocollo_fields_editability','=',False)]}"
                                                            class="seedoocustom_protocollo_server_sharedmail_id"/>
@@ -630,7 +631,7 @@ this module contains the full copyright notices and license terms. -->
                                     <field name="classification" invisible="1"/>
                                 </group>
                             </page>
-                            <page string="Assegnatari">
+                            <page string="Assegnatari" id="page-assegnatari">
                                 <div class="oe_edit_only">
                                     <button name="%(protocollo_aggiungi_assegnatari_action)d"
                                             string="Aggiungi Assegnatari"
