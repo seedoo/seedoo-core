@@ -4,7 +4,7 @@
 
 {
     "name": "Seedoo Theme",
-    "version": "8.0.1.8.4",
+    "version": "8.0.1.8.5",
     "category": "Web",
     "summary": "Tema Grafico Piattaforma Seedoo",
     "sequence": "1",
