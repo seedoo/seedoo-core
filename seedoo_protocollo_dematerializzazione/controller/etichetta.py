@@ -125,11 +125,11 @@ class Etichetta(http.Controller):
         for bad in svgdoc.xpath("//rect[@height=\"100%\" and @width=\"100%\"]"):
             bad.getparent().remove(bad)
 
-        for bad in svgdoc.xpath("text"):
+        for bad in svgdoc.xpath("//text"):
             bad.getparent().remove(bad)
 
-        for bad in svgdoc.xpath("//rect[last()]"):
-            bad.getparent().remove(bad)
+        # for bad in svgdoc.xpath("//rect[last()]"):
+        #     bad.getparent().remove(bad)
 
         etree.strip_elements(svgdoc, etree.Comment)
 
