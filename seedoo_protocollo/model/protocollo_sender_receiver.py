@@ -210,7 +210,7 @@ class protocollo_sender_receiver(orm.Model):
             ids = [ids]
         res = dict.fromkeys(ids, False)
         for sr in self.browse(cr, uid, ids, {'skip_check': True}):
-            res[sr.id] = len(sr.pec_messaggio_ids)
+            res[sr.id] = self.pool.get('protocollo.messaggio.pec').search(cr, uid, [('id', 'in', sr.pec_messaggio_ids.ids),('type', '=', 'messaggio')], count=1)
         return res
 
     def _get_default_protocollo_id(self, cr, uid, context=None):
