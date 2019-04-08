@@ -5,7 +5,7 @@
 
 {
     "name": "Seedoo Protocollo Dematerializzazione",
-    "version": "8.0.1.8.5",
+    "version": "8.0.1.8.6",
     "category": "Document Management",
     "summary": "Gestione Documenti Analogici Protocollo",
     "sequence": "1",
