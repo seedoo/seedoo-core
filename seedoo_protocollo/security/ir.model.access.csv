@@ -37,3 +37,4 @@ access_gedoc_documento_protocollato_user,documento.protocollato.user,model_docum
 access_protocollo_profile_configurazione,protocollo.profile.configurazione.dipendenti,model_protocollo_profile,group_configurazione_dipendenti,1,1,1,0
 access_res_partner_group_protocollo_user,res.partner_protocollo.user,base.model_res_partner,group_protocollo_user,1,1,1,0
 access_fetchmail_server_history_user,fetchmail.server.history.user,model_fetchmail_server_history,seedoo_protocollo.group_protocollo_user,1,0,0,0
+access_protocollo_company_configurazione,protocollo.configurazione.company,base.model_res_company,group_configurazione_company,1,1,0,0
