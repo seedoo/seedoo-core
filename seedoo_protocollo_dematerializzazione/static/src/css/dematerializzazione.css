@@ -21,3 +21,11 @@ span.conn_failed::after {
 .btn_stampa_etichetta::before {
     content:"\f02a";
 }
+
+.oe_form_editable label.seedoocustom_protocollo_importer {
+    margin-left:50px;
+}
+
+.oe_form_readonly label.seedoocustom_protocollo_importer {
+    margin-left:95px;
+}
