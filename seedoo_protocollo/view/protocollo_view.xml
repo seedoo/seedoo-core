@@ -291,11 +291,7 @@ this module contains the full copyright notices and license terms. -->
                                 class="oe_highlight_positive btn_seedoo btn_assegna"/>
 
                         <button name="%(protocollo_riassegna_action)d" string="Riassegna" type="action"
-                                attrs="{'invisible':[('riassegna_visibility','=',False),('riassegna_per_smist_visibility','=',False)]}"
-                                class="oe_highlight_positive btn_seedoo btn_assegna"/>
-                        <button name="%(protocollo_riassegna_per_smist_ut_uff_action)d" string="Riassegna" type="action"
-                                attrs="{'invisible':[('riassegna_per_smist_ut_uff_visibility','=',False)]}"
-                                context="{'smist_ut_uff': True}"
+                                attrs="{'invisible':[('riassegna_visibility','=',False)]}"
                                 class="oe_highlight_positive btn_seedoo btn_assegna"/>
 
                         <button name="sent_mail_pec" string="Invia PEC Protocollo"
@@ -354,8 +350,6 @@ this module contains the full copyright notices and license terms. -->
                             <field name="aggiungi_assegnatari_cc_visibility"/>
                             <field name="assegna_visibility"/>
                             <field name="riassegna_visibility"/>
-                            <field name="riassegna_per_smist_visibility"/>
-                            <field name="riassegna_per_smist_ut_uff_visibility"/>
                             <field name="invio_pec_visibility"/>
                             <field name="invio_sharedmail_visibility"/>
                             <field name="invio_protocollo_visibility"/>

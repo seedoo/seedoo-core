@@ -162,18 +162,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="category_id" ref="module_category_protocollo"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
-        <!-- Button "Riassegna" nella vista form protocollo in uscita -->
-        <record id="group_riassegna_per_smist_protocollo_ingresso" model="res.groups">
-            <field name="name">Riassegna Protocollo in Ingresso per Smistamento</field>
-            <field name="category_id" ref="module_category_protocollo"/>
-            <field name="users" eval="[(4, ref('base.user_root'))]"/>
-        </record>
-        <!-- Button "Riassegna" nella vista form protocollo in uscita -->
-        <record id="group_riassegna_per_smist_ut_uff_protocollo_ingresso" model="res.groups">
-            <field name="name">Riassegna Protocollo in Ingresso per Smistamento su Gerarchia Sottostante</field>
-            <field name="category_id" ref="module_category_protocollo"/>
-            <field name="users" eval="[(4, ref('base.user_root'))]"/>
-        </record>
         <!-- Button "Registra protocollo" nella vista form protocollo in uscita -->
         <record id="group_registra_protocollo_uscita" model="res.groups">
             <field name="name">Registra Protocollo in Uscita</field>
@@ -261,18 +249,6 @@ this module contains the full copyright notices and license terms. -->
         <!-- Button "Riassegna" nella vista form protocollo in uscita -->
         <record id="group_riassegna_protocollo_uscita" model="res.groups">
             <field name="name">Riassegna Protocollo in Uscita per Rifiuto</field>
-            <field name="category_id" ref="module_category_protocollo"/>
-            <field name="users" eval="[(4, ref('base.user_root'))]"/>
-        </record>
-        <!-- Button "Riassegna" nella vista form protocollo in uscita -->
-        <record id="group_riassegna_per_smist_protocollo_uscita" model="res.groups">
-            <field name="name">Riassegna Protocollo in Uscita per Smistamento</field>
-            <field name="category_id" ref="module_category_protocollo"/>
-            <field name="users" eval="[(4, ref('base.user_root'))]"/>
-        </record>
-        <!-- Button "Riassegna" nella vista form protocollo in uscita -->
-        <record id="group_riassegna_per_smist_ut_uff_protocollo_uscita" model="res.groups">
-            <field name="name">Riassegna Protocollo in Uscita per Smistamento su Gerarchia Sottostante</field>
             <field name="category_id" ref="module_category_protocollo"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
@@ -369,18 +345,6 @@ this module contains the full copyright notices and license terms. -->
         <!-- Button "Riassegna" nella vista form protocollo interno -->
         <record id="group_riassegna_protocollo_interno" model="res.groups">
             <field name="name">Riassegna Protocollo Interno per Rifiuto</field>
-            <field name="category_id" ref="module_category_protocollo"/>
-            <field name="users" eval="[(4, ref('base.user_root'))]"/>
-        </record>
-        <!-- Button "Riassegna" nella vista form protocollo interno -->
-        <record id="group_riassegna_per_smist_protocollo_interno" model="res.groups">
-            <field name="name">Riassegna Protocollo Interno per Smistamento</field>
-            <field name="category_id" ref="module_category_protocollo"/>
-            <field name="users" eval="[(4, ref('base.user_root'))]"/>
-        </record>
-        <!-- Button "Riassegna" nella vista form protocollo interno -->
-        <record id="group_riassegna_per_smist_ut_uff_protocollo_interno" model="res.groups">
-            <field name="name">Riassegna Protocollo Interno per Smistamento su Gerarchia Sottostante</field>
             <field name="category_id" ref="module_category_protocollo"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>

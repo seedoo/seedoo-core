@@ -2340,67 +2340,6 @@ class protocollo_protocollo(osv.Model):
 
         return dict(res)
 
-    def _riassegna_per_smist_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
-        res = []
-
-        protocolli = self._get_protocolli(cr, uid, ids)
-        for protocollo in protocolli:
-            check = False
-
-            if protocollo.state in ('registered', 'notified', 'waiting', 'sent', 'error'):
-                check = True
-
-            if check:
-                check_gruppi = False
-                if protocollo.type == 'in':
-                    check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_riassegna_per_smist_protocollo_ingresso')
-                elif protocollo.type == 'out':
-                    check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_riassegna_per_smist_protocollo_uscita')
-                elif protocollo.type == 'internal':
-                    check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_riassegna_per_smist_protocollo_interno')
-                check = check and check_gruppi
-
-            if self._check_stato_assegnatario_competenza(cr, uid, protocollo, 'preso') or \
-                    self._check_stato_assegnatore_competenza(cr, uid, protocollo, 'rifiutato') or \
-                            uid == SUPERUSER_ID:
-                check = check and True
-            else:
-                check = False
-
-            res.append((protocollo.id, check))
-
-        return dict(res)
-
-    def _riassegna_per_smist_ut_uff_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
-        res = []
-
-        protocolli = self._get_protocolli(cr, uid, ids)
-        for protocollo in protocolli:
-            check = False
-
-            if protocollo.state in ('registered', 'notified', 'waiting', 'sent', 'error'):
-                check = True
-
-            if check:
-                check_gruppi = False
-                if protocollo.type == 'in':
-                    check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_riassegna_per_smist_ut_uff_protocollo_ingresso')
-                elif protocollo.type == 'out':
-                    check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_riassegna_per_smist_ut_uff_protocollo_uscita')
-                elif protocollo.type == 'internal':
-                    check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_riassegna_per_smist_ut_uff_protocollo_interno')
-                check = check and check_gruppi
-
-            if self._check_stato_assegnatario_competenza(cr, uid, protocollo, 'preso') or \
-                    self._check_stato_assegnatore_competenza(cr, uid, protocollo, 'rifiutato', smist_ut_uff=True):
-                check = check and True
-            else:
-                check = False
-
-            res.append((protocollo.id, check))
-
-        return dict(res)
-
     def _invio_pec_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
 
@@ -2772,10 +2711,6 @@ class protocollo_protocollo(osv.Model):
                                                               string='Aggiungi Assegnatari Conoscenza'),
         'assegna_visibility': fields.function(_assegna_visibility, type='boolean', string='Assegna'),
         'riassegna_visibility': fields.function(_riassegna_visibility, type='boolean', string='Riassegna per Rifiuto'),
-        'riassegna_per_smist_visibility': fields.function(_riassegna_per_smist_visibility, type='boolean',
-                                                          string='Riassegna per Smistamento'),
-        'riassegna_per_smist_ut_uff_visibility': fields.function(_riassegna_per_smist_ut_uff_visibility, type='boolean',
-                                                                 string='Riassegna per Smistamento ad Utenti del Proprio Ufficio'),
         'invio_pec_visibility': fields.function(_invio_pec_visibility, type='boolean', string='Invio PEC'),
         'invio_sharedmail_visibility': fields.function(_invio_sharedmail_visibility, type='boolean',
                                                        string='Invio E-mail'),

@@ -111,6 +111,10 @@ class protocollo_riassegna_wizard(osv.TransientModel):
                 }
         return data
 
+    def check_riassegna_visibility(self, cr, uid, protocollo):
+        check = protocollo.riassegna_visibility
+        return check
+
     def action_save(self, cr, uid, ids, context=None):
         before = {'competenza': '', 'conoscenza': ''}
         after = {'competenza': '', 'conoscenza': ''}
@@ -120,9 +124,7 @@ class protocollo_riassegna_wizard(osv.TransientModel):
             ('department_id', '=', wizard.assegnatore_department_id.id),
             ('user_id', '=', uid)
         ])
-        check = False
-        if protocollo.riassegna_visibility or protocollo.riassegna_per_smist_visibility or protocollo.riassegna_per_smist_ut_uff_visibility:
-            check = True
+        check = self.check_riassegna_visibility(cr, uid, protocollo)
 
         if not check:
             raise openerp.exceptions.Warning(_(
