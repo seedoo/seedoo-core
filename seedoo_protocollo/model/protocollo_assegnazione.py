@@ -77,7 +77,7 @@ class protocollo_assegnatario(osv.osv):
         configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
         configurazione = self.pool.get('protocollo.configurazione').browse(cr, uid, configurazione_ids[0])
 
-        reads = self.read(cr, uid, ids, ['tipologia'], context=context)
+        reads = self.read(cr, uid, ids, ['tipologia', 'child_ids'], context=context)
         res = []
         for record in reads:
             no_checkbox = False
@@ -85,7 +85,9 @@ class protocollo_assegnatario(osv.osv):
                 if record['tipologia']=='department':
                     no_checkbox = True
             else:
-                if configurazione.assegnazione=='department' and record['tipologia']=='employee':
+                if record['tipologia']=='department' and not record['child_ids']:
+                    no_checkbox = True
+                elif record['tipologia']=='employee' and configurazione.assegnazione=='department':
                     no_checkbox = True
             res.append((record['id'], no_checkbox))
         return res
