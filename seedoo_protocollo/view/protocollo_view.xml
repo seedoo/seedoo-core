@@ -23,13 +23,13 @@ this module contains the full copyright notices and license terms. -->
                 <form string="Tipologia" version="7.0">
                     <sheet>
                         <group col="4">
-                            <field name="name"/>
-                            <field name="active"/>
-                            <field name="display_order"/>
-                        </group>
-                        <group col="4">
-                            <field name="pec"/>
-                            <field name="sharedmail"/>
+                            <group col="2">
+                                <field name="name"/>
+                                <field name="active"/>
+                                <field name="display_order"/>
+                                <field name="pec"/>
+                                <field name="sharedmail"/>
+                            </group>
                         </group>
                     </sheet>
                 </form>
@@ -43,9 +43,19 @@ this module contains the full copyright notices and license terms. -->
                 <tree string="Tipologie">
                     <field name="name"/>
                     <field name="active"/>
-                    <field name="pec"/>
-                    <field name="sharedmail"/>
+                    <field name="pec" string="Integrazione PEC"/>
+                    <field name="sharedmail" string="Integrazione Shared Mail"/>
                     <field name="display_order"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model='ir.ui.view' id='protocollo_typology_tree_selection'>
+            <field name="name">protocollo.typology.tree.selection</field>
+            <field name="model">protocollo.typology</field>
+            <field name="arch" type="xml">
+                <tree string="Tipologie">
+                    <field name="name"/>
                 </tree>
             </field>
         </record>
@@ -450,7 +460,12 @@ this module contains the full copyright notices and license terms. -->
                                     </group>
                                     <group col="8">
                                         <group>
-                                            <field name="typology" attrs="{'invisible' : [('type','=','internal')], 'readonly':[('protocollo_fields_editability','=',False)]}" on_change="on_change_typology(typology)" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}"/>
+                                            <field name="typology"
+                                                   attrs="{'invisible' : [('type','=','internal')], 'readonly':[('protocollo_fields_editability','=',False)]}"
+                                                   on_change="on_change_typology(typology)"
+                                                   options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True, 'no_create': True}"
+                                                   context="{'tree_view_ref': 'seedoo_protocollo.protocollo_typology_tree_selection'}"
+                                            />
                                             <field name="receiving_date" attrs="{'invisible':['|', ('type','=','out'), ('type','=','internal')], 'readonly':[('protocollo_fields_editability','=',False)]}" class="seedoocustom_protocollo_receiving_date"/>
                                             <field name="subject" attrs="{'required':[('state','!=','draft')], 'readonly':[('protocollo_fields_editability','=',False)]}" class="protocollo_oggetto"/>
                                             <field name="doc_content" filename="doc_fname" attrs="{'invisible':[('doc_id','=',False)]}"/>
