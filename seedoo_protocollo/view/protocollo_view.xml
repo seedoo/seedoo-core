@@ -27,8 +27,8 @@ this module contains the full copyright notices and license terms. -->
                                 <field name="name"/>
                                 <field name="active"/>
                                 <field name="display_order"/>
-                                <field name="pec"/>
-                                <field name="sharedmail"/>
+                                <field name="pec" string="Integrazione PEC"/>
+                                <field name="sharedmail" string="Integrazione Shared Mail"/>
                             </group>
                         </group>
                     </sheet>
