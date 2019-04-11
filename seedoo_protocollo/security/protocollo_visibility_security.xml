@@ -17,12 +17,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="category_id" ref="module_category_protocollo"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
-        <!-- Gruppo per la visualizzazione dei protocolli Interni registrati dal mio ufficio -->
-        <record id="group_vedi_protocolli_interno_registrati_ufficio" model="res.groups">
-            <field name="name">Vedi protocolli Interni registrati dal mio ufficio</field>
-            <field name="category_id" ref="module_category_protocollo"/>
-            <field name="users" eval="[(4, ref('base.user_root'))]"/>
-        </record>
 
         <!-- Gruppo per la visualizzazione dei protocolli in Ingresso registrati da un ufficio figlio -->
         <record id="group_vedi_protocolli_ingresso_registrati_ufficio_figlio" model="res.groups">
@@ -33,12 +27,6 @@ this module contains the full copyright notices and license terms. -->
         <!-- Gruppo per la visualizzazione dei protocolli in Uscita registrati da un ufficio figlio -->
         <record id="group_vedi_protocolli_uscita_registrati_ufficio_figlio" model="res.groups">
             <field name="name">Vedi protocolli in Uscita registrati da un ufficio figlio</field>
-            <field name="category_id" ref="module_category_protocollo"/>
-            <field name="users" eval="[(4, ref('base.user_root'))]"/>
-        </record>
-        <!-- Gruppo per la visualizzazione dei protocolli Interni registrati da un ufficio figlio -->
-        <record id="group_vedi_protocolli_interno_registrati_ufficio_figlio" model="res.groups">
-            <field name="name">Vedi protocolli Interni registrati da un ufficio figlio</field>
             <field name="category_id" ref="module_category_protocollo"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
@@ -55,12 +43,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="category_id" ref="module_category_protocollo"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
-        <!-- Gruppo per la visualizzazione di tutte le bozze protocollo Interne della AOO -->
-        <record id="group_vedi_protocolli_interno_bozza" model="res.groups">
-            <field name="name">Vedi tutte bozze protocollo Interne della AOO</field>
-            <field name="category_id" ref="module_category_protocollo"/>
-            <field name="users" eval="[(4, ref('base.user_root'))]"/>
-        </record>
 
         <!-- Gruppo per la visualizzazione di tutti protocolli in Ingresso registrati della AOO -->
         <record id="group_vedi_protocolli_ingresso_registrati" model="res.groups">
@@ -71,12 +53,6 @@ this module contains the full copyright notices and license terms. -->
         <!-- Gruppo per la visualizzazione di tutti protocolli in Uscita registrati della AOO -->
         <record id="group_vedi_protocolli_uscita_registrati" model="res.groups">
             <field name="name">Vedi tutti protocolli in Uscita registrati della AOO</field>
-            <field name="category_id" ref="module_category_protocollo"/>
-            <field name="users" eval="[(4, ref('base.user_root'))]"/>
-        </record>
-        <!-- Gruppo per la visualizzazione di tutti protocolli Interno registrati della AOO -->
-        <record id="group_vedi_protocolli_interno_registrati" model="res.groups">
-            <field name="name">Vedi tutti protocolli Interno registrati della AOO</field>
             <field name="category_id" ref="module_category_protocollo"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
@@ -93,12 +69,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="category_id" ref="module_category_protocollo"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
-        <!-- Gruppo per la visualizzazione dei protocolli Interno assegnati ad un utente del mio ufficio -->
-        <record id="group_vedi_protocolli_interno_registrati_ass_ut_uff" model="res.groups">
-            <field name="name">Vedi protocolli Interno assegnati ad un utente del mio ufficio</field>
-            <field name="category_id" ref="module_category_protocollo"/>
-            <field name="users" eval="[(4, ref('base.user_root'))]"/>
-        </record>
 
         <!-- Gruppo per la visualizzazione dei protocolli in Ingresso assegnati ad un ufficio figlio -->
         <record id="group_vedi_protocolli_ingresso_registrati_ass_uff_fig" model="res.groups">
@@ -112,13 +82,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="category_id" ref="module_category_protocollo"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
-        <!-- Gruppo per la visualizzazione dei protocolli Interno assegnati ad un ufficio figlio -->
-        <record id="group_vedi_protocolli_interno_registrati_ass_uff_fig" model="res.groups">
-            <field name="name">Vedi protocolli Interno assegnati ad un ufficio figlio</field>
-            <field name="category_id" ref="module_category_protocollo"/>
-            <field name="users" eval="[(4, ref('base.user_root'))]"/>
-        </record>
-
 
         <!-- Gruppo per la visualizzazione dei protocolli in Ingresso assegnati ad un utente di un ufficio figlio -->
         <record id="group_vedi_protocolli_ingresso_registrati_ass_ut_uff_fig" model="res.groups">
@@ -132,12 +95,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="category_id" ref="module_category_protocollo"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
-        <!-- Gruppo per la visualizzazione dei protocolli Interni assegnati ad un utente di un ufficio figlio -->
-        <record id="group_vedi_protocolli_interno_registrati_ass_ut_uff_fig" model="res.groups">
-            <field name="name">Vedi protocolli Interno assegnati ad un utente di un ufficio figlio</field>
-            <field name="category_id" ref="module_category_protocollo"/>
-            <field name="users" eval="[(4, ref('base.user_root'))]"/>
-        </record>
 
         <!-- Gruppo per la visualizzazione dei protocolli in Ingresso assegnati al mio ufficio e rifiutati -->
         <record id="group_vedi_protocolli_ingresso_registrati_ass_rif_ut_uff" model="res.groups">
@@ -148,19 +105,6 @@ this module contains the full copyright notices and license terms. -->
         <!-- Gruppo per la visualizzazione dei protocolli in Uscita assegnati al mio ufficio e rifiutati -->
         <record id="group_vedi_protocolli_uscita_registrati_ass_rif_ut_uff" model="res.groups">
             <field name="name">Vedi protocolli in Uscita assegnati al mio ufficio e rifiutati</field>
-            <field name="category_id" ref="module_category_protocollo"/>
-            <field name="users" eval="[(4, ref('base.user_root'))]"/>
-        </record>
-        <!-- Gruppo per la visualizzazione dei protocolli Interni assegnati al mio ufficio e rifiutati -->
-        <record id="group_vedi_protocolli_interno_registrati_ass_rif_ut_uff" model="res.groups">
-            <field name="name">Vedi protocolli Interno assegnati al mio ufficio e rifiutati</field>
-            <field name="category_id" ref="module_category_protocollo"/>
-            <field name="users" eval="[(4, ref('base.user_root'))]"/>
-        </record>
-
-        <!-- Gruppo per la visualizzazione dei protocolli Interni il cui mittente è un utente del mio ufficio -->
-        <record id="group_vedi_protocolli_interno_registrati_mitt_ut_uff" model="res.groups">
-            <field name="name">Vedi protocolli Interni il cui mittente è un utente del mio ufficio</field>
             <field name="category_id" ref="module_category_protocollo"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>

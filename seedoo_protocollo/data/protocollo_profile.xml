@@ -13,8 +13,7 @@ this module contains the full copyright notices and license terms. -->
                 (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_registrati')),
                 (4, ref('seedoo_protocollo.group_vedi_menu_protocolli_archiviati')),
                 (4, ref('seedoo_protocollo.group_vedi_protocolli_ingresso_registrati')),
-                (4, ref('seedoo_protocollo.group_vedi_protocolli_uscita_registrati')),
-                (4, ref('seedoo_protocollo.group_vedi_protocolli_interno_registrati')),
+                (4, ref('seedoo_protocollo.group_vedi_protocolli_uscita_registrati'))
             ]"/>
             <field name="state">enabled</field>
         </record>
@@ -49,18 +48,7 @@ this module contains the full copyright notices and license terms. -->
                 (4, ref('seedoo_protocollo.group_prendi_in_carico_protocollo_uscita')),
                 (4, ref('seedoo_protocollo.group_rifiuta_protocollo_uscita')),
                 (4, ref('seedoo_protocollo.group_segna_come_letto_protocollo_uscita')),
-                (4, ref('seedoo_protocollo.group_agli_atti_protocollo_uscita')),
-                (4, ref('seedoo_protocollo.group_assegna_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_riassegna_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_aggiungi_assegnatari_cc_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_classifica_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_modifica_classificazione_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_fascicola_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_modifica_fascicolazione_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_prendi_in_carico_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_rifiuta_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_segna_come_letto_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_agli_atti_protocollo_interno')),
+                (4, ref('seedoo_protocollo.group_agli_atti_protocollo_uscita'))
             ]"/>
             <field name="state">enabled</field>
         </record>
@@ -95,18 +83,7 @@ this module contains the full copyright notices and license terms. -->
                 (4, ref('seedoo_protocollo.group_prendi_in_carico_protocollo_uscita')),
                 (4, ref('seedoo_protocollo.group_rifiuta_protocollo_uscita')),
                 (4, ref('seedoo_protocollo.group_segna_come_letto_protocollo_uscita')),
-                (4, ref('seedoo_protocollo.group_agli_atti_protocollo_uscita')),
-                (4, ref('seedoo_protocollo.group_assegna_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_riassegna_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_aggiungi_assegnatari_cc_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_classifica_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_modifica_classificazione_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_fascicola_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_modifica_fascicolazione_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_prendi_in_carico_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_rifiuta_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_segna_come_letto_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_agli_atti_protocollo_interno')),
+                (4, ref('seedoo_protocollo.group_agli_atti_protocollo_uscita'))
             ]"/>
             <field name="state">enabled</field>
         </record>
@@ -144,21 +121,7 @@ this module contains the full copyright notices and license terms. -->
                 (4, ref('seedoo_protocollo.group_segna_come_letto_protocollo_uscita')),
                 (4, ref('seedoo_protocollo.group_agli_atti_protocollo_uscita')),
                 (4, ref('seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ufficio')),
-                (4, ref('seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ass_ut_uff')),
-                (4, ref('seedoo_protocollo.group_assegna_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_riassegna_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_aggiungi_assegnatari_cc_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_classifica_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_modifica_classificazione_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_fascicola_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_modifica_fascicolazione_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_prendi_in_carico_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_rifiuta_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_segna_come_letto_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_agli_atti_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_vedi_protocolli_interno_registrati_ufficio')),
-                (4, ref('seedoo_protocollo.group_vedi_protocolli_interno_registrati_ass_ut_uff')),
-                (4, ref('seedoo_protocollo.group_vedi_protocolli_interno_registrati_mitt_ut_uff')),
+                (4, ref('seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ass_ut_uff'))
             ]"/>
             <field name="state">enabled</field>
         </record>
@@ -197,21 +160,7 @@ this module contains the full copyright notices and license terms. -->
                 (4, ref('seedoo_protocollo.group_segna_come_letto_protocollo_uscita')),
                 (4, ref('seedoo_protocollo.group_agli_atti_protocollo_uscita')),
                 (4, ref('seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ufficio')),
-                (4, ref('seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ass_ut_uff')),
-                (4, ref('seedoo_protocollo.group_assegna_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_riassegna_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_aggiungi_assegnatari_cc_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_classifica_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_modifica_classificazione_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_fascicola_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_modifica_fascicolazione_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_prendi_in_carico_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_rifiuta_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_segna_come_letto_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_agli_atti_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_vedi_protocolli_interno_registrati_ufficio')),
-                (4, ref('seedoo_protocollo.group_vedi_protocolli_interno_registrati_ass_ut_uff')),
-                (4, ref('seedoo_protocollo.group_vedi_protocolli_interno_registrati_mitt_ut_uff')),
+                (4, ref('seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ass_ut_uff'))
             ]"/>
             <field name="state">enabled</field>
         </record>
@@ -256,24 +205,7 @@ this module contains the full copyright notices and license terms. -->
                 (4, ref('seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ufficio_figlio')),
                 (4, ref('seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ass_uff_fig')),
                 (4, ref('seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ass_ut_uff_fig')),
-                (4, ref('seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ass_ut_uff')),
-                (4, ref('seedoo_protocollo.group_assegna_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_riassegna_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_aggiungi_assegnatari_cc_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_classifica_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_modifica_classificazione_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_fascicola_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_modifica_fascicolazione_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_prendi_in_carico_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_rifiuta_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_segna_come_letto_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_agli_atti_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_vedi_protocolli_interno_registrati_ufficio')),
-                (4, ref('seedoo_protocollo.group_vedi_protocolli_interno_registrati_ufficio_figlio')),
-                (4, ref('seedoo_protocollo.group_vedi_protocolli_interno_registrati_ass_uff_fig')),
-                (4, ref('seedoo_protocollo.group_vedi_protocolli_interno_registrati_ass_ut_uff_fig')),
-                (4, ref('seedoo_protocollo.group_vedi_protocolli_interno_registrati_ass_ut_uff')),
-                (4, ref('seedoo_protocollo.group_vedi_protocolli_interno_registrati_mitt_ut_uff')),
+                (4, ref('seedoo_protocollo.group_vedi_protocolli_uscita_registrati_ass_ut_uff'))
             ]"/>
             <field name="state">enabled</field>
         </record>
@@ -311,18 +243,6 @@ this module contains the full copyright notices and license terms. -->
                 (4, ref('seedoo_protocollo.group_segna_come_letto_protocollo_uscita')),
                 (4, ref('seedoo_protocollo.group_agli_atti_protocollo_uscita')),
                 (4, ref('seedoo_protocollo.group_vedi_protocolli_uscita_registrati')),
-                (4, ref('seedoo_protocollo.group_assegna_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_riassegna_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_aggiungi_assegnatari_cc_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_classifica_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_modifica_classificazione_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_fascicola_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_modifica_fascicolazione_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_prendi_in_carico_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_rifiuta_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_segna_come_letto_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_agli_atti_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_vedi_protocolli_interno_registrati')),
                 (4, ref('seedoo_protocollo.group_vedi_protocolli_archiviati'))
             ]"/>
             <field name="state">enabled</field>
@@ -368,18 +288,7 @@ this module contains the full copyright notices and license terms. -->
                 (4, ref('seedoo_protocollo.group_invia_protocollo_pec_uscita')),
                 (4, ref('seedoo_protocollo.group_modifica_destinatari_pec_uscita')),
                 (4, ref('seedoo_protocollo.group_invia_protocollo_sharedmail_uscita')),
-                (4, ref('seedoo_protocollo.group_modifica_destinatari_email_uscita')),
-                (4, ref('seedoo_protocollo.group_assegna_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_riassegna_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_aggiungi_assegnatari_cc_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_classifica_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_modifica_classificazione_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_fascicola_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_modifica_fascicolazione_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_prendi_in_carico_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_rifiuta_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_segna_come_letto_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_agli_atti_protocollo_interno')),
+                (4, ref('seedoo_protocollo.group_modifica_destinatari_email_uscita'))
             ]"/>
             <field name="state">enabled</field>
         </record>
@@ -427,21 +336,7 @@ this module contains the full copyright notices and license terms. -->
                 (4, ref('seedoo_protocollo.group_invia_protocollo_pec_uscita')),
                 (4, ref('seedoo_protocollo.group_modifica_destinatari_pec_uscita')),
                 (4, ref('seedoo_protocollo.group_invia_protocollo_sharedmail_uscita')),
-                (4, ref('seedoo_protocollo.group_modifica_destinatari_email_uscita')),
-                (4, ref('seedoo_protocollo.group_assegna_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_riassegna_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_aggiungi_assegnatari_cc_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_classifica_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_modifica_classificazione_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_fascicola_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_modifica_fascicolazione_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_prendi_in_carico_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_rifiuta_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_segna_come_letto_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_agli_atti_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_vedi_protocolli_interno_registrati_ufficio')),
-                (4, ref('seedoo_protocollo.group_vedi_protocolli_interno_registrati_ass_ut_uff')),
-                (4, ref('seedoo_protocollo.group_vedi_protocolli_interno_registrati_mitt_ut_uff')),
+                (4, ref('seedoo_protocollo.group_modifica_destinatari_email_uscita'))
             ]"/>
             <field name="state">enabled</field>
         </record>
@@ -495,24 +390,7 @@ this module contains the full copyright notices and license terms. -->
                 (4, ref('seedoo_protocollo.group_invia_protocollo_pec_uscita')),
                 (4, ref('seedoo_protocollo.group_modifica_destinatari_pec_uscita')),
                 (4, ref('seedoo_protocollo.group_invia_protocollo_sharedmail_uscita')),
-                (4, ref('seedoo_protocollo.group_modifica_destinatari_email_uscita')),
-                (4, ref('seedoo_protocollo.group_assegna_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_riassegna_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_aggiungi_assegnatari_cc_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_classifica_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_modifica_classificazione_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_fascicola_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_modifica_fascicolazione_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_prendi_in_carico_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_rifiuta_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_segna_come_letto_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_agli_atti_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_vedi_protocolli_interno_registrati_ufficio')),
-                (4, ref('seedoo_protocollo.group_vedi_protocolli_interno_registrati_ufficio_figlio')),
-                (4, ref('seedoo_protocollo.group_vedi_protocolli_interno_registrati_ass_uff_fig')),
-                (4, ref('seedoo_protocollo.group_vedi_protocolli_interno_registrati_ass_ut_uff_fig')),
-                (4, ref('seedoo_protocollo.group_vedi_protocolli_interno_registrati_ass_ut_uff')),
-                (4, ref('seedoo_protocollo.group_vedi_protocolli_interno_registrati_mitt_ut_uff')),
+                (4, ref('seedoo_protocollo.group_modifica_destinatari_email_uscita'))
             ]"/>
             <field name="state">enabled</field>
         </record>
@@ -561,22 +439,7 @@ this module contains the full copyright notices and license terms. -->
                 (4, ref('seedoo_protocollo.group_invia_protocollo_pec_uscita')),
                 (4, ref('seedoo_protocollo.group_modifica_destinatari_pec_uscita')),
                 (4, ref('seedoo_protocollo.group_invia_protocollo_sharedmail_uscita')),
-                (4, ref('seedoo_protocollo.group_modifica_destinatari_email_uscita')),
-                (4, ref('seedoo_protocollo.group_crea_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_registra_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_riassegna_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_assegna_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_riassegna_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_aggiungi_assegnatari_cc_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_classifica_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_modifica_classificazione_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_fascicola_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_modifica_fascicolazione_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_prendi_in_carico_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_rifiuta_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_segna_come_letto_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_agli_atti_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_modifica_protocollo_interno')),
+                (4, ref('seedoo_protocollo.group_modifica_destinatari_email_uscita'))
             ]"/>
             <field name="state">enabled</field>
         </record>
@@ -629,24 +492,7 @@ this module contains the full copyright notices and license terms. -->
                 (4, ref('seedoo_protocollo.group_invia_protocollo_pec_uscita')),
                 (4, ref('seedoo_protocollo.group_modifica_destinatari_pec_uscita')),
                 (4, ref('seedoo_protocollo.group_invia_protocollo_sharedmail_uscita')),
-                (4, ref('seedoo_protocollo.group_modifica_destinatari_email_uscita')),
-                (4, ref('seedoo_protocollo.group_crea_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_registra_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_assegna_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_riassegna_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_aggiungi_assegnatari_cc_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_classifica_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_modifica_classificazione_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_fascicola_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_modifica_fascicolazione_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_prendi_in_carico_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_rifiuta_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_segna_come_letto_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_agli_atti_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_modifica_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_vedi_protocolli_interno_registrati_ufficio')),
-                (4, ref('seedoo_protocollo.group_vedi_protocolli_interno_registrati_ass_ut_uff')),
-                (4, ref('seedoo_protocollo.group_vedi_protocolli_interno_registrati_mitt_ut_uff')),
+                (4, ref('seedoo_protocollo.group_modifica_destinatari_email_uscita'))
             ]"/>
             <field name="state">enabled</field>
         </record>
@@ -705,27 +551,7 @@ this module contains the full copyright notices and license terms. -->
                 (4, ref('seedoo_protocollo.group_invia_protocollo_pec_uscita')),
                 (4, ref('seedoo_protocollo.group_modifica_destinatari_pec_uscita')),
                 (4, ref('seedoo_protocollo.group_invia_protocollo_sharedmail_uscita')),
-                (4, ref('seedoo_protocollo.group_modifica_destinatari_email_uscita')),
-                (4, ref('seedoo_protocollo.group_crea_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_registra_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_assegna_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_riassegna_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_aggiungi_assegnatari_cc_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_classifica_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_modifica_classificazione_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_fascicola_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_modifica_fascicolazione_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_prendi_in_carico_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_rifiuta_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_segna_come_letto_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_agli_atti_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_modifica_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_vedi_protocolli_interno_registrati_ufficio')),
-                (4, ref('seedoo_protocollo.group_vedi_protocolli_interno_registrati_ufficio_figlio')),
-                (4, ref('seedoo_protocollo.group_vedi_protocolli_interno_registrati_ass_uff_fig')),
-                (4, ref('seedoo_protocollo.group_vedi_protocolli_interno_registrati_ass_ut_uff_fig')),
-                (4, ref('seedoo_protocollo.group_vedi_protocolli_interno_registrati_ass_ut_uff')),
-                (4, ref('seedoo_protocollo.group_vedi_protocolli_interno_registrati_mitt_ut_uff')),
+                (4, ref('seedoo_protocollo.group_modifica_destinatari_email_uscita'))
             ]"/>
             <field name="state">enabled</field>
         </record>
@@ -788,24 +614,6 @@ this module contains the full copyright notices and license terms. -->
                 (4, ref('seedoo_protocollo.group_configurazione_giornaliero')),
                 (4, ref('seedoo_protocollo.group_configurazione_emergenza')),
                 (4, ref('seedoo_protocollo.group_ripristina_per_protocollazione')),
-                (4, ref('seedoo_protocollo.group_crea_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_registra_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_modifica_assegnatari_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_assegna_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_riassegna_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_aggiungi_assegnatari_cc_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_classifica_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_modifica_classificazione_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_fascicola_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_modifica_fascicolazione_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_prendi_in_carico_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_rifiuta_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_segna_come_letto_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_agli_atti_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_modifica_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_annulla_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_vedi_protocolli_interno_bozza')),
-                (4, ref('seedoo_protocollo.group_vedi_protocolli_interno_registrati')),
                 (4, ref('seedoo_protocollo.group_vedi_protocolli_archiviati')),
                 (4, ref('seedoo_protocollo.group_protocollazione_riservata')),
             ]"/>
@@ -867,24 +675,6 @@ this module contains the full copyright notices and license terms. -->
                 (4, ref('seedoo_protocollo.group_modifica_destinatari_pec_uscita')),
                 (4, ref('seedoo_protocollo.group_invia_protocollo_sharedmail_uscita')),
                 (4, ref('seedoo_protocollo.group_modifica_destinatari_email_uscita')),
-                (4, ref('seedoo_protocollo.group_crea_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_registra_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_modifica_assegnatari_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_assegna_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_riassegna_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_aggiungi_assegnatari_cc_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_classifica_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_modifica_classificazione_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_fascicola_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_modifica_fascicolazione_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_prendi_in_carico_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_rifiuta_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_segna_come_letto_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_agli_atti_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_modifica_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_annulla_protocollo_interno')),
-                (4, ref('seedoo_protocollo.group_vedi_protocolli_interno_bozza')),
-                (4, ref('seedoo_protocollo.group_vedi_protocolli_interno_registrati')),
                 (4, ref('seedoo_protocollo.group_vedi_protocolli_archiviati')),
                 (4, ref('seedoo_protocollo.group_configurazione_aoo')),
                 (4, ref('seedoo_protocollo.group_configurazione_uffici')),
