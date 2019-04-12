@@ -14,20 +14,18 @@ class create_protocollo_wizard(osv.TransientModel):
     _name = 'protocollo.create.wizard'
     _description = 'Crea Protocollo'
 
-    def _get_types(self, cr, uid, context=None):
+    def get_types(self, cr, uid, context=None):
         types = []
         if self.user_has_groups(cr, uid, 'seedoo_protocollo.group_crea_protocollo_ingresso'):
             types.append(('in', 'Ingresso'))
         if self.user_has_groups(cr, uid, 'seedoo_protocollo.group_crea_protocollo_uscita'):
             types.append(('out', 'Uscita'))
-        if self.user_has_groups(cr, uid, 'seedoo_protocollo.group_crea_protocollo_interno'):
-            types.append(('internal', 'Interno'))
         return types
 
     _columns = {
         'aoo_id': fields.many2one('protocollo.aoo', string='AOO', readonly=True),
         'registry_id': fields.many2one('protocollo.registry', string='Registro', readonly=True),
-        'type': fields.selection(_get_types, 'Tipo', size=32),
+        'type': fields.selection(lambda s, *a, **k: s.get_types(*a, **k), 'Tipo', select=True),
         'registration_employee_department_id': fields.many2one('hr.department', 'Ufficio'),
         'type_readonly': fields.boolean('Campo type readonly', readonly=True),
         'registration_employee_department_id_readonly': fields.boolean('Campo registration_employee_department_id readonly', readonly=True),
@@ -53,7 +51,7 @@ class create_protocollo_wizard(osv.TransientModel):
         return False
 
     def _default_type(self, cr, uid, context):
-        types = self._get_types(cr, uid, context)
+        types = self.get_types(cr, uid, context)
         if types and len(types) == 1:
             return types[0][0]
         return False
@@ -65,7 +63,7 @@ class create_protocollo_wizard(osv.TransientModel):
         return False
 
     def _default_type_readonly(self, cr, uid, context):
-        types = self._get_types(cr, uid, context)
+        types = self.get_types(cr, uid, context)
         if len(types) == 1:
             return True
         return False

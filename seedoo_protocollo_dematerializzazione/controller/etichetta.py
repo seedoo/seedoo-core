@@ -62,12 +62,11 @@ class Etichetta(http.Controller):
 
         barcode_text = "%04d0%s" % (year, name)
 
-        if protocol_type == "in":
-            type_str = "Ingresso"
-        elif protocol_type == "out":
-            type_str = "Uscita"
-        else:
-            type_str = "Interno"
+        type_str = ''
+        for selection_tuple_value in self.pool.get('protocollo.protocollo')._fields['type'].selection:
+            if protocol_type == selection_tuple_value[0]:
+                type_str = selection_tuple_value[1]
+                break
 
         prot_str = "%s" % name
         datetime_str = date_obj_dest.strftime("%Y-%m-%d %H:%M:%S")

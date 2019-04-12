@@ -30,7 +30,6 @@ class protocollo_aggiungi_fascicolazione_wizard(osv.TransientModel):
     _columns = {
         'name': fields.char('Numero Protocollo', size=256, readonly=True),
         'registration_date': fields.datetime('Data Registrazione', readonly=True),
-        'type': fields.selection([('out', 'Uscita'),('in', 'Ingresso'),('internal', 'Interno')], 'Tipo', size=32, required=True, readonly=True),
         'cause': fields.text('Motivo della Modifica', required=False),
         'dossier_ids': fields.many2many('protocollo.dossier', 'protocollo_aggiungi_fascicolazione_dossier_rel', 'wizard_id', 'dossier_id', 'Fascicoli'),
         'display_motivation': fields.boolean('Visualizza Motivazione', readonly=True),
@@ -43,10 +42,6 @@ class protocollo_aggiungi_fascicolazione_wizard(osv.TransientModel):
     def _default_registration_date(self, cr, uid, context):
         protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
         return protocollo.registration_date
-
-    def _default_type(self, cr, uid, context):
-        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
-        return protocollo.type
 
     def _default_dossier_ids(self, cr, uid, context):
         protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
@@ -66,7 +61,6 @@ class protocollo_aggiungi_fascicolazione_wizard(osv.TransientModel):
     _defaults = {
         'name': _default_name,
         'registration_date': _default_registration_date,
-        'type': _default_type,
         'dossier_ids': _default_dossier_ids,
         'display_motivation': _default_display_motivation
     }

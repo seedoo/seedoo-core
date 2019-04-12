@@ -493,8 +493,7 @@ class protocollo_protocollo(orm.Model):
         'type': fields.selection(
             [
                 ('out', 'Uscita'),
-                ('in', 'Ingresso'),
-                ('internal', 'Interno')
+                ('in', 'Ingresso')
             ], 'Tipo', size=32, required=True, readonly=True),
         'typology': fields.many2one(
             'protocollo.typology', 'Mezzo Trasmissione', readonly=True, required=False,
@@ -854,14 +853,11 @@ class protocollo_protocollo(orm.Model):
         pd = prot_date.split(' ')[0]
         prot_date = datetime.datetime.strptime(pd, DSDT)
 
-        if prot.type == "in":
-            prot_dir = "INGRESSO"
-        elif prot.type == "out":
-            prot_dir = "USCITA"
-        elif prot.type == "internal":
-            prot_dir = "INTERNO"
-        else:
-            prot_dir = ""
+        prot_dir = ''
+        for selection_tuple_value in self.pool.get('protocollo.protocollo')._fields['type'].selection:
+            if prot.type == selection_tuple_value[0]:
+                prot_dir = selection_tuple_value[1].upper()
+                break
 
         ammi_code = prot.registry.company_id.ammi_code if prot.registry.company_id.ammi_code else ""
         prot_def = "%s %s - %s - %s - Prot. n. %s del %s" % (
