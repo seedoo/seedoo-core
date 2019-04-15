@@ -217,25 +217,6 @@ class protocollo_protocollo(osv.Model):
             protocollo_visible_ids.extend(protocollo_ids_assegnatore)
         _logger.info("---Query assegnatore %s seconds ---" % (time.time() - start_time))
 
-        start_time = time.time()
-        # un utente deve poter vedere i protocolli interni registrati di cui lui o il suo ufficio è il mittente
-        if employee_ids and employee_department_ids:
-            cr.execute('''
-                SELECT DISTINCT(pp.id)
-                FROM protocollo_protocollo pp
-                WHERE pp.registration_date IS NOT NULL AND
-                      pp.type = 'internal' AND
-                      (
-                        (pp.sender_internal_employee IN (''' + employee_ids_str + '''))
-                        OR
-                        (pp.sender_internal_department IN (''' + employee_department_ids_str + '''))
-                      ) AND
-                      pp.archivio_id IN (''' + archivio_ids_str + ''')
-            ''')
-            protocollo_ids_mittente = [res[0] for res in cr.fetchall()]
-            protocollo_visible_ids.extend(protocollo_ids_mittente)
-        _logger.info("---Query mittente %s seconds ---" % (time.time() - start_time))
-
         return protocollo_visible_ids
 
 
@@ -248,7 +229,7 @@ class protocollo_protocollo(osv.Model):
 
         start_time = time.time()
         # un utente deve poter vedere i protocolli (IN, OUT, INTERNAL) REGISTRATI dal suo UFFICIO di appartenenza
-        types = self.get_protocollo_types_by_group(cr, uid, 'seedoo_protocollo', 'group_vedi_protocolli_', '_registrati_ufficio')
+        types = self.get_protocollo_types_by_group(cr, current_user_id, 'seedoo_protocollo', 'group_vedi_protocolli_', '_registrati_ufficio')
         if types and employee_department_ids:
             cr.execute('''
                 SELECT DISTINCT(pp.id)
@@ -265,7 +246,7 @@ class protocollo_protocollo(osv.Model):
 
         start_time = time.time()
         # un utente deve poter vedere i protocolli (IN, OUT, INTERNAL) REGISTRATI da un UFFICIO FIGLIO del suo ufficio di appartenenza.
-        types = self.get_protocollo_types_by_group(cr, uid, 'seedoo_protocollo', 'group_vedi_protocolli_', '_registrati_ufficio_figlio')
+        types = self.get_protocollo_types_by_group(cr, current_user_id, 'seedoo_protocollo', 'group_vedi_protocolli_', '_registrati_ufficio_figlio')
         if types and employee_department_child_ids:
             cr.execute('''
                 SELECT DISTINCT(pp.id)
@@ -282,7 +263,7 @@ class protocollo_protocollo(osv.Model):
 
         start_time = time.time()
         # un utente deve poter vedere QUALUNQUE protocollo (IN, OUT, INTERNAL) in stato BOZZA appartenente alla sua AOO
-        types = self.get_protocollo_types_by_group(cr, uid, 'seedoo_protocollo', 'group_vedi_protocolli_', '_bozza')
+        types = self.get_protocollo_types_by_group(cr, current_user_id, 'seedoo_protocollo', 'group_vedi_protocolli_', '_bozza')
         if types and aoo_ids:
             protocollo_ids_aoo = self.search(cr, uid, [
                 ('type', 'in', types),
@@ -295,7 +276,7 @@ class protocollo_protocollo(osv.Model):
 
         start_time = time.time()
         # un utente deve poter vedere QUALUNQUE protocollo (IN, OUT, INTERNAL) REGISTRATO da un utente della sua AOO
-        types = self.get_protocollo_types_by_group(cr, uid, 'seedoo_protocollo', 'group_vedi_protocolli_', '_registrati')
+        types = self.get_protocollo_types_by_group(cr, current_user_id, 'seedoo_protocollo', 'group_vedi_protocolli_', '_registrati')
         if types and aoo_ids:
             protocollo_ids_aoo = self.search(cr, uid, [
                 ('type', 'in', types),
@@ -308,7 +289,7 @@ class protocollo_protocollo(osv.Model):
 
         start_time = time.time()
         # un utente deve poter vedere i protocolli (IN, OUT, INTERNAL) REGISTRATI e ASSEGNATI ad un UTENTE del suo UFFICIO di appartenenza
-        types = self.get_protocollo_types_by_group(cr, uid, 'seedoo_protocollo', 'group_vedi_protocolli_', '_registrati_ass_ut_uff')
+        types = self.get_protocollo_types_by_group(cr, current_user_id, 'seedoo_protocollo', 'group_vedi_protocolli_', '_registrati_ass_ut_uff')
         if types and employee_department_ids:
             assegnazione_ids = assegnazione_obj.search(cr, uid, [
                 ('tipologia_assegnatario', '=', 'employee'),
@@ -326,7 +307,7 @@ class protocollo_protocollo(osv.Model):
 
         start_time = time.time()
         # un utente deve poter vedere i protocolli (IN, OUT, INTERNAL) REGISTRATI e ASSEGNATI ad un suo UFFICIO FIGLIO
-        types = self.get_protocollo_types_by_group(cr, uid, 'seedoo_protocollo', 'group_vedi_protocolli_', '_registrati_ass_uff_fig')
+        types = self.get_protocollo_types_by_group(cr, current_user_id, 'seedoo_protocollo', 'group_vedi_protocolli_', '_registrati_ass_uff_fig')
         if types and employee_department_child_ids:
             assegnazione_ids = assegnazione_obj.search(cr, uid, [
                 ('tipologia_assegnatario', '=', 'department'),
@@ -344,7 +325,7 @@ class protocollo_protocollo(osv.Model):
 
         start_time = time.time()
         # un utente deve poter vedere i protocolli (IN e OUT) REGISTRATI e ASSEGNATI ad un UTENTE di un suo UFFICIO FIGLIO
-        types = self.get_protocollo_types_by_group(cr, uid, 'seedoo_protocollo', 'group_vedi_protocolli_', '_registrati_ass_ut_uff_fig')
+        types = self.get_protocollo_types_by_group(cr, current_user_id, 'seedoo_protocollo', 'group_vedi_protocolli_', '_registrati_ass_ut_uff_fig')
         if types and employee_department_child_ids:
             assegnazione_ids = assegnazione_obj.search(cr, uid, [
                 ('tipologia_assegnatario', '=', 'employee'),
@@ -363,7 +344,7 @@ class protocollo_protocollo(osv.Model):
 
         start_time = time.time()
         # un utente deve poter vedere i protocolli (IN, OUT, INTERNAL) REGISTRATI, ASSEGNATI e RIFIUTATI da un UTENTE del suo UFFICIO
-        types = self.get_protocollo_types_by_group(cr, uid, 'seedoo_protocollo', 'group_vedi_protocolli_', '_registrati_ass_rif_ut_uff')
+        types = self.get_protocollo_types_by_group(cr, current_user_id, 'seedoo_protocollo', 'group_vedi_protocolli_', '_registrati_ass_rif_ut_uff')
         if types and employee_department_ids:
             assegnazione_ids = assegnazione_obj.search(cr, uid, [
                 ('tipologia_assegnatario', '=', 'employee'),
@@ -378,19 +359,6 @@ class protocollo_protocollo(osv.Model):
                 ('archivio_id', 'in', archivio_ids)
             ]))
         _logger.info("---Query ass_rif_ut_uff  %s seconds ---" % (time.time() - start_time))
-
-        start_time = time.time()
-        # un utente deve poter vedere i protocolli interni il cui MITTENTE è un UTENTE del suo UFFICIO
-        check_gruppo_internal = self.user_has_groups(cr, current_user_id, 'seedoo_protocollo.group_vedi_protocolli_interno_registrati_mitt_ut_uff')
-        if check_gruppo_internal and employee_department_ids:
-            protocollo_visible_ids.extend(self.search(cr, uid, [
-                ('type', '=', 'internal'),
-                ('registration_date', '!=', False),
-                ('sender_internal_employee_department', 'in', employee_department_ids),
-                ('reserved', '=', False),
-                ('archivio_id', 'in', archivio_ids)
-            ]))
-        _logger.info("---Query mitt_ut_uff  %s seconds ---" % (time.time() - start_time))
 
         return protocollo_visible_ids
 
@@ -1748,15 +1716,14 @@ class protocollo_protocollo(osv.Model):
                 return False, _("il dipendente non è un assegnatario per competenza del protocollo")
             if not assegnatario_employee_id:
                 types = self.get_protocollo_types_by_group(cr, uid, 'seedoo_protocollo', 'group_prendi_in_carico_protocollo_', '')
-                if protocollo.type == 'in':
-                    if not (protocollo.type in types):
-                        return False, _("l'utente non possiede il permesso 'Presa in Carico Protocolli in Ingresso Assegnati Ufficio'")
-                elif protocollo.type == 'out':
-                    if not (protocollo.type in types):
-                        return False, _("l'utente non possiede il permesso 'Presa in Carico Protocolli in Uscita Assegnati Ufficio'")
-                elif protocollo.type == 'internal':
-                    if not (protocollo.type in types):
-                        return False, _("l'utente non possiede il permesso 'Presa in Carico Protocolli Interni Assegnati Ufficio'")
+                if not (protocollo.type in types):
+                    type_str = ''
+                    for selection_tuple_value in self._fields['type'].selection:
+                        if protocollo.type == selection_tuple_value[0]:
+                            type_str = selection_tuple_value[1]
+                            break
+                    return False, _("l'utente non possiede il permesso 'Presa in Carico Protocolli Assegnati Ufficio' per i protocolli di tipologia '%s'" % type_str)
+
         elif not self._check_stato_assegnatario_competenza(cr, uid, protocollo, 'assegnato', assegnatario_employee_id):
             return False, _("il dipendente non è un assegnatario per competenza del protocollo")
 
@@ -1789,15 +1756,13 @@ class protocollo_protocollo(osv.Model):
                 return False, _("il dipendente non è un assegnatario per competenza del protocollo")
             if not assegnatario_employee_id:
                 types = self.get_protocollo_types_by_group(cr, uid, 'seedoo_protocollo', 'group_rifiuta_protocollo_', '')
-                if protocollo.type == 'in':
-                    if not (protocollo.type in types):
-                        return False, _("l'utente non possiede il permesso 'Rifiuta Protocolli in Ingresso Assegnati Ufficio'")
-                elif protocollo.type == 'out':
-                    if not (protocollo.type in types):
-                        return False, _("l'utente non possiede il permesso 'Rifiuta Protocolli in Uscita Assegnati Ufficio'")
-                elif protocollo.type == 'internal':
-                    if not (protocollo.type in types):
-                        return False, _("l'utente non possiede il permesso 'Rifiuta Protocolli Interni Assegnati Ufficio'")
+                if not (protocollo.type in types):
+                    type_str = ''
+                    for selection_tuple_value in self._fields['type'].selection:
+                        if protocollo.type == selection_tuple_value[0]:
+                            type_str = selection_tuple_value[1]
+                            break
+                    return False, _("l'utente non possiede il permesso 'Rifiuta Protocolli Assegnati Ufficio' per i protocolli di tipologia '%s'" % type_str)
         elif not self._check_stato_assegnatario_competenza(cr, uid, protocollo, 'assegnato', assegnatario_employee_id):
             return False, _("il dipendente non è un assegnatario per competenza del protocollo")
 

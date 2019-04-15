@@ -63,7 +63,7 @@ class Etichetta(http.Controller):
         barcode_text = "%04d0%s" % (year, name)
 
         type_str = ''
-        for selection_tuple_value in self.pool.get('protocollo.protocollo')._fields['type'].selection:
+        for selection_tuple_value in http.request.env["protocollo.protocollo"]._fields['type'].selection:
             if protocol_type == selection_tuple_value[0]:
                 type_str = selection_tuple_value[1]
                 break

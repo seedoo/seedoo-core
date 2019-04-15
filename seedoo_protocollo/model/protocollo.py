@@ -402,7 +402,7 @@ class protocollo_protocollo(orm.Model):
     def _get_senders_summary(self, cr, uid, ids, name, args, context=None):
         res = dict.fromkeys(ids, False)
         for protocol in self.browse(cr, uid, ids, {'skip_check': True}):
-            if protocol.type == 'internal' or protocol.type == 'out':
+            if protocol.type != 'in':
                 res[protocol.id] = protocol.sender_internal_name
             else:
                 res[protocol.id] = u"\n".join([line.name for line in protocol.senders])

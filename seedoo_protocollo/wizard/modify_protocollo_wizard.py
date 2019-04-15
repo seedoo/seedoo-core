@@ -73,8 +73,7 @@ class wizard(osv.TransientModel):
         'type': fields.selection(
             [
                 ('out', 'Uscita'),
-                ('in', 'Ingresso'),
-                ('internal', 'Interno')
+                ('in', 'Ingresso')
             ],
             'Tipo', size=32, required=True, readonly=True,
         ),

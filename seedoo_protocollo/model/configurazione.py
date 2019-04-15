@@ -128,7 +128,7 @@ class protocollo_configurazione(orm.Model):
                 if protocollo.user_id.id != uid:
                     errors.append(_("Protocollatore: l'utente corrente è diverso dall'Utente del Protocollatore"))
 
-        if protocollo.type != 'internal' and not protocollo.typology:
+        if protocollo.type in ['in', 'out'] and not protocollo.typology:
             errors.append(_("Mezzo Trasmissione"))
 
         if not protocollo.subject:
@@ -137,7 +137,7 @@ class protocollo_configurazione(orm.Model):
         if protocollo.type != 'in' and not protocollo.sender_internal_name:
             errors.append(_("Mittente"))
 
-        if protocollo.type != 'internal' and not protocollo.sender_receivers:
+        if protocollo.type in ['in', 'out'] and not protocollo.sender_receivers:
             send_rec = protocollo.type == 'in' and _("Mittente") or _("Destinatario")
             errors.append(send_rec)
 
@@ -203,7 +203,7 @@ class protocollo_configurazione(orm.Model):
                     errors.append(_("Dipendente Assegnatario per Competenza"))
                 if conoscenza_ufficio_found or conoscenza_dipendente_found:
                     errors.append(_("Assegnatari per Conoscenza: i protocolli riservati non possono avere assegnatari per conoscenza"))
-                if protocollo.type == 'internal' and protocollo.sender_internal_department:
+                if protocollo.type in ['in', 'out'] and protocollo.sender_internal_department:
                     errors.append(_("Mittente: i protocolli riservati non possono avere uffici come mittenti"))
             else:
                 if protocollo.doc_id:

@@ -455,12 +455,12 @@ this module contains the full copyright notices and license terms. -->
                                     <group col="8">
                                         <group>
                                             <field name="typology"
-                                                   attrs="{'invisible' : [('type','=','internal')], 'readonly':[('protocollo_fields_editability','=',False)]}"
+                                                   attrs="{'invisible' : [('type','not in',('in','out'))], 'readonly':[('protocollo_fields_editability','=',False)]}"
                                                    on_change="on_change_typology(typology)"
                                                    options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True, 'no_create': True}"
                                                    context="{'tree_view_ref': 'seedoo_protocollo.protocollo_typology_tree_selection'}"
                                             />
-                                            <field name="receiving_date" attrs="{'invisible':['|', ('type','=','out'), ('type','=','internal')], 'readonly':[('protocollo_fields_editability','=',False)]}" class="seedoocustom_protocollo_receiving_date"/>
+                                            <field name="receiving_date" attrs="{'invisible':[('type','!=','in')], 'readonly':[('protocollo_fields_editability','=',False)]}" class="seedoocustom_protocollo_receiving_date"/>
                                             <field name="subject" attrs="{'required':[('state','!=','draft')], 'readonly':[('protocollo_fields_editability','=',False)]}" class="protocollo_oggetto"/>
                                             <field name="doc_content" filename="doc_fname" attrs="{'invisible':[('doc_id','=',False)]}"/>
                                             <field name="doc_description" attrs="{'invisible':[('doc_id','=',False)]}"/>
@@ -904,7 +904,6 @@ this module contains the full copyright notices and license terms. -->
                     <group string="Tipo">
                         <filter string="Ingresso" name="in" domain="[('type','=','in')]"/>
                         <filter string="Uscita" name="out" domain="[('type','=','out')]"/>
-                        <filter string="Interno" name="internal" domain="[('type','=','internal')]"/>
                         <filter string="Emergenza" name="emergenza" domain="[('registration_type','=','emergency')]"/>
                     </group>
                     <group string="Mezzo">
