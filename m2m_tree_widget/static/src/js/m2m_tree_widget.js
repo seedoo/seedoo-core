@@ -170,7 +170,7 @@ openerp.m2m_tree_widget = function(instance) {
                                 pId: res[r][pid] && res[r][pid][0] || false,
                                 name: res[r][label],
                                 doCheck: true,
-                                nocheck: nocheck,
+                                chkDisabled: nocheck,
                                 checked: self.get_m2m_values().indexOf(res[r]['id'])>-1 && true || false,
                                 open: false,
                                 iconSkin: iconSkin

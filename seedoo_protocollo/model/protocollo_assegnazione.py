@@ -85,8 +85,17 @@ class protocollo_assegnatario(osv.osv):
                 if record['tipologia']=='department':
                     no_checkbox = True
             else:
-                if record['tipologia']=='department' and not record['child_ids']:
-                    no_checkbox = True
+                if record['tipologia']=='department':
+                    if not record['child_ids']:
+                        no_checkbox = True
+                    else:
+                        employee_found = False
+                        for child_id in record['child_ids']:
+                            if child_id < DEPARTMENT_MASK:
+                                employee_found = True
+                                break
+                        if not employee_found:
+                            no_checkbox = True
                 elif record['tipologia']=='employee' and configurazione.assegnazione=='department':
                     no_checkbox = True
             res.append((record['id'], no_checkbox))

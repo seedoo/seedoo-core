@@ -155,7 +155,7 @@
                                 pId: res[r][pid] && res[r][pid][0] || false,
                                 name: res[r][label],
                                 doCheck: true,
-                                nocheck: nocheck,
+                                chkDisabled: nocheck,
                                 checked: self.get("value") == res[r]['id'] && true || false,
                                 open: false,
                                 iconSkin: iconSkin
