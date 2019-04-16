@@ -5,7 +5,7 @@
 {
     "name": "Dashboard Tile alternative mode support",
     "summary": "Add different modalities support in Dashboard Tiles",
-    "version": "8.0.1.8.6",
+    "version": "8.0.1.8.7",
     "depends": [
         "web_dashboard_tile"
     ],
