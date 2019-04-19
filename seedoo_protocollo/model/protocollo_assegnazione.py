@@ -166,6 +166,7 @@ class protocollo_assegnatario(osv.osv):
 
 class protocollo_assegnazione(orm.Model):
     _name = 'protocollo.assegnazione'
+    _description = 'Assegnazione Protocollo'
     _order = 'tipologia_assegnazione'
 
     _rec_name = 'assegnatario_id'

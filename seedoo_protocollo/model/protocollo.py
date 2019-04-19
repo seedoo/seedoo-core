@@ -150,7 +150,7 @@ class protocollo_registry(orm.Model):
 
 class protocollo_protocollo(orm.Model):
     _name = 'protocollo.protocollo'
-
+    _description = 'Protocollo'
     _inherit = 'mail.thread'
     _mail_flat_thread = False
     _order = 'id desc'
