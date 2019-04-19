@@ -209,5 +209,11 @@ this module contains the full copyright notices and license terms. -->
                   groups="group_configurazione_email_pec"
                   sequence="3"/>
 
+        <menuitem name="Template" action="protocollo_email_template_action"
+                  parent="protocollo_configuration_email_pec"
+                  id="protocollo_configuration_email_template"
+                  groups="group_configurazione_email_pec"
+                  sequence="4"/>
+
     </data>
 </openerp>
