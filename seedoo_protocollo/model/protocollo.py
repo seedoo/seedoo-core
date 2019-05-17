@@ -1927,8 +1927,11 @@ class protocollo_protocollo(orm.Model):
             protocollo.signal_workflow('acts')
             if esito_visibility and protocollo.state=='acts':
                 action_class = "history_icon acts"
+                subject = "Agli atti"
+                if motivazione:
+                    subject += ": %s" % motivazione
                 post_vars = {
-                    'subject': "Agli atti: %s" % motivazione,
+                    'subject': subject,
                     'body': "<div class='%s'><ul><li>Protocollo messo agli atti da <span style='color:#009900;'>%s</span></li></ul></div>" % (
                         action_class, rec.name),
                     'model': "protocollo.protocollo",

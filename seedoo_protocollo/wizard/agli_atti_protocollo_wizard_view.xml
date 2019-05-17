@@ -20,7 +20,7 @@ this module contains the full copyright notices and license terms. -->
                 <form string="Protocollo Agli Atti">
                     <sheet>
                         <group>
-                            <field name="motivazione" required="1"/>
+                            <field name="motivazione" required="0"/>
                         </group>
                     </sheet>
                     <footer>
