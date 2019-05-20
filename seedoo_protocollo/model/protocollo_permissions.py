@@ -2386,6 +2386,16 @@ class protocollo_protocollo(osv.Model):
             res.append((protocollo.id, check))
 
         return dict(res)
+
+    def _typology_editability(self, cr, uid, ids, prop, unknow_none, context=None):
+        res = []
+        protocolli = self._get_protocolli(cr, uid, ids)
+        for protocollo in protocolli:
+            check = False
+            if protocollo.protocollo_fields_editability and not protocollo.mail_pec_ref:
+                check = True
+            res.append((protocollo.id, check))
+        return dict(res)
     ####################################################################################################################
 
     ####################################################################################################################
@@ -2560,7 +2570,8 @@ class protocollo_protocollo(osv.Model):
         'carica_documento_visibility': fields.function(_carica_documento_visibility, type='boolean', string='Carica documento'),
         'modifica_documento_visibility': fields.function(_modifica_documento_visibility, type='boolean', string='Modifica documento'),
         'carica_allegati_visibility': fields.function(_carica_allegati_visibility, type='boolean', string='Carica Allegati'),
-        'protocollo_fields_editability': fields.function(_protocollo_fields_editability, type='boolean', string='Modificabilità Campi Protocollo')
+        'protocollo_fields_editability': fields.function(_protocollo_fields_editability, type='boolean', string='Modificabilità Campi Protocollo'),
+        'typology_editability': fields.function(_typology_editability, type='boolean', string='Modificabilità Campi Mezzo di Trasmissione'),
     }
 
     def _default_protocollazione_riservata_visibility(self, cr, uid, context):

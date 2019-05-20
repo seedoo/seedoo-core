@@ -53,8 +53,17 @@ def convert_datetime(value, from_timezone="UTC", to_timezone="Europe/Rome", form
 
 class protocollo_typology(orm.Model):
     _name = 'protocollo.typology'
-
     _order = 'display_order, name'
+
+    def _is_visible(self, cr, uid, ids, name, arg, context=None):
+        return {}
+
+    def _is_visible_search(self, cr, uid, obj, name, args, domain=None, context=None):
+        domain = []
+        if 'type' in context and context['type']=='in' and 'mail_pec_ref' in context and not context['mail_pec_ref']:
+            domain = [('sharedmail','=',False),('pec','=',False)]
+        typology_ids = self.search(cr, uid, domain)
+        return [('id', 'in', typology_ids)]
 
     _columns = {
         'name': fields.char('Nome', size=256, required=True),
@@ -62,7 +71,8 @@ class protocollo_typology(orm.Model):
         'pec': fields.boolean('PEC'),
         'aoo_id': fields.many2one('protocollo.aoo', 'AOO', required=True),
         'display_order': fields.integer('Ordine visualizzazione'),
-        'active': fields.boolean('Attivo')
+        'active': fields.boolean('Attivo'),
+        'is_visible': fields.function(_is_visible, fnct_search=_is_visible_search, type='boolean', string='Visibile'),
     }
 
     def _get_default_aoo_id(self, cr, uid, context=None):

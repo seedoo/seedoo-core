@@ -324,7 +324,7 @@ class ProtocolloMailPecWizard(osv.TransientModel):
             vals['sender_registration_date'] = srvals['protocollo']['sender_registration_date']
 
         if is_pec is False:
-            typology_id = protocollo_typology_obj.search(cr, uid,[('name', '=', 'Email')])[0]
+            typology_id = protocollo_typology_obj.search(cr, uid,[('sharedmail', '=', True)])[0]
 
         vals['typology'] = typology_id
         protocollo_id = protocollo_obj.create(cr, uid, vals)

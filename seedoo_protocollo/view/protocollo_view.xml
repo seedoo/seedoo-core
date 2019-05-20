@@ -372,6 +372,8 @@ this module contains the full copyright notices and license terms. -->
                             <field name="registration_type" invisible="1"/>
                             <field name="emergency_active" invisible="1"/>
                             <field name="registration_employee_department_id_readonly" invisible="1"/>
+                            <field name="mail_pec_ref"/>
+                            <field name="typology_editability"/>
                         </div>
                         <!--<div id="stato-protocollo">-->
                             <!--<field name="state" invisible="1"/>-->
@@ -433,7 +435,7 @@ this module contains the full copyright notices and license terms. -->
                                                    attrs="{'invisible':[('type','!=','in')],'readonly':[('protocollo_fields_editability','=',False)]}"/>
                                             <newline/>
                                             <field name="sender_protocol"
-                                                   attrs="{'invisible':[('type','!=','in')], 'readonly':[('protocollo_fields_editability','=',False)]}"/>
+                                                   attrs="{'invisible':[('type','!=','in')],'readonly':[('protocollo_fields_editability','=',False)]}"/>
                                         </group>
                                         <group/>
                                     </group>
@@ -455,10 +457,11 @@ this module contains the full copyright notices and license terms. -->
                                     <group col="8">
                                         <group>
                                             <field name="typology"
-                                                   attrs="{'invisible' : [('type','not in',('in','out'))], 'readonly':[('protocollo_fields_editability','=',False)]}"
+                                                   domain="[('is_visible','=',True)]"
+                                                   attrs="{'invisible' : [('type','not in',('in','out'))], 'readonly':[('typology_editability','=',False)]}"
                                                    on_change="on_change_typology(typology)"
                                                    options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True, 'no_create': True}"
-                                                   context="{'tree_view_ref': 'seedoo_protocollo.protocollo_typology_tree_selection'}"
+                                                   context="{'tree_view_ref': 'seedoo_protocollo.protocollo_typology_tree_selection', 'type': type, 'mail_pec_ref': mail_pec_ref}"
                                             />
                                             <field name="receiving_date" attrs="{'invisible':[('type','!=','in')], 'readonly':[('protocollo_fields_editability','=',False)]}" class="seedoocustom_protocollo_receiving_date"/>
                                             <field name="subject" attrs="{'required':[('state','!=','draft')], 'readonly':[('protocollo_fields_editability','=',False)]}" class="protocollo_oggetto"/>
