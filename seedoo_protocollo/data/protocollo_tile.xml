@@ -265,7 +265,7 @@
             <field name="mode">method</field>
             <field name="method">_da_mettere_agli_atti_visibility_count_total</field>
             <field name="font_color">#ffffff</field>
-            <field name="background_color">#0D5C63</field>
+            <field name="background_color">#44A1A0</field>
             <field name="sequence_tile">60</field>
             <field name="icon_tile">fa fa-users</field>
             <field name="tag_tile">totale</field>
