@@ -203,6 +203,23 @@ class protocollo_sender_receiver(orm.Model):
                             res[sr.id] = True
         return res
 
+    def _get_conferma_status(self, cr, uid, ids, field, arg, context=None):
+        if isinstance(ids, (list, tuple)) and not len(ids):
+            return []
+        if isinstance(ids, (long, int)):
+            ids = [ids]
+        res = dict.fromkeys(ids, False)
+        for sr in self.browse(cr, uid, ids):
+            if sr.protocollo_id.id:
+                protocollo_obj = self.pool.get('protocollo.protocollo')
+                for prot in protocollo_obj.browse(cr, uid, sr.protocollo_id.id, {'skip_check': True}):
+                    messaggio_pec_obj = self.pool.get("protocollo.messaggio.pec")
+                    if len(sr.pec_messaggio_ids.ids) > 1:
+                        conferma_pec = messaggio_pec_obj.search(cr, uid, [("id", "in", sr.pec_messaggio_ids.ids), ("type", "=", "conferma")])
+                        if prot.type == "in" and prot.state in ("registered", "canceled", "acts") and len(conferma_pec) > 0:
+                            res[sr.id] = True
+        return res
+
     def _get_pec_numero_invii(self, cr, uid, ids, field, arg, context=None):
         if isinstance(ids, (list, tuple)) and not len(ids):
             return []
@@ -283,6 +300,7 @@ class protocollo_sender_receiver(orm.Model):
         'pec_accettazione_status': fields.function(_get_accettazione_status, type='boolean', string='Accettata'),
         'pec_consegna_status': fields.function(_get_consegna_status, type='boolean', string='Consegnata'),
         'pec_errore_consegna_status': fields.function(_get_errore_consegna_status, type='boolean', string='Errore Consegna'),
+        'pec_conferma_status': fields.function(_get_conferma_status, type='boolean', string='Conferma Protocollazione'),
         'pec_numero_invii': fields.function(_get_pec_numero_invii, type='integer', string='PEC - Numero invii'),
         'sharedmail_messaggio_ids': fields.many2many('mail.message', 'protocollo_sender_receiver_messaggio_sharedmail_rel', 'sender_receiver_id', 'mail_message_id', 'Messaggi Sharedmail'),
         'sharedmail_numero_invii': fields.integer('Sharedmail - Numero invii', readonly=True, required=False),

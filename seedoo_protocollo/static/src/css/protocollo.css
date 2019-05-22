@@ -88,6 +88,7 @@
 .openerp td[data-field="pec_invio_status"] input,
 .openerp td[data-field="pec_accettazione_status"] input,
 .openerp td[data-field="pec_consegna_status"] input,
+.openerp td[data-field="pec_conferma_status"] input,
 .openerp td[data-field="pec_errore_consegna_status"] input {
   visibility: hidden;
   opacity: 1 !important;
@@ -137,15 +138,21 @@
   content: "\f19c";
 }
 .openerp div.icon_messaggio_status:after,
+.openerp div.icon_conferma_status:after,
 .openerp td[data-field="pec_invio_status"] input:checked:after,
+.openerp td[data-field="pec_conferma_status"] input:checked:after,
 .openerp .oe_form button[data-name="go_to_messaggio_action"]:after,
 .openerp .oe_form button[data-name="go_to_sharedmail_message_action"]:after {
   content: "\f003";
   font-family: "FontAwesome";
   font-size: 28px;
-  color: #9ac569;
+  color: #007ea6;
   visibility: visible;
   opacity: 1;
+}
+.openerp div.icon_conferma_status:after,
+.openerp td[data-field="pec_conferma_status"] input:checked:after {
+  content: "\f064";
 }
 .openerp div.icon_accettazione_status:after,
 .openerp td[data-field="pec_accettazione_status"] input:checked::after,
@@ -153,7 +160,7 @@
   content: "\f05d";
   font-family: "FontAwesome";
   font-size: 28px;
-  color: #679b41;
+  color: #78cdd7;
   visibility: visible;
   opacity: 1;
 }

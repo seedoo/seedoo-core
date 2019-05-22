@@ -288,6 +288,7 @@ this module contains the full copyright notices and license terms. -->
                     <field name="pec_accettazione_status"/>
                     <field name="pec_consegna_status"/>
                     <field name="pec_errore_consegna_status"/>
+                    <field name="pec_conferma_status"/>
                     <field name="pec_numero_invii"/>
                     <templates>
                         <t t-name="kanban-box">
@@ -333,6 +334,9 @@ this module contains the full copyright notices and license terms. -->
                                                 </t>
                                                 <t t-if="record.pec_errore_consegna_status.raw_value">
                                                     <div class="icon_status icon_errore_consegna_status"><span>Errore Consegna</span></div>
+                                                </t>
+                                                <t t-if="record.pec_conferma_status.raw_value">
+                                                    <div class="icon_status icon_conferma_status"><span>Conferma</span></div>
                                                 </t>
                                                 <t t-if="record.pec_numero_invii.raw_value and record.pec_numero_invii.raw_value > 1">
                                                     <div class="icon_numero_invii"><field name="pec_numero_invii"/></div>
