@@ -27,7 +27,7 @@ this module contains the full copyright notices and license terms. -->
                     </div>
                     <div class="page" style="border-top: 1px solid #ccc;margin-top : 10px;padding-top: 10px;">
                         <style type="text/css">
-                            table th {color: #366732 !important; text-transform:uppercase; }
+                            table th {color: #0D5C63 !important; text-transform:uppercase; }
                             h4, h4 span {color:#999 !important;}
                         </style>
                         <h4 style="">Registro giornaliero del

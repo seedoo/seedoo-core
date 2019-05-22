@@ -1,3 +1,10 @@
+@color1: #0D5C63;
+@color2: #44A1A0;
+@color3: #007ea6;
+@color4: #78CDD7;
+@color5: #E84855;
+@color6: #F0A202;
+
 .openerp .oe_notebook > li.ui-state-active > a.ui-tabs-anchor {
   color:#666 !important;
 }
@@ -93,7 +100,7 @@
   }
 
   .oe_kanban_buttons button.oe_kanban_button_new.oe_highlight {
-    background: steelblue !important;
+    background: @color3 !important;
     margin: 12px 0 18px 2px;
     min-width:180px;
   }
@@ -158,7 +165,7 @@
   }
 
   li.ui-tabs-active {
-    border-top: 3px solid #5078b1;
+    border-top: 3px solid @color1;
     -webkit-border-radius: 0;
     -moz-border-radius: 0;
     border-radius: 0;
@@ -224,7 +231,7 @@
 }
 
 .button-form-protocollo, .tab-sr .oe_kanban_buttons .oe_kanban_button_new.oe_highlight  {
-  background:steelblue !important;
+  background: @color3 !important;
   color:#fff;
   border: 1px solid #999 !important;
   width: 180px;
@@ -247,7 +254,7 @@
   width: 180px !important;
   color: #fff !important;
   border:0 !important;
-  background-color: steelblue !important;
+  background-color: @color3 !important;
   min-width: 180px;
 
   &:before {
@@ -282,7 +289,7 @@
   }
 
   .fa-check-circle {
-    color: green;
+    color: @color2;
   }
 
   .fa-exclamation-triangle {
@@ -384,7 +391,7 @@
       font-family: FontAwesome, sans-serif;
       margin-right: 10px;
       font-size: 16px;
-      color: #2271b3;
+      color: @color3;
     }
   }
 
@@ -451,7 +458,7 @@
   border-radius: 6px;
   border: 2px solid #ccc;
   background: none;
-  background: #679b41;
+  background: #007ea6;
   margin: 0;
   background-size: contain;
   padding: 3px;
@@ -459,7 +466,7 @@
 
 .ztree li span.button.chk.radio_false_full_focus:hover,
 .ztree li span.button.chk.radio_true_full_focus:hover {
-  background-color: #99c569 !important;
+  background-color: @color4 !important;
   background-position: -100px -100px !important;
   -webkit-border-radius: 6px !important;
   -moz-border-radius: 6px !important;
@@ -480,12 +487,12 @@
 }
 
 .ztree li span.button.chk.radio_false_full:before {
-  color:darkgreen;
+  color: @color1;
 }
 
 .ztree li span.button.chk.radio_false_full:hover {
   background:none !important;
-  border:1px solid darkgreen !important;
+  border:1px solid @color1 !important;
   border-radius: 6px !important;
 }
 
@@ -496,7 +503,7 @@
   margin-bottom: 5px;
   overflow: inherit !important;
   padding-right: 5px;
-  color: #806faa;
+  color: @color3;
   font-size: 10px;
   display: block;
 

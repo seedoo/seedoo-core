@@ -1293,7 +1293,7 @@ this module contains the full copyright notices and license terms. -->
                     <t t-call="report.external_layout">
                         <div class="page">
                             <style type="text/css">
-                                table th {color: #366732 !important; text-transform:uppercase; }
+                                table th {color: #0D5C63 !important; text-transform:uppercase; }
                                 h3, h3 span {color:#666 !important;}
                                 h4, h4 span {color:#999 !important;}
                             </style>

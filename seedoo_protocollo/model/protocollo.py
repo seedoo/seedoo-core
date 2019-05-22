@@ -1850,7 +1850,7 @@ class protocollo_protocollo(orm.Model):
                 action_class = "history_icon taken"
                 post_vars = {
                     'subject': "Presa in carico",
-                    'body': "<div class='%s'><ul><li>Protocollo preso in carico da <span style='color:#009900;'>%s</span></li></ul></div>" % (action_class, assegnatario_name),
+                    'body': "<div class='%s'><ul><li>Protocollo preso in carico da <span style='color:#007ea6;'>%s</span></li></ul></div>" % (action_class, assegnatario_name),
                     'model': "protocollo.protocollo",
                     'res_id': ids[0]
                 }
@@ -1910,7 +1910,7 @@ class protocollo_protocollo(orm.Model):
             if check_permission == True:
                 action_class = "history_icon taken"
                 post_vars = {'subject': "Segnato come letto",
-                             'body': "<div class='%s'><ul><li>Protocollo letto da <span style='color:#009900;'>%s</span></li></ul></div>" % (
+                             'body': "<div class='%s'><ul><li>Protocollo letto da <span style='color:#007ea6;'>%s</span></li></ul></div>" % (
                                  action_class, rec.name),
                              'model': "protocollo.protocollo",
                              'res_id': ids[0],
@@ -1942,7 +1942,7 @@ class protocollo_protocollo(orm.Model):
                     subject += ": %s" % motivazione
                 post_vars = {
                     'subject': subject,
-                    'body': "<div class='%s'><ul><li>Protocollo messo agli atti da <span style='color:#009900;'>%s</span></li></ul></div>" % (
+                    'body': "<div class='%s'><ul><li>Protocollo messo agli atti da <span style='color:#007ea6;'>%s</span></li></ul></div>" % (
                         action_class, rec.name),
                     'model': "protocollo.protocollo",
                     'res_id': protocollo.id
@@ -2279,7 +2279,7 @@ class protocollo_protocollo(orm.Model):
         if protocollo.state in protocollo_obj.get_history_state_list(cr, uid):
             action_class = "history_icon update"
             body = "<div class='%s'><ul>" % action_class
-            body += "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#009900'> %s </span></li>" \
+            body += "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#007ea6'> %s </span></li>" \
                     % ('Mittente', protocollo.sender_internal_name, '')
             body += "</ul></div>"
             post_vars = {
@@ -2445,7 +2445,7 @@ class protocollo_protocollo(orm.Model):
 
         body = ''
         for key, before_item in before.items():
-            body = body + "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#009900'> %s </span></li>" \
+            body = body + "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#007ea6'> %s </span></li>" \
                    % (str(key), before_item, after[key])
         if body:
             action_class = "history_icon update"

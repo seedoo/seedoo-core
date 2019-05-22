@@ -163,7 +163,7 @@
   content: "\f05d";
   font-family: "FontAwesome";
   font-size: 28px;
-  color: #366732;
+  color: #0D5C63;
   visibility: visible;
   opacity: 1;
 }
@@ -342,12 +342,12 @@
   content: "\f0e8";
 }
 .protocollo_oggetto .oe_form_text_content {
-  color: steelblue;
+  color: #007ea6;
   font-weight: bold;
 }
 .btn_rifiuta_presa_in_carico,
 .btn_rifiuta_presa_in_carico_richiesta {
-  background-color: #f59704 !important;
+  background-color: #f0a202 !important;
 }
 .openerp button.btn_presa_in_carico:hover,
 .openerp button.btn_presa_in_carico_richiesta:hover,
@@ -362,7 +362,7 @@
   border: 1px solid #aaa !important;
 }
 .openerp button.btn_stampa_etichetta:before {
-  color: #326e38 !important;
+  color: #44a1a0 !important;
 }
 /**Storico Protocollo**/
 .openerp .oe_mail .oe_msg.oe_msg_composer_compact,
@@ -645,7 +645,7 @@ table.oe_form_group.subject_modify_wizard tr > td {
   color: #555;
 }
 .oe_kanban_card.oe_kanban_global_click.oe_archivio_protocollo.is_current_true .oe_dropdown_kanban:before {
-  color: #326e38;
+  color: #007ea6;
 }
 .oe_kanban_card.oe_kanban_global_click.oe_archivio_protocollo .oe_kanban_action_button {
   height: 35px;
@@ -744,7 +744,7 @@ div.box-sender-internal .icon_item_type div:hover {
   margin-right: 15px !important;
 }
 .protocollo_dossier_container .oe_kanban_buttons button.oe_kanban_button_new.oe_highlight {
-  background: steelblue !important;
+  background: #007ea6 !important;
   margin: 12px 0 18px 2px;
   min-width: 180px;
 }
@@ -787,7 +787,7 @@ div.box-sender-internal .icon_item_type div:hover {
   content: "\f121";
 }
 .protocollo_form_tabs li.ui-tabs-active {
-  border-top: 3px solid #5078b1;
+  border-top: 3px solid #0d5c63;
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
   border-radius: 0;
@@ -834,7 +834,7 @@ div.box-sender-internal .icon_item_type div:hover {
 }
 .button-form-protocollo,
 .tab-sr .oe_kanban_buttons .oe_kanban_button_new.oe_highlight {
-  background: steelblue !important;
+  background: #007ea6 !important;
   color: #fff;
   border: 1px solid #999 !important;
   width: 180px;
@@ -856,7 +856,7 @@ div.box-sender-internal .icon_item_type div:hover {
   width: 180px !important;
   color: #fff !important;
   border: 0 !important;
-  background-color: steelblue !important;
+  background-color: #007ea6 !important;
   min-width: 180px;
 }
 .oe_highlight_positive.button-form-protocollo:before,
@@ -884,7 +884,7 @@ div.box-sender-internal .icon_item_type div:hover {
   min-width: 20px;
 }
 .protocollo_registration_container .fa-check-circle {
-  color: green;
+  color: #44a1a0;
 }
 .protocollo_registration_container .fa-exclamation-triangle {
   color: darkorange;
@@ -963,7 +963,7 @@ div.box-sender-internal .icon_item_type div:hover {
   font-family: FontAwesome, sans-serif;
   margin-right: 10px;
   font-size: 16px;
-  color: #2271b3;
+  color: #007ea6;
 }
 .container_aggiungi_classificazione_step1 .oe_form_group_cell + .oe_form_group_cell {
   padding: 0 !important;
@@ -1025,14 +1025,14 @@ div.box-sender-internal .icon_item_type div:hover {
   border-radius: 6px;
   border: 2px solid #ccc;
   background: none;
-  background: #679b41;
+  background: #007ea6;
   margin: 0;
   background-size: contain;
   padding: 3px;
 }
 .ztree li span.button.chk.radio_false_full_focus:hover,
 .ztree li span.button.chk.radio_true_full_focus:hover {
-  background-color: #99c569 !important;
+  background-color: #78cdd7 !important;
   background-position: -100px -100px !important;
   -webkit-border-radius: 6px !important;
   -moz-border-radius: 6px !important;
@@ -1050,11 +1050,11 @@ div.box-sender-internal .icon_item_type div:hover {
   border-radius: 6px;
 }
 .ztree li span.button.chk.radio_false_full:before {
-  color: darkgreen;
+  color: #0d5c63;
 }
 .ztree li span.button.chk.radio_false_full:hover {
   background: none !important;
-  border: 1px solid darkgreen !important;
+  border: 1px solid #0d5c63 !important;
   border-radius: 6px !important;
 }
 /** Ottimizzazione Filtri per le viste **/
@@ -1066,7 +1066,7 @@ div.box-sender-internal .icon_item_type div:hover {
   margin-bottom: 5px;
   overflow: inherit !important;
   padding-right: 5px;
-  color: #806faa;
+  color: #007ea6;
   font-size: 10px;
   display: block;
 }
@@ -1208,7 +1208,7 @@ div.dati-protocollo-container {
   margin-bottom: 30px;
 }
 div.dati-protocollo-container h4 {
-  color: #afafaf;
+  color: #44a1a0;
 }
 div.dati-protocollo-container h4:before {
   font-family: FontAwesome;
@@ -1234,7 +1234,7 @@ div.dati-protocollo-container h4:before {
   margin: 0 0 30px 0;
 }
 #anteprima-container .protocollo-accordion-toggle.button-form-protocollo {
-  background-color: steelblue !important;
+  background-color: #007ea6 !important;
 }
 #anteprima-container .protocollo-accordion-toggle.button-form-protocollo h4 {
   color: white;
@@ -1249,7 +1249,7 @@ div.dati-protocollo-container h4:before {
 }
 #anteprima-container h4:before {
   content: "\f1c1";
-  color: #f00;
+  color: #fffffa;
 }
 #anteprima-container h4:after {
   content: "";
@@ -1301,3 +1301,4 @@ div.dati-protocollo-container h4:before {
     font-size: 18px;
   }
 }
+/*# sourceMappingURL=protocollo.css.map */

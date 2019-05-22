@@ -439,10 +439,10 @@ class protocollo_sender_receiver(orm.Model):
         if save_history and str(self) == 'protocollo.sender_receiver':
             if operation == 'create':
                 operation_label = 'Inserimento '
-                template = "<li>%s: <span style='color:#009900'> %s </span></li>"
+                template = "<li>%s: <span style='color:#007ea6'> %s </span></li>"
             elif operation == 'write':
                 operation_label = 'Modifica '
-                template = "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#009900'> %s </span></li>"
+                template = "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#007ea6'> %s </span></li>"
             else:
                 operation_label = 'Cancellazione '
                 template = "<li>%s: <span style='color:#990000'> %s </span></li>"

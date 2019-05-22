@@ -89,7 +89,7 @@ class protocollo_aggiungi_assegnatari_conoscenza_wizard(osv.TransientModel):
         if (before['conoscenza'] or after['conoscenza']) and before['conoscenza']!=after['conoscenza']:
             action_class = "history_icon update"
             body = "<div class='%s'><ul>" % action_class
-            body = body + "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#009900'> %s </span></li>" \
+            body = body + "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#007ea6'> %s </span></li>" \
                           % ('Assegnatari Conoscenza', before['conoscenza'], after['conoscenza'])
             body += "</ul></div>"
             post_vars = {

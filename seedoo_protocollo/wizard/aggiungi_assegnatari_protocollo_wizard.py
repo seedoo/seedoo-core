@@ -209,10 +209,10 @@ Se sono presenti assegnatari per conoscenza verranno rimossi al completamento de
             action_class = "history_icon update"
             body = "<div class='%s'><ul>" % action_class
             if (before['competenza'] or after['competenza']) and before['competenza']!=after['competenza']:
-                body = body + "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#009900'> %s </span></li>" \
+                body = body + "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#007ea6'> %s </span></li>" \
                               % ('Assegnatario Competenza', before['competenza'], after['competenza'])
             if (before['conoscenza'] or after['conoscenza']) and before['conoscenza']!=after['conoscenza']:
-                body = body + "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#009900'> %s </span></li>" \
+                body = body + "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#007ea6'> %s </span></li>" \
                               % ('Assegnatari Conoscenza', before['conoscenza'], after['conoscenza'])
             body += "</ul></div>"
             subject_label = "Modifica assegnatari" if before['competenza'] or before['conoscenza'] else "Aggiunta assegnatari"

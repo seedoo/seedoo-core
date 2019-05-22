@@ -87,7 +87,7 @@ class protocollo_aggiungi_fascicolazione_wizard(osv.TransientModel):
             action_class = "history_icon update"
             body = "<div class='%s'><ul>" % action_class
             if before != after:
-                body = body + "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#009900'> %s </span></li>" \
+                body = body + "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#007ea6'> %s </span></li>" \
                                 % ('Fascicolo', before.encode("utf-8"), after.encode("utf-8"))
             else:
                 body = body + "<li>%s: <span style='color:#999'> %s</span> -> <span style='color:#999'> %s </span></li>" \

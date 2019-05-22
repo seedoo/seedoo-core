@@ -58,7 +58,7 @@ class protocollo_sender_internal_wizard(osv.TransientModel):
             if old_sender_internal_id != vals['sender_internal_assegnatario']:
                 action_class = "history_icon update"
                 body = "<div class='%s'><ul>" % action_class
-                body += "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#009900'> %s </span></li>" \
+                body += "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#007ea6'> %s </span></li>" \
                               % ('Mittente', old_sender_internal_name, vals['sender_internal_name'])
                 body += "</ul></div>"
                 post_vars = {

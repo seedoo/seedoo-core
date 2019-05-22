@@ -76,7 +76,7 @@ class protocollo_aggiungi_classificazione_step1_wizard(osv.TransientModel):
 
             classification_history = ''
             if (before or after) and before != after:
-                classification_history = "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#009900'> %s </span></li>" \
+                classification_history = "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#007ea6'> %s </span></li>" \
                               % ('Titolario', before, after)
 
             if classification_history or motivation or competenza_history:
@@ -123,7 +123,7 @@ class protocollo_aggiungi_classificazione_step1_wizard(osv.TransientModel):
             after = assegnatario.nome
 
         if save_history and (before or after) and before!=after:
-            history = "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#009900'> %s </span></li>" \
+            history = "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#007ea6'> %s </span></li>" \
                           % ('Assegnatario Competenza', before, after)
 
         return history
