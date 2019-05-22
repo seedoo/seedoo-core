@@ -20,7 +20,7 @@
             <field name="mode">method</field>
             <field name="method">_doc_imported_visibility_count</field>
             <field name="font_color">#ffffff</field>
-            <field name="background_color">#F1C40F</field>
+            <field name="background_color">#007EA6</field>
             <field name="sequence_tile">3</field>
             <field name="icon_tile">fa fa-folder-open-o</field>
             <field name="tag_tile">generale</field>
