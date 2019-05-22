@@ -241,7 +241,7 @@ a {
   background-color: #e84855;
 }
 .oe_secondary_menu_section:before {
-  content: "\f054";
+  content: "\f0d7";
   font-family: FontAwesome;
   font-size: 11px;
 }
