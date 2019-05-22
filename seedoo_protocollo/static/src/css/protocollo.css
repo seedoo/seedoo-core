@@ -552,9 +552,6 @@ li.badge {
 .openerp .oe_form .oe_form_group .oe_form_group_cell.oe_group_right {
   padding-left: 0 !important;
 }
-.message_data .oe_form_group_cell {
-  border: 0px !important;
-}
 .message_data .oe_view_manager_header {
   display: none;
 }
@@ -1171,7 +1168,7 @@ div.box-sender-internal .icon_item_type div:hover {
 }
 .openerp .box-anagrafica {
   padding: 5px 10px;
-  background-color: #f3f3f3;
+  background-color: #fff;
 }
 .openerp .oe_horizontal_separator {
   font-size: 18px;

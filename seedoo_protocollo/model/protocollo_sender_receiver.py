@@ -147,7 +147,7 @@ class protocollo_sender_receiver(orm.Model):
                     messaggio_pec_obj = self.pool.get("protocollo.messaggio.pec")
                     if len(sr.pec_messaggio_ids.ids) > 0:
                         messaggio_pec = messaggio_pec_obj.browse(cr, uid, max(sr.pec_messaggio_ids.ids))
-                        if prot.state in ("waiting", "sent", "error", "notified", "canceled", "acts") and messaggio_pec.type in ("messaggio"):
+                        if prot.type == "out" and prot.state in ("waiting", "sent", "error", "notified", "canceled", "acts") and messaggio_pec.type in ("messaggio"):
                             res[sr.id] = True
         return res
 
