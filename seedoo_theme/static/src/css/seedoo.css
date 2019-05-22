@@ -240,6 +240,11 @@ a {
   color: white;
   background-color: #e84855;
 }
+.oe_secondary_menu_section:before {
+  content: "\f054";
+  font-family: FontAwesome;
+  font-size: 11px;
+}
 button.oe_kanban_button_new::before {
   content: "\f067";
   color: #fff;
