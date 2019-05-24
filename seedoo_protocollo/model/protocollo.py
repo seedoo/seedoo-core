@@ -2061,14 +2061,12 @@ class protocollo_protocollo(orm.Model):
         assegnazione_vals = {'protocollo_id': protocollo_id}
 
         for assegnazione in protocollo.assegnazione_competenza_ids:
-            assegnazione_copy_id = assegnazione_obj.copy(cr, uid, assegnazione.id, assegnazione_vals, context=context)
-            assegnazione_obj.write(cr, uid, assegnazione_copy_id, {'state': 'assegnato'}, context=context)
-            assegnazione_competenza.append(assegnazione_copy_id)
+            assegnazione_obj.salva_assegnazione_competenza(cr, uid, protocollo_id, assegnazione.assegnatario_id.id,
+                                                           assegnazione.assegnatore_id.id, True)
 
         for assegnazione in protocollo.assegnazione_conoscenza_ids:
-            assegnazione_copy_id = assegnazione_obj.copy(cr, uid, assegnazione.id, assegnazione_vals, context=context)
-            assegnazione_obj.write(cr, uid, assegnazione_copy_id, {'state': 'assegnato'}, context=context)
-            assegnazione_conoscenza.append(assegnazione_copy_id)
+            assegnazione_obj.salva_assegnazione_conoscenza(cr, uid, protocollo_id, [assegnazione.assegnatario_id.id],
+                                                           assegnazione.assegnatore_id.id, False)
 
         return {
             'name': 'Protocollo',
