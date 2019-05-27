@@ -17,6 +17,7 @@ class protocollo_configurazione(orm.Model):
         'segnatura_xml_invia': fields.boolean('Invia Segnatura.xml'),
         'conferma_xml_parse': fields.boolean('Leggi Configurazione.xml relativi ai protocolli in uscita'),
         'conferma_xml_invia': fields.boolean('Invia Configurazione.xml nei protocolli in ingresso'),
+        'sender_segnatura_xml_parse': fields.boolean('Ricava mittente da Segnature.xml'),
         'annullamento_xml_parse': fields.boolean('Leggi Annullamento.xml in ingresso'),
         'annullamento_xml_invia': fields.boolean('Invia Annullamento.xml nei protocolli in ingresso'),
         'classificazione_required': fields.boolean('Classificazione Obbligatoria'),
@@ -91,7 +92,8 @@ class protocollo_configurazione(orm.Model):
         'assegnazione': 'all',
         'select_eml': True,
         'select_body': True,
-        'select_attachments': True
+        'select_attachments': True,
+        'sender_segnatura_xml_parse': True
     }
 
 

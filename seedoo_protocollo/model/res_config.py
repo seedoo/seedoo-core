@@ -37,6 +37,7 @@ class protocollo_config_settings(osv.osv_memory):
         'segnatura_xml_invia': fields.related('config_id', 'segnatura_xml_invia', type='boolean', string='Invia "Segnatura.xml"'),
         'conferma_xml_parse': fields.related('config_id', 'conferma_xml_parse', type='boolean', string='Leggi "Conferma.xml" in Protocollazione in uscita'),
         'conferma_xml_invia': fields.related('config_id', 'conferma_xml_invia', type='boolean', string='Invia "Conferma.xml" in Protocollazione in ingresso'),
+        'sender_segnatura_xml_parse': fields.related('config_id', 'sender_segnatura_xml_parse', type='boolean', string='Ricava mittente da "Segnature.xml"'),
         'annullamento_xml_parse': fields.related('config_id', 'annullamento_xml_parse', type='boolean', string='Leggi "Annullamento.xml" in Protocollazione in uscita'),
         'annullamento_xml_invia': fields.related('config_id', 'annullamento_xml_invia', type='boolean', string='Invia "Annullamento.xml" in Protocollazione in ingresso'),
         'classificazione_required': fields.related('config_id', 'classificazione_required', type='boolean', string='Classificazione'),

@@ -68,6 +68,8 @@ this module contains the full copyright notices and license terms. -->
                     <group string="Interoperabilità">
                         <field name="segnatura_xml_parse"/>
                         <newline/>
+                        <field name="sender_segnatura_xml_parse"/>
+                        <newline/>
                         <field name="segnatura_xml_invia"/>
                         <newline/>
                         <field name="conferma_xml_parse"/>

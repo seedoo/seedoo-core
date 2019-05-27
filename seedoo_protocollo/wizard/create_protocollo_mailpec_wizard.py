@@ -287,11 +287,14 @@ class ProtocolloMailPecWizard(osv.TransientModel):
             if len(srvals) > 0 and len(srvals['mittente']) > 0:
                 is_segnatura = True
 
+        sender_segnatura_xml_parse = configurazione.sender_segnatura_xml_parse
+
         if is_pec and is_segnatura:
             srvals['mittente']['pec_messaggio_ids'] = [[6, 0, [messaggio_pec_id]]]
-            sender_receiver.append(sender_receiver_obj.create(cr, uid, srvals['mittente']))
+            if sender_segnatura_xml_parse:
+                sender_receiver.append(sender_receiver_obj.create(cr, uid, srvals['mittente']))
 
-        if (is_pec and is_segnatura is False) or is_pec is False:
+        if (is_pec and (is_segnatura is False or (is_segnatura and not sender_segnatura_xml_parse))) or is_pec is False:
             for send_rec in wizard.sender_receivers:
                 srvals = {
                     'type': send_rec.type,

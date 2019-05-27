@@ -14,6 +14,7 @@
             <field name="segnatura_xml_invia" eval="True"/>
             <field name="conferma_xml_parse" eval="False"/>
             <field name="conferma_xml_invia" eval="False"/>
+            <field name="sender_segnatura_xml_parse" eval="True"/>
             <field name="annullamento_xml_parse" eval="False"/>
             <field name="annullamento_xml_invia" eval="False"/>
             <field name="assegnatari_competenza_uffici_required" eval="True"/>
