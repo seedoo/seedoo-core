@@ -1134,7 +1134,7 @@ class protocollo_protocollo(orm.Model):
                         try:
                             if prot.mimetype == 'application/pdf':
                                 prot_datas = self._sign_doc(cr, uid, prot, prot_number, prot_date)
-                            res_segnatura = {"Segnatura": {"Res": True, "Msg": "Segnatura generata correttamente"}}
+                                res_segnatura = {"Segnatura": {"Res": True, "Msg": "Segnatura PDF generata correttamente"}}
                         except Exception as e:
                             _logger.error(e)
                             err_segnatura = True
@@ -1269,7 +1269,7 @@ class protocollo_protocollo(orm.Model):
                         prot.mail_pec_ref.ids) > 0 and configurazione.conferma_xml_invia:
                     res = self.action_send_receipt(cr, uid, ids, 'conferma', context=context)
                     if res == 'sent':
-                        res_conferma = {"Invio Conferma": {"Res": True, "Msg": "Conferma inviata correttamente"}}
+                        res_conferma = {"Invio Conferma": {"Res": True, "Msg": "Conferma di Protocollazione inviata"}}
                     elif res == 'exception':
                         res_conferma = {"Invio Conferma": {"Res": False,
                                                            "Msg": "Non è stato possibile inviare la Conferma di Protocollazione al Mittente"}}
@@ -1408,7 +1408,7 @@ class protocollo_protocollo(orm.Model):
                     action_class = "history_icon mail"
                     post_vars = {
                         'subject': "Ricevuta di %s inviata" % receipt_type,
-                        'body': "<div class='%s'><ul><li>Conferma.xml inviata correttamente</li></ul></div>" % (
+                        'body': "<div class='%s'><ul><li>Conferma.xml inviata al mittente</li></ul></div>" % (
                             action_class),
                         'model': "protocollo.protocollo",
                         'res_id': prot.id,

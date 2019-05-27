@@ -156,6 +156,8 @@ class protocollo_registration_response_wizard(models.TransientModel):
                         res += "<li><h2><span class='fa fa-check-circle'></span> %s </h2></li>" % (operation[operation_item]['Msg'])
                     elif not operation[operation_item]['Res'] and operation[operation_item]['Msg'] is not None:
                         res += "<li><span class='fa fa-exclamation-triangle'></span> %s</li>" % (operation[operation_item]['Msg'])
+                    elif operation[operation_item]['Msg'] is not None:
+                        res += "<li><span class='fa fa-check-circle'></span> %s</li>" % (operation[operation_item]['Msg'])
             res += "</ul>"
             return res
         return res
