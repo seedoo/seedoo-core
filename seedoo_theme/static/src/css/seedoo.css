@@ -51,6 +51,26 @@ textarea,
 .openerp .oe_view_manager table.oe_view_manager_header h2 a {
   color: #0d5c63 !important;
 }
+.openerp .oe_view_manager .oe_kanban_vignette.oe_semantic_html_override {
+  border: 1px solid #78cdd7;
+}
+.openerp .oe_view_manager .oe_kanban_vignette.oe_semantic_html_override .oe_kanban_details ul li {
+  font-size: 10px;
+}
+.openerp .oe_view_manager .oe_kanban_vignette.oe_semantic_html_override .oe_kanban_details ul li a {
+  overflow-wrap: break-word;
+}
+.openerp .oe_view_manager .oe_kanban_vignette.oe_semantic_html_override .oe_kanban_details ul li a.pec-mail-partner {
+  color: #0d5c63;
+}
+.openerp .oe_view_manager .oe_kanban_vignette.oe_semantic_html_override .oe_kanban_details ul li a.pec-mail-partner + span {
+  background: #44a1a0;
+  border-radius: 10px;
+  color: white;
+  width: 100px;
+  padding: 0 5px;
+  margin: 0 5px;
+}
 .openerp .oe_notebook > li.ui-state-active > a {
   color: #0d5c63 !important;
 }

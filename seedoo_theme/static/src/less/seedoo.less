@@ -62,6 +62,31 @@ body, input, button, select, textarea, .openerp .oe_form .oe_styling_v8,.openerp
   color: @color1 !important;
 }
 
+.openerp .oe_view_manager .oe_kanban_vignette.oe_semantic_html_override {
+  border: 1px solid @color4;
+
+  .oe_kanban_details ul li {
+    font-size: 10px;
+
+    a {
+      overflow-wrap: break-word;
+
+      &.pec-mail-partner {
+        color:@color1;
+      }
+    }
+
+    a.pec-mail-partner+span {
+        background: #44a1a0;
+        border-radius: 10px;
+        color: white;
+        width: 100px;
+        padding: 0 5px;
+        margin: 0 5px;
+    }
+  }
+}
+
 .openerp .oe_notebook > li.ui-state-active > a {
   color: @color1 !important;
 }
