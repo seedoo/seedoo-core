@@ -269,6 +269,10 @@ class ProtocolloMailPecWizard(osv.TransientModel):
         is_pec = False
         is_segnatura = False
 
+        # Estrae i dati del mittente dalla segnatura
+        configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
+        configurazione = self.pool.get('protocollo.configurazione').browse(cr, uid, configurazione_ids[0])
+
         if 'message_type' in context and context['message_type'] == 'pec':
             is_pec = True
 
@@ -277,10 +281,6 @@ class ProtocolloMailPecWizard(osv.TransientModel):
             typology_id = protocollo_typology_obj.search(cr, uid, [('pec', '=', True)])[0]
             messaggio_pec_obj = self.pool.get('protocollo.messaggio.pec')
             messaggio_pec_id = messaggio_pec_obj.create(cr, uid, {'type': 'messaggio', 'messaggio_ref': mail_message.id})
-
-            # Estrae i dati del mittente dalla segnatura
-            configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
-            configurazione = self.pool.get('protocollo.configurazione').browse(cr, uid, configurazione_ids[0])
 
             if configurazione.segnatura_xml_parse:
                 srvals = self.elaboraSegnatura(cr, uid, protocollo_obj, mail_message)
