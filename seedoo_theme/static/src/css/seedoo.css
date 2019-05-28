@@ -55,7 +55,7 @@ textarea,
   border: 1px solid #78cdd7;
 }
 .openerp .oe_view_manager .oe_kanban_vignette.oe_semantic_html_override .oe_kanban_details ul li {
-  font-size: 10px;
+  font-size: 11px;
 }
 .openerp .oe_view_manager .oe_kanban_vignette.oe_semantic_html_override .oe_kanban_details ul li a {
   overflow-wrap: break-word;
