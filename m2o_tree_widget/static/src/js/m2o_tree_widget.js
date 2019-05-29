@@ -165,7 +165,8 @@
 
 	                var setting = {
 	            			view: {
-	            				selectedMulti: false
+	            				selectedMulti: false,
+                                dblClickExpand: false
 	            			},
 	            			check: {
 	            				enable: true,
@@ -179,12 +180,21 @@
 	            			},
 	            			callback: {
 	            				beforeCheck: beforeCheck,
+	            				onClick: onClick,
 	            				onCheck: onCheck
 	            			}
 	            		};
     		 		var code, log, className = "dark";
     		 		function beforeCheck(treeId, treeNode) {
     		 			return (treeNode.doCheck !== false);
+    		 		};
+    		 		function onClick(event, treeId, treeNode) {
+    		 		    if (!treeNode.chkDisabled) {
+    		 		        var zTree = $.fn.zTree.getZTreeObj(treeId);
+                            if (zTree) {
+                                zTree.checkNode(treeNode, !treeNode.checked,false,true);
+                            }
+                        }
     		 		};
     		 		function onCheck(e, treeId, treeNode) {
     		 			if (self.get('value') == treeNode['id']) {

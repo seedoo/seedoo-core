@@ -180,7 +180,8 @@ openerp.m2m_tree_widget = function(instance) {
 
 	                var setting = {
                         view: {
-                            selectedMulti: true
+                            selectedMulti: true,
+                            dblClickExpand: false
                         },
                         check: {
                             enable: true,
@@ -193,12 +194,21 @@ openerp.m2m_tree_widget = function(instance) {
                         },
                         callback: {
                             beforeCheck: beforeCheck,
+                            onClick: onClick,
                             onCheck: onCheck
                         }
                     };
     		 		var code, log, className = "dark";
     		 		function beforeCheck(treeId, treeNode) {
     		 			return (treeNode.doCheck !== false);
+    		 		};
+    		 		function onClick(event, treeId, treeNode) {
+    		 		    if (!treeNode.chkDisabled) {
+    		 		        var zTree = $.fn.zTree.getZTreeObj(treeId);
+                            if (zTree) {
+                                zTree.checkNode(treeNode, !treeNode.checked,false,true);
+                            }
+                        }
     		 		};
     		 		function onCheck(e, treeId, treeNode) {
     		 		    var values = self.get_m2m_values();
