@@ -70,7 +70,7 @@ this module contains the full copyright notices and license terms. -->
                 <form string="Documento" create="false" edit="false">
                     <header>
                         <button name="%(crea_protocollo_da_documento_action)d"
-                                type='action' string='Crea Protocollo Bozza'
+                                type='action' string='Crea Bozza Protocollo'
                                 attrs="{'invisible': ['|','|',('main_doc_id','=',False),('protocollo_id','!=',False),('doc_protocol_state','!=','new')]}"
                                 class="oe_highlight_positive btn_seedoo"
                         />
