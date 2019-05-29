@@ -642,6 +642,8 @@ class gedoc_document_type(osv.Model):
 class gedoc_document(osv.Model):
     _name = 'gedoc.document'
 
+    _order = 'id desc'
+
     _columns = {
         'name': fields.char(
             'Documento',
