@@ -39,6 +39,7 @@
         "security/protocollo_visibility_security.xml",
         "data/protocollo_profile.xml",
         "security/security_rules.xml",
+        "security/password_security_rules.xml",
         "security/ir.model.access.csv",
         "data/protocollo_sequence.xml",
         "data/protocollo_aoo.xml",
