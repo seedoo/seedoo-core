@@ -91,7 +91,7 @@ this module contains the full copyright notices and license terms. -->
                             <field name="name" readonly="1"/>
                             <newline/>
                             <field name="importer_id" attrs="{'invisible':[('importer_id', '=', False)]}"/>
-                            <field name="protocollo_id" string="Autore importazione" attrs="{'invisible':[('protocollo_id', '=', False)]}"/>
+                            <field name="protocollo_id" attrs="{'invisible':[('protocollo_id', '=', False)]}"/>
                             <newline/>
                             <field name="main_doc_id" string="Nome File" options='{"no_open": true}'/>
                             <newline/>
@@ -129,7 +129,10 @@ this module contains the full copyright notices and license terms. -->
             <field name="arch" type="xml">
                 <tree string="Documento" create="false" edit="false">
                     <field name="name"/>
-                    <field name="user_id"/>
+                    <field name="importer_id"/>
+                    <field name="main_doc_id" string="Nome File"/>
+                    <field name="data_doc" string="Data Importazione"/>
+                    <field name="user_id" string="Autore Importazione"/>
                 </tree>
             </field>
         </record>
