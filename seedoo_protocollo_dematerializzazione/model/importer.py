@@ -213,7 +213,7 @@ class dematerializzazione_importer(orm.Model):
             file_fullpath = os.path.join(importer.path, file_to_import.filename)
             file_attributes, filesize = conn.retrieveFile(importer.share, file_fullpath, temp_fh)
             data_encoded = base64.encodestring(temp_fh.getvalue())
-            employee_ids = employee_obj.search(cr, uid, [('user_id', '=', uid)])
+            employee_ids = employee_obj.search(cr, uid, [('user_id', '=', importer.user_ids.ids)])
 
             if filesize > 0:
                 now = datetime.datetime.now().strftime(DSDF)
