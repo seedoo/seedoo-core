@@ -69,7 +69,7 @@ class Etichetta(http.Controller):
                 break
 
         prot_str = "%s" % name
-        datetime_str = date_obj_dest.strftime("%Y-%m-%d %H:%M:%S")
+        datetime_str = date_obj_dest.strftime("%d-%m-%Y %H:%M:%S")
 
         filename = "%s.pdf" % re.sub(r"[^\w\s]", "", filename)
 

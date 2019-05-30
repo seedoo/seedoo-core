@@ -869,14 +869,14 @@ class protocollo_protocollo(orm.Model):
                 prot_dir = selection_tuple_value[1].upper()
                 break
 
-        ammi_code = prot.registry.company_id.ammi_code if prot.registry.company_id.ammi_code else ""
-        prot_def = "%s %s - %s - %s - Prot. n. %s del %s" % (
+        ammi_code = prot.registry.company_id.ammi_code + " - " if prot.registry.company_id.ammi_code else ""
+        prot_def = "%s%s - %s - %s - Prot. n. %s del %s" % (
             ammi_code,
             prot.aoo_id.ident_code,
             prot.registry.code,
             prot_dir,
             prot_number,
-            prot_date.strftime(DSDT)
+            prot_date.strftime("%d-%m-%Y")
         )
 
         file_path_orig = self.pool.get('ir.attachment')._full_path(cr, uid, prot.doc_id.store_fname)
