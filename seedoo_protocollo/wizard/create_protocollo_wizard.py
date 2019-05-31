@@ -58,7 +58,7 @@ class create_protocollo_wizard(osv.TransientModel):
 
     def _default_registration_employee_department_id(self, cr, uid, context):
         department_ids = self.pool.get('hr.department').search(cr, uid, [('can_used_to_protocol', '=', True)])
-        if department_ids:
+        if len(department_ids) == 1:
             return department_ids[0]
         return False
 
