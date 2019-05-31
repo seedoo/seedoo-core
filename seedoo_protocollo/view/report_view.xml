@@ -30,9 +30,9 @@ this module contains the full copyright notices and license terms. -->
                             table th {color: #0D5C63 !important; text-transform:uppercase; }
                             h4, h4 span {color:#999 !important;}
                         </style>
-                        <h4 style="">Registro giornaliero del
+                        <h4 style="">Registro giornaliero di protocollo del
                             <strong>
-                                <span t-field="o.date"/>
+                                <span t-field="o.date" t-field-options='{"format": "dd/MM/yyyy"}'/>
                             </strong>
                         </h4>
                         <table style="width:100%;font-size: 10px;">
