@@ -398,13 +398,13 @@ class dematerializzazione_importer(orm.Model):
                             doc_counter = doc_counter + 1
                             esito_documents = esito_documents and esito_document
 
-                    if doc_counter == 1:
-                        storico_importer_obj.write(cr, uid, [storico_importer_id], {
-                            'esito': 'errore',
-                            'errore': 'Nessun file presente nella cartella',
-                        })
-                        esito_importer = False
-                        notempty_documents = False
+                    # if doc_counter == 1:
+                    #     storico_importer_obj.write(cr, uid, [storico_importer_id], {
+                    #         'esito': 'errore',
+                    #         'errore': 'Nessun file presente nella cartella',
+                    #     })
+                    #     esito_importer = False
+                    #     notempty_documents = False
 
                     if not esito_documents:
                         storico_importer_obj.write(cr, uid, [storico_importer_id], {
