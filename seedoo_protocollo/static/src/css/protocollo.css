@@ -475,13 +475,33 @@ li.badge {
 }
 .oe_dashboard_column .oe_employee_details {
   width: 310px;
-  min-height: 110px;
+  min-height: 80px;
+}
+.oe_dashboard_column .oe_employee_details ul {
+  border-left: 3px solid #44a1a0;
+}
+.oe_dashboard_column .oe_employee_details ul li {
+  margin-left: 10px !important;
+}
+.oe_dashboard_column .oe_employee_vignette {
+  min-height: auto !important;
+  padding: 0;
+}
+.oe_dashboard_column .oe_employee_vignette .oe_employee_details h4 {
+  margin-bottom: 15px;
+}
+.oe_dashboard_column .oe_kanban_record:nth-child(2) .oe_employee_image {
+  display: none;
+}
+.oe_dashboard_column .oe_kanban_record:nth-child(2) .oe_employee_details h4 {
+  display: none;
 }
 .oe_dashboard_column .oe_employee_details .employee_data_list li {
   margin-bottom: 4px !important;
 }
 .oe_dashboard_column .oe_employee_details .employee_data_list li strong {
   text-transform: uppercase;
+  color: #44a1a0;
 }
 .oe_employee_vignette {
   padding: auto;
@@ -1341,3 +1361,4 @@ div.dati-protocollo-container h4:before {
     font-size: 18px;
   }
 }
+/*# sourceMappingURL=protocollo.css.map */

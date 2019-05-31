@@ -71,6 +71,9 @@ class hr_employee(orm.Model):
                                                     'employee_id', 'registry_id', 'Dipendenti Abilitati'),
         'aoo': fields.related('department_id', 'aoo_name', type='char', string='AOO', readonly=1),
         'gruppo': fields.related('user_id', 'group', type='char', string='Gruppo', readonly=1),
+        'image_res_users': fields.related('user_id', 'image', type='binary', string='Immagine', readonly=1),
+        'name_res_users': fields.related('user_id', 'name', type='char', string='Nome Utente', readonly=1),
+        'login_res_users': fields.related('user_id', 'login', type='char', string='Login Utente', readonly=1),
     }
 
     def create(self, cr, uid, vals, context=None):

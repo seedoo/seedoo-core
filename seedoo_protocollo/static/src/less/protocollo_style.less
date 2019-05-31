@@ -576,7 +576,34 @@ li.badge {
 
 .oe_dashboard_column .oe_employee_details {
     width:310px;
-    min-height:110px;
+    min-height:80px;
+
+    ul {
+        border-left: 3px solid @color2;
+
+        li {
+            margin-left:10px !important;
+        }
+    }
+}
+
+.oe_dashboard_column  .oe_employee_vignette {
+    min-height: auto !important;
+    padding: 0;
+
+    .oe_employee_details h4 {
+        margin-bottom: 15px;
+    }
+}
+
+.oe_dashboard_column .oe_kanban_record:nth-child(2) {
+    .oe_employee_image{
+        display: none;
+    }
+
+    .oe_employee_details h4{
+        display: none;
+    }
 }
 
 .oe_dashboard_column .oe_employee_details .employee_data_list li {
@@ -585,6 +612,7 @@ li.badge {
 
 .oe_dashboard_column .oe_employee_details .employee_data_list li strong{
     text-transform: uppercase;
+    color: @color2;
 }
 
 .oe_employee_vignette {
