@@ -406,6 +406,7 @@
 }
 .seedoo-dashboard-container .oe_employee_image {
   margin-bottom: 15px;
+  display: block;
 }
 .seedoo-dashboard-container .oe_kanban_record .oe_kanban_global_click:hover {
   opacity: 0.9 !important;
@@ -478,7 +479,7 @@ li.badge {
   min-height: 80px;
 }
 .oe_dashboard_column .oe_employee_details ul {
-  border-left: 3px solid #44a1a0;
+  border-left: 3px solid #007ea6;
 }
 .oe_dashboard_column .oe_employee_details ul li {
   margin-left: 10px !important;
@@ -501,7 +502,7 @@ li.badge {
 }
 .oe_dashboard_column .oe_employee_details .employee_data_list li strong {
   text-transform: uppercase;
-  color: #44a1a0;
+  color: #0d5c63;
 }
 .oe_employee_vignette {
   padding: auto;
