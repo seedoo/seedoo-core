@@ -475,7 +475,7 @@ li.badge {
   float: none !important;
 }
 .oe_dashboard_column .oe_employee_details {
-  width: 310px;
+  width: auto;
   min-height: 80px;
 }
 .oe_dashboard_column .oe_employee_details ul {
