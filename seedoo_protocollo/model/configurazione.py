@@ -150,12 +150,16 @@ class protocollo_configurazione(orm.Model):
                     break
 
         if protocollo.type == 'out' and protocollo.pec:
+            if not protocollo.server_pec_id:
+                errors.append(_("Account PEC"))
             for sr in protocollo.sender_receivers:
                 if not sr.pec_mail:
                     errors.append(_("Mail PEC dei Destinatari"))
                     break
 
         if protocollo.type == 'out' and protocollo.sharedmail:
+            if not protocollo.server_sharedmail_id:
+                errors.append(_("Account Email"))
             for sr in protocollo.sender_receivers:
                 if not sr.email:
                     errors.append(_("Mail dei Destinatari"))
