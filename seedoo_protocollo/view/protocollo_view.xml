@@ -55,7 +55,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="model">protocollo.typology</field>
             <field name="arch" type="xml">
                 <tree string="Tipologie">
-                    <field name="name"/>box-anagraficabox-anag
+                    <field name="name"/>
                 </tree>
             </field>
         </record>
