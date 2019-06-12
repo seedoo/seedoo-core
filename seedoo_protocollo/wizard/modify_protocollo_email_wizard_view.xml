@@ -26,7 +26,7 @@ this module contains the full copyright notices and license terms. -->
                             <separator string="Destinatari"/>
                             <group col="4" colspan="4">
                                 <field name="sender_receivers" nolabel="1">
-                                    <tree editable="bottom" create="false">
+                                    <tree editable="bottom" create="0" delete="0">
                                         <field name="name" readonly="1"
                                                string="Nome Cognome/Ragione Sociale"/>
                                         <field name="email"/>
