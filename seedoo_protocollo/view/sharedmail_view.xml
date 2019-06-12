@@ -29,23 +29,24 @@ this module contains the full copyright notices and license terms. -->
                         <field name="sharedmail_type" invisible="1"/>
                     </header>
                     <sheet>
-                        <div class="message_header">
-                            <group col="4">
-                                <field name="sharedmail_server_user" attrs="{'invisible':[('sharedmail_type','!=','sharedmail')]}" string="Account"/>
-                                <newline/>
-                                <field name="email_from" attrs="{'invisible':[('sharedmail_type','!=','sharedmail')]}"/>
-                                <field name="date"/>
-
-                                <field name="sharedmail_to" colspan="4" attrs="{'invisible':[('sharedmail_type','!=','sharedmail')]}"/>
-                                <newline/>
-                                <field name="sharedmail_cc" colspan="4" attrs="{'invisible':[('sharedmail_type','!=','sharedmail')]}"/>
-                            </group>
-                        </div>
-
-                        <group class="message_data">
-                            <group col="2">
+                        <group class="message_data" col="2">
+                            <field name="sharedmail_server_user" attrs="{'invisible':[('sharedmail_type','!=','sharedmail')]}" string="Account"/>
+                            <separator string="" colspan="2"/>
+                            <div class="message_header" colspan="2">
+                                <group col="4">
+                                    <field name="email_from" attrs="{'invisible':[('sharedmail_type','!=','sharedmail')]}"/>
+                                    <field name="date"/>
+                                    <field name="sharedmail_to" colspan="4" attrs="{'invisible':[('sharedmail_type','!=','sharedmail')]}"/>
+                                    <newline/>
+                                    <field name="sharedmail_cc" colspan="4" attrs="{'invisible':[('sharedmail_type','!=','sharedmail')]}"/>
+                                </group>
+                            </div>
+                            <separator string="" colspan="2"/>
+                            <group col="2" colspan="2">
                                 <field name="subject" string="Oggetto"/>
+                                <separator string="" colspan="2"/>
                                 <field name="body" string="Corpo del messaggio"/>
+                                <separator string="" colspan="2"/>
                                 <field name="attachment_ids" invisible="1"/>
                                 <field name="message_attachs">
                                     <tree>
