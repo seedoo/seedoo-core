@@ -16,10 +16,12 @@ this module contains the full copyright notices and license terms. -->
                                 type="action" string="Crea Bozza Protocollo"
                                 context="{'attachment_ids':attachment_ids,'message_type':'mail'}"
                                 attrs="{'invisible':['|',('sharedmail_state','!=','new'),('sharedmail_type','!=','sharedmail')]}"
+                                groups="seedoo_protocollo.group_crea_protocollo_da_email_ingresso"
                                 class="oe_highlight_positive"/>
                         <button name="%(confirm_operation_action)d" type="action"
                                 string="Non protocollare"
                                 attrs="{'invisible':['|',('sharedmail_state','!=','new'),('sharedmail_type','!=','sharedmail')]}"
+                                groups="seedoo_protocollo.group_crea_protocollo_da_email_ingresso"
                                 class="oe_highlight_warning"
                                 context="{'action_not_protocol_sharedmail': True}"/>
 

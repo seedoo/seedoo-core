@@ -154,6 +154,18 @@ this module contains the full copyright notices and license terms. -->
             <field name="category_id" ref="module_category_protocollo"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
+        <!-- Button "Crea protocollo da PEC" nella vista form messaggi -->
+        <record id="group_crea_protocollo_da_pec_ingresso" model="res.groups">
+            <field name="name">Crea protocollo da PEC</field>
+            <field name="category_id" ref="module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+        <!-- Button "Crea protocollo da e-mail" nella vista form messaggi -->
+        <record id="group_crea_protocollo_da_email_ingresso" model="res.groups">
+            <field name="name">Crea protocollo da e-mail</field>
+            <field name="category_id" ref="module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
         <!-- Button "Registra protocollo" nella vista form protocollo in uscita -->
         <record id="group_registra_protocollo_uscita" model="res.groups">
             <field name="name">Registra Protocollo in Uscita</field>
@@ -297,7 +309,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="category_id" ref="module_category_protocollo"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
-
         <!-- Button "Invia E-mail Protocollo" nella vista form protocollo in uscita -->
         <record id="group_invia_protocollo_sharedmail_uscita" model="res.groups">
             <field name="name">Invia Protocollo E-mail in Uscita</field>
