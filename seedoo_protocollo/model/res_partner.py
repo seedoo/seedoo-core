@@ -79,7 +79,7 @@ class res_partner(orm.Model):
             raise orm.except_orm('Errore!', errors)
 
     def check_email_validity(self, field, value, dispatch=True):
-        if re.match("^.+\\@(\\[?)[a-zA-Z0-9\\-\\.]+\\.([a-zA-Z]{2,3}|[0-9]{1,3})(\\]?)$", value) == None:
+        if re.match("^.+\\@(\\[?)[a-zA-Z0-9\\-\\.]+\\.([a-zA-Z]{2,3}|[0-9]{1,3})(\\]?)$", value)==None or re.match("^.*[,;]+.*$", value)!=None:
             error = 'Il campo ' + field.encode() + ' contiene un indirizzo email non valido'
             if dispatch:
                 self.dispatch_email_error(error)
