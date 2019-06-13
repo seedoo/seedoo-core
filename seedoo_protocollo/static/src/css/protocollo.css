@@ -1237,6 +1237,9 @@ div.box-sender-internal .icon_item_type div:hover {
 .openerp .oe_horizontal_separator {
   font-size: 18px;
 }
+.oe_protocollo_link {
+  cursor: pointer;
+}
 .protocollo-accordion-toggle {
   cursor: pointer;
   text-transform: uppercase;

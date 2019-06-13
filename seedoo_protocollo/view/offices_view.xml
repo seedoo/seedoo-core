@@ -57,32 +57,36 @@ this module contains the full copyright notices and license terms. -->
         <record id="view_employee_protocollo_kanban" model="ir.ui.view">
             <field name="name">hr.employee.protocollo.kanban</field>
             <field name="model">hr.employee</field>
-            <!--<field name="mode">primary</field>-->
             <field name="inherit_id" ref="hr.hr_kanban_view_employees"/>
             <field name="arch" type="xml">
-                <xpath expr="//div[@class='oe_employee_vignette']" position="replace">
-                    <a type="open" class="oe_employee_vignette_link">
-                        <div class="oe_employee_vignette">
-                            <div class="oe_employee_image">
-                                <img t-att-src="kanban_image('hr.employee', 'image_res_users', record.id.value)" class="oe_employee_picture"/>
-                            </div>
-                            <div class="oe_employee_details">
-                                <h4>
-                                    <field name="name_res_users"/> (<field name="login_res_users"/>)
-                                </h4>
-                                <div class="oe_followers" groups="base.group_user">
-                                    <ul class="employee_data_list">
-                                        <li>
-                                            <strong>AOO:</strong> <field name="aoo"/>
-                                        </li>
-                                        <li>
-                                            <strong>Ufficio:</strong> <field name="department_id"/>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
+                <xpath expr="//div[@class='oe_employee_vignette']" position="attributes">
+                    <attribute name="class">oe_employee_vignette oe_kanban_action oe_protocollo_link</attribute>
+                    <attribute name="data-type">open</attribute>
+                </xpath>
+
+                <xpath expr="//div[@class='oe_employee_image']" position="replace">
+                    <div class="oe_employee_image">
+                        <img t-att-src="kanban_image('hr.employee', 'image_res_users', record.id.value)" class="oe_employee_picture"/>
+                    </div>
+                </xpath>
+                <xpath expr="//div[@class='oe_followers']" position="replace">
+                    <ul class="employee_data_list">
+                        <li>
+                            <strong>AOO:</strong> <field name="aoo"/>
+                        </li>
+                        <li>
+                            <strong>Ufficio:</strong> <field name="department_id"/>
+                        </li>
+                    </ul>
+                </xpath>
+                <xpath expr="//div[@class='oe_employee_details']/h4" position="replace">
+                    <h4>
+                        <field name="name_res_users"/> (<field name="login_res_users"/>)
+                    </h4>
+                </xpath>
+                <xpath expr="//div[@class='oe_employee_details']/ul" position="replace">
+                </xpath>
+                <xpath expr="//div[@class='oe_kanban_footer_left']" position="replace">
                 </xpath>
             </field>
         </record>
@@ -93,27 +97,8 @@ this module contains the full copyright notices and license terms. -->
             <field name="mode">primary</field>
             <field name="inherit_id" ref="seedoo_protocollo.view_employee_protocollo_kanban"/>
             <field name="arch" type="xml">
-                <xpath expr="//a[@class='oe_employee_vignette_link']" position="replace">
-                    <div class="oe_employee_vignette">
-                        <div class="oe_employee_image">
-                            <img t-att-src="kanban_image('hr.employee', 'image_res_users', record.id.value)" class="oe_employee_picture"/>
-                        </div>
-                        <div class="oe_employee_details">
-                            <h4>
-                                <field name="name_res_users"/> (<field name="login_res_users"/>)
-                            </h4>
-                            <div class="oe_followers" groups="base.group_user">
-                                <ul class="employee_data_list">
-                                    <li>
-                                        <strong>AOO:</strong> <field name="aoo"/>
-                                    </li>
-                                    <li>
-                                        <strong>Ufficio:</strong> <field name="department_id"/>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+                <xpath expr="//div[@class='oe_employee_vignette oe_kanban_action oe_protocollo_link']" position="attributes">
+                    <attribute name="class">oe_employee_vignette</attribute>
                 </xpath>
             </field>
         </record>
