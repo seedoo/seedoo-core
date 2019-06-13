@@ -31,18 +31,6 @@ this module contains the full copyright notices and license terms. -->
             </field>
         </record>
 
-        <record id="view_partner_protocollo_kanban" model="ir.ui.view">
-            <field name="name">res.partner.seedoo.protocollo.kanban</field>
-            <field name="model">res.partner</field>
-            <field name="inherit_id" ref="base.res_partner_kanban_view"/>
-            <field name="arch" type="xml">
-                <xpath expr="//div[@class='oe_kanban_vignette oe_semantic_html_override']" position="attributes">
-                    <attribute name="class">oe_kanban_vignette oe_semantic_html_override oe_kanban_action oe_protocollo_link</attribute>
-                    <attribute name="data-type">open</attribute>
-                </xpath>
-            </field>
-        </record>
-
         <record id="protocollo_res_partner_opt_out_search" model="ir.ui.view">
             <field name="name">protocollo_res_partner_opt_out_search</field>
             <field name="model">res.partner</field>

@@ -68,6 +68,8 @@ this module contains the full copyright notices and license terms. -->
                                 <newline/>
                                 <group>
                                     <group>
+                                        <field name="tax_code"/>
+                                        <field name="vat"/>
                                         <label for="street" string="Indirizzo"/>
                                         <div>
                                             <field name="street" placeholder="Via..." class="street_protocollo_sender_receiver_form"/>

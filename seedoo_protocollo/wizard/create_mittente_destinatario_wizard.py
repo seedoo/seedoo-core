@@ -26,6 +26,8 @@ class create_mittente_destinatario_wizard(osv.TransientModel):
                 'ammi_code': wizard.ammi_code,
                 'ipa_code': wizard.ipa_code,
                 'name': wizard.name,
+                'tax_code': wizard.tax_code,
+                'vat': wizard.vat,
                 'street': wizard.street,
                 'city': wizard.city,
                 'country_id': (wizard.country_id and wizard.country_id.id or False),

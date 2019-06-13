@@ -44,6 +44,8 @@ class create_destinatari_da_gruppo_wizard(osv.TransientModel):
                     'ammi_code': partner.ammi_code,
                     'ipa_code': partner.ipa_code,
                     'name': partner.display_name,
+                    'tax_code': partner.tax_code,
+                    'vat': partner.vat,
                     'street': partner.street,
                     'city': partner.city,
                     'country_id': (partner.country_id and partner.country_id.id or False),
