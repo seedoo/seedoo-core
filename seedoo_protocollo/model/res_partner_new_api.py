@@ -9,6 +9,7 @@ class ResPartner(models.Model):
     _inherit = ['res.partner', 'mail.thread']
 
     name = fields.Char(track_visibility='onchange')
+    tax_code = fields.Char(track_visibility='onchange')
     vat = fields.Char(track_visibility='onchange')
     street = fields.Char(track_visibility='onchange')
     street2 = fields.Char(track_visibility='onchange')

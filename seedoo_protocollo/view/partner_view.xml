@@ -71,6 +71,11 @@
                     <field name="super_type" attrs="{'invisible': True}"/>
                 </field>
 
+                <xpath expr="//label[@for='street']" position="before">
+                    <field name="tax_code"/>
+                    <field name="vat"/>
+                </xpath>
+
             </field>
         </record>
 

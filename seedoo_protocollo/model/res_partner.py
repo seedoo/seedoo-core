@@ -54,6 +54,7 @@ class res_partner(orm.Model):
         'ident_code': fields.char('Codice AOO', size=256, required=False),
         'ammi_code': fields.char('Codice iPA', size=256, required=False),
         'ipa_code': fields.char('Codice Unità Organizzativa', size=256, required=False),
+        'tax_code': fields.char('Codice Fiscale'),
 
         'is_visible_parent_id': fields.function(_is_visible_parent_id, fnct_search=_is_visible_parent_id_search, type='boolean', string='Visibile'),
     }
