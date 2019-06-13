@@ -30,6 +30,9 @@
         "web_dashboard_tile_mode",
         "password_security"
     ],
+    'init_xml': [
+        'data/res.country.state.csv',
+    ],
     "data": [
         "data/protocollo_company.xml",
         "data/protocollo_configuration.xml",
