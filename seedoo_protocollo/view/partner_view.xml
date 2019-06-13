@@ -76,6 +76,14 @@
                     <field name="vat"/>
                 </xpath>
 
+                <field name="category_id" position="attributes">
+                    <attribute name="options">{'no_quick_create': True}</attribute>
+                </field>
+
+                <xpath expr="//field[@name='child_ids']/form//field[@name='category_id']" position="attributes">
+                    <attribute name="options">{'no_quick_create': True}</attribute>
+                </xpath>
+
             </field>
         </record>
 

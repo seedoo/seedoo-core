@@ -854,11 +854,11 @@ div.box-sender-internal .icon_item_type div:hover {
   border-radius: 0;
   margin-right: 2px;
 }
-.protocollo_form_tabs li.ui-tabs-active a {
-  line-height: 27px;
-}
 .protocollo_form_tabs li.ui-tabs-active .ui-tabs-anchor {
   margin-right: 0 !important;
+}
+.protocollo_form_tabs li.ui-tabs-active a {
+  line-height: 27px;
 }
 .protocollo_form_tabs .btn_seedoo {
   margin-top: 12px !important;
@@ -1365,4 +1365,3 @@ div.dati-protocollo-container h4:before {
     font-size: 18px;
   }
 }
-/*# sourceMappingURL=protocollo.css.map */
