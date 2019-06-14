@@ -8,14 +8,14 @@ class protocollo_registration_confirmation_wizard(models.TransientModel):
     _description = 'Wizard di Conferma Registrazione Protocollo'
 
     _columns = {
-        'senders': fields.html('Mittente', readonly=True),
-        'receivers': fields.html('Destinatari', readonly=True),
+        'senders': fields.text('Mittente', readonly=True),
+        'receivers': fields.text('Destinatari', readonly=True),
         'subject': fields.char('Oggetto', readonly=True),
         'assegnatario_competenza_id': fields.many2one('protocollo.assegnatario',
                                                       'Assegnatario Competenza',
                                                       readonly=True),
-        'assegnatario_conoscenza_ids': fields.html('Assegnatari CC', readonly=True),
-        'message_verifica_campi_obbligatori': fields.html('Verifica campi obbligatori', readonly=True)
+        'assegnatario_conoscenza_ids': fields.text('Assegnatari CC', readonly=True),
+        'message_verifica_campi_obbligatori': fields.text('Verifica campi obbligatori', readonly=True)
     }
 
     def _default_protocollo_subject(self, cr, uid, context):
@@ -31,7 +31,7 @@ class protocollo_registration_confirmation_wizard(models.TransientModel):
             if protocollo.senders:
                 senders_list = ''
                 for sender in protocollo.sender_receivers:
-                    senders_list = senders_list + sender.name + '</br>'
+                    senders_list = senders_list + sender.name + '\n'
                 return senders_list
         return False
 
@@ -41,7 +41,7 @@ class protocollo_registration_confirmation_wizard(models.TransientModel):
             if protocollo.receivers:
                 receivers_list = ''
                 for receiver in protocollo.sender_receivers:
-                    receivers_list = receivers_list + receiver.name + '</br>'
+                    receivers_list = receivers_list + receiver.name + '\n'
                 return receivers_list
         return False
 
@@ -72,11 +72,11 @@ class protocollo_registration_confirmation_wizard(models.TransientModel):
                 for assegnazione in assegnazione_ids:
                     if assegnazione.tipologia_assegnatario == 'department':
                         assegnatari_conoscenza_list = assegnatari_conoscenza_list + \
-                                                        assegnazione.assegnatario_department_id.name + '</br>'
+                                                        assegnazione.assegnatario_department_id.name + '\n'
                     else:
                         assegnatari_conoscenza_list = assegnatari_conoscenza_list + \
                                                         assegnazione.assegnatario_employee_department_id.name + ' / ' + \
-                                                        assegnazione.assegnatario_employee_id.name + '</br>'
+                                                        assegnazione.assegnatario_employee_id.name + '\n'
                 return assegnatari_conoscenza_list
         return False
 
