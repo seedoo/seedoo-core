@@ -99,3 +99,39 @@ msgstr "Account PEC"
 #: view:res.users:0
 msgid "Fetchmail sharedmail servers"
 msgstr "Account Email"
+
+#. module: password_security
+#: code:addons/password_security/models/res_users.py:51
+#, python-format
+msgid "Lowercase letter"
+msgstr "Lettera minuscola"
+
+#. module: password_security
+#: code:addons/password_security/models/res_users.py:53
+#, python-format
+msgid "Uppercase letter"
+msgstr "Lettera maiuscola"
+
+#. module: password_security
+#: code:addons/password_security/models/res_users.py:55
+#, python-format
+msgid "Numeric digit"
+msgstr "Carattere numerico"
+
+#. module: password_security
+#: code:addons/password_security/models/res_users.py:57
+#, python-format
+msgid "Special character"
+msgstr "Carattere speciale"
+
+#. module: password_security
+#: code:addons/password_security/models/res_users.py:59
+#, python-format
+msgid "Must contain the following:"
+msgstr "Deve contenere quanto segue:"
+
+#. module: password_security
+#: code:addons/password_security/models/res_users.py:62
+#, python-format
+msgid "Password must be %d characters or more."
+msgstr "La password deve essere di %d o più caratteri."

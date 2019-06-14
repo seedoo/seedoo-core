@@ -8,7 +8,7 @@ class protocollo_registration_confirmation_wizard(models.TransientModel):
     _description = 'Wizard di Conferma Registrazione Protocollo'
 
     _columns = {
-        'senders': fields.html('Mittenti', readonly=True),
+        'senders': fields.html('Mittente', readonly=True),
         'receivers': fields.html('Destinatari', readonly=True),
         'subject': fields.char('Oggetto', readonly=True),
         'assegnatario_competenza_id': fields.many2one('protocollo.assegnatario',
