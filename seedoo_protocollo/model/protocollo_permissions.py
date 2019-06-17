@@ -1319,6 +1319,60 @@ class protocollo_protocollo(osv.Model):
 
         return count_value
 
+    def _da_inviare_visibility(self, cr, uid, ids, name, arg, context=None):
+        return {}
+
+    def _da_inviare_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
+        start = int(round(time.time() * 1000))
+        cr.execute('''
+            SELECT DISTINCT(pp.id) 
+            FROM protocollo_protocollo pp, hr_employee he, resource_resource rr
+            WHERE pp.registration_employee_id = he.id AND
+                  he.resource_id = rr.id AND
+                  rr.user_id = %s AND
+                  pp.registration_date IS NOT NULL AND
+                  pp.type = 'out' AND 
+                  pp.state IN ('registered', 'error')
+        ''', (uid,))
+        protocollo_visible_ids = [res[0] for res in cr.fetchall()]
+        end = int(round(time.time() * 1000))
+        _logger.info("_da_inviare_visibility_search" + str(end - start))
+        return [('id', 'in', protocollo_visible_ids)]
+
+    @api.cr_uid
+    def _da_inviare_visibility_count_total(self, cr, uid):
+        return self._da_inviare_visibility_count(cr, uid, "")
+
+    def _da_inviare_visibility_count(self, cr, uid, protocollo_type):
+        time_start = datetime.datetime.now()
+        archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)])
+        current_archivio_id = archivio_ids[0]
+
+        sql_query = """SELECT COUNT(DISTINCT(pp.id)) 
+            FROM protocollo_protocollo pp, hr_employee he, resource_resource rr
+            WHERE pp.archivio_id = %d AND
+                  pp.registration_employee_id = he.id AND
+                  he.resource_id = rr.id AND
+                  rr.user_id = %s AND
+                  pp.registration_date IS NOT NULL AND
+                  pp.type = 'out' AND 
+                  pp.state IN ('registered', 'error')
+        """ % (current_archivio_id, uid)
+
+        cr.execute(sql_query)
+        result = cr.fetchall()
+        count_value = result[0][0]
+
+        time_end = datetime.datetime.now()
+        time_duration = time_end - time_start
+
+        _logger.info("_da_mettere_agli_atti_visibility_count: %d - %.03f s" % (
+            count_value,
+            float(time_duration.microseconds) / 1000000
+        ))
+
+        return count_value
+
     def _da_mettere_agli_atti_visibility(self, cr, uid, ids, name, arg, context=None):
         return {}
 
@@ -1808,7 +1862,7 @@ class protocollo_protocollo(osv.Model):
         for protocollo in protocolli:
             check = False
 
-            if protocollo.state in ('registered', 'sent'):
+            if protocollo.state in ('registered', 'waiting', 'error', 'sent'):
                 check = True
 
             if check:
@@ -2463,6 +2517,9 @@ class protocollo_protocollo(osv.Model):
         'assegnato_da_me_in_rifiutato_visibility': fields.function(_assegnato_da_me_in_rifiutato_visibility,
                                                                    fnct_search=_assegnato_da_me_in_rifiutato_visibility_search,
                                                                    type='boolean', string='Rifiutato'),
+        'da_inviare_visibility': fields.function(_da_inviare_visibility,
+                                                                fnct_search=_da_inviare_visibility_search,
+                                                                type='boolean', string='Da Inviare'),
         'da_mettere_agli_atti_visibility': fields.function(_da_mettere_agli_atti_visibility,
                                                                 fnct_search=_da_mettere_agli_atti_visibility_search,
                                                                 type='boolean', string='Da Mettere Agli Atti'),

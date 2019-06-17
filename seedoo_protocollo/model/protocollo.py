@@ -1937,6 +1937,8 @@ class protocollo_protocollo(orm.Model):
         for id in ids:
             protocollo = self.browse(cr, uid, id, {'skip_check': True})
             esito_visibility = protocollo.agli_atti_visibility
+            if esito_visibility and protocollo.type=='out' and protocollo.state in ['registered', 'waiting', 'error']:
+                raise orm.except_orm(_('Attenzione!'), _('Il protocollo deve essere in stato "Inviato" prima di essere messo "Agli Atti"!'))
             protocollo.signal_workflow('acts')
             if esito_visibility and protocollo.state=='acts':
                 action_class = "history_icon acts"

@@ -18,14 +18,17 @@ this module contains the full copyright notices and license terms. -->
             <field name="model">protocollo.agli.atti.wizard</field>
             <field name="arch" type="xml">
                 <form string="Protocollo Agli Atti">
-                    <sheet>
-                        <group>
-                            <field name="motivazione" required="0"/>
-                        </group>
-                    </sheet>
+                    <group attrs="{'invisible':[('errore','=',False)]}">
+                        <field name="errore" nolabel="1"/>
+                    </group>
+                    <group attrs="{'invisible':[('errore','!=',False)]}">
+                        <field name="motivazione" required="0"/>
+                    </group>
                     <footer>
                         <button string="Metti Agli Atti"
-                                name="agli_atti" type="object"
+                                name="agli_atti"
+                                type="object"
+                                attrs="{'invisible':[('errore','!=',False)]}"
                                 class="oe_highlight"/>
                         <button string="Abbandona" class="oe_link"
                                 special="cancel"/>
