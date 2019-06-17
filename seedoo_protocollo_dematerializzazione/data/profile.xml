@@ -56,6 +56,7 @@ this module contains the full copyright notices and license terms. -->
                 (4, ref('seedoo_protocollo.group_invia_protocollo_sharedmail_uscita')),
                 (4, ref('seedoo_protocollo.group_modifica_destinatari_email_uscita')),
                 (4, ref('seedoo_protocollo.group_protocollazione_riservata')),
+                (4, ref('seedoo_protocollo.group_registra_protocollo_senza_documento')),
                 (4, ref('group_vedi_menu_documenti_ingresso_importati')),
                 (4, ref('group_carica_documenti_da_importer'))
             ]"/>
@@ -117,6 +118,7 @@ this module contains the full copyright notices and license terms. -->
                 (4, ref('seedoo_protocollo.group_invia_protocollo_sharedmail_uscita')),
                 (4, ref('seedoo_protocollo.group_modifica_destinatari_email_uscita')),
                 (4, ref('seedoo_protocollo.group_protocollazione_riservata')),
+                (4, ref('seedoo_protocollo.group_registra_protocollo_senza_documento')),
                 (4, ref('group_vedi_menu_documenti_ingresso_importati')),
                 (4, ref('group_carica_documenti_da_importer'))
             ]"/>
@@ -184,6 +186,7 @@ this module contains the full copyright notices and license terms. -->
                 (4, ref('seedoo_protocollo.group_invia_protocollo_sharedmail_uscita')),
                 (4, ref('seedoo_protocollo.group_modifica_destinatari_email_uscita')),
                 (4, ref('seedoo_protocollo.group_protocollazione_riservata')),
+                (4, ref('seedoo_protocollo.group_registra_protocollo_senza_documento')),
                 (4, ref('group_vedi_menu_documenti_ingresso_importati')),
                 (4, ref('group_carica_documenti_da_importer'))
             ]"/>
@@ -245,6 +248,7 @@ this module contains the full copyright notices and license terms. -->
                 (4, ref('seedoo_protocollo.group_ripristina_per_protocollazione')),
                 (4, ref('seedoo_protocollo.group_protocollazione_riservata')),
                 (4, ref('seedoo_protocollo.group_vedi_protocolli_archiviati')),
+                (4, ref('seedoo_protocollo.group_registra_protocollo_senza_documento')),
                 (4, ref('group_vedi_menu_documenti_ingresso_importati')),
                 (4, ref('group_carica_documenti_da_importer')),
             ]"/>

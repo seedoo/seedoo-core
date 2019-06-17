@@ -78,7 +78,7 @@ class protocollo_configurazione(orm.Model):
         'assegnatari_competenza_dipendenti_senza_doc_required': False,
         'assegnatari_conoscenza_uffici_senza_doc_required': False,
         'assegnatari_conoscenza_dipendenti_senza_doc_required': False,
-        'documento_required': False,
+        'documento_required': True,
         'documento_descrizione_required': False,
         'allegati_descrizione_required': False,
         'data_ricezione_required': False,
@@ -251,8 +251,8 @@ class protocollo_configurazione(orm.Model):
                             not conoscenza_dipendente_found:
                         errors.append(_("Dipendenti Assegnatari per Conoscenza"))
 
-
-            if configurazione.documento_required and not protocollo.doc_id:
+            registra_senza_documento = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_registra_protocollo_senza_documento')
+            if configurazione.documento_required and not registra_senza_documento and not protocollo.doc_id:
                 errors.append(_("Documento principale"))
             if configurazione.documento_descrizione_required and protocollo.doc_id and not protocollo.doc_id.datas_description:
                 errors.append(_("Descrizione documento principale"))

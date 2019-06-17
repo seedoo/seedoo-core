@@ -15,7 +15,7 @@ class protocollo_registration_confirmation_wizard(models.TransientModel):
                                                       'Assegnatario Competenza',
                                                       readonly=True),
         'assegnatario_conoscenza_ids': fields.text('Assegnatari CC', readonly=True),
-        'message_verifica_campi_obbligatori': fields.text('Verifica campi obbligatori', readonly=True)
+        'message_verifica_campi_obbligatori': fields.html('Verifica campi obbligatori', readonly=True)
     }
 
     def _default_protocollo_subject(self, cr, uid, context):
