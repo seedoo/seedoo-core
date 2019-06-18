@@ -1624,8 +1624,12 @@ class protocollo_protocollo(orm.Model):
             values['subject'] = subject
             values['body_html'] = prot.body
             values['body'] = prot.body
-            # TODO: email_from non necessariamente deve essere la username dell'autenticazione del server SMTP
-            values['email_from'] = mail_server.smtp_user
+            if mail_server.smtp_user:
+                values['email_from'] = mail_server.smtp_user
+            elif prot.server_sharedmail_id.user:
+                values['email_from'] = prot.server_sharedmail_id.user
+            else:
+                values['email_from'] = False
             values['reply_to'] = mail_server.in_server_id.user
             values['mail_server_id'] = mail_server.id
             values['email_to'] = ','.join([sr for sr in sender_receivers_mails])
