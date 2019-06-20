@@ -1406,9 +1406,6 @@ class protocollo_protocollo(osv.Model):
             FROM protocollo_protocollo pp, protocollo_assegnazione pa
             WHERE pp.id = pa.protocollo_id AND 
                   pp.registration_date IS NOT NULL AND
-                  pa.tipologia_assegnatario = 'employee' AND 
-                  pa.tipologia_assegnazione = 'competenza' AND
-                  pa.state = 'preso' AND
                   pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
         ''', (uid,))
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
