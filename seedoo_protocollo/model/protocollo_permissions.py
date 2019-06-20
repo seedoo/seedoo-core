@@ -2322,8 +2322,7 @@ class protocollo_protocollo(osv.Model):
         for protocollo in protocolli:
             check = False
 
-            if protocollo.type == 'out' and protocollo.sharedmail == True and protocollo.state in ['sent', 'waiting',
-                                                                                                   'error']:
+            if protocollo.type == 'out' and protocollo.sharedmail == True and protocollo.state in ['sent', 'waiting', 'error', 'acts']:
                 check = True
 
             if check:
