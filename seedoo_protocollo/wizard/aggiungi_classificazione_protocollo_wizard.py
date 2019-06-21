@@ -117,7 +117,8 @@ class protocollo_aggiungi_classificazione_step1_wizard(osv.TransientModel):
             uid,
             context.get('active_id', False),
             assegnatario.id if assegnatario else False,
-            employee_ids[0] if employee_ids else False
+            employee_ids[0] if employee_ids else False,
+            True
         )
         if save_history:
             after = assegnatario.nome
