@@ -2235,8 +2235,11 @@ class protocollo_protocollo(osv.Model):
                 check = True
 
             if check:
-                if (uid == protocollo.user_id.id or uid == SUPERUSER_ID) and \
-                        self.user_has_groups(cr, uid, 'seedoo_protocollo.group_invia_protocollo_pec_uscita'):
+                dipendente_id = False
+                if context and 'dipendente_id' in context and context['dipendente_id']:
+                    dipendente_id = context['dipendente_id']
+                if ((uid == protocollo.user_id.id or uid == SUPERUSER_ID) and self.user_has_groups(cr, uid, 'seedoo_protocollo.group_invia_protocollo_pec_uscita')) or \
+                        protocollo.registration_employee_id.id == dipendente_id:
                     check = True
                 else:
                     check = False
@@ -2256,8 +2259,11 @@ class protocollo_protocollo(osv.Model):
                 check = True
 
             if check:
-                if (uid == protocollo.user_id.id or uid == SUPERUSER_ID) and \
-                        self.user_has_groups(cr, uid, 'seedoo_protocollo.group_invia_protocollo_sharedmail_uscita'):
+                dipendente_id = False
+                if context and 'dipendente_id' in context and context['dipendente_id']:
+                    dipendente_id = context['dipendente_id']
+                if ((uid == protocollo.user_id.id or uid == SUPERUSER_ID) and self.user_has_groups(cr, uid, 'seedoo_protocollo.group_invia_protocollo_sharedmail_uscita')) or \
+                        protocollo.registration_employee_id.id == dipendente_id:
                     check = True
                 else:
                     check = False
@@ -2276,8 +2282,11 @@ class protocollo_protocollo(osv.Model):
                 check = True
 
             if check:
-                if (uid == protocollo.user_id.id or uid == SUPERUSER_ID) and \
-                        self.user_has_groups(cr, uid, 'seedoo_protocollo.group_invia_protocollo_uscita'):
+                dipendente_id = False
+                if context and 'dipendente_id' in context and context['dipendente_id']:
+                    dipendente_id = context['dipendente_id']
+                if ((uid == protocollo.user_id.id or uid == SUPERUSER_ID) and self.user_has_groups(cr, uid, 'seedoo_protocollo.group_invia_protocollo_uscita')) or \
+                        protocollo.registration_employee_id.id == dipendente_id:
                     check = True
                 else:
                     check = False
