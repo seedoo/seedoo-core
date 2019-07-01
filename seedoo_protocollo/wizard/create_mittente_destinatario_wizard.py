@@ -36,7 +36,7 @@ class create_mittente_destinatario_wizard(osv.TransientModel):
         if protocollo.type == 'in':
             mail_message_ids = mail_message_obj.search(cr, SUPERUSER_ID, [('pec_protocol_ref', '=', protocollo.id)])
             pec_messaggio_ids = protocollo_messaggio_pec_obj.search(cr, uid, [('messaggio_ref', 'in', mail_message_ids)])
-            sharedmail_messaggio_ids = mail_message_obj.search(cr, uid, [('sharedmail_protocol_ref', '=', protocollo.id)])
+            sharedmail_messaggio_ids = mail_message_obj.search(cr, SUPERUSER_ID, [('sharedmail_protocol_ref', '=', protocollo.id)])
 
         if wizard:
             values = {
