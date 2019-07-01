@@ -14,9 +14,29 @@ class create_mittente_destinatario_wizard(osv.TransientModel):
     _description = 'Crea Mittente Destinatario'
     _inherit = 'protocollo.sender_receiver'
 
+    _columns = {
+        'pec_messaggio_ids': fields.many2many('protocollo.messaggio.pec',
+                                              'protocollo_create_mittente_destinatario_wizard_pec_rel', 'wizard_id',
+                                              'messaggio_pec_id', 'Messaggi PEC'),
+        'sharedmail_messaggio_ids': fields.many2many('mail.message',
+                                                     'protocollo_create_mittente_destinatario_wizard_sharedmail_rel',
+                                                     'wizard_id', 'mail_message_id', 'Messaggi Sharedmail'),
+    }
+
     def create_sender_receiver(self, cr, uid, ids, context=None):
         sender_receiver_obj = self.pool.get('protocollo.sender_receiver')
+        mail_message_obj = self.pool.get('mail.message')
+        protocollo_messaggio_pec_obj = self.pool.get('protocollo.messaggio.pec')
         wizard = self.browse(cr, uid, ids[0], context)
+        protocollo = wizard.protocollo_id
+
+        pec_messaggio_ids = []
+        sharedmail_messaggio_ids = []
+        if protocollo.type == 'in':
+            mail_message_ids = mail_message_obj.search(cr, uid, [('pec_protocol_ref', '=', protocollo.id)])
+            pec_messaggio_ids = protocollo_messaggio_pec_obj.search(cr, uid, [('messaggio_ref', 'in', mail_message_ids)])
+            sharedmail_messaggio_ids = mail_message_obj.search(cr, uid, [('sharedmail_protocol_ref', '=', protocollo.id)])
+
         if wizard:
             values = {
                 'source': wizard.source,
@@ -44,7 +64,9 @@ class create_mittente_destinatario_wizard(osv.TransientModel):
                 'title': (wizard.title and wizard.title.id or False),
                 'save_partner': wizard.save_partner,
                 'partner_id': False,
-                'protocollo_id': wizard.protocollo_id.id
+                'pec_messaggio_ids': [(6, 0, pec_messaggio_ids)],
+                'sharedmail_messaggio_ids': [(6, 0, sharedmail_messaggio_ids)],
+                'protocollo_id': protocollo.id
             }
             sender_receiver_obj.create(cr, uid, values)
 
