@@ -1836,7 +1836,7 @@ class protocollo_protocollo(osv.Model):
 
 
             #TODO: modificare controllando per singolo ufficio
-            if protocollo.state in ('registered', 'notified', 'waiting', 'sent', 'error') and \
+            if protocollo.state in ('registered', 'notified', 'waiting', 'sent', 'error', 'acts') and \
                      protocollo.assegnazione_conoscenza_ids:
                 check = True
 
