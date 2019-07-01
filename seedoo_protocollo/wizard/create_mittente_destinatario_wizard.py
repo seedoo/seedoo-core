@@ -3,6 +3,7 @@
 # this module contains the full copyright notices and license terms.
 
 import logging
+from openerp import SUPERUSER_ID
 from openerp.osv import fields, osv, orm
 
 _logger = logging.getLogger(__name__)
@@ -33,7 +34,7 @@ class create_mittente_destinatario_wizard(osv.TransientModel):
         pec_messaggio_ids = []
         sharedmail_messaggio_ids = []
         if protocollo.type == 'in':
-            mail_message_ids = mail_message_obj.search(cr, uid, [('pec_protocol_ref', '=', protocollo.id)])
+            mail_message_ids = mail_message_obj.search(cr, SUPERUSER_ID, [('pec_protocol_ref', '=', protocollo.id)])
             pec_messaggio_ids = protocollo_messaggio_pec_obj.search(cr, uid, [('messaggio_ref', 'in', mail_message_ids)])
             sharedmail_messaggio_ids = mail_message_obj.search(cr, uid, [('sharedmail_protocol_ref', '=', protocollo.id)])
 
