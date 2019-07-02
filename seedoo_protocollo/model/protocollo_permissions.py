@@ -805,7 +805,7 @@ class protocollo_protocollo(osv.Model):
                                   pp.registration_date IS NOT NULL AND
                                   pa.tipologia_assegnazione = 'conoscenza' AND
                                   pa.state = 'assegnato' AND
-                                  pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
+                                  pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error', 'acts')
                         ''')
 
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
@@ -858,7 +858,7 @@ class protocollo_protocollo(osv.Model):
                   pp.registration_date IS NOT NULL AND 
                   pa.tipologia_assegnazione = 'conoscenza' AND 
                   pa.state = 'assegnato' AND
-                  pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
+                  pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error', 'acts')
         """ % (current_archivio_id, uid)
 
         cr.execute(sql_query)
