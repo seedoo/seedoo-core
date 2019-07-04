@@ -864,6 +864,9 @@ this module contains the full copyright notices and license terms. -->
                     <field name="registration_date_from"
                            filter_domain="[('registration_date','&gt;=',self)]"
                            string="Registrato dopo il"/>
+                    <field name="registration_date_in"
+                           filter_domain="[('registration_date','&gt;=',self),('registration_date','&lt;=',self)]"
+                           string="Registrato il"/>
                     <field name="registration_date_to"
                            filter_domain="[('registration_date','&lt;=',self)]"
                            string="Registrato entro il"/>
