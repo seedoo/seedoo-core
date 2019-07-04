@@ -66,10 +66,9 @@ class wizard(osv.TransientModel):
                 assegnazione = assegnazione_obj.browse(cr, uid, assegnazione_ids[0])
                 return assegnazione.assegnatario_employee_id.id
 
-        if uid == SUPERUSER_ID:
-            employee_ids = employee_obj.search(cr, uid, [('user_id', '=', uid)])
-            if employee_ids:
-                return employee_ids[0]
+        employee_ids = employee_obj.search(cr, uid, [('user_id', '=', uid)])
+        if employee_ids:
+            return employee_ids[0]
 
         return False
 
