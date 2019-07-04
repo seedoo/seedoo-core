@@ -1598,31 +1598,19 @@ class protocollo_protocollo(orm.Model):
     def _create_outgoing_sharedmail(self, cr, uid, prot_id, context=None):
         if context is None:
             context = {}
+        thread_pool = self.pool.get('protocollo.protocollo')
         prot = self.browse(cr, uid, prot_id)
         if prot.type == 'out' and prot.typology.sharedmail:
             configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
             configurazione = self.pool.get('protocollo.configurazione').browse(cr, uid, configurazione_ids[0])
             mail_mail = self.pool.get('mail.mail')
             ir_attachment = self.pool.get('ir.attachment')
-            sender_receivers_mails = []
-            sender_receivers_ids = []
             fetchmail_server_id = prot.server_sharedmail_id.id
             mail_server_obj = self.pool.get('ir.mail_server')
             mail_server_ids = mail_server_obj.search(cr, uid, [('in_server_sharedmail_id', '=', fetchmail_server_id)])
             mail_server = mail_server_obj.browse(cr, uid, mail_server_ids)
 
-            if prot.sender_receivers:
-                for sender_receiver_id in prot.sender_receivers.ids:
-                    sender_receiver_obj = self.pool.get('protocollo.sender_receiver').browse(cr, uid,
-                                                                                             sender_receiver_id,
-                                                                                             context=context)
-                    if (sender_receiver_obj.sharedmail_numero_invii == 0) or (
-                            sender_receiver_obj.sharedmail_numero_invii > 0 and sender_receiver_obj.to_resend):
-                        sender_receivers_mails.append(sender_receiver_obj.email)
-                        sender_receivers_ids.append(sender_receiver_obj.id)
-
-            subject = self._get_oggetto_mail_pec(cr, uid, prot.subject, prot.name,
-                                                 prot.registration_date) if configurazione.rinomina_oggetto_mail_pec else prot.subject
+            subject = self._get_oggetto_mail_pec(cr, uid, prot.subject, prot.name, prot.registration_date) if configurazione.rinomina_oggetto_mail_pec else prot.subject
             if configurazione.lunghezza_massima_oggetto_mail > 0:
                 subject = subject[:configurazione.lunghezza_massima_oggetto_mail]
 
@@ -1633,8 +1621,6 @@ class protocollo_protocollo(orm.Model):
             values['email_from'] = mail_server.name
             values['reply_to'] = mail_server.in_server_id.user
             values['mail_server_id'] = mail_server.id
-            values['email_to'] = ','.join([sr for sr in sender_receivers_mails])
-            values['sharedmail_to'] = values['email_to']
             values['sharedmail_protocol_ref'] = prot.id
             values['sharedmail_state'] = 'protocol'
             values['sharedmail_type'] = 'sharedmail'
@@ -1643,66 +1629,224 @@ class protocollo_protocollo(orm.Model):
             if prot.assigne_cc:
                 values['email_cc'] = self._get_assigne_cc_emails(cr, uid, prot_id, context)
 
-            if prot.mail_out_ref and prot.state=='registered':
-                # se il protocollo è ancora in stato registrato non deve duplicare la email perchè ancora non è riuscito ad inviarla
-                msg_id = prot.mail_out_ref.id
-                mail_mail.write(cr, uid, [msg_id], values, context=context)
-            else:
-                msg_id = mail_mail.create(cr, uid, values, context=context)
-            mail = mail_mail.browse(cr, uid, msg_id, context=context)
-            # manage attachments
-            attachment_ids = ir_attachment.search(cr, uid, [('res_model', '=', 'protocollo.protocollo'), ('res_id', '=', prot.id)])
-            if attachment_ids:
-                values['attachment_ids'] = [(6, 0, attachment_ids)]
-                mail_mail.write(cr, uid, msg_id, {'attachment_ids': [(6, 0, attachment_ids)]})
-            vals = {'mail_out_ref': mail.id, 'mail_sharedmail_ref': mail.mail_message_id.id}
-            self.write(cr, uid, [prot.id], vals)
-            mail_mail.send(cr, uid, [msg_id], context=context)
-            res = mail_mail.read(cr, uid, [msg_id], ['state'], context=context)
+            sender_receivers_email_list = []
+            for sender_receiver in prot.sender_receivers:
+                if (sender_receiver.sharedmail_numero_invii == 0) or (sender_receiver.sharedmail_numero_invii > 0 and sender_receiver.to_resend):
+                    sender_receivers_email_list.append(sender_receiver.email)
 
-            thread_pool = self.pool.get('protocollo.protocollo')
+            mail_to_send_list = []
+            for sender_receiver in prot.sender_receivers:
+                if (sender_receiver.sharedmail_numero_invii == 0) or (sender_receiver.sharedmail_numero_invii > 0 and sender_receiver.to_resend):
+                    if sender_receiver.sharedmail_messaggio_ids and prot.state == 'registered':
+                        # se il protocollo è ancora in stato registrato non deve duplicare la email perchè ancora non è riuscito ad inviarla
+                        mail_message_id = sender_receiver.sharedmail_messaggio_ids.ids[len(sender_receiver.sharedmail_messaggio_ids.ids)-1]
+                        msg_ids = mail_mail.search(cr, uid, [('mail_message_id', '=', mail_message_id)])
+                        if msg_ids:
+                            msg_id = msg_ids[0]
+                            mail_mail.write(cr, uid, [msg_id], values, context=context)
+                    else:
+                        msg_id = mail_mail.create(cr, uid, values, context=context)
 
-            if res[0]['state'] != 'sent':
-                self._revert_workflow_data(cr, uid, prot)
+                    mail = mail_mail.browse(cr, uid, msg_id, context=context)
 
-                action_class = "history_icon warning"
-                post_vars = {
-                    'subject': "Protocollo non inviato",
-                    'body': "<div class='%s'><ul><li>Non è stato possibile inviare l'e-mail al Destinatario!</li></ul></div>" % (action_class,),
-                    'model': "protocollo.protocollo",
-                    'res_id': prot_id
-                }
-                thread_pool.message_post(cr, uid, prot_id, type="notification", context=context, **post_vars)
-                cr.commit()
-                raise openerp.exceptions.Warning(_("Errore nell'invio del protocollo, l'e-mail non è stata inviata"))
-            else:
-                email_list = ', '.join(values['email_to'].split(','))
-                action_class = "history_icon mail"
-                post_vars = {
-                    'subject': "Protocollo inviato",
-                    'body': "<div class='%s'><ul><li>Protocollo inviato tramite e-mail a: %s</li></ul></div>" % (action_class, email_list),
-                    'model': "protocollo.protocollo",
-                    'res_id': prot_id
-                }
-                thread_pool.message_post(cr, uid, prot_id, type="notification", context=context, **post_vars)
+                    if configurazione.send_email_for_each_receiver:
+                        mail_to_send_list.append({
+                            'mail': mail,
+                            'to': sender_receiver.email
+                        })
+                    else:
+                        mail_to_send_list.append({
+                            'mail': mail,
+                            'to': ','.join(sender_receivers_email_list)
+                        })
+                        break
 
-                mail_message_obj = self.pool.get('mail.message')
-                mail_message_obj.write(cr, uid, mail.mail_message_id.id, {'direction_sharedmail': 'out'})
-                for sender_receiver_id in sender_receivers_ids:
+
+            sent_all = True
+            for mail_to_send in mail_to_send_list:
+                sent_receiver = False
+                if (sender_receiver.sharedmail_numero_invii == 0) or (sender_receiver.sharedmail_numero_invii > 0 and sender_receiver.to_resend):
+                    values['email_to'] = sender_receiver.email
+                    values['sharedmail_to'] = values['email_to']
+
+                    if sender_receiver.sharedmail_messaggio_ids and prot.state == 'registered':
+                        # se il protocollo è ancora in stato registrato non deve duplicare la email perchè ancora non è riuscito ad inviarla
+                        mail_message_id = sender_receiver.sharedmail_messaggio_ids.ids[len(sender_receiver.sharedmail_messaggio_ids.ids)-1]
+                        msg_ids = mail_mail.search(cr, uid, [('mail_message_id', '=', mail_message_id)])
+                        if msg_ids:
+                            msg_id = msg_ids[0]
+                            mail_mail.write(cr, uid, [msg_id], values, context=context)
+                    else:
+                        msg_id = mail_mail.create(cr, uid, values, context=context)
+
+                    mail = mail_to_send['mail']
+                    values['email_to'] = mail_to_send['to']
+                    values['sharedmail_to'] = values['email_to']
+
+                    # manage attachments
+                    attachment_ids = ir_attachment.search(cr, uid, [('res_model', '=', 'protocollo.protocollo'), ('res_id', '=', prot.id)])
+                    if attachment_ids:
+                        values['attachment_ids'] = [(6, 0, attachment_ids)]
+                        mail_mail.write(cr, uid, msg_id, {'attachment_ids': [(6, 0, attachment_ids)]})
+                    #vals = {'mail_out_ref': mail.id, 'mail_sharedmail_ref': mail.mail_message_id.id}
+                    #self.write(cr, uid, [prot.id], vals)
+                    mail_mail.send(cr, uid, [msg_id], context=context)
+
+                    mail_message_obj = self.pool.get('mail.message')
+                    mail_message_obj.write(cr, uid, mail.mail_message_id.id, {'direction_sharedmail': 'out'})
+
                     msgvals = {}
-                    sender_receiver_obj = self.pool.get('protocollo.sender_receiver').browse(cr, uid,
-                                                                                             sender_receiver_id,
-                                                                                             context=context)
-                    msgvals['to_resend'] = False
-                    msgvals['sharedmail_numero_invii'] = int(sender_receiver_obj.sharedmail_numero_invii) + 1
+                    email_list = ', '.join(values['email_to'].split(','))
+                    res = mail_mail.read(cr, uid, [msg_id], ['state'], context=context)
+                    if res[0]['state'] != 'sent':
+                        msgvals['to_resend'] = True
+                        action_class = "history_icon warning"
+                        post_vars = {
+                            'subject': "Protocollo non inviato",
+                            'body': "<div class='%s'><ul><li>Non è stato possibile inviare l'e-mail al Destinatario: %s</li></ul></div>" % (action_class, email_list),
+                            'model': "protocollo.protocollo",
+                            'res_id': prot_id
+                        }
+                        thread_pool.message_post(cr, uid, prot_id, type="notification", context=context, **post_vars)
+                    else:
+                        msgvals['to_resend'] = False
+                        sent_receiver = True
+                        action_class = "history_icon mail"
+                        post_vars = {
+                            'subject': "Protocollo inviato",
+                            'body': "<div class='%s'><ul><li>Protocollo inviato tramite e-mail a: %s</li></ul></div>" % (action_class, email_list),
+                            'model': "protocollo.protocollo",
+                            'res_id': prot_id
+                        }
+                        thread_pool.message_post(cr, uid, prot_id, type="notification", context=context, **post_vars)
+
+                    msgvals['sharedmail_numero_invii'] = int(sender_receiver.sharedmail_numero_invii) + 1
                     msgvals['sharedmail_messaggio_ids'] = [(4, mail.mail_message_id.id)]
-                    sender_receiver_obj.write(msgvals)
+                    sender_receiver.write(msgvals)
+
+                sent_all = sent_all and sent_receiver
+
+            if not sent_all:
+                self._revert_workflow_data(cr, uid, prot)
+                cr.commit()
+                raise openerp.exceptions.Warning(_('Errore nella notifica del protocollo, l\'e-mail protocollo non è stata inviata'))
 
         else:
-            raise openerp.exceptions.Warning(_('Errore nel \
-                    protocollo, si sta cercando di inviare una pec \
-                    su un tipo di protocollo non pec.'))
+            raise openerp.exceptions.Warning(_('Errore nel protocollo, si sta cercando di inviare una pec su un tipo di protocollo non pec.'))
         return True
+
+    # def _create_outgoing_sharedmail(self, cr, uid, prot_id, context=None):
+    #     if context is None:
+    #         context = {}
+    #     prot = self.browse(cr, uid, prot_id)
+    #     if prot.type == 'out' and prot.typology.sharedmail:
+    #         configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
+    #         configurazione = self.pool.get('protocollo.configurazione').browse(cr, uid, configurazione_ids[0])
+    #         mail_mail = self.pool.get('mail.mail')
+    #         ir_attachment = self.pool.get('ir.attachment')
+    #         sender_receivers_mails = []
+    #         sender_receivers_ids = []
+    #         fetchmail_server_id = prot.server_sharedmail_id.id
+    #         mail_server_obj = self.pool.get('ir.mail_server')
+    #         mail_server_ids = mail_server_obj.search(cr, uid, [('in_server_sharedmail_id', '=', fetchmail_server_id)])
+    #         mail_server = mail_server_obj.browse(cr, uid, mail_server_ids)
+    #
+    #         if prot.sender_receivers:
+    #             for sender_receiver_id in prot.sender_receivers.ids:
+    #                 sender_receiver_obj = self.pool.get('protocollo.sender_receiver').browse(cr, uid,
+    #                                                                                          sender_receiver_id,
+    #                                                                                          context=context)
+    #                 if (sender_receiver_obj.sharedmail_numero_invii == 0) or (
+    #                         sender_receiver_obj.sharedmail_numero_invii > 0 and sender_receiver_obj.to_resend):
+    #                     sender_receivers_mails.append(sender_receiver_obj.email)
+    #                     sender_receivers_ids.append(sender_receiver_obj.id)
+    #
+    #         subject = self._get_oggetto_mail_pec(cr, uid, prot.subject, prot.name,
+    #                                              prot.registration_date) if configurazione.rinomina_oggetto_mail_pec else prot.subject
+    #         if configurazione.lunghezza_massima_oggetto_mail > 0:
+    #             subject = subject[:configurazione.lunghezza_massima_oggetto_mail]
+    #
+    #         values = {}
+    #         values['subject'] = subject
+    #         values['body_html'] = prot.body
+    #         values['body'] = prot.body
+    #         if mail_server.smtp_user:
+    #             values['email_from'] = mail_server.smtp_user
+    #         elif prot.server_sharedmail_id.user:
+    #             values['email_from'] = prot.server_sharedmail_id.user
+    #         else:
+    #             values['email_from'] = False
+    #         values['reply_to'] = mail_server.in_server_id.user
+    #         values['mail_server_id'] = mail_server.id
+    #         values['email_to'] = ','.join([sr for sr in sender_receivers_mails])
+    #         values['sharedmail_to'] = values['email_to']
+    #         values['sharedmail_protocol_ref'] = prot.id
+    #         values['sharedmail_state'] = 'protocol'
+    #         values['sharedmail_type'] = 'sharedmail'
+    #         values['server_sharedmail_id'] = fetchmail_server_id
+    #
+    #         if prot.assigne_cc:
+    #             values['email_cc'] = self._get_assigne_cc_emails(cr, uid, prot_id, context)
+    #
+    #         if prot.mail_out_ref and prot.state=='registered':
+    #             # se il protocollo è ancora in stato registrato non deve duplicare la email perchè ancora non è riuscito ad inviarla
+    #             msg_id = prot.mail_out_ref.id
+    #             mail_mail.write(cr, uid, [msg_id], values, context=context)
+    #         else:
+    #             msg_id = mail_mail.create(cr, uid, values, context=context)
+    #         mail = mail_mail.browse(cr, uid, msg_id, context=context)
+    #         # manage attachments
+    #         attachment_ids = ir_attachment.search(cr, uid, [('res_model', '=', 'protocollo.protocollo'), ('res_id', '=', prot.id)])
+    #         if attachment_ids:
+    #             values['attachment_ids'] = [(6, 0, attachment_ids)]
+    #             mail_mail.write(cr, uid, msg_id, {'attachment_ids': [(6, 0, attachment_ids)]})
+    #         vals = {'mail_out_ref': mail.id, 'mail_sharedmail_ref': mail.mail_message_id.id}
+    #         self.write(cr, uid, [prot.id], vals)
+    #         mail_mail.send(cr, uid, [msg_id], context=context)
+    #         res = mail_mail.read(cr, uid, [msg_id], ['state'], context=context)
+    #
+    #         thread_pool = self.pool.get('protocollo.protocollo')
+    #
+    #         if res[0]['state'] != 'sent':
+    #             self._revert_workflow_data(cr, uid, prot)
+    #
+    #             action_class = "history_icon warning"
+    #             post_vars = {
+    #                 'subject': "E-mail protocollo non inviata",
+    #                 'body': "<div class='%s'><ul><li>Non è stato possibile inviare l'email al Destinatario!</li></ul></div>" % (action_class,),
+    #                 'model': "protocollo.protocollo",
+    #                 'res_id': prot_id
+    #             }
+    #             thread_pool.message_post(cr, uid, prot_id, type="notification", context=context, **post_vars)
+    #             cr.commit()
+    #             raise openerp.exceptions.Warning(_('Errore nella notifica del protocollo, l\'e-mail protocollo non è stata inviata'))
+    #         else:
+    #             action_class = "history_icon mail"
+    #             post_vars = {
+    #                 'subject': "Invio E-mail",
+    #                 'body': "<div class='%s'><ul><li>E-mail protocollo inviata a: %s</li></ul></div>" % (action_class, values['email_to']),
+    #                 'model': "protocollo.protocollo",
+    #                 'res_id': prot_id
+    #             }
+    #             thread_pool.message_post(cr, uid, prot_id, type="notification", context=context, **post_vars)
+    #
+    #             mail_message_obj = self.pool.get('mail.message')
+    #             mail_message_obj.write(cr, uid, mail.mail_message_id.id, {'direction_sharedmail': 'out'})
+    #             for sender_receiver_id in sender_receivers_ids:
+    #                 msgvals = {}
+    #                 sender_receiver_obj = self.pool.get('protocollo.sender_receiver').browse(cr, uid,
+    #                                                                                          sender_receiver_id,
+    #                                                                                          context=context)
+    #                 msgvals['to_resend'] = False
+    #                 msgvals['sharedmail_numero_invii'] = int(sender_receiver_obj.sharedmail_numero_invii) + 1
+    #                 msgvals['sharedmail_messaggio_ids'] = [(4, mail.mail_message_id.id)]
+    #                 sender_receiver_obj.write(msgvals)
+    #
+    #     else:
+    #         raise openerp.exceptions.Warning(_('Errore nel \
+    #                 protocollo, si sta cercando di inviare una pec \
+    #                 su un tipo di protocollo non pec.'))
+    #     return True
 
     def _revert_workflow_data(self, cr, uid, prot):
         data_obj = self.pool.get('ir.model.data')
