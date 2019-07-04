@@ -21,7 +21,7 @@ this module contains the full copyright notices and license terms. -->
                         <group>
                             <field name="name"/>
                             <field name="user_id" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}"/>
-                            <field name="agent_id" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}"/>
+                            <field name="agent_id" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}" required="1"/>
                             <field name="date_cancel"/>
                         </group>
                     </sheet>

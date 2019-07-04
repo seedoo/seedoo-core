@@ -31,7 +31,7 @@ class wizard(osv.TransientModel):
         ),
         'agent_id': fields.many2one(
             'hr.employee',
-            'Mandante',
+            'Richiedente',
             readonly=False
         ),
         'date_cancel': fields.datetime(
