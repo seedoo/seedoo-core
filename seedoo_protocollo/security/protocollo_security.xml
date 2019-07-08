@@ -409,6 +409,12 @@ this module contains the full copyright notices and license terms. -->
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
 
+        <record id="group_configurazione_rubrica" model="res.groups">
+            <field name="name">Configura Rubrica</field>
+            <field name="category_id" ref="module_category_protocollo"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+
 
         <!-- Permessi di attivazione per la ricezione delle notifiche assegnazione competenza/conoscenza -->
         <record id="group_notifica_assegnazione_competenza_ufficio" model="res.groups">

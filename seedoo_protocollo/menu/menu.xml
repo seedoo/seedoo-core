@@ -215,5 +215,80 @@ this module contains the full copyright notices and license terms. -->
                   groups="group_configurazione_email_pec"
                   sequence="4"/>
 
+        <menuitem id="protocollo_configuration_communication"
+                  name="Configurazione"
+                  parent="mail.mail_feeds_main"
+                  groups="group_configurazione_rubrica"
+                  sequence="15"
+        />
+
+        <menuitem id="protocollo_configuration_address_book"
+                  name="Rubrica"
+                  parent="protocollo_configuration_communication"
+                  groups="group_configurazione_rubrica"
+                  sequence="1"
+        />
+
+        <menuitem id="menu_localisation"
+                  name="Localizzazione"
+                  parent="protocollo_configuration_address_book"
+                  sequence="1"
+        />
+        <menuitem id="menu_country_partner"
+                  action="base.action_country"
+                  name="Nazioni"
+                  parent="seedoo_protocollo.menu_localisation"
+                  sequence="0"
+        />
+        <menuitem id="menu_country_group"
+                  action="base.action_country_group"
+                  name="Gruppo di Paesi"
+                  parent="seedoo_protocollo.menu_localisation"
+                  sequence="1"
+        />
+        <menuitem id="menu_country_state_partner"
+                  action="base.action_country_state"
+                  name="Stati Federali"
+                  parent="seedoo_protocollo.menu_localisation"
+                  sequence="2"
+        />
+
+        <menuitem id="menu_partner_title_partner"
+                  action="base.action_partner_title_partner"
+                  name="Titoli"
+                  parent="protocollo_configuration_address_book"
+                  sequence="2"
+        />
+        <menuitem id="menu_partner_title_contact"
+                  action="base.action_partner_title_contact"
+                  name="Qualifiche Contatti"
+                  parent="protocollo_configuration_address_book"
+                  sequence="3"
+        />
+        <menuitem id="menu_partner_category_form"
+                  action="base.action_partner_category_form"
+                  name="Tags Partner"
+                  parent="protocollo_configuration_address_book"
+                  sequence="4"
+        />
+        <menuitem id="menu_action_res_partner_bank_form"
+                  action="base.action_res_partner_bank_account_form"
+                  name="Conti Bancari"
+                  parent="protocollo_configuration_address_book"
+                  sequence="9"
+        />
+        <menuitem id="menu_action_res_bank_form"
+                  action="base.action_res_bank_form"
+                  name="Banche"
+                  parent="protocollo_configuration_address_book"
+                  sequence="11"
+        />
+        <menuitem id="menu_action_res_partner_bank_typeform"
+                  action="base.action_res_partner_bank_type_form"
+                  name="Tipo di Conto Bancario"
+                  parent="protocollo_configuration_address_book"
+                  sequence="15"
+        />
+
     </data>
 </openerp>
