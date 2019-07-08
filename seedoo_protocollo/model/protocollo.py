@@ -1618,7 +1618,12 @@ class protocollo_protocollo(orm.Model):
             values['subject'] = subject
             values['body_html'] = prot.body
             values['body'] = prot.body
-            values['email_from'] = mail_server.name
+            if mail_server.smtp_user:
+                values['email_from'] = mail_server.smtp_user
+            elif prot.server_sharedmail_id.user:
+                values['email_from'] = prot.server_sharedmail_id.user
+            else:
+                values['email_from'] = False
             values['reply_to'] = mail_server.in_server_id.user
             values['mail_server_id'] = mail_server.id
             values['sharedmail_protocol_ref'] = prot.id
@@ -1631,44 +1636,50 @@ class protocollo_protocollo(orm.Model):
 
             sender_receivers_email_list = []
             for sender_receiver in prot.sender_receivers:
-                if (sender_receiver.sharedmail_numero_invii == 0) or (sender_receiver.sharedmail_numero_invii > 0 and sender_receiver.to_resend):
+                if (sender_receiver.sharedmail_numero_invii==0) or (sender_receiver.sharedmail_numero_invii>0 and sender_receiver.to_resend):
                     sender_receivers_email_list.append(sender_receiver.email)
 
-            mail_to_send_list = []
+            msg_id = False
+            sent_all = True
+            mail_to_send_dict = {}
             for sender_receiver in prot.sender_receivers:
-                if (sender_receiver.sharedmail_numero_invii == 0) or (sender_receiver.sharedmail_numero_invii > 0 and sender_receiver.to_resend):
-                    create_email = True
+                if (sender_receiver.sharedmail_numero_invii==0) or (sender_receiver.sharedmail_numero_invii>0 and sender_receiver.to_resend):
+                    if configurazione.send_email_for_each_receiver:
+                        values['email_to'] = sender_receiver.email
+                    else:
+                        values['email_to'] = ','.join(sender_receivers_email_list)
+                    values['sharedmail_to'] = values['email_to']
+
                     # se il protocollo è ancora in stato registrato non deve duplicare la email perchè ancora non è riuscito ad inviarla
                     if sender_receiver.sharedmail_messaggio_ids and prot.state=='registered':
-                        create_email = False
-                    mail_to_send_data = {
-                        'receiver': sender_receiver,
-                        'create_email': create_email,
-                    }
-                    if configurazione.send_email_for_each_receiver:
-                        mail_to_send_data['to'] = sender_receiver.email
+                        mail_message_id = sender_receiver.sharedmail_messaggio_ids.ids[len(sender_receiver.sharedmail_messaggio_ids.ids) - 1]
+                        msg_ids = mail_mail.search(cr, uid, [('mail_message_id', '=', mail_message_id)])
+                        if msg_ids:
+                            msg_id = msg_ids[0]
+                            mail_mail.write(cr, uid, [msg_id], values, context=context)
                     else:
-                        mail_to_send_data['to'] = ','.join(sender_receivers_email_list)
+                        if configurazione.send_email_for_each_receiver or not msg_id:
+                            msg_id = mail_mail.create(cr, uid, values, context=context)
 
-            sent_all = True
-            for mail_to_send in mail_to_send_list:
+                    mail = mail_mail.browse(cr, uid, msg_id, context=context)
+                    
+                    if not (msg_id in mail_to_send_dict):
+                        mail_to_send_dict[msg_id] = {
+                            'mail': mail,
+                            'to': values['email_to'],
+                            'receiver_list': [sender_receiver]
+                        }
+                    else:
+                        mail_to_send_dict[msg_id]['receiver_list'].append(sender_receiver)
+                    
+
+            for msg_id in mail_to_send_dict.keys():
                 sent_receiver = False
-                sender_receiver = mail_to_send['receiver']
-                create_email = mail_to_send['create_email']
-                values['email_to'] = mail_to_send['to']
-                values['sharedmail_to'] = mail_to_send['to']
 
-                msg_id = False
-                if create_email:
-                    msg_id = mail_mail.create(cr, uid, values, context=context)
-                else:
-                    mail_message_id = sender_receiver.sharedmail_messaggio_ids.ids[len(sender_receiver.sharedmail_messaggio_ids.ids) - 1]
-                    msg_ids = mail_mail.search(cr, uid, [('mail_message_id', '=', mail_message_id)])
-                    if msg_ids:
-                        msg_id = msg_ids[0]
-                        mail_mail.write(cr, uid, [msg_id], values, context=context)
-
-                mail = mail_mail.browse(cr, uid, msg_id, context=context)
+                mail_to_send = mail_to_send_dict[msg_id]
+                mail = mail_to_send['mail']
+                email_to = mail_to_send['to']
+                sender_receiver_list = mail_to_send['receiver_list']
 
                 # manage attachments
                 attachment_ids = ir_attachment.search(cr, uid, [('res_model', '=', 'protocollo.protocollo'), ('res_id', '=', prot.id)])
@@ -1707,9 +1718,10 @@ class protocollo_protocollo(orm.Model):
                     }
                     thread_pool.message_post(cr, uid, prot_id, type="notification", context=context, **post_vars)
 
-                msgvals['sharedmail_numero_invii'] = int(sender_receiver.sharedmail_numero_invii) + 1
-                msgvals['sharedmail_messaggio_ids'] = [(4, mail.mail_message_id.id)]
-                sender_receiver.write(msgvals)
+                for sender_receiver in sender_receiver_list:
+                    msgvals['sharedmail_numero_invii'] = int(sender_receiver.sharedmail_numero_invii) + 1
+                    msgvals['sharedmail_messaggio_ids'] = [(4, mail.mail_message_id.id)]
+                    sender_receiver.write(msgvals)
 
                 sent_all = sent_all and sent_receiver
 
