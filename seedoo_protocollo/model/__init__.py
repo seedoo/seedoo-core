@@ -5,6 +5,7 @@
 from . import configurazione
 from . import hr
 from . import ir_attachment
+from . import mail_thread
 from . import mail_message
 from . import mail_message_permissions
 from . import fetchmail
