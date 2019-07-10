@@ -895,7 +895,7 @@ class protocollo_protocollo(orm.Model):
 
         signature_jar = "signature.jar"
         signature_cmd = os.path.join(os.path.dirname(os.path.abspath(__file__)), "util", signature_jar)
-        cmd = ["java", "-jar", signature_cmd, file_path, prot_def]
+        cmd = ["java", "-XX:MaxHeapSize=1g", "-XX:InitialHeapSize=512m", "-XX:CompressedClassSpaceSize=64m", "-XX:MaxMetaspaceSize=128m", "-XX:+UseConcMarkSweepGC", "-jar", signature_cmd, file_path, prot_def]
 
         try:
             proc = subprocess.Popen(cmd, stdout=subprocess.PIPE)
