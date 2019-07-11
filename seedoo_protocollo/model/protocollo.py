@@ -1309,7 +1309,7 @@ class protocollo_protocollo(orm.Model):
     def action_send_receipt(self, cr, uid, ids, receipt_type, context=None, *args):
         if context is None:
             context = {}
-
+        context['lang'] = self.pool.get('res.users').browse(cr, uid, ids).lang
         res = None
         for prot in self.browse(cr, uid, ids, {'skip_check': True}):
             receipt_xml = None
