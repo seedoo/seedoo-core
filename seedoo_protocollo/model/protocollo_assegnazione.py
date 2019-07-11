@@ -618,7 +618,7 @@ class protocollo_assegnazione(orm.Model):
                 notifica_assegnazione = self.user_has_groups(cr, user.id, notifica_permesso)
                 if notifica_assegnazione:
                     template_id = data_obj.get_object_reference(cr, uid, 'seedoo_protocollo', 'notify_protocol')[1]
-                    email_template_obj.send_mail(cr, uid, template_id, assegnazione.id, context={'skip_check': True})
+                    email_template_obj.send_mail(cr, uid, template_id, assegnazione.id, context={'skip_check': True, 'lang': 'it_IT'})
             else:
                 for child in assegnazione.child_ids:
                     self.notifica_assegnazione(cr, uid, child)
