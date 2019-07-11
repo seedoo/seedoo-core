@@ -1367,7 +1367,7 @@ class protocollo_protocollo(orm.Model):
                 # vals = {'pec_conferma_ref': mail.mail_message_id.id}
                 # self.write(cr, uid, [prot.id], vals)
                 new_context = dict(context).copy()
-                new_context.update({'receipt_email_from': mail_server.smtp_user})
+                new_context.update({'receipt_email_from': mail_server.name})
                 new_context.update({'receipt_email_to': ','.join([sr for sr in sender_receivers_pec_mails])})
                 new_context.update({'pec_messages': True})
 
@@ -1504,7 +1504,7 @@ class protocollo_protocollo(orm.Model):
             values['body_html'] = prot.body
             values['body'] = prot.body
             #TODO: email_from non necessariamente deve essere la username del' autenticazione del server SMTP
-            values['email_from'] = mail_server.smtp_user
+            values['email_from'] = mail_server.name
             values['reply_to'] = mail_server.in_server_id.user
             values['mail_server_id'] = mail_server.id
             values['email_to'] = ','.join([sr for sr in sender_receivers_pec_mails])
@@ -1628,12 +1628,7 @@ class protocollo_protocollo(orm.Model):
             values['subject'] = subject
             values['body_html'] = prot.body
             values['body'] = prot.body
-            if mail_server.smtp_user:
-                values['email_from'] = mail_server.smtp_user
-            elif prot.server_sharedmail_id.user:
-                values['email_from'] = prot.server_sharedmail_id.user
-            else:
-                values['email_from'] = False
+            values['email_from'] = mail_server.name
             values['reply_to'] = mail_server.in_server_id.user
             values['mail_server_id'] = mail_server.id
             values['email_to'] = ','.join([sr for sr in sender_receivers_mails])
