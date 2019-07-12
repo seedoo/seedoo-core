@@ -101,8 +101,9 @@ class fetchmail_server(osv.osv):
                                 imap_server.uid('store', num, '-FLAGS', '(\\Seen)')
                                 if not exception:
                                     failed += 1
-                                error_description += '- ' + 'Folder ' + folder_name + ' does not exists' + '\n'
-                                _logger.info("Folder '%s' does not exists in %s server %s.", folder_name, server.type, server.name)
+                                error_description += '- ' + str(resp) + '\n'
+                                cr.rollback()
+                                _logger.info("Error in %s server %s: %s", server.type, server.name, str(resp))
                                 continue
                         ################################################################################################
 
