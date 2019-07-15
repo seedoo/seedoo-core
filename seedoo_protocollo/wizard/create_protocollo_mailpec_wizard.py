@@ -113,8 +113,7 @@ class ProtocolloMailPecWizard(osv.TransientModel):
     _columns = {
         'registration_employee_department_id': fields.many2one('hr.department', 'Il mio ufficio'),
         'registration_employee_department_id_invisible': fields.boolean('Campo registration_employee_department_id invisible', readonly=True),
-        'subject': fields.text('Oggetto',
-                               required=True, readonly=True),
+        'subject': fields.text('Oggetto', readonly=True),
         'body': fields.html('Corpo della mail', readonly=True),
         'receiving_date': fields.datetime(
             'Data Ricezione',
