@@ -5,6 +5,7 @@
 import logging
 import re
 
+from openerp import tools, api
 from openerp import netsvc
 from openerp.osv import *
 from openerp.osv import orm, fields
@@ -16,6 +17,18 @@ class res_partner(orm.Model):
     # inherit partner because PEC mails are not supposed to be associate to
     # generic models
     _inherit = 'res.partner'
+
+    @api.multi
+    def onchange_type(self, is_company):
+        result = super(res_partner, self).onchange_type(is_company)
+        result.pop('domain')
+        value = result['value']
+        if is_company:
+            value['title_domain'] = 'partner'
+        else:
+            value['title_domain'] = 'contact'
+        result['value'] = value
+        return result
 
     def on_change_legal_type(self, cr, uid, ids, legal_type):
         res = {'value': {}}
@@ -45,6 +58,19 @@ class res_partner(orm.Model):
                 partner_ids = self.pool.get('res.partner').search(cr, uid, [('pa_type','!=', False),('pa_type','!=', context['pa_type']),('pa_type','!=', 'uo')])
         return [('id', 'in', partner_ids)]
 
+    def _get_title_domain(self, cr, uid, ids, field, arg, context=None):
+        if isinstance(ids, (list, tuple)) and not len(ids):
+            return []
+        if isinstance(ids, (long, int)):
+            ids = [ids]
+        res = dict.fromkeys(ids, False)
+        for partner in self.browse(cr, uid, ids, context):
+            if partner.legal_type=='legal' or partner.legal_type=='government':
+                res[partner.id] = 'partner'
+            else:
+                res[partner.id] = 'contact'
+        return res
+
     _columns = {
         'legal_type': fields.selection([('individual', 'Persona'), ('legal', 'Azienda'), ('government', 'PA')],
                                        'Tipologia', size=32, required=False),
@@ -55,6 +81,7 @@ class res_partner(orm.Model):
         'ammi_code': fields.char('Codice iPA', size=256, required=False),
         'ipa_code': fields.char('Codice Unità Organizzativa', size=256, required=False),
         'tax_code': fields.char('Codice Fiscale'),
+        'title_domain': fields.function(_get_title_domain, type='char', string='Title domain', store=False),
 
         'is_visible_parent_id': fields.function(_is_visible_parent_id, fnct_search=_is_visible_parent_id_search, type='boolean', string='Visibile'),
     }

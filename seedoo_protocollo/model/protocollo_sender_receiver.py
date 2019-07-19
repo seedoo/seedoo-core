@@ -22,12 +22,11 @@ class protocollo_sender_receiver(orm.Model):
                 'ident_code': False,
                 'ammi_code': False
             }
-        if type:
-            if type == 'individual':
-                domain = {'title': [('domain', '=', 'contact')]}
-            else:
-                domain = {'title': [('domain', '=', 'partner')]}
-        return {'value': value, 'domain': domain}
+        if type == 'legal' or type == 'government':
+            value['title_domain'] = 'partner'
+        else:
+            value['title_domain'] = 'contact'
+        return {'value': value}
 
     def on_change_pa_type(self, cr, uid, ids, pa_type, context=None):
         res = {'value': {}}
@@ -249,6 +248,19 @@ class protocollo_sender_receiver(orm.Model):
             return True
         return False
 
+    def _get_title_domain(self, cr, uid, ids, field, arg, context=None):
+        if isinstance(ids, (list, tuple)) and not len(ids):
+            return []
+        if isinstance(ids, (long, int)):
+            ids = [ids]
+        res = dict.fromkeys(ids, False)
+        for sender_receiver in self.browse(cr, uid, ids, context):
+            if sender_receiver.type=='legal' or sender_receiver.type=='government':
+                res[sender_receiver.id] = 'partner'
+            else:
+                res[sender_receiver.id] = 'contact'
+        return res
+
     _columns = {
         'protocollo_id': fields.many2one('protocollo.protocollo', 'Protocollo'),
         'source': fields.selection([
@@ -310,7 +322,8 @@ class protocollo_sender_receiver(orm.Model):
         'pec_numero_invii': fields.function(_get_pec_numero_invii, type='integer', string='PEC - Numero invii'),
         'sharedmail_messaggio_ids': fields.many2many('mail.message', 'protocollo_sender_receiver_messaggio_sharedmail_rel', 'sender_receiver_id', 'mail_message_id', 'Messaggi Sharedmail'),
         'sharedmail_numero_invii': fields.integer('Sharedmail - Numero invii', readonly=True, required=False),
-        'to_resend': fields.boolean("Da reinviare", help="Destinatario modificato, da reinviare")
+        'to_resend': fields.boolean("Da reinviare", help="Destinatario modificato, da reinviare"),
+        'title_domain': fields.function(_get_title_domain, type='char', string='Title domain', store=False),
     }
 
     _defaults = {

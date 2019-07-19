@@ -73,6 +73,10 @@
                     <field name="parent_pa_type" attrs="{'invisible': True}"/>
                     -->
                     <field name="super_type" attrs="{'invisible': True}"/>
+                    <field name="title_domain" invisible="1"/>
+                </field>
+                <field name="title" position="attributes">
+                    <attribute name="domain">[('domain','=',title_domain)]</attribute>
                 </field>
 
                 <xpath expr="//label[@for='street']" position="before">

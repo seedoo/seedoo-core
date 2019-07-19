@@ -1023,6 +1023,7 @@ class protocollo_protocollo(orm.Model):
     def get_partner_values(self, cr, uid, send_rec):
         values = {
             'name': send_rec.name,
+            'is_company': True if (send_rec.type=='legal' or send_rec.type=='government') else False,
             'tax_code': send_rec.tax_code,
             'vat': send_rec.vat,
             'street': send_rec.street,
