@@ -124,12 +124,26 @@ class MailMessage(orm.Model):
     def create(self, cr, uid, vals, context=None):
         if context is None:
             context = {}
+        new_context = dict(context or {})
         mail_obj = self.pool.get('mail.message')
         mail_ids = mail_obj.browse(cr, uid, vals.get('pec_msg_parent_id'))
         author_id = mail_ids.author_id.id
         if author_id:
             vals.update({"author_id" : author_id})
-        msg_obj = super(MailMessage, self).create(cr, uid, vals, context=context)
+        # gestione dei messaggi privati in arrivo sui server sharedmail o pec: il campo partener_ids deve essere
+        # valorizzato con il partner dell'utente associato all'alias del server fetchmail. Questo fix è dovuto al fatto
+        # che nei messaggi privati non viene fatto il normale routing del messaggio con relativa associazione dell'alias
+        if context and context.has_key('fetchmail_server_id') and context['fetchmail_server_id']:
+            fetchmail_server_obj = self.pool.get('fetchmail.server')
+            fetchmail_server = fetchmail_server_obj.browse(cr, uid, context['fetchmail_server_id'])
+            if (fetchmail_server.sharedmail or fetchmail_server.pec) and 'parent_id' in vals and vals['parent_id'] and 'partner_ids' in vals and vals['partner_ids']:
+                if fetchmail_server.sharedmail and fetchmail_server.sharedmail_account_alias and fetchmail_server.sharedmail_account_alias.alias_user_id:
+                    vals['partner_ids'] = [(4, fetchmail_server.sharedmail_account_alias.alias_user_id.partner_id.id)]
+                    new_context['mail_notify_noemail'] = True
+                elif fetchmail_server.pec and fetchmail_server.pec_account_alias and fetchmail_server.pec_account_alias.alias_user_id:
+                    vals['partner_ids'] = [(4, fetchmail_server.pec_account_alias.alias_user_id.partner_id.id)]
+                    new_context['mail_notify_noemail'] = True
+        msg_obj = super(MailMessage, self).create(cr, uid, vals, context=new_context)
         if 'pec_type' in vals and vals.get("pec_type") in ('accettazione', 'avvenuta-consegna', 'errore-consegna'):
             protocollo_ids = mail_ids.pec_protocol_ref
             for protocollo in protocollo_ids:
