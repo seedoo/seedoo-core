@@ -2307,7 +2307,7 @@ class protocollo_protocollo(osv.Model):
                         sender_receiver_obj = self.pool.get('protocollo.sender_receiver').browse(cr, uid,
                                                                                                  sender_receiver_id,
                                                                                                  context=context)
-                        if sender_receiver_obj.pec_errore_consegna_status:
+                        if sender_receiver_obj.pec_errore_consegna_status or sender_receiver_obj.pec_non_accettazione_status:
                             check = True
 
             if check:

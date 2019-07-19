@@ -63,7 +63,7 @@ class wizard(osv.TransientModel):
         protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
         res = []
         for send_rec in protocollo.sender_receivers:
-            if send_rec.pec_errore_consegna_status:
+            if send_rec.pec_errore_consegna_status or send_rec.pec_non_accettazione_status:
                 res.append({
                     'sender_receiver_id': send_rec.id,
                     'name': send_rec.name,

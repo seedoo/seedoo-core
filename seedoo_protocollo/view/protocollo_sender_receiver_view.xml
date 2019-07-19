@@ -36,6 +36,7 @@ this module contains the full copyright notices and license terms. -->
                     <field name="pec_accettazione_status" colspan="4" options="{'no_open': True}" class="col_accettato_status"/>
                     <field name="pec_consegna_status" colspan="4" options="{'no_open': True}" class="col_consegnato_status"/>
                     <field name="pec_errore_consegna_status" colspan="4" options="{'no_open': True}" class="col_consegnato_status"/>
+                    <field name="pec_non_accettazione_status" colspan="4" options="{'no_open': True}" class="col_consegnato_status"/>
                 </tree>
             </field>
         </record>
@@ -259,6 +260,25 @@ this module contains the full copyright notices and license terms. -->
                                                                     </table>
                                                                 </div>
                                                             </t>
+                                                           <t t-if="record.non_accettazione_ref.raw_value">
+                                                                <div class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_color_border item_box">
+                                                                    <table class="oe_kanban_table">
+                                                                        <tr>
+                                                                            <td class="oe_kanban_non_accettazione pec_button_col" align="left" valign="middle">
+                                                                                <field name="non_accettazione_ref" invisible="1"/>
+                                                                                <button name="go_to_non_accettazione_action" col="1" type="object"
+                                                                                        t-attf-data-context="{'pec_ref' : {{record.non_accettazione_ref.raw_value[0]}}}"
+                                                                                        icon="gtk-go-forward" class="oe_highlight" attrs="{'invisible': [('non_accettazione_ref', '=', False)]}"/>
+                                                                            </td>
+                                                                            <td class="pec_descr_col">
+                                                                                <h4>Ricevuta di mancata accettazione</h4>
+                                                                                <p><field name="non_accettazione_ora"/></p>
+                                                                                <span class="in"/>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </div>
+                                                            </t>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -291,6 +311,7 @@ this module contains the full copyright notices and license terms. -->
                     <field name="pec_accettazione_status"/>
                     <field name="pec_consegna_status"/>
                     <field name="pec_errore_consegna_status"/>
+                    <field name="pec_non_accettazione_status"/>
                     <field name="pec_conferma_status"/>
                     <field name="pec_numero_invii"/>
                     <templates>
@@ -337,6 +358,9 @@ this module contains the full copyright notices and license terms. -->
                                                 </t>
                                                 <t t-if="record.pec_errore_consegna_status.raw_value">
                                                     <div class="icon_status icon_errore_consegna_status"><span>Errore Consegna</span></div>
+                                                </t>
+                                                <t t-if="record.pec_non_accettazione_status.raw_value">
+                                                    <div class="icon_status icon_non_accettazione_status"><span>Non Accettato</span></div>
                                                 </t>
                                                 <t t-if="record.pec_conferma_status.raw_value">
                                                     <div class="icon_status icon_conferma_status"><span>Conferma</span></div>

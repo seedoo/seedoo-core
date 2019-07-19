@@ -1490,8 +1490,8 @@ class protocollo_protocollo(orm.Model):
                                                                                              sender_receiver_id,
                                                                                              context=context)
                     # if not sender_receiver_obj.pec_invio_status:
-                    if (
-                            sender_receiver_obj.pec_errore_consegna_status and sender_receiver_obj.to_resend) or not sender_receiver_obj.pec_invio_status:
+                    if ((sender_receiver_obj.pec_errore_consegna_status or sender_receiver_obj.pec_non_accettazione_status) and sender_receiver_obj.to_resend) \
+                            or not sender_receiver_obj.pec_invio_status:
                         sender_receivers_pec_mails.append(sender_receiver_obj.pec_mail)
                         sender_receivers_pec_ids.append(sender_receiver_obj.id)
 

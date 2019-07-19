@@ -101,10 +101,12 @@
 .openerp th[data-id="pec_accettazione_status"],
 .openerp th[data-id="pec_consegna_status"],
 .openerp th[data-id="pec_errore_consegna_status"],
+.openerp th[data-id="pec_non_accettazione_status"],
 .openerp td[data-field="pec_invio_status"],
 .openerp td[data-field="pec_accettazione_status"],
 .openerp td[data-field="pec_consegna_status"],
-.openerp td[data-field="pec_errore_consegna_status"]{
+.openerp td[data-field="pec_errore_consegna_status"],
+.openerp td[data-field="pec_non_accettazione_status"]{
     text-align: center;
 }
 
@@ -112,7 +114,8 @@
 .openerp td[data-field="pec_accettazione_status"] input,
 .openerp td[data-field="pec_consegna_status"] input,
 .openerp td[data-field="pec_conferma_status"] input,
-.openerp td[data-field="pec_errore_consegna_status"] input{
+.openerp td[data-field="pec_errore_consegna_status"] input,
+.openerp td[data-field="pec_non_accettazione_status"] input{
     visibility: hidden;
     opacity: 1 !important;
 }
@@ -212,6 +215,17 @@
     opacity: 1;
 }
 
+.openerp div.icon_non_accettazione_status:after,
+.openerp td[data-field="pec_non_accettazione_status"] input[type="checkbox"]:checked::after ,
+.openerp .oe_form button[data-name="go_to_non_accettazione_action"]:after {
+    content: "\f06a";
+    font-family: "FontAwesome";
+    font-size: 28px;
+    color: darkorange;
+    visibility: visible;
+    opacity: 1;
+}
+
 .openerp div.icon_errore_consegna_status:after,
 .openerp td[data-field="pec_errore_consegna_status"] input[type="checkbox"]:checked::after ,
 .openerp .oe_form button[data-name="go_to_errore_consegna_action"]:after {
@@ -240,6 +254,7 @@
 .openerp .oe_form td[data-field="go_to_messaggio_action"],
 .openerp .oe_form td[data-field="go_to_accettazione_action"],
 .openerp .oe_form td[data-field="go_to_consegna_action"],
+.openerp .oe_form td[data-field="go_to_non_accettazione_action"],
 .openerp .oe_form td[data-field="go_to_errore_consegna_action"]{
     width:10%;
 }
@@ -248,6 +263,7 @@
 .openerp .oe_form button[data-name="go_to_messaggio_action"],
 .openerp .oe_form button[data-name="go_to_accettazione_action"],
 .openerp .oe_form button[data-name="go_to_consegna_action"],
+.openerp .oe_form button[data-name="go_to_non_accettazione_action"],
 .openerp .oe_form button[data-name="go_to_errore_consegna_action"]
 {
     width:50px;
@@ -262,6 +278,7 @@
 .openerp .oe_form button[data-name="go_to_messaggio_action"]:hover,
 .openerp .oe_form button[data-name="go_to_accettazione_action"]:hover,
 .openerp .oe_form button[data-name="go_to_consegna_action"]:hover,
+.openerp .oe_form button[data-name="go_to_non_accettazione_action"]:hover,
 .openerp .oe_form button[data-name="go_to_errore_consegna_action"]:hover {
     background: #ccc !important;
 }
@@ -269,6 +286,7 @@
 .openerp .oe_form button[data-name="go_to_messaggio_action"] img,
 .openerp .oe_form button[data-name="go_to_accettazione_action"] img,
 .openerp .oe_form button[data-name="go_to_consegna_action"] img,
+.openerp .oe_form button[data-name="go_to_non_accettazione_action"] img,
 .openerp .oe_form button[data-name="go_to_errore_consegna_action"] img
 {
     display: none;

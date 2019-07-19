@@ -144,7 +144,7 @@ class MailMessage(orm.Model):
                     vals['partner_ids'] = [(4, fetchmail_server.pec_account_alias.alias_user_id.partner_id.id)]
                     new_context['mail_notify_noemail'] = True
         msg_obj = super(MailMessage, self).create(cr, uid, vals, context=new_context)
-        if 'pec_type' in vals and vals.get("pec_type") in ('accettazione', 'avvenuta-consegna', 'errore-consegna'):
+        if 'pec_type' in vals and vals.get("pec_type") in ('accettazione', 'avvenuta-consegna', 'errore-consegna', 'non-accettazione'):
             protocollo_ids = mail_ids.pec_protocol_ref
             for protocollo in protocollo_ids:
                 if protocollo:
@@ -155,6 +155,13 @@ class MailMessage(orm.Model):
                         recipient_addr_list = vals.get('recipient_addr').split(', ')
                         if vals.get("pec_type") in ('avvenuta-consegna','errore-consegna') and "cert_datetime" in vals:
                             receivers_ids = receivers.search(cr, uid, [('protocollo_id', '=', protocollo.id), ('pec_mail', 'in', recipient_addr_list)], context=context)
+                        elif vals.get("pec_type") in ('non-accettazione') and "cert_datetime" in vals:
+                            pec_mail_sub = []
+                            if len(recipient_addr_list[0].split("@")) > 0:
+                                pec_mail_sub = recipient_addr_list[0].split("@")[0]
+                            receivers_ids = receivers.search(cr, uid, [('protocollo_id', '=', protocollo.id),
+                                                                   ('pec_mail', 'ilike', pec_mail_sub)],
+                                                             context=context)
                         elif vals.get("pec_type") in ('errore-consegna'):
                             recipent_address_in_error_mail_list = []
                             for address in recipient_addr_list:
@@ -184,6 +191,12 @@ class MailMessage(orm.Model):
                                               % (action_class, protocollo.name, receiver.pec_mail)
                                     notification_vals = {
                                         'consegna_ref': msg_obj
+                                    }
+                                elif vals.get("pec_type") == 'non-accettazione':
+                                    msg_log = "<div class='%s'><ul><li>PEC prot. %s inviata a %s non e' stata accettata</li></ul></div>" \
+                                              % (action_class, protocollo.name, receiver.pec_mail)
+                                    notification_vals = {
+                                        'non_accettazione_ref': msg_obj
                                     }
                                 elif vals.get("pec_type") == 'errore-consegna':
                                     if vals.get("errore-esteso"):
