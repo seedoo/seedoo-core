@@ -68,6 +68,7 @@ this module contains the full copyright notices and license terms. -->
                                 <newline/>
                                 <group>
                                     <group>
+                                        <field name="title" domain="[('domain','=',title_domain)]" options="{'no_open': True}"/>
                                         <field name="tax_code"/>
                                         <field name="vat"/>
                                         <label for="street" string="Indirizzo"/>
@@ -92,7 +93,6 @@ this module contains the full copyright notices and license terms. -->
                                         <field name="email" widget="email" on_change="on_change_email(email, save_partner)" class="email_protocollo_sender_receiver_form"/>
                                         <field name="pec_mail" widget="email" on_change="on_change_pec_mail(pec_mail, save_partner)"
                                                attrs="{'required':[('add_pec_receiver_visibility','=',True)]}" class="pec_mail_protocollo_sender_receiver_form"/>
-                                        <field name="title" domain="[('domain','=',title_domain)]"/>
                                         <field name="title_domain" invisible="1"/>
                                     </group>
                                 </group>

@@ -13,10 +13,10 @@ class protocollo_sender_receiver(orm.Model):
     _name = 'protocollo.sender_receiver'
 
     def on_change_type(self, cr, uid, ids, type, context=None):
-        value = {}
-        domain = {}
+        value = {'title': False}
         if 'is_type_selection' in context:
             value = {
+                'title': False,
                 'partner_id': False,
                 'pa_type': False,
                 'ident_code': False,

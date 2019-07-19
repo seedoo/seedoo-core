@@ -63,23 +63,15 @@
                     <field name="ipa_code" string="Codice Unità Organizzativa"
                            attrs="{'invisible': ['|', ('legal_type','!=', 'government'), ('pa_type','!=', 'uo')]}"
                     />
-                    <!--
-                    <field name="parent_pa_id" placeholder="PA di Appartenenza"
-                           attrs="{
-                                'invisible': ['|', ('legal_type','!=', 'government'), ('pa_type','not in', ['aoo', 'uo'])]
-                           }"
-                           domain="[('pa_type','!=', False),('pa_type','!=', pa_type),('pa_type','!=', 'uo')]"
-                    />
-                    <field name="parent_pa_type" attrs="{'invisible': True}"/>
-                    -->
                     <field name="super_type" attrs="{'invisible': True}"/>
                     <field name="title_domain" invisible="1"/>
                 </field>
-                <field name="title" position="attributes">
-                    <attribute name="domain">[('domain','=',title_domain)]</attribute>
+                <field name="title" position="replace">
+
                 </field>
 
                 <xpath expr="//label[@for='street']" position="before">
+                    <field name="title" string="Qualifica / Tipo Azienda" domain="[('domain','=',title_domain)]" options="{'no_open': True}"/>
                     <field name="tax_code"/>
                     <field name="vat"/>
                 </xpath>
