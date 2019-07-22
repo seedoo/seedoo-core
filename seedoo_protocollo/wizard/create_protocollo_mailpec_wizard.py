@@ -192,7 +192,7 @@ class ProtocolloMailPecWizard(osv.TransientModel):
         sr_substring = re.findall('<[^>]+>', mail_message.email_from)
         if len(sr_substring):
             sr_email = sr_substring[0].strip('<>')
-            sr_name = mail_message.email_from.replace(sr_substring[0], '')
+            sr_name = mail_message.email_from.replace(sr_substring[0], '').replace('"', '').strip()
         else:
             sr_name = ''
             sr_email = mail_message.email_from
