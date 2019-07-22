@@ -71,7 +71,7 @@
                 </field>
 
                 <xpath expr="//label[@for='street']" position="before">
-                    <field name="title" string="Qualifica / Tipo Azienda" domain="[('domain','=',title_domain)]" options="{'no_open': True}"/>
+                    <field name="title" string="Qualifica / Tipo Azienda" domain="[('domain','=',title_domain)]" options="{'no_create': True, 'no_open': True}"/>
                     <field name="tax_code"/>
                     <field name="vat"/>
                 </xpath>

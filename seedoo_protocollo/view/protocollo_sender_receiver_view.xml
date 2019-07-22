@@ -68,7 +68,7 @@ this module contains the full copyright notices and license terms. -->
                                 <newline/>
                                 <group>
                                     <group>
-                                        <field name="title" domain="[('domain','=',title_domain)]" options="{'no_open': True}"/>
+                                        <field name="title" domain="[('domain','=',title_domain)]" options="{'no_create': True, 'no_open': True}"/>
                                         <field name="tax_code"/>
                                         <field name="vat"/>
                                         <label for="street" string="Indirizzo"/>
