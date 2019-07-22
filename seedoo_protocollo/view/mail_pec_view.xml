@@ -94,7 +94,7 @@ this module contains the full copyright notices and license terms. -->
                     </group>
                     <group expand="0" string="Group By">
                         <filter string="Da" name="thread" domain="[]" context="{'group_by':'email_from'}"/>
-                        <filter string="A" name="thread" domain="[]" context="{'group_by':'message_to'}"/>
+                        <!--<filter string="A" name="thread" domain="[]" context="{'group_by':'message_to'}"/>-->
                         <filter string="Data" name="thread" domain="[]" context="{'group_by':'date:week'}"/>
                     </group>
                 </field>
