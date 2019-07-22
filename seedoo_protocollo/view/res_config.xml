@@ -41,7 +41,7 @@ this module contains the full copyright notices and license terms. -->
                         <field name="assegnatari_competenza_dipendenti_senza_doc_required"/>
                         <field name="assegnatari_conoscenza_uffici_senza_doc_required"/>
                         <field name="assegnatari_conoscenza_dipendenti_senza_doc_required"/>
-                        <field name="documento_required"/>
+                        <!--<field name="documento_required"/>-->
                         <field name="documento_descrizione_required"/>
                         <field name="allegati_descrizione_required"/>
                         <field name="data_ricezione_required"/>

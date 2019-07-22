@@ -38,6 +38,7 @@ class protocollo_configurazione(orm.Model):
         'assegnatari_conoscenza_dipendenti_senza_doc_required': fields.boolean(
             'Dipendenti assegnatari per conoscenza Obbligatori (senza documento)'),
 
+        #TODO: il campo documento_required dovrà essere eliminato in quanto si utilizzeranno esclusivamente i permessi sugli utenti
         'documento_required': fields.boolean('Documento Obbligatorio'),
         'documento_descrizione_required': fields.boolean('Descrizione Documento Obbligatoria'),
         'allegati_descrizione_required': fields.boolean('Descrizione allegati Obbligatoria'),
