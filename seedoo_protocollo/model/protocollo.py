@@ -1495,8 +1495,8 @@ class protocollo_protocollo(orm.Model):
                         sender_receivers_pec_mails.append(sender_receiver_obj.pec_mail)
                         sender_receivers_pec_ids.append(sender_receiver_obj.id)
 
-            subject = self._get_oggetto_mail_pec(cr, uid, prot.subject, prot.name,
-                                                 prot.registration_date) if configurazione.rinomina_oggetto_mail_pec else prot.subject
+            subject = self._get_oggetto_mail_pec(cr, uid, prot.subject, prot.name, prot.registration_date) if configurazione.rinomina_oggetto_mail_pec else prot.subject
+            subject = subject.replace('\r', '').replace('\n', '')
             if configurazione.lunghezza_massima_oggetto_pec > 0:
                 subject = subject[:configurazione.lunghezza_massima_oggetto_pec]
 
@@ -1545,19 +1545,20 @@ class protocollo_protocollo(orm.Model):
 
                 action_class = "history_icon warning"
                 post_vars = {
-                    'subject': "PEC protocollo non inviata",
+                    'subject': "Protocollo non inviato",
                     'body': "<div class='%s'><ul><li>Non è stato possibile inviare la PEC al Destinatario!</li></ul></div>" % (action_class,),
                     'model': "protocollo.protocollo",
                     'res_id': prot_id
                 }
                 thread_pool.message_post(cr, uid, prot_id, type="notification", context=context, **post_vars)
                 cr.commit()
-                raise openerp.exceptions.Warning(_('Errore nella notifica del protocollo, la PEC protocollo non è stata inviata'))
+                raise openerp.exceptions.Warning(_("Errore nell'invio del protocollo, la PEC non è stata inviata"))
             else:
+                email_list = ', '.join(values['email_to'].split(','))
                 action_class = "history_icon mail"
                 post_vars = {
-                    'subject': "Invio PEC",
-                    'body': "<div class='%s'><ul><li>PEC protocollo inviato a: %s</li></ul></div>" % (action_class, values['email_to']),
+                    'subject': "Protocollo inviato",
+                    'body': "<div class='%s'><ul><li>Protocollo inviato tramite PEC a: %s</li></ul></div>" % (action_class, email_list),
                     'model': "protocollo.protocollo",
                     'res_id': prot_id
                 }
@@ -1666,19 +1667,20 @@ class protocollo_protocollo(orm.Model):
 
                 action_class = "history_icon warning"
                 post_vars = {
-                    'subject': "E-mail protocollo non inviata",
-                    'body': "<div class='%s'><ul><li>Non è stato possibile inviare l'email al Destinatario!</li></ul></div>" % (action_class,),
+                    'subject': "Protocollo non inviato",
+                    'body': "<div class='%s'><ul><li>Non è stato possibile inviare l'e-mail al Destinatario!</li></ul></div>" % (action_class,),
                     'model': "protocollo.protocollo",
                     'res_id': prot_id
                 }
                 thread_pool.message_post(cr, uid, prot_id, type="notification", context=context, **post_vars)
                 cr.commit()
-                raise openerp.exceptions.Warning(_('Errore nella notifica del protocollo, l\'e-mail protocollo non è stata inviata'))
+                raise openerp.exceptions.Warning(_("Errore nell'invio del protocollo, l'e-mail non è stata inviata"))
             else:
+                email_list = ', '.join(values['email_to'].split(','))
                 action_class = "history_icon mail"
                 post_vars = {
-                    'subject': "Invio E-mail",
-                    'body': "<div class='%s'><ul><li>E-mail protocollo inviata a: %s</li></ul></div>" % (action_class, values['email_to']),
+                    'subject': "Protocollo inviato",
+                    'body': "<div class='%s'><ul><li>Protocollo inviato tramite e-mail a: %s</li></ul></div>" % (action_class, email_list),
                     'model': "protocollo.protocollo",
                     'res_id': prot_id
                 }

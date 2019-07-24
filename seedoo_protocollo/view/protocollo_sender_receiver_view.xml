@@ -271,7 +271,7 @@ this module contains the full copyright notices and license terms. -->
                                                                                         icon="gtk-go-forward" class="oe_highlight" attrs="{'invisible': [('non_accettazione_ref', '=', False)]}"/>
                                                                             </td>
                                                                             <td class="pec_descr_col">
-                                                                                <h4>Ricevuta di mancata accettazione</h4>
+                                                                                <h4>Ricevuta di non accettazione</h4>
                                                                                 <p><field name="non_accettazione_ora"/></p>
                                                                                 <span class="in"/>
                                                                             </td>

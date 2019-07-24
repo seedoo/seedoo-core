@@ -101,7 +101,7 @@ class protocollo_sender_receiver(orm.Model):
     def on_change_pec_mail(self, cr, uid, ids, pec_mail, save_partner, context=None):
         res = {'value': {}}
         if pec_mail and save_partner:
-            self.pool.get('res.partner').check_email_field(cr, uid, [('pec_mail', '=', pec_mail)], 'Mail PEC', pec_mail)
+            self.pool.get('res.partner').check_email_field(cr, uid, [('pec_mail', '=ilike', pec_mail)], 'Mail PEC', pec_mail)
         elif pec_mail:
             self.pool.get('res.partner').check_email_validity('Mail PEC', pec_mail)
         return res
@@ -109,7 +109,7 @@ class protocollo_sender_receiver(orm.Model):
     def on_change_email(self, cr, uid, ids, email, save_partner, context=None):
         res = {'value': {}}
         if email and save_partner:
-            self.pool.get('res.partner').check_email_field(cr, uid, [('email', '=', email)], 'Mail', email)
+            self.pool.get('res.partner').check_email_field(cr, uid, [('email', '=ilike', email)], 'Mail', email)
         elif email:
             self.pool.get('res.partner').check_email_validity('Mail', email)
         return res
@@ -120,7 +120,7 @@ class protocollo_sender_receiver(orm.Model):
 
         pec_mail_error = ''
         if pec_mail and save_partner:
-            pec_mail_error = self.pool.get('res.partner').check_email_field(cr, uid, [('pec_mail', '=', pec_mail)], 'Mail PEC', pec_mail, False)
+            pec_mail_error = self.pool.get('res.partner').check_email_field(cr, uid, [('pec_mail', '=ilike', pec_mail)], 'Mail PEC', pec_mail, False)
         elif pec_mail:
             pec_mail_error = self.pool.get('res.partner').check_email_validity('Mail PEC', pec_mail, False)
         if pec_mail_error:
@@ -128,7 +128,7 @@ class protocollo_sender_receiver(orm.Model):
 
         email_error = ''
         if email and save_partner:
-            email_error = self.pool.get('res.partner').check_email_field(cr, uid, [('email', '=', email)], 'Mail', email, False)
+            email_error = self.pool.get('res.partner').check_email_field(cr, uid, [('email', '=ilike', email)], 'Mail', email, False)
         elif email:
             email_error = self.pool.get('res.partner').check_email_validity('Mail', email, False)
         if email_error:
@@ -334,7 +334,7 @@ class protocollo_sender_receiver(orm.Model):
         'pec_invio_status': fields.function(_get_invio_status, type='boolean', string='Inviata'),
         'pec_accettazione_status': fields.function(_get_accettazione_status, type='boolean', string='Accettata'),
         'pec_consegna_status': fields.function(_get_consegna_status, type='boolean', string='Consegnata'),
-        'pec_non_accettazione_status': fields.function(_get_non_accettazione_status, type='boolean', string='Mancata Accettazione'),
+        'pec_non_accettazione_status': fields.function(_get_non_accettazione_status, type='boolean', string='Non Accettazione'),
         'pec_errore_consegna_status': fields.function(_get_errore_consegna_status, type='boolean', string='Errore Consegna'),
         'pec_conferma_status': fields.function(_get_conferma_status, type='boolean', string='Conferma Protocollazione'),
         'pec_numero_invii': fields.function(_get_pec_numero_invii, type='integer', string='PEC - Numero invii'),
@@ -359,7 +359,7 @@ class protocollo_sender_receiver(orm.Model):
         if vals.has_key('pec_mail') and vals['pec_mail']:
             pec_mail_error = ''
             if vals.has_key('save_partner') and vals['save_partner']:
-                pec_mail_error = partner_obj.check_email_field(cr, uid, [('pec_mail', '=', vals['pec_mail'])],
+                pec_mail_error = partner_obj.check_email_field(cr, uid, [('pec_mail', '=ilike', vals['pec_mail'])],
                                                                'Mail PEC', vals['pec_mail'], False)
             else:
                 pec_mail_error = partner_obj.check_email_validity('Mail PEC', vals['pec_mail'], False)
@@ -369,7 +369,7 @@ class protocollo_sender_receiver(orm.Model):
         if vals.has_key('email') and vals['email']:
             email_error = ''
             if vals.has_key('save_partner') and vals['save_partner']:
-                email_error = partner_obj.check_email_field(cr, uid, [('email', '=', vals['email'])],
+                email_error = partner_obj.check_email_field(cr, uid, [('email', '=ilike', vals['email'])],
                                                      'Mail', vals['email'], False)
             else:
                 email_error = partner_obj.check_email_validity('Mail', vals['email'], False)
@@ -394,7 +394,7 @@ class protocollo_sender_receiver(orm.Model):
                     pec_mail = vals['pec_mail']
                 pec_mail_error = ''
                 if pec_mail and save_partner:
-                    pec_mail_error = partner_obj.check_email_field(cr, uid, [('id', '!=', sender_receiver_vals['id']), ('pec_mail', '=', pec_mail)],
+                    pec_mail_error = partner_obj.check_email_field(cr, uid, [('id', '!=', sender_receiver_vals['id']), ('pec_mail', '=ilike', pec_mail)],
                                       'Mail PEC', pec_mail, False)
                 elif pec_mail:
                     pec_mail_error = partner_obj.check_email_validity('Mail PEC', pec_mail, False)
@@ -406,7 +406,7 @@ class protocollo_sender_receiver(orm.Model):
                     email = vals['email']
                 email_error = ''
                 if email and save_partner:
-                    email_error = partner_obj.check_email_field(cr, uid, [('id', '!=', sender_receiver_vals['id']), ('email', '=', email)],
+                    email_error = partner_obj.check_email_field(cr, uid, [('id', '!=', sender_receiver_vals['id']), ('email', '=ilike', email)],
                                       'Mail', email, False)
                 elif email:
                     email_error = partner_obj.check_email_validity('Mail', email, False)

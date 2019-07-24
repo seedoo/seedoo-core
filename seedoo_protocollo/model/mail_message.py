@@ -149,24 +149,30 @@ class MailMessage(orm.Model):
             for protocollo in protocollo_ids:
                 if protocollo:
                     receivers = self.pool.get('protocollo.sender_receiver')
-                    if vals.get("pec_type") == 'accettazione':
+                    if vals.get("pec_type") in ['accettazione', 'non-accettazione']:
                         receivers_ids = receivers.search(cr, uid, [('protocollo_id', '=', protocollo.id)], context=context)
                     else:
                         recipient_addr_list = vals.get('recipient_addr').split(', ')
                         if vals.get("pec_type") in ('avvenuta-consegna','errore-consegna') and "cert_datetime" in vals:
-                            receivers_ids = receivers.search(cr, uid, [('protocollo_id', '=', protocollo.id), ('pec_mail', 'in', recipient_addr_list)], context=context)
-                        elif vals.get("pec_type") in ('non-accettazione') and "cert_datetime" in vals:
-                            pec_mail_sub = []
-                            if len(recipient_addr_list[0].split("@")) > 0:
-                                pec_mail_sub = recipient_addr_list[0].split("@")[0]
-                            receivers_ids = receivers.search(cr, uid, [('protocollo_id', '=', protocollo.id),
-                                                                   ('pec_mail', 'ilike', pec_mail_sub)],
-                                                             context=context)
+                            receivers_ids = []
+                            recipient_addr_list_lowercase = [recipient_addr.lower() for recipient_addr in recipient_addr_list]
+                            for receiver_id in receivers.search(cr, uid, [('protocollo_id', '=', protocollo.id)], context=context):
+                                receiver_data = receivers.browse(cr, uid, receiver_id)
+                                if receiver_data.pec_mail and receiver_data.pec_mail.lower() in recipient_addr_list_lowercase:
+                                    receivers_ids.append(receiver_data.id)
                         elif vals.get("pec_type") in ('errore-consegna'):
                             recipent_address_in_error_mail_list = []
                             for address in recipient_addr_list:
                                 if vals.get("body").find(address) > -1:
                                     recipent_address_in_error_mail_list.append(address)
+                                else:
+                                    for attachment_id in vals['attachment_ids']:
+                                        attachment_values = attachment_id[2]
+                                        if 'index_content' in attachment_values and attachment_values['index_content']:
+                                            attachment_content = attachment_values['index_content'].replace('\r', '').replace('\n', '')
+                                            if attachment_content.find(address)>-1 and attachment_content.find('unable to look up host')>-1:
+                                                recipent_address_in_error_mail_list.append(address)
+                                                break
                             receivers_ids = receivers.search(cr, uid, [('protocollo_id', '=', protocollo.id), ('pec_mail', 'in', recipent_address_in_error_mail_list)], context=context)
 
                     for receiver_id in receivers_ids:
