@@ -334,6 +334,10 @@ class protocollo_sender_receiver(orm.Model):
         'pec_invio_status': fields.function(_get_invio_status, type='boolean', string='Inviata'),
         'pec_accettazione_status': fields.function(_get_accettazione_status, type='boolean', string='Accettata'),
         'pec_consegna_status': fields.function(_get_consegna_status, type='boolean', string='Consegnata'),
+        #TODO: aggiungere un campo function booleano email_consegna_status che parsa il contenuto dell'email di
+        # accettazione per individuare se la PEC è stata mandanda ad un indirizzo di posta ordinaria. Si dovrà
+        # utilizzare questo campo per far avanzare lo stato del protocollo in "Inviato" pur non avendo il messaggio di
+        # avvenuta consegna per il destinatario con email.
         'pec_non_accettazione_status': fields.function(_get_non_accettazione_status, type='boolean', string='Non Accettazione'),
         'pec_errore_consegna_status': fields.function(_get_errore_consegna_status, type='boolean', string='Errore Consegna'),
         'pec_conferma_status': fields.function(_get_conferma_status, type='boolean', string='Conferma Protocollazione'),
