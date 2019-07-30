@@ -1492,7 +1492,7 @@ class protocollo_protocollo(orm.Model):
             values['subject'] = subject
             values['body_html'] = prot.body
             values['body'] = prot.body
-            #TODO: email_from non necessariamente deve essere la username del' autenticazione del server SMTP
+            #TODO: email_from non necessariamente deve essere la username dell'autenticazione del server SMTP
             values['email_from'] = mail_server.name
             values['reply_to'] = mail_server.in_server_id.user
             values['mail_server_id'] = mail_server.id
@@ -1519,7 +1519,7 @@ class protocollo_protocollo(orm.Model):
                         values['email_to'] = sender_receiver.pec_mail
                     else:
                         values['email_to'] = ','.join(sender_receivers_pec_mails)
-                        values['pec_to'] = values['email_to']
+                    values['pec_to'] = values['email_to']
 
                     if prot.mail_out_ref and prot.state == 'registered':
                         # se il protocollo è ancora in stato registrato non deve duplicare la email perchè ancora non è riuscito ad inviarla
@@ -1821,18 +1821,25 @@ class protocollo_protocollo(orm.Model):
         protocollo_obj = self.pool.get('protocollo.protocollo')
         protocollo_obj._process_new_pec(cr, uid, ids, protocollo_obj, context)
 
-    # def mail_message_id_get(self, cr, uid, ids, *args):
-    #     res = {}
-    #     if not ids:
-    #         return []
-    #     protocol_obj = self.pool.get('protocollo.protocollo')
-    #     for prot in protocol_obj.browse(cr, uid, ids):
-    #         if prot.pec:
-    #             res[prot.id] = [prot.mail_pec_ref.id]
-    #         else:
-    #             res[prot.id] = [prot.mail_sharedmail_ref.id]
-    #     _logger.info('mail_message_id_get')
-    #     return res[ids[0]]
+    def mail_message_id_get(self, cr, uid, ids, *args):
+        res = {}
+        if not ids:
+            return []
+        for protocollo in self.browse(cr, uid, ids):
+            msg_ids = []
+            if protocollo.pec:
+                for sender_receiver in protocollo.sender_receivers:
+                    if sender_receiver.pec_messaggio_ids.ids:
+                        msg_ids.append(sender_receiver.pec_messaggio_ids[0].messaggio_ref.id)
+                        break
+            else:
+                for sender_receiver in protocollo.sender_receivers:
+                    if sender_receiver.sharedmail_messaggio_ids.ids:
+                        msg_ids.append(sender_receiver.sharedmail_messaggio_ids.ids[0])
+                        break
+            res[protocollo.id] = msg_ids
+        _logger.info('mail_message_id_get')
+        return res[ids[0]]
 
     # def test_mail_message(self, cr, uid, ids, *args):
     #     _logger.info('test_mail_message')
@@ -1846,35 +1853,28 @@ class protocollo_protocollo(orm.Model):
     #     return ok
 
     def check_all_mail_messages(self, cr, uid, ids, *args):
-        #res = self.mail_message_id_get(cr, SUPERUSER_ID, ids)
-        #if not res:
-        #    return False
-        #mail_message_obj = self.pool.get('mail.message')
-        #mail_message = mail_message_obj.browse(cr, SUPERUSER_ID, res[0])
-        #protocollo_obj = self.pool.get('protocollo.protocollo')
-        pec_consegna_status = True
-        for protocollo in self.browse(cr, SUPERUSER_ID, ids):
-            for sr in protocollo.sender_receivers.ids:
-                sender_receiver_obj = self.pool.get('protocollo.sender_receiver').browse(cr, SUPERUSER_ID, sr)
-                pec_consegna_status = pec_consegna_status and sender_receiver_obj.pec_consegna_status
-        return pec_consegna_status
+        _logger.info('check_all_mail_messages')
+        res = self.mail_message_id_get(cr, SUPERUSER_ID, ids)
+        if not res:
+            return False
+        mail_message_obj = self.pool.get('mail.message')
+        mail_message = mail_message_obj.browse(cr, SUPERUSER_ID, res[0])
+        protocollo_obj = self.pool.get('protocollo.protocollo')
+        protocollo = protocollo_obj.browse(cr, SUPERUSER_ID, mail_message.pec_protocol_ref.id)
+        for sr in protocollo.sender_receivers.ids:
+            sender_receiver_obj = self.pool.get('protocollo.sender_receiver').browse(cr, SUPERUSER_ID, sr)
+            if not sender_receiver_obj.pec_consegna_status:
+                return False
+        return True
 
     def test_error_mail_message(self, cr, uid, ids, *args):
-        # _logger.info('test_error_mail_message')
-        # res = self.mail_message_id_get(cr, SUPERUSER_ID, ids)
-        # if not res:
-        #     return False
-        # mail_message_obj = self.pool.get('mail.message')
-        # mail_message = mail_message_obj.browse(cr, SUPERUSER_ID, res[0])
-        # return mail_message.error
-
-        # error = False
-        # for protocollo in self.browse(cr, SUPERUSER_ID, ids):
-        #     for sr in protocollo.sender_receivers.ids:
-        #         sender_receiver_obj = self.pool.get('protocollo.sender_receiver').browse(cr, SUPERUSER_ID, sr)
-        #         pec_consegna_status = pec_consegna_status and sender_receiver_obj.pec_consegna_status
-        # return pec_consegna_status
-        return False
+        _logger.info('test_error_mail_message')
+        res = self.mail_message_id_get(cr, SUPERUSER_ID, ids)
+        if not res:
+            return False
+        mail_message_obj = self.pool.get('mail.message')
+        mail_message = mail_message_obj.browse(cr, SUPERUSER_ID, res[0])
+        return mail_message.error
 
     def check_journal(self, cr, uid, ids, *args):
         journal_obj = self.pool.get('protocollo.journal')
