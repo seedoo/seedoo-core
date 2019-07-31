@@ -3,18 +3,9 @@
 # this module contains the full copyright notices and license terms.
 
 from openerp.osv import fields, osv
-from openerp.osv.orm import except_orm
-from openerp.tools.translate import _
-from openerp.addons.base.ir.ir_attachment import ir_attachment as ir_att
-from openerp.modules.registry import RegistryManager
 from openerp import SUPERUSER_ID
 import logging
-import os
 import re
-import hashlib
-import random
-import itertools
-
 
 _logger = logging.getLogger(__name__)
 
@@ -136,3 +127,9 @@ class ir_attachment(osv.Model):
         except OSError, e:
             _logger.exception("_read_file reading %s", fname)
         return result
+
+    def _index(self, cr, uid, data, datas_fname, file_type):
+        mime, icont_u = super(ir_attachment, self)._index(cr, uid, data, datas_fname, file_type)
+        if icont_u and datas_fname and datas_fname.endswith('.eml') and icont_u.find('Message-ID:')!=-1:
+            icont_u = ''
+        return mime, icont_u
