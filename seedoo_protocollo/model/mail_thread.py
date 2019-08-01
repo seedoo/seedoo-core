@@ -36,7 +36,7 @@ class MailThread(orm.Model):
             try:
                 received_hdr = decode(message.get('Received'))
                 received_hdr_list = received_hdr.split(';')
-                date_hdr = received_hdr_list[1]
+                date_hdr = received_hdr_list[1].strip()
                 parsed_date = dateutil.parser.parse(date_hdr, fuzzy=True)
                 if parsed_date.utcoffset() is None:
                     # naive datetime, so we arbitrarily decide to make it
