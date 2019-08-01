@@ -49,6 +49,6 @@ class MailThread(orm.Model):
                 _logger.warning('Failed to parse Received header %r in incoming mail '
                                 'with message-id %r, assuming current date/time.',
                                 message.get('Received'), msg_dict['message_id'])
-                stored_date = datetime.datetime.now()
-            msg_dict['date_received'] = stored_date.strftime(tools.DEFAULT_SERVER_DATETIME_FORMAT)
+                stored_date = False
+            msg_dict['server_received_datetime'] = stored_date.strftime(tools.DEFAULT_SERVER_DATETIME_FORMAT) if stored_date else False
         return msg_dict

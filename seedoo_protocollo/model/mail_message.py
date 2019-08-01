@@ -88,6 +88,7 @@ class MailMessage(orm.Model):
         'recovered_message_parent': fields.many2one('mail.message', 'Messaggio originale ripristino per protocollazione', readonly=True),
         'message_to': fields.function(_get_message_to, type='char', string='To', store=False),
         'message_direction': fields.function(_get_message_direction, type='char', string='To', store=False),
+        'server_received_datetime': fields.datetime('Data di Ricezione del Server'),
     }
 
     _order = 'date desc'

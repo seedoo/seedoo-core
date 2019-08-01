@@ -178,7 +178,8 @@ class ProtocolloMailPecWizard(osv.TransientModel):
 
     def _default_receiving_date(self, cr, uid, context):
         mail_message = self.pool.get('mail.message').browse(cr, uid, context['active_id'], context=context)
-        # TODO: to verify
+        if mail_message.server_received_datetime:
+            return mail_message.server_received_datetime
         return mail_message.date
 
     def _default_body(self, cr, uid, context):
