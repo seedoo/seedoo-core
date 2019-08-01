@@ -32,6 +32,8 @@ class MailThread(orm.Model):
 
     def message_parse(self, cr, uid, message, save_original=False, context=None):
         msg_dict = super(MailThread, self).message_parse(cr, uid, message, save_original, context)
+
+        stored_date = False
         if message.get('Received'):
             try:
                 received_hdr = decode(message.get('Received'))
@@ -49,6 +51,8 @@ class MailThread(orm.Model):
                 _logger.warning('Failed to parse Received header %r in incoming mail '
                                 'with message-id %r, assuming current date/time.',
                                 message.get('Received'), msg_dict['message_id'])
-                stored_date = datetime.datetime.now()
-            msg_dict['server_received_datetime'] = stored_date.strftime(tools.DEFAULT_SERVER_DATETIME_FORMAT) if stored_date else False
+        if not stored_date:
+            stored_date = datetime.datetime.now()
+        msg_dict['server_received_datetime'] = stored_date.strftime(tools.DEFAULT_SERVER_DATETIME_FORMAT)
+
         return msg_dict
