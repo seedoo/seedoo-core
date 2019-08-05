@@ -1822,41 +1822,32 @@ class protocollo_protocollo(orm.Model):
         protocollo_obj._process_new_pec(cr, uid, ids, protocollo_obj, context)
 
     def mail_message_id_get(self, cr, uid, ids, *args):
-        # res = {}
-        # if not ids:
-        #     return []
-        # for protocollo in self.browse(cr, uid, ids):
-        #     msg_ids = []
-        #     if protocollo.pec:
-        #         for sender_receiver in protocollo.sender_receivers:
-        #             if sender_receiver.pec_messaggio_ids.ids:
-        #                 msg_ids.append(sender_receiver.pec_messaggio_ids[0].messaggio_ref.id)
-        #                 break
-        #     else:
-        #         for sender_receiver in protocollo.sender_receivers:
-        #             if sender_receiver.sharedmail_messaggio_ids.ids:
-        #                 msg_ids.append(sender_receiver.sharedmail_messaggio_ids.ids[0])
-        #                 break
-        #     res[protocollo.id] = msg_ids
-        # _logger.info('mail_message_id_get')
-        # return res[ids[0]]
-        return {}
+        res = {}
+        if not ids:
+            return []
+        for protocollo in self.browse(cr, uid, ids):
+            msg_ids = []
+            if protocollo.pec:
+                for sender_receiver in protocollo.sender_receivers:
+                    if sender_receiver.pec_messaggio_ids.ids:
+                        msg_id = False
+                        msg_date = False
+                        for pec_messaggio in sender_receiver.pec_messaggio_ids:
+                            if pec_messaggio.type=='messaggio' and (not msg_date or pec_messaggio.messaggio_ref.date>msg_date):
+                                msg_id = pec_messaggio.messaggio_ref.id
+                                msg_date = pec_messaggio.messaggio_ref.date
+                        if msg_id:
+                            msg_ids.append(msg_id)
+            else:
+                for sender_receiver in protocollo.sender_receivers:
+                    if sender_receiver.sharedmail_messaggio_ids.ids:
+                        msg_ids.append(sender_receiver.sharedmail_messaggio_ids.ids[0])
+            res[protocollo.id] = msg_ids
+        return res[ids[0]]
 
     def check_all_mail_messages(self, cr, uid, ids, *args):
         _logger.info('check_all_mail_messages')
-        # res = self.mail_message_id_get(cr, SUPERUSER_ID, ids)
-        # if not res:
-        #     return False
-        # mail_message_obj = self.pool.get('mail.message')
-        # mail_message = mail_message_obj.browse(cr, SUPERUSER_ID, res[0])
-        # protocollo_obj = self.pool.get('protocollo.protocollo')
-        # protocollo = protocollo_obj.browse(cr, SUPERUSER_ID, mail_message.pec_protocol_ref.id)
-        # for sr in protocollo.sender_receivers:
-        #     if not sr.pec_consegna_status:
-        #         return False
-        # return True
-        protocollo_obj = self.pool.get('protocollo.protocollo')
-        for protocollo in protocollo_obj.browse(cr, SUPERUSER_ID, ids):
+        for protocollo in self.browse(cr, SUPERUSER_ID, ids):
             for sr in protocollo.sender_receivers:
                 if not sr.pec_consegna_status:
                     return False
@@ -1864,12 +1855,18 @@ class protocollo_protocollo(orm.Model):
 
     def test_error_mail_message(self, cr, uid, ids, *args):
         _logger.info('test_error_mail_message')
-        res = self.mail_message_id_get(cr, SUPERUSER_ID, ids)
-        if not res:
-            return False
-        mail_message_obj = self.pool.get('mail.message')
-        mail_message = mail_message_obj.browse(cr, SUPERUSER_ID, res[0])
-        return mail_message.error
+        for protocollo in self.browse(cr, SUPERUSER_ID, ids):
+            if protocollo.pec:
+                for sender_receiver in protocollo.sender_receivers:
+                    if sender_receiver.pec_messaggio_ids.ids:
+                        error = False
+                        msg_date = False
+                        for pec_messaggio in sender_receiver.pec_messaggio_ids:
+                            if pec_messaggio.type=='messaggio' and (not msg_date or pec_messaggio.messaggio_ref.date > msg_date):
+                                error = pec_messaggio.messaggio_ref.error
+                                msg_date = pec_messaggio.messaggio_ref.date
+                        return error
+        return False
 
     def check_journal(self, cr, uid, ids, *args):
         journal_obj = self.pool.get('protocollo.journal')
