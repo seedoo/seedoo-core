@@ -13,7 +13,7 @@ this module contains the full copyright notices and license terms. -->
                 <tree string="Messages">
                     <field name="email_from" string="Mittente"/>
                     <field name="message_to"/>
-                    <field name="date"/>
+                    <field name="server_received_datetime"/>
                     <field name="subject"/>
                     <field name="author_id"/>
                     <field name="type"/>
@@ -69,11 +69,11 @@ this module contains the full copyright notices and license terms. -->
                 <field name="parent_id" position="after">
                     <field name="email_from" string="Da"/>
                     <field name="body" string="Contenuto"/>
-                    <field name="date"
-                           filter_domain="[('date','&gt;=',self)]"
+                    <field name="server_received_datetime"
+                           filter_domain="[('server_received_datetime','&gt;=',self)]"
                            string="Data dal:"/>
-                    <field name="date"
-                           filter_domain="[('date','&lt;=',self)]"
+                    <field name="server_received_datetime"
+                           filter_domain="[('server_received_datetime','&lt;=',self)]"
                            string="Data entro il:"/>
                     <group string="Stato Protocollo">
                         <filter string="Protocollato" name="protocollato" domain="[('pec_state','=','protocol')]"/>
@@ -95,7 +95,7 @@ this module contains the full copyright notices and license terms. -->
                     <group expand="0" string="Group By">
                         <filter string="Da" name="thread" domain="[]" context="{'group_by':'email_from'}"/>
                         <!--<filter string="A" name="thread" domain="[]" context="{'group_by':'message_to'}"/>-->
-                        <filter string="Data" name="thread" domain="[]" context="{'group_by':'date:week'}"/>
+                        <filter string="Data" name="thread" domain="[]" context="{'group_by':'server_received_datetime:week'}"/>
                     </group>
                 </field>
             </field>
@@ -130,7 +130,7 @@ this module contains the full copyright notices and license terms. -->
                             <field name="pec_server_user" attrs="{'invisible':[('pec_type','!=','posta-certificata')]}" string="Account" colspan="4"/>
                             <separator string="" colspan="4"/>
                             <field name="email_from" attrs="{'invisible':[('pec_type','!=','posta-certificata')]}"/>
-                            <field name="date"/>
+                            <field name="server_received_datetime"/>
                             <field name="pec_to" readonly="1" colspan="4"/>
                             <field name="pec_cc" readonly="1" colspan="4"/>
                             <separator string="" colspan="4"/>
@@ -164,7 +164,7 @@ this module contains the full copyright notices and license terms. -->
                 <tree string="Pec da Protocollare" create="false" edit="false" delete="false">
                     <field name="email_from"/>
                     <field name="subject"/>
-                    <field name="date"/>
+                    <field name="server_received_datetime"/>
                     <field name="pec_server_user" string="Account"/>
                 </tree>
             </field>
@@ -235,6 +235,16 @@ this module contains the full copyright notices and license terms. -->
             <field name="model">mail.message</field>
             <field name="inherit_id" ref="l10n_it_pec_messages.pec_message_search_view"/>
             <field name="arch" type="xml">
+                <xpath expr="//field[@name='date']" position="replace">
+                    <field name="server_received_datetime"
+                           filter_domain="[('server_received_datetime','&gt;=',self)]"
+                           string="Data dal:"/>
+                </xpath>
+                <xpath expr="//field[@name='date']" position="replace">
+                    <field name="server_received_datetime"
+                           filter_domain="[('server_received_datetime','&lt;=',self)]"
+                           string="Data entro il:"/>
+                </xpath>
                 <group string='Tipologia PEC' position="after">
                      <group string="Stato">
                         <filter string="Protocollato" name="protocollato" domain="[('pec_state','=','protocol')]"/>
@@ -281,6 +291,16 @@ this module contains the full copyright notices and license terms. -->
             <field name="model">mail.message</field>
             <field name="inherit_id" ref="sharedmail.sharedmail_message_search_view"/>
             <field name="arch" type="xml">
+                <xpath expr="//field[@name='date']" position="replace">
+                    <field name="server_received_datetime"
+                           filter_domain="[('server_received_datetime','&gt;=',self)]"
+                           string="Data dal:"/>
+                </xpath>
+                <xpath expr="//field[@name='date']" position="replace">
+                    <field name="server_received_datetime"
+                           filter_domain="[('server_received_datetime','&lt;=',self)]"
+                           string="Data entro il:"/>
+                </xpath>
                 <search string="Message" position="inside">
                     <group string="Stato">
                         <filter string="Protocollato" name="protocollato" domain="[('sharedmail_state','=','protocol')]"/>
