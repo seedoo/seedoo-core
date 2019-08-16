@@ -801,7 +801,10 @@ class protocollo_protocollo(osv.Model):
                             SELECT DISTINCT(pa.protocollo_id)
                             FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
                             WHERE pp.id = pa.protocollo_id AND
-                                  pa.assegnatario_employee_id = he.id AND he.resource_id = rr.id AND rr.user_id = ''' + str(uid) + ''' AND
+                                  (
+                                       (pa.tipologia_assegnatario = 'employee' AND pa.parent_id IS NULL AND pa.assegnatario_employee_id = he.id AND he.resource_id = rr.id AND rr.user_id = ''' + str(uid) + ''') OR
+                                       (pa.tipologia_assegnatario = 'department' AND pa.assegnatario_department_id = he.department_id AND he.resource_id = rr.id AND rr.user_id = ''' + str(uid) + ''')
+                                  ) AND
                                   pp.registration_date IS NOT NULL AND
                                   pa.tipologia_assegnazione = 'conoscenza' AND
                                   pa.state = 'assegnato' AND
@@ -853,13 +856,16 @@ class protocollo_protocollo(osv.Model):
             FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
             WHERE pp.archivio_id = %d 
                   AND pp.id = pa.protocollo_id AND
-                      (pa.assegnatario_employee_id = he.id AND he.resource_id = rr.id AND rr.user_id = %s)
+                  (
+                       (pa.tipologia_assegnatario = 'employee' AND pa.parent_id IS NULL AND pa.assegnatario_employee_id = he.id AND he.resource_id = rr.id AND rr.user_id = %s) OR
+                       (pa.tipologia_assegnatario = 'department' AND pa.assegnatario_department_id = he.department_id AND he.resource_id = rr.id AND rr.user_id = %s)
+                  )
                   AND 
                   pp.registration_date IS NOT NULL AND 
                   pa.tipologia_assegnazione = 'conoscenza' AND 
                   pa.state = 'assegnato' AND
                   pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error', 'acts')
-        """ % (current_archivio_id, uid)
+        """ % (current_archivio_id, uid, uid)
 
         cr.execute(sql_query)
         result = cr.fetchall()
