@@ -783,33 +783,20 @@ class protocollo_protocollo(osv.Model):
     def _assegnato_cc_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
         start = int(round(time.time() * 1000))
 
-        # cr.execute('''
-        #     SELECT DISTINCT(pa.protocollo_id)
-        #     FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
-        #     WHERE pp.id = pa.protocollo_id AND
-        #           (
-        #               (pa.tipologia_assegnatario = 'employee' AND pa.parent_id IS NULL AND pa.assegnatario_employee_id = he.id AND he.resource_id = rr.id AND rr.user_id = %s) OR
-        #               (pa.tipologia_assegnatario = 'department' AND pa.assegnatario_department_id = he.department_id AND he.resource_id = rr.id AND rr.user_id = %s)
-        #           ) AND
-        #           pp.registration_employee_id IS NOT NULL AND
-        #           pa.tipologia_assegnazione = 'conoscenza' AND
-        #           pa.state = 'assegnato' AND
-        #           pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
-        # ''', (uid, uid))
-
         cr.execute('''
-                            SELECT DISTINCT(pa.protocollo_id)
-                            FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
-                            WHERE pp.id = pa.protocollo_id AND
-                                  (
-                                       (pa.tipologia_assegnatario = 'employee' AND pa.parent_id IS NULL AND pa.assegnatario_employee_id = he.id AND he.resource_id = rr.id AND rr.user_id = ''' + str(uid) + ''') OR
-                                       (pa.tipologia_assegnatario = 'department' AND pa.assegnatario_department_id = he.department_id AND he.resource_id = rr.id AND rr.user_id = ''' + str(uid) + ''')
-                                  ) AND
-                                  pp.registration_date IS NOT NULL AND
-                                  pa.tipologia_assegnazione = 'conoscenza' AND
-                                  pa.state = 'assegnato' AND
-                                  pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error', 'acts')
-                        ''')
+            SELECT DISTINCT(pa.protocollo_id)
+            FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
+            WHERE pp.id = pa.protocollo_id AND
+                  (
+                       (pa.parent_id IS NULL AND pa.assegnatario_employee_id = he.id AND he.resource_id = rr.id AND rr.user_id = ''' + str(uid) + ''') OR
+                       (pa.parent_id IS NOT NULL AND pa.assegnatario_employee_department_id = he.department_id AND pa.assegnatario_employee_id = he.id AND he.resource_id = rr.id AND rr.user_id = ''' + str(uid) + ''')
+                  ) AND
+                  pp.registration_date IS NOT NULL AND
+                  pa.tipologia_assegnatario = 'employee' AND
+                  pa.tipologia_assegnazione = 'conoscenza' AND
+                  pa.state = 'assegnato' AND
+                  pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error', 'acts')
+        ''')
 
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
         end = int(round(time.time() * 1000))
@@ -836,32 +823,17 @@ class protocollo_protocollo(osv.Model):
         archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)])
         current_archivio_id = archivio_ids[0]
 
-        # sql_query = """
-        #     SELECT COUNT(DISTINCT(pa.protocollo_id))
-        #     FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
-        #     WHERE pp.archivio_id = %d
-        #           AND pp.id = pa.protocollo_id AND
-        #           (
-        #               (pa.tipologia_assegnatario = 'employee' AND pa.parent_id IS NULL AND pa.assegnatario_employee_id = he.id AND he.resource_id = rr.id AND rr.user_id = %s) OR
-        #               (pa.tipologia_assegnatario = 'department' AND pa.assegnatario_department_id = he.department_id AND he.resource_id = rr.id AND rr.user_id = %s)
-        #           ) AND
-        #           pp.registration_employee_id IS NOT NULL AND
-        #           pa.tipologia_assegnazione = 'conoscenza' AND
-        #           pa.state = 'assegnato' AND
-        #           pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
-        # """ % (current_archivio_id, uid, uid)
-
         sql_query = """
             SELECT COUNT(DISTINCT(pa.protocollo_id)) 
             FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
-            WHERE pp.archivio_id = %d 
-                  AND pp.id = pa.protocollo_id AND
+            WHERE pp.archivio_id = %d AND 
+                  pp.id = pa.protocollo_id AND
                   (
-                       (pa.tipologia_assegnatario = 'employee' AND pa.parent_id IS NULL AND pa.assegnatario_employee_id = he.id AND he.resource_id = rr.id AND rr.user_id = %s) OR
-                       (pa.tipologia_assegnatario = 'department' AND pa.assegnatario_department_id = he.department_id AND he.resource_id = rr.id AND rr.user_id = %s)
-                  )
-                  AND 
-                  pp.registration_date IS NOT NULL AND 
+                       (pa.parent_id IS NULL AND pa.assegnatario_employee_id = he.id AND he.resource_id = rr.id AND rr.user_id = %s) OR
+                       (pa.parent_id IS NOT NULL AND pa.assegnatario_employee_department_id = he.department_id AND pa.assegnatario_employee_id = he.id AND he.resource_id = rr.id AND rr.user_id = %s)
+                  ) AND
+                  pp.registration_date IS NOT NULL AND
+                  pa.tipologia_assegnatario = 'employee' AND 
                   pa.tipologia_assegnazione = 'conoscenza' AND 
                   pa.state = 'assegnato' AND
                   pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error', 'acts')
