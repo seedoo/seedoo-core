@@ -2,9 +2,14 @@ import datetime
 import os
 import random
 import string
+import re
+import urllib2
+import logging
 
 import pypandoc
 from BeautifulSoup import BeautifulSoup
+
+_logger = logging.getLogger(__name__)
 
 
 class ConversionUtility:
@@ -43,6 +48,8 @@ class ConversionUtility:
         os.remove(tempfile)
         return pdf_content
 
+
+    # TODO: sostituire con un metodo per il parsing delle immagini come viene impiegato nella verisone 12 di odoo
     @staticmethod
     def remove_img(content=""):
         ret = content
@@ -52,4 +59,25 @@ class ConversionUtility:
             soup.img.decompose()
             ret = str(soup)
 
+        try:
+            regular_expression = 'background-image: ?url\(.*\);?'
+            soup = BeautifulSoup(ret)
+            results = soup.findAll(attrs={'style': re.compile(regular_expression)})
+            for result in results:
+                for attribute in result.attrs:
+                    if attribute[0]=='style' and re.match(regular_expression, attribute[1]):
+                        found = re.search(regular_expression, attribute[1])
+                        if found:
+                            url_to_check = re.sub("background-image: ?url\('", '', found.group(0))
+                            url_to_check = re.sub("'\);?", '', url_to_check)
+                            error = False
+                            try:
+                                ret = urllib2.urlopen(url_to_check)
+                            except Exception as e:
+                                error = True
+                            if error or ret.code!=200:
+                                result['style'] = re.sub(regular_expression, '', attribute[1])
+            ret = str(soup)
+        except Exception as e:
+            _logger.error(str(e))
         return ret
