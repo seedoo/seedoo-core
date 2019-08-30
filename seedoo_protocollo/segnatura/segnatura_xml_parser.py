@@ -5,11 +5,15 @@
 import dateutil
 import inspect
 import os
+import logging
 from lxml import etree
 
 # from seedoo_protocollo.model.protocollo import protocollo_protocollo
 import openerp
 from openerp.tools.translate import _
+
+_logger = logging.getLogger(__name__)
+
 
 
 class SegnaturaXMLParser:
@@ -34,49 +38,49 @@ class SegnaturaXMLParser:
 
     def getNumeroRegistrazione(self):
         vals = ''
-        element = self._root.find("./Intestazione/Identificatore/NumeroRegistrazione")
+        element = self._root.find(self.getFindPath("./Intestazione/Identificatore/NumeroRegistrazione"))
         if element is not None and element.text is not None:
             vals = element.text
         return vals
 
     def getDataRegistrazione(self):
         vals = ''
-        element = self._root.find("./Intestazione/Identificatore/DataRegistrazione")
+        element = self._root.find(self.getFindPath("./Intestazione/Identificatore/DataRegistrazione"))
         if element is not None and element.text is not None:
             vals = element.text
         return vals
 
     def getCodiceRegistro(self):
         vals = ''
-        element = self._root.find("./Intestazione/Identificatore/CodiceRegistro")
+        element = self._root.find(self.getFindPath("./Intestazione/Identificatore/CodiceRegistro"))
         if element is not None and element.text is not None:
             vals = element.text
         return vals
 
     def getTipoMittente(self):
         vals = ''
-        element = self._root.find("./Intestazione/Origine/Mittente/Amministrazione")
+        element = self._root.find(self.getFindPath("./Intestazione/Origine/Mittente/Amministrazione"))
         if element is not None and element.tag is not None:
             vals = 'government'
         return vals
 
     def getDenominazioneAmministrazione(self):
         vals = ''
-        element = self._root.find("./Intestazione/Origine/Mittente/Amministrazione/Denominazione")
+        element = self._root.find(self.getFindPath("./Intestazione/Origine/Mittente/Amministrazione/Denominazione"))
         if element is not None and element.text is not None:
             vals = element.text
         return vals
 
     def getDenominazioneAOO(self):
         vals = ''
-        element = self._root.find("./Intestazione/Origine/Mittente/AOO/Denominazione")
+        element = self._root.find(self.getFindPath("./Intestazione/Origine/Mittente/AOO/Denominazione"))
         if element is not None and element.text is not None:
             vals = element.text
         return vals
 
     def getDenominazioneUnitaOrganizzativa(self):
         vals = ''
-        element = self._root.find("./Intestazione/Origine/Mittente/Amministrazione/UnitaOrganizzativa/Denominazione")
+        element = self._root.find(self.getFindPath("./Intestazione/Origine/Mittente/Amministrazione/UnitaOrganizzativa/Denominazione"))
         if element is not None and element.text is not None:
             vals = element.text
         return vals
@@ -109,29 +113,29 @@ class SegnaturaXMLParser:
 
     def getCodiceAmministrazione(self):
         vals = ''
-        element = self._root.find("./Intestazione/Origine/Mittente/Amministrazione/CodiceAmministrazione")
+        element = self._root.find(self.getFindPath("./Intestazione/Origine/Mittente/Amministrazione/CodiceAmministrazione"))
         if element is not None and element.text is not None:
             vals = element.text
         else:
-            element = self._root.find("./Intestazione/Identificatore/CodiceAmministrazione")
+            element = self._root.find(self.getFindPath("./Intestazione/Identificatore/CodiceAmministrazione"))
             if element is not None and element.text is not None:
                 vals = element.text
         return vals
 
     def getCodiceAOO(self):
         vals = ''
-        element = self._root.find("./Intestazione/Origine/Mittente/AOO/CodiceAOO")
+        element = self._root.find(self.getFindPath("./Intestazione/Origine/Mittente/AOO/CodiceAOO"))
         if element is not None and element.text is not None:
             vals = element.text
         else:
-            element = self._root.find("./Intestazione/Identificatore/CodiceAOO")
+            element = self._root.find(self.getFindPath("./Intestazione/Identificatore/CodiceAOO"))
             if element is not None and element.text is not None:
                 vals = element.text
         return vals
 
     def getCodiceUnitaOrganizzativa(self):
         vals = ''
-        element = self._root.find("./Intestazione/Origine/Mittente/Amministrazione/UnitaOrganizzativa/Identificativo")
+        element = self._root.find(self.getFindPath("./Intestazione/Origine/Mittente/Amministrazione/UnitaOrganizzativa/Identificativo"))
         if element is not None and element.text is not None:
             vals = element.text
         return vals
@@ -139,7 +143,7 @@ class SegnaturaXMLParser:
     def getToponimo(self):
         vals = ''
         dug = ''
-        element = self._root.find("./Intestazione/Origine/Mittente/*/UnitaOrganizzativa/IndirizzoPostale/Toponimo")
+        element = self._root.find(self.getFindPath("./Intestazione/Origine/Mittente/*/UnitaOrganizzativa/IndirizzoPostale/Toponimo"))
         if element is not None and element.text is not None:
             if 'dug' in element.attrib:
                dug = element.attrib['dug'] + " "
@@ -150,56 +154,71 @@ class SegnaturaXMLParser:
 
     def getCivico(self):
         vals = ''
-        element = self._root.find("./Intestazione/Origine/Mittente/*/UnitaOrganizzativa/IndirizzoPostale/Civico")
+        element = self._root.find(self.getFindPath("./Intestazione/Origine/Mittente/*/UnitaOrganizzativa/IndirizzoPostale/Civico"))
         if element is not None and element.text is not None:
             vals = element.text
         return vals
 
     def getCAP(self):
         vals = ''
-        element = self._root.find("./Intestazione/Origine/Mittente/*/UnitaOrganizzativa/IndirizzoPostale/CAP")
+        element = self._root.find(self.getFindPath("./Intestazione/Origine/Mittente/*/UnitaOrganizzativa/IndirizzoPostale/CAP"))
         if element is not None and element.text is not None:
             vals = element.text
         return vals
 
     def getComune(self):
         vals = ''
-        element = self._root.find("./Intestazione/Origine/Mittente/*/UnitaOrganizzativa/IndirizzoPostale/Comune")
+        element = self._root.find(self.getFindPath("./Intestazione/Origine/Mittente/*/UnitaOrganizzativa/IndirizzoPostale/Comune"))
         if element is not None and element.text is not None:
             vals = element.text
         return vals
 
     def getProvincia(self):
         vals = ''
-        element = self._root.find("./Intestazione/Origine/Mittente/*/UnitaOrganizzativa/IndirizzoPostale/Provincia")
+        element = self._root.find(self.getFindPath("./Intestazione/Origine/Mittente/*/UnitaOrganizzativa/IndirizzoPostale/Provincia"))
         if element is not None and element.text is not None:
             vals = element.text
         return vals
 
     def getNazione(self):
         vals = ''
-        element = self._root.find("./Intestazione/Origine/Mittente/*/UnitaOrganizzativa/IndirizzoPostale/Nazione")
+        element = self._root.find(self.getFindPath("./Intestazione/Origine/Mittente/*/UnitaOrganizzativa/IndirizzoPostale/Nazione"))
         if element is not None and element.text is not None:
             vals = element.text
         return vals
 
     def getTelefono(self):
         vals = ''
-        element = self._root.find("./Intestazione/Origine/Mittente/*/UnitaOrganizzativa/Telefono")
+        element = self._root.find(self.getFindPath("./Intestazione/Origine/Mittente/*/UnitaOrganizzativa/Telefono"))
         if element is not None and element.text is not None:
             vals = element.text
         return vals
 
     def getFax(self):
         vals = ''
-        element = self._root.find("./Intestazione/Origine/Mittente/*/UnitaOrganizzativa/Fax")
+        element = self._root.find(self.getFindPath("./Intestazione/Origine/Mittente/*/UnitaOrganizzativa/Fax"))
         if element is not None and element.text is not None:
             vals = element.text
         return vals
 
     def getIndirizzoTelematico(self):
         vals = ''
-        element = self._root.find("./Intestazione/Origine/Mittente/*/UnitaOrganizzativa/IndirizzoTelematico")
+        element = self._root.find(self.getFindPath("./Intestazione/Origine/Mittente/*/UnitaOrganizzativa/IndirizzoTelematico"))
         if element is not None and element.text is not None:
             vals = element.text
         return vals
+
+    def getFindPath(self, path):
+        try:
+            if self._root.nsmap and self._root.nsmap[None]:
+                namespace = self._root.nsmap[None]
+                path_components = path.split('/')
+                path_components_to_concatenate = []
+                for path_component in path_components:
+                    if not (path_component in ['.', '*']):
+                        path_component = '{' + namespace + '}' + path_component
+                    path_components_to_concatenate.append(path_component)
+                path = '/'.join(path_components_to_concatenate)
+        except Exception as e:
+            _logger.error(str(e))
+        return path
