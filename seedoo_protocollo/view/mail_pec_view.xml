@@ -265,6 +265,9 @@ this module contains the full copyright notices and license terms. -->
                     <field name="pec_state"/>
                     <field name="recovered_message_parent" invisible="1"/>
                 </xpath>
+                <xpath expr="//field[@name='date']" position="replace">
+                    <field name="server_received_datetime"/>
+                </xpath>
             </field>
         </record>
 
@@ -282,6 +285,9 @@ this module contains the full copyright notices and license terms. -->
                 </xpath>
                 <xpath expr="//field[@name='author_id']" position="after">
                     <field name="pec_state"/>
+                </xpath>
+                <xpath expr="//field[@name='date']" position="replace">
+                    <field name="server_received_datetime" readonly="1"/>
                 </xpath>
             </field>
         </record>
@@ -321,6 +327,9 @@ this module contains the full copyright notices and license terms. -->
                     <field name="sharedmail_state" string="Stato in protocollo"/>
                     <field name="recovered_message_parent" invisible="1"/>
                 </xpath>
+                <xpath expr="//field[@name='date']" position="replace">
+                    <field name="server_received_datetime"/>
+                </xpath>
             </field>
         </record>
 
@@ -338,6 +347,9 @@ this module contains the full copyright notices and license terms. -->
                 </xpath>
                 <xpath expr="//field[@name='author_id']" position="after">
                     <field name="sharedmail_state"/>
+                </xpath>
+                <xpath expr="//field[@name='date']" position="replace">
+                    <field name="server_received_datetime" readonly="1"/>
                 </xpath>
             </field>
         </record>
