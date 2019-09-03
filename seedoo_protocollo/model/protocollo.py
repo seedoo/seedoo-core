@@ -1485,6 +1485,7 @@ class protocollo_protocollo(orm.Model):
                     _logger.error(e)
 
             subject = self._get_oggetto_mail_pec(cr, uid, prot.subject, prot.name, prot.registration_date) if configurazione.rinomina_oggetto_mail_pec else prot.subject
+            subject = subject.replace('\r', '').replace('\n', '')
             if configurazione.lunghezza_massima_oggetto_pec > 0:
                 subject = subject[:configurazione.lunghezza_massima_oggetto_pec]
 
@@ -1563,6 +1564,7 @@ class protocollo_protocollo(orm.Model):
                 mail_message_obj.write(cr, uid, mail.mail_message_id.id, {'direction': 'out'})
 
                 msgvals = {}
+                email_list = ', '.join(email_to.split(','))
                 res = mail_mail.read(cr, uid, [msg_id], ['state'], context=context)
                 if res[0]['state'] != 'sent':
                     msgvals['to_resend'] = True
@@ -1570,7 +1572,7 @@ class protocollo_protocollo(orm.Model):
                     action_class = "history_icon warning"
                     post_vars = {
                         'subject': "Protocollo non inviato",
-                        'body': "<div class='%s'><ul><li>Non è stato possibile inviare la PEC a: %s</li></ul></div>" % (action_class, str(email_to)),
+                        'body': "<div class='%s'><ul><li>Non è stato possibile inviare la PEC a: %s</li></ul></div>" % (action_class, str(email_list)),
                         'model': "protocollo.protocollo",
                         'res_id': prot_id
                     }
@@ -1582,7 +1584,7 @@ class protocollo_protocollo(orm.Model):
                     action_class = "history_icon mail"
                     post_vars = {
                         'subject': "Protocollo inviato",
-                        'body': "<div class='%s'><ul><li>Protocollo inviato tramite PEC a: %s</li></ul></div>" % (action_class, email_to),
+                        'body': "<div class='%s'><ul><li>Protocollo inviato tramite PEC a: %s</li></ul></div>" % (action_class, email_list),
                         'model': "protocollo.protocollo",
                         'res_id': prot_id
                     }
@@ -1711,13 +1713,14 @@ class protocollo_protocollo(orm.Model):
                 mail_message_obj.write(cr, uid, mail.mail_message_id.id, {'direction_sharedmail': 'out'})
 
                 msgvals = {}
+                email_list = ', '.join(email_to.split(','))
                 res = mail_mail.read(cr, uid, [msg_id], ['state'], context=context)
                 if res[0]['state'] != 'sent':
                     msgvals['to_resend'] = True
                     action_class = "history_icon warning"
                     post_vars = {
                         'subject': "Protocollo non inviato",
-                        'body': "<div class='%s'><ul><li>Non è stato possibile inviare l'e-mail a: %s</li></ul></div>" % (action_class, str(email_to)),
+                        'body': "<div class='%s'><ul><li>Non è stato possibile inviare l'e-mail a: %s</li></ul></div>" % (action_class, str(email_list)),
                         'model': "protocollo.protocollo",
                         'res_id': prot_id
                     }
@@ -1728,7 +1731,7 @@ class protocollo_protocollo(orm.Model):
                     action_class = "history_icon mail"
                     post_vars = {
                         'subject': "Protocollo inviato",
-                        'body': "<div class='%s'><ul><li>Protocollo inviato tramite e-mail a: %s</li></ul></div>" % (action_class, email_to),
+                        'body': "<div class='%s'><ul><li>Protocollo inviato tramite e-mail a: %s</li></ul></div>" % (action_class, email_list),
                         'model': "protocollo.protocollo",
                         'res_id': prot_id
                     }
@@ -1848,9 +1851,10 @@ class protocollo_protocollo(orm.Model):
     def check_all_mail_messages(self, cr, uid, ids, *args):
         _logger.info('check_all_mail_messages')
         for protocollo in self.browse(cr, SUPERUSER_ID, ids):
-            for sr in protocollo.sender_receivers:
-                if not sr.pec_consegna_status:
-                    return False
+            if protocollo.pec:
+                for sr in protocollo.sender_receivers:
+                    if not sr.pec_consegna_status:
+                        return False
         return True
 
     def test_error_mail_message(self, cr, uid, ids, *args):
@@ -1862,10 +1866,11 @@ class protocollo_protocollo(orm.Model):
                         error = False
                         msg_date = False
                         for pec_messaggio in sender_receiver.pec_messaggio_ids:
-                            if pec_messaggio.type=='messaggio' and (not msg_date or pec_messaggio.messaggio_ref.date > msg_date):
-                                error = pec_messaggio.messaggio_ref.error
+                            if pec_messaggio.type=='messaggio' and (not msg_date or pec_messaggio.messaggio_ref.date>msg_date):
+                                error = True if pec_messaggio.errore_consegna_ref else False
                                 msg_date = pec_messaggio.messaggio_ref.date
-                        return error
+                        if error:
+                            return True
         return False
 
     def check_journal(self, cr, uid, ids, *args):
