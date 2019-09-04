@@ -231,9 +231,9 @@ openerp.m2m_tree_widget = function(instance) {
     		 			}
     		 		};
 
-    				$.fn.zTree.init($("#m2mTreeData"), setting, zNodes);
+    				$.fn.zTree.init($("#m2mTreeData_" + self.name), setting, zNodes);
 
-		 			var zTree = $.fn.zTree.getZTreeObj("m2mTreeData");
+		 			var zTree = $.fn.zTree.getZTreeObj("m2mTreeData_" + self.name);
 		 			if (zTree) {
 		 			    var nodes = zTree.getNodes();
                         if (! self.options.all_checkable) {

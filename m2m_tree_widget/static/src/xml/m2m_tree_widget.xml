@@ -7,7 +7,7 @@
         </t>
         <t t-if="!widget.get('effective_readonly')">
             <div>
-				<ul id="m2mTreeData" class="ztree"></ul>
+				<ul t-att-id="'m2mTreeData_' + widget.name" class="ztree"></ul>
             </div>
         </t>
     </span>
