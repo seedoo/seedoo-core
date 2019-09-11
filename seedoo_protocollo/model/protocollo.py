@@ -2094,7 +2094,10 @@ class protocollo_protocollo(orm.Model):
 
         configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
         configurazione = self.pool.get('protocollo.configurazione').browse(cr, uid, configurazione_ids[0])
-        mimetype = magic.from_buffer(base64.b64decode(datas), mime=True)
+        raw_file_data = base64.b64decode(datas)
+        if len(raw_file_data) > 1048576:
+            raw_file_data = raw_file_data[:1048576]
+        mimetype = magic.from_buffer(raw_file_data, mime=True)
 
         protocollo_obj = self.pool.get('protocollo.protocollo')
         attachment_obj = self.pool.get('ir.attachment')
