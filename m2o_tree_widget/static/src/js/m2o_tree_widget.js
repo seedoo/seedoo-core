@@ -214,9 +214,9 @@
     		 			}
     		 		};
     		 		
-    				$.fn.zTree.init($("#treeData"), setting, zNodes);
+    				$.fn.zTree.init($("#treeData_" + self.name), setting, zNodes);
     				
-		 			var zTree = $.fn.zTree.getZTreeObj("treeData");
+		 			var zTree = $.fn.zTree.getZTreeObj("treeData_" + self.name);
 		 			if (zTree) {
 		 			    // var nodes = zTree.getNodes();
                         var all_parent_nodes = zTree.getNodesByParam("isParent", true, null);

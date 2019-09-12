@@ -402,7 +402,7 @@ this module contains the full copyright notices and license terms. -->
                                             <field name="archivio_id" options="{'no_open': True}" readonly="1"/>
                                             <field name="registry" options="{'no_open': True}"/>
                                             <field name="type"/>
-                                            <field name="reserved" on_change="on_change_reserved(reserved)" attrs="{'invisible':[('protocollazione_riservata_visibility','=',False)], 'readonly':[('protocollo_fields_editability','=',False)]}"/>
+                                            <field name="reserved" attrs="{'invisible':[('protocollazione_riservata_visibility','=',False)], 'readonly':[('protocollo_fields_editability','=',False)]}"/>
                                             <field name="is_current_archive" invisible="1"/>
                                         </group>
                                     </group>

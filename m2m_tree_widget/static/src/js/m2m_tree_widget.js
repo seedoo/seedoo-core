@@ -268,8 +268,10 @@ openerp.m2m_tree_widget = function(instance) {
         },
         set_m2m_values: function(values) {
             this.set_value([[6, 0, values]]);
+        },
+        is_false: function() {
+            return _(this.get_m2m_values()).isEmpty();
         }
-
     });
 
     instance.web.form.widgets.add('m2m_tree', 'instance.m2m_tree_widget.FieldMany2ManyTree');

@@ -136,7 +136,7 @@ class protocollo_riassegna_wizard(osv.TransientModel):
             cr,
             uid,
             context.get('active_id', False),
-            wizard.assegnatario_competenza_id.id if wizard.assegnatario_competenza_id else False,
+            [wizard.assegnatario_competenza_id.id] if wizard.assegnatario_competenza_id else [],
             employee_ids[0] if employee_ids else False,
             True,
             context.get('smist_ut_uff', False)

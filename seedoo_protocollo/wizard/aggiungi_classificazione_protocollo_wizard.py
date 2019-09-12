@@ -116,16 +116,16 @@ class protocollo_aggiungi_classificazione_step1_wizard(osv.TransientModel):
             cr,
             uid,
             context.get('active_id', False),
-            assegnatario.id if assegnatario else False,
+            [assegnatario.id] if assegnatario else [],
             employee_ids[0] if employee_ids else False,
-            True
+            False
         )
         if save_history:
             after = assegnatario.nome
 
         if save_history and (before or after) and before!=after:
             history = "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#007ea6'> %s </span></li>" \
-                          % ('Assegnatario Competenza', before, after)
+                          % (protocollo_obj.get_label_competenza(cr, uid), before, after)
 
         return history
 

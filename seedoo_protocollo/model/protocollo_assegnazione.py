@@ -336,29 +336,51 @@ class protocollo_assegnazione(orm.Model):
                                                           assegnatore_id, tipologia, assegnazione_id, smist_ut_uff)
 
 
-    def salva_assegnazione_competenza(self, cr, uid, protocollo_id, assegnatario_id, assegnatore_id, force=False, smist_ut_uff=False):
+    def check_assegnazione_competenza(self, cr, uid, assegnatario_ids):
+        if len(assegnatario_ids) > 1:
+            raise orm.except_orm('Attenzione!', 'Non si possono inserire più assegnatari per competenza!')
+
+    def salva_assegnazione_competenza(self, cr, uid, protocollo_id, assegnatario_ids, assegnatore_id, assegnatario_id_to_replace=False, smist_ut_uff=False):
         if protocollo_id and assegnatore_id:
 
-            assegnazione_ids = []
-            if assegnatario_id:
-                assegnazione_ids = self.search(cr, uid, [
+            self.check_assegnazione_competenza(cr, uid, assegnatario_ids)
+
+            assegnazione_ids = self.search(cr, uid, [
+                ('protocollo_id', '=', protocollo_id),
+                ('tipologia_assegnazione', '=', 'competenza'),
+                ('parent_id', '=', False)
+            ])
+
+            assegnatario_to_create_ids = []
+            assegnatario_to_unlink_ids = []
+
+            if assegnazione_ids:
+                old_assegnatari = self.read(cr, uid, assegnazione_ids, ['assegnatario_id'])
+                old_assegnatario_ids = []
+                for old_assegnatario in old_assegnatari:
+                    old_assegnatario_ids.append(old_assegnatario['assegnatario_id'][0])
+
+                assegnatario_to_create_ids = list(set(assegnatario_ids) - set(old_assegnatario_ids))
+                if assegnatario_id_to_replace:
+                    assegnatario_to_unlink_ids = [assegnatario_id_to_replace]
+                elif not smist_ut_uff:
+                    assegnatario_to_unlink_ids = list(set(old_assegnatario_ids) - set(assegnatario_ids))
+            else:
+                assegnatario_to_create_ids = assegnatario_ids
+
+            if assegnatario_to_unlink_ids:
+                # eliminazione delle vecchie assegnazioni (eventuali figli vengono eliminati a cascata)
+                assegnazione_to_unlink_ids = self.search(cr, uid, [
                     ('protocollo_id', '=', protocollo_id),
                     ('tipologia_assegnazione', '=', 'competenza'),
-                    ('assegnatario_id', '=', assegnatario_id),
-                    ('parent_id', '=', False)
+                    ('assegnatario_id', 'in', assegnatario_to_unlink_ids)
                 ])
-            if not assegnazione_ids or force:
-                # eliminazione delle vecchie assegnazioni
-                assegnazione_ids = self.search(cr, uid, [
-                    ('protocollo_id', '=', protocollo_id),
-                    ('tipologia_assegnazione', '=', 'competenza')
-                ])
-                if assegnazione_ids:
-                    self.unlink(cr, uid, assegnazione_ids)
+                if assegnazione_to_unlink_ids:
+                    self.unlink(cr, uid, assegnazione_to_unlink_ids)
 
-                if assegnatario_id:
-                    # creazione della nuova assegnazione
-                    self._crea_assegnazioni(cr, uid, protocollo_id, [assegnatario_id], assegnatore_id, 'competenza', smist_ut_uff)
+            if assegnatario_to_create_ids:
+                # creazione della nuova assegnazione
+                self._crea_assegnazioni(cr, uid, protocollo_id, assegnatario_to_create_ids, assegnatore_id, 'competenza', smist_ut_uff)
 
 
     def salva_assegnazione_conoscenza(self, cr, uid, protocollo_id, assegnatario_ids, assegnatore_id, delete=True):
@@ -414,11 +436,12 @@ class protocollo_assegnazione(orm.Model):
                 ('protocollo_id', '=', protocollo_id),
                 ('tipologia_assegnazione', '=', 'competenza'),
                 ('tipologia_assegnatario', '=', 'employee'),
+                ('assegnatario_employee_id', 'in', employee_ids),
                 ('state', '!=', 'assegnato')
             ])
             if assegnazione_state_ids:
                 assegnazione_state = self.browse(cr, uid, assegnazione_state_ids[0])
-                for state_assegnatario in STATE_ASSEGNATARIO_SELECTION:
+                for state_assegnatario in self._fields['state'].selection:
                     if state_assegnatario[0] == assegnazione_state.state:
                         raise orm.except_orm(
                             'Attenzione!',
