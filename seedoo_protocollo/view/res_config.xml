@@ -54,6 +54,10 @@ this module contains the full copyright notices and license terms. -->
                         <field name="lunghezza_massima_oggetto_mail" required="1"/>
                         <newline/>
                         <field name="lunghezza_massima_oggetto_pec" required="1"/>
+                        <newline/>
+                        <field name="send_email_for_each_receiver"/>
+                        <newline/>
+                        <field name="send_pec_for_each_receiver"/>
                     </group>
                     <group string="Email/PEC 2 Protocollo">
                         <field name="select_eml"/>

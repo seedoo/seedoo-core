@@ -83,6 +83,8 @@ class protocollo_config_settings(osv.osv_memory):
         'email_pec_unique': fields.related('config_id', 'email_pec_unique', type='boolean', string='PEC/Email Univoca'),
         'lunghezza_massima_oggetto_mail': fields.related('config_id', 'lunghezza_massima_oggetto_mail', type='integer', string='Lunghezza massima dell\'oggetto dell\'e-mail', help='Inserire 0 per non limitare l\'oggetto'),
         'lunghezza_massima_oggetto_pec': fields.related('config_id', 'lunghezza_massima_oggetto_pec', type='integer', string='Lunghezza massima dell\'oggetto della PEC', help='Inserire 0 per non limitare l\'oggetto'),
+        'send_email_for_each_receiver': fields.related('config_id', 'send_email_for_each_receiver', type='boolean', string='Invia una e-mail per ogni destinatario'),
+        'send_pec_for_each_receiver': fields.related('config_id', 'send_pec_for_each_receiver', type='boolean', string='Invia una PEC per ogni destinatario'),
 
         'non_classificati_active': fields.related('config_id', 'non_classificati_active', type='boolean',
                                                   string='Visualizza Box "Da Classificare"'),
