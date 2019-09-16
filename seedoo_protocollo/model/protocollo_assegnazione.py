@@ -192,9 +192,7 @@ class protocollo_assegnazione(orm.Model):
         'assegnatore_department_id': fields.many2one('hr.department', 'Ufficio Assegnatore'),
 
         'parent_id': fields.many2one('protocollo.assegnazione', 'Assegnazione Ufficio', ondelete='cascade'),
-        'child_ids': fields.one2many('protocollo.assegnazione', 'parent_id', 'Assegnazioni Dipendenti'),
-
-        'smist_ut_uff': fields.boolean('Smistamento ad un Dipendente del Proprio Ufficio o degli Uffici Figli')
+        'child_ids': fields.one2many('protocollo.assegnazione', 'parent_id', 'Assegnazioni Dipendenti')
     }
 
     _sql_constraints = [
@@ -290,24 +288,23 @@ class protocollo_assegnazione(orm.Model):
             WHERE (tipologia_assegnatario = 'department' OR (tipologia_assegnatario = 'employee' AND parent_id IS NULL));
         """)
 
-    def _crea_assegnazione(self, cr, uid, protocollo_id, assegnatario_id, assegnatore_id, tipologia, parent_id=False, smist_ut_uff=False):
+    def _crea_assegnazione(self, cr, uid, protocollo_id, assegnatario_id, assegnatore_id, tipologia, parent_id=False, values={}):
         assegnatario_obj = self.pool.get('protocollo.assegnatario')
         assegnatario = assegnatario_obj.browse(cr, uid, assegnatario_id)
         assegnatore_obj = self.pool.get('hr.employee')
         assegnatore = assegnatore_obj.browse(cr, uid, assegnatore_id)
 
-        vals = {
-            'protocollo_id': protocollo_id,
-            'assegnatario_id': assegnatario.id,
-            'assegnatario_name': assegnatario.name,
-            'tipologia_assegnatario': assegnatario.tipologia,
-            'tipologia_assegnazione': tipologia,
-            'state': 'assegnato',
-            'assegnatore_id': assegnatore.id,
-            'assegnatore_department_id': assegnatore.department_id.id if assegnatore.department_id else False,
-            'parent_id': parent_id,
-            'smist_ut_uff': smist_ut_uff
-        }
+        vals = dict(values or {})
+        vals['protocollo_id'] = protocollo_id
+        vals['assegnatario_id'] = assegnatario.id
+        vals['assegnatario_name'] = assegnatario.name
+        vals['tipologia_assegnatario'] = assegnatario.tipologia
+        vals['tipologia_assegnazione'] = tipologia
+        vals['state'] = 'assegnato'
+        vals['assegnatore_id'] = assegnatore.id
+        vals['assegnatore_department_id'] = assegnatore.department_id.id if assegnatore.department_id else False
+        vals['parent_id'] = parent_id
+
         if assegnatario.tipologia == 'employee':
             vals['assegnatario_employee_id'] = assegnatario.employee_id.id
             vals['assegnatario_employee_department_id'] = assegnatario.employee_id.department_id.id if assegnatario.employee_id.department_id else False
@@ -322,10 +319,10 @@ class protocollo_assegnazione(orm.Model):
         return assegnazione_id
 
 
-    def _crea_assegnazioni(self, cr, uid, protocollo_id, assegnatario_ids, assegnatore_id, tipologia, smist_ut_uff=False):
+    def _crea_assegnazioni(self, cr, uid, protocollo_id, assegnatario_ids, assegnatore_id, tipologia, values={}):
         for assegnatario_id in assegnatario_ids:
             assegnazione_id = self._crea_assegnazione(cr, uid, protocollo_id, assegnatario_id,
-                                                      assegnatore_id, tipologia, False, smist_ut_uff)
+                                                      assegnatore_id, tipologia, False, values)
 
             dipendente_assegnatario_ids = self.pool.get('protocollo.assegnatario').search(cr, uid, [
                 ('parent_id', '=', assegnatario_id),
@@ -333,14 +330,14 @@ class protocollo_assegnazione(orm.Model):
             ])
             for dipendente_assegnatario_id in dipendente_assegnatario_ids:
                 self._crea_assegnazione(cr, uid, protocollo_id, dipendente_assegnatario_id,
-                                                          assegnatore_id, tipologia, assegnazione_id, smist_ut_uff)
+                                                          assegnatore_id, tipologia, assegnazione_id, values)
 
 
     def check_assegnazione_competenza(self, cr, uid, assegnatario_ids):
         if len(assegnatario_ids) > 1:
             raise orm.except_orm('Attenzione!', 'Non si possono inserire più assegnatari per competenza!')
 
-    def salva_assegnazione_competenza(self, cr, uid, protocollo_id, assegnatario_ids, assegnatore_id, assegnatario_id_to_replace=False, smist_ut_uff=False):
+    def salva_assegnazione_competenza(self, cr, uid, protocollo_id, assegnatario_ids, assegnatore_id, assegnatario_id_to_replace=False, values={}):
         if protocollo_id and assegnatore_id:
 
             self.check_assegnazione_competenza(cr, uid, assegnatario_ids)
@@ -363,7 +360,7 @@ class protocollo_assegnazione(orm.Model):
                 assegnatario_to_create_ids = list(set(assegnatario_ids) - set(old_assegnatario_ids))
                 if assegnatario_id_to_replace:
                     assegnatario_to_unlink_ids = [assegnatario_id_to_replace]
-                elif not smist_ut_uff:
+                else:
                     assegnatario_to_unlink_ids = list(set(old_assegnatario_ids) - set(assegnatario_ids))
             else:
                 assegnatario_to_create_ids = assegnatario_ids
@@ -380,7 +377,7 @@ class protocollo_assegnazione(orm.Model):
 
             if assegnatario_to_create_ids:
                 # creazione della nuova assegnazione
-                self._crea_assegnazioni(cr, uid, protocollo_id, assegnatario_to_create_ids, assegnatore_id, 'competenza', smist_ut_uff)
+                self._crea_assegnazioni(cr, uid, protocollo_id, assegnatario_to_create_ids, assegnatore_id, 'competenza', values)
 
 
     def salva_assegnazione_conoscenza(self, cr, uid, protocollo_id, assegnatario_ids, assegnatore_id, delete=True):
@@ -506,26 +503,6 @@ class protocollo_assegnazione(orm.Model):
             raise orm.except_orm('Attenzione!', 'Non è stato trovato il dipendente per la tua utenza!')
 
         for protocollo_id in protocollo_ids:
-        #     # verifica che il protocollo non abbia uno stato diverso da 'Assegnato'
-        #     assegnazione_state_ids = self.search(cr, uid, [
-        #         ('protocollo_id', '=', protocollo_id),
-        #         ('tipologia_assegnazione', '=', 'conoscenza'),
-        #         ('tipologia_assegnatario', '=', 'employee'),
-        #         ('state', '!=', 'assegnato')
-        #     ])
-        #     if assegnazione_state_ids:
-        #         assegnazione_state = self.browse(cr, uid, assegnazione_state_ids[0])
-        #         for state_assegnatario in STATE_ASSEGNATARIO_SELECTION:
-        #             if state_assegnatario[0] == assegnazione_state.state:
-        #                 raise orm.except_orm(
-        #                     'Attenzione!',
-        #                     '''
-        #                     Non è più possibile eseguire l\'operazione richiesta!
-        #                     Il protocollo è in stato "%s"!
-        #                     ''' % (str(state_assegnatario[1]),)
-        #                 )
-        #                 break
-
             # verifica che l'utente sia uno degli assegnatari del protocollo
             assegnazione_ids = self.search(cr, uid, [
                 ('protocollo_id', '=', protocollo_id),
@@ -610,7 +587,7 @@ class protocollo_assegnazione(orm.Model):
                 return assegnazione.assegnatario_employee_department_id.id
 
         # se l'utente non ha un dipendete fra gli assegnatari allora si controlla se l'utente ha un dipendente
-        # appartenente all'ufficio di protocollazione, al fine usare quest'ultimo come ufficio dell'assegnatore
+        # appartenente all'ufficio di protocollazione, al fine di usare quest'ultimo come ufficio dell'assegnatore
         if protocollo.registration_employee_department_id:
             employee_ids = employee_obj.search(cr, uid, [
                 ('id', 'in', employee_ids),

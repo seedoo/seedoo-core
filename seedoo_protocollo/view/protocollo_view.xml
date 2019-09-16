@@ -290,7 +290,7 @@ this module contains the full copyright notices and license terms. -->
                                 attrs="{'invisible':[('assegna_visibility','=',False)]}"
                                 class="oe_highlight_positive btn_seedoo btn_assegna"/>
 
-                        <button name="%(protocollo_riassegna_action)d" string="Riassegna" type="action"
+                        <button name="%(protocollo_riassegna_action)d" string="Riassegna" type="action" id="btn_riassegna"
                                 attrs="{'invisible':[('riassegna_visibility','=',False)]}"
                                 class="oe_highlight_positive btn_seedoo btn_assegna"/>
 

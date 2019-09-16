@@ -171,7 +171,6 @@ Se sono presenti assegnatari per conoscenza verranno rimossi al completamento de
             after['conoscenza'] = ', '.join([a.assegnatario_id.nome for a in protocollo.assegnazione_conoscenza_ids])
 
     def action_save(self, cr, uid, ids, context=None):
-
         before = {'competenza': '', 'conoscenza': ''}
         after = {'competenza': '', 'conoscenza': ''}
         protocollo_obj = self.pool.get('protocollo.protocollo')

@@ -115,56 +115,62 @@ class protocollo_riassegna_wizard(osv.TransientModel):
         check = protocollo.riassegna_visibility
         return check
 
-    def action_save(self, cr, uid, ids, context=None):
-        before = {'competenza': '', 'conoscenza': ''}
-        after = {'competenza': '', 'conoscenza': ''}
-        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
-        wizard = self.browse(cr, uid, ids[0], context)
-        employee_ids = self.pool.get('hr.employee').search(cr, uid, [
-            ('department_id', '=', wizard.assegnatore_department_id.id),
-            ('user_id', '=', uid)
-        ])
-        check = self.check_riassegna_visibility(cr, uid, protocollo)
-
-        if not check:
-            raise openerp.exceptions.Warning(_(
-                '"Non è più possibile eseguire l\'operazione richiesta!'))
-
-        # assegnazione per competenza
+    def salva_assegnazione_competenza(self, cr, uid, protocollo, wizard, assegnatore_id, before, after):
         before['competenza'] = ', '.join([a.assegnatario_id.nome for a in protocollo.assegnazione_competenza_ids])
         self.pool.get('protocollo.assegnazione').salva_assegnazione_competenza(
             cr,
             uid,
-            context.get('active_id', False),
+            protocollo.id,
             [wizard.assegnatario_competenza_id.id] if wizard.assegnatario_competenza_id else [],
-            employee_ids[0] if employee_ids else False,
-            True,
-            context.get('smist_ut_uff', False)
+            assegnatore_id
         )
-        after['competenza'] = wizard.assegnatario_competenza_id.nome
+        after['competenza'] = ', '.join([a.assegnatario_id.nome for a in protocollo.assegnazione_competenza_ids])
 
-        # assegnazione per conoscenza
+    def salva_assegnazione_conoscenza(self, cr, uid, protocollo, wizard, assegnatore_id, before, after):
         before['conoscenza'] = ', '.join([a.assegnatario_id.nome for a in protocollo.assegnazione_conoscenza_ids])
         assegnatario_conoscenza_to_save_ids = []
         if not protocollo.reserved:
             assegnatario_conoscenza_ids = wizard.assegnatario_conoscenza_ids.ids
             for assegnatario in wizard.assegnatario_conoscenza_ids:
-                if assegnatario.tipologia=='department' or (assegnatario.parent_id and assegnatario.parent_id.id not in assegnatario_conoscenza_ids):
+                if assegnatario.tipologia == 'department' or (
+                        assegnatario.parent_id and assegnatario.parent_id.id not in assegnatario_conoscenza_ids):
                     assegnatario_conoscenza_to_save_ids.append(assegnatario.id)
         self.pool.get('protocollo.assegnazione').salva_assegnazione_conoscenza(
             cr,
             uid,
-            context.get('active_id', False),
+            protocollo.id,
             assegnatario_conoscenza_to_save_ids,
-            employee_ids[0] if employee_ids else False
+            assegnatore_id
         )
         after['conoscenza'] = ', '.join([a.assegnatario_id.nome for a in protocollo.assegnazione_conoscenza_ids])
+
+    def action_save(self, cr, uid, ids, context=None):
+        before = {'competenza': '', 'conoscenza': ''}
+        after = {'competenza': '', 'conoscenza': ''}
+        protocollo_obj = self.pool.get('protocollo.protocollo')
+        protocollo = protocollo_obj.browse(cr, uid, context['active_id'], {'skip_check': True})
+        wizard = self.browse(cr, uid, ids[0], context)
+        employee_ids = self.pool.get('hr.employee').search(cr, uid, [
+            ('department_id', '=', wizard.assegnatore_department_id.id),
+            ('user_id', '=', uid)
+        ])
+        assegnatore_id = employee_ids[0] if employee_ids else False
+        check = self.check_riassegna_visibility(cr, uid, protocollo)
+
+        if not check:
+            raise openerp.exceptions.Warning(_('"Non è più possibile eseguire l\'operazione richiesta!'))
+
+        # assegnazione per competenza
+        self.salva_assegnazione_competenza(self, cr, uid, protocollo, wizard, assegnatore_id, before, after)
+
+        # assegnazione per conoscenza
+        self.salva_assegnazione_conoscenza(self, cr, uid, protocollo, wizard, assegnatore_id, before, after)
 
         action_class = "history_icon update"
         body = "<div class='%s'><ul>" % action_class
         if before['competenza'] or after['competenza']:
             body = body + "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#007ea6'> %s </span></li>" \
-                          % ('Assegnatario Competenza', before['competenza'], after['competenza'])
+                          % (protocollo_obj.get_label_competenza(cr, uid), before['competenza'], after['competenza'])
         if (before['conoscenza'] or after['conoscenza']) and before['conoscenza']!=after['conoscenza']:
             body = body + "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#007ea6'> %s </span></li>" \
                           % ('Assegnatari Conoscenza', before['conoscenza'], after['conoscenza'])
@@ -177,7 +183,6 @@ class protocollo_riassegna_wizard(osv.TransientModel):
         }
         new_context = dict(context).copy()
         new_context.update({'pec_messages': True})
-        thread_pool = self.pool.get('protocollo.protocollo')
-        thread_pool.message_post(cr, uid, context['active_id'], type="notification", context=new_context, **post_vars)
+        protocollo_obj.message_post(cr, uid, context['active_id'], type="notification", context=new_context, **post_vars)
 
         return {'type': 'ir.actions.act_window_close'}

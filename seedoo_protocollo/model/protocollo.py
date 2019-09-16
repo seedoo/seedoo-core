@@ -2126,7 +2126,7 @@ class protocollo_protocollo(orm.Model):
             assegnatario_competenza_ids.append(assegnazione.assegnatario_id.id)
         if assegnatario_competenza_ids:
             assegnazione_obj.salva_assegnazione_competenza(cr, uid, protocollo_id, assegnatario_competenza_ids,
-                                                           assegnazione.assegnatore_id.id, False)
+                                                           assegnazione.assegnatore_id.id)
 
         for assegnazione in protocollo.assegnazione_conoscenza_ids:
             assegnazione_obj.salva_assegnazione_conoscenza(cr, uid, protocollo_id, [assegnazione.assegnatario_id.id],
