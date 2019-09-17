@@ -192,7 +192,9 @@ class protocollo_assegnazione(orm.Model):
         'assegnatore_department_id': fields.many2one('hr.department', 'Ufficio Assegnatore'),
 
         'parent_id': fields.many2one('protocollo.assegnazione', 'Assegnazione Ufficio', ondelete='cascade'),
-        'child_ids': fields.one2many('protocollo.assegnazione', 'parent_id', 'Assegnazioni Dipendenti')
+        'child_ids': fields.one2many('protocollo.assegnazione', 'parent_id', 'Assegnazioni Dipendenti'),
+
+        'motivazione_rifiuto': fields.text('Motivazione del Rifiuto'),
     }
 
     _sql_constraints = [
@@ -418,7 +420,7 @@ class protocollo_assegnazione(orm.Model):
                 self._crea_assegnazioni(cr, uid, protocollo_id, assegnatario_to_create_ids, assegnatore_id, 'conoscenza')
 
 
-    def modifica_stato_assegnazione(self, cr, uid, protocollo_ids, state, assegnatario_employee_id=None):
+    def modifica_stato_assegnazione(self, cr, uid, protocollo_ids, state, assegnatario_employee_id=None, motivazione_rifiuto=None):
         employee_obj = self.pool.get('hr.employee')
         if assegnatario_employee_id:
             employee_ids = [assegnatario_employee_id]
@@ -488,7 +490,10 @@ class protocollo_assegnazione(orm.Model):
                     raise orm.except_orm('Attenzione!', 'Non sei uno degli assegnatari del protocollo!')
 
             # aggiorna il nuovo stato per l'assegnazione dell'utente
-            self.write(cr, uid, assegnazione_ids, {'state': state})
+            self.write(cr, uid, assegnazione_ids, {
+                'state': state,
+                'motivazione_rifiuto': motivazione_rifiuto
+            })
 
             for assegnazione_id in assegnazione_ids:
                 # aggiorna, se presente, anche l'assegnazione dell'ufficio

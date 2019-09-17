@@ -1947,7 +1947,7 @@ class protocollo_protocollo(orm.Model):
 
                 # l'invio della notifica avviene prima della modifica dello stato, perchè se fatta dopo, in alcuni casi,
                 # potrebbe non avere più i permessi di scrittura sul protocollo
-                self.pool.get('protocollo.assegnazione').modifica_stato_assegnazione(cr, uid, ids, 'rifiutato', assegnatario_employee_id)
+                self.pool.get('protocollo.assegnazione').modifica_stato_assegnazione(cr, uid, ids, 'rifiutato', assegnatario_employee_id, motivazione)
             else:
                 raise orm.except_orm(_('Attenzione!'), _('Il protocollo non può più essere rifiutato!'))
         except Exception as e:
