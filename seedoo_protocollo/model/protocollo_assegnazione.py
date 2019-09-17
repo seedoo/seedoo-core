@@ -499,7 +499,10 @@ class protocollo_assegnazione(orm.Model):
                 # aggiorna, se presente, anche l'assegnazione dell'ufficio
                 assegnazione = self.browse(cr, uid, assegnazione_id)
                 if assegnazione.parent_id:
-                    self.write(cr, uid, [assegnazione.parent_id.id], {'state': state})
+                    self.write(cr, uid, [assegnazione.parent_id.id], {
+                        'state': state,
+                        'motivazione_rifiuto': motivazione_rifiuto
+                    })
 
     def modifica_stato_assegnazione_conoscenza(self, cr, uid, protocollo_ids, state):
         employee_obj = self.pool.get('hr.employee')
