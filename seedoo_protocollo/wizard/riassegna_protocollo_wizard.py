@@ -115,14 +115,17 @@ class protocollo_riassegna_wizard(osv.TransientModel):
         check = protocollo.riassegna_visibility
         return check
 
-    def salva_assegnazione_competenza(self, cr, uid, protocollo, wizard, assegnatore_id, before, after):
+    def salva_assegnazione_competenza(self, cr, uid, protocollo, wizard, assegnatore_id, before, after, values={}, context={}):
         before['competenza'] = ', '.join([a.assegnatario_id.nome for a in protocollo.assegnazione_competenza_ids])
         self.pool.get('protocollo.assegnazione').salva_assegnazione_competenza(
             cr,
             uid,
             protocollo.id,
             [wizard.assegnatario_competenza_id.id] if wizard.assegnatario_competenza_id else [],
-            assegnatore_id
+            assegnatore_id,
+            False,
+            values,
+            context
         )
         after['competenza'] = ', '.join([a.assegnatario_id.nome for a in protocollo.assegnazione_competenza_ids])
 
@@ -161,10 +164,10 @@ class protocollo_riassegna_wizard(osv.TransientModel):
             raise openerp.exceptions.Warning(_('"Non è più possibile eseguire l\'operazione richiesta!'))
 
         # assegnazione per competenza
-        self.salva_assegnazione_competenza(self, cr, uid, protocollo, wizard, assegnatore_id, before, after)
+        self.salva_assegnazione_competenza(cr, uid, protocollo, wizard, assegnatore_id, before, after, context=context)
 
         # assegnazione per conoscenza
-        self.salva_assegnazione_conoscenza(self, cr, uid, protocollo, wizard, assegnatore_id, before, after)
+        self.salva_assegnazione_conoscenza(cr, uid, protocollo, wizard, assegnatore_id, before, after)
 
         action_class = "history_icon update"
         body = "<div class='%s'><ul>" % action_class

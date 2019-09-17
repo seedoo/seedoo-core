@@ -337,7 +337,7 @@ class protocollo_assegnazione(orm.Model):
         if len(assegnatario_ids) > 1:
             raise orm.except_orm('Attenzione!', 'Non si possono inserire più assegnatari per competenza!')
 
-    def salva_assegnazione_competenza(self, cr, uid, protocollo_id, assegnatario_ids, assegnatore_id, assegnatario_id_to_replace=False, values={}):
+    def salva_assegnazione_competenza(self, cr, uid, protocollo_id, assegnatario_ids, assegnatore_id, assegnatario_id_to_replace=False, values={}, context={}):
         if protocollo_id and assegnatore_id:
 
             self.check_assegnazione_competenza(cr, uid, assegnatario_ids)
