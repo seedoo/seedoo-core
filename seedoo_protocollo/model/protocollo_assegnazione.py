@@ -435,26 +435,27 @@ class protocollo_assegnazione(orm.Model):
                 raise orm.except_orm('Attenzione!', 'Non è stato trovato il dipendente per la tua utenza!')
 
         for protocollo_id in protocollo_ids:
-            # verifica che il protocollo non abbia uno stato diverso da 'Assegnato'
-            assegnazione_state_ids = self.search(cr, uid, [
-                ('protocollo_id', '=', protocollo_id),
-                ('tipologia_assegnazione', '=', 'competenza'),
-                ('tipologia_assegnatario', '=', 'employee'),
-                ('assegnatario_employee_id', 'in', employee_ids),
-                ('state', '!=', 'assegnato')
-            ])
-            if assegnazione_state_ids:
-                assegnazione_state = self.browse(cr, uid, assegnazione_state_ids[0])
-                for state_assegnatario in self._fields['state'].selection:
-                    if state_assegnatario[0] == assegnazione_state.state:
-                        raise orm.except_orm(
-                            'Attenzione!',
-                            '''
-                            Non è più possibile eseguire l\'operazione richiesta!
-                            Il protocollo è in stato "%s"!
-                            ''' % (str(state_assegnatario[1]),)
-                        )
-                        break
+            if state in ['preso', 'rifiutato']:
+                # verifica che il protocollo non abbia uno stato diverso da 'Assegnato'
+                assegnazione_state_ids = self.search(cr, uid, [
+                    ('protocollo_id', '=', protocollo_id),
+                    ('tipologia_assegnazione', '=', 'competenza'),
+                    ('tipologia_assegnatario', '=', 'employee'),
+                    ('assegnatario_employee_id', 'in', employee_ids),
+                    ('state', '!=', 'assegnato')
+                ])
+                if assegnazione_state_ids:
+                    assegnazione_state = self.browse(cr, uid, assegnazione_state_ids[0])
+                    for state_assegnatario in self._fields['state'].selection:
+                        if state_assegnatario[0] == assegnazione_state.state:
+                            raise orm.except_orm(
+                                'Attenzione!',
+                                '''
+                                Non è più possibile eseguire l\'operazione richiesta!
+                                Il protocollo è in stato "%s"!
+                                ''' % (str(state_assegnatario[1]),)
+                            )
+                            break
 
             # verifica che l'utente sia uno degli assegnatari del protocollo
             assegnazione_ids = self.search(cr, uid, [
