@@ -49,7 +49,8 @@ class protocollo_protocollo(osv.Model):
         domain.append(('assegnatore_id.user_id.id', '=', assegnatore_uid))
         domain.append(('protocollo_id', '=', protocollo.id))
         domain.append(('tipologia_assegnazione', '=', 'competenza'))
-        domain.append(('state', '=', stato))
+        if stato:
+            domain.append(('state', '=', stato))
         assegnazione_ids = assegnazione_obj.search(cr, uid, domain)
         if len(assegnazione_ids) > 0:
             return True
