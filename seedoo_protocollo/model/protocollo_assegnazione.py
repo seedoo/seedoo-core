@@ -167,7 +167,7 @@ class protocollo_assegnatario(osv.osv):
 class protocollo_assegnazione(orm.Model):
     _name = 'protocollo.assegnazione'
     _description = 'Assegnazione Protocollo'
-    _order = 'tipologia_assegnazione'
+    _order = 'tipologia_assegnazione,create_date'
 
     _rec_name = 'assegnatario_id'
 
@@ -189,6 +189,7 @@ class protocollo_assegnazione(orm.Model):
         'state': fields.selection(STATE_ASSEGNATARIO_SELECTION, 'Stato'),
 
         'assegnatore_id': fields.many2one('hr.employee', 'Assegnatore'),
+        'assegnatore_name': fields.char('Assegnatore', size=512),
         'assegnatore_department_id': fields.many2one('hr.department', 'Ufficio Assegnatore'),
 
         'parent_id': fields.many2one('protocollo.assegnazione', 'Assegnazione Ufficio', ondelete='cascade'),
@@ -304,6 +305,7 @@ class protocollo_assegnazione(orm.Model):
         vals['tipologia_assegnazione'] = tipologia
         vals['state'] = 'assegnato'
         vals['assegnatore_id'] = assegnatore.id
+        vals['assegnatore_name'] = assegnatore.name
         vals['assegnatore_department_id'] = assegnatore.department_id.id if assegnatore.department_id else False
         vals['parent_id'] = parent_id
 
