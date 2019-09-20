@@ -99,7 +99,7 @@ class protocollo_aggiungi_classificazione_step1_wizard(osv.TransientModel):
                                          **post_vars)
 
 
-    def competenza_save(self, cr, uid, protocollo, assegnatario, context=None):
+    def competenza_save(self, cr, uid, protocollo, assegnatario_ids, context=None):
         before = ''
         after = ''
         history = ''
@@ -116,17 +116,27 @@ class protocollo_aggiungi_classificazione_step1_wizard(osv.TransientModel):
             cr,
             uid,
             context.get('active_id', False),
-            [assegnatario.id] if assegnatario else [],
+            assegnatario_ids,
             employee_ids[0] if employee_ids else False
         )
         if save_history:
-            after = assegnatario.nome
+            after = ', '.join([a.assegnatario_id.nome for a in protocollo.assegnazione_competenza_ids])
 
         if save_history and (before or after) and before!=after:
             history = "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#007ea6'> %s </span></li>" \
                           % (protocollo_obj.get_label_competenza(cr, uid), before, after)
 
         return history
+
+
+
+    def get_assignee_default_ids(self, cr, uid, protocollo, wizard):
+        assignee_default_ids = []
+        if protocollo.type == 'in' and wizard.classification and wizard.classification.assignee_default_in and wizard.classification.assignee_default_in.is_visible:
+            assignee_default_ids.append(wizard.classification.assignee_default_in.id)
+        elif protocollo.type == 'out' and wizard.classification and wizard.classification.assignee_default_out and wizard.classification.assignee_default_out.is_visible:
+            assignee_default_ids.append(wizard.classification.assignee_default_out.id)
+        return assignee_default_ids
 
 
 
@@ -143,21 +153,9 @@ class protocollo_aggiungi_classificazione_step1_wizard(osv.TransientModel):
                 else:
                     context['display_replace_message'] = False
 
-                if protocollo.type=='in' and wizard.classification and wizard.classification.assignee_default_in and wizard.classification.assignee_default_in.is_visible:
-                    context['assignee_default_id'] = wizard.classification.assignee_default_in.id
-                    context['classification_id'] = wizard.classification.id
-                    context['motivation'] = wizard.motivation
-                    return {
-                        'name': 'Aggiungi Classificazione',
-                        'view_type': 'form',
-                        'view_mode': 'form',
-                        'res_model': 'protocollo.aggiungi.classificazione.step2.wizard',
-                        'type': 'ir.actions.act_window',
-                        'target': 'new',
-                        'context': context
-                    }
-                elif protocollo.type=='out' and wizard.classification and wizard.classification.assignee_default_out and wizard.classification.assignee_default_out.is_visible:
-                    context['assignee_default_id'] = wizard.classification.assignee_default_in.id
+                assignee_default_ids = self.get_assignee_default_ids(cr, uid, protocollo, wizard)
+                if assignee_default_ids:
+                    context['assignee_default_ids'] = assignee_default_ids
                     context['classification_id'] = wizard.classification.id
                     context['motivation'] = wizard.motivation
                     return {
@@ -192,13 +190,17 @@ class protocollo_aggiungi_classificazione_step2_wizard(osv.TransientModel):
     _description = 'Aggiungi Classificazione'
 
     _columns = {
-        'assignee_default': fields.many2one('protocollo.assegnatario', 'Assegnatario Default'),
+        'assignee_default': fields.text('Assegnatario Default'),
         'display_replace_message': fields.boolean('Visualizza Messaggio di Sostituzione', readonly=True),
     }
 
     def _default_assignee_default(self, cr, uid, context):
-        assegnatario = self.pool.get('protocollo.assegnatario').browse(cr, uid, context['assignee_default_id'])
-        return assegnatario.id
+        assegnatario_lista_name = []
+        assegnatario_list = self.pool.get('protocollo.assegnatario').browse(cr, uid, context['assignee_default_ids'])
+        for assegnatario in assegnatario_list:
+            assegnatario_lista_name.append(assegnatario.name)
+        assignee_default = '\n'.join(assegnatario_lista_name)
+        return assignee_default
 
     def _default_display_replace_message(self, cr, uid, context):
         return context['display_replace_message']
@@ -211,9 +213,8 @@ class protocollo_aggiungi_classificazione_step2_wizard(osv.TransientModel):
     def action_yes(self, cr, uid, ids, context=None):
         protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
         classification = self.pool.get('protocollo.classification').browse(cr, uid, context['classification_id'])
-        assegnatario = self.pool.get('protocollo.assegnatario').browse(cr, uid, context['assignee_default_id'])
         history = self.pool.get('protocollo.aggiungi.classificazione.step1.wizard').competenza_save(
-            cr, uid, protocollo, assegnatario, context
+            cr, uid, protocollo, context['assignee_default_ids'], context
         )
         self.pool.get('protocollo.aggiungi.classificazione.step1.wizard').classification_save(
             cr, uid, protocollo, classification, context['motivation'], history, context

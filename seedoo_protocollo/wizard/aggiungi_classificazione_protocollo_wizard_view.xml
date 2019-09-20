@@ -43,8 +43,8 @@
                 <form string="Aggiungi Classificazione" class="container_aggiungi_classificazione_step1">
                     <sheet>
                         <group>
-                            <separator string="Il titolario selezionato ha il seguente Ufficio Assegnatario di Competenza di default:" colspan="2"/>
-                            <field name="assignee_default" readonly="1" nolabel="1" options="{'no_open': True}" class="assignee_items"/>
+                            <separator id="message_assignee" string="Il titolario selezionato ha il seguente Ufficio Assegnatario di Competenza di default:" colspan="2"/>
+                            <field name="assignee_default" readonly="1" nolabel="1" class="assignee_items"/>
                             <separator string="Vuoi utilizzarlo?"
                                        attrs="{'invisible':[('display_replace_message','=',True)]}"
                                        colspan="2"/>
