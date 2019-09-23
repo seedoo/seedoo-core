@@ -18,16 +18,19 @@
                         <group attrs="{'invisible':[('assegnatari_empty','=',True)]}">
                             <field name="assegnatore_department_id"
                                    attrs="{'invisible':[('assegnatore_department_id_invisible','=',True)]}"
-                                   widget="selection"/>
+                                   widget="selection"
+                            />
                             <field name="assegnatore_department_id_invisible" invisible="1"/>
 
                             <field name="assegnatario_conoscenza_ids"
                                    widget="m2m_tree"
                                    options="{'limit': 5000, 'label': 'nome', 'all_checkable': true, 'field_no_checkbox': 'no_checkbox', 'css_class': 'tipologia', 'order': '-tipologia,nome'}"
+                                   context="{'disable_ids': assegnatario_conoscenza_disable_ids[0][2]}"
                             />
                             <field name="motivation" required="1"/>
                         </group>
 
+                        <field name="assegnatario_conoscenza_disable_ids" invisible="1"/>
                         <field name="assegnatari_empty" invisible="1"/>
                     </sheet>
                     <footer>
