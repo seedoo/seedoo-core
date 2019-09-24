@@ -103,6 +103,8 @@ class protocollo_riassegna_wizard(osv.TransientModel):
         return check
 
     def salva_assegnazione_competenza(self, cr, uid, protocollo, wizard, assegnatario_ids, assegnatore_id, before, after, values={}, context={}):
+        new_context = dict(context or {})
+        new_context['riassegna'] = True
         before['competenza'] = ', '.join([a.assegnatario_id.nome for a in protocollo.assegnazione_competenza_ids])
         self.pool.get('protocollo.assegnazione').salva_assegnazione_competenza(
             cr,
@@ -112,7 +114,7 @@ class protocollo_riassegna_wizard(osv.TransientModel):
             assegnatore_id,
             False,
             values,
-            context
+            new_context
         )
         after['competenza'] = ', '.join([a.assegnatario_id.nome for a in protocollo.assegnazione_competenza_ids])
 

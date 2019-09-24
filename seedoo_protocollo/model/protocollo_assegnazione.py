@@ -350,9 +350,20 @@ class protocollo_assegnazione(orm.Model):
             raise orm.except_orm('Attenzione!', 'Non si possono inserire più assegnatari per competenza!')
 
 
+    def get_assegnatario_to_create_ids(self, cr, uid, assegnatario_ids, old_assegnatario_ids, assegnatario_id_to_replace, context={}):
+        if assegnatario_id_to_replace:
+            return assegnatario_ids
+        elif context and 'riassegna' in context:
+            return assegnatario_ids
+        else:
+            return list(set(assegnatario_ids) - set(old_assegnatario_ids))
+
+
     def get_assegnatario_to_unlink_ids(self, cr, uid, assegnatario_ids, old_assegnatario_ids, assegnatario_id_to_replace, context={}):
         if assegnatario_id_to_replace:
             return [assegnatario_id_to_replace]
+        elif context and 'riassegna' in context:
+            return old_assegnatario_ids
         else:
             return list(set(old_assegnatario_ids) - set(assegnatario_ids))
 
@@ -377,7 +388,7 @@ class protocollo_assegnazione(orm.Model):
                 for old_assegnatario in old_assegnatari:
                     old_assegnatario_ids.append(old_assegnatario['assegnatario_id'][0])
 
-                assegnatario_to_create_ids = list(set(assegnatario_ids) - set(old_assegnatario_ids))
+                assegnatario_to_create_ids = self.get_assegnatario_to_create_ids(cr, uid, assegnatario_ids, old_assegnatario_ids, assegnatario_id_to_replace, context)
                 assegnatario_to_unlink_ids = self.get_assegnatario_to_unlink_ids(cr, uid, assegnatario_ids, old_assegnatario_ids, assegnatario_id_to_replace, context)
             else:
                 assegnatario_to_create_ids = assegnatario_ids
