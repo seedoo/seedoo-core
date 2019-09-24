@@ -41,10 +41,11 @@
                                        options="{'limit': 5000, 'label': 'nome', 'all_checkable': true, 'field_no_checkbox': 'no_checkbox', 'css_class': 'tipologia', 'order': '-tipologia,nome'}"
                                        attrs="{'invisible':[('reserved','=',True)]}"
                                        nolabel="1"
-                                       context="{'reserved': reserved}"
+                                       context="{'reserved': reserved, 'disable_ids': assegnatario_conoscenza_disable_ids[0][2]}"
                                 />
                             </group>
 
+                            <field name="assegnatario_conoscenza_disable_ids" invisible="1"/>
                             <field name="reserved" invisible="1"/>
                         </group>
 

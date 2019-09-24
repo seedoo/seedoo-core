@@ -26,6 +26,11 @@ class protocollo_riassegna_wizard(osv.TransientModel):
                                                         'assegnatario_id',
                                                         'Assegnatari per Conoscenza',
                                                         domain="[('is_visible', '=', True)]"),
+        'assegnatario_conoscenza_disable_ids': fields.many2many('protocollo.assegnatario',
+                                                        'protocollo_riassegna_assegnatari_disable_rel',
+                                                        'wizard_id',
+                                                        'assegnatario_id',
+                                                        'Assegnatari per Conoscenza Disabilitati'),
         'motivation': fields.text('Motivazione'),
         'assegnatari_empty': fields.boolean('Assegnatari Non Presenti'),
         'assegnatore_department_id_invisible': fields.boolean('Dipartimento Assegnatore Non Visibile', readonly=True),
@@ -62,6 +67,24 @@ class protocollo_riassegna_wizard(osv.TransientModel):
             return assegnatario_ids
         return False
 
+    def _default_assegnatario_conoscenza_disable_ids(self, cr, uid, context):
+        assegnazione_obj = self.pool.get('protocollo.assegnazione')
+        assegnazione_ids = assegnazione_obj.search(cr, uid, [
+            ('protocollo_id', '=', context['active_id']),
+            ('tipologia_assegnazione', '=', 'conoscenza')
+        ])
+        if assegnazione_ids:
+            assegnatario_ids = []
+            assegnazione_ids = assegnazione_obj.browse(cr, uid, assegnazione_ids)
+            for assegnazione in assegnazione_ids:
+                assegnatario_ids.append(assegnazione.assegnatario_id.id)
+                # se l'assegnazione per conoscenza è di tipo employee allora anche l'ufficio di appartenenza non
+                # deve essere selezionabile, mentre gli altri appartenenti all'ufficio possono esserlo
+                if assegnazione.tipologia_assegnatario == 'employee' and not assegnazione.parent_id and assegnazione.assegnatario_id.parent_id:
+                    assegnatario_ids.append(assegnazione.assegnatario_id.parent_id.id)
+            return assegnatario_ids
+        return False
+
     def _default_assegnatari_empty(self, cr, uid, context):
         count = self.pool.get('protocollo.assegnatario').search(cr, uid, [], count=True, context=context)
         if count > 0:
@@ -73,6 +96,7 @@ class protocollo_riassegna_wizard(osv.TransientModel):
         'reserved': _default_reserved,
         'assegnatore_department_id': _default_assegnatore_department_id,
         'assegnatario_conoscenza_ids': _default_assegnatario_conoscenza_ids,
+        'assegnatario_conoscenza_disable_ids': _default_assegnatario_conoscenza_disable_ids,
         'assegnatari_empty': _default_assegnatari_empty,
         'assegnatore_department_id_invisible': _default_assegnatore_department_id_invisible
     }
