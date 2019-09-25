@@ -294,7 +294,8 @@ class protocollo_protocollo(osv.Model):
             assegnazione_ids = assegnazione_obj.search(cr, uid, [
                 ('tipologia_assegnatario', '=', 'employee'),
                 ('parent_id', '=', False),
-                ('assegnatario_employee_department_id', 'in', employee_department_ids)
+                ('assegnatario_employee_department_id', 'in', employee_department_ids),
+                ('state', '!=', 'rifiutato')
             ])
             protocollo_visible_ids.extend(self.search(cr, uid, [
                 ('type', 'in', types),
@@ -312,7 +313,8 @@ class protocollo_protocollo(osv.Model):
             assegnazione_ids = assegnazione_obj.search(cr, uid, [
                 ('tipologia_assegnatario', '=', 'department'),
                 # ('assegnatario_department_parent_id', '=', employee.department_id.id)
-                ('assegnatario_department_id', 'in', employee_department_child_ids)
+                ('assegnatario_department_id', 'in', employee_department_child_ids),
+                ('state', '!=', 'rifiutato')
             ])
             protocollo_visible_ids.extend(self.search(cr, uid, [
                 ('type', 'in', types),
@@ -331,7 +333,8 @@ class protocollo_protocollo(osv.Model):
                 ('tipologia_assegnatario', '=', 'employee'),
                 ('parent_id', '=', False),
                 # ('assegnatario_employee_department_id.parent_id.id', '=', employee.department_id.id)
-                ('assegnatario_employee_department_id', 'in', employee_department_child_ids)
+                ('assegnatario_employee_department_id', 'in', employee_department_child_ids),
+                ('state', '!=', 'rifiutato')
             ])
             protocollo_visible_ids.extend(self.search(cr, uid, [
                 ('type', 'in', types),
