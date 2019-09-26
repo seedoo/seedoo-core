@@ -154,6 +154,7 @@ openerp.m2m_tree_widget = function(instance) {
                 .order_by(order)
                 .context(self.build_context().eval())
 	            .all().then(function (res) {
+	                var context = self.build_context().eval();
 	            	var zNodes = [];
 	            	for (r in res) {
 	            	    var iconSkin = '';
@@ -163,6 +164,8 @@ openerp.m2m_tree_widget = function(instance) {
                         var nocheck = false;
 	            	    if (self.options.field_no_checkbox && res[r][self.options.field_no_checkbox]) {
                             nocheck = true;
+                        } else if (context.disable_ids && context.disable_ids.includes(res[r]['id'])) {
+	            	        nocheck = true;
                         }
 	            		zNodes.push(
                             {
@@ -231,9 +234,9 @@ openerp.m2m_tree_widget = function(instance) {
     		 			}
     		 		};
 
-    				$.fn.zTree.init($("#m2mTreeData"), setting, zNodes);
+    				$.fn.zTree.init($("#m2mTreeData_" + self.name), setting, zNodes);
 
-		 			var zTree = $.fn.zTree.getZTreeObj("m2mTreeData");
+		 			var zTree = $.fn.zTree.getZTreeObj("m2mTreeData_" + self.name);
 		 			if (zTree) {
 		 			    var nodes = zTree.getNodes();
                         if (! self.options.all_checkable) {
@@ -268,8 +271,10 @@ openerp.m2m_tree_widget = function(instance) {
         },
         set_m2m_values: function(values) {
             this.set_value([[6, 0, values]]);
+        },
+        is_false: function() {
+            return _(this.get_m2m_values()).isEmpty();
         }
-
     });
 
     instance.web.form.widgets.add('m2m_tree', 'instance.m2m_tree_widget.FieldMany2ManyTree');

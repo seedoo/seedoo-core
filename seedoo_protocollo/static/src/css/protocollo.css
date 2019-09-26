@@ -1036,10 +1036,10 @@ div.box-sender-internal .icon_item_type div:hover {
   font-size: 16px;
   color: #333 !important;
 }
-.container_aggiungi_classificazione_step1 .assignee_items .oe_form_uri {
+.container_aggiungi_classificazione_step1 .assignee_items .oe_form_text_content {
   font-size: 16px;
 }
-.container_aggiungi_classificazione_step1 .assignee_items .oe_form_uri:before {
+.container_aggiungi_classificazione_step1 .assignee_items .oe_form_text_content:before {
   content: "\f007";
   font-family: FontAwesome, sans-serif;
   margin-right: 10px;

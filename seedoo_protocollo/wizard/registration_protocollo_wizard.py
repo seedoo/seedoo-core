@@ -11,9 +11,7 @@ class protocollo_registration_confirmation_wizard(models.TransientModel):
         'senders': fields.text('Mittente', readonly=True),
         'receivers': fields.text('Destinatari', readonly=True),
         'subject': fields.char('Oggetto', readonly=True),
-        'assegnatario_competenza_id': fields.many2one('protocollo.assegnatario',
-                                                      'Assegnatario Competenza',
-                                                      readonly=True),
+        'assegnatario_competenza_id': fields.text('Assegnatario Competenza', readonly=True),
         'assegnatario_conoscenza_ids': fields.text('Assegnatari CC', readonly=True),
         'message_verifica_campi_obbligatori': fields.html('Verifica campi obbligatori', readonly=True)
     }
@@ -53,9 +51,18 @@ class protocollo_registration_confirmation_wizard(models.TransientModel):
                 ('tipologia_assegnazione', '=', 'competenza'),
                 ('parent_id', '=', False)
             ])
+            assegnatari_competenza_list = ''
             if assegnazione_ids:
-                assegnazione = assegnazione_obj.browse(cr, uid, assegnazione_ids[0])
-                return assegnazione.assegnatario_id.id
+                assegnazione_ids = assegnazione_obj.browse(cr, uid, assegnazione_ids)
+                for assegnazione in assegnazione_ids:
+                    if assegnazione.tipologia_assegnatario == 'department':
+                        assegnatari_competenza_list = assegnatari_competenza_list + \
+                                                      assegnazione.assegnatario_department_id.name + '\n'
+                    else:
+                        assegnatari_competenza_list = assegnatari_competenza_list + \
+                                                      assegnazione.assegnatario_employee_department_id.name + ' / ' + \
+                                                      assegnazione.assegnatario_employee_id.name + '\n'
+                return assegnatari_competenza_list
         return False
 
     def _default_assegnatario_conoscenza_ids(self, cr, uid, context):

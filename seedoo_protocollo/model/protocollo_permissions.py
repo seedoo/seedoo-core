@@ -41,17 +41,17 @@ class protocollo_protocollo(osv.Model):
             return True
         return False
 
-    def _check_stato_assegnatore_competenza(self, cr, uid, protocollo, stato, assegnatario_uid=None, smist_ut_uff=False):
-        if not assegnatario_uid:
-            assegnatario_uid = uid
+    def _check_stato_assegnatore_competenza(self, cr, uid, protocollo, stato, assegnatore_uid=None, assegnazione_domain=[]):
+        if not assegnatore_uid:
+            assegnatore_uid = uid
         assegnazione_obj = self.pool.get('protocollo.assegnazione')
-        assegnazione_ids = assegnazione_obj.search(cr, uid, [
-            ('assegnatore_id.user_id.id', '=', assegnatario_uid),
-            ('protocollo_id', '=', protocollo.id),
-            ('tipologia_assegnazione', '=', 'competenza'),
-            ('state', '=', stato),
-            ('smist_ut_uff', '=', smist_ut_uff)
-        ])
+        domain = [x for x in assegnazione_domain]
+        domain.append(('assegnatore_id.user_id.id', '=', assegnatore_uid))
+        domain.append(('protocollo_id', '=', protocollo.id))
+        domain.append(('tipologia_assegnazione', '=', 'competenza'))
+        if stato:
+            domain.append(('state', '=', stato))
+        assegnazione_ids = assegnazione_obj.search(cr, uid, domain)
         if len(assegnazione_ids) > 0:
             return True
         return False
@@ -294,7 +294,8 @@ class protocollo_protocollo(osv.Model):
             assegnazione_ids = assegnazione_obj.search(cr, uid, [
                 ('tipologia_assegnatario', '=', 'employee'),
                 ('parent_id', '=', False),
-                ('assegnatario_employee_department_id', 'in', employee_department_ids)
+                ('assegnatario_employee_department_id', 'in', employee_department_ids),
+                ('state', '!=', 'rifiutato')
             ])
             protocollo_visible_ids.extend(self.search(cr, uid, [
                 ('type', 'in', types),
@@ -312,7 +313,8 @@ class protocollo_protocollo(osv.Model):
             assegnazione_ids = assegnazione_obj.search(cr, uid, [
                 ('tipologia_assegnatario', '=', 'department'),
                 # ('assegnatario_department_parent_id', '=', employee.department_id.id)
-                ('assegnatario_department_id', 'in', employee_department_child_ids)
+                ('assegnatario_department_id', 'in', employee_department_child_ids),
+                ('state', '!=', 'rifiutato')
             ])
             protocollo_visible_ids.extend(self.search(cr, uid, [
                 ('type', 'in', types),
@@ -331,7 +333,8 @@ class protocollo_protocollo(osv.Model):
                 ('tipologia_assegnatario', '=', 'employee'),
                 ('parent_id', '=', False),
                 # ('assegnatario_employee_department_id.parent_id.id', '=', employee.department_id.id)
-                ('assegnatario_employee_department_id', 'in', employee_department_child_ids)
+                ('assegnatario_employee_department_id', 'in', employee_department_child_ids),
+                ('state', '!=', 'rifiutato')
             ])
             protocollo_visible_ids.extend(self.search(cr, uid, [
                 ('type', 'in', types),
@@ -1726,82 +1729,81 @@ class protocollo_protocollo(osv.Model):
 
         return dict(res)
 
-    def prendi_in_carico_validation(self, cr, uid, protocollo, context={}):
-        if not (protocollo.state in ('registered', 'notified', 'waiting', 'sent', 'error')):
-            return False, _("il protocollo non può essere preso in carico nello stato attuale")
+    def assegnazione_validation(self, cr, uid, protocollo, action, context={}):
+        if not (action in ['prendi_in_carico', 'rifiuta']):
+            return False, _("non è possibile eseguire la action selezionata")
+
+        if action == 'prendi_in_carico':
+            group_id = 'group_prendi_in_carico_protocollo_'
+            group_name = 'Presa in Carico Protocolli Assegnati Ufficio'
+            action_name = 'preso in carico'
+        else:
+            group_id = 'group_rifiuta_protocollo_'
+            group_name = 'Rifiuta Protocolli Assegnati Ufficio'
+            action_name = 'rifiutato'
+
+        if not (protocollo.state in ['registered', 'notified', 'waiting', 'sent', 'error']):
+            return False, _("il protocollo non può essere %s nello stato attuale" % action_name)
 
         if not protocollo.assegnazione_competenza_ids:
             return False, _("il protocollo non ha nessuna assegnazione per competenza")
 
-        if protocollo.assegnazione_competenza_ids[0].state != 'assegnato':
-            return False, _("lo stato dell'assegnazione per competenza deve essere 'Assegnato'")
-
         assegnatario_employee_id = None
+        employee_obj = self.pool.get('hr.employee')
+        department_obj = self.pool.get('hr.department')
         if context and 'assegnatario_employee_id' in context and context['assegnatario_employee_id']:
             assegnatario_employee_id = context['assegnatario_employee_id']
+            employee_ids = [assegnatario_employee_id]
+            department_ids = department_obj.search(cr, uid, [('member_ids', '=', assegnatario_employee_id)])
+        else:
+            employee_ids = employee_obj.search(cr, uid, [('user_id', '=', uid)])
+            department_ids = department_obj.search(cr, uid, [('member_ids.user_id', '=', uid)])
 
-        if protocollo.assegnazione_competenza_ids[0].tipologia_assegnatario == 'department':
-            if not self._check_stato_assegnatario_competenza_ufficio(cr, uid, protocollo, 'assegnato', assegnatario_employee_id):
-                return False, _("il dipendente non è un assegnatario per competenza del protocollo")
-            if not assegnatario_employee_id:
-                types = self.get_protocollo_types_by_group(cr, uid, 'seedoo_protocollo', 'group_prendi_in_carico_protocollo_', '')
-                if not (protocollo.type in types):
-                    type_str = ''
-                    for selection_tuple_value in self._fields['type'].selection:
-                        if protocollo.type == selection_tuple_value[0]:
-                            type_str = selection_tuple_value[1]
-                            break
-                    return False, _("l'utente non possiede il permesso 'Presa in Carico Protocolli Assegnati Ufficio' per i protocolli di tipologia '%s'" % type_str)
+        check_competenza_ufficio = self._check_stato_assegnatario_competenza_ufficio(cr, uid, protocollo, 'assegnato', assegnatario_employee_id)
+        check_competenza_dipendente = self._check_stato_assegnatario_competenza(cr, uid, protocollo, 'assegnato', assegnatario_employee_id)
 
-        elif not self._check_stato_assegnatario_competenza(cr, uid, protocollo, 'assegnato', assegnatario_employee_id):
-            return False, _("il dipendente non è un assegnatario per competenza del protocollo")
+        result = False
+        result_description = _("il dipendente non è un assegnatario per competenza del protocollo")
+        for assegnazione_competenza in protocollo.assegnazione_competenza_ids:
+            if assegnazione_competenza.tipologia_assegnatario == 'department':
+                if assegnazione_competenza.assegnatario_department_id.id in department_ids:
+                    if check_competenza_ufficio:
+                        if not assegnatario_employee_id:
+                            types = self.get_protocollo_types_by_group(cr, uid, 'seedoo_protocollo', group_id, '')
+                            if not (protocollo.type in types):
+                                type_str = ''
+                                for selection_tuple_value in self._fields['type'].selection:
+                                    if protocollo.type == selection_tuple_value[0]:
+                                        type_str = selection_tuple_value[1]
+                                        break
+                                result_description = _("l'utente non possiede il permesso '%s' per i protocolli di tipologia '%s'" % (group_name, type_str))
+                            else:
+                                return True, None
+                        else:
+                            return True, None
+                    else:
+                        result_description = _("lo stato dell'assegnazione per competenza deve essere 'Assegnato'")
+            elif assegnazione_competenza.assegnatario_employee_id.id in employee_ids:
+                if check_competenza_dipendente:
+                    return True, None
+                else:
+                    result_description = _("lo stato dell'assegnazione per competenza deve essere 'Assegnato'")
 
-        return True, None
+        return result, result_description
 
     def _prendi_in_carico_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
         protocolli = self._get_protocolli(cr, uid, ids)
         for protocollo in protocolli:
-            check, error = self.prendi_in_carico_validation(cr, uid, protocollo, context)
+            check, error = self.assegnazione_validation(cr, uid, protocollo, 'prendi_in_carico', context)
             res.append((protocollo.id, check))
         return dict(res)
-
-    def rifiuta_validation(self, cr, uid, protocollo, context={}):
-        if not (protocollo.state in ('registered', 'notified', 'waiting', 'sent', 'error')):
-            return False, _("il protocollo non può essere preso in carico nello stato attuale")
-
-        if not protocollo.assegnazione_competenza_ids:
-            return False, _("il protocollo non ha nessuna assegnazione per competenza")
-
-        if protocollo.assegnazione_competenza_ids[0].state != 'assegnato':
-            return False, _("lo stato dell'assegnazione per competenza deve essere 'Assegnato'")
-
-        assegnatario_employee_id = None
-        if context and 'assegnatario_employee_id' in context and context['assegnatario_employee_id']:
-            assegnatario_employee_id = context['assegnatario_employee_id']
-
-        if protocollo.assegnazione_competenza_ids[0].tipologia_assegnatario == 'department':
-            if not self._check_stato_assegnatario_competenza_ufficio(cr, uid, protocollo, 'assegnato', assegnatario_employee_id):
-                return False, _("il dipendente non è un assegnatario per competenza del protocollo")
-            if not assegnatario_employee_id:
-                types = self.get_protocollo_types_by_group(cr, uid, 'seedoo_protocollo', 'group_rifiuta_protocollo_', '')
-                if not (protocollo.type in types):
-                    type_str = ''
-                    for selection_tuple_value in self._fields['type'].selection:
-                        if protocollo.type == selection_tuple_value[0]:
-                            type_str = selection_tuple_value[1]
-                            break
-                    return False, _("l'utente non possiede il permesso 'Rifiuta Protocolli Assegnati Ufficio' per i protocolli di tipologia '%s'" % type_str)
-        elif not self._check_stato_assegnatario_competenza(cr, uid, protocollo, 'assegnato', assegnatario_employee_id):
-            return False, _("il dipendente non è un assegnatario per competenza del protocollo")
-
-        return True, None
 
     def _rifiuta_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
         protocolli = self._get_protocolli(cr, uid, ids)
         for protocollo in protocolli:
-            check, error = self.rifiuta_validation(cr, uid, protocollo, context)
+            check, error = self.assegnazione_validation(cr, uid, protocollo, 'rifiuta', context)
             res.append((protocollo.id, check))
         return dict(res)
 

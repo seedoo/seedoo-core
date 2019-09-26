@@ -139,6 +139,7 @@
                 .order_by(order)
                 .context(self.build_context().eval())
 	            .all().then(function (res) {
+	                var context = self.build_context().eval();
 	            	var zNodes = [];
 	            	for (r in res) {
 	            	    var iconSkin = '';
@@ -148,6 +149,8 @@
                         var nocheck = false;
 	            	    if (self.options.field_no_checkbox && res[r][self.options.field_no_checkbox]) {
                             nocheck = true;
+                        } else if (context.disable_ids && context.disable_ids.includes(res[r]['id'])) {
+	            	        nocheck = true;
                         }
 	            		zNodes.push(
                             {
@@ -214,9 +217,9 @@
     		 			}
     		 		};
     		 		
-    				$.fn.zTree.init($("#treeData"), setting, zNodes);
+    				$.fn.zTree.init($("#treeData_" + self.name), setting, zNodes);
     				
-		 			var zTree = $.fn.zTree.getZTreeObj("treeData");
+		 			var zTree = $.fn.zTree.getZTreeObj("treeData_" + self.name);
 		 			if (zTree) {
 		 			    // var nodes = zTree.getNodes();
                         var all_parent_nodes = zTree.getNodesByParam("isParent", true, null);

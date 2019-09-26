@@ -285,14 +285,6 @@ class protocollo_protocollo(orm.Model):
             }
         return {'value': values}
 
-    def on_change_reserved(self, cr, uid, ids, reserved, context=None):
-        values = {}
-        if reserved:
-            values = {
-                'assegnazione_ids': False,
-            }
-        return {'value': values}
-
     def calculate_complete_name(self, prot_date, prot_number):
         year = prot_date[:4]
         return year + prot_number
@@ -1183,7 +1175,7 @@ class protocollo_protocollo(orm.Model):
                     ass_con = ', '.join([a.assegnatario_id.nome for a in prot.assegnazione_conoscenza_ids])
                     if ass_com or ass_con:
                         if ass_com:
-                            body = body + "<li>%s: <span> %s </span></li>" % ('Assegnatario Competenza', ass_com)
+                            body = body + "<li>%s: <span> %s </span></li>" % (self.get_label_competenza(cr, uid), ass_com)
                         if ass_con:
                             body = body + "<li>%s: <span> %s </span></li>" % ('Assegnatari Conoscenza', ass_con)
                     body += "</ul></div>"
@@ -1895,7 +1887,7 @@ class protocollo_protocollo(orm.Model):
             new_context = context.copy()
             new_context['skip_check'] = True
             protocollo = self.browse(cr, uid, ids, new_context)
-            check_permission, error = self.prendi_in_carico_validation(cr, uid, protocollo, new_context)
+            check_permission, error = self.assegnazione_validation(cr, uid, protocollo, 'prendi_in_carico', new_context)
             if check_permission == True:
                 assegnatario_name = None
                 assegnatario_employee_id = None
@@ -1931,7 +1923,7 @@ class protocollo_protocollo(orm.Model):
             new_context = context.copy()
             new_context['skip_check'] = True
             protocollo = self.browse(cr, uid, ids, new_context)
-            check_permission, error = self.rifiuta_validation(cr, uid, protocollo, new_context)
+            check_permission, error = self.assegnazione_validation(cr, uid, protocollo, 'rifiuta', new_context)
             if check_permission == True:
                 assegnatario_name = None
                 assegnatario_employee_id = None
@@ -1955,7 +1947,7 @@ class protocollo_protocollo(orm.Model):
 
                 # l'invio della notifica avviene prima della modifica dello stato, perchè se fatta dopo, in alcuni casi,
                 # potrebbe non avere più i permessi di scrittura sul protocollo
-                self.pool.get('protocollo.assegnazione').modifica_stato_assegnazione(cr, uid, ids, 'rifiutato', assegnatario_employee_id)
+                self.pool.get('protocollo.assegnazione').modifica_stato_assegnazione(cr, uid, ids, 'rifiutato', assegnatario_employee_id, motivazione)
             else:
                 raise orm.except_orm(_('Attenzione!'), _('Il protocollo non può più essere rifiutato!'))
         except Exception as e:
@@ -2047,6 +2039,14 @@ class protocollo_protocollo(orm.Model):
         for protocollo_id in ids:
             self.save_general_data_history(cr, uid, protocollo_id, cause, vals)
         protocollo_id = super(protocollo_protocollo, self).write(cr, uid, ids, vals, context=context)
+        if 'reserved' in vals and vals['reserved']:
+            protocollo_assegnazione_obj = self.pool.get('protocollo.assegnazione')
+            assegnazione_to_unlink_ids = protocollo_assegnazione_obj.search(cr, uid, [
+                ('protocollo_id', 'in', ids),
+                ('parent_id', '=', False)
+            ])
+            if assegnazione_to_unlink_ids:
+                protocollo_assegnazione_obj.unlink(cr, uid, assegnazione_to_unlink_ids)
         return protocollo_id
 
     def unlink(self, cr, uid, ids, context=None):
@@ -2121,9 +2121,12 @@ class protocollo_protocollo(orm.Model):
         protocollo_new = protocollo_obj.browse(cr, uid, protocollo_id)
         assegnazione_vals = {'protocollo_id': protocollo_id}
 
+        assegnatario_competenza_ids = []
         for assegnazione in protocollo.assegnazione_competenza_ids:
-            assegnazione_obj.salva_assegnazione_competenza(cr, uid, protocollo_id, assegnazione.assegnatario_id.id,
-                                                           assegnazione.assegnatore_id.id, True)
+            assegnatario_competenza_ids.append(assegnazione.assegnatario_id.id)
+        if assegnatario_competenza_ids:
+            assegnazione_obj.salva_assegnazione_competenza(cr, uid, protocollo_id, assegnatario_competenza_ids,
+                                                           assegnazione.assegnatore_id.id)
 
         for assegnazione in protocollo.assegnazione_conoscenza_ids:
             assegnazione_obj.salva_assegnazione_conoscenza(cr, uid, protocollo_id, [assegnazione.assegnatario_id.id],
@@ -2527,6 +2530,9 @@ class protocollo_protocollo(orm.Model):
 
             context = {'pec_messages': True}
             protocollo_obj.message_post(cr, uid, protocollo_id, type="notification", context=context, **post_vars)
+
+    def get_label_competenza(self, cr, uid):
+        return 'Assegnario Competenza'
 
 
 class protocollo_journal(orm.Model):
