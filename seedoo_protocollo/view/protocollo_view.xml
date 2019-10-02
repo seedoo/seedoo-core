@@ -1109,8 +1109,11 @@ this module contains the full copyright notices and license terms. -->
                         <group>
                             <field name="date"/>
                             <field name="user_id"/>
-                            <separator string="Protocollazioni della giornata" colspan="4"/>
-                            <field name="protocol_ids" colspan="4" nolabel="1"/>
+                            <notebook colspan="4">
+                                <page string="Protocollazioni della Giornata" class="lista_protocolli">
+                                    <field name="protocol_ids" colspan="4" nolabel="1"/>
+                                </page>
+                            </notebook>
                         </group>
                     </sheet>
                 </form>

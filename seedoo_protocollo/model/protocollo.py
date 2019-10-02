@@ -2542,7 +2542,7 @@ class protocollo_journal(orm.Model):
     _order = 'name desc'
 
     STATE_SELECTION = [
-        ('draft', 'Bozza'),
+        ('draft', 'Aperto'),
         ('closed', 'Chiuso'),
     ]
 
