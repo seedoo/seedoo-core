@@ -2549,7 +2549,7 @@ class protocollo_journal(orm.Model):
     _columns = {
         'name': fields.datetime('Data Evento', required=True, readonly=True),
         'date': fields.date('Data Registro', required=True, readonly=True),
-        'user_id': fields.many2one('res.users', 'Responsabile', readonly=True),
+        'user_id': fields.many2one('res.users', 'Autore Registro', readonly=True),
         'protocol_ids': fields.many2many(
             'protocollo.protocollo',
             'protocollo_journal_rel',

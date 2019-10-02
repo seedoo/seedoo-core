@@ -10,154 +10,37 @@
                 <form string="AOO" create="0">
                     <sheet>
                         <group col="4">
-                            <field name="id" invisible="1"/>
-                            <newline/>
-                            <field name="company_id" readonly="1"/>
-                            <newline/>
-                            <field name="name"/>
-                            <field name="ident_code"/>
-                            <field name="manager_employee_id" domain="[('department_id.aoo_id', '=', id)]"/>
-                            <field name="reserved_employee_id" domain="[('department_id.aoo_id', '=', id)]"/>
-                            <field name="registry_id"/>
-                            <newline/>
-                            <field name="email"/>
-                            <field name="phone"/>
-                            <field name="website"/>
-                            <newline/>
-                            <field name="street"/>
-                            <field name="zip"/>
-                            <field name="city"/>
-                            <field name="country_id"/>
-
-                            <!--
-                            <notebook attrs="{'invisible':[('id','=',False)]}" colspan="4">
-                                <page string="Mezzi di Trasmissione" class="mezzi">
-                                    <group col="4">
-                                        <field name="typology_ids" colspan="4" nolabel="1" />
-                                    </group>
-                                </page>
-                                <page string="Fascicolari" class="fascicolari">
-                                    <group col="4">
-                                        <field name="dossier_ids"
-                                               context="{'aoo_id':context.get('active_id', False)}"
-                                               colspan="4" nolabel="1">
-                                            <form string="Fascicolo" version="7.0">
-                                                <header>
-                                                    <button name="open" states="draft"
-                                                            string="Apri Fascicolo"
-                                                            class="oe_highlight_positive"/>
-                                                    <button name="close" states="open"
-                                                            string="Chiudi Fascicolo"
-                                                            class="oe_highlight_warning"/>
-                                                    <field name="state" widget="statusbar"
-                                                           statusbar_visible="draft,open,closed"
-                                                           statusbar_colors='{"open":"blue","closed":"green"}'/>
-                                                </header>
-                                                <sheet>
-                                                    <div class="gedoc_header">
-                                                        <group col="4">
-                                                            <field name="name" class="oe_inline"/>
-                                                            <field name="description" class="oe_inline"/>
-                                                            <field name="dossier_type"
-                                                                   on_change="on_change_dossier_type_classification(dossier_type, classification_id, parent_id)"/>
-                                                            <field name="date_open"/>
-                                                            <field name="dossier_typology"/>
-                                                            <field name="date_close"/>
-                                                            <field name="classification_id" domain="[('aoo_id','=',aoo_id)]"
-                                                                   options="{'no_quick_create': True, 'no_create_edit' : True}"
-                                                                   on_change="on_change_dossier_type_classification(dossier_type, classification_id, parent_id)"
-                                                                   colspan="4"/>
-                                                        </group>
-                                                    </div>
-                                                    <group col="8" string="Informazioni Generali">
-                                                        <field name="user_id"/>
-                                                        <field name="aoo_id" invisible="1"/>
-                                                        <field name="owner_partner_id" domain="[('aoo_id','=',aoo_id)]"
-                                                            options="{'no_quick_create': True, 'no_create_edit' : True}"/>
-                                                        <newline/>
-                                                        <field name="year"/>
-                                                        <field name="paperless"/>
-                                                        <newline/>
-                                                        <field name="parent_id" domain="[('dossier_type', '=', parent_type),('aoo_id','=',aoo_id)]"
-                                                               options="{'no_quick_create': True, 'no_create_edit' : True}"
-                                                               on_change="on_change_dossier_type_classification(dossier_type, classification_id, parent_id)"
-                                                               attrs="{'invisible':[('dossier_type','=','fascicolo')], 'required': [('dossier_type','in',('sottofascicolo', 'inserto'))]}"/>
-                                                        <field name="parent_type" invisible="1"/>
-                                                        <newline/>
-                                                        <field name="partner_id"
-                                                               attrs="{'invisible':[('dossier_typology','not in ',('fisica', 'giuridica'))]}"/>
-                                                    </group>
-                                                    <notebook>
-                                                        <page string="Sottofascicoli">
-                                                            <field name="child_ids"
-                                                                   attrs="{'invisible':[('dossier_type','=','inserto')]}"/>
-                                                        </page>
-                                                        <page string="Documenti">
-                                                            <group col="4">
-                                                                <field name="document_ids" readonly="1" nolabel="1"/>
-                                                            </group>
-                                                        </page>
-                                                        <page string="Attori Coinvolti">
-                                                            <group col="4"
-                                                                   attrs="{'invisible':[('dossier_typology','!=','procedimento')]}">
-                                                                <field name="participant_partner_ids"
-                                                                       domain="[('aoo_id','=',aoo_id)]"
-                                                                       options="{'no_create':True}"/>
-                                                            </group>
-                                                        </page>
-                                                        <page string="Permessi Fascicolo">
-                                                            <group col="4">
-                                                                <group col="2">
-                                                                    <field name="office_comp_ids"
-                                                                           domain="[('aoo_id','=',aoo_id)]"
-                                                                           options="{'no_create':True}"/>
-                                                                    <field name="employee_comp_ids"
-                                                                           domain="[('aoo_id','=',aoo_id)]"
-                                                                           options="{'no_create':True}"/>
-                                                                </group>
-                                                                <group col="2">
-                                                                    <field name="office_view_ids"
-                                                                           domain="[('aoo_id','=',aoo_id)]"
-                                                                           options="{'no_create':True}"/>
-                                                                    <field name="employee_view_ids"
-                                                                           domain="[('aoo_id','=',aoo_id)]"
-                                                                           options="{'no_create':True}"/>
-                                                                </group>
-                                                            </group>
-                                                        </page>
-                                                        <page string="Posizione Fisica Fascicolo"
-                                                              attrs="{'invisible':[('paperless','=',True)]}">
-                                                            <group col="4">
-                                                                <field name="address"/>
-                                                                <field name="building"/>
-                                                                <field name="floor"/>
-                                                                <field name="room"/>
-                                                            </group>
-                                                        </page>
-                                                        <page string="Note">
-                                                            <field name="notes"/>
-                                                        </page>
-                                                    </notebook>
-                                                </sheet>
-                                            </form>
-                                        </field>
-                                    </group>
-                                </page>
-                                <page string="Altre Informazioni" class="altro">
-                                    <group col="4">
-                                        <field name="email"/>
-                                        <field name="phone"/>
-                                        <field name="website"/>
-                                        <newline/>
-                                        <field name="street"/>
-                                        <field name="zip"/>
-                                        <field name="city"/>
-                                        <field name="country_id"/>
-                                    </group>
-                                </page>
-                            </notebook>
-                            -->
+                            <group string="Info Generali" colspan="2">
+                                <field name="company_id" readonly="1"/>
+                                <field name="name"/>
+                                <field name="ident_code"/>
+                                <field name="registry_id"/>
+                            </group>
+                            <group string="Recapiti" colspan="2">
+                                <field name="email"/>
+                                <field name="phone"/>
+                                <field name="website"/>
+                                <field name="street"/>
+                                <field name="city"/>
+                                <field name="zip"/>
+                                <field name="country_id"/>
+                            </group>
                         </group>
+                        <group col="4">
+                            <group string="Responsabile Servizio Protocollo" colspan="2">
+                                <field name="manager_employee_id" domain="[('department_id.aoo_id', '=', id)]" string="Dipendente"/>
+                                <field name="manager_name"/>
+                                <field name="manager_surname"/>
+                                <field name="manager_tax_code"/>
+                            </group>
+                            <group string="Responsabile Dati Sensibili" colspan="2">
+                                <field name="reserved_employee_id" domain="[('department_id.aoo_id', '=', id)]" string="Dipendente"/>
+                                <field name="reserved_name"/>
+                                <field name="reserved_surname"/>
+                                <field name="reserved_tax_code"/>
+                            </group>
+                        </group>
+                        <field name="id" invisible="1"/>
                     </sheet>
                 </form>
             </field>
