@@ -22,14 +22,12 @@ this module contains the full copyright notices and license terms. -->
             <field name="arch" type="xml">
                 <form string="Tipologia" version="7.0">
                     <sheet>
-                        <group col="4">
-                            <group col="2">
-                                <field name="name"/>
-                                <field name="active"/>
-                                <field name="display_order"/>
-                                <field name="pec" string="Integrazione PEC"/>
-                                <field name="sharedmail" string="Integrazione Shared Mail"/>
-                            </group>
+                        <group col="2">
+                            <field name="name"/>
+                            <field name="active"/>
+                            <field name="display_order"/>
+                            <field name="pec" string="Integrazione PEC"/>
+                            <field name="sharedmail" string="Integrazione Shared Mail"/>
                         </group>
                     </sheet>
                 </form>
