@@ -164,7 +164,7 @@ openerp.m2m_tree_widget = function(instance) {
                         var nocheck = false;
 	            	    if (self.options.field_no_checkbox && res[r][self.options.field_no_checkbox]) {
                             nocheck = true;
-                        } else if (context.disable_ids && context.disable_ids.includes(res[r]['id'])) {
+                        } else if (context.disable_ids && context.disable_ids.indexOf(res[r]['id'])!==-1) {
 	            	        nocheck = true;
                         }
 	            		zNodes.push(
