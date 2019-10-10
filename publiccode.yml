@@ -62,5 +62,5 @@ evoluzione di un documento e dei processi ad esso associati.\n\nTale storicizzaz
       - "Assegnazione Uffici \\ Dipendenti\t"
       - "Assegnazione Competenza \\ Conoscenza\t"
     screenshots:
-      - 'https://www.seedoo.it/web/image/3048/dashboard_community.png'
-logo: 'https://www.flosslab.com/wp-content/uploads/2014/02/Seedoo%E2%80%93logo-02.png'
+      - 'images/dashboard_community.png'
+logo: 'images/logo.png'
