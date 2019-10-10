@@ -1,0 +1,66 @@
+# This repository adheres to the publiccode.yml standard by including this 
+# metadata file that makes public software easily discoverable.
+# More info at https://github.com/italia/publiccode.yml
+
+publiccodeYmlVersion: '0.2'
+name: Seedoo Community
+url: 'https://github.com/seedoo/seedoo-core'
+landingURL: 'https://www.seedoo.it/'
+releaseDate: '2019-08-21'
+softwareVersion: 1.8.9
+developmentStatus: stable
+softwareType: standalone/backend
+platforms:
+  - windows
+  - mac
+  - linux
+categories:
+  - document-management
+maintenance:
+  type: internal
+  contacts:
+    - name: Francesco Alba
+      email: francesco.alba@flosslab.com
+    - name: Daniele Sanna
+      email: daniele.sanna@flosslab.com
+legal:
+  license: AGPL-3.0-only
+intendedAudience:
+  countries:
+    - it
+localisation:
+  localisationReady: true
+  availableLanguages:
+    - it
+it:
+  piattaforme:
+    spid: true
+description:
+  it:
+    genericName: Protocollo Informatico
+    documentation: 'https://github.com/seedoo/seedoo-core/wiki'
+    shortDescription: >-
+      Seedoo è un sistema open source per la gestione del Protocollo Informatico
+      e la Gestione Documentale a norma.
+    longDescription: "### **Seedoo**\n\nSeedoo è un ecosistema modulare Open Source per la gestione del Protocollo Informatico e la Gestione Documentale conforme alla normativa vigente.\n\nSeedoo contente una gestione completa dell’iter di un protocollo ponendo le basi per il raggiungimento di obiettivi concreti e misurabili, riducendo tempi e costi di archiviazione e di gestione del processo. \n\nSeedoo è una soluzione completamente web-based, il che consente di garantire alta accessibilità e bassi costi di manutenzione. La moderna interfaccia utente è realizzata mediante best-practices volte a rispettare sia le performance che la semplicità di utilizzo in base ai principi di usabilità.\n\nL'architettura del sistema è di tipo multilayer, ciò garantisce la scalabilità del sistema in quanto è possibile dedicare una macchina, o più macchine, per ogni componente (database, server, frontend).\n\nL’architettura modulare rende il sistema molto scalabile e flessibile, consentendo interventi di manutenzione sui singoli moduli più semplici e veloci. \n\nIl Protocollo Informatico rappresenta il punto di ingresso e di uscita di tutta la corrispondenza dalla PA,  permette l'acquisizione, la registrazione, la ricerca e la consultazione delle diverse tipologie di documenti  trattati nell'ambito dei processi amministrativi e/o aziendali.\n\nSeedoo è sviluppato nel rispetto della normativa e delle linee guida fornite dall'AgID (Agenzia per l'Italia Digitale) per quanto riguarda i Flussi documentali, Protocollo e Conservazione Sostitutiva.\n\nIl modulo protocollo è completamente integrato con la gestione PEC.\n\nAttraverso un'interfaccia web based è possibile prendere visione delle PEC in ingresso e procedere alla protocollazione dei documenti attraverso un processo guidato. \n\nAnche nei flussi di protocollazione in uscita è possibile utilizzare la PEC come mezzo di spedizione.\n\nSeedoo acquisisce automaticamente le RIcevute di Accettazione e Consegna dei documenti inviati tramite Posta Elettronica Certificata (PEC), in qualunque istante potrai monitorare su una dashbord dedicata lo stato di consegna del tuo protocollo inviato tramite PEC alla PA destinataria.\n\nAnche gli errori di invio a destinatari PEC errati sono monitorati e visualizzati sulla dashboard.\n\nSeedoo supporta l'Interoperabilità tra sistemi di protocollo che utilizzano come mezzo di spedizione la Posta Elettronica Certificata (PEC).\n\nAttraverso il parsing della _segnatura.xml_ dei documenti in ingresso vengono precompilate le informazioni di Protocollo, snellendo il lavoro degli operatori.\n\nSono gestiti tutti i messaggi di ritorno sia in invio che in ricezione, tra questi:\n\n- messaggio di conferma di ricezione\n- messaggio di notifica di eccezione\n- messaggio di aggiornamento di conferma\n- messaggio di annullamento protocollazione\n\nIl Sistema produce il\_ **Registro Giornaliero di Protocollo\_contenente le informazioni richieste dalla normativa.**\n\nIl registro giornaliero viene generato in formato PDF/A fornendo quindi caratteristiche di immodificabilità e di staticità per l'archiviazione nel lungo periodo.\_ Seedoo permette inoltre di creare il pacchetto di versamento relativo al registro pronto per essere trasmesso in\_ **Conservazione Sostitutiva.**\n\nNella registrazione di protocollo dei documenti informatici viene generata un'impronta, tramite algoritmo di hash (SHA-256), che identifica univocamente il documento all'interno del sistema documentale.\n\nLa segnatura di protocollo è l'associazione al documento informatico di un file di Segnatura (segnatura.xml) contenente tutte le informazioni riguardanti il documento stesso: - codice identificativo dell’Amministrazione - AOO (Area organizzativa omogenea) - Registro - Data e Numero di protocollo.\n\nNelle protocollazioni in uscita tramite PEC la segnatura.xml viene allegata per consentire alla PA ricevente di automatizzare le operazioni di registrazione di protocollo del documento ricevuto.\n\nTutte le operazioni sui documenti sono tracciate e registrate al fine di ricostruire l’intera storia dell’
+evoluzione di un documento e dei processi ad esso associati.\n\nTale storicizzazione viene resa disponibile agli utenti attraverso un’interfaccia intuitiva che permette di comprendere l’intero ciclo di vita del documento dalla sua registrazione alla sua archiviazione.\n\nTramite il suo motore di workflow Seedoo consente di semplificare e governare i processi di condivisione dei documenti, identificando gli uffici competenti e gestendo tutte le fasi di assegnazione e smistamento.\n\nLa dashbord operativa consente un perfetto monitoraggio delle attività di proprio interesse con un aumento in termini di efficacia ed efficienza per l'intera Amministrazione.\n\nSeedoo consente una gestione centralizzata e condivisa di tutte le Anagrafiche associate ai processi documentali dell’Ente.\n\nLa Rubrica\_raccoglie in maniera strutturata tutte le informazioni di recapito dei soggetti oggetto di corrispondenza o coinvolti nei processi interni di smistamento.\n\nL’Ente ha la possibilità di importare in maniera agevole, tramite tracciati CSV, le eventuali anagrafiche in suo possesso. Tali anagrafiche saranno successivamente alimentabili e aggiornabili sia manualmente che automaticamente attraverso la lettura dei dati di recapito dalle PEC ricevute e gestite dal sistema.\n\nSeedoo consente la classificazione dei documenti mediante l’utilizzo di un titolario configurabile multi-livello.\n\nTale classificazione consente non solo la corretta gestione archivistica dei documenti ma anche l’eventuale definizione dei successivi processi documentali di assegnazione e fascicolazione.\n\nLa fascicolazione del documento, consente di ricollegare il documento protocollato alla relativa pratica/procedimento attraverso il fascicolo virtuale che lo rappresenta.\n\nIl fascicolo, caratterizzato da metadati descrittivi e autorizzativi, viene alimentato non solo dai documenti protocollati ma anche dai documenti prodotti internamente dall’Organizzazione. La struttura multi-livello dei fascicoli (Fascicolo, Sotto-Fascicolo, Inserto) consente un’organizzazione dei documenti efficace attraverso differenti livelli di aggregazione.\n\n​\n"
+    features:
+      - Gestione Utenti e Profili
+      - Gestione UO\Uffici e Dipendenti
+      - "Rubrica Contatti\t"
+      - 'Gestione Fascicolo, Sottofascicolo, Inserto'
+      - Titolario di classificazione
+      - Protocollazione a norma
+      - Registro Giornaliero
+      - "Registro Emergenza\t"
+      - Protocollazione in Ingresso e Uscita
+      - "Interoperabilità di Protocollo\t"
+      - "Integrazione Account di posta elettronica\t"
+      - 'Protocollazione EML, Body, Allegati'
+      - Associazione Ricevute Accettazione e Consegna
+      - Dashboard di processo
+      - "Assegnazione Uffici \\ Dipendenti\t"
+      - "Assegnazione Competenza \\ Conoscenza\t"
+    screenshots:
+      - 'https://www.seedoo.it/web/image/3048/dashboard_community.png'
+logo: 'https://www.flosslab.com/wp-content/uploads/2014/02/Seedoo%E2%80%93logo-02.png'
