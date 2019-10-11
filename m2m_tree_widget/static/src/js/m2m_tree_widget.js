@@ -125,6 +125,8 @@ openerp.m2m_tree_widget = function(instance) {
             var label = '';
             var order = '';
             var css_class = false;
+            var typology = false;
+            var uncheckDifferentTypology = false;
             if (self.options.label) {
             	label = self.options.label;
             } else {
@@ -132,6 +134,12 @@ openerp.m2m_tree_widget = function(instance) {
             }
             if (self.options.css_class) {
             	css_class = self.options.css_class;
+            }
+            if (self.options.typology) {
+            	typology = self.options.typology;
+            	if (self.options.uncheck_different_typology) {
+            	    uncheckDifferentTypology = true;
+                }
             }
             if (self.options.order) {
             	order = self.options.order.split(',');
@@ -161,6 +169,10 @@ openerp.m2m_tree_widget = function(instance) {
 	            	    if (css_class) {
                             iconSkin =  'class_' + res[r][css_class];
                         }
+	            	    var nodeTypology = '';
+	            	    if (typology) {
+                            nodeTypology =  res[r][typology];
+                        }
                         var nocheck = false;
 	            	    if (self.options.field_no_checkbox && res[r][self.options.field_no_checkbox]) {
                             nocheck = true;
@@ -176,7 +188,8 @@ openerp.m2m_tree_widget = function(instance) {
                                 chkDisabled: nocheck,
                                 checked: self.get_m2m_values().indexOf(res[r]['id'])>-1 && true || false,
                                 open: false,
-                                iconSkin: iconSkin
+                                iconSkin: iconSkin,
+                                typology: nodeTypology
                             }
 	            		);
 	            	}
@@ -222,6 +235,19 @@ openerp.m2m_tree_widget = function(instance) {
                             values.push(treeNode['id']);
                         }
     		 			self.set_m2m_values(values);
+
+                        if (treeNode.checked && uncheckDifferentTypology) {
+                            for (var treeNodeChildIndex in treeNode.children) {
+                                var treeNodeChild = treeNode.children[treeNodeChildIndex];
+                                if (treeNode.typology!=treeNodeChild.typology && treeNodeChild.checked) {
+                                    zTree.checkNode(treeNodeChild, false,false,true);
+                                }
+                            }
+                            var treeNodeParent = treeNode.getParentNode();
+                            if (treeNodeParent && treeNode.typology!=treeNodeParent.typology && treeNodeParent.checked) {
+                                zTree.checkNode(treeNodeParent, false,false,true);
+                            }
+                        }
     		 		};
     		 		function expandParentNode(zTree, node) {
     		 			var pnode = false;

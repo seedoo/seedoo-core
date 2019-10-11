@@ -24,7 +24,7 @@
 
                             <field name="assegnatario_conoscenza_ids"
                                    widget="m2m_tree"
-                                   options="{'limit': 5000, 'label': 'nome', 'all_checkable': true, 'field_no_checkbox': 'no_checkbox', 'css_class': 'tipologia', 'order': '-tipologia,nome'}"
+                                   options="{'limit': 5000, 'label': 'nome', 'all_checkable': true, 'field_no_checkbox': 'no_checkbox', 'css_class': 'tipologia', 'typology': 'tipologia', 'uncheck_different_typology': true, 'order': '-tipologia,nome'}"
                                    context="{'disable_ids': assegnatario_conoscenza_disable_ids[0][2]}"
                             />
                             <field name="motivation" required="1"/>
