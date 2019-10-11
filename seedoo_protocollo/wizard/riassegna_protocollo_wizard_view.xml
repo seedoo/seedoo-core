@@ -9,10 +9,7 @@
                 <form string="Riassegna Protocollo">
                     <sheet>
                         <group attrs="{'invisible':[('assegnatari_empty','=',False)]}" col="4">
-                            <div colspan="4">
-                                <h3>Non ci sono assegnatari.</h3>
-                                <p>Per selezionare gli assegnatari è necessario configurare gli uffici e i relativi dipendenti dalla apposita sezione di configurazione.</p>
-                            </div>
+                            <field name="assegnatari_empty_message" colspan="4" nolabel="1"/>
                         </group>
 
                         <group attrs="{'invisible':[('assegnatari_empty','=',True)]}" col="2">

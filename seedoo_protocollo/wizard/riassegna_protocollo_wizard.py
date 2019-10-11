@@ -33,6 +33,7 @@ class protocollo_riassegna_wizard(osv.TransientModel):
                                                         'Assegnatari per Conoscenza Disabilitati'),
         'motivation': fields.text('Motivazione'),
         'assegnatari_empty': fields.boolean('Assegnatari Non Presenti'),
+        'assegnatari_empty_message': fields.html('Messaggio Assegnatari Non Presenti', readonly=True),
         'assegnatore_department_id_invisible': fields.boolean('Dipartimento Assegnatore Non Visibile', readonly=True),
     }
 
@@ -92,12 +93,22 @@ class protocollo_riassegna_wizard(osv.TransientModel):
         else:
             return True
 
+    def _default_assegnatari_empty_message(self, cr, uid, context):
+        if self._default_assegnatari_empty(cr, uid, context):
+            return '''
+            <h3>Non ci sono assegnatari.</h3>
+            <p>Per selezionare gli assegnatari è necessario configurare gli uffici e i relativi dipendenti dalla apposita sezione di configurazione.</p>
+            '''
+        else:
+            return False
+
     _defaults = {
         'reserved': _default_reserved,
         'assegnatore_department_id': _default_assegnatore_department_id,
         'assegnatario_conoscenza_ids': _default_assegnatario_conoscenza_ids,
         'assegnatario_conoscenza_disable_ids': _default_assegnatario_conoscenza_disable_ids,
         'assegnatari_empty': _default_assegnatari_empty,
+        'assegnatari_empty_message': _default_assegnatari_empty_message,
         'assegnatore_department_id_invisible': _default_assegnatore_department_id_invisible
     }
 
