@@ -20,11 +20,10 @@ this module contains the full copyright notices and license terms. -->
                         <field name="genera_segnatura"/>
                         <field name="aggiungi_allegati_post_registrazione"/>
                         <field name="rinomina_documento_allegati"/>
-                        <field name="ammi_logo" widget="image" class="oe_avatar"/>
-                    </group>
-                    <group string="Assegnazione">
+                        <field name="modifica_classificazione"/>
                         <field name="sostituisci_assegnatari"/>
                         <field name="assegnazione" widget="radio"/>
+                        <field name="ammi_logo" widget="image" class="oe_avatar"/>
                     </group>
                     <group string="Campi obbligatori per Registrazione Protocollo" class="seedoo_required_fields">
                         <field name="classificazione_required"/>

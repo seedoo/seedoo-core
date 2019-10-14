@@ -102,6 +102,8 @@ class protocollo_config_settings(osv.osv_memory):
         'da_assegnare_active': fields.related('config_id', 'da_assegnare_active', type='boolean',
                                               string='Visualizza Box "Da Assegnare"'),
 
+        'modifica_classificazione': fields.related('config_id', 'modifica_classificazione', type='boolean',
+                                                  string='Assegnatario per Competenza può Modificare la Classificazione'),
         'sostituisci_assegnatari': fields.related('config_id', 'sostituisci_assegnatari', type='boolean',
                                                  string='Sostituisci Assegnatari Default in Modifica Classificazione'),
 

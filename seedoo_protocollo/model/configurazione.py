@@ -59,6 +59,7 @@ class protocollo_configurazione(orm.Model):
         'assegnato_da_me_active': fields.boolean('Visualizza Box "Assegnati da Me" nella Dashboard'),
         'da_assegnare_active': fields.boolean('Visualizza Box "Da Assegnare" nella Dashboard'),
 
+        'modifica_classificazione': fields.boolean('Assegnatario per Competenza può Modificare la Classificazione'),
         'sostituisci_assegnatari': fields.boolean('Sostituisci Assegnatari Default in Modifica Classificazione'),
 
         'assegnazione': fields.selection([('all', 'Uffici e Utenti'), ('department', 'Solo Uffici')], 'Assegnazione'),
@@ -107,6 +108,7 @@ class protocollo_configurazione(orm.Model):
         'assegnato_cc_active': True,
         'assegnato_da_me_active': True,
         'da_assegnare_active': True,
+        'modifica_classificazione': False,
         'sostituisci_assegnatari': True,
         'assegnazione': 'all',
         'select_eml': True,

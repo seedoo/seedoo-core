@@ -171,10 +171,15 @@ class protocollo_aggiungi_classificazione_step1_wizard(osv.TransientModel):
             configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
             configurazione = self.pool.get('protocollo.configurazione').browse(cr, uid, configurazione_ids[0])
 
-            # il messaggio di sostituzione assegnatari default deve essere mostrato sempre quando il protocollo è in
+			# Il messaggio di sostituzione assegnatari default deve essere mostrato sempre quando il protocollo è in
             # bozza oppure quando il protocollo è stato registrato e c'è il parametro in configurazione abilitato di
-            # sostituzione assegnatari
-            if not protocollo.registration_date or (protocollo.registration_date and configurazione.sostituisci_assegnatari):
+            # sostituzione assegnatari.
+			# L’utente che ha preso in carico l’assegnazione non potrà però modificare gli assegnatari per competenza
+            # che si suppongono comunque corretti, quindi eventuali template di assegnatari di competenza di default
+            # collegati alla voce di titolario scelta non verranno suggeriti alla modifica della voce, ma questa
+            # funzionalità rimarrà esclusiva del PROTOCOLLATORE.
+            if not protocollo.registration_date or \
+                    (protocollo.registration_date and configurazione.sostituisci_assegnatari and uid==protocollo.user_id.id):
                 if protocollo.registration_date and protocollo.assegnazione_competenza_ids:
                     context['display_replace_message'] = True
                 else:
