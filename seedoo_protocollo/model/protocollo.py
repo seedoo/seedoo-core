@@ -526,10 +526,7 @@ class protocollo_protocollo(orm.Model):
                                      string='Sharedmail',
                                      readonly=False,
                                      store=False),
-        'email_pec_sending_mode': fields.selection([
-                ('all_receivers', 'Un messaggio per tutti i destinatari'),
-                ('each_receiver', 'Un messaggio per ogni destinatario')
-            ], 'Modalità Invio', size=32),
+        'email_pec_sending_mode': fields.selection([('all_receivers', 'Un messaggio per tutti i destinatari')], 'Modalità Invio', size=32),
         'body': fields.html('Corpo della mail', readonly=True),
         'mail_pec_ref': fields.many2one('mail.message',
                                         'Riferimento PEC',
@@ -1513,10 +1510,10 @@ class protocollo_protocollo(orm.Model):
             for sender_receiver in prot.sender_receivers:
                 if (sender_receiver.pec_errore_consegna_status and sender_receiver.to_resend) or not sender_receiver.pec_invio_status:
 
-                    if prot.email_pec_sending_mode == 'each_receiver':
-                        values['email_to'] = sender_receiver.pec_mail
-                    else:
+                    if prot.email_pec_sending_mode == 'all_receivers':
                         values['email_to'] = ','.join(sender_receivers_pec_mails)
+                    else:
+                        values['email_to'] = sender_receiver.pec_mail
                     values['pec_to'] = values['email_to']
 
                     if prot.mail_out_ref and prot.state == 'registered':
@@ -1528,7 +1525,7 @@ class protocollo_protocollo(orm.Model):
                             msg_id = msg_ids[0]
                         mail_mail.write(cr, uid, [msg_id], values, context=context)
                     else:
-                        if prot.email_pec_sending_mode=='each_receiver' or not msg_id:
+                        if prot.email_pec_sending_mode != 'all_receivers' or not msg_id:
                             msg_id = mail_mail.create(cr, uid, values, context=context)
 
                     mail = mail_mail.browse(cr, uid, msg_id, context=context)
@@ -1660,10 +1657,10 @@ class protocollo_protocollo(orm.Model):
             mail_to_send_dict = {}
             for sender_receiver in prot.sender_receivers:
                 if (sender_receiver.sharedmail_numero_invii==0) or (sender_receiver.sharedmail_numero_invii>0 and sender_receiver.to_resend):
-                    if prot.email_pec_sending_mode == 'each_receiver':
-                        values['email_to'] = sender_receiver.email
-                    else:
+                    if prot.email_pec_sending_mode == 'all_receivers':
                         values['email_to'] = ','.join(sender_receivers_email_list)
+                    else:
+                        values['email_to'] = sender_receiver.email
                     values['sharedmail_to'] = values['email_to']
 
                     # se il protocollo è ancora in stato registrato non deve duplicare la email perchè ancora non è riuscito ad inviarla
@@ -1674,7 +1671,7 @@ class protocollo_protocollo(orm.Model):
                             msg_id = msg_ids[0]
                             mail_mail.write(cr, uid, [msg_id], values, context=context)
                     else:
-                        if prot.email_pec_sending_mode=='each_receiver' or not msg_id:
+                        if prot.email_pec_sending_mode != 'all_receivers' or not msg_id:
                             msg_id = mail_mail.create(cr, uid, values, context=context)
 
                     mail = mail_mail.browse(cr, uid, msg_id, context=context)

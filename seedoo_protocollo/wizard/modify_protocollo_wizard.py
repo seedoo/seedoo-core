@@ -89,10 +89,7 @@ class wizard(osv.TransientModel):
         'sharedmail': fields.related('typology', 'sharedmail', type='boolean', string='Sharedmail', readonly=False, store=False),
         'receiving_date': fields.datetime('Data Ricezione', required=False,),
         'subject': fields.text('Oggetto', required=True),
-        'email_pec_sending_mode': fields.selection([
-                ('all_receivers', 'Un messaggio per tutti i destinatari'),
-                ('each_receiver', 'Un messaggio per ogni destinatario')
-            ], 'Modalità Invio', size=32),
+        'email_pec_sending_mode': fields.selection([('all_receivers', 'Un messaggio per tutti i destinatari')], 'Modalità Invio', size=32),
         'body': fields.html('Corpo della mail'),
         'classification': fields.many2one('protocollo.classification', 'Titolario di Classificazione', required=False,),
         'sender_protocol': fields.char('Protocollo Mittente', required=False,),
