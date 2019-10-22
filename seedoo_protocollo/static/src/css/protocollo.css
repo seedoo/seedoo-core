@@ -998,7 +998,7 @@ div.box-sender-internal .icon_item_type div:hover {
   margin-left: 95px;
 }
 .container_classification {
-  width: 300px !important;
+  width: auto !important;
   padding: 10px !important;
   position: relative;
   height: 100px;
@@ -1011,10 +1011,12 @@ div.box-sender-internal .icon_item_type div:hover {
   color: #666 !important;
   text-decoration: none !important;
   font-weight: bold;
+  /*
   position: absolute;
   left: 10px;
   right: 10px;
   height: 85px;
+  */
 }
 .container_classification .oe_form_char_content:hover {
   background-color: transparent;
