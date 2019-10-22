@@ -28,24 +28,22 @@ this module contains the full copyright notices and license terms. -->
                         <newline/>
                         <group col="4" string="Informazioni Generali" class="subject_modify_wizard">
                             <group col="2">
+                                <field name="typology" on_change="on_change_typology(typology)" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}" attrs="{'invisible':[('type','not in',('in','out'))]}"/>
+                                <field name="email_error" nolabel="1" class="message-error" attrs="{'invisible':[('email_error','=','')]}" colspan="2"/>
+                                <field name="receiving_date" attrs="{'invisible':[('type','!=','in')]}"/>
                                 <field name="subject"/>
+                            </group>
+                            <group col="2">
+                                <field name="server_sharedmail_id" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}" attrs="{'invisible':['|',('sharedmail','!=',True),('type','=','in')],
+                                                                   'required': [('sharedmail','=',True),('type','=','out')]}" />
+                                <field name="server_pec_id" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}" attrs="{'invisible':['|',('pec','!=',True),('type','=','in')],
+                                                                    'required': [('pec','=',True),('type','=','out')]}" />
+                                <field name="email_pec_sending_mode" attrs="{'invisible':['|',('type','=','in'),'&amp;',('pec','=',False),('sharedmail','=',False)],
+                                                           'required': [('type','=','out'),'|',('pec','=',True),('sharedmail','=',True)]}"/>
                                 <field name="body" attrs="{'invisible':['|',('type','=','in'),'&amp;',('pec','=',False),('sharedmail','=',False)],
                                                            'required': [('type','=','out'),'|',('pec','=',True),('sharedmail','=',True)]}"/>
                             </group>
-                            <group col="2">
-                                <field name="typology" on_change="on_change_typology(typology)" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}"/>
-                                <newline/>
-                                <field name="email_error" nolabel="1" class="message-error" attrs="{'invisible':[('email_error','=','')]}" colspan="2"/>
-                                <newline/>
-                                <field name="server_sharedmail_id" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}" attrs="{'invisible':['|',('sharedmail','!=',True),('type','=','in')],
-                                                                   'required': [('sharedmail','=',True),('type','=','out')]}" />
-                                <newline/>
-                                <field name="server_pec_id" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}" attrs="{'invisible':['|',('pec','!=',True),('type','=','in')],
-                                                                    'required': [('pec','=',True),('type','=','out')]}" />
-                                <newline/>
-                                <field name="receiving_date" attrs="{'invisible':[('type','=','out')]}"/>
-                            </group>
-                         </group>
+                        </group>
                         <separator string="Motivazione"/>
                         <field name="cause" colspan="4"/>
                         <!--

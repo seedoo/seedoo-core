@@ -89,6 +89,10 @@ class wizard(osv.TransientModel):
         'sharedmail': fields.related('typology', 'sharedmail', type='boolean', string='Sharedmail', readonly=False, store=False),
         'receiving_date': fields.datetime('Data Ricezione', required=False,),
         'subject': fields.text('Oggetto', required=True),
+        'email_pec_sending_mode': fields.selection([
+                ('all_receivers', 'Un messaggio per tutti i destinatari'),
+                ('each_receiver', 'Un messaggio per ogni destinatario')
+            ], 'Modalità Invio', size=32),
         'body': fields.html('Corpo della mail'),
         'classification': fields.many2one('protocollo.classification', 'Titolario di Classificazione', required=False,),
         'sender_protocol': fields.char('Protocollo Mittente', required=False,),
@@ -133,6 +137,10 @@ class wizard(osv.TransientModel):
         protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
         return protocollo.body
 
+    def _default_email_pec_sending_mode(self, cr, uid, context):
+        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
+        return protocollo.email_pec_sending_mode
+
     def _default_classification(self, cr, uid, context):
         protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
         return protocollo.classification.id
@@ -172,6 +180,7 @@ class wizard(osv.TransientModel):
         'receiving_date': _default_receiving_date,
         'subject': _default_subject,
         'body': _default_body,
+        'email_pec_sending_mode': _default_email_pec_sending_mode,
         'classification': _default_classification,
         'sender_protocol': _default_sender_protocol,
         'dossier_ids': _default_dossier_ids,
@@ -217,6 +226,9 @@ class wizard(osv.TransientModel):
 
         if wizard.subject != protocollo.subject:
             vals['subject'] = wizard.subject
+
+        if wizard.email_pec_sending_mode != protocollo.email_pec_sending_mode:
+            vals['email_pec_sending_mode'] = wizard.email_pec_sending_mode
 
         if wizard.body != protocollo.body:
             vals['body'] = wizard.body

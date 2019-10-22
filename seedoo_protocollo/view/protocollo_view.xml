@@ -490,6 +490,11 @@ this module contains the full copyright notices and license terms. -->
                                                     <field name="server_pec_id" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True}" attrs="{'invisible':['|',('pec','!=',True),('type','=','in')],
                                                                                                         'required': [('server_pec_id_required','=',True)], 'readonly':[('protocollo_fields_editability','=',False)]}"
                                                            class="seedoocustom_protocollo_server_pec_id"/>
+                                                    <field name="email_pec_sending_mode" attrs="{
+                                                           'invisible':['|',('type','=','in'),'&amp;',('sharedmail','=',False),('pec','=',False)],
+                                                           'required': ['|',('server_sharedmail_id_required','=',True),('server_pec_id_required','=',True)],
+                                                           'readonly':[('protocollo_fields_editability','=',False)]}"
+                                                           class="seedoocustom_protocollo_server_pec_id"/>
                                                     <field name="body" attrs="{'invisible':['|','|',('type','=','in'),('inserisci_testo_mailpec_visibility','=',False),'&amp;',('sharedmail','=',False),('pec','=',False)],'readonly':[('protocollo_fields_editability','=',False)]}"
                                                            class="seedoocustom_protocollo_body"/>
                                                 </group>

@@ -2684,5 +2684,6 @@ class protocollo_protocollo(osv.Model):
         ]
         res = super(protocollo_protocollo, self).fields_get(cr, uid, fields, context)
         for field in fields_to_hide:
-            res[field]['selectable'] = False
+            if 'field' in res:
+                res[field]['selectable'] = False
         return res

@@ -47,8 +47,6 @@ class protocollo_configurazione(orm.Model):
         'aggiungi_allegati_post_registrazione': fields.boolean('Aggiungi allegati Post Registrazione'),
         'lunghezza_massima_oggetto_mail': fields.integer('Lunghezza massima oggetto e-mail'),
         'lunghezza_massima_oggetto_pec': fields.integer('Lunghezza massima oggetto PEC'),
-        'send_email_for_each_receiver': fields.boolean('Invia una e-mail per ogni destinatario'),
-        'send_pec_for_each_receiver': fields.boolean('Invia una PEC per ogni destinatario'),
         'email_pec_unique': fields.boolean('PEC/Email Univoca'),
 
         'non_classificati_active': fields.boolean('Visualizza Box "Da Classificare" nella Dashboard'),
@@ -88,8 +86,6 @@ class protocollo_configurazione(orm.Model):
         'aggiungi_allegati_post_registrazione': False,
         'lunghezza_massima_oggetto_mail': 256,
         'lunghezza_massima_oggetto_pec': 256,
-        'send_email_for_each_receiver': False,
-        'send_pec_for_each_receiver': False,
         'email_pec_unique': True,
         'non_classificati_active': False,
         'non_fascicolati_active': False,
