@@ -1065,50 +1065,77 @@ div.box-sender-internal .icon_item_type div:hover {
   width: 120px;
 }
 .tree_aggiungi_assegnatari .ztree li span.button.ico_docu:before,
-.tree_aggiungi_assegnatari .ztree li span.button.class_employee_ico_docu:before {
+.tree_aggiungi_assegnatari .ztree li span.button.employee_ico_docu:before {
   content: "\f007" !important;
+}
+.tree_aggiungi_assegnatari .ztree li span.button.folder_ico_docu:before {
+  content: "\f07b" !important;
 }
 .tree_aggiungi_assegnatari .ztree li span.button.ico_open:before,
 .tree_aggiungi_assegnatari .ztree li span.button.ico_close:before,
-.tree_aggiungi_assegnatari .ztree li span.button.class_department_ico_open:before,
-.tree_aggiungi_assegnatari .ztree li span.button.class_department_ico_close:before,
-.tree_aggiungi_assegnatari .ztree li span.button.class_department_ico_docu:before {
+.tree_aggiungi_assegnatari .ztree li span.button.department_ico_open:before,
+.tree_aggiungi_assegnatari .ztree li span.button.department_ico_close:before,
+.tree_aggiungi_assegnatari .ztree li span.button.department_ico_docu:before {
   content: "\f1ad" !important;
 }
 .ztree li span {
   font-family: "Work Sans", sans-serif !important;
 }
 .ztree li span.button.ico_docu,
-.ztree li span.button.class_employee_ico_docu,
-.ztree li span.button.class_department_ico_docu {
+.ztree li span.button.employee_ico_docu,
+.ztree li span.button.department_ico_docu {
   background: none;
   color: #ccc;
 }
 .ztree li span.button.ico_docu:before,
-.ztree li span.button.class_employee_ico_docu:before,
-.ztree li span.button.class_department_ico_docu:before {
+.ztree li span.button.employee_ico_docu:before,
+.ztree li span.button.department_ico_docu:before {
   font-family: FontAwesome, sans-serif;
   content: "\f15b";
   font-size: 12px;
   line-height: 18px;
   padding-left: 4px;
 }
+.ztree li span.button.folder_ico_docu {
+  background: none;
+  color: #ccc;
+}
+.ztree li span.button.folder_ico_docu:before {
+  font-family: FontAwesome, sans-serif;
+  content: "\f07b";
+  font-size: 12px;
+  line-height: 18px;
+  padding-left: 2px;
+}
 .ztree li span.button.ico_open,
 .ztree li span.button.ico_close,
-.ztree li span.button.class_department_ico_open,
-.ztree li span.button.class_department_ico_close {
+.ztree li span.button.department_ico_open,
+.ztree li span.button.department_ico_close {
   background: none;
   color: #ccc;
 }
 .ztree li span.button.ico_open:before,
 .ztree li span.button.ico_close:before,
-.ztree li span.button.class_department_ico_open:before,
-.ztree li span.button.class_department_ico_close:before {
+.ztree li span.button.department_ico_open:before,
+.ztree li span.button.department_ico_close:before {
   font-family: FontAwesome, sans-serif;
   content: "\f07b";
   font-size: 12px;
   line-height: 18px;
   padding-left: 4px;
+}
+.ztree li span.button.folder_ico_open,
+.ztree li span.button.folder_ico_close {
+  background: none;
+  color: #ccc;
+}
+.ztree li span.button.folder_ico_open:before,
+.ztree li span.button.folder_ico_close:before {
+  font-family: FontAwesome, sans-serif;
+  content: "\f07b";
+  font-size: 12px;
+  line-height: 18px;
+  padding-left: 2px;
 }
 .ztree li span.button.ico_open:before,
 .tree_aggiungi_assegnatari .ztree li span.button.ico_open:before {

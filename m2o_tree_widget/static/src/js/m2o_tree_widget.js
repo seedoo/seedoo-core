@@ -144,7 +144,7 @@
 	            	for (r in res) {
 	            	    var iconSkin = '';
 	            	    if (css_class) {
-                            iconSkin =  'class_' + res[r][css_class];
+                            iconSkin =  res[r][css_class];
                         }
                         var nocheck = false;
 	            	    if (self.options.field_no_checkbox && res[r][self.options.field_no_checkbox]) {
@@ -152,41 +152,58 @@
                         } else if (context.disable_ids && context.disable_ids.indexOf(res[r]['id'])!==-1) {
 	            	        nocheck = true;
                         }
-	            		zNodes.push(
-                            {
-                                id: res[r]['id'],
-                                pId: res[r][pid] && res[r][pid][0] || false,
-                                name: res[r][label],
-                                doCheck: true,
-                                chkDisabled: nocheck,
-                                checked: self.get("value") == res[r]['id'] && true || false,
-                                open: false,
-                                iconSkin: iconSkin
-                            }
-	            		);
+	            	    var zNode = {
+                            id: res[r]['id'],
+                            pId: res[r][pid] && res[r][pid][0] || false,
+                            name: res[r][label],
+                            doCheck: true,
+                            chkDisabled: nocheck,
+                            checked: self.get("value") == res[r]['id'] && true || false,
+                            open: false,
+                            iconSkin: iconSkin,
+                            isParent: context.async
+                        };
+	            	    if (context.async) {
+	            	        zNode['isParent'] = true;
+                        }
+	            		zNodes.push(zNode);
 	            	}
 
 	                var setting = {
-	            			view: {
-	            				selectedMulti: false,
-                                dblClickExpand: false
-	            			},
-	            			check: {
-	            				enable: true,
-	            				chkStyle: "radio",
-	            				radioType: "all"
-	            			},
-	            			data: {
-	            				simpleData: {
-	            					enable: true
-	            				}
-	            			},
-	            			callback: {
-	            				beforeCheck: beforeCheck,
-	            				onClick: onClick,
-	            				onCheck: onCheck
-	            			}
-	            		};
+                        view: {
+                            selectedMulti: false,
+                            dblClickExpand: false
+                        },
+                        check: {
+                            enable: true,
+                            chkStyle: "radio",
+                            radioType: "all"
+                        },
+                        data: {
+                            simpleData: {
+                                enable: true
+                            }
+                        },
+                        callback: {
+                            beforeCheck: beforeCheck,
+                            onClick: onClick,
+                            onCheck: onCheck
+                        }
+                    };
+	            	if (context.async) {
+                        setting['async'] = {
+                            enable: true,
+                            contentType: 'application/json',
+                            dataType: 'json',
+                            url: context.async_url,
+                            autoParam: ['id'],
+                            dataFilter: filter
+                        };
+                        function filter(treeId, parentNode, result) {
+                            var childNodes = result['result'];
+                            return childNodes;
+                        }
+                    }
     		 		var code, log, className = "dark";
     		 		function beforeCheck(treeId, treeNode) {
     		 			return (treeNode.doCheck !== false);
