@@ -617,9 +617,16 @@ class protocollo_assegnazione(orm.Model):
                 ('assegnatario_employee_id', 'in', employee_ids),
                 ('state', '=', 'preso')
             ])
-            if assegnazione_ids:
-                assegnazione = self.browse(cr, uid, assegnazione_ids[0])
-                return assegnazione.assegnatario_employee_department_id.id
+            department_ids = []
+            for assegnazione_id in assegnazione_ids:
+                assegnazione = self.browse(cr, uid, assegnazione_id)
+                check = protocollo_obj._check_stato_assegnatore_competenza(cr, uid, protocollo, None, assegnazione.assegnatario_employee_id.id)
+                if not check:
+                    department_ids.append(assegnazione.assegnatario_employee_department_id.id)
+            if len(department_ids) == 1:
+                return department_ids[0]
+            else:
+                return False
 
         # se l'utente non ha un dipendete fra gli assegnatari allora si controlla se l'utente ha un dipendente
         # appartenente all'ufficio di protocollazione, al fine di usare quest'ultimo come ufficio dell'assegnatore

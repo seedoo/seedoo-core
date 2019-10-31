@@ -17,6 +17,7 @@ class protocollo_riassegna_wizard(osv.TransientModel):
                                           "Ufficio dell'Assegnatore",
                                           domain="[('member_ids.user_id', '=', uid)]",
                                           required=True),
+        'assegnatore_department_name': fields.related('assegnatore_department_id', 'name', type='char', string="Ufficio dell'Assegnatore", readonly=True),
         'assegnatario_competenza_id': fields.many2one('protocollo.assegnatario',
                                                       'Assegnatario per Competenza',
                                                       domain="[('is_visible', '=', True)]"),

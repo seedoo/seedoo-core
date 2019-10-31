@@ -41,16 +41,20 @@ class protocollo_protocollo(osv.Model):
             return True
         return False
 
-    def _check_stato_assegnatore_competenza(self, cr, uid, protocollo, stato, assegnatore_uid=None, assegnazione_domain=[]):
-        if not assegnatore_uid:
-            assegnatore_uid = uid
+    def _check_stato_assegnatore_competenza(self, cr, uid, protocollo, stato, assegnatore_employee_id=None, assegnazione_domain=[]):
         assegnazione_obj = self.pool.get('protocollo.assegnazione')
-        domain = [x for x in assegnazione_domain]
-        domain.append(('assegnatore_id.user_id.id', '=', assegnatore_uid))
-        domain.append(('protocollo_id', '=', protocollo.id))
-        domain.append(('tipologia_assegnazione', '=', 'competenza'))
+        domain = [
+            ('protocollo_id', '=', protocollo.id),
+            ('tipologia_assegnazione', '=', 'competenza')
+        ]
+        if assegnatore_employee_id:
+            domain.append(('assegnatore_id.id', '=', assegnatore_employee_id))
+        else:
+            domain.append(('assegnatore_id.user_id.id', '=', uid))
         if stato:
             domain.append(('state', '=', stato))
+        for assegnazione_domain_item in assegnazione_domain:
+            domain.append(assegnazione_domain_item)
         assegnazione_ids = assegnazione_obj.search(cr, uid, domain)
         if len(assegnazione_ids) > 0:
             return True
