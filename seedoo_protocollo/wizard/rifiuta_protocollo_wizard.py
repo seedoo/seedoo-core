@@ -21,7 +21,7 @@ class wizard(osv.TransientModel):
 
     _columns = {
         'name': fields.text(
-            'Causa rifiuto assegnazione',
+            'Motivazione',
             required=True,
             readonly=False
         ),
