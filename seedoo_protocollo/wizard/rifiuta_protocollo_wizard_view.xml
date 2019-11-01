@@ -17,11 +17,9 @@ this module contains the full copyright notices and license terms. -->
             <field name="model">protocollo.rifiuta.wizard</field>
             <field name="arch" type="xml">
                 <form string="Rifiuta Protocollo" version="7.0">
-                    <sheet>
-                        <group>
-                            <field name="name"/>
-                        </group>
-                    </sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
                     <footer>
                         <button string="Rifiuta Protocollo"
                                 name="rifiuta_presa_in_carico" type="object"

@@ -187,6 +187,13 @@ class protocollo_protocollo(osv.Model):
                               WHERE pa.tipologia_assegnatario = 'employee' AND
                                     pa.assegnatario_employee_department_id IN (''' + employee_department_ids_str + ''') AND
                                     pa.state = 'rifiutato'
+                              EXCEPT
+                              SELECT DISTINCT(pa.protocollo_id)
+                              FROM protocollo_assegnazione pa
+                              WHERE pa.state != 'rifiutato' AND (
+                                        (pa.tipologia_assegnatario = 'employee' AND pa.assegnatario_employee_id IN (''' + employee_ids_str + ''') AND pa.parent_id IS NULL) OR
+                                        (pa.tipologia_assegnatario = 'department' AND pa.assegnatario_department_id IN (''' + employee_department_ids_str + '''))
+                                    )
                           ) 
                           OR 
                           pa.protocollo_id IN (

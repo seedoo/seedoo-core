@@ -33,5 +33,5 @@ class agli_atti_protocollo_wizard(osv.TransientModel):
 
     def agli_atti(self, cr, uid, ids, context=None):
         wizard = self.browse(cr, uid, ids[0], context)
-        self.pool.get('protocollo.protocollo').agli_atti(cr, uid, context['active_ids'], wizard.motivazione)
+        self.pool.get('protocollo.protocollo').agli_atti(cr, uid, context['active_ids'], wizard.motivazione, context)
         return {'type': 'ir.actions.act_window_close'}

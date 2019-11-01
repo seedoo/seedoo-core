@@ -30,5 +30,5 @@ class wizard(osv.TransientModel):
     def rifiuta_presa_in_carico(self, cr, uid, ids, context=None):
         wizard = self.browse(cr, uid, ids[0], context)
         if wizard.name:
-            self.pool.get('protocollo.protocollo').rifiuta_presa_in_carico(cr, uid, [context['active_id']], wizard.name)
+            self.pool.get('protocollo.protocollo').rifiuta_presa_in_carico(cr, uid, [context['active_id']], wizard.name, context)
         return {'type': 'ir.actions.act_window_close'}

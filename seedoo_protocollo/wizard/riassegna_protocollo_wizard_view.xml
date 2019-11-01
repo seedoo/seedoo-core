@@ -8,19 +8,19 @@
             <field name="arch" type="xml">
                 <form string="Riassegna Protocollo">
                     <sheet>
+                        <group attrs="{'invisible':[('assegnatore_department_id_invisible','=',True)]}" colspan="2" col="4">
+                            <field name="assegnatore_department_id" attrs="{'invisible':[('assegnatore_department_id','!=',False)]}" widget="selection" colspan="2"/>
+                            <group colspan="2"/>
+                            <field name="assegnatore_department_name" attrs="{'invisible':[('assegnatore_department_id','=',False)]}" colspan="2"/>
+                            <group colspan="2"/>
+                            <field name="assegnatore_department_id_invisible" invisible="1"/>
+                        </group>
+
                         <group attrs="{'invisible':[('assegnatari_empty','=',False)]}" col="4">
                             <field name="assegnatari_empty_message" colspan="4" nolabel="1"/>
                         </group>
 
                         <group attrs="{'invisible':[('assegnatari_empty','=',True)]}" col="2">
-                            <group attrs="{'invisible':[('assegnatore_department_id_invisible','=',True)]}" colspan="2" col="4">
-                                <field name="assegnatore_department_id" attrs="{'invisible':[('assegnatore_department_id','!=',False)]}" widget="selection" colspan="2"/>
-                                <group colspan="2"/>
-                                <field name="assegnatore_department_name" attrs="{'invisible':[('assegnatore_department_id','=',False)]}" colspan="2"/>
-                                <group colspan="2"/>
-                                <field name="assegnatore_department_id_invisible" invisible="1"/>
-                            </group>
-
                             <group attrs="{'invisible':[('assegnatore_department_id','=',False)]}" colspan="1" col="1">
                                 <separator string="Assegnatario per Competenza"/>
                                 <field name="assegnatario_competenza_id"
