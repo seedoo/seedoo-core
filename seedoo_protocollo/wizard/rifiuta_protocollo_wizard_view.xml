@@ -6,14 +6,14 @@ this module contains the full copyright notices and license terms. -->
     <data>
         <!-- wizard action on protocollo.protocollo -->
         <act_window id="protocollo_rifiuta_action"
-                    name="Rifiuta Protocollo"
+                    name="Rifiuta Assegnazione"
                     res_model="protocollo.rifiuta.wizard"
                     view_type="form" view_mode="form"
                     target="new"/>
 
         <!-- wizard view -->
         <record id="protocollo_rifiuta_view" model="ir.ui.view">
-            <field name="name">Rifiuta Protocollo</field>
+            <field name="name">Rifiuta Assegnazione</field>
             <field name="model">protocollo.rifiuta.wizard</field>
             <field name="arch" type="xml">
                 <form string="Rifiuta Protocollo" version="7.0">
@@ -21,7 +21,7 @@ this module contains the full copyright notices and license terms. -->
                         <field name="name"/>
                     </group>
                     <footer>
-                        <button string="Rifiuta Protocollo"
+                        <button string="Rifiuta"
                                 name="rifiuta_presa_in_carico" type="object"
                                 class="oe_highlight"/>
                         o
