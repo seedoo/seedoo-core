@@ -171,6 +171,9 @@ class protocollo_riassegna_wizard(osv.TransientModel):
         )
         after['conoscenza'] = ', '.join([a.assegnatario_id.nome for a in protocollo.assegnazione_conoscenza_ids])
 
+    def get_history_label(self, cr, uid, context):
+        return "Riassegnazione"
+
     def action_save(self, cr, uid, ids, context=None):
         before = {'competenza': '', 'conoscenza': ''}
         after = {'competenza': '', 'conoscenza': ''}
@@ -204,7 +207,7 @@ class protocollo_riassegna_wizard(osv.TransientModel):
                           % ('Assegnatari Conoscenza', before['conoscenza'], after['conoscenza'])
         body += "</ul></div>"
         post_vars = {
-            'subject': "%s%s" % ("Riassegnazione", ": " + wizard.motivation if wizard.motivation else ""),
+            'subject': "%s%s" % (self.get_history_label(cr, uid, context), ": " + wizard.motivation if wizard.motivation else ""),
             'body': body,
             'model': "protocollo.protocollo",
             'res_id': context['active_id']
