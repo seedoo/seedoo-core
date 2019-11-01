@@ -234,6 +234,9 @@ button.oe_kanban_button_new {
 .openerp button.btn_presa_in_carico_richiesta {
   background-color: #44a1a0 !important;
 }
+.openerp button.btn_riassegna {
+  background-color: #44a1a0 !important;
+}
 .oe_kanban_buttons button.oe_kanban_button_new.oe_highlight {
   background-color: #44a1a0 !important;
   box-shadow: none !important;

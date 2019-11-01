@@ -343,6 +343,9 @@
 .btn_assegna::before {
   content: "\f0e8";
 }
+.btn_riassegna::before {
+  content: "\f0e8";
+}
 .btn_invia_pec::before,
 .btn_invia_richiesta::before {
   content: "\f003";
@@ -377,7 +380,8 @@
 .openerp button.btn_presa_in_carico_richiesta:hover,
 .openerp button.btn_rifiuta_presa_in_carico:hover,
 .openerp button.btn_rifiuta_presa_in_carico_richiesta:hover,
-.openerp button.btn_stampa_etichetta:hover {
+.openerp button.btn_stampa_etichetta:hover,
+.openerp button.btn_riassegna:hover {
   background-color: #999 !important;
 }
 .openerp button.btn_stampa_etichetta {
@@ -1012,11 +1016,11 @@ div.box-sender-internal .icon_item_type div:hover {
   text-decoration: none !important;
   font-weight: bold;
   /*
-  position: absolute;
-  left: 10px;
-  right: 10px;
-  height: 85px;
-  */
+      position: absolute;
+      left: 10px;
+      right: 10px;
+      height: 85px;
+      */
 }
 .container_classification .oe_form_char_content:hover {
   background-color: transparent;
@@ -1387,4 +1391,3 @@ div.dati-protocollo-container h4:before {
     font-size: 18px;
   }
 }
-/*# sourceMappingURL=protocollo.css.map */

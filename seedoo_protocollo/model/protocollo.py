@@ -503,11 +503,7 @@ class protocollo_protocollo(orm.Model):
             ], 'Tipo', size=32, required=True, readonly=True),
         'typology': fields.many2one(
             'protocollo.typology', 'Mezzo Trasmissione', readonly=True, required=False,
-            states={'draft': [('readonly', False)]},
-            help="Tipologia invio/ricevimento: \
-                        Raccomandata, Fax, PEC, etc. \
-                        si possono inserire nuove tipologie \
-                        dal menu Tipologie."),
+            states={'draft': [('readonly', False)]}),
         'reserved': fields.boolean('Riservato',
                                    readonly=True,
                                    states={'draft': [('readonly', False)]},

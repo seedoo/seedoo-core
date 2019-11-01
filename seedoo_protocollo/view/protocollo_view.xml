@@ -290,7 +290,7 @@ this module contains the full copyright notices and license terms. -->
 
                         <button name="%(protocollo_riassegna_action)d" string="Riassegna" type="action" id="btn_riassegna"
                                 attrs="{'invisible':[('riassegna_visibility','=',False)]}"
-                                class="oe_highlight_positive btn_seedoo btn_assegna"/>
+                                class="oe_highlight btn_seedoo btn_riassegna"/>
 
                         <button name="sent_mail_pec" string="Invia PEC Protocollo"
                                 attrs="{'invisible':[('invio_pec_visibility','=',False)]}"
