@@ -593,6 +593,10 @@ class protocollo_assegnazione(orm.Model):
                     if len(assegnazioni_da_leggere_ids) == 0:
                         self.write(cr, uid, [assegnazione.parent_id.id], {'state': state})
 
+    def check_stato_assegnatore_competenza(self, cr, uid, protocollo, employee_id):
+        protocollo_obj = self.pool.get('protocollo.protocollo')
+        return protocollo_obj._check_stato_assegnatore_competenza(cr, uid, protocollo, None, employee_id)
+
     def get_default_assegnatore_department_id(self, cr, uid, protocollo_id):
         protocollo_obj = self.pool.get('protocollo.protocollo')
         employee_obj = self.pool.get('hr.employee')
@@ -620,7 +624,7 @@ class protocollo_assegnazione(orm.Model):
             department_ids = []
             for assegnazione_id in assegnazione_ids:
                 assegnazione = self.browse(cr, uid, assegnazione_id)
-                check = protocollo_obj._check_stato_assegnatore_competenza(cr, uid, protocollo, None, assegnazione.assegnatario_employee_id.id)
+                check = self.check_stato_assegnatore_competenza(cr, uid, protocollo, assegnazione.assegnatario_employee_id.id)
                 if not check:
                     department_ids.append(assegnazione.assegnatario_employee_department_id.id)
             if len(department_ids) == 1:
