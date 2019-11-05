@@ -629,7 +629,7 @@ class protocollo_assegnazione(orm.Model):
                     department_ids.append(assegnazione.assegnatario_employee_department_id.id)
             if len(department_ids) == 1:
                 return department_ids[0]
-            else:
+            elif len(department_ids) > 1:
                 return False
 
         # se l'utente non ha un dipendete fra gli assegnatari allora si controlla se l'utente ha un dipendente

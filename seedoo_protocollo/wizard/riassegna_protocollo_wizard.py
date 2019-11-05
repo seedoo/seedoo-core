@@ -46,12 +46,18 @@ class protocollo_riassegna_wizard(osv.TransientModel):
         return False
 
     def _default_assegnatore_department_id(self, cr, uid, context):
-        return self.pool.get('protocollo.assegnazione').get_default_assegnatore_department_id(cr, uid, context['active_id'])
-
-    def _default_assegnatore_department_id_invisible(self, cr, uid, context):
-        department_id = self.pool.get('protocollo.assegnazione').get_default_assegnatore_department_id(cr, uid, context['active_id'])
-        if department_id:
-            return True
+        # l'ufficio con cui si deve riassegnare è lo stesso dell'assegnazione per competenza rifiutata
+        assegnazione_obj = self.pool.get('protocollo.assegnazione')
+        assegnazione_ids = assegnazione_obj.search(cr, uid, [
+            ('protocollo_id', '=', context['active_id']),
+            ('tipologia_assegnazione', '=', 'competenza'),
+            ('assegnatore_id.user_id.id', '=', uid),
+            ('state', '=', 'rifiutato'),
+            ('parent_id', '=', False)
+        ])
+        if assegnazione_ids:
+            assegnazione = assegnazione_obj.browse(cr, uid, assegnazione_ids[0])
+            return assegnazione.assegnatore_department_id.id
         return False
 
     def _default_assegnatario_conoscenza_ids(self, cr, uid, context):
@@ -110,7 +116,7 @@ class protocollo_riassegna_wizard(osv.TransientModel):
         'assegnatario_conoscenza_disable_ids': _default_assegnatario_conoscenza_disable_ids,
         'assegnatari_empty': _default_assegnatari_empty,
         'assegnatari_empty_message': _default_assegnatari_empty_message,
-        'assegnatore_department_id_invisible': _default_assegnatore_department_id_invisible
+        'assegnatore_department_id_invisible': True
     }
 
     def on_change_assegnatario_competenza_id(self, cr, uid, ids, assegnatario_competenza_id, context=None):
