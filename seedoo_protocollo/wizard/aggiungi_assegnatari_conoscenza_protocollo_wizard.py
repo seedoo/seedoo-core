@@ -69,11 +69,27 @@ class protocollo_aggiungi_assegnatari_conoscenza_wizard(osv.TransientModel):
                     assegnatario_conoscenza_disable_ids.append(assegnazione.assegnatario_id.parent_id.id)
         return assegnatario_conoscenza_disable_ids
 
+    def _default_assegnatario_conoscenza_ids(self, cr, uid, context):
+        assegnatario_conoscenza_ids = []
+        assegnazione_obj = self.pool.get('protocollo.assegnazione')
+        assegnazione_conoscenza_domain = [
+            ('protocollo_id', '=', context['active_id']),
+            ('tipologia_assegnazione', '=', 'conoscenza'),
+            ('parent_id', '=', False)
+        ]
+        assegnazione_conoscenza_ids = assegnazione_obj.search(cr, uid, assegnazione_conoscenza_domain)
+        if assegnazione_conoscenza_ids:
+            assegnazione_conoscenza_list = assegnazione_obj.browse(cr, uid, assegnazione_conoscenza_ids)
+            for assegnazione in assegnazione_conoscenza_list:
+                assegnatario_conoscenza_ids.append(assegnazione.assegnatario_id.id)
+        return assegnatario_conoscenza_ids
+
     _defaults = {
         'assegnatari_empty': _default_assegnatari_empty,
         'assegnatore_department_id': _default_assegnatore_department_id,
         'assegnatore_department_id_invisible': _default_assegnatore_department_id_invisible,
-        'assegnatario_conoscenza_disable_ids': _default_assegnatario_conoscenza_disable_ids
+        'assegnatario_conoscenza_disable_ids': _default_assegnatario_conoscenza_disable_ids,
+        'assegnatario_conoscenza_ids': _default_assegnatario_conoscenza_ids
     }
 
     def action_save(self, cr, uid, ids, context=None):

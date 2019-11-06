@@ -593,10 +593,6 @@ class protocollo_assegnazione(orm.Model):
                     if len(assegnazioni_da_leggere_ids) == 0:
                         self.write(cr, uid, [assegnazione.parent_id.id], {'state': state})
 
-    def check_stato_assegnatore_competenza(self, cr, uid, protocollo, employee_id):
-        protocollo_obj = self.pool.get('protocollo.protocollo')
-        return protocollo_obj._check_stato_assegnatore_competenza(cr, uid, protocollo, None, employee_id)
-
     def get_default_assegnatore_department_id(self, cr, uid, protocollo_id):
         protocollo_obj = self.pool.get('protocollo.protocollo')
         employee_obj = self.pool.get('hr.employee')
@@ -621,18 +617,12 @@ class protocollo_assegnazione(orm.Model):
                 ('assegnatario_employee_id', 'in', employee_ids),
                 ('state', '=', 'preso')
             ])
-            department_ids = []
-            for assegnazione_id in assegnazione_ids:
-                assegnazione = self.browse(cr, uid, assegnazione_id)
-                check = self.check_stato_assegnatore_competenza(cr, uid, protocollo, assegnazione.assegnatario_employee_id.id)
-                if not check:
-                    department_ids.append(assegnazione.assegnatario_employee_department_id.id)
-            if len(department_ids) == 1:
-                return department_ids[0]
-            elif len(department_ids) > 1:
-                return False
+            if assegnazione_ids:
+                if len(assegnazione_ids) == 1:
+                    assegnazione = self.browse(cr, uid, assegnazione_ids[0])
+                    return assegnazione.assegnatario_employee_department_id.id
 
-        # se l'utente non ha un dipendete fra gli assegnatari allora si controlla se l'utente ha un dipendente
+        # se l'utente non ha un dipendente fra gli assegnatari allora si controlla se l'utente ha un dipendente
         # appartenente all'ufficio di protocollazione, al fine di usare quest'ultimo come ufficio dell'assegnatore
         if protocollo.registration_employee_department_id:
             employee_ids = employee_obj.search(cr, uid, [
