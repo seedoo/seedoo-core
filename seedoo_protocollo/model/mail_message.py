@@ -281,6 +281,27 @@ class MailMessage(orm.Model):
 
         return True
 
+    def message_to_protocol_action(self, cr, uid, ids, context=None):
+        vals = {}
+        for message in self.browse(cr, uid, ids):
+            if message.message_direction != 'in':
+                raise orm.except_orm(_("Errore"), _("Non è possibile ripristinare questo tipo di messaggio"))
+
+            if message.pec_type:
+                    vals = {
+                        'pec_state': 'new'
+                    }
+            elif message.sharedmail_type:
+                vals = {
+                        'sharedmail_state': 'new'
+                }
+            if vals:
+                try:
+                    self.write(cr, uid, [message.id], vals, context=context)
+                except Exception as e:
+                    raise orm.except_orm(_("Errore"), _("Non è possibile ripristinare questo messaggio"))
+        return True
+
     def check_access_rule(self, cr, uid, ids, operation, context=None):
         new_context = dict(context or {})
         new_context['skip_check'] = True

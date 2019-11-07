@@ -31,6 +31,23 @@ class MailMessage(osv.Model):
 
         return dict(res)
 
+    def _ripristina_da_protocollare_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
+        res = []
+        for message in self.browse(cr, uid, ids):
+            check = False
+
+            if message.message_direction=='in' and (message.pec_state=='not_protocol' or message.sharedmail_state=='not_protocol'):
+                check = True
+
+            if check:
+                check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_ripristina_per_protocollazione')
+                check = check and check_gruppi
+
+            res.append((message.id, check))
+
+        return dict(res)
+
     _columns = {
-        'ripristina_per_protocollazione_visibility': fields.function(_ripristina_per_protocollazione_visibility, type='boolean', string='Ripristina per protocollazione')
+        'ripristina_per_protocollazione_visibility': fields.function(_ripristina_per_protocollazione_visibility, type='boolean', string='Ripristina per protocollazione'),
+        'ripristina_da_protocollare_visibility': fields.function(_ripristina_da_protocollare_visibility, type='boolean', string='Ripristina da protocollare')
     }

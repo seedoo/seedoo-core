@@ -279,8 +279,12 @@ this module contains the full copyright notices and license terms. -->
             <field name="arch" type="xml">
                 <xpath expr="//header" position="inside">
                     <field name="ripristina_per_protocollazione_visibility" invisible="1"/>
+                    <field name="ripristina_da_protocollare_visibility" invisible="1"/>
                     <button name="recovery_message_to_protocol_action" string="Ripristina per protocollazione" type="object"
                             attrs="{'invisible':[('ripristina_per_protocollazione_visibility','=',False)]}"
+                            class="oe_highlight_warning btn_seedoo btn_ripristina_messaggio"/>
+                    <button name="message_to_protocol_action" string="Ripristina per protocollazione" type="object"
+                            attrs="{'invisible':[('ripristina_da_protocollare_visibility','=',False)]}"
                             class="oe_highlight_warning btn_seedoo btn_ripristina_messaggio"/>
                 </xpath>
                 <xpath expr="//field[@name='author_id']" position="after">
@@ -341,8 +345,12 @@ this module contains the full copyright notices and license terms. -->
             <field name="arch" type="xml">
                 <xpath expr="//header" position="inside">
                     <field name="ripristina_per_protocollazione_visibility" invisible="1"/>
+                    <field name="ripristina_da_protocollare_visibility" invisible="1"/>
                     <button name="recovery_message_to_protocol_action" string="Ripristina per protocollazione" type="object"
                             attrs="{'invisible':[('ripristina_per_protocollazione_visibility','=',False)]}"
+                            class="oe_highlight_warning btn_seedoo btn_ripristina_messaggio"/>
+                    <button name="message_to_protocol_action" string="Ripristina per protocollazione" type="object"
+                            attrs="{'invisible':[('ripristina_da_protocollare_visibility','=',False)]}"
                             class="oe_highlight_warning btn_seedoo btn_ripristina_messaggio"/>
                 </xpath>
                 <xpath expr="//field[@name='author_id']" position="after">
