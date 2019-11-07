@@ -719,10 +719,12 @@ this module contains the full copyright notices and license terms. -->
                                                                             <field name="name"/>
                                                                         </h3>
                                                                         <p>
+                                                                            <field name="description"/>
+                                                                        </p>
+                                                                        <p>
                                                                             <i class="fa fa-sitemap" aria-hidden="true"></i>
                                                                             <field name="classification_id"/>
                                                                         </p>
-
                                                                     </td>
                                                                 </tr>
                                                             </table>
