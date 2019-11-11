@@ -474,35 +474,46 @@ class protocollo_protocollo(osv.Model):
 
         return [('id', 'in', protocollo_visible_ids)]
 
+    # def get_fields_without_skip_check(self, cr, uid):
+    #     return []
+
     def check_access_rule(self, cr, uid, ids, operation, context=None):
         if context and context.has_key('skip_check') and context['skip_check']:
             return ids
         return super(protocollo_protocollo, self).check_access_rule(cr, uid, ids, operation, context=context)
 
-    def search_read(self, cr, uid, domain=None, fields=None, offset=0, limit=None, order=None, context=None):
-        record_ids = self.search(cr, uid, domain or [], offset=offset, limit=limit, order=order, context=context)
-        if not record_ids:
-            return []
-
-        if fields and fields == ['id']:
-            # shortcut read if we only want the ids
-            return [{'id': id} for id in record_ids]
-
-        # read() ignores active_test, but it would forward it to any downstream search call
-        # (e.g. for x2m or function fields), and this is not the desired behavior, the flag
-        # was presumably only meant for the main search().
-        # TODO: Move this to read() directly?
-        read_ctx = dict(context or {})
-        read_ctx.pop('active_test', None)
-        read_ctx['skip_check'] = True
-
-        result = self.read(cr, uid, record_ids, fields, context=read_ctx)
-        if len(result) <= 1:
-            return result
-
-        # reorder read
-        index = dict((r['id'], r) for r in result)
-        return [index[x] for x in record_ids if x in index]
+    # def search_read(self, cr, uid, domain=None, fields=None, offset=0, limit=None, order=None, context=None):
+    #     record_ids = self.search(cr, uid, domain or [], offset=offset, limit=limit, order=order, context=context)
+    #     if not record_ids:
+    #         return []
+    #
+    #     if fields and fields == ['id']:
+    #         # shortcut read if we only want the ids
+    #         return [{'id': id} for id in record_ids]
+    #
+    #     # read() ignores active_test, but it would forward it to any downstream search call
+    #     # (e.g. for x2m or function fields), and this is not the desired behavior, the flag
+    #     # was presumably only meant for the main search().
+    #     # TODO: Move this to read() directly?
+    #     read_ctx = dict(context or {})
+    #     read_ctx.pop('active_test', None)
+    #     read_ctx['skip_check'] = True
+    #
+    #     fields_without_skip_check = self.get_fields_without_skip_check(cr, uid)
+    #     fields_with_skip_check = list(set(fields) - set(fields_without_skip_check))
+    #     result = self.read(cr, uid, record_ids, fields_with_skip_check, context=read_ctx)
+    #     if fields_without_skip_check:
+    #         read_ctx.pop('skip_check')
+    #         result_without_skip_check = self.read(cr, uid, record_ids, fields_without_skip_check, context=read_ctx)
+    #         for record_id in range(len(result_without_skip_check)):
+    #             result[record_id].update(result_without_skip_check[record_id])
+    #
+    #     if len(result) <= 1:
+    #         return result
+    #
+    #     # reorder read
+    #     index = dict((r['id'], r) for r in result)
+    #     return [index[x] for x in record_ids if x in index]
 
     def search(self, cr, uid, args, offset=0, limit=None, order=None, context=None, count=False):
         if context and context.has_key('skip_check') and context['skip_check']:
