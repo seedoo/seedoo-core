@@ -32,7 +32,14 @@ class protocollo_config_settings(osv.osv_memory):
         'inserisci_testo_mailpec': fields.related('config_id', 'inserisci_testo_mailpec', type='boolean', string='Abilita testo e-mail/PEC protocollo'),
         'rinomina_documento_allegati': fields.related('config_id', 'rinomina_documento_allegati', type='boolean', string='Rinomina documento principale e allegati'),
         'rinomina_oggetto_mail_pec': fields.related('config_id', 'rinomina_oggetto_mail_pec', type='boolean', string='Rinomina oggetto e-mail/PEC'),
+
         'genera_segnatura': fields.related('config_id', 'genera_segnatura', type='boolean', string='Genera Segnatura in PDF Post-Registrazione'),
+        'genera_segnatura_allegati': fields.related('config_id', 'genera_segnatura_allegati', type='boolean', string='Genera Segnatura in PDF Allegati'),
+        'aggiungi_allegati_post_registrazione': fields.related('config_id', 'aggiungi_allegati_post_registrazione', type='boolean', string='Aggiungi allegato Post-Registrazione'),
+        'genera_segnatura_allegati_post_registrazione': fields.related('config_id', 'genera_segnatura_allegati_post_registrazione', type='boolean', string='Genera Segnatura in PDF Allegati Post-Registrazione'),
+        'nuovo_algoritmo_segnatura': fields.related('config_id', 'nuovo_algoritmo_segnatura', type='boolean', string='Usa il nuovo algoritmo segnatura'),
+        'genera_segnatura_ogni_pagina': fields.related('config_id', 'genera_segnatura_ogni_pagina', type='boolean', string='Genera segnatura su tutte le pagine'),
+
         'segnatura_xml_parse': fields.related('config_id', 'segnatura_xml_parse', type='boolean', string='Leggi "Segnatura.xml"'),
         'segnatura_xml_invia': fields.related('config_id', 'segnatura_xml_invia', type='boolean', string='Invia "Segnatura.xml"'),
         'conferma_xml_parse': fields.related('config_id', 'conferma_xml_parse', type='boolean', string='Leggi "Conferma.xml" in Protocollazione in uscita'),
@@ -78,8 +85,6 @@ class protocollo_config_settings(osv.osv_memory):
                                              type='boolean', string='Descrizione allegati'),
         'data_ricezione_required': fields.related('config_id', 'data_ricezione_required',
                                              type='boolean', string='Data di ricezione (in ingresso)'),
-        'aggiungi_allegati_post_registrazione': fields.related('config_id', 'aggiungi_allegati_post_registrazione',
-                                             type='boolean', string='Aggiungi allegato Post-Registrazione'),
         'email_pec_unique': fields.related('config_id', 'email_pec_unique', type='boolean', string='PEC/Email Univoca'),
         'lunghezza_massima_oggetto_mail': fields.related('config_id', 'lunghezza_massima_oggetto_mail', type='integer', string='Lunghezza massima dell\'oggetto dell\'e-mail', help='Inserire 0 per non limitare l\'oggetto'),
         'lunghezza_massima_oggetto_pec': fields.related('config_id', 'lunghezza_massima_oggetto_pec', type='integer', string='Lunghezza massima dell\'oggetto della PEC', help='Inserire 0 per non limitare l\'oggetto'),

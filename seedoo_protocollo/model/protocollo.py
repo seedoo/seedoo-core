@@ -853,79 +853,6 @@ class protocollo_protocollo(orm.Model):
         os.remove(path)
         return True
 
-    def _sign_doc(self, cr, uid, prot, prot_number, prot_date):
-        pd = prot_date.split(' ')[0]
-        prot_date = datetime.datetime.strptime(pd, DSDT)
-
-        prot_dir = ''
-        for selection_tuple_value in self.pool.get('protocollo.protocollo')._fields['type'].selection:
-            if prot.type == selection_tuple_value[0]:
-                prot_dir = selection_tuple_value[1].upper()
-                break
-
-        ammi_code = prot.registry.company_id.ammi_code + " - " if prot.registry.company_id.ammi_code else ""
-        prot_def = "%s%s - %s - %s - Prot. n. %s del %s" % (
-            ammi_code,
-            prot.aoo_id.ident_code,
-            prot.registry.code,
-            prot_dir,
-            prot_number,
-            prot_date.strftime("%d-%m-%Y")
-        )
-
-        file_path_orig = self.pool.get('ir.attachment')._full_path(cr, uid, prot.doc_id.store_fname)
-        file_path = file_path_orig + '_' + prot_number
-        # duplica il file con un percorso univoco per evitare problematiche nella generazione del file con la signature
-        # nel caso ci siano due protocolli da registrare con stesso file. La procedura potrebbe essere migliorata se ci
-        # fosse un modo per generare il file con la signature con un nome contenente il numero del protocollo.
-        shutil.copy(file_path_orig, file_path)
-
-        maintain_orig = False
-        strong_encryption = False
-
-        signature_jar = "signature.jar"
-        signature_cmd = os.path.join(os.path.dirname(os.path.abspath(__file__)), "util", signature_jar)
-        cmd = ["java", "-XX:MaxHeapSize=1g", "-XX:InitialHeapSize=512m", "-XX:CompressedClassSpaceSize=64m", "-XX:MaxMetaspaceSize=128m", "-XX:+UseConcMarkSweepGC", "-jar", signature_cmd, file_path, prot_def]
-
-        try:
-            proc = subprocess.Popen(cmd, stdout=subprocess.PIPE)
-            stdoutdata, stderrdata = proc.communicate()
-            if proc.wait() != 0:
-                _logger.warning(stdoutdata)
-                raise Exception(stderrdata)
-            if os.path.isfile(file_path + '.dec.pdf'):
-                maintain_orig = True
-            if os.path.isfile(file_path + '.enc'):
-                strong_encryption = True
-                os.remove(file_path + '.enc')
-            if os.path.isfile(file_path + '.fail'):
-                os.remove(file_path + '.fail')
-                raise orm.except_osv(_("Errore"), _("Qualcosa è andato storto nella aggiunta della segnatura!"))
-        except Exception as e:
-            raise Exception(e)
-        finally:
-            # eliminazione del file duplicato
-            os.remove(file_path)
-
-        signed_file_datas = prot.doc_id.datas
-        if maintain_orig:
-            self._create_attachment_encryped_file(cr, uid, prot, file_path + '.dec.pdf')
-        elif strong_encryption:
-            pass
-        else:
-            # shutil.move(file_path + '.pdf', file_path)
-            signed_file_path = file_path + '.pdf'
-            signed_file = open(signed_file_path, 'r')
-            signed_file_datas = base64.encodestring(signed_file.read())
-            signed_file.close()
-            # eliminazione del file con la signature
-            os.remove(signed_file_path)
-
-        # TODO convert in pdfa here
-
-        # return sha1OfFile(file_path_for_sha1)
-        return signed_file_datas
-
     def _create_protocol_attachment(self, cr, uid, prot, prot_number, prot_datas):
         def sha1OfFile(filepath):
             import hashlib
@@ -1115,28 +1042,18 @@ class protocollo_protocollo(orm.Model):
                     vals['name'] = prot_number
                     vals['registration_date'] = prot_date
 
-                    # employee_ids = self.pool.get('hr.employee').search(cr, uid, [
-                    #     ('user_id', '=', uid),
-                    #     ('department_id', '=', prot.registration_employee_department_id.id)
-                    # ])
-                    # employee = self.pool.get('hr.employee').browse(cr, uid, employee_ids[0])
-                    # vals['registration_employee_id'] = employee.id
-                    # vals['registration_employee_name'] = employee.name_related
-
-                    # prot_complete_name = self.calculate_complete_name(prot_date, prot_number)
                     attachment_obj = self.pool.get('ir.attachment')
 
                     if prot.doc_id:
                         prot_datas = prot.doc_id.datas
                         try:
                             if prot.mimetype == 'application/pdf':
-                                prot_datas = self._sign_doc(cr, uid, prot, prot_number, prot_date)
+                                prot_datas = self.pool.get('protocollo.signature').sign_doc(cr, uid, prot, prot_number, prot_date, prot.doc_id)
                                 res_segnatura = {"Segnatura": {"Res": True, "Msg": "Segnatura PDF generata correttamente"}}
                         except Exception as e:
                             _logger.error(e)
                             err_segnatura = True
-                            res_segnatura = {
-                                "Segnatura": {"Res": False, "Msg": "Non è stato possibile generare la segnatura PDF"}}
+                            res_segnatura = {"Segnatura": {"Res": False, "Msg": "Non è stato possibile generare la segnatura PDF"}}
 
                         fingerprint = self._create_protocol_attachment(cr, uid, prot, prot_number, prot_datas)
                         vals['fingerprint'] = fingerprint
@@ -1147,25 +1064,53 @@ class protocollo_protocollo(orm.Model):
                     registration_time = datetime.datetime.now(dest_tz).strftime(DSDF)
                     self.write(cr, uid, [prot.id], vals, {'skip_check': True})
 
-                    try:
-                        if configurazione.rinomina_documento_allegati:
-                            attachment_ids = attachment_obj.search(cr, uid,
-                                                                   [('res_model', '=', 'protocollo.protocollo'),
-                                                                    ('res_id', '=', prot.id),
-                                                                    ('is_protocol', '=', True)])
-                            if attachment_ids:
-                                attachments = attachment_obj.browse(cr, uid, attachment_ids)
-                                for attachment in attachments:
-                                    if attachment.is_main is False:
-                                        filename = self._get_name_documento_allegato(cr, uid, attachment.datas_fname,
-                                                                                     prot_number, 'Prot', False)
-                                        attachment_obj.write(cr, uid, [attachment.id],
-                                                             {'name': filename, 'datas_fname': filename})
-                    except Exception as e:
-                        _logger.error(e)
-                        raise openerp.exceptions.Warning(_('Errore nella ridenominazione degli allegati'))
+                    attachment_domain = [
+                        ('res_model', '=', 'protocollo.protocollo'),
+                        ('res_id', '=', prot.id),
+                        ('is_protocol', '=', True),
+                    ]
+                    if prot.doc_id:
+                        attachment_domain.append(('id', '!=', prot.doc_id.id))
 
-                    thread_pool = self.pool.get('protocollo.protocollo')
+                    if configurazione.rinomina_documento_allegati:
+                        attachment_ids = attachment_obj.search(cr, uid, attachment_domain)
+                        if attachment_ids:
+                            attachments = attachment_obj.browse(cr, uid, attachment_ids)
+                            try:
+                                for attachment in attachments:
+                                    filename = self._get_name_documento_allegato(cr, uid, attachment.datas_fname, prot_number, 'Prot', False)
+                                    attachment_values = {'name': filename, 'datas_fname': filename}
+                                    attachment_obj.write(cr, uid, [attachment.id], attachment_values)
+                            except Exception as e:
+                                _logger.error(e)
+                                raise openerp.exceptions.Warning(_('Errore nella ridenominazione degli allegati'))
+
+                    if configurazione.genera_segnatura_allegati:
+                        pdf_attachment_domain = attachment_domain + [('file_type', '=', 'application/pdf')]
+                        attachment_ids = attachment_obj.search(cr, uid, pdf_attachment_domain)
+                        if attachment_ids:
+                            attachments = attachment_obj.browse(cr, uid, attachment_ids)
+                            try:
+                                nopdf_attachment_domain = attachment_domain + [('file_type', '!=', 'application/pdf')]
+                                attachment_index = attachment_obj.search(cr, uid, nopdf_attachment_domain, count=True) + 1
+                                for attachment in attachments:
+                                    if attachment.file_type=='application/pdf':
+                                        attachment_values = {
+                                            'name': attachment.datas_fname,
+                                            'datas_fname': attachment.datas_fname,
+                                            'datas_description': attachment.datas_description,
+                                            'res_model': 'protocollo.protocollo',
+                                            'is_protocol': True,
+                                            'res_id': prot.id
+                                        }
+                                        attachment_values['datas'] = self.pool.get('protocollo.signature').sign_doc(
+                                            cr, uid, prot, prot_number, prot_date, attachment, attachment_index)
+                                        attachment_obj.create(cr, uid, attachment_values)
+                                        attachment_obj.unlink(cr, SUPERUSER_ID, attachment.id)
+                                    attachment_index += 1
+                            except Exception as e:
+                                _logger.error(e)
+                                raise openerp.exceptions.Warning(_('Errore nella segnatura PDF degli allegati'))
 
                     action_class = "history_icon registration"
                     body = "<div class='%s'><ul><li>Creato protocollo %s</li>" % (action_class, prot_number)
@@ -1183,7 +1128,7 @@ class protocollo_protocollo(orm.Model):
                         'model': "protocollo.protocollo",
                         'res_id': prot.id,
                     }
-                    thread_pool.message_post(cr, uid, prot.id, type="notification", context=context, **post_vars)
+                    self.message_post(cr, uid, prot.id, type="notification", context=context, **post_vars)
 
                     if err_segnatura:
                         action_class = "history_icon warning"
@@ -1193,12 +1138,14 @@ class protocollo_protocollo(orm.Model):
                             'model': "protocollo.protocollo",
                             'res_id': prot.id,
                         }
-                        thread_pool.message_post(cr, uid, prot.id, type="notification", context=context,
-                                                 **post_vars_segnatura)
+                        self.message_post(cr, uid, prot.id, type="notification", context=context, **post_vars_segnatura)
 
-                    res_registrazione = {"Registrazione": {"Res": True,
-                                                           "Msg": "Protocollo Nr. %s del %s registrato correttamente" % (
-                                                               prot_number, registration_time)}}
+                    res_registrazione = {
+                        "Registrazione": {
+                            "Res": True,
+                            "Msg": "Protocollo Nr. %s del %s registrato correttamente" % (prot_number, registration_time)
+                        }
+                    }
                 except Exception as e:
                     _logger.error(e)
                     # res_registrazione = {"Registrazione":{"Res": False, "Msg": "Errore nella registrazione del protocollo"}}
@@ -1207,8 +1154,7 @@ class protocollo_protocollo(orm.Model):
                 if len(res_segnatura) > 0:
                     res.append(res_segnatura)
             else:
-                raise openerp.exceptions.Warning(
-                    _('"Non è più possibile eseguire l\'operazione richiesta! Il protocollo è già stato registrato!'))
+                raise openerp.exceptions.Warning(_('"Non è più possibile eseguire l\'operazione richiesta! Il protocollo è già stato registrato!'))
         # self.lock.release()
 
         try:
@@ -2190,7 +2136,7 @@ class protocollo_protocollo(orm.Model):
                     if prot.doc_id:
                         prot_datas = prot.doc_id.datas
                         if prot.mimetype == 'application/pdf' and configurazione.genera_segnatura:
-                            prot_datas = self._sign_doc(cr, uid, prot, prot_complete_name, prot_date)
+                            prot_datas = self.pool.get('protocollo.signature').sign_doc(cr, uid, prot, prot_complete_name, prot_date, prot.doc_id)
                         fingerprint = self._create_protocol_attachment(
                             cr,
                             uid,
@@ -2216,8 +2162,7 @@ class protocollo_protocollo(orm.Model):
                     # self.write(cr, uid, [prot.id], vals)
                 except Exception as e:
                     _logger.error(e)
-                    raise openerp.exceptions.Warning(_('Errore nella \
-                                   registrazione del protocollo'))
+                    raise openerp.exceptions.Warning(_("Errore nell'aggiunta del documento principale "))
                 continue
 
             return True
@@ -2239,40 +2184,60 @@ class protocollo_protocollo(orm.Model):
         )
 
     def carica_documenti_secondari(self, cr, uid, protocollo_id, file_data_list, context=None):
+        prot = self.browse(cr, uid, protocollo_id, context={'skip_check': True})
+        configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
+        configurazione = self.pool.get('protocollo.configurazione').browse(cr, uid, configurazione_ids[0])
+
+        attachment_index = 1
         attachment_created_ids = []
         attachment_obj = self.pool.get('ir.attachment')
-
-        attachment_ids = attachment_obj.search(cr, uid, [
+        attachment_domain = [
             ('res_model', '=', 'protocollo.protocollo'),
             ('res_id', '=', protocollo_id),
             ('is_protocol', '=', True)
-        ])
+        ]
+        if prot.doc_id:
+            attachment_domain.append(('id', '!=', prot.doc_id.id))
+        attachment_ids = attachment_obj.search(cr, uid, attachment_domain)
         if attachment_ids and (not context or not ('append' in context)):
-            attachments = attachment_obj.browse(cr, uid, attachment_ids)
-            for attachment in attachments:
-                if not attachment.is_main:
-                    attachment_obj.unlink(cr, SUPERUSER_ID, attachment.id)
+            attachment_obj.unlink(cr, SUPERUSER_ID, attachment_ids)
+        elif attachment_ids and context and 'append' in context:
+            attachment_index = len(attachment_ids) + 1
 
-        nomi_allegati = ''
         counter = 0
-        for file_data in file_data_list:
-            attachment_created_id = attachment_obj.create(
-                cr, uid,
-                {
+        nomi_allegati = ''
+        try:
+            for file_data in file_data_list:
+                attachment_values = {
                     'name': file_data['datas_fname'],
                     'datas': file_data['datas'],
                     'datas_fname': file_data['datas_fname'],
                     'datas_description': file_data['datas_description'],
                     'res_model': 'protocollo.protocollo',
                     'is_protocol': True,
-                    'res_id': protocollo_id,
+                    'res_id': protocollo_id
                 }
-            )
-            attachment_created_ids.append(attachment_created_id)
-            nomi_allegati += file_data['datas_fname']
-            if counter < len(file_data_list) - 1:
-                nomi_allegati += ', '
-            counter += 1
+                attachment_created_id = attachment_obj.create(cr, uid, attachment_values)
+                attachment = attachment_obj.browse(cr, uid, attachment_created_id)
+                if prot.state=='registered' and \
+                        attachment.file_type=='application/pdf' and \
+                        configurazione.genera_segnatura_allegati and \
+                        configurazione.genera_segnatura_allegati_post_registrazione:
+                    file_datas = self.pool.get('protocollo.signature').sign_doc(cr, uid, prot, prot.name, prot.registration_date, attachment, attachment_index)
+                    if file_datas:
+                        attachment_obj.unlink(cr, SUPERUSER_ID, attachment_created_id)
+                        attachment_values['datas'] = file_datas
+                        attachment_created_id = attachment_obj.create(cr, uid, attachment_values)
+                attachment_created_ids.append(attachment_created_id)
+
+                nomi_allegati += file_data['datas_fname']
+                if counter < len(file_data_list) - 1:
+                    nomi_allegati += ', '
+                counter += 1
+                attachment_index += 1
+        except Exception as e:
+            _logger.error(e)
+            raise openerp.exceptions.Warning(_("Errore nell'upload documento"))
 
         text = 'o' if counter == 1 else 'i'
 
