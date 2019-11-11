@@ -74,8 +74,7 @@ class protocollo_aggiungi_assegnatari_conoscenza_wizard(osv.TransientModel):
         assegnazione_obj = self.pool.get('protocollo.assegnazione')
         assegnazione_conoscenza_domain = [
             ('protocollo_id', '=', context['active_id']),
-            ('tipologia_assegnazione', '=', 'conoscenza'),
-            ('parent_id', '=', False)
+            ('tipologia_assegnazione', '=', 'conoscenza')
         ]
         assegnazione_conoscenza_ids = assegnazione_obj.search(cr, uid, assegnazione_conoscenza_domain)
         if assegnazione_conoscenza_ids:

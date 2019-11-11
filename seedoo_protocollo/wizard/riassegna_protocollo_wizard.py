@@ -64,8 +64,7 @@ class protocollo_riassegna_wizard(osv.TransientModel):
         assegnazione_obj = self.pool.get('protocollo.assegnazione')
         assegnazione_ids = assegnazione_obj.search(cr, uid, [
             ('protocollo_id', '=', context['active_id']),
-            ('tipologia_assegnazione', '=', 'conoscenza'),
-            ('parent_id', '=', False)
+            ('tipologia_assegnazione', '=', 'conoscenza')
         ])
         if assegnazione_ids:
             assegnatario_ids = []
