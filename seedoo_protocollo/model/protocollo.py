@@ -277,12 +277,8 @@ class protocollo_protocollo(orm.Model):
         return {'value': values}
 
     def on_change_registration_employee_department(self, cr, uid, ids, department_id, context=None):
-        values = {}
-        if department_id:
-            department = self.pool.get('hr.department').browse(cr, uid, department_id)
-            values = {
-                'registration_employee_department_name': department.complete_name,
-            }
+        values = {'registration_employee_department_id': department_id}
+        values = self._verifica_registration_employee(cr, uid, values, context)
         return {'value': values}
 
     def calculate_complete_name(self, prot_date, prot_number):
@@ -1965,6 +1961,15 @@ class protocollo_protocollo(orm.Model):
                     destinatario_data['source'] = 'receiver'
         return vals
 
+    def _verifica_registration_employee(self, cr, uid, vals, context):
+        if vals and 'registration_employee_department_id' in vals and vals['registration_employee_department_id']:
+            department = self.pool.get('hr.department').browse(cr, uid, vals['registration_employee_department_id'])
+            vals['registration_employee_department_name'] = department and department.complete_name or False
+            employee = self.pool.get('hr.employee').get_department_employee(cr, uid, department.id)
+            vals['registration_employee_id'] = employee.id
+            vals['registration_employee_name'] = employee.name_related
+        return vals
+
     def create(self, cr, uid, vals, context=None):
         new_context = dict(context or {})
         new_context['skip_check'] = True
@@ -1974,6 +1979,7 @@ class protocollo_protocollo(orm.Model):
 
     def write(self, cr, uid, ids, vals, context=None):
         vals = self._verifica_dati_sender_receiver(cr, uid, vals, context)
+        vals = self._verifica_registration_employee(cr, uid, vals, context)
         if 'registration_employee_department_id' in vals:
             department = self.pool.get('hr.department').browse(cr, uid, vals['registration_employee_department_id'])
             vals['registration_employee_department_name'] = department and department.complete_name or False
