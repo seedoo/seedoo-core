@@ -12,9 +12,6 @@ class protocollo_carica_allegati_step1_wizard(osv.TransientModel):
     _description = 'Wizard di Caricamento degli Allegati al Protocollo'
 
     _columns = {
-        # 'datas_fname': fields.char('Nome Documento Principale', size=256, readonly=False),
-        # 'datas': fields.binary('Documento', required=True),
-        # 'datas_description': fields.char('Descrizione', size=256, readonly=False),
         'document_ids': fields.one2many(
             'protocollo.carica.documenti.allegati.step1.wizard',
             'wizard_id',
@@ -22,46 +19,27 @@ class protocollo_carica_allegati_step1_wizard(osv.TransientModel):
         'error_description': fields.text('Errore', readonly=True),
     }
 
-    # def _default_datas_fname(self, cr, uid, context):
-    #     protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
-    #     if protocollo and protocollo.doc_id:
-    #         return protocollo.doc_id.datas_fname
-    #     return False
-    #
-    # def _default_datas(self, cr, uid, context):
-    #     protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
-    #     if protocollo and protocollo.doc_id:
-    #         return protocollo.doc_id.datas
-    #     return False
-    #
-    # def _default_datas_description(self, cr, uid, context):
-    #     protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'])
-    #     if protocollo and protocollo.doc_id:
-    #         return protocollo.doc_id.datas_description
-    #     return False
-
     def _default_document_ids(self, cr, uid, context):
-        attachment_obj = self.pool.get('ir.attachment')
-        attachment_ids = attachment_obj.search(cr, uid, [
-            ('res_model', '=', 'protocollo.protocollo'),
-            ('res_id', '=', context['active_id']),
-            ('is_protocol', '=', True)
-        ])
-        attachments = attachment_obj.browse(cr, uid, attachment_ids)
         res = []
-        for attachment in attachments:
-            if not attachment.is_main:
-                res.append({
-                    'datas_fname': attachment.datas_fname,
-                    'datas': attachment.datas,
-                    'datas_description': attachment.datas_description
-                })
+        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
+        if not protocollo.registration_date:
+            attachment_obj = self.pool.get('ir.attachment')
+            attachment_ids = attachment_obj.search(cr, uid, [
+                ('res_model', '=', 'protocollo.protocollo'),
+                ('res_id', '=', context['active_id']),
+                ('is_protocol', '=', True)
+            ])
+            attachments = attachment_obj.browse(cr, uid, attachment_ids)
+            for attachment in attachments:
+                if not attachment.is_main:
+                    res.append({
+                        'datas_fname': attachment.datas_fname,
+                        'datas': attachment.datas,
+                        'datas_description': attachment.datas_description
+                    })
         return res
 
     _defaults = {
-        # 'datas_fname': _default_datas_fname,
-        # 'datas': _default_datas,
-        # 'datas_description': _default_datas_description,
         'document_ids': _default_document_ids
     }
 
@@ -69,16 +47,26 @@ class protocollo_carica_allegati_step1_wizard(osv.TransientModel):
     def action_save(self, cr, uid, ids, context=None):
         wizard = self.browse(cr, uid, ids[0], context)
 
-        # if wizard.datas and wizard.datas_fname and wizard.datas_description:
         configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
         configurazione = self.pool.get('protocollo.configurazione').browse(cr, uid, configurazione_ids[0])
         protocollo_obj = self.pool.get('protocollo.protocollo')
-        protocollo = protocollo_obj.browse(cr, uid, context['active_id'])
-
-        # protocollo_obj.carica_documento_principale(cr, uid, context['active_id'], wizard.datas, wizard.datas_fname, wizard.datas_description)
+        protocollo = protocollo_obj.browse(cr, uid, context['active_id'], {'skip_check': True})
 
         file_data_list = []
         document_datas_encoded_list = []
+
+        if protocollo.registration_date:
+            attachment_obj = self.pool.get('ir.attachment')
+            attachment_ids = attachment_obj.search(cr, uid, [
+                ('res_model', '=', 'protocollo.protocollo'),
+                ('res_id', '=', context['active_id']),
+                ('is_protocol', '=', True)
+            ])
+            attachments = attachment_obj.browse(cr, uid, attachment_ids)
+            for attachment in attachments:
+                if not attachment.is_main:
+                    document_datas_encoded_list.append(attachment.datas)
+
         if wizard.document_ids:
             for document in wizard.document_ids:
                 document_datas_encoded = document.datas.decode('base64').encode('base64')
@@ -105,7 +93,6 @@ class protocollo_carica_allegati_step1_wizard(osv.TransientModel):
                 if document_datas_encoded in document_datas_encoded_list:
                     error_description = "Il contenuto dell'allegato '"+str(document.datas_fname)+"' è già stato inserito fra gli allegati!"
                     wizard.write({'error_description': error_description})
-                    #raise osv.except_orm('Attenzione!', "Il contenuto dell'allegato '"+str(document.datas_fname)+"' è già stato inserito fra gli allegati!")
                     return {
                         'name': 'Carica Allegati',
                         'view_type': 'form',
@@ -123,7 +110,11 @@ class protocollo_carica_allegati_step1_wizard(osv.TransientModel):
                     'datas_fname': filename,
                     'datas_description': document.datas_description
                 })
-        protocollo_obj.carica_documenti_secondari(cr, uid, context['active_id'], file_data_list)
+
+        context_caricamento = {}
+        if protocollo.registration_date:
+            context_caricamento['append'] = True
+        protocollo_obj.carica_documenti_secondari(cr, uid, context['active_id'], file_data_list, context_caricamento)
 
         return {
                 'name': 'Protocollo',
