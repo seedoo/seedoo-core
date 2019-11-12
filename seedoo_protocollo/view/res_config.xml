@@ -17,11 +17,7 @@ this module contains the full copyright notices and license terms. -->
                     </header>
                     <group string="Generale">
                         <field name="genera_segnatura"/>
-                        <field name="genera_segnatura_allegati"/>
                         <field name="aggiungi_allegati_post_registrazione"/>
-                        <field name="genera_segnatura_allegati_post_registrazione" attrs="{'invisible':['|',('genera_segnatura_allegati','=',False),('aggiungi_allegati_post_registrazione','=',False)]}"/>
-                        <field name="nuovo_algoritmo_segnatura"/>
-                        <field name="genera_segnatura_ogni_pagina" attrs="{'invisible':[('nuovo_algoritmo_segnatura','=',False)]}"/>
                         <field name="rinomina_documento_allegati"/>
                         <field name="sostituisci_assegnatari"/>
                         <field name="assegnazione" widget="radio"/>

@@ -50,53 +50,14 @@ class Signature(orm.Model):
             attachment_name
         )
 
-        configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
-        configurazione = self.pool.get('protocollo.configurazione').browse(cr, uid, configurazione_ids[0])
-        if configurazione.nuovo_algoritmo_segnatura:
-            all_pages = True if configurazione.genera_segnatura_ogni_pagina else False
-            return self._sign_doc_new(cr, uid, prot, prot_number, prot_date, prot_def, document, all_pages)
-        else:
-            return self._sign_doc_old(cr, uid, prot, prot_number, prot_date, prot_def, document)
+        return self._sign_doc(cr, uid, prot, prot_number, prot_date, prot_def, document)
 
 
-    def _sign_doc_new(self, cr, uid, prot, prot_number, prot_date, prot_def, document, all_pages):
-        attachment_obj = self.pool.get('ir.attachment')
-        file_path_input = attachment_obj._full_path(cr, uid, document.store_fname)
-        file_path_output = file_path_input + '_' + prot_number
-
-        signature_jar = "signature2.jar"
-        signature_cmd = os.path.join(os.path.dirname(os.path.abspath(__file__)), signature_jar)
-        signature_mode = "--all-pages" if all_pages else "--first-page"
-        cmd = [
-            "java",
-            "-XX:MaxHeapSize=1g",
-            "-XX:InitialHeapSize=512m",
-            "-XX:CompressedClassSpaceSize=64m",
-            "-XX:MaxMetaspaceSize=128m",
-            "-XX:+UseConcMarkSweepGC",
-            "-jar",
-            signature_cmd,
-            "--input", file_path_input,
-            "--output", file_path_output,
-            signature_mode,
-            prot_def
-        ]
-
-        returncode = subprocess.call(cmd)
-        if returncode != 0:
-            error = "Signature Error: %s" % SIGNATURE_RETURN_CODE[returncode]
-            raise Exception(error)
-
-        signed_file = open(file_path_output, 'r')
-        signed_file_datas = base64.encodestring(signed_file.read())
-        signed_file.close()
-        # eliminazione del file con la signature
-        os.remove(file_path_output)
-
-        return signed_file_datas
+    def _sign_doc(self, cr, uid, prot, prot_number, prot_date, prot_def, document, all_pages=False):
+        return self._sign_doc_old(cr, uid, prot, prot_number, prot_date, prot_def, document, all_pages)
 
 
-    def _sign_doc_old(self, cr, uid, prot, prot_number, prot_date, prot_def, document):
+    def _sign_doc_old(self, cr, uid, prot, prot_number, prot_date, prot_def, document, all_pages):
         attachment_obj = self.pool.get('ir.attachment')
         file_path_orig = attachment_obj._full_path(cr, uid, document.store_fname)
         file_path = file_path_orig + '_' + prot_number
@@ -158,4 +119,41 @@ class Signature(orm.Model):
             os.remove(signed_file_path)
 
         # return sha1OfFile(file_path_for_sha1)
+        return signed_file_datas
+
+
+    def _sign_doc_new(self, cr, uid, prot, prot_number, prot_date, prot_def, document, all_pages):
+        attachment_obj = self.pool.get('ir.attachment')
+        file_path_input = attachment_obj._full_path(cr, uid, document.store_fname)
+        file_path_output = file_path_input + '_' + prot_number
+
+        signature_jar = "signature2.jar"
+        signature_cmd = os.path.join(os.path.dirname(os.path.abspath(__file__)), signature_jar)
+        signature_mode = "--all-pages" if all_pages else "--first-page"
+        cmd = [
+            "java",
+            "-XX:MaxHeapSize=1g",
+            "-XX:InitialHeapSize=512m",
+            "-XX:CompressedClassSpaceSize=64m",
+            "-XX:MaxMetaspaceSize=128m",
+            "-XX:+UseConcMarkSweepGC",
+            "-jar",
+            signature_cmd,
+            "--input", file_path_input,
+            "--output", file_path_output,
+            signature_mode,
+            prot_def
+        ]
+
+        returncode = subprocess.call(cmd)
+        if returncode != 0:
+            error = "Signature Error: %s" % SIGNATURE_RETURN_CODE[returncode]
+            raise Exception(error)
+
+        signed_file = open(file_path_output, 'r')
+        signed_file_datas = base64.encodestring(signed_file.read())
+        signed_file.close()
+        # eliminazione del file con la signature
+        os.remove(file_path_output)
+
         return signed_file_datas
