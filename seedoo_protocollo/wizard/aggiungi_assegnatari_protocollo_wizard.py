@@ -37,6 +37,12 @@ class protocollo_aggiungi_assegnatari_wizard(osv.TransientModel):
                                                         'assegnatario_id',
                                                         'Assegnatari per Conoscenza',
                                                         domain="[('is_visible', '=', True)]"),
+        'assegnatario_conoscenza_disable_ids': fields.many2many('protocollo.assegnatario',
+                                                                'protocollo_aggiungi_assegnatari_disable_rel',
+                                                                'wizard_id',
+                                                                'assegnatario_id',
+                                                                'Assegnatari Conoscenza Disabilitati',
+                                                                domain="[('is_visible', '=', True)]"),
         'motivation': fields.text('Motivazione'),
         'display_motivation': fields.boolean('Visualizza Motivazione', readonly=True),
         'conoscenza_reserved_error': fields.text('Errore Protocollazione Riservata', readonly=True),
@@ -102,6 +108,21 @@ Se sono presenti assegnatari per conoscenza verranno rimossi al completamento de
             return assegnatario_ids
         return False
 
+    def _default_assegnatario_conoscenza_disable_ids(self, cr, uid, context):
+        protocollo_obj = self.pool.get('protocollo.protocollo')
+        protocollo = protocollo_obj.browse(cr, uid, context['active_id'], {'skip_check': True})
+        assegnatario_conoscenza_disable_ids = []
+        # se il protocollo è stato già registrato e l'utente che sta aggiungendo gli assegnatari non ha il permesso di
+        # modifica, allora le vecchie assegnazioni per conoscenza non devono essere modificabili.
+        if protocollo.registration_date and not protocollo.modifica_assegnatari_visibility:
+            for assegnazione in protocollo.assegnazione_conoscenza_ids:
+                assegnatario_conoscenza_disable_ids.append(assegnazione.assegnatario_id.id)
+                # se l'assegnazione per conoscenza è di tipo employee allora anche l'ufficio di appartenenza non
+                # deve essere selezionabile, mentre gli altri appartenenti all'ufficio possono esserlo
+                if assegnazione.tipologia_assegnatario == 'employee' and assegnazione.assegnatario_id.parent_id:
+                    assegnatario_conoscenza_disable_ids.append(assegnazione.assegnatario_id.parent_id.id)
+        return assegnatario_conoscenza_disable_ids
+
     def _default_display_motivation(self, cr, uid, context):
         protocollo_obj = self.pool.get('protocollo.protocollo')
         protocollo = protocollo_obj.browse(cr, uid, context['active_id'], {'skip_check': True})
@@ -132,6 +153,7 @@ Se sono presenti assegnatari per conoscenza verranno rimossi al completamento de
         'assegnatore_department_id': _default_assegnatore_department_id,
         'assegnatario_competenza_id': _default_assegnatario_competenza_id,
         'assegnatario_conoscenza_ids': _default_assegnatario_conoscenza_ids,
+        'assegnatario_conoscenza_disable_ids': _default_assegnatario_conoscenza_disable_ids,
         'display_motivation': _default_display_motivation,
         'assegnatari_empty': _default_assegnatari_empty,
         'assegnatore_department_id_invisible': _default_assegnatore_department_id_invisible,

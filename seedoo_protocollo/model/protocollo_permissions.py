@@ -2146,17 +2146,21 @@ class protocollo_protocollo(osv.Model):
 
     def _aggiungi_assegnatari_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
-
         protocolli = self._get_protocolli(cr, uid, ids)
         for protocollo in protocolli:
-            check = False
-
-            if protocollo.state == 'draft' and not protocollo.assegnazione_first_level_ids:
-                check = True
-
+            check = self._check_aggiungi_assegnatari_visibility(cr, uid, protocollo)
             res.append((protocollo.id, check))
-
         return dict(res)
+
+    def _check_aggiungi_assegnatari_visibility(self, cr, uid, protocollo):
+        check = False
+        if protocollo.state == 'draft' and not protocollo.assegnazione_first_level_ids:
+            check = True
+        elif protocollo.state in ['registered', 'notified', 'waiting', 'sent', 'error'] and \
+                uid == protocollo.user_id.id and \
+                not protocollo.assegnazione_competenza_ids:
+            check = True
+        return check
 
     def _modifica_assegnatari_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
@@ -2179,31 +2183,33 @@ class protocollo_protocollo(osv.Model):
 
     def _aggiungi_assegnatari_cc_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
-
         protocolli = self._get_protocolli(cr, uid, ids)
         for protocollo in protocolli:
-            check = False
-
-            if protocollo.state in ('registered', 'notified', 'waiting', 'sent', 'error') \
-                    and protocollo.assegnazione_competenza_ids and not protocollo.reserved:
-                check = True
-
-            if check:
-                types = self.get_protocollo_types_by_group(cr, uid, 'seedoo_protocollo', 'group_aggiungi_assegnatari_cc_protocollo_', '')
-                check_gruppi = protocollo.type in types
-                check = check and check_gruppi
-
-            if uid == protocollo.user_id.id or uid == SUPERUSER_ID:
-                check = check and True
-            else:
-                check_assegnatari = False
-                if check:
-                    check_assegnatari = self._check_stato_assegnatario_competenza(cr, uid, protocollo, 'preso')
-                check = check and check_assegnatari
-
+            check = self._check_aggiungi_assegnatari_cc_visibility(cr, uid, protocollo)
             res.append((protocollo.id, check))
-
         return dict(res)
+
+    def _check_aggiungi_assegnatari_cc_visibility(self, cr, uid, protocollo):
+        check = False
+
+        if protocollo.state in ('registered', 'notified', 'waiting', 'sent', 'error') \
+                and protocollo.assegnazione_competenza_ids and not protocollo.reserved:
+            check = True
+
+        if check:
+            types = self.get_protocollo_types_by_group(cr, uid, 'seedoo_protocollo', 'group_aggiungi_assegnatari_cc_protocollo_', '')
+            check_gruppi = protocollo.type in types
+            check = check and check_gruppi
+
+        if uid == protocollo.user_id.id or uid == SUPERUSER_ID:
+            check = check and True
+        else:
+            check_assegnatari = False
+            if check:
+                check_assegnatari = self._check_stato_assegnatario_competenza(cr, uid, protocollo, 'preso')
+            check = check and check_assegnatari
+
+        return check
 
     def _assegna_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
