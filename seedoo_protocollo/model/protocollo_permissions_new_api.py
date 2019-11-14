@@ -42,17 +42,19 @@ class Protocollo(models.Model):
     @api.multi
     @api.depends('typology')
     def _compute_server_sharedmail_id_required(self):
-        for protocollo in self:
+        for protocollo_each in self:
+            protocollo = protocollo_each.with_context(skip_check=True)
             if protocollo.sharedmail and protocollo.type=='out':
-                protocollo.server_sharedmail_id_required = True
+                protocollo_each.server_sharedmail_id_required = True
             else:
-                protocollo.server_sharedmail_id_required = False
+                protocollo_each.server_sharedmail_id_required = False
 
     @api.multi
     @api.depends('typology')
     def _compute_server_pec_id_required(self):
-        for protocollo in self:
+        for protocollo_each in self:
+            protocollo = protocollo_each.with_context(skip_check=True)
             if protocollo.pec and protocollo.type=='out':
-                protocollo.server_pec_id_required = True
+                protocollo_each.server_pec_id_required = True
             else:
-                protocollo.server_pec_id_required = False
+                protocollo_each.server_pec_id_required = False
