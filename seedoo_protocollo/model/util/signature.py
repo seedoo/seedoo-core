@@ -23,6 +23,7 @@ SIGNATURE_RETURN_CODE = {
     13: 'INVALID_SIGNATURE_TEXT',
     20: 'FILE_ERROR',
     30: 'PDF_TOOL_ERROR',
+    40: 'SIGNED_PDF'
 }
 
 class Signature(orm.Model):
@@ -146,7 +147,9 @@ class Signature(orm.Model):
         ]
 
         returncode = subprocess.call(cmd)
-        if returncode != 0:
+        if returncode == 40:
+            return None
+        elif returncode != 0:
             error = "Signature Error: %s" % SIGNATURE_RETURN_CODE[returncode]
             raise Exception(error)
 

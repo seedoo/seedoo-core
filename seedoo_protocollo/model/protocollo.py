@@ -1079,8 +1079,12 @@ class protocollo_protocollo(orm.Model):
                         prot_datas = prot.doc_id.datas
                         try:
                             if prot.mimetype == 'application/pdf':
-                                prot_datas = self.pool.get('protocollo.signature').sign_doc(cr, uid, prot, prot_number, prot_date, prot.doc_id)
-                                res_segnatura = {"Segnatura": {"Res": True, "Msg": "Segnatura PDF generata correttamente"}}
+                                prot_datas_signed = self.pool.get('protocollo.signature').sign_doc(cr, uid, prot, prot_number, prot_date, prot.doc_id)
+                                if prot_datas_signed:
+                                    prot_datas = prot_datas_signed
+                                    res_segnatura = {"Segnatura": {"Res": True, "Msg": "Segnatura PDF generata correttamente"}}
+                                else:
+                                    res_segnatura = []
                         except Exception as e:
                             _logger.error(e)
                             err_segnatura = True
@@ -2130,7 +2134,9 @@ class protocollo_protocollo(orm.Model):
                     if prot.doc_id:
                         prot_datas = prot.doc_id.datas
                         if prot.mimetype == 'application/pdf' and configurazione.genera_segnatura:
-                            prot_datas = self.pool.get('protocollo.signature').sign_doc(cr, uid, prot, prot_complete_name, prot_date, prot.doc_id)
+                            prot_datas_signed = self.pool.get('protocollo.signature').sign_doc(cr, uid, prot, prot_complete_name, prot_date, prot.doc_id)
+                            if prot_datas_signed:
+                                prot_datas = prot_datas_signed
                         fingerprint = self._create_protocol_document(
                             cr,
                             uid,
