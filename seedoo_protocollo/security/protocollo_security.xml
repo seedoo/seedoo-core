@@ -94,12 +94,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="category_id" ref="module_category_protocollo"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
-        <!-- Button "Agli Atti" nella vista form protocollo in ingresso -->
-        <record id="group_agli_atti_protocollo_ingresso" model="res.groups">
-            <field name="name">Metti Agli Atti Protocolli in Ingresso</field>
-            <field name="category_id" ref="module_category_protocollo"/>
-            <field name="users" eval="[(4, ref('base.user_root'))]"/>
-        </record>
         <!-- Button "Modifica Protocollo" nella vista form protocollo in ingresso -->
         <record id="group_modifica_protocollo_ingresso" model="res.groups">
             <field name="name">Modifica Protocollo in Ingresso</field>
@@ -193,12 +187,6 @@ this module contains the full copyright notices and license terms. -->
         <!-- Button "Segna come letto" nella vista form protocollo in uscita -->
         <record id="group_segna_come_letto_protocollo_uscita" model="res.groups">
             <field name="name">Segna come letto Protocolli in Uscita Assegnati per Conoscenza</field>
-            <field name="category_id" ref="module_category_protocollo"/>
-            <field name="users" eval="[(4, ref('base.user_root'))]"/>
-        </record>
-        <!-- Button "Agli Atti" nella vista form protocollo in uscita -->
-        <record id="group_agli_atti_protocollo_uscita" model="res.groups">
-            <field name="name">Metti Agli Atti Protocolli in Uscita</field>
             <field name="category_id" ref="module_category_protocollo"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>

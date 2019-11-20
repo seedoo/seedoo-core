@@ -562,6 +562,7 @@ class protocollo_protocollo(osv.Model):
             SELECT DISTINCT(pp.id) AS id
             FROM protocollo_protocollo pp, hr_employee he, resource_resource rr
             WHERE pp.classification IS NULL 
+                AND pp.registration_employee_state = 'working'
                 AND pp.registration_employee_id = he.id
                 AND he.resource_id = rr.id
                 AND rr.user_id = %s
@@ -584,6 +585,7 @@ class protocollo_protocollo(osv.Model):
             FROM protocollo_protocollo pp, hr_employee he, resource_resource rr
             WHERE pp.classification IS NULL 
                 AND pp.archivio_id = %d
+                AND pp.registration_employee_state = 'working'
                 AND pp.registration_employee_id = he.id
                 AND he.resource_id = rr.id
                 AND rr.user_id = %s
@@ -623,14 +625,14 @@ class protocollo_protocollo(osv.Model):
                     AND rr.active = TRUE
                     AND pp.registration_date IS NOT NULL
                     AND pa.tipologia_assegnatario = 'employee'
-                    AND pa.tipologia_assegnazione = 'competenza'
-                    AND pa.state = 'preso' 
+                    AND pa.state IN ('preso', 'letto') 
                     AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
                     AND pp.id NOT IN (SELECT protocollo_id FROM dossier_protocollo_rel)
                     
                 UNION SELECT DISTINCT(pp.id) AS id
                     FROM protocollo_protocollo pp, hr_employee he, resource_resource rr
-                    WHERE pp.registration_employee_id = he.id
+                    WHERE pp.registration_employee_state = 'working'
+                        AND pp.registration_employee_id = he.id
                         AND he.resource_id = rr.id
                         AND rr.user_id = %s
                         AND rr.active = TRUE
@@ -660,14 +662,14 @@ class protocollo_protocollo(osv.Model):
                     AND rr.active = TRUE
                     AND pp.registration_date IS NOT NULL
                     AND pa.tipologia_assegnatario = 'employee'
-                    AND pa.tipologia_assegnazione = 'competenza'
-                    AND pa.state = 'preso'
+                    AND pa.state IN ('preso', 'letto') 
                     AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
                     AND pp.id NOT IN (SELECT protocollo_id FROM dossier_protocollo_rel)
             
             UNION SELECT DISTINCT(pp.id) AS id
                 FROM protocollo_protocollo pp, hr_employee he, resource_resource rr
                 WHERE pp.archivio_id = %d
+                    AND pp.registration_employee_state = 'working'
                     AND pp.registration_employee_id = he.id
                     AND he.resource_id = rr.id
                     AND rr.user_id = %s
@@ -829,7 +831,7 @@ class protocollo_protocollo(osv.Model):
                   pa.tipologia_assegnatario = 'employee' AND
                   pa.tipologia_assegnazione = 'conoscenza' AND
                   pa.state = 'assegnato' AND
-                  pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error', 'acts')
+                  pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
         ''')
 
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
@@ -870,7 +872,7 @@ class protocollo_protocollo(osv.Model):
                   pa.tipologia_assegnatario = 'employee' AND 
                   pa.tipologia_assegnazione = 'conoscenza' AND 
                   pa.state = 'assegnato' AND
-                  pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error', 'acts')
+                  pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
         """ % (current_archivio_id, uid, uid)
 
         cr.execute(sql_query)
@@ -1123,6 +1125,7 @@ class protocollo_protocollo(osv.Model):
             INNER JOIN resource_resource AS rr ON he.resource_id = rr.id AND rr.user_id = %s AND rr.active = TRUE
             LEFT JOIN protocollo_assegnazione AS pa ON pp.id=pa.protocollo_id AND pa.tipologia_assegnazione = 'competenza'
             WHERE pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND 
+                  pp.registration_employee_state = 'working' AND
                   pa.protocollo_id IS NULL AND 
                   pp.is_imported = FALSE
         ''', (uid,))
@@ -1174,6 +1177,7 @@ class protocollo_protocollo(osv.Model):
             INNER JOIN resource_resource AS rr ON he.resource_id = rr.id AND rr.user_id = %s AND rr.active = TRUE
             LEFT JOIN protocollo_assegnazione AS pa ON pp.id=pa.protocollo_id AND pa.tipologia_assegnazione = 'competenza'
             WHERE pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
+                  pp.registration_employee_state = 'working' AND 
                   pp.archivio_id = %d AND 
                   pa.protocollo_id IS NULL AND 
                   pp.is_imported = FALSE
@@ -1199,31 +1203,24 @@ class protocollo_protocollo(osv.Model):
     def _assegnato_da_me_in_attesa_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
         start = int(round(time.time() * 1000))
         cr.execute('''
-            SELECT DISTINCT(pa.protocollo_id) 
-            FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
-            WHERE pp.id = pa.protocollo_id AND 
-                  pa.assegnatore_id = he.id AND
-                  he.resource_id = rr.id AND
-                  rr.user_id = %s AND
-                  rr.active = TRUE AND
-                  pp.registration_date IS NOT NULL AND
-                  pa.tipologia_assegnazione = 'competenza' AND
-                  pa.state = 'assegnato' AND
-                  (pa.tipologia_assegnatario = 'department' OR (pa.tipologia_assegnatario = 'employee' AND pa.parent_id IS NULL)) AND
-                  pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
-        ''', (uid,))
+            SELECT DISTINCT(pp.id)
+            FROM protocollo_protocollo AS pp
+            INNER JOIN protocollo_assegnazione AS pa1 ON pp.id=pa1.protocollo_id AND pa1.tipologia_assegnazione = 'competenza'
+            INNER JOIN hr_employee AS he ON pa1.assegnatore_id = he.id
+            INNER JOIN resource_resource AS rr ON he.resource_id = rr.id AND rr.user_id = %s AND rr.active = TRUE
+            LEFT JOIN protocollo_assegnazione AS pa2 ON pp.id=pa2.protocollo_id AND pa1.assegnatore_id=pa2.assegnatario_employee_id AND pa2.tipologia_assegnazione = 'competenza'
+            WHERE pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
+                  pa1.state = 'assegnato' AND
+                  (pa1.tipologia_assegnatario = 'department' OR (pa1.tipologia_assegnatario = 'employee' AND pa1.parent_id IS NULL)) AND
+                  (
+                      (pa2.assegnatario_employee_id IS NULL AND pp.registration_employee_id = pa1.assegnatore_id AND pp.registration_employee_state = 'working') OR
+                      (pa2.assegnatario_employee_id IS NOT NULL AND pa2.state = 'preso')
+                  )
+        ''', (uid, ))
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
         end = int(round(time.time() * 1000))
         _logger.info("_assegnato_da_me_in_attesa_visibility_search" + str(end - start))
         return [('id', 'in', protocollo_visible_ids)]
-
-    # @api.cr_uid
-    # def _assegnato_da_me_in_attesa_visibility_count_in(self, cr, uid):
-    #     return self._assegnato_da_me_in_attesa_visibility_count(cr, uid, "in")
-    #
-    # @api.cr_uid
-    # def _assegnato_da_me_in_attesa_visibility_count_out(self, cr, uid):
-    #     return self._assegnato_da_me_in_attesa_visibility_count(cr, uid, "out")
 
     @api.cr_uid
     def _assegnato_da_me_in_attesa_visibility_count_total(self, cr, uid):
@@ -1237,24 +1234,21 @@ class protocollo_protocollo(osv.Model):
         archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)])
         current_archivio_id = archivio_ids[0]
 
-        sql_query = """SELECT COUNT(DISTINCT(pa.protocollo_id)) 
-            FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
-            WHERE pp.archivio_id = %d 
-                AND pp.id = pa.protocollo_id  
-                AND pa.assegnatore_id = he.id 
-                AND he.resource_id = rr.id 
-                AND rr.user_id = %d 
-                AND rr.active = TRUE
-                AND pp.registration_date IS NOT NULL 
-                AND pa.tipologia_assegnazione = 'competenza' 
-                AND pa.state = 'assegnato' 
-                AND (pa.tipologia_assegnatario = 'department'
-                    OR (pa.tipologia_assegnatario = 'employee'
-                           AND pa.parent_id IS NULL
-                    )
-                )
-                AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
-            """ % (current_archivio_id, uid)
+        sql_query = """
+            SELECT COUNT(DISTINCT(pp.id))
+            FROM protocollo_protocollo AS pp
+            INNER JOIN protocollo_assegnazione AS pa1 ON pp.id=pa1.protocollo_id AND pa1.tipologia_assegnazione = 'competenza'
+            INNER JOIN hr_employee AS he ON pa1.assegnatore_id = he.id
+            INNER JOIN resource_resource AS rr ON he.resource_id = rr.id AND rr.user_id = %s AND rr.active = TRUE
+            LEFT JOIN protocollo_assegnazione AS pa2 ON pp.id=pa2.protocollo_id AND pa1.assegnatore_id=pa2.assegnatario_employee_id AND pa2.tipologia_assegnazione = 'competenza'
+            WHERE pp.archivio_id = %d AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
+                  pa1.state = 'assegnato' AND
+                  (pa1.tipologia_assegnatario = 'department' OR (pa1.tipologia_assegnatario = 'employee' AND pa1.parent_id IS NULL)) AND
+                  (
+                      (pa2.assegnatario_employee_id IS NULL AND pp.registration_employee_id = pa1.assegnatore_id AND pp.registration_employee_state = 'working') OR
+                      (pa2.assegnatario_employee_id IS NOT NULL AND pa2.state = 'preso')
+                  )
+            """ % (uid, current_archivio_id)
 
         cr.execute(sql_query)
         result = cr.fetchall()
@@ -1276,30 +1270,24 @@ class protocollo_protocollo(osv.Model):
     def _assegnato_da_me_in_rifiutato_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
         start = int(round(time.time() * 1000))
         cr.execute('''
-            SELECT DISTINCT(pa.protocollo_id) 
-            FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
-            WHERE pp.id = pa.protocollo_id AND 
-                  pa.assegnatore_id = he.id AND
-                  he.resource_id = rr.id AND
-                  rr.user_id = %s AND
-                  rr.active = TRUE AND
-                  pp.registration_date IS NOT NULL AND
-                  pa.tipologia_assegnazione = 'competenza' AND
-                  pa.state = 'rifiutato' AND 
-                  pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
-        ''', (uid,))
+            SELECT DISTINCT(pp.id)
+            FROM protocollo_protocollo AS pp
+            INNER JOIN protocollo_assegnazione AS pa1 ON pp.id=pa1.protocollo_id AND pa1.tipologia_assegnazione = 'competenza'
+            INNER JOIN hr_employee AS he ON pa1.assegnatore_id = he.id
+            INNER JOIN resource_resource AS rr ON he.resource_id = rr.id AND rr.user_id = %s AND rr.active = TRUE
+            LEFT JOIN protocollo_assegnazione AS pa2 ON pp.id=pa2.protocollo_id AND pa1.assegnatore_id=pa2.assegnatario_employee_id AND pa2.tipologia_assegnazione = 'competenza'
+            WHERE pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
+                  pa1.state = 'rifiutato' AND
+                  (pa1.tipologia_assegnatario = 'department' OR (pa1.tipologia_assegnatario = 'employee' AND pa1.parent_id IS NULL)) AND
+                  (
+                      (pa2.assegnatario_employee_id IS NULL AND pp.registration_employee_id = pa1.assegnatore_id AND pp.registration_employee_state = 'working') OR
+                      (pa2.assegnatario_employee_id IS NOT NULL AND pa2.state = 'preso')
+                  )
+        ''', (uid, ))
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
         end = int(round(time.time() * 1000))
         _logger.info("_assegnato_da_me_in_rifiutato_visibility_search" + str(end - start))
         return [('id', 'in', protocollo_visible_ids)]
-
-    # @api.cr_uid
-    # def _assegnato_da_me_in_rifiutato_visibility_count_in(self, cr, uid):
-    #     return self._assegnato_da_me_in_rifiutato_visibility_count(cr, uid, "in")
-    #
-    # @api.cr_uid
-    # def _assegnato_da_me_in_rifiutato_visibility_count_out(self, cr, uid):
-    #     return self._assegnato_da_me_in_rifiutato_visibility_count(cr, uid, "out")
 
     @api.cr_uid
     def _assegnato_da_me_in_rifiutato_visibility_count_total(self, cr, uid):
@@ -1313,19 +1301,21 @@ class protocollo_protocollo(osv.Model):
         archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)])
         current_archivio_id = archivio_ids[0]
 
-        sql_query = """SELECT COUNT(DISTINCT(pa.protocollo_id))
-            FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
-            WHERE pp.archivio_id = %d 
-                AND pp.id = pa.protocollo_id 
-                AND pa.assegnatore_id = he.id
-                AND he.resource_id = rr.id
-                AND rr.user_id = %d
-                AND rr.active = TRUE
-                AND pp.registration_date IS NOT NULL
-                AND pa.tipologia_assegnazione = 'competenza'
-                AND pa.state = 'rifiutato'
-                AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
-        """ % (current_archivio_id, uid)
+        sql_query = """
+            SELECT COUNT(DISTINCT(pp.id))
+            FROM protocollo_protocollo AS pp
+            INNER JOIN protocollo_assegnazione AS pa1 ON pp.id=pa1.protocollo_id AND pa1.tipologia_assegnazione = 'competenza'
+            INNER JOIN hr_employee AS he ON pa1.assegnatore_id = he.id
+            INNER JOIN resource_resource AS rr ON he.resource_id = rr.id AND rr.user_id = %s AND rr.active = TRUE
+            LEFT JOIN protocollo_assegnazione AS pa2 ON pp.id=pa2.protocollo_id AND pa1.assegnatore_id=pa2.assegnatario_employee_id AND pa2.tipologia_assegnazione = 'competenza'
+            WHERE pp.archivio_id = %d AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
+                  pa1.state = 'rifiutato' AND
+                  (pa1.tipologia_assegnatario = 'department' OR (pa1.tipologia_assegnatario = 'employee' AND pa1.parent_id IS NULL)) AND
+                  (
+                      (pa2.assegnatario_employee_id IS NULL AND pp.registration_employee_id = pa1.assegnatore_id AND pp.registration_employee_state = 'working') OR
+                      (pa2.assegnatario_employee_id IS NOT NULL AND pa2.state = 'preso')
+                  )
+        """ % (uid, current_archivio_id)
 
         cr.execute(sql_query)
         result = cr.fetchall()
@@ -1349,7 +1339,8 @@ class protocollo_protocollo(osv.Model):
         cr.execute('''
             SELECT DISTINCT(pp.id) 
             FROM protocollo_protocollo pp, hr_employee he, resource_resource rr
-            WHERE pp.registration_employee_id = he.id AND
+            WHERE pp.registration_employee_state = 'working' AND 
+                  pp.registration_employee_id = he.id AND
                   he.resource_id = rr.id AND
                   rr.user_id = %s AND
                   rr.active = TRUE AND
@@ -1374,6 +1365,7 @@ class protocollo_protocollo(osv.Model):
         sql_query = """SELECT COUNT(DISTINCT(pp.id)) 
             FROM protocollo_protocollo pp, hr_employee he, resource_resource rr
             WHERE pp.archivio_id = %d AND
+                  pp.registration_employee_state = 'working' AND
                   pp.registration_employee_id = he.id AND
                   he.resource_id = rr.id AND
                   rr.user_id = %s AND
@@ -1390,86 +1382,7 @@ class protocollo_protocollo(osv.Model):
         time_end = datetime.datetime.now()
         time_duration = time_end - time_start
 
-        _logger.info("_da_mettere_agli_atti_visibility_count: %d - %.03f s" % (
-            count_value,
-            float(time_duration.microseconds) / 1000000
-        ))
-
-        return count_value
-
-    def _da_mettere_agli_atti_visibility(self, cr, uid, ids, name, arg, context=None):
-        return {}
-
-    def _da_mettere_agli_atti_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
-        start = int(round(time.time() * 1000))
-        cr.execute('''
-            SELECT DISTINCT(pa.protocollo_id) 
-            FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
-            WHERE pp.id = pa.protocollo_id AND 
-                  pa.assegnatario_employee_id = he.id AND
-                  he.resource_id = rr.id AND
-                  rr.user_id = %s AND
-                  rr.active = TRUE AND
-                  pp.registration_date IS NOT NULL AND
-                  pa.tipologia_assegnatario = 'employee' AND 
-                  pa.tipologia_assegnazione = 'competenza' AND
-                  pa.state = 'preso' AND
-                  pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
-        ''', (uid,))
-        protocollo_visible_ids = [res[0] for res in cr.fetchall()]
-        end = int(round(time.time() * 1000))
-        _logger.info("_da_mettere_agli_atti_visibility_search" + str(end - start))
-        return [('id', 'in', protocollo_visible_ids)]
-
-    def _da_mettere_agli_atti_general_visibility(self, cr, uid, ids, name, arg, context=None):
-        return {}
-
-    def _da_mettere_agli_atti_general_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
-        start = int(round(time.time() * 1000))
-        cr.execute('''
-            SELECT DISTINCT(pa.protocollo_id) 
-            FROM protocollo_protocollo pp, protocollo_assegnazione pa
-            WHERE pp.id = pa.protocollo_id AND 
-                  pp.registration_date IS NOT NULL AND
-                  pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
-        ''', (uid,))
-        protocollo_visible_ids = [res[0] for res in cr.fetchall()]
-        end = int(round(time.time() * 1000))
-        _logger.info("_da_mettere_agli_atti_general_visibility_search" + str(end - start))
-        return [('id', 'in', protocollo_visible_ids)]
-
-    @api.cr_uid
-    def _da_mettere_agli_atti_visibility_count_total(self, cr, uid):
-        return self._da_mettere_agli_atti_visibility_count(cr, uid, "")
-
-    def _da_mettere_agli_atti_visibility_count(self, cr, uid, protocollo_type):
-        time_start = datetime.datetime.now()
-        archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)])
-        current_archivio_id = archivio_ids[0]
-
-        sql_query = """SELECT COUNT(DISTINCT(pa.protocollo_id)) 
-            FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
-            WHERE pp.archivio_id = %d AND
-                  pp.id = pa.protocollo_id AND 
-                  pa.assegnatario_employee_id = he.id AND
-                  he.resource_id = rr.id AND
-                  rr.user_id = %s AND
-                  rr.active = TRUE AND
-                  pp.registration_date IS NOT NULL AND
-                  pa.tipologia_assegnatario = 'employee' AND 
-                  pa.tipologia_assegnazione = 'competenza' AND
-                  pa.state = 'preso' AND
-                  pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
-        """ % (current_archivio_id, uid)
-
-        cr.execute(sql_query)
-        result = cr.fetchall()
-        count_value = result[0][0]
-
-        time_end = datetime.datetime.now()
-        time_duration = time_end - time_start
-
-        _logger.info("_da_mettere_agli_atti_visibility_count: %d - %.03f s" % (
+        _logger.info("_da_inviare_visibility_count: %d - %.03f s" % (
             count_value,
             float(time_duration.microseconds) / 1000000
         ))
@@ -1883,9 +1796,8 @@ class protocollo_protocollo(osv.Model):
         for protocollo in protocolli:
             check = False
 
-
             #TODO: modificare controllando per singolo ufficio
-            if protocollo.state in ('registered', 'notified', 'waiting', 'sent', 'error', 'acts') and \
+            if protocollo.state in ('registered', 'notified', 'waiting', 'sent', 'error') and \
                      protocollo.assegnazione_conoscenza_ids:
                 check = True
 
@@ -1894,30 +1806,6 @@ class protocollo_protocollo(osv.Model):
                 types = self.get_protocollo_types_by_group(cr, uid, 'seedoo_protocollo', 'group_segna_come_letto_protocollo_', '')
                 check_gruppi = protocollo.type in types
                 check = check and check_gruppi
-            else:
-                check = False
-
-            res.append((protocollo.id, check))
-
-        return dict(res)
-
-    def _agli_atti_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
-        res = []
-
-        protocolli = self._get_protocolli(cr, uid, ids)
-        for protocollo in protocolli:
-            check = False
-
-            if protocollo.state in ('registered', 'waiting', 'error', 'sent'):
-                check = True
-
-            if check:
-                types = self.get_protocollo_types_by_group(cr, uid, 'seedoo_protocollo', 'group_agli_atti_protocollo_', '')
-                check_gruppi = protocollo.type in types
-                check = check and check_gruppi
-
-            if self._check_stato_assegnatario_competenza(cr, uid, protocollo, 'preso') or uid == SUPERUSER_ID:
-                check = check and True
             else:
                 check = False
 
@@ -1940,7 +1828,7 @@ class protocollo_protocollo(osv.Model):
                 check_gruppi = protocollo.type in types
                 check = check and check_gruppi
 
-            if uid == protocollo.user_id.id or uid == SUPERUSER_ID:
+            if (uid==protocollo.user_id.id and protocollo.registration_employee_state=='working') or uid == SUPERUSER_ID:
                 check = check and True
             else:
                 check = False
@@ -2060,7 +1948,7 @@ class protocollo_protocollo(osv.Model):
         for protocollo in protocolli:
             check = False
 
-            if protocollo.classification and (uid == protocollo.user_id.id or uid == SUPERUSER_ID):
+            if protocollo.classification and ((uid==protocollo.user_id.id and protocollo.registration_employee_state=='working') or uid==SUPERUSER_ID):
                 if protocollo.state == 'draft':
                     check = True
                 elif protocollo.state in ['registered', 'notified', 'waiting', 'sent', 'error']:
@@ -2078,8 +1966,7 @@ class protocollo_protocollo(osv.Model):
         for protocollo in protocolli:
             check = False
 
-            if protocollo.state in (
-                    'registered', 'notified', 'waiting', 'sent', 'error') and not protocollo.classification:
+            if protocollo.state in ('registered', 'notified', 'waiting', 'sent', 'error') and not protocollo.classification:
                 check = True
 
             if check:
@@ -2087,7 +1974,7 @@ class protocollo_protocollo(osv.Model):
                 check_gruppi = protocollo.type in types
                 check = check and check_gruppi
 
-            if uid == protocollo.user_id.id or uid == SUPERUSER_ID:
+            if (uid==protocollo.user_id.id and protocollo.registration_employee_state=='working') or uid==SUPERUSER_ID:
                 check = check and True
             else:
                 check_assegnatari = False
@@ -2102,16 +1989,25 @@ class protocollo_protocollo(osv.Model):
     def _aggiungi_fascicolazione_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
 
+        dossier_obj = self.pool.get('protocollo.dossier')
         protocolli = self._get_protocolli(cr, uid, ids)
         for protocollo in protocolli:
             check = False
 
-            if not protocollo.dossier_ids:
-                if protocollo.state == 'draft' and (uid == protocollo.user_id.id or uid == SUPERUSER_ID):
-                    check = True
+            dossier_ids = dossier_obj.search(cr, SUPERUSER_ID, [('protocollo_ids', '=', protocollo.id)])
+            if not dossier_ids:
+                if protocollo.state == 'draft':
+                    check = (uid==protocollo.user_id.id and protocollo.registration_employee_state=='working') or uid==SUPERUSER_ID
                 elif protocollo.state in ['registered', 'notified', 'waiting', 'sent', 'error']:
                     types = self.get_protocollo_types_by_group(cr, uid, 'seedoo_protocollo', 'group_modifica_fascicolazione_protocollo_', '')
                     check = protocollo.type in types
+                    if check:
+                        if (uid == protocollo.user_id.id and protocollo.registration_employee_state == 'working') or uid == SUPERUSER_ID:
+                            check = True
+                        else:
+                            assegnazione_competenza = self._check_stato_assegnatario_competenza(cr, uid, protocollo, 'preso')
+                            assegnazione_conoscenza = self._check_stato_assegnatario_conoscenza(cr, uid, protocollo, 'letto')
+                            check = assegnazione_competenza or assegnazione_conoscenza
 
             res.append((protocollo.id, check))
 
@@ -2120,16 +2016,25 @@ class protocollo_protocollo(osv.Model):
     def _modifica_fascicolazione_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
 
+        dossier_obj = self.pool.get('protocollo.dossier')
         protocolli = self._get_protocolli(cr, uid, ids)
         for protocollo in protocolli:
             check = False
 
-            if protocollo.dossier_ids:
-                if protocollo.state == 'draft' and (uid == protocollo.user_id.id or uid == SUPERUSER_ID):
-                    check = True
+            dossier_ids = dossier_obj.search(cr, SUPERUSER_ID, [('protocollo_ids', '=', protocollo.id)])
+            if dossier_ids:
+                if protocollo.state == 'draft':
+                    check = (uid==protocollo.user_id.id and protocollo.registration_employee_state=='working') or uid==SUPERUSER_ID
                 elif protocollo.state in ['registered', 'notified', 'waiting', 'sent', 'error']:
                     types = self.get_protocollo_types_by_group(cr, uid, 'seedoo_protocollo', 'group_modifica_fascicolazione_protocollo_', '')
                     check = protocollo.type in types
+                    if check:
+                        if (uid == protocollo.user_id.id and protocollo.registration_employee_state == 'working') or uid == SUPERUSER_ID:
+                            check = True
+                        else:
+                            assegnazione_competenza = self._check_stato_assegnatario_competenza(cr, uid, protocollo, 'preso')
+                            assegnazione_conoscenza = self._check_stato_assegnatario_conoscenza(cr, uid, protocollo, 'letto')
+                            check = assegnazione_competenza or assegnazione_conoscenza
 
             res.append((protocollo.id, check))
 
@@ -2138,11 +2043,13 @@ class protocollo_protocollo(osv.Model):
     def _fascicola_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
 
+        dossier_obj = self.pool.get('protocollo.dossier')
         protocolli = self._get_protocolli(cr, uid, ids)
         for protocollo in protocolli:
             check = False
 
-            if protocollo.state in ('registered', 'notified', 'waiting', 'sent', 'error') and not protocollo.dossier_ids:
+            dossier_ids = dossier_obj.search(cr, SUPERUSER_ID, [('protocollo_ids', '=', protocollo.id)])
+            if protocollo.state in ('registered', 'notified', 'waiting', 'sent', 'error') and not dossier_ids:
                 check = True
 
             if check:
@@ -2150,13 +2057,13 @@ class protocollo_protocollo(osv.Model):
                 check_gruppi = protocollo.type in types
                 check = check and check_gruppi
 
-            if uid == protocollo.user_id.id or uid == SUPERUSER_ID:
-                check = check and True
-            else:
-                check_assegnatari = False
-                if check:
-                    check_assegnatari = self._check_stato_assegnatario_competenza(cr, uid, protocollo, 'preso')
-                check = check and check_assegnatari
+            if check:
+                if (uid==protocollo.user_id.id and protocollo.registration_employee_state=='working') or uid==SUPERUSER_ID:
+                    check = True
+                else:
+                    assegnazione_competenza = self._check_stato_assegnatario_competenza(cr, uid, protocollo, 'preso')
+                    assegnazione_conoscenza = self._check_stato_assegnatario_conoscenza(cr, uid, protocollo, 'letto')
+                    check = assegnazione_competenza or assegnazione_conoscenza
 
             res.append((protocollo.id, check))
 
@@ -2175,7 +2082,8 @@ class protocollo_protocollo(osv.Model):
         if protocollo.state == 'draft' and not protocollo.assegnazione_first_level_ids:
             check = True
         elif protocollo.state in ['registered', 'notified', 'waiting', 'sent', 'error'] and \
-                uid == protocollo.user_id.id and \
+                uid==protocollo.user_id.id and \
+                protocollo.registration_employee_state=='working' and \
                 not protocollo.assegnazione_competenza_ids:
             check = True
         return check
@@ -2219,7 +2127,7 @@ class protocollo_protocollo(osv.Model):
             check_gruppi = protocollo.type in types
             check = check and check_gruppi
 
-        if uid == protocollo.user_id.id or uid == SUPERUSER_ID:
+        if (uid==protocollo.user_id.id and protocollo.registration_employee_state=='working') or uid==SUPERUSER_ID:
             check = check and True
         else:
             check_assegnatari = False
@@ -2236,9 +2144,8 @@ class protocollo_protocollo(osv.Model):
         for protocollo in protocolli:
             check = False
 
-            if protocollo.state in (
-                    'registered', 'notified', 'waiting', 'sent',
-                    'error') and not protocollo.assegnazione_competenza_ids:
+            if protocollo.state in ('registered', 'notified', 'waiting', 'sent', 'error') and \
+                    not protocollo.assegnazione_competenza_ids:
                 check = True
 
             if check:
@@ -2246,7 +2153,7 @@ class protocollo_protocollo(osv.Model):
                 check_gruppi = protocollo.type in types
                 check = check and check_gruppi
 
-            if uid == protocollo.user_id.id or uid == SUPERUSER_ID:
+            if (uid==protocollo.user_id.id and protocollo.registration_employee_state=='working') or uid==SUPERUSER_ID:
                 check = check and True
             else:
                 check = False
@@ -2293,8 +2200,9 @@ class protocollo_protocollo(osv.Model):
                 dipendente_id = False
                 if context and 'dipendente_id' in context and context['dipendente_id']:
                     dipendente_id = context['dipendente_id']
-                if ((uid == protocollo.user_id.id or uid == SUPERUSER_ID) and self.user_has_groups(cr, uid, 'seedoo_protocollo.group_invia_protocollo_pec_uscita')) or \
-                        protocollo.registration_employee_id.id == dipendente_id:
+                protocollatore_condition = uid==protocollo.user_id.id and protocollo.registration_employee_state=='working'
+                if ((protocollatore_condition or uid==SUPERUSER_ID) and self.user_has_groups(cr, uid, 'seedoo_protocollo.group_invia_protocollo_pec_uscita')) or \
+                    (protocollo.registration_employee_id.id==dipendente_id and protocollo.registration_employee_state=='working'):
                     check = True
                 else:
                     check = False
@@ -2317,8 +2225,9 @@ class protocollo_protocollo(osv.Model):
                 dipendente_id = False
                 if context and 'dipendente_id' in context and context['dipendente_id']:
                     dipendente_id = context['dipendente_id']
-                if ((uid == protocollo.user_id.id or uid == SUPERUSER_ID) and self.user_has_groups(cr, uid, 'seedoo_protocollo.group_invia_protocollo_sharedmail_uscita')) or \
-                        protocollo.registration_employee_id.id == dipendente_id:
+                protocollatore_condition = uid==protocollo.user_id.id and protocollo.registration_employee_state=='working'
+                if ((protocollatore_condition or uid==SUPERUSER_ID) and self.user_has_groups(cr, uid, 'seedoo_protocollo.group_invia_protocollo_sharedmail_uscita')) or \
+                    (protocollo.registration_employee_id.id==dipendente_id and protocollo.registration_employee_state=='working'):
                     check = True
                 else:
                     check = False
@@ -2340,8 +2249,9 @@ class protocollo_protocollo(osv.Model):
                 dipendente_id = False
                 if context and 'dipendente_id' in context and context['dipendente_id']:
                     dipendente_id = context['dipendente_id']
-                if ((uid == protocollo.user_id.id or uid == SUPERUSER_ID) and self.user_has_groups(cr, uid, 'seedoo_protocollo.group_invia_protocollo_uscita')) or \
-                        protocollo.registration_employee_id.id == dipendente_id:
+                protocollatore_condition = uid==protocollo.user_id.id and protocollo.registration_employee_state=='working'
+                if ((protocollatore_condition or uid==SUPERUSER_ID) and self.user_has_groups(cr, uid, 'seedoo_protocollo.group_invia_protocollo_uscita')) or \
+                    (protocollo.registration_employee_id.id==dipendente_id and protocollo.registration_employee_state=='working'):
                     check = True
                 else:
                     check = False
@@ -2359,14 +2269,12 @@ class protocollo_protocollo(osv.Model):
             if protocollo.type == 'out' and protocollo.pec is True and protocollo.state in ['waiting', 'sent', 'error']:
                 if protocollo.sender_receivers:
                     for sender_receiver_id in protocollo.sender_receivers.ids:
-                        sender_receiver_obj = self.pool.get('protocollo.sender_receiver').browse(cr, uid,
-                                                                                                 sender_receiver_id,
-                                                                                                 context=context)
+                        sender_receiver_obj = self.pool.get('protocollo.sender_receiver').browse(cr, uid, sender_receiver_id, context=context)
                         if sender_receiver_obj.pec_errore_consegna_status or sender_receiver_obj.pec_non_accettazione_status:
                             check = True
 
             if check:
-                if (uid == protocollo.user_id.id or uid == SUPERUSER_ID) and \
+                if ((uid==protocollo.user_id.id and protocollo.registration_employee_state=='working') or uid==SUPERUSER_ID) and \
                         self.user_has_groups(cr, uid, 'seedoo_protocollo.group_modifica_destinatari_pec_uscita'):
                     check = True
                 else:
@@ -2383,11 +2291,11 @@ class protocollo_protocollo(osv.Model):
         for protocollo in protocolli:
             check = False
 
-            if protocollo.type == 'out' and protocollo.sharedmail == True and protocollo.state in ['sent', 'waiting', 'error', 'acts']:
+            if protocollo.type == 'out' and protocollo.sharedmail == True and protocollo.state in ['sent', 'waiting', 'error']:
                 check = True
 
             if check:
-                if (uid == protocollo.user_id.id or uid == SUPERUSER_ID) and \
+                if ((uid==protocollo.user_id.id and protocollo.registration_employee_state=='working') or uid==SUPERUSER_ID) and \
                         self.user_has_groups(cr, uid, 'seedoo_protocollo.group_modifica_destinatari_email_uscita'):
                     check = True
                 else:
@@ -2407,7 +2315,7 @@ class protocollo_protocollo(osv.Model):
                 check = True
 
             if check:
-                if (uid == protocollo.user_id.id or uid == SUPERUSER_ID) and \
+                if ((uid==protocollo.user_id.id and protocollo.registration_employee_state=='working') or uid==SUPERUSER_ID) and \
                         self.user_has_groups(cr, uid, 'seedoo_protocollo.group_aggiungi_destinatari_pec_uscita'):
                     check = True
                 else:
@@ -2443,7 +2351,6 @@ class protocollo_protocollo(osv.Model):
 
         return dict(res)
 
-    #TODO: aggiungere condizioni per stabilire la visualizzazione del button
     def _carica_allegati_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
         check = False
@@ -2453,7 +2360,12 @@ class protocollo_protocollo(osv.Model):
         for protocollo in protocolli:
 
             if protocollo.state == 'draft' or \
-                    (protocollo.state == 'registered' and configurazione.aggiungi_allegati_post_registrazione):
+                    (
+                        protocollo.state in ('registered', 'notified', 'waiting', 'sent', 'error') and \
+                        uid == protocollo.user_id.id and \
+                        protocollo.registration_employee_state == 'working' and \
+                        configurazione.aggiungi_allegati_post_registrazione
+                    ):
                 check = True
 
             res.append((protocollo.id, check))
@@ -2467,7 +2379,9 @@ class protocollo_protocollo(osv.Model):
         for protocollo in protocolli:
 
             if not protocollo.doc_id and \
-                    (protocollo.state in 'draft' or (protocollo.state in 'registered' and protocollo.user_id.id == uid)):
+                    (protocollo.state in 'draft' or \
+                     (uid==protocollo.user_id.id and protocollo.registration_employee_state=='working')
+                    ):
                 check = True
 
             res.append((protocollo.id, check))
@@ -2580,12 +2494,6 @@ class protocollo_protocollo(osv.Model):
         'da_inviare_visibility': fields.function(_da_inviare_visibility,
                                                                 fnct_search=_da_inviare_visibility_search,
                                                                 type='boolean', string='Da Inviare'),
-        'da_mettere_agli_atti_visibility': fields.function(_da_mettere_agli_atti_visibility,
-                                                                fnct_search=_da_mettere_agli_atti_visibility_search,
-                                                                type='boolean', string='Da Mettere Agli Atti'),
-        'da_mettere_agli_atti_general_visibility': fields.function(_da_mettere_agli_atti_general_visibility,
-                                                                fnct_search=_da_mettere_agli_atti_general_visibility_search,
-                                                                type='boolean', string='Da Mettere Agli Atti'),
 
         'filtro_assegnazione_competenza_dipendente_ids': fields.function(_get_assegnazione_competenza_dipendente_ids,
                                                           fnct_search=_search_assegnazione_competenza_dipendente_ids,
@@ -2651,7 +2559,6 @@ class protocollo_protocollo(osv.Model):
                                                        string='Prendi in Carico'),
         'rifiuta_visibility': fields.function(_rifiuta_visibility, type='boolean', string='Rifiuta'),
         'segna_come_letto_visibility': fields.function(_segna_come_letto_visibility, type='boolean', string='Segna come letto'),
-        'agli_atti_visibility': fields.function(_agli_atti_visibility, type='boolean', string='Agli Atti'),
         'modifica_dati_generali_visibility': fields.function(_modifica_dati_generali_visibility, type='boolean',
                                                              string='Modifica Dati Generali'),
         'aggiungi_mittenti_visibility': fields.function(_aggiungi_mittenti_visibility, type='boolean', string='Aggiungi Mittenti'),

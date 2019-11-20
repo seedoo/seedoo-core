@@ -460,6 +460,7 @@ class protocollo_assegnazione(orm.Model):
             if len(employee_ids) == 0:
                 raise orm.except_orm('Attenzione!', 'Non è stato trovato il dipendente per la tua utenza!')
 
+        assegnazione_list = []
         for protocollo_id in protocollo_ids:
             if state in ['preso', 'rifiutato']:
                 # verifica che il protocollo non abbia uno stato diverso da 'Assegnato'
@@ -468,7 +469,7 @@ class protocollo_assegnazione(orm.Model):
                     ('tipologia_assegnazione', '=', 'competenza'),
                     ('tipologia_assegnatario', '=', 'employee'),
                     ('assegnatario_employee_id', 'in', employee_ids),
-                    ('state', '!=', 'assegnato')
+                    ('state', 'not in', ['assegnato', 'archiviato'])
                 ])
                 if assegnazione_state_ids:
                     assegnazione_state = self.browse(cr, uid, assegnazione_state_ids[0])
@@ -530,18 +531,25 @@ class protocollo_assegnazione(orm.Model):
             for assegnazione_id in assegnazione_ids:
                 # aggiorna, se presente, anche l'assegnazione dell'ufficio
                 assegnazione = self.browse(cr, uid, assegnazione_id)
+                assegnazione_list.append(assegnazione)
                 if assegnazione.parent_id:
                     self.write(cr, uid, [assegnazione.parent_id.id], {
                         'state': state,
                         'motivazione_rifiuto': motivazione_rifiuto
                     })
 
-    def modifica_stato_assegnazione_conoscenza(self, cr, uid, protocollo_ids, state):
-        employee_obj = self.pool.get('hr.employee')
-        employee_ids = employee_obj.search(cr, uid, [('user_id', '=', uid)])
-        if len(employee_ids) == 0:
-            raise orm.except_orm('Attenzione!', 'Non è stato trovato il dipendente per la tua utenza!')
+        return assegnazione_list
 
+    def modifica_stato_assegnazione_conoscenza(self, cr, uid, protocollo_ids, state, assegnatario_employee_id=None):
+        employee_obj = self.pool.get('hr.employee')
+        if assegnatario_employee_id:
+            employee_ids = [assegnatario_employee_id]
+        else:
+            employee_ids = employee_obj.search(cr, uid, [('user_id', '=', uid)])
+            if len(employee_ids) == 0:
+                raise orm.except_orm('Attenzione!', 'Non è stato trovato il dipendente per la tua utenza!')
+
+        assegnazione_list = []
         for protocollo_id in protocollo_ids:
             # verifica che l'utente sia uno degli assegnatari del protocollo
             assegnazione_ids = self.search(cr, uid, [
@@ -585,18 +593,21 @@ class protocollo_assegnazione(orm.Model):
             self.write(cr, uid, assegnazione_ids, {'state': state})
 
             for assegnazione_id in assegnazione_ids:
-                # aggiorna, se presente, anche l'assegnazione dell'ufficio se tutti i dipendenti hanno letto
+                # aggiorna, se presente, anche l'assegnazione dell'ufficio se tutti i dipendenti hanno lo stesso stato
                 assegnazione = self.browse(cr, uid, assegnazione_id)
+                assegnazione_list.append(assegnazione)
                 if assegnazione.parent_id:
-                    assegnazioni_da_leggere_ids = self.search(cr, uid, [
+                    assegnazioni_stesso_stato_ids = self.search(cr, uid, [
                         ('protocollo_id', '=', protocollo_id),
                         ('parent_id', '=', assegnazione.parent_id.id),
                         ('tipologia_assegnazione', '=', 'conoscenza'),
                         ('tipologia_assegnatario', '=', 'employee'),
-                        ('state', '=', 'assegnato')
+                        ('state', '=', assegnazione.parent_id.state)
                     ])
-                    if len(assegnazioni_da_leggere_ids) == 0:
+                    if len(assegnazioni_stesso_stato_ids) == 0:
                         self.write(cr, uid, [assegnazione.parent_id.id], {'state': state})
+
+        return assegnazione_list
 
     def get_default_assegnatore_department_id(self, cr, uid, protocollo_id):
         protocollo_obj = self.pool.get('protocollo.protocollo')

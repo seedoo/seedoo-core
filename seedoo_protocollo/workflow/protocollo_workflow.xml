@@ -82,6 +82,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="kind">stopall</field>
         </record>
 
+        <!--
         <record model="workflow.activity" id="act_acts">
             <field name="wkf_id" ref="wkf_protocollo"/>
             <field name="name">acts</field>
@@ -89,6 +90,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="action">write({'state':'acts'})</field>
             <field name="kind">stopall</field>
         </record>
+        -->
 
         <!-- This Action Is created only for import purpose -->
         <record model="workflow.transition" id="t10">
@@ -183,6 +185,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="signal">cancel</field>
         </record>
 
+        <!--
         <record model="workflow.transition" id="t93">
             <field name="act_from" ref="act_registered"/>
             <field name="act_to" ref="act_acts"/>
@@ -194,6 +197,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="act_to" ref="act_acts"/>
             <field name="signal">acts</field>
         </record>
+        -->
 
     </data>
 </openerp>

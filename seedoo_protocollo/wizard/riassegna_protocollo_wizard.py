@@ -126,6 +126,7 @@ class protocollo_riassegna_wizard(osv.TransientModel):
             assegnazione_competenza_ids = assegnazione_obj.search(cr, uid, [
                 ('protocollo_id', '=', context['active_id']),
                 ('tipologia_assegnazione', '=', 'competenza'),
+                ('state', '=', 'rifiutato'),
                 ('parent_id', '=', False)
             ], limit=1)
             assegnazione_competenza = None
@@ -135,7 +136,7 @@ class protocollo_riassegna_wizard(osv.TransientModel):
                 data = {
                     'warning': {
                         'title': 'Attenzione',
-                        'message': 'Hai selezionato lo stesso Assegnatario per Competenza attualmente assegnato al Protocollo!'
+                        'message': 'Hai selezionato lo stesso Assegnatario per Competenza che ha rifiutato l\'assegnazione!'
                     }
                 }
         return data

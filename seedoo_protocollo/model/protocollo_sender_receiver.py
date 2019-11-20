@@ -150,7 +150,7 @@ class protocollo_sender_receiver(orm.Model):
                     messaggio_pec_obj = self.pool.get("protocollo.messaggio.pec")
                     if len(sr.pec_messaggio_ids.ids) > 0:
                         messaggio_pec = messaggio_pec_obj.browse(cr, uid, max(sr.pec_messaggio_ids.ids))
-                        if prot.type == "out" and prot.state in ("waiting", "sent", "error", "notified", "canceled", "acts") and messaggio_pec.type in ("messaggio"):
+                        if prot.type == "out" and prot.state in ("waiting", "sent", "error", "notified", "canceled") and messaggio_pec.type in ("messaggio"):
                             res[sr.id] = True
         return res
 
@@ -167,7 +167,7 @@ class protocollo_sender_receiver(orm.Model):
                     messaggio_pec_obj = self.pool.get("protocollo.messaggio.pec")
                     if len(sr.pec_messaggio_ids.ids) > 0:
                         messaggio_pec = messaggio_pec_obj.browse(cr, uid, max(sr.pec_messaggio_ids.ids))
-                        if prot.state in ("waiting", "sent", "error", "notified", "canceled", "acts") and messaggio_pec.type in ("messaggio") and messaggio_pec.accettazione_ref.id:
+                        if prot.state in ("waiting", "sent", "error", "notified", "canceled") and messaggio_pec.type in ("messaggio") and messaggio_pec.accettazione_ref.id:
                             res[sr.id] = True
         return res
 
@@ -185,7 +185,7 @@ class protocollo_sender_receiver(orm.Model):
                     messaggio_pec_obj = self.pool.get("protocollo.messaggio.pec")
                     if len(sr.pec_messaggio_ids.ids) > 0:
                         messaggio_pec = messaggio_pec_obj.browse(cr, uid, max(sr.pec_messaggio_ids.ids))
-                        if prot.state in ("waiting", "sent", "error", "notified", "canceled", "acts") and messaggio_pec.type in ("messaggio") and messaggio_pec.consegna_ref.id:
+                        if prot.state in ("waiting", "sent", "error", "notified", "canceled") and messaggio_pec.type in ("messaggio") and messaggio_pec.consegna_ref.id:
                             res[sr.id] = True
         return res
 
@@ -202,7 +202,7 @@ class protocollo_sender_receiver(orm.Model):
                     messaggio_pec_obj = self.pool.get("protocollo.messaggio.pec")
                     if len(sr.pec_messaggio_ids.ids) > 0:
                         messaggio_pec = messaggio_pec_obj.browse(cr, uid, max(sr.pec_messaggio_ids.ids))
-                        if prot.state in ("waiting", "sent", "error", "notified", "canceled", "acts") and messaggio_pec.type in ("messaggio") and messaggio_pec.non_accettazione_ref.id:
+                        if prot.state in ("waiting", "sent", "error", "notified", "canceled") and messaggio_pec.type in ("messaggio") and messaggio_pec.non_accettazione_ref.id:
                             res[sr.id] = True
         return res
 
@@ -219,7 +219,7 @@ class protocollo_sender_receiver(orm.Model):
                     messaggio_pec_obj = self.pool.get("protocollo.messaggio.pec")
                     if len(sr.pec_messaggio_ids.ids) > 0:
                         messaggio_pec = messaggio_pec_obj.browse(cr, uid, max(sr.pec_messaggio_ids.ids))
-                        if prot.state in ("waiting", "sent", "error", "notified", "canceled", "acts") and messaggio_pec.type in ("messaggio") and messaggio_pec.errore_consegna_ref.id:
+                        if prot.state in ("waiting", "sent", "error", "notified", "canceled") and messaggio_pec.type in ("messaggio") and messaggio_pec.errore_consegna_ref.id:
                             res[sr.id] = True
         return res
 
@@ -236,7 +236,7 @@ class protocollo_sender_receiver(orm.Model):
                     messaggio_pec_obj = self.pool.get("protocollo.messaggio.pec")
                     if len(sr.pec_messaggio_ids.ids) > 1:
                         conferma_pec = messaggio_pec_obj.search(cr, uid, [("id", "in", sr.pec_messaggio_ids.ids), ("type", "=", "conferma")])
-                        if prot.type == "in" and prot.state in ("registered", "canceled", "acts") and len(conferma_pec) > 0:
+                        if prot.type == "in" and prot.state in ("registered", "canceled") and len(conferma_pec) > 0:
                             res[sr.id] = True
         return res
 

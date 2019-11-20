@@ -49,7 +49,7 @@ class protocollo_journal_wizard(osv.TransientModel):
         protocollo_obj = self.pool.get('protocollo.protocollo')
         protocol_ids = protocollo_obj.search(cr, uid, [
             ('aoo_id', '=', aoo_id),
-            ('state', 'in', ['registered', 'notified', 'waiting', 'error', 'sent', 'acts']),
+            ('state', 'in', ['registered', 'notified', 'waiting', 'error', 'sent']),
             ('registration_date', '>', wizard.date_register + ' 00:00:00'),
             ('registration_date', '<', wizard.date_register + ' 23:59:59'),
         ])

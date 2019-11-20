@@ -77,7 +77,7 @@ class wizard(osv.TransientModel):
     def _process_mail(self, cr, uid, ids, protocollo_obj, context=None):
         # check if waiting then resend e-mail
         protocollo = protocollo_obj.browse(cr, uid, context['active_id'], {'skip_check': True})
-        if protocollo.state in ['sent', 'acts']:
+        if protocollo.state in ['sent']:
             protocollo.action_mail_pec_send()
         return True
 

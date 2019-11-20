@@ -168,19 +168,17 @@ class protocollo_protocollo(orm.Model):
     STATE_SELECTION = [
         ('draft', 'Bozza'),
         ('registered', 'Registrato'),
-        #('notified', 'Notificato'),
         ('waiting', 'Pec Inviata'),
         ('error', 'Errore Pec'),
         ('sent', 'Inviato'),
-        ('canceled', 'Annullato'),
-        ('acts', 'Agli Atti')
+        ('canceled', 'Annullato')
     ]
 
     def get_state_list(self, cr, uid, context=None):
         return self.STATE_SELECTION
 
     def get_history_state_list(self, cr, uid):
-        return ['registered', 'waiting', 'error', 'sent', 'canceled', 'acts']
+        return ['registered', 'waiting', 'error', 'sent', 'canceled']
 
     def seedoo_error(self, cr, uid):
         user = self.pool.get('res.users').browse(cr, SUPERUSER_ID, uid)
@@ -485,6 +483,7 @@ class protocollo_protocollo(orm.Model):
         'registration_employee_department_id': fields.many2one('hr.department', 'Ufficio'),
         'registration_employee_department_name': fields.char('Ufficio', size=512),
         'registration_employee_department_id_readonly': fields.boolean('Campo registration_employee_department_id readonly', readonly=True),
+        'registration_employee_state': fields.selection([('working', 'In Lavorazione')], 'Stato Protocollatore', size=32, readonly=True),
         'registration_type': fields.selection(
             [
                 ('normal', 'Normale'),
@@ -720,10 +719,7 @@ class protocollo_protocollo(orm.Model):
     _defaults = {
         'registration_type': 'normal',
         'emergency_active': _get_default_is_emergency_active,
-        # 'name': _get_default_name,
         'creation_date': fields.date.context_today,
-        # 'receiving_date': lambda *a: time.strftime(
-        #     DSDF),
         'state': 'draft',
         'year': _get_default_year,
         'user_id': lambda obj, cr, uid, context: uid,
@@ -734,7 +730,8 @@ class protocollo_protocollo(orm.Model):
         'server_pec_id': _get_def_pec_server,
         'email_pec_sending_mode': 'all_receivers',
         'is_imported': False,
-        'registration_employee_department_id_readonly': _default_registration_employee_department_id_readonly
+        'registration_employee_department_id_readonly': _default_registration_employee_department_id_readonly,
+        'registration_employee_state': 'working'
     }
 
     _sql_constraints = [
@@ -1847,15 +1844,22 @@ class protocollo_protocollo(orm.Model):
             protocollo = self.browse(cr, uid, ids, new_context)
             check_permission, error = self.assegnazione_validation(cr, uid, protocollo, 'prendi_in_carico', new_context)
             if check_permission == True:
-                assegnatario_name = None
-                assegnatario_employee_id = None
                 if context and 'assegnatario_employee_id' in context and context['assegnatario_employee_id']:
                     assegnatario_employee_id = context['assegnatario_employee_id']
-                    employee = self.pool.get('hr.employee').browse(cr, uid, context['assegnatario_employee_id'])
+                    employee = self.pool.get('hr.employee').browse(cr, uid, assegnatario_employee_id)
                     assegnatario_name = employee.name
                 else:
-                    user = self.pool.get('res.users').browse(cr, uid, uid)
-                    assegnatario_name = user.name
+                    assegnazione_obj = self.pool.get('protocollo.assegnazione')
+                    assegnazione_ids = assegnazione_obj.search(cr, uid, [
+                        ('protocollo_id', '=', protocollo.id),
+                        ('tipologia_assegnazione', '=', 'competenza'),
+                        ('tipologia_assegnatario', '=', 'employee'),
+                        ('state', '=', 'assegnato'),
+                        ('assegnatario_employee_id.user_id.id', '=', uid)
+                    ])
+                    assegnazione = assegnazione_obj.browse(cr, uid, assegnazione_ids[0])
+                    assegnatario_employee_id = assegnazione.assegnatario_employee_id.id
+                    assegnatario_name = assegnazione.assegnatario_employee_id.name
 
                 action_class = "history_icon taken"
                 post_vars = {
@@ -1883,15 +1887,22 @@ class protocollo_protocollo(orm.Model):
             protocollo = self.browse(cr, uid, ids, new_context)
             check_permission, error = self.assegnazione_validation(cr, uid, protocollo, 'rifiuta', new_context)
             if check_permission == True:
-                assegnatario_name = None
-                assegnatario_employee_id = None
                 if context and 'assegnatario_employee_id' in context and context['assegnatario_employee_id']:
                     assegnatario_employee_id = context['assegnatario_employee_id']
-                    employee = self.pool.get('hr.employee').browse(cr, uid, context['assegnatario_employee_id'])
+                    employee = self.pool.get('hr.employee').browse(cr, uid, assegnatario_employee_id)
                     assegnatario_name = employee.name
                 else:
-                    user = self.pool.get('res.users').browse(cr, uid, uid)
-                    assegnatario_name = user.name
+                    assegnazione_obj = self.pool.get('protocollo.assegnazione')
+                    assegnazione_ids = assegnazione_obj.search(cr, uid, [
+                        ('protocollo_id', '=', protocollo.id),
+                        ('tipologia_assegnazione', '=', 'competenza'),
+                        ('tipologia_assegnatario', '=', 'employee'),
+                        ('state', '=', 'assegnato'),
+                        ('assegnatario_employee_id.user_id.id', '=', uid)
+                    ])
+                    assegnazione = assegnazione_obj.browse(cr, uid, assegnazione_ids[0])
+                    assegnatario_employee_id = assegnazione.assegnatario_employee_id.id
+                    assegnatario_name = assegnazione.assegnatario_employee_id.name
 
                 action_class = "history_icon refused"
                 post_vars = {
@@ -1912,58 +1923,28 @@ class protocollo_protocollo(orm.Model):
             raise orm.except_orm(_('Attenzione!'), _('Non sei più assegnatario di questo protocollo!'))
         return True
 
-    def segna_come_letto(self, cr, uid, ids, motivazione, context=None):
-        rec = self.pool.get('res.users').browse(cr, uid, uid)
-
+    def segna_come_letto(self, cr, uid, ids, assegnatario_employee_id, context=None):
         try:
             check_permission = self.browse(cr, uid, ids, {'skip_check': True}).segna_come_letto_visibility
             if check_permission == True:
+                employee = self.pool.get('hr.employee').browse(cr, uid, assegnatario_employee_id)
+                assegnatario_name = employee.name
+
                 action_class = "history_icon taken"
-                post_vars = {'subject': "Segnato come letto",
-                             'body': "<div class='%s'><ul><li>Protocollo letto da <span style='color:#007ea6;'>%s</span></li></ul></div>" % (
-                                 action_class, rec.name),
-                             'model': "protocollo.protocollo",
-                             'res_id': ids[0],
-                             }
-
-                thread_pool = self.pool.get('protocollo.protocollo')
-                thread_pool.message_post(cr, uid, ids[0], type="notification", context=context, **post_vars)
-
-                # l'invio della notifica avviene prima della modifica dello stato, perchè se fatta dopo, in alcuni casi,
-                # potrebbe non avere più i permessi di scrittura sul protocollo
-                # self.pool.get('protocollo.stato.dipendente').modifica_stato_dipendente(cr, uid, ids, 'preso')
-                self.pool.get('protocollo.assegnazione').modifica_stato_assegnazione_conoscenza(cr, uid, ids, 'letto')
-            else:
-                raise orm.except_orm(_('Azione Non Valida!'), _('Il protocollo non può più essere preso in carico!'))
-        except Exception as e:
-            raise orm.except_orm(_('Azione Non Valida!'), _('Non sei più assegnatario di questo protocollo'))
-        return True
-
-    def agli_atti(self, cr, uid, ids, motivazione, context=None):
-        rec = self.pool.get('res.users').browse(cr, uid, uid)
-        for id in ids:
-            protocollo = self.browse(cr, uid, id, {'skip_check': True})
-            esito_visibility = protocollo.agli_atti_visibility
-            if esito_visibility and protocollo.type=='out' and protocollo.state in ['registered', 'waiting', 'error']:
-                raise orm.except_orm(_('Attenzione!'), _('Il protocollo deve essere in stato "Inviato" prima di essere messo "Agli Atti"!'))
-            protocollo.signal_workflow('acts')
-            if esito_visibility and protocollo.state=='acts':
-                action_class = "history_icon acts"
-                subject = "Agli atti"
-                if motivazione:
-                    subject += ": %s" % motivazione
                 post_vars = {
-                    'subject': subject,
-                    'body': "<div class='%s'><ul><li>Protocollo messo agli atti da <span style='color:#007ea6;'>%s</span></li></ul></div>" % (
-                        action_class, rec.name),
+                    'subject': "Segnato come letto",
+                    'body': "<div class='%s'><ul><li>Protocollo letto da <span style='color:#007ea6;'>%s</span></li></ul></div>" % (action_class, assegnatario_name),
                     'model': "protocollo.protocollo",
-                    'res_id': protocollo.id
+                    'res_id': ids[0]
                 }
 
-                thread_pool = self.pool.get('protocollo.protocollo')
-                thread_pool.message_post(cr, uid, protocollo.id, type="notification", context=context, **post_vars)
+                self.message_post(cr, uid, ids[0], type="notification", context=context, **post_vars)
+
+                self.pool.get('protocollo.assegnazione').modifica_stato_assegnazione_conoscenza(cr, uid, ids, 'letto', assegnatario_employee_id)
             else:
-                raise orm.except_orm(_('Attenzione!'), _('Il protocollo non può più essere messo agli atti!'))
+                raise orm.except_orm(_('Azione Non Valida!'), _('Il protocollo non può più essere segnato come letto!'))
+        except Exception as e:
+            raise orm.except_orm(_('Azione Non Valida!'), _('Non sei più assegnatario di questo protocollo'))
         return True
 
     def _verifica_dati_sender_receiver(self, cr, uid, vals, context):
@@ -2638,7 +2619,7 @@ class protocollo_journal(orm.Model):
                         last_date = (last_journal_date + datetime.timedelta(days=day))
                         protocol_ids = protocollo_obj.search(cr, uid, [
                             ('aoo_id', '=', aoo_id),
-                            ('state', 'in', ['registered', 'notified', 'sent', 'waiting', 'error', 'canceled', 'acts']),
+                            ('state', 'in', ['registered', 'notified', 'sent', 'waiting', 'error', 'canceled']),
                             ('registration_date', '>', last_date.strftime(DSDT) + ' 00:00:00'),
                             ('registration_date', '<', last_date.strftime(DSDT) + ' 23:59:59'),
                         ])
@@ -2664,7 +2645,7 @@ class protocollo_journal(orm.Model):
                     yesterday = today + datetime.timedelta(days=-1)
                     protocol_ids = protocollo_obj.search(cr, uid, [
                         ('aoo_id', '=', aoo_id),
-                        ('state', 'in', ['registered', 'notified', 'sent', 'waiting', 'error', 'canceled', 'acts']),
+                        ('state', 'in', ['registered', 'notified', 'sent', 'waiting', 'error', 'canceled']),
                         ('registration_date', '>', yesterday.strftime(DSDT) + ' 00:00:00'),
                         ('registration_date', '<', yesterday.strftime(DSDT) + ' 23:59:59'),
                     ])

@@ -21,9 +21,9 @@ from . import aggiungi_assegnatari_protocollo_wizard
 from . import aggiungi_assegnatari_conoscenza_protocollo_wizard
 from . import riassegna_protocollo_wizard
 from . import aggiungi_sender_internal_wizard
-from . import agli_atti_protocollo_wizard
 from . import create_protocollo_archivio_wizard
 from . import create_mittente_destinatario_wizard
 from . import create_destinatari_da_gruppo_wizard
+from . import segna_come_letto_protocollo_wizard
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
