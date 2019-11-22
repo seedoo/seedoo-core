@@ -145,7 +145,7 @@ class protocollo_riassegna_wizard(osv.TransientModel):
         check = protocollo.riassegna_visibility
         return check
 
-    def salva_assegnazione_competenza(self, cr, uid, protocollo, wizard, assegnatario_ids, assegnatore_id, before, after, values={}, context={}):
+    def salva_assegnazione_competenza(self, cr, uid, protocollo, wizard, assegnatario_ids, assegnatore_id, assegnatario_id_to_replace, before, after, values={}, context={}):
         new_context = dict(context or {})
         new_context['riassegna'] = True
         before['competenza'] = ', '.join([a.assegnatario_id.nome for a in protocollo.assegnazione_competenza_ids])
@@ -155,7 +155,7 @@ class protocollo_riassegna_wizard(osv.TransientModel):
             protocollo.id,
             assegnatario_ids,
             assegnatore_id,
-            False,
+            assegnatario_id_to_replace,
             values,
             new_context
         )
@@ -199,7 +199,7 @@ class protocollo_riassegna_wizard(osv.TransientModel):
 
         # assegnazione per competenza
         assegnatario_competenza_ids = [wizard.assegnatario_competenza_id.id] if wizard.assegnatario_competenza_id else []
-        self.salva_assegnazione_competenza(cr, uid, protocollo, wizard, assegnatario_competenza_ids, assegnatore_id, before, after, context=context)
+        self.salva_assegnazione_competenza(cr, uid, protocollo, wizard, assegnatario_competenza_ids, assegnatore_id, False, before, after, context=context)
 
         # assegnazione per conoscenza
         self.salva_assegnazione_conoscenza(cr, uid, protocollo, wizard, assegnatore_id, before, after)
