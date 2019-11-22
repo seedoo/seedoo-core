@@ -1205,15 +1205,15 @@ class protocollo_protocollo(osv.Model):
         cr.execute('''
             SELECT DISTINCT(pp.id)
             FROM protocollo_protocollo AS pp
-            INNER JOIN protocollo_assegnazione AS pa1 ON pp.id=pa1.protocollo_id AND pa1.tipologia_assegnazione = 'competenza'
+            INNER JOIN protocollo_assegnazione AS pa1 ON pp.id = pa1.protocollo_id AND pa1.tipologia_assegnazione = 'competenza'
             INNER JOIN hr_employee AS he ON pa1.assegnatore_id = he.id
             INNER JOIN resource_resource AS rr ON he.resource_id = rr.id AND rr.user_id = %s AND rr.active = TRUE
-            LEFT JOIN protocollo_assegnazione AS pa2 ON pp.id=pa2.protocollo_id AND pa1.assegnatore_id=pa2.assegnatario_employee_id AND pa2.tipologia_assegnazione = 'competenza'
+            LEFT JOIN protocollo_assegnazione AS pa2 ON pp.id=pa2.protocollo_id AND pa1.assegnatore_id = pa2.assegnatario_employee_id AND pa2.tipologia_assegnazione = 'competenza'
             WHERE pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
                   pa1.state = 'assegnato' AND
                   (pa1.tipologia_assegnatario = 'department' OR (pa1.tipologia_assegnatario = 'employee' AND pa1.parent_id IS NULL)) AND
                   (
-                      (pa2.assegnatario_employee_id IS NULL AND pp.registration_employee_id = pa1.assegnatore_id AND pp.registration_employee_state = 'working') OR
+                      (pa2.assegnatario_employee_id IS NULL AND (pp.registration_employee_id != pa1.assegnatore_id OR (pp.registration_employee_id = pa1.assegnatore_id AND pp.registration_employee_state = 'working'))) OR
                       (pa2.assegnatario_employee_id IS NOT NULL AND pa2.state = 'preso')
                   )
         ''', (uid, ))
@@ -1237,15 +1237,15 @@ class protocollo_protocollo(osv.Model):
         sql_query = """
             SELECT COUNT(DISTINCT(pp.id))
             FROM protocollo_protocollo AS pp
-            INNER JOIN protocollo_assegnazione AS pa1 ON pp.id=pa1.protocollo_id AND pa1.tipologia_assegnazione = 'competenza'
+            INNER JOIN protocollo_assegnazione AS pa1 ON pp.id = pa1.protocollo_id AND pa1.tipologia_assegnazione = 'competenza'
             INNER JOIN hr_employee AS he ON pa1.assegnatore_id = he.id
             INNER JOIN resource_resource AS rr ON he.resource_id = rr.id AND rr.user_id = %s AND rr.active = TRUE
-            LEFT JOIN protocollo_assegnazione AS pa2 ON pp.id=pa2.protocollo_id AND pa1.assegnatore_id=pa2.assegnatario_employee_id AND pa2.tipologia_assegnazione = 'competenza'
+            LEFT JOIN protocollo_assegnazione AS pa2 ON pp.id=pa2.protocollo_id AND pa1.assegnatore_id = pa2.assegnatario_employee_id AND pa2.tipologia_assegnazione = 'competenza'
             WHERE pp.archivio_id = %d AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
                   pa1.state = 'assegnato' AND
                   (pa1.tipologia_assegnatario = 'department' OR (pa1.tipologia_assegnatario = 'employee' AND pa1.parent_id IS NULL)) AND
                   (
-                      (pa2.assegnatario_employee_id IS NULL AND pp.registration_employee_id = pa1.assegnatore_id AND pp.registration_employee_state = 'working') OR
+                      (pa2.assegnatario_employee_id IS NULL AND (pp.registration_employee_id != pa1.assegnatore_id OR (pp.registration_employee_id = pa1.assegnatore_id AND pp.registration_employee_state = 'working'))) OR
                       (pa2.assegnatario_employee_id IS NOT NULL AND pa2.state = 'preso')
                   )
             """ % (uid, current_archivio_id)
@@ -1272,15 +1272,15 @@ class protocollo_protocollo(osv.Model):
         cr.execute('''
             SELECT DISTINCT(pp.id)
             FROM protocollo_protocollo AS pp
-            INNER JOIN protocollo_assegnazione AS pa1 ON pp.id=pa1.protocollo_id AND pa1.tipologia_assegnazione = 'competenza'
+            INNER JOIN protocollo_assegnazione AS pa1 ON pp.id = pa1.protocollo_id AND pa1.tipologia_assegnazione = 'competenza'
             INNER JOIN hr_employee AS he ON pa1.assegnatore_id = he.id
             INNER JOIN resource_resource AS rr ON he.resource_id = rr.id AND rr.user_id = %s AND rr.active = TRUE
-            LEFT JOIN protocollo_assegnazione AS pa2 ON pp.id=pa2.protocollo_id AND pa1.assegnatore_id=pa2.assegnatario_employee_id AND pa2.tipologia_assegnazione = 'competenza'
+            LEFT JOIN protocollo_assegnazione AS pa2 ON pp.id = pa2.protocollo_id AND pa1.assegnatore_id = pa2.assegnatario_employee_id AND pa2.tipologia_assegnazione = 'competenza'
             WHERE pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
                   pa1.state = 'rifiutato' AND
                   (pa1.tipologia_assegnatario = 'department' OR (pa1.tipologia_assegnatario = 'employee' AND pa1.parent_id IS NULL)) AND
                   (
-                      (pa2.assegnatario_employee_id IS NULL AND pp.registration_employee_id = pa1.assegnatore_id AND pp.registration_employee_state = 'working') OR
+                      (pa2.assegnatario_employee_id IS NULL AND (pp.registration_employee_id != pa1.assegnatore_id OR (pp.registration_employee_id = pa1.assegnatore_id AND pp.registration_employee_state = 'working'))) OR
                       (pa2.assegnatario_employee_id IS NOT NULL AND pa2.state = 'preso')
                   )
         ''', (uid, ))
@@ -1304,15 +1304,15 @@ class protocollo_protocollo(osv.Model):
         sql_query = """
             SELECT COUNT(DISTINCT(pp.id))
             FROM protocollo_protocollo AS pp
-            INNER JOIN protocollo_assegnazione AS pa1 ON pp.id=pa1.protocollo_id AND pa1.tipologia_assegnazione = 'competenza'
+            INNER JOIN protocollo_assegnazione AS pa1 ON pp.id = pa1.protocollo_id AND pa1.tipologia_assegnazione = 'competenza'
             INNER JOIN hr_employee AS he ON pa1.assegnatore_id = he.id
             INNER JOIN resource_resource AS rr ON he.resource_id = rr.id AND rr.user_id = %s AND rr.active = TRUE
-            LEFT JOIN protocollo_assegnazione AS pa2 ON pp.id=pa2.protocollo_id AND pa1.assegnatore_id=pa2.assegnatario_employee_id AND pa2.tipologia_assegnazione = 'competenza'
+            LEFT JOIN protocollo_assegnazione AS pa2 ON pp.id = pa2.protocollo_id AND pa1.assegnatore_id = pa2.assegnatario_employee_id AND pa2.tipologia_assegnazione = 'competenza'
             WHERE pp.archivio_id = %d AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
                   pa1.state = 'rifiutato' AND
                   (pa1.tipologia_assegnatario = 'department' OR (pa1.tipologia_assegnatario = 'employee' AND pa1.parent_id IS NULL)) AND
                   (
-                      (pa2.assegnatario_employee_id IS NULL AND pp.registration_employee_id = pa1.assegnatore_id AND pp.registration_employee_state = 'working') OR
+                      (pa2.assegnatario_employee_id IS NULL AND (pp.registration_employee_id != pa1.assegnatore_id OR (pp.registration_employee_id = pa1.assegnatore_id AND pp.registration_employee_state = 'working'))) OR
                       (pa2.assegnatario_employee_id IS NOT NULL AND pa2.state = 'preso')
                   )
         """ % (uid, current_archivio_id)
