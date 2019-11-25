@@ -613,6 +613,10 @@ class protocollo_protocollo(osv.Model):
 
     def _non_fascicolati_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
         start = int(round(time.time() * 1000))
+        dossier_condition = ''
+        fascicolo_ids = self.pool.get('protocollo.dossier').search(cr, uid, [])
+        if fascicolo_ids:
+            dossier_condition = 'AND pp.id NOT IN (SELECT protocollo_id FROM dossier_protocollo_rel WHERE dossier_id IN (' + ', '.join(map(str, fascicolo_ids)) + '))'
 
         cr.execute('''
             SELECT DISTINCT(p.id) FROM (
@@ -627,7 +631,7 @@ class protocollo_protocollo(osv.Model):
                     AND pa.tipologia_assegnatario = 'employee'
                     AND pa.state IN ('preso', 'letto') 
                     AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
-                    AND pp.id NOT IN (SELECT protocollo_id FROM dossier_protocollo_rel)
+                    ''' + dossier_condition + '''
                     
                 UNION SELECT DISTINCT(pp.id) AS id
                     FROM protocollo_protocollo pp, hr_employee he, resource_resource rr
@@ -637,7 +641,7 @@ class protocollo_protocollo(osv.Model):
                         AND rr.user_id = %s
                         AND rr.active = TRUE
                         AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
-                        AND pp.id NOT IN (SELECT protocollo_id FROM dossier_protocollo_rel))
+                        ''' + dossier_condition + ''')
                         p
         ''', (uid,uid))
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
@@ -650,12 +654,16 @@ class protocollo_protocollo(osv.Model):
         time_start = datetime.datetime.now()
         archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)])
         current_archivio_id = archivio_ids[0]
+        dossier_condition = ''
+        fascicolo_ids = self.pool.get('protocollo.dossier').search(cr, uid, [])
+        if fascicolo_ids:
+            dossier_condition = 'AND pp.id NOT IN (SELECT protocollo_id FROM dossier_protocollo_rel WHERE dossier_id IN (' + ', '.join(map(str, fascicolo_ids)) + '))'
 
-        sql_query = """SELECT COUNT ( DISTINCT(p.id)) FROM (
+        cr.execute('''SELECT COUNT (DISTINCT(p.id)) FROM (
             SELECT DISTINCT(pa.protocollo_id) AS id
                 FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
                 WHERE pp.id = pa.protocollo_id
-                    AND pp.archivio_id = %d
+                    AND pp.archivio_id = %s
                     AND pa.assegnatario_employee_id = he.id
                     AND he.resource_id = rr.id
                     AND rr.user_id = %s
@@ -664,22 +672,20 @@ class protocollo_protocollo(osv.Model):
                     AND pa.tipologia_assegnatario = 'employee'
                     AND pa.state IN ('preso', 'letto') 
                     AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
-                    AND pp.id NOT IN (SELECT protocollo_id FROM dossier_protocollo_rel)
+                    ''' + dossier_condition + '''
             
             UNION SELECT DISTINCT(pp.id) AS id
                 FROM protocollo_protocollo pp, hr_employee he, resource_resource rr
-                WHERE pp.archivio_id = %d
+                WHERE pp.archivio_id = %s
                     AND pp.registration_employee_state = 'working'
                     AND pp.registration_employee_id = he.id
                     AND he.resource_id = rr.id
                     AND rr.user_id = %s
                     AND rr.active = TRUE
                     AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
-                    AND pp.id NOT IN (SELECT protocollo_id FROM dossier_protocollo_rel))
+                    ''' + dossier_condition + ''')
                     p
-        """ % (current_archivio_id, uid, current_archivio_id, uid,)
-
-        cr.execute(sql_query)
+        ''', (current_archivio_id, uid, current_archivio_id, uid))
         result = cr.fetchall()
         count_value = result[0][0]
 
@@ -1989,13 +1995,11 @@ class protocollo_protocollo(osv.Model):
     def _aggiungi_fascicolazione_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
 
-        dossier_obj = self.pool.get('protocollo.dossier')
         protocolli = self._get_protocolli(cr, uid, ids)
         for protocollo in protocolli:
             check = False
 
-            dossier_ids = dossier_obj.search(cr, SUPERUSER_ID, [('protocollo_ids', '=', protocollo.id)])
-            if not dossier_ids:
+            if not protocollo.dossier_ids:
                 if protocollo.state == 'draft':
                     check = (uid==protocollo.user_id.id and protocollo.registration_employee_state=='working') or uid==SUPERUSER_ID
                 elif protocollo.state in ['registered', 'notified', 'waiting', 'sent', 'error']:
@@ -2016,13 +2020,11 @@ class protocollo_protocollo(osv.Model):
     def _modifica_fascicolazione_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
 
-        dossier_obj = self.pool.get('protocollo.dossier')
         protocolli = self._get_protocolli(cr, uid, ids)
         for protocollo in protocolli:
             check = False
 
-            dossier_ids = dossier_obj.search(cr, SUPERUSER_ID, [('protocollo_ids', '=', protocollo.id)])
-            if dossier_ids:
+            if protocollo.dossier_ids:
                 if protocollo.state == 'draft':
                     check = (uid==protocollo.user_id.id and protocollo.registration_employee_state=='working') or uid==SUPERUSER_ID
                 elif protocollo.state in ['registered', 'notified', 'waiting', 'sent', 'error']:
@@ -2043,13 +2045,11 @@ class protocollo_protocollo(osv.Model):
     def _fascicola_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
 
-        dossier_obj = self.pool.get('protocollo.dossier')
         protocolli = self._get_protocolli(cr, uid, ids)
         for protocollo in protocolli:
             check = False
 
-            dossier_ids = dossier_obj.search(cr, SUPERUSER_ID, [('protocollo_ids', '=', protocollo.id)])
-            if protocollo.state in ('registered', 'notified', 'waiting', 'sent', 'error') and not dossier_ids:
+            if protocollo.state in ('registered', 'notified', 'waiting', 'sent', 'error') and not protocollo.dossier_ids:
                 check = True
 
             if check:

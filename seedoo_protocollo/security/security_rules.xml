@@ -71,5 +71,17 @@ this module contains the full copyright notices and license terms. -->
             <field name="perm_unlink" eval="False"/>
         </record>
 
+        <record id="seedoo_gedoc.ir_rule_readdossier0" model="ir.rule">
+            <field name="domain_force">[
+                '|','|','|','|',
+                ('office_view_ids.member_ids','in',[e.id for e in user.employee_ids]),
+                ('employee_view_ids', 'in', [e.id for e in user.employee_ids]),
+                ('user_id', '=', user.id),
+                ('protocollo_ids.registration_employee_id', 'in', [e.id for e in user.employee_ids]),
+                ('protocollo_ids.assegnazione_ids.assegnatario_employee_id', 'in', [e.id for e in user.employee_ids])
+            ]
+            </field>
+        </record>
+
     </data>
 </openerp>
