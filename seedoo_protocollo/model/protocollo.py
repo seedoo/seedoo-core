@@ -1099,6 +1099,7 @@ class protocollo_protocollo(orm.Model):
                     registration_time = datetime.datetime.now(dest_tz).strftime(DSDF)
                     self.write(cr, uid, [prot.id], vals, {'skip_check': True})
                     self._update_protocol_attachments(cr, uid, prot)
+                    self.aggiorna_segnatura_xml(cr, uid, [prot.id], force=True, log=False, commit=False, context=context)
 
                     action_class = "history_icon registration"
                     body = "<div class='%s'><ul><li>Creato protocollo %s</li>" % (action_class, prot_number)
@@ -1394,20 +1395,6 @@ class protocollo_protocollo(orm.Model):
             mail_server_obj = self.pool.get('ir.mail_server')
             mail_server_ids = mail_server_obj.search(cr, uid, [('in_server_id', '=', fetchmail_server_id)])
             mail_server = mail_server_obj.browse(cr, uid, mail_server_ids)
-
-            if configurazione.segnatura_xml_invia:
-                vals = {}
-                try:
-                    if not prot.xml_signature:
-                        segnatura_xml = SegnaturaXML(prot, prot.name, prot.registration_date, cr, uid)
-                        xml = segnatura_xml.generate_segnatura_root()
-                        etree_tostring = etree.tostring(xml, pretty_print=True)
-                        vals['xml_signature'] = etree_tostring
-                        self.write(cr, uid, [prot.id], vals)
-                        self.allega_segnatura_xml(cr, uid, prot.id, prot.xml_signature)
-                except Exception as e:
-                    _logger.error(e)
-
             subject = self._get_oggetto_mail_pec(cr, uid, prot.subject, prot.name, prot.registration_date) if configurazione.rinomina_oggetto_mail_pec else prot.subject
             subject = subject.replace('\r', '').replace('\n', '')
             if configurazione.lunghezza_massima_oggetto_pec > 0:
@@ -2085,7 +2072,6 @@ class protocollo_protocollo(orm.Model):
             'flags': {'initial_mode': 'edit'}
         }
 
-
     def carica_documento_principale(self, cr, uid, protocollo_id, datas, datas_fname, datas_description, context=None):
 
         configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
@@ -2167,21 +2153,67 @@ class protocollo_protocollo(orm.Model):
 
             return True
 
-    def allega_segnatura_xml(self, cr, uid, protocollo_id, xml_segnatura, context=None):
+    def aggiorna_segnatura_xml(self, cr, uid, ids, force=False, log=True, commit=False, context=None):
+        count = 0
+        total = len(ids)
+        for id in ids:
+            count += 1
+            protocollo = self.browse(cr, uid, id, {'skip_check': True})
+            try:
+                if not protocollo.xml_signature or force:
+                    segnatura_xml = SegnaturaXML(protocollo, protocollo.name, protocollo.registration_date, cr, uid)
+                    xml = segnatura_xml.generate_segnatura_root()
+                    etree_tostring = etree.tostring(xml, pretty_print=True)
+                    vals = {'xml_signature': etree_tostring}
+                    self.write(cr, uid, [protocollo.id], vals)
+                    if protocollo.type == 'out' and protocollo.pec:
+                        configurazione_obj = self.pool.get('protocollo.configurazione')
+                        configurazione_ids = configurazione_obj.search(cr, uid, [])
+                        configurazione = configurazione_obj.browse(cr, uid, configurazione_ids[0])
+                        if configurazione.segnatura_xml_invia:
+                            attachment_replace = True
+                            # se il protocollo è stato inviato allora la vecchia segnatura.xml non deve essere eliminata
+                            # perchè è un allegato della email inviata. Si deve quindi eliminare solo il collegamento
+                            # con il protocollo in modo che si veda solo la nuova segnatura.xml
+                            if protocollo.state in ['waiting', 'error', 'sent']:
+                                attachment_replace = False
+                            self.allega_segnatura_xml(cr, uid, protocollo.id, protocollo.xml_signature, attachment_replace, context)
+                    if commit:
+                        cr.commit()
+                    if log:
+                        _logger.info("Protocollo numero %s - (%s/%s) aggiornato", protocollo.name, str(count), str(total))
+                elif log:
+                        _logger.info("Protocollo numero %s - (%s/%s) non aggiornato: segnatura xml presente", protocollo.name, str(count), str(total))
+            except Exception as e:
+                _logger.error("Protocollo numero %s - (%s/%s) non aggiornato: %s", protocollo.name, str(count), str(total), str(e))
+
+    def allega_segnatura_xml(self, cr, uid, protocollo_id, xml_segnatura, attachment_replace, context=None):
         xml_segnatura_datas = base64.b64encode(xml_segnatura)
         attachment_obj = self.pool.get('ir.attachment')
-        attachment_obj.create(
-            cr, uid,
-            {
-                'name': 'Segnatura.xml',
-                'datas': xml_segnatura_datas,
-                'datas_fname': 'Segnatura.xml',
-                'datas_description': 'Segnatura.xml',
-                'res_model': 'protocollo.protocollo',
-                'is_protocol': True,
-                'res_id': protocollo_id,
-            }
-        )
+        attachment_ids = attachment_obj.search(cr, uid, [
+            ('name', '=', 'Segnatura.xml'),
+            ('res_model', '=', 'protocollo.protocollo'),
+            ('is_protocol', '=', True),
+            ('res_id', '=', protocollo_id)
+        ])
+        if attachment_ids:
+            if attachment_replace:
+                attachment_obj.unlink(cr, SUPERUSER_ID, attachment_ids)
+            else:
+                attachment_obj.write(cr, uid, attachment_ids, {
+                    'res_model': False,
+                    'is_protocol': False,
+                    'res_id': False
+                })
+        attachment_obj.create(cr, uid, {
+            'name': 'Segnatura.xml',
+            'datas': xml_segnatura_datas,
+            'datas_fname': 'Segnatura.xml',
+            'datas_description': 'Segnatura.xml',
+            'res_model': 'protocollo.protocollo',
+            'is_protocol': True,
+            'res_id': protocollo_id
+        })
 
     def carica_documenti_secondari(self, cr, uid, protocollo_id, file_data_list, context=None):
         prot = self.browse(cr, uid, protocollo_id, context={'skip_check': True})
@@ -2196,6 +2228,13 @@ class protocollo_protocollo(orm.Model):
         ]
         if prot.doc_id:
             attachment_domain.append(('id', '!=', prot.doc_id.id))
+        if prot.type == 'out' and prot.pec:
+            configurazione_obj = self.pool.get('protocollo.configurazione')
+            configurazione_ids = configurazione_obj.search(cr, uid, [])
+            configurazione = configurazione_obj.browse(cr, uid, configurazione_ids[0])
+            if configurazione.segnatura_xml_invia:
+                # non si considera il file Segnatura.xml perchè tanto verrà eliminato e rigenerato
+                attachment_domain.append(('name', '!=', 'Segnatura.xml'))
         attachment_ids = attachment_obj.search(cr, uid, attachment_domain)
         if attachment_ids and (not context or not ('append' in context)):
             attachment_obj.unlink(cr, SUPERUSER_ID, attachment_ids)

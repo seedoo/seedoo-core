@@ -70,6 +70,8 @@ class protocollo_sender_internal_wizard(osv.TransientModel):
                 protocollo_obj.message_post(cr, uid, context['active_id'], type="notification", context={'pec_messages': True},  **post_vars)
 
         protocollo_obj.write(cr, uid, [context['active_id']], vals)
+        if protocollo.registration_date:
+            protocollo_obj.aggiorna_segnatura_xml(cr, uid, [protocollo.id], force=True, log=False, commit=False, context=context)
 
         return {
                 'name': 'Protocollo',

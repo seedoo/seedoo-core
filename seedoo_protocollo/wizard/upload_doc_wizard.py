@@ -81,6 +81,9 @@ class wizard(osv.TransientModel):
                 context['active_id'],
                 {'doc_id': attachment_id}
             )
+            protocollo = protocollo_obj.browse(cr, uid, {'skip_check': True})
+            if protocollo.registration_date:
+                protocollo_obj.aggiorna_segnatura_xml(cr, uid, [protocollo.id], force=True, log=False, commit=False, context=context)
             return {
                     'name': 'Protocollo',
                     'view_type': 'form',

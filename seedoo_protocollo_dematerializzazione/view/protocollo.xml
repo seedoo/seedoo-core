@@ -14,9 +14,16 @@ this module contains the full copyright notices and license terms. -->
                     <field name="importer_id" string="Importazione" class="seedoocustom_protocollo_importer" attrs="{'invisible':[('importer_id', '=', False)]}"/>
                 </xpath>
                 <xpath expr="//field[@name='registration_employee_department_name']" position="after">
-                    <button string="Genera Etichetta" type="object"
-                                attrs="{'invisible':[('registration_date','=',False)]}" colspan="4"
-                                name="action_apri_stampa_etichetta" class="oe_inline oe_button oe_highlight_positive btn_seedoo btn_stampa_etichetta button-form-protocollo"/>
+                    <header class="group_button_protocollo_icon" colspan="4">
+                        <button string=""
+                                help="Genera Etichetta"
+                                name="action_apri_stampa_etichetta"
+                                type="object"
+                                attrs="{'invisible':[('registration_date','=',False)]}"
+                                colspan="1"
+                                class="oe_inline oe_button oe_highlight_positive btn_seedoo btn_form_protocollo_icon btn_stampa_etichetta button-form-protocollo"
+                        />
+                    </header>
                 </xpath>
             </field>
         </record>

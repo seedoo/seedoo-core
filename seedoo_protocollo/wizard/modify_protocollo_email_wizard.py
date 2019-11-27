@@ -103,6 +103,8 @@ class wizard(osv.TransientModel):
             sender_receiver_obj.write(cr, uid, [send_rec.sender_receiver_id.id], srvals)
 
         protocollo_obj.write(cr, uid, [context['active_id']], vals)
+        if protocollo.registration_date:
+            protocollo_obj.aggiorna_segnatura_xml(cr, uid, [protocollo.id], force=True, log=False, commit=False, context=context)
 
         action_class = "history_icon update"
         body = "<div class='%s'><ul>" % action_class

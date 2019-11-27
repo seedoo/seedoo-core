@@ -37,8 +37,10 @@ class SegnaturaXML:
         else:
             self.accountPecProtocollo = None
 
-        if protocollo.registration_employee_department_id.name is not False:
-            self.ufficioProtocollatore = protocollo.registration_employee_department_id.name
+        if protocollo.sender_internal_department:
+            self.ufficioProtocollatore = protocollo.sender_internal_department.name
+        elif protocollo.sender_internal_employee_department:
+            self.ufficioProtocollatore = protocollo.sender_internal_employee_department.name
         else:
             self.ufficioProtocollatore = None
 
@@ -60,8 +62,7 @@ class SegnaturaXML:
         if self.validateXml(root):
             return root
         else:
-            raise openerp.exceptions.Warning(
-                _('Errore nella validazione xml segnatura'))
+            raise openerp.exceptions.Warning(_('Errore nella validazione xml segnatura'))
 
     def validateXml(self, root):
         directory_path = os.path.dirname(
@@ -79,9 +80,14 @@ class SegnaturaXML:
         descrizione = etree.Element("Descrizione")
 
         protocollo_id = self.protocollo.id
-        attachments = self.irAttachmentObj.search(self.cr, self.uid, [
+        attachment_domain = [
             ('res_model', '=', 'protocollo.protocollo'),
-            ('res_id', '=', protocollo_id)])
+            ('res_id', '=', protocollo_id)
+        ]
+        # nei protocolli in uscita non deve essere inserito fra gli allegati la stessa segnatura.xml
+        if self.protocollo.type == 'out':
+            attachment_domain.append(('name', '!=', 'Segnatura.xml'))
+        attachments = self.irAttachmentObj.search(self.cr, self.uid, attachment_domain)
 
         docObj = self.protocollo.doc_id
         if docObj and hasattr(docObj, 'name'):
@@ -125,8 +131,7 @@ class SegnaturaXML:
     def createAllegati(self, attachments):
         allegati = etree.Element("Allegati")
         for attachment in attachments:
-            attachmentObj = self.irAttachmentObj.browse(self.cr, self.uid,
-                                                        attachment)
+            attachmentObj = self.irAttachmentObj.browse(self.cr, self.uid, attachment)
             if attachmentObj is not None and attachmentObj.is_main is False:
                 documento = self.createDocumentoFromIrAttachment(attachmentObj)
                 allegati.append(documento)
@@ -261,9 +266,7 @@ class SegnaturaXML:
 
     def createIdentificatore(self):
         identificatore = etree.Element("Identificatore")
-        # TODO Recuperare da qualche parte il codice amministrazione (codice
-        #  IPA??)
-        codiceAmministrazione = self.createCodiceAmministrazione()
+        codiceAmministrazione = self.createCodiceAmministrazione(self.company.ammi_code)
         codiceAOO = self.createCodiceAOO(self.codiceAOO)
         numeroRegistrazione = self.createNumeroRegistrazione(self.prot_number)
         dataRegistrazione = self.createDataRegistrazione(self.prot_date)
@@ -289,8 +292,6 @@ class SegnaturaXML:
         return codiceAOO
 
     def createCodiceAmministrazione(self, code=""):
-        # TODO Recuperare da qualche parte il codice amministrazione (codice
-        #  IPA??)
         codiceAmministrazione = etree.Element("CodiceAmministrazione")
         codiceAmministrazione.text = self.checkNullValue(code)
         return codiceAmministrazione
@@ -517,9 +518,7 @@ class SegnaturaXML:
     def createAmministrazioneOUT(self):
         amministrazione = etree.Element("Amministrazione")
         denominazione = self.createDenominazione(self.company.name)
-        # TODO Recuperare da qualche parte il codice amministrazione (codice
-        #  IPA??)
-        codiceAmministrazione = self.createCodiceAmministrazione()
+        codiceAmministrazione = self.createCodiceAmministrazione(self.company.ammi_code)
         unitaOrganizzativa = self.createUnitaOrganizzativaFromDepartment(self.ufficioProtocollatore, self.accountPecProtocollo)
 
         amministrazione.append(denominazione)

@@ -116,6 +116,9 @@ class protocollo_carica_allegati_step1_wizard(osv.TransientModel):
             context_caricamento['append'] = True
         protocollo_obj.carica_documenti_secondari(cr, uid, context['active_id'], file_data_list, context_caricamento)
 
+        if protocollo.registration_date:
+            protocollo_obj.aggiorna_segnatura_xml(cr, uid, [protocollo.id], force=True, log=False, commit=False, context=context)
+
         return {
                 'name': 'Protocollo',
                 'view_type': 'form',

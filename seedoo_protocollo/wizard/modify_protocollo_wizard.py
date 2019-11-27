@@ -234,6 +234,10 @@ class wizard(osv.TransientModel):
             vals['receiving_date'] = wizard.receiving_date
 
         protocollo_obj.write(cr, uid, [context['active_id']], vals, {'cause': wizard.cause})
+        if vals and \
+                ('subject' in vals or 'server_sharedmail_id' in vals or 'server_pec_id' in vals) and \
+                protocollo.registration_date:
+            protocollo_obj.aggiorna_segnatura_xml(cr, uid, [protocollo.id], force=True, log=False, commit=False, context=context)
 
         return {
             'name': 'Protocollo',

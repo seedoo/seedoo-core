@@ -372,6 +372,7 @@ this module contains the full copyright notices and license terms. -->
                             <field name="registration_employee_department_id_readonly" invisible="1"/>
                             <field name="mail_pec_ref"/>
                             <field name="typology_editability"/>
+                            <field name="xml_signature" invisible="1"/>
                         </div>
                         <!--<div id="stato-protocollo">-->
                             <!--<field name="state" invisible="1"/>-->
@@ -1227,12 +1228,12 @@ this module contains the full copyright notices and license terms. -->
             <field name="code">action = self.action_clona_protocollo(cr, uid, context.get('active_ids', []), context)</field>
         </record>
 
-       <record model="ir.values" id="ir_values_action_server_clona_protocollo">
-           <field name="key2" eval="'client_action_relate'"/>
-           <field name="model" eval="'protocollo.protocollo'"/>
-           <field name="name">Copia dati</field>
-           <field name="value" eval="'ir.actions.server,%d'%action_server_clona_protocollo"/>
-       </record>
+        <record model="ir.values" id="ir_values_action_server_clona_protocollo">
+            <field name="key2" eval="'client_action_relate'"/>
+            <field name="model" eval="'protocollo.protocollo'"/>
+            <field name="name">Copia dati</field>
+            <field name="value" eval="'ir.actions.server,%d'%action_server_clona_protocollo"/>
+        </record>
 
         <!-- Assegnatari Ufficio -->
         <!--

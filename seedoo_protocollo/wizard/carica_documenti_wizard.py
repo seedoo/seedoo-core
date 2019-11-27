@@ -125,6 +125,10 @@ class protocollo_carica_documenti_step1_wizard(osv.TransientModel):
 
             protocollo_obj.carica_documenti_secondari(cr, uid, context['active_id'], file_data_list)
 
+            protocollo = protocollo_obj.browse(cr, uid, context['active_id'], {'skip_check': True})
+            if protocollo.registration_date:
+                protocollo_obj.aggiorna_segnatura_xml(cr, uid, [protocollo.id], force=True, log=False, commit=False, context=context)
+
         return {
                 'name': 'Protocollo',
                 'view_type': 'form',
