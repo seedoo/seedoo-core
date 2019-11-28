@@ -287,11 +287,19 @@ this module contains the full copyright notices and license terms. -->
                             attrs="{'invisible':[('ripristina_da_protocollare_visibility','=',False)]}"
                             class="oe_highlight_warning btn_seedoo btn_ripristina_messaggio"/>
                 </xpath>
-                <xpath expr="//field[@name='author_id']" position="after">
-                    <field name="pec_state"/>
-                </xpath>
                 <xpath expr="//field[@name='date']" position="replace">
                     <field name="server_received_datetime" readonly="1"/>
+                </xpath>
+                <xpath expr="//field[@name='author_id']" position="after">
+                    <group colspan="2"/>
+                </xpath>
+                <xpath expr="//field[@name='pec_cc']" position="after">
+                    <field name="pec_state"/>
+                    <field name="pec_protocol_ref"
+                           attrs="{'invisible':['|',('pec_state','!=','protocol'),('pec_protocol_ref','=',False)]}"
+                           options="{'no_create': True, 'no_open': True}"
+                           readonly="1"
+                    />
                 </xpath>
             </field>
         </record>
@@ -353,11 +361,19 @@ this module contains the full copyright notices and license terms. -->
                             attrs="{'invisible':[('ripristina_da_protocollare_visibility','=',False)]}"
                             class="oe_highlight_warning btn_seedoo btn_ripristina_messaggio"/>
                 </xpath>
-                <xpath expr="//field[@name='author_id']" position="after">
-                    <field name="sharedmail_state"/>
-                </xpath>
                 <xpath expr="//field[@name='date']" position="replace">
                     <field name="server_received_datetime" readonly="1"/>
+                </xpath>
+                <xpath expr="//field[@name='author_id']" position="after">
+                    <group colspan="2"/>
+                </xpath>
+                <xpath expr="//field[@name='sharedmail_cc']" position="after">
+                    <field name="sharedmail_state"/>
+                    <field name="sharedmail_protocol_ref"
+                           attrs="{'invisible':['|',('sharedmail_state','!=','protocol'),('sharedmail_protocol_ref','=',False)]}"
+                           options="{'no_create': True, 'no_open': True}"
+                           readonly="1"
+                    />
                 </xpath>
             </field>
         </record>
