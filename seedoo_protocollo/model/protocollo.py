@@ -905,6 +905,7 @@ class protocollo_protocollo(orm.Model):
         return attachment_created_id
 
     def _update_protocol_attachments(self, cr, uid, prot):
+        errors = ''
         attachment_domain = [
             ('res_model', '=', 'protocollo.protocollo'),
             ('res_id', '=', prot.id),
@@ -919,15 +920,17 @@ class protocollo_protocollo(orm.Model):
         if configurazione.rinomina_documento_allegati:
             attachment_ids = attachment_obj.search(cr, uid, attachment_domain)
             if attachment_ids:
-                try:
-                    for attachment_id in attachment_ids:
-                        attachment = attachment_obj.browse(cr, uid, attachment_id)
+                for attachment_id in attachment_ids:
+                    attachment = attachment_obj.browse(cr, uid, attachment_id)
+                    try:
                         filename = self._get_name_documento_allegato(cr, uid, attachment.datas_fname, prot.name, 'Prot', False)
                         attachment_values = {'name': filename, 'datas_fname': filename}
                         attachment_obj.write(cr, uid, [attachment.id], attachment_values)
-                except Exception as e:
-                    _logger.error(e)
-                    raise openerp.exceptions.Warning(_('Errore nella ridenominazione degli allegati'))
+                    except Exception as e:
+                        _logger.error(e)
+                        error = "Errore nella ridenominazione dell'allegato: %s" % attachment.datas_fname
+                        errors = errors + "\n" + error if errors else error
+        return errors
 
     def _create_protocol_security_folder(self, cr, uid, prot, prot_number):
         group_reserved_id = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'seedoo_protocollo',
@@ -1088,7 +1091,7 @@ class protocollo_protocollo(orm.Model):
                         except Exception as e:
                             _logger.error(e)
                             err_segnatura = True
-                            res_segnatura = {"Segnatura": {"Res": False, "Msg": "Non è stato possibile generare la segnatura PDF"}}
+                            res_segnatura = {"Segnatura": {"Res": False, "Msg": "Errore nella segnatura PDF del documento"}}
 
                         fingerprint = self._create_protocol_document(cr, uid, prot, prot_number, prot_datas)
                         vals['fingerprint'] = fingerprint
@@ -1098,7 +1101,13 @@ class protocollo_protocollo(orm.Model):
                     vals['year'] = now.year
                     registration_time = datetime.datetime.now(dest_tz).strftime(DSDF)
                     self.write(cr, uid, [prot.id], vals, {'skip_check': True})
-                    self._update_protocol_attachments(cr, uid, prot)
+                    errors_update_attachments = self._update_protocol_attachments(cr, uid, prot)
+                    if errors_update_attachments:
+                        if not res_segnatura or res_segnatura["Segnatura"]["Res"]:
+                            res_segnatura = {"Segnatura": {"Res": False, "Msg": errors_update_attachments}}
+                        elif res_segnatura and not res_segnatura["Segnatura"]["Res"]:
+                            res_segnatura["Segnatura"]["Msg"] += "\n" + errors_update_attachments
+
                     self.aggiorna_segnatura_xml(cr, uid, [prot.id], force=True, log=False, commit=False, context=context)
 
                     action_class = "history_icon registration"
@@ -2148,7 +2157,7 @@ class protocollo_protocollo(orm.Model):
                     # self.write(cr, uid, [prot.id], vals)
                 except Exception as e:
                     _logger.error(e)
-                    raise openerp.exceptions.Warning(_("Errore nell'aggiunta del documento principale "))
+                    raise openerp.exceptions.Warning(_("Errore nell'aggiunta del documento principale"))
                 continue
 
             return True
