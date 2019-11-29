@@ -132,6 +132,23 @@ class protocollo_classification(osv.Model):
         classification_not_visible_ids = self._get_classification_not_visibile_ids(cr, uid)
         return [('id', 'not in', classification_not_visible_ids)]
 
+    def get_all_child_ids(self, cr, uid, classification_id):
+        child_ids = []
+        classification = self.browse(cr, uid, classification_id)
+        for child_id in classification.child_ids.ids:
+            child_ids.append(child_id)
+            child_ids = child_ids + self.get_all_child_ids(cr, uid, child_id)
+        return child_ids
+
+    def _is_visible_parent(self, cr, uid, ids, name, arg, context=None):
+        return {}
+
+    def _is_visible_parent_search(self, cr, uid, obj, name, args, domain=None, context=None):
+        classification_not_visible_ids = []
+        if context and 'id' in context and context['id']:
+            classification_not_visible_ids = [context['id']] + self.get_all_child_ids(cr, uid, context['id'])
+        return [('id', 'not in', classification_not_visible_ids)]
+
     _columns = {
         'name': fields.char(
             'Nome', size=256, required=True),
@@ -174,6 +191,7 @@ class protocollo_classification(osv.Model):
         'sequence': fields.integer('Ordine di visualizzazione', help="Sequence"),
         'active': fields.boolean('Attivo'),
         'is_visible': fields.function(_is_visible, fnct_search=_is_visible_search, type='boolean', string='Visibile'),
+        'is_visible_parent': fields.function(_is_visible_parent, fnct_search=_is_visible_parent_search, type='boolean', string='Padre Visibile'),
     }
 
     _defaults = {

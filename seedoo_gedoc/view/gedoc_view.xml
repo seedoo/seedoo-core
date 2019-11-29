@@ -36,14 +36,13 @@ this module contains the full copyright notices and license terms. -->
                             <field name="name"/>
                             <field name="code"/>
                             <field name="path_name"/>
-                            <field name="parent_id"/>
+                            <field name="parent_id" domain="[('is_visible_parent','=',True)]" context="{'id': id}"/>
                             <field name="description" colspan="4"/>
                             <field name="sequence"/>
                         </group>
                         <notebook>
                             <page string="Fascicoli">
-                                <field name="dossier_ids" nolabel="1"
-                                       colspan="4"/>
+                                <field name="dossier_ids" nolabel="1" colspan="4"/>
                             </page>
                         </notebook>
                     </sheet>
