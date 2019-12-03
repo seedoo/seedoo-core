@@ -333,9 +333,9 @@ class ProtocolloMailPecWizard(osv.TransientModel):
         protocollo_id = protocollo_obj.create(cr, uid, vals)
 
         if is_pec:
-            self.pool.get('mail.message').write(cr, SUPERUSER_ID, context['active_id'], {'pec_state': 'protocol', 'pec_protocol_ref': protocollo_id}, context=context)
+            self.pool.get('mail.message').write(cr, SUPERUSER_ID, context['active_id'], {'pec_protocol_ref': protocollo_id}, context=context)
         else:
-            self.pool.get('mail.message').write(cr, SUPERUSER_ID, context['active_id'], {'sharedmail_state': 'protocol', 'sharedmail_protocol_ref': protocollo_id}, context=context)
+            self.pool.get('mail.message').write(cr, SUPERUSER_ID, context['active_id'], {'sharedmail_protocol_ref': protocollo_id}, context=context)
 
         action_class = "history_icon print"
         post_vars = {'subject': "Creata Bozza Protocollo",

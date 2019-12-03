@@ -4,7 +4,7 @@ this module contains the full copyright notices and license terms. -->
 
 <openerp>
     <data>
-        <record model='ir.ui.view' id='protocollo_sharedmail_form'>
+        <record id="protocollo_sharedmail_form" model="ir.ui.view">
             <field name="name">protocollo.sharedmail.form</field>
             <field name="model">mail.message</field>
             <field name="priority">100</field>
@@ -13,20 +13,23 @@ this module contains the full copyright notices and license terms. -->
                 <form string="E-mail da Protocollare" version="7.0" create="false" edit="false" delete="false">
                     <header>
                         <button name="%(create_protocollo_mailpec_action)d"
-                                type="action" string="Crea Bozza Protocollo"
+                                type="action"
+                                string="Crea Bozza Protocollo"
+                                attrs="{'invisible':[('crea_bozza_da_email_visibility','=',False)]}"
+                                class="oe_highlight_positive"
                                 context="{'attachment_ids':attachment_ids,'message_type':'mail'}"
-                                attrs="{'invisible':['|',('sharedmail_state','!=','new'),('sharedmail_type','!=','sharedmail')]}"
-                                groups="seedoo_protocollo.group_crea_protocollo_da_email_ingresso"
-                                class="oe_highlight_positive"/>
-                        <button name="%(confirm_operation_action)d" type="action"
+                        />
+                        <button name="%(confirm_operation_action)d"
+                                type="action"
                                 string="Non protocollare"
-                                attrs="{'invisible':['|',('sharedmail_state','!=','new'),('sharedmail_type','!=','sharedmail')]}"
-                                groups="seedoo_protocollo.group_crea_protocollo_da_email_ingresso"
+                                attrs="{'invisible':[('crea_bozza_da_email_visibility','=',False)]}"
                                 class="oe_highlight_warning"
-                                context="{'action_not_protocol_sharedmail': True}"/>
+                                context="{'action_not_protocol_sharedmail': True}"
+                        />
 
                         <field name="sharedmail_state" widget="statusbar" invisible="1"/>
                         <field name="sharedmail_type" invisible="1"/>
+                        <field name="crea_bozza_da_email_visibility" invisible="1"/>
                     </header>
                     <sheet>
                         <group class="message_data" col="4">
@@ -80,7 +83,14 @@ this module contains the full copyright notices and license terms. -->
             <field name="res_model">mail.message</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
-            <field name="domain">[('server_sharedmail_id.sharedmail','=',True),('sharedmail_type','=','sharedmail'),('server_sharedmail_id.user_sharedmail_ids','in',uid),('sharedmail_state','=','new')]</field>
+            <field name="domain">[
+                ('server_sharedmail_id.sharedmail','=',True),
+                ('sharedmail_type','=','sharedmail'),
+                ('server_sharedmail_id.user_sharedmail_ids','in',uid),
+                ('sharedmail_state','=','new'),
+                ('sharedmail_protocol_ref','=',False)
+            ]
+            </field>
             <field name="context">{'sharedmail_messages': True, 'count': True}</field>
             <field name="search_view_id" ref="sharedmail.sharedmail_message_search_view"/>
         </record>

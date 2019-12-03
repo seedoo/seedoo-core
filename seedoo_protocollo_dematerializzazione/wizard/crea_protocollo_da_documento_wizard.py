@@ -98,10 +98,7 @@ class CreaProtocolloDaDocumentoWizard(osv.TransientModel):
         thread_pool = self.pool.get('protocollo.protocollo')
         thread_pool.message_post(cr, uid, protocollo_id, type="notification", context=context, **post_vars)
 
-        self.pool.get('gedoc.document').write(cr, uid, [context.get('active_id')], {
-                                                                                        'protocollo_id': protocollo_id,
-                                                                                        'doc_protocol_state': 'protocol'
-                                                                                    })
+        self.pool.get('gedoc.document').write(cr, uid, [context.get('active_id')], {'protocollo_id': protocollo_id})
 
         obj_model = self.pool.get('ir.model.data')
         model_data_ids = obj_model.search(cr, uid, [('model', '=', 'ir.ui.view'), ('name', '=', 'protocollo_protocollo_form')])

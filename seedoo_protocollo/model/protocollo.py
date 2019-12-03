@@ -1078,6 +1078,23 @@ class protocollo_protocollo(orm.Model):
                     vals['name'] = prot_number
                     vals['registration_date'] = prot_date
 
+                    # controlla che non ci siano email/pec in stato bozza collegate al protocollo
+                    mail_pec_ref = prot.mail_pec_ref
+                    if mail_pec_ref and mail_pec_ref.message_direction=='in':
+                        # se ne trova modifica lo stato in protocollato
+                        message_obj = self.pool.get('mail.message')
+                        if mail_pec_ref.pec_state=='new':
+                            message_obj.write(cr, SUPERUSER_ID, [mail_pec_ref.id], {'pec_state': 'protocol'})
+                        elif mail_pec_ref.sharedmail_state=='new':
+                            message_obj.write(cr, SUPERUSER_ID, [mail_pec_ref.id], {'sharedmail_state': 'protocol'})
+
+                    # controlla che non ci siano documenti in stato bozza collegate al protocollo
+                    doc_imported = prot.doc_imported_ref
+                    if doc_imported and doc_imported.doc_protocol_state=='new':
+                        # se ne trova modifica lo stato in protocollato
+                        document_obj = self.pool.get('gedoc.document')
+                        document_obj.write(cr, uid, [doc_imported.id], {'doc_protocol_state': 'protocol'})
+
                     if prot.doc_id:
                         prot_datas = prot.doc_id.datas
                         try:
@@ -1810,6 +1827,19 @@ class protocollo_protocollo(orm.Model):
     #             return True
     #     return False
 
+    def elimina_bozza(self, cr, uid, ids, context={}):
+        try:
+            new_context = context.copy()
+            new_context['skip_check'] = True
+            protocollo = self.browse(cr, uid, ids, new_context)
+            if protocollo.elimina_visibility:
+                self.unlink(cr, SUPERUSER_ID, ids)
+            else:
+                raise orm.except_orm(_('Azione Non Valida!'), _('Non è più possibile eliminare la bozza del protocollo'))
+        except Exception as e:
+            raise orm.except_orm(_('Azione Non Valida!'), _('Si è verificato un errore durante l\'eliminazione della bozza'))
+        return True
+
     def prendi_in_carico(self, cr, uid, ids, context={}):
         try:
             new_context = context.copy()
@@ -1963,6 +1993,8 @@ class protocollo_protocollo(orm.Model):
         new_context['skip_check'] = True
         vals = self._verifica_dati_sender_receiver(cr, uid, vals, new_context)
         protocollo_id = super(protocollo_protocollo, self).create(cr, uid, vals, context=new_context)
+        if protocollo_id and not 'name' in vals:
+            super(protocollo_protocollo, self).write(cr, uid, [protocollo_id], {'name': 'bozza ' + str(protocollo_id)})
         return protocollo_id
 
     def write(self, cr, uid, ids, vals, context=None):

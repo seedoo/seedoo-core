@@ -9,6 +9,42 @@ from openerp import SUPERUSER_ID
 class MailMessage(osv.Model):
     _inherit = 'mail.message'
 
+    def _crea_bozza_da_pec_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
+        res = []
+
+        for message in self.browse(cr, uid, ids, {'skip_check': True}):
+            check = False
+            protocollo = message.pec_protocol_ref
+
+            if message.pec_type == 'posta-certificata' and message.pec_state == 'new' and not protocollo:
+                check = True
+
+            if check:
+                check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_crea_protocollo_da_pec_ingresso')
+                check = check and check_gruppi
+
+            res.append((message.id, check))
+
+        return dict(res)
+
+    def _crea_bozza_da_email_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
+        res = []
+
+        for message in self.browse(cr, uid, ids, {'skip_check': True}):
+            check = False
+            protocollo = message.sharedmail_protocol_ref
+
+            if message.sharedmail_type == 'sharedmail' and message.sharedmail_state == 'new' and not protocollo:
+                check = True
+
+            if check:
+                check_gruppi = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_crea_protocollo_da_email_ingresso')
+                check = check and check_gruppi
+
+            res.append((message.id, check))
+
+        return dict(res)
+
     def _ripristina_per_protocollazione_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
         protocollo_obj = self.pool.get('protocollo.protocollo')
@@ -48,6 +84,8 @@ class MailMessage(osv.Model):
         return dict(res)
 
     _columns = {
+        'crea_bozza_da_pec_visibility': fields.function(_crea_bozza_da_pec_visibility, type='boolean', string='Crea bozza da PEC'),
+        'crea_bozza_da_email_visibility': fields.function(_crea_bozza_da_email_visibility, type='boolean', string='Crea bozza da email'),
         'ripristina_per_protocollazione_visibility': fields.function(_ripristina_per_protocollazione_visibility, type='boolean', string='Ripristina per protocollazione'),
         'ripristina_da_protocollare_visibility': fields.function(_ripristina_da_protocollare_visibility, type='boolean', string='Ripristina da protocollare')
     }

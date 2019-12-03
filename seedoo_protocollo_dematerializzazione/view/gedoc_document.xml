@@ -76,7 +76,7 @@ this module contains the full copyright notices and license terms. -->
                         />
                         <button name="%(seedoo_protocollo.confirm_operation_action)d" type="action"
                                 string="Non protocollare"
-                                attrs="{'invisible': [('doc_protocol_state','!=','new')]}"
+                                attrs="{'invisible': ['|',('protocollo_id','!=',False),('doc_protocol_state','!=','new')]}"
                                 class="oe_highlight_warning"
                                 context="{'action_not_protocol_document': True}"/>
                     </header>
