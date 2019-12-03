@@ -305,7 +305,7 @@ this module contains the full copyright notices and license terms. -->
                 </xpath>
                 <xpath expr="//field[@name='email_from']" position="after">
                     <field name="pec_protocol_ref"
-                           attrs="{'invisible':['|',('pec_state','!=','protocol'),('pec_protocol_ref','=',False)]}"
+                           attrs="{'invisible':[('pec_protocol_ref','=',False)]}"
                            readonly="1"
                     />
                 </xpath>
@@ -377,7 +377,7 @@ this module contains the full copyright notices and license terms. -->
                 </xpath>
                 <xpath expr="//field[@name='email_from']" position="after">
                     <field name="sharedmail_protocol_ref"
-                           attrs="{'invisible':['|',('sharedmail_state','!=','protocol'),('sharedmail_protocol_ref','=',False)]}"
+                           attrs="{'invisible':[('sharedmail_protocol_ref','=',False)]}"
                            readonly="1"
                     />
                 </xpath>
