@@ -40,7 +40,12 @@ class protocollo_assegnatario(osv.osv):
 
     def _get_assegnatario_not_visibile_ids(self, cr, uid):
         assegnatario_not_visible_ids = []
-        assegnatario_not_active_ids = self.search(cr, uid, ['|',('active', '=', False),'&',('tipologia', '=', 'department'),('aoo_id', '=', False)])
+        assegnatario_not_active_ids = self.search(cr, uid, [
+            '|', '|',
+            ('active', '=', False),
+            '&', ('tipologia', '=', 'employee'), ('parent_id', '=', False),
+            '&', ('tipologia', '=', 'department'), ('aoo_id', '=', False)
+        ])
         for assegnatario_not_active_id in assegnatario_not_active_ids:
             if not (assegnatario_not_active_id in assegnatario_not_visible_ids):
                 assegnatario_not_visible_ids.append(assegnatario_not_active_id)
