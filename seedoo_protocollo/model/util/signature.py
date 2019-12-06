@@ -30,35 +30,63 @@ class Signature(orm.Model):
     _name = 'protocollo.signature'
 
     def sign_doc(self, cr, uid, prot, prot_number, prot_date, document, attachment_index=False):
-        pd = prot_date.split(' ')[0]
-        prot_date = datetime.datetime.strptime(pd, DSDT)
+        signature_string = "%s%s - %s%s - %s - Prot. n. %s del %s%s" % (
+            self._get_ammi_code(cr, uid, prot),
+            self._get_aoo_code(cr, uid, prot),
+            self._get_registry_code(cr, uid, prot),
+            self._get_department_code(cr, uid, prot),
+            self._get_protocollo_type(cr, uid, prot),
+            self._get_protocollo_number(cr, uid, prot, prot_number),
+            self._get_protocollo_date(cr, uid, prot, prot_date),
+            self._get_attachment_name(cr, uid, prot, attachment_index)
+        )
+        return self._sign_doc(cr, uid, prot, prot_number, prot_date, signature_string, document)
 
-        prot_dir = ''
+
+    def _get_ammi_code(self, cr, uid, prot):
+        return prot.registry.company_id.ammi_code + " - " if prot.registry.company_id.ammi_code else ""
+
+
+    def _get_aoo_code(self, cr, uid, prot):
+        return prot.aoo_id.ident_code
+
+
+    def _get_registry_code(self, cr, uid, prot):
+        return prot.registry.code
+
+
+    def _get_department_code(self, cr, uid, prot):
+        return ''
+
+
+    def _get_protocollo_type(self, cr, uid, prot):
+        protocollo_type = ''
         for selection_tuple_value in self.pool.get('protocollo.protocollo')._fields['type'].selection:
             if prot.type == selection_tuple_value[0]:
-                prot_dir = selection_tuple_value[1].upper()
+                protocollo_type = selection_tuple_value[1].upper()
                 break
-
-        ammi_code = prot.registry.company_id.ammi_code + " - " if prot.registry.company_id.ammi_code else ""
-        attachment_name = " - All. " + str(attachment_index) if attachment_index else ""
-        prot_def = "%s%s - %s - %s - Prot. n. %s del %s%s" % (
-            ammi_code,
-            prot.aoo_id.ident_code,
-            prot.registry.code,
-            prot_dir,
-            prot_number,
-            prot_date.strftime("%d-%m-%Y"),
-            attachment_name
-        )
-
-        return self._sign_doc(cr, uid, prot, prot_number, prot_date, prot_def, document)
+        return protocollo_type
 
 
-    def _sign_doc(self, cr, uid, prot, prot_number, prot_date, prot_def, document, all_pages=False):
-        return self._sign_doc_old(cr, uid, prot, prot_number, prot_date, prot_def, document, all_pages)
+    def _get_protocollo_number(self, cr, uid, prot, prot_number):
+        return prot_number
 
 
-    def _sign_doc_old(self, cr, uid, prot, prot_number, prot_date, prot_def, document, all_pages):
+    def _get_protocollo_date(self, cr, uid, prot, prot_date):
+        pd = prot_date.split(' ')[0]
+        prot_date = datetime.datetime.strptime(pd, DSDT)
+        return prot_date.strftime('%d-%m-%Y')
+
+
+    def _get_attachment_name(self, cr, uid, prot, attachment_index):
+        return " - All. " + str(attachment_index) if attachment_index else ""
+
+
+    def _sign_doc(self, cr, uid, prot, prot_number, prot_date, signature_string, document, all_pages=False):
+        return self._sign_doc_old(cr, uid, prot, prot_number, prot_date, signature_string, document, all_pages)
+
+
+    def _sign_doc_old(self, cr, uid, prot, prot_number, prot_date, signature_string, document, all_pages):
         attachment_obj = self.pool.get('ir.attachment')
         file_path_orig = attachment_obj._full_path(cr, uid, document.store_fname)
         file_path = file_path_orig + '_' + prot_number
@@ -82,7 +110,7 @@ class Signature(orm.Model):
             "-jar",
             signature_cmd,
             file_path,
-            prot_def
+            signature_string
         ]
 
         try:
@@ -123,7 +151,7 @@ class Signature(orm.Model):
         return signed_file_datas
 
 
-    def _sign_doc_new(self, cr, uid, prot, prot_number, prot_date, prot_def, document, all_pages):
+    def _sign_doc_new(self, cr, uid, prot, prot_number, prot_date, signature_string, document, all_pages):
         attachment_obj = self.pool.get('ir.attachment')
         file_path_input = attachment_obj._full_path(cr, uid, document.store_fname)
         file_path_output = file_path_input + '_' + prot_number
@@ -143,7 +171,7 @@ class Signature(orm.Model):
             "--input", file_path_input,
             "--output", file_path_output,
             signature_mode,
-            prot_def
+            signature_string
         ]
 
         returncode = subprocess.call(cmd)
