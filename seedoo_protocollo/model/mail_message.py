@@ -65,7 +65,7 @@ class MailMessage(orm.Model):
         return res
 
     _columns = {
-        'pec_protocol_ref': fields.many2one('protocollo.protocollo', 'Protocollo'),
+        'pec_protocol_ref': fields.many2one('protocollo.protocollo', 'Protocollo (PEC)'),
         'pec_state': fields.selection([
             ('new', 'Da protocollare'),
             ('protocol', 'Protocollato'),
@@ -77,14 +77,12 @@ class MailMessage(orm.Model):
                                         obj='ir.attachment', string='Messaggio'),
         'eml_fname': fields.related('eml', 'datas_fname', type='char', readonly=True),
         'eml_content': fields.related('eml', 'datas', type='binary', string='Messaggio completo', readonly=True),
-        'pec_server_user': fields.related('server_id', 'user', type='char', readonly=True, string='Account'),
-        'sharedmail_protocol_ref': fields.many2one('protocollo.protocollo', 'Protocollo'),
+        'sharedmail_protocol_ref': fields.many2one('protocollo.protocollo', 'Protocollo (SharedMail)'),
         'sharedmail_state': fields.selection([
             ('new', 'Da protocollare'),
             ('protocol', 'Protocollato'),
             ('not_protocol', 'Non protocollato')
         ], 'Stato E-mail', readonly=True),
-        'sharedmail_server_user': fields.related('server_sharedmail_id', 'user', type='char', readonly=True, string='Account'),
         'recovered_message_parent': fields.many2one('mail.message', 'Messaggio originale ripristino per protocollazione', readonly=True),
         'message_to': fields.function(_get_message_to, type='char', string='To', store=False),
         'message_direction': fields.function(_get_message_direction, type='char', string='To', store=False),

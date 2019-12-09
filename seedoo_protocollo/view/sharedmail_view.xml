@@ -33,13 +33,13 @@ this module contains the full copyright notices and license terms. -->
                     </header>
                     <sheet>
                         <group class="message_data" col="4">
-                            <field name="sharedmail_server_user" attrs="{'invisible':[('sharedmail_type','!=','sharedmail')]}" string="Account" colspan="4"/>
+                            <field name="server_sharedmail_user" attrs="{'invisible':[('sharedmail_type','!=','sharedmail')]}" string="Account" colspan="4"/>
                             <separator string="" colspan="4"/>
                             <field name="email_from" attrs="{'invisible':[('sharedmail_type','!=','sharedmail')]}"/>
                             <field name="server_received_datetime"/>
-                            <field name="sharedmail_to" attrs="{'invisible':[('sharedmail_type','!=','sharedmail')]}" colspan="4"/>
+                            <field name="sharedmail_to" string="A" attrs="{'invisible':[('sharedmail_type','!=','sharedmail')]}" colspan="4"/>
                             <newline/>
-                            <field name="sharedmail_cc" attrs="{'invisible':[('sharedmail_type','!=','sharedmail')]}" colspan="4"/>
+                            <field name="sharedmail_cc" string="CC" attrs="{'invisible':[('sharedmail_type','!=','sharedmail')]}" colspan="4"/>
                             <separator string="" colspan="4"/>
                             <field name="subject" string="Oggetto" colspan="4"/>
                             <separator string="" colspan="4"/>
@@ -72,7 +72,7 @@ this module contains the full copyright notices and license terms. -->
                     <field name="email_from" string="Mittente"/>
                     <field name="subject"/>
                     <field name="server_received_datetime"/>
-                    <field name="sharedmail_server_user" string="Account"/>
+                    <field name="server_sharedmail_user" string="Account"/>
                 </tree>
             </field>
         </record>

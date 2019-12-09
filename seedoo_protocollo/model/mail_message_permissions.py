@@ -89,3 +89,20 @@ class MailMessage(osv.Model):
         'ripristina_per_protocollazione_visibility': fields.function(_ripristina_per_protocollazione_visibility, type='boolean', string='Ripristina per protocollazione'),
         'ripristina_da_protocollare_visibility': fields.function(_ripristina_da_protocollare_visibility, type='boolean', string='Ripristina da protocollare')
     }
+
+    def fields_get(self, cr, uid, fields=None, context=None):
+        # lista dei campi da nascondere nella ricerca avanzata
+        fields_to_hide = [
+            'main_msg_progress_message_ids',
+            'main_msg_delivery_message_ids',
+            'main_msg_delivery_err_message_ids',
+            'main_msg_notice_delivery_err_message_ids',
+            'main_msg_reception_message_ids',
+            'main_msg_no_reception_message_ids',
+            'main_msg_virus_message_ids'
+        ]
+        res = super(MailMessage, self).fields_get(cr, uid, fields, context)
+        for field in fields_to_hide:
+            if field in res:
+                res[field]['selectable'] = False
+        return res

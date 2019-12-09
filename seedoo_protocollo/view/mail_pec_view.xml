@@ -49,8 +49,8 @@ this module contains the full copyright notices and license terms. -->
                             <field name="pec_notifications_ids">
                                 <tree>
                                     <field name="pec_type" string="Tipo"/>
-                                    <field name="cert_datetime" string="Data Ricevuta "/>
-                                    <field name="pec_server_user"/>
+                                    <field name="cert_datetime" string="Data Ricevuta"/>
+                                    <field name="pec_server_user" string="Account"/>
                                 </tree>
                             </field>
                         </page>
@@ -134,8 +134,8 @@ this module contains the full copyright notices and license terms. -->
                             <separator string="" colspan="4"/>
                             <field name="email_from" attrs="{'invisible':[('pec_type','!=','posta-certificata')]}"/>
                             <field name="server_received_datetime"/>
-                            <field name="pec_to" readonly="1" colspan="4"/>
-                            <field name="pec_cc" readonly="1" colspan="4"/>
+                            <field name="pec_to" string="A" readonly="1" colspan="4"/>
+                            <field name="pec_cc" string="CC" readonly="1" colspan="4"/>
                             <separator string="" colspan="4"/>
                             <field name="subject" string="Oggetto" colspan="4"/>
                             <separator string="" colspan="4"/>
@@ -305,6 +305,7 @@ this module contains the full copyright notices and license terms. -->
                 </xpath>
                 <xpath expr="//field[@name='email_from']" position="after">
                     <field name="pec_protocol_ref"
+                           string="Protocollo"
                            attrs="{'invisible':[('pec_protocol_ref','=',False)]}"
                            readonly="1"
                     />
@@ -377,6 +378,7 @@ this module contains the full copyright notices and license terms. -->
                 </xpath>
                 <xpath expr="//field[@name='email_from']" position="after">
                     <field name="sharedmail_protocol_ref"
+                           string="Protocollo"
                            attrs="{'invisible':[('sharedmail_protocol_ref','=',False)]}"
                            readonly="1"
                     />
