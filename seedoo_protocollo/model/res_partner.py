@@ -150,11 +150,13 @@ class res_partner(orm.Model):
     def check_field_in_write(self, cr, uid, ids, vals):
         errors = ''
         if vals.has_key('pec_mail') and vals['pec_mail']:
-            pec_mail_error = self.check_email_field(cr, uid, [('pec_mail', '=ilike', vals['pec_mail'])], 'Mail PEC', vals['pec_mail'], False)
+            pec_mail_domain = [('id', 'not in', ids), ('pec_mail', '=ilike', vals['pec_mail'])]
+            pec_mail_error = self.check_email_field(cr, uid, pec_mail_domain, 'Mail PEC', vals['pec_mail'], False)
             if pec_mail_error:
                 errors = errors + '\n' + pec_mail_error
         if vals.has_key('email') and vals['email']:
-            email_error = self.check_email_field(cr, uid, [('email', '=ilike', vals['email'])], 'Mail', vals['email'], False)
+            email_domain = [('id', 'not in', ids), ('email', '=ilike', vals['email'])]
+            email_error = self.check_email_field(cr, uid, email_domain, 'Mail', vals['email'], False)
             if email_error:
                 errors = errors + '\n' + email_error
         self.dispatch_email_error(errors)
