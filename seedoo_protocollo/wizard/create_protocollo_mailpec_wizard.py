@@ -424,7 +424,7 @@ class ProtocolloMailPecWizard(osv.TransientModel):
         srvals_protocollo = {}
 
         for attach in mail_message.attachment_ids:
-            if attach.name.lower() == 'segnatura.xml':
+            if attach.name.lower() == 'segnatura.xml' and attach.datas:
                 attach_path = self.pool.get('ir.attachment')._full_path(cr, uid, attach.store_fname)
                 xml = open(attach_path, "rb").read()
                 content_encode = xml.decode("latin").encode("utf8")
