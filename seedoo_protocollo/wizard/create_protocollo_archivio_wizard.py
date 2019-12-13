@@ -108,7 +108,7 @@ class protocollo_archivio_wizard(osv.TransientModel):
         archivio_corrente = protocollo_archivio_obj._get_archivio_ids(cr, uid, True)
         start_protocol_ids = protocollo_obj.search(cr, uid, [
             ('aoo_id', '=', aoo_id),
-            ('state', 'in', ['registered', 'notified', 'sent', 'waiting', 'error', 'canceled', 'acts']),
+            ('state', 'in', ['registered', 'notified', 'sent', 'waiting', 'error', 'canceled']),
             ('archivio_id', '=', archivio_corrente)
         ], order=ord, limit=1)
         if len(start_protocol_ids) > 0:
@@ -148,7 +148,7 @@ class protocollo_archivio_wizard(osv.TransientModel):
 
                 protocollo_ids = protocollo_obj.search(cr, uid, [
                     ('aoo_id', '=', wizard.aoo_id.id),
-                    ('state', 'in', ['registered', 'notified', 'sent', 'waiting', 'error', 'canceled', 'acts']),
+                    ('state', 'in', ['registered', 'notified', 'sent', 'waiting', 'error', 'canceled']),
                     ('registration_date', '>', wizard.date_start),
                     ('registration_date', '<', wizard.date_end),
                     ('archivio_id', '=', archivio_corrente)
@@ -165,7 +165,7 @@ class protocollo_archivio_wizard(osv.TransientModel):
                                 FROM protocollo_protocollo pp
                                 WHERE 
                                     pp.aoo_id = %s AND 
-                                    pp.state IN ('registered', 'notified', 'sent', 'waiting', 'error', 'canceled', 'acts') AND
+                                    pp.state IN ('registered', 'notified', 'sent', 'waiting', 'error', 'canceled') AND
                                     pp.archivio_id IN (''' + archivio_ids_str + ''') AND
                                     (
                                         (pp.year=%s AND pp.name >= %s) OR pp.year > %s) 
