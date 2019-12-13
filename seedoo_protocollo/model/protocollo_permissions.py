@@ -425,6 +425,7 @@ class protocollo_protocollo(osv.Model):
             protocollo_visible_ids = list(set(protocollo_visible_ids))
 
         _logger.info("--- %s start ---" % (start_time))
+        _logger.info("--- TEMPO ALGORTIMO: %s SECONDI ---" % (time.time() - start_time))
         _logger.info("--- %s len ---" % (len(protocollo_visible_ids)))
 
         return protocollo_visible_ids

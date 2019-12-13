@@ -112,6 +112,7 @@ this module contains the full copyright notices and license terms. -->
                 (4, ref('seedoo_protocollo.group_modifica_fascicolazione_protocollo_ingresso')),
                 (4, ref('seedoo_protocollo.group_prendi_in_carico_protocollo_ingresso')),
                 (4, ref('seedoo_protocollo.group_rifiuta_protocollo_ingresso')),
+                (4, ref('seedoo_protocollo.group_segna_come_letto_protocollo_ingresso')),
                 (4, ref('seedoo_protocollo.group_agli_atti_protocollo_ingresso')),
                 (4, ref('seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ufficio')),
                 (4, ref('seedoo_protocollo.group_vedi_protocolli_ingresso_registrati_ass_ut_uff')),
