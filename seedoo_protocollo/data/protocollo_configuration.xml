@@ -50,28 +50,28 @@
             <field name="email_to">${object.assegnatario_employee_id.user_id.partner_id.email|safe}</field>
             <field name="subject"><![CDATA[Assegnazione Documento Prot. ${object.protocollo_id.name} del ${format_tz(object.protocollo_id.registration_date, tz=user.tz, format='%d/%m/%Y %H:%M:%S')}]]></field>
             <field name="body_html"><![CDATA[
-                                        <div style="padding:0px;width:600px;margin:auto;background: #FFFFFF repeat top /100%;color:#777777">
+                                        <div style="padding:0px;width:600px;margin:auto;background: #FFFFFF repeat top 100%;color:#777777">
                                             <table cellspacing="0" cellpadding="0" style="width:600px;background:inherit;color:inherit">
                                         <tbody><tr>
                                             <td valign="center" width="200" style="padding:10px 10px 10px 5px;font-size: 12px">
-                                            <img src="/logo.png" style="padding: 0px; margin: 0px; height: auto; width: 80px;" alt="Seedoo | ${user.company_id.name}">
+                                            <img src="/logo.png" style="padding: 0px; margin: 0px; height: auto; width: 80px;" alt="${(user.company_id.email or 'Seedoo')|safe}">
                                             </td>
                                         </tr></tbody>
                                             </table>
                                         </div>
-                                        <div style="padding:0px;width:600px;margin:auto;background: #FFFFFF repeat top /100%;color:#777777">
-                                            <p>Gentile ${object.assegnatario_employee_id.user_id.partner_id.name,</p>
+                                        <div style="padding:0px;width:600px;margin:auto;background: #FFFFFF repeat top 100%;color:#777777">
+                                            <p>Gentile ${object.assegnatario_employee_id.user_id.partner_id.name},</p>
                                             <p> il documento prot. ${object.protocollo_id.name} del ${format_tz(object.protocollo_id.registration_date, tz=user.tz, format='%d/%m/%Y %H:%M:%S')}</p>
                                             <p> è stato assegnato per ${object.tipologia_assegnazione} ${object.parent_id and 'al tuo ufficio. ' or ''}</p>
                                             <p> Per accettare al sistema di Protocollazione e Gestione Documentale Seedoo clicca sul link seguente: </p>
                                                 <div style="text-align: center; margin-top: 16px;">
-                                                    <a href="${object.signup_url}" style="padding: 5px 10px; font-size: 12px; line-height: 18px; color: #FFFFFF; border-color:#875A7B; text-decoration: none; display: inline-block; margin-bottom: 0px; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none; background-color: #649940; border: 1px solid #649940; border-radius:3px" data-original-title="" title="" aria-describedby="tooltip853980">Vedi il documento su Seedoo</a>
+                                                    <a href="${user.signup_url}" style="padding: 5px 10px; font-size: 12px; line-height: 18px; color: #FFFFFF; border-color:#875A7B; text-decoration: none; display: inline-block; margin-bottom: 0px; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none; background-color: #649940; border: 1px solid #649940; border-radius:3px" data-original-title="" title="" aria-describedby="tooltip853980">Vedi il documento su Seedoo</a>
                                                 </div>
                                                 <p></p>
-                                                <p>${object.company_id.name}</p>
+                                                <p>${user.company_id.name}</p>
                                                 <p>${object.assegnatore_id.user_id.partner_id.name|safe}</p>
                                         </div>
-                                        <div style="padding:0px;width:600px;margin:auto; margin-top: 10px; background: #fff repeat top /100%;color:#777777">
+                                        <div style="padding:0px;width:600px;margin:auto; margin-top: 10px; background: #fff repeat top 100%;color:#777777">
                                         </div>]]></field>
         </record>
         <record id="notify_reserved_protocol" model="email.template">
