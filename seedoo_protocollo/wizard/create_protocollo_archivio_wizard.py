@@ -108,7 +108,7 @@ class protocollo_archivio_wizard(osv.TransientModel):
         archivio_corrente = protocollo_archivio_obj._get_archivio_ids(cr, uid, True)
         start_protocol_ids = protocollo_obj.search(cr, uid, [
             ('aoo_id', '=', aoo_id),
-            ('state', 'in', ['registered', 'notified', 'sent', 'waiting', 'error', 'canceled']),
+            ('state', 'in', ['registered', 'notified', 'sent', 'waiting', 'error', 'canceled', 'acts']),
             ('archivio_id', '=', archivio_corrente)
         ], order=ord, limit=1)
         if len(start_protocol_ids) > 0:
@@ -148,14 +148,14 @@ class protocollo_archivio_wizard(osv.TransientModel):
 
                 protocollo_ids = protocollo_obj.search(cr, uid, [
                     ('aoo_id', '=', wizard.aoo_id.id),
-                    ('state', 'in', ['registered', 'notified', 'sent', 'waiting', 'error', 'canceled']),
+                    ('state', 'in', ['registered', 'notified', 'sent', 'waiting', 'error', 'canceled', 'acts']),
                     ('registration_date', '>', wizard.date_start),
                     ('registration_date', '<', wizard.date_end),
                     ('archivio_id', '=', archivio_corrente)
                 ])
             elif wizard.interval_type == 'number':
                 protocol_start_ids = protocollo_obj.search(cr, uid, [('aoo_id', '=', wizard.aoo_id.id), ('name', '=', wizard.protocol_start)])
-                protocol_end_ids = protocollo_obj.search(cr, uid, [('aoo_id', '=', wizard.aoo_id.id), ('name', '=', wizard.protocol_start)])
+                protocol_end_ids = protocollo_obj.search(cr, uid, [('aoo_id', '=', wizard.aoo_id.id), ('name', '=', wizard.protocol_end)])
 
                 if len(protocol_start_ids) != 1 or len(protocol_end_ids) != 1:
                     raise orm.except_orm(_("Avviso"), _("Il numero dell'ultimo protocollo deve essere successivo a quello di inizio"))
@@ -165,7 +165,7 @@ class protocollo_archivio_wizard(osv.TransientModel):
                                 FROM protocollo_protocollo pp
                                 WHERE 
                                     pp.aoo_id = %s AND 
-                                    pp.state IN ('registered', 'notified', 'sent', 'waiting', 'error', 'canceled') AND
+                                    pp.state IN ('registered', 'notified', 'sent', 'waiting', 'error', 'canceled', 'acts') AND
                                     pp.archivio_id IN (''' + archivio_ids_str + ''') AND
                                     (
                                         (pp.year=%s AND pp.name >= %s) OR pp.year > %s) 

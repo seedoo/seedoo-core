@@ -60,7 +60,7 @@
                                             </table>
                                         </div>
                                         <div style="padding:0px;width:600px;margin:auto;background: #FFFFFF repeat top 100%;color:#777777">
-                                            <p>Gentile ${object.assegnatario_employee_id.user_id.partner_id.name},</p>
+                                            <p>Gentile ${object.assegnatario_employee_id.name_related},</p>
                                             <p> il documento prot. ${object.protocollo_id.name} del ${format_tz(object.protocollo_id.registration_date, tz=user.tz, format='%d/%m/%Y %H:%M:%S')}</p>
                                             <p> è stato assegnato per ${object.tipologia_assegnazione} ${object.parent_id and 'al tuo ufficio. ' or ''}</p>
                                             <p> Per accettare al sistema di Protocollazione e Gestione Documentale Seedoo clicca sul link seguente: </p>
@@ -69,7 +69,7 @@
                                                 </div>
                                                 <p></p>
                                                 <p>${user.company_id.name}</p>
-                                                <p>${object.assegnatore_id.user_id.partner_id.name|safe}</p>
+                                                <p>${object.assegnatore_id.name_related|safe}</p>
                                         </div>
                                         <div style="padding:0px;width:600px;margin:auto; margin-top: 10px; background: #fff repeat top 100%;color:#777777">
                                         </div>]]></field>
