@@ -28,7 +28,9 @@ this module contains the full copyright notices and license terms. -->
                             <field name="city"/>
                             <field name="zip"/>
                         </group>
-                        <p style="text-align: center; font-size: 20px">Contribuisci allo sviluppo della Community di <span style="color: rgb(103, 155, 65)">S</span>eedoo.</p>
+                        <p style="text-align: center; font-size: 20px">Contribuisci allo sviluppo della Community
+                            di <span style="color: rgb(103, 155, 65)">S</span>eedoo.
+                        </p>
                         <field name="disclaimer_check" nolabel="1"/>
                         <span style="font-style: italic; font-size: 11px">
                             Confermando la procedura di configurazione

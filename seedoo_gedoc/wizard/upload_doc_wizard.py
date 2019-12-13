@@ -21,11 +21,11 @@ class wizardAttachments(osv.TransientModel):
 
     _columns = {
         'ldatas_fname': fields.char('Nome',
-                                   size=256,
-                                   readonly=False,
-                                   required=True),
+                                    size=256,
+                                    readonly=False,
+                                    required=True),
         'ldatas': fields.binary('File Allegato',
-                               required=True),
+                                required=True),
         'wizard_id': fields.many2one('gedoc.upload.doc.wizard',
                                      'Upload Document Wizard'),
     }

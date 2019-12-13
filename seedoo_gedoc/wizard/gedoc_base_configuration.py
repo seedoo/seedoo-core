@@ -51,7 +51,8 @@ class gedoc_configuration(osv.osv_memory):
                 'ammi_code': data['ipa_code'] and data['ipa_code'] or '',
                 'street': data['street'] and data['street'] or '',
                 'city': data['city'] and data['city'] or '',
-                'zip': data['zip'] and data['zip'] or ''
+                'zip': data['zip'] and data['zip'] or '',
+                'disclaimer_check': data['disclaimer_check'] and data['disclaimer_check'] or '',
             }
 
             if data['company_name']:
@@ -74,7 +75,7 @@ class gedoc_configuration(osv.osv_memory):
                 }
             }
 
-            url = "https://www.seedoo.it/count/instance"
+            url = "http://localhost:8169/count/instance"
 
             requests.post(
                 url=url,
