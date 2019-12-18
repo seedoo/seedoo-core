@@ -203,8 +203,8 @@ class protocollo_protocollo(osv.Model):
                                 pa.tipologia_assegnazione = 'conoscenza'
                           )
                       )
-                      AND
-                      pp.archivio_id IN (''' + archivio_ids_str + ''')
+                      AND pa.archivio_id IN (''' + archivio_ids_str + ''')
+                      AND pp.archivio_id IN (''' + archivio_ids_str + ''')
             ''')
             protocollo_ids_assigned_not_refused = [res[0] for res in cr.fetchall()]
             protocollo_visible_ids.extend(protocollo_ids_assigned_not_refused)
@@ -222,6 +222,7 @@ class protocollo_protocollo(osv.Model):
                       pa.assegnatore_id IN (''' + employee_ids_str + ''') AND 
                       pa.tipologia_assegnazione = 'competenza' AND 
                       pa.parent_id IS NULL AND
+                      pa.archivio_id IN (''' + archivio_ids_str + ''') AND
                       pp.archivio_id IN (''' + archivio_ids_str + ''')
             ''')
             protocollo_ids_assegnatore = [res[0] for res in cr.fetchall()]
@@ -236,6 +237,7 @@ class protocollo_protocollo(osv.Model):
                                           employee_department_ids, employee_department_ids_str,
                                           employee_department_child_ids, employee_department_child_ids_str, aoo_ids):
         protocollo_visible_ids = []
+        aoo_id_str = ', '.join(map(str, aoo_ids))
         assegnazione_obj = self.pool.get('protocollo.assegnazione')
 
         start_time = time.time()
@@ -276,12 +278,15 @@ class protocollo_protocollo(osv.Model):
         # un utente deve poter vedere QUALUNQUE protocollo (IN, OUT, INTERNAL) in stato BOZZA appartenente alla sua AOO
         types = self.get_protocollo_types_by_group(cr, current_user_id, 'seedoo_protocollo', 'group_vedi_protocolli_', '_bozza')
         if types and aoo_ids:
-            protocollo_ids_aoo = self.search(cr, uid, [
-                ('type', 'in', types),
-                ('state', '=', 'draft'),
-                ('aoo_id', 'in', aoo_ids),
-                ('archivio_id', 'in', archivio_ids)
-            ])
+            cr.execute('''
+                SELECT DISTINCT(pp.id)
+                FROM protocollo_protocollo pp
+                WHERE pp.type IN (''' + str(types).strip('[]') + ''') AND
+                      pp.state = 'draft' AND
+                      pp.aoo_id IN (''' + aoo_id_str + ''') AND
+                      pp.archivio_id IN (''' + archivio_ids_str + ''')
+            ''')
+            protocollo_ids_aoo = [res[0] for res in cr.fetchall()]
             protocollo_visible_ids.extend(protocollo_ids_aoo)
         _logger.info("---Query aoo  %s seconds ---" % (time.time() - start_time))
 
@@ -289,12 +294,15 @@ class protocollo_protocollo(osv.Model):
         # un utente deve poter vedere QUALUNQUE protocollo (IN, OUT, INTERNAL) REGISTRATO da un utente della sua AOO
         types = self.get_protocollo_types_by_group(cr, current_user_id, 'seedoo_protocollo', 'group_vedi_protocolli_', '_registrati')
         if types and aoo_ids:
-            protocollo_ids_aoo = self.search(cr, uid, [
-                ('type', 'in', types),
-                ('registration_date', '!=', False),
-                ('aoo_id', 'in', aoo_ids),
-                ('archivio_id', 'in', archivio_ids)
-            ])
+            cr.execute('''
+                SELECT DISTINCT(pp.id)
+                FROM protocollo_protocollo pp
+                WHERE pp.type IN (''' + str(types).strip('[]') + ''') AND
+                      pp.registration_date IS NOT NULL AND
+                      pp.aoo_id IN (''' + aoo_id_str + ''') AND
+                      pp.archivio_id IN (''' + archivio_ids_str + ''')
+            ''')
+            protocollo_ids_aoo = [res[0] for res in cr.fetchall()]
             protocollo_visible_ids.extend(protocollo_ids_aoo)
         _logger.info("---Query aoo 2  %s seconds ---" % (time.time() - start_time))
 
@@ -302,76 +310,86 @@ class protocollo_protocollo(osv.Model):
         # un utente deve poter vedere i protocolli (IN, OUT, INTERNAL) REGISTRATI e ASSEGNATI ad un UTENTE del suo UFFICIO di appartenenza
         types = self.get_protocollo_types_by_group(cr, current_user_id, 'seedoo_protocollo', 'group_vedi_protocolli_', '_registrati_ass_ut_uff')
         if types and employee_department_ids:
-            assegnazione_ids = assegnazione_obj.search(cr, uid, [
-                ('tipologia_assegnatario', '=', 'employee'),
-                ('parent_id', '=', False),
-                ('assegnatario_employee_department_id', 'in', employee_department_ids),
-                ('state', '!=', 'rifiutato')
-            ])
-            protocollo_visible_ids.extend(self.search(cr, uid, [
-                ('type', 'in', types),
-                ('registration_date', '!=', False),
-                ('assegnazione_ids', 'in', assegnazione_ids),
-                ('reserved', '=', False),
-                ('archivio_id', 'in', archivio_ids)
-            ]))
+            cr.execute('''
+                SELECT DISTINCT(pa.protocollo_id)
+                FROM protocollo_assegnazione pa, protocollo_protocollo pp
+                WHERE pp.type IN (''' + str(types).strip('[]') + ''') AND
+                      pp.registration_date IS NOT NULL AND
+                      pp.reserved = FALSE AND
+                      pp.archivio_id IN (''' + archivio_ids_str + ''') AND 
+                      pp.id = pa.protocollo_id AND
+                      pa.archivio_id IN (''' + archivio_ids_str + ''') AND
+                      pa.tipologia_assegnatario = 'employee' AND
+                      pa.parent_id IS NULL AND
+                      pa.assegnatario_employee_department_id IN (''' + employee_department_ids_str + ''') AND
+                      pa.state != 'rifiutato'
+            ''')
+            protocollo_ids_registrati_ass_ut_uff = [res[0] for res in cr.fetchall()]
+            protocollo_visible_ids.extend(protocollo_ids_registrati_ass_ut_uff)
         _logger.info("---Query registrati_ass_ut_uff  %s seconds ---" % (time.time() - start_time))
 
         start_time = time.time()
         # un utente deve poter vedere i protocolli (IN, OUT, INTERNAL) REGISTRATI e ASSEGNATI ad un suo UFFICIO FIGLIO
         types = self.get_protocollo_types_by_group(cr, current_user_id, 'seedoo_protocollo', 'group_vedi_protocolli_', '_registrati_ass_uff_fig')
         if types and employee_department_child_ids:
-            assegnazione_ids = assegnazione_obj.search(cr, uid, [
-                ('tipologia_assegnatario', '=', 'department'),
-                # ('assegnatario_department_parent_id', '=', employee.department_id.id)
-                ('assegnatario_department_id', 'in', employee_department_child_ids),
-                ('state', '!=', 'rifiutato')
-            ])
-            protocollo_visible_ids.extend(self.search(cr, uid, [
-                ('type', 'in', types),
-                ('registration_date', '!=', False),
-                ('assegnazione_ids', 'in', assegnazione_ids),
-                ('reserved', '=', False),
-                ('archivio_id', 'in', archivio_ids)
-            ]))
+            cr.execute('''
+                SELECT DISTINCT(pa.protocollo_id)
+                FROM protocollo_assegnazione pa, protocollo_protocollo pp
+                WHERE pp.type IN (''' + str(types).strip('[]') + ''') AND
+                      pp.registration_date IS NOT NULL AND
+                      pp.reserved = FALSE AND
+                      pp.archivio_id IN (''' + archivio_ids_str + ''') AND 
+                      pp.id = pa.protocollo_id AND
+                      pa.archivio_id IN (''' + archivio_ids_str + ''') AND
+                      pa.tipologia_assegnatario = 'department' AND
+                      pa.assegnatario_department_id IN (''' + employee_department_child_ids_str + ''') AND
+                      pa.state != 'rifiutato'
+            ''')
+            protocollo_ids_ass_uff_fig = [res[0] for res in cr.fetchall()]
+            protocollo_visible_ids.extend(protocollo_ids_ass_uff_fig)
         _logger.info("---Query ass_uff_fig  %s seconds ---" % (time.time() - start_time))
 
         start_time = time.time()
         # un utente deve poter vedere i protocolli (IN e OUT) REGISTRATI e ASSEGNATI ad un UTENTE di un suo UFFICIO FIGLIO
         types = self.get_protocollo_types_by_group(cr, current_user_id, 'seedoo_protocollo', 'group_vedi_protocolli_', '_registrati_ass_ut_uff_fig')
         if types and employee_department_child_ids:
-            assegnazione_ids = assegnazione_obj.search(cr, uid, [
-                ('tipologia_assegnatario', '=', 'employee'),
-                ('parent_id', '=', False),
-                # ('assegnatario_employee_department_id.parent_id.id', '=', employee.department_id.id)
-                ('assegnatario_employee_department_id', 'in', employee_department_child_ids),
-                ('state', '!=', 'rifiutato')
-            ])
-            protocollo_visible_ids.extend(self.search(cr, uid, [
-                ('type', 'in', types),
-                ('registration_date', '!=', False),
-                ('assegnazione_ids', 'in', assegnazione_ids),
-                ('reserved', '=', False),
-                ('archivio_id', 'in', archivio_ids)
-            ]))
+            cr.execute('''
+                SELECT DISTINCT(pa.protocollo_id)
+                FROM protocollo_assegnazione pa, protocollo_protocollo pp
+                WHERE pp.type IN (''' + str(types).strip('[]') + ''') AND
+                      pp.registration_date IS NOT NULL AND
+                      pp.reserved = FALSE AND
+                      pp.archivio_id IN (''' + archivio_ids_str + ''') AND 
+                      pp.id = pa.protocollo_id AND
+                      pa.archivio_id IN (''' + archivio_ids_str + ''') AND
+                      pa.tipologia_assegnatario = 'employee' AND
+                      pa.parent_id IS NULL AND
+                      pa.assegnatario_employee_department_id IN (''' + employee_department_child_ids_str + ''') AND
+                      pa.state != 'rifiutato'
+            ''')
+            protocollo_ids_ass_ut_uff_fig = [res[0] for res in cr.fetchall()]
+            protocollo_visible_ids.extend(protocollo_ids_ass_ut_uff_fig)
         _logger.info("---Query ass_ut_uff_fig  %s seconds ---" % (time.time() - start_time))
 
         start_time = time.time()
         # un utente deve poter vedere i protocolli (IN, OUT, INTERNAL) REGISTRATI, ASSEGNATI e RIFIUTATI da un UTENTE del suo UFFICIO
         types = self.get_protocollo_types_by_group(cr, current_user_id, 'seedoo_protocollo', 'group_vedi_protocolli_', '_registrati_ass_rif_ut_uff')
         if types and employee_department_ids:
-            assegnazione_ids = assegnazione_obj.search(cr, uid, [
-                ('tipologia_assegnatario', '=', 'employee'),
-                ('assegnatario_employee_department_id', 'in', employee_department_ids),
-                ('state', '=', 'rifiutato')
-            ])
-            protocollo_visible_ids.extend(self.search(cr, uid, [
-                ('type', 'in', types),
-                ('registration_date', '!=', False),
-                ('assegnazione_ids', 'in', assegnazione_ids),
-                ('reserved', '=', False),
-                ('archivio_id', 'in', archivio_ids)
-            ]))
+            cr.execute('''
+                SELECT DISTINCT(pa.protocollo_id)
+                FROM protocollo_assegnazione pa, protocollo_protocollo pp
+                WHERE pp.type IN (''' + str(types).strip('[]') + ''') AND
+                      pp.registration_date IS NOT NULL AND
+                      pp.reserved = FALSE AND
+                      pp.archivio_id IN (''' + archivio_ids_str + ''') AND 
+                      pp.id = pa.protocollo_id AND
+                      pa.archivio_id IN (''' + archivio_ids_str + ''') AND
+                      pa.tipologia_assegnatario = 'employee' AND
+                      pa.assegnatario_employee_department_id IN (''' + employee_department_ids_str + ''') AND
+                      pa.state = 'rifiutato'
+            ''')
+            protocollo_ids_ass_rif_ut_uff = [res[0] for res in cr.fetchall()]
+            protocollo_visible_ids.extend(protocollo_ids_ass_rif_ut_uff)
         _logger.info("---Query ass_rif_ut_uff  %s seconds ---" % (time.time() - start_time))
 
         return protocollo_visible_ids
@@ -2608,8 +2626,20 @@ class protocollo_protocollo(osv.Model):
         'modifica_documento_visibility': True
     }
 
-    def init(self, cr):
+    def delete_archivio_id_idx(self, cr):
+        cr.execute('DROP INDEX idx_protocollo_protocollo_archivio_id')
 
+    def create_archivio_id_idx(self, cr):
+        cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_protocollo_archivio_id\'')
+        if not cr.fetchone():
+            cr.execute("""
+            CREATE INDEX idx_protocollo_protocollo_archivio_id
+            ON public.protocollo_protocollo
+            USING btree
+            (archivio_id);
+            """)
+
+    def init(self, cr):
         cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_protocollo_registration_date\'')
         if not cr.fetchone():
             cr.execute("""
@@ -2617,7 +2647,7 @@ class protocollo_protocollo(osv.Model):
             ON public.protocollo_protocollo
             USING btree
             (registration_date);
-        """)
+            """)
         cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_protocollo_registration_employee_id\'')
         if not cr.fetchone():
             cr.execute("""
@@ -2625,8 +2655,7 @@ class protocollo_protocollo(osv.Model):
             ON public.protocollo_protocollo
             USING btree
             (registration_employee_id);
-        """)
-
+            """)
         cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_protocollo_registration_employee_department_id\'')
         if not cr.fetchone():
             cr.execute("""
@@ -2634,7 +2663,17 @@ class protocollo_protocollo(osv.Model):
             ON public.protocollo_protocollo
             USING btree
             (registration_employee_department_id);
-        """)
+            """)
+        cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_protocollo_type\'')
+        if not cr.fetchone():
+            cr.execute("""
+            CREATE INDEX idx_protocollo_protocollo_type
+            ON public.protocollo_protocollo
+            USING btree
+            (type);
+            """)
+        self.create_archivio_id_idx(cr)
+
 
     def fields_get(self, cr, uid, fields=None, context=None):
         # lista dei campi da nascondere nella ricerca avanzata
