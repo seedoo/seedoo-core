@@ -9,6 +9,7 @@ from . import mail_thread
 from . import mail_message
 from . import mail_message_permissions
 from . import fetchmail
+from . import ir_mail_server
 from . import protocollo_sender_receiver
 from . import protocollo
 from . import protocollo_aoo
