@@ -65,7 +65,7 @@
                                             <p> è stato assegnato per ${object.tipologia_assegnazione} ${object.parent_id and 'al tuo ufficio. ' or ''}</p>
                                             <p> Per accettare al sistema di Protocollazione e Gestione Documentale Seedoo clicca sul link seguente: </p>
                                                 <div style="text-align: center; margin-top: 16px;">
-        <a href="${object.signup_url}" style="padding: 5px 10px; font-size: 12px; line-height: 18px; color: #FFFFFF; border-color:#0D5C63; text-decoration: none; display: inline-block; margin-bottom: 0px; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none; background-color: #007EA6; border: 1px solid #007EA6; border-radius:3px" data-original-title="" title="" aria-describedby="tooltip259527">Vedi il documento su Seedoo</a>
+        <a href="${object.get_full_url()}" style="padding: 5px 10px; font-size: 12px; line-height: 18px; color: #FFFFFF; border-color:#0D5C63; text-decoration: none; display: inline-block; margin-bottom: 0px; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none; background-color: #007EA6; border: 1px solid #007EA6; border-radius:3px" data-original-title="" title="" aria-describedby="tooltip259527">Vedi il documento su Seedoo</a>
                                                 </div>
                                                 <p></p>
                                                 <p>${user.company_id.name}</p>
