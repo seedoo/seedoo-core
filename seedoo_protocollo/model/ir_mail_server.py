@@ -9,7 +9,7 @@
 #
 ##############################################################################
 
-from openerp import models, fields
+from openerp import models, fields, SUPERUSER_ID
 
 
 class IrMailServer(models.Model):
@@ -21,9 +21,18 @@ class IrMailServer(models.Model):
         help="Sovrascrive il Return-Path con il campo From nell'invio di una e-mail in uscita")
 
     def send_email(self, cr, uid, message, mail_server_id=None, smtp_server=None, smtp_port=None, smtp_user=None,
-                   smtp_password=None, smtp_encryption=None, smtp_debug=False, context=None):
+                       smtp_password=None, smtp_encryption=None, smtp_debug=False, context=None):
 
-        if self.replace_return_path and 'Return-Path' in message and 'From' in message:
+        # Get SMTP Server Details from Mail Server
+        mail_server = None
+        if mail_server_id:
+            mail_server = self.browse(cr, SUPERUSER_ID, mail_server_id)
+        elif not smtp_server:
+            mail_server_ids = self.search(cr, SUPERUSER_ID, [], order='sequence', limit=1)
+            if mail_server_ids:
+                mail_server = self.browse(cr, SUPERUSER_ID, mail_server_ids[0])
+
+        if mail_server.replace_return_path and 'Return-Path' in message and 'From' in message:
             message.replace_header('Return-Path', message.get('From'))
 
         return super(IrMailServer, self).send_email(cr, uid, message, mail_server_id, smtp_server, smtp_port,
