@@ -86,6 +86,7 @@
         "view/mail_pec_view.xml",
         "view/sharedmail_view.xml",
         "view/fetchmail_view.xml",
+        "view/ir_mail_server_view.xml",
         "view/email_template_view.xml",
         # "view/contact_view.xml",
         "view/report_view.xml",
