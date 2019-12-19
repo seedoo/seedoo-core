@@ -17,7 +17,7 @@ class protocollo_aggiungi_fascicolazione_wizard(osv.TransientModel):
     _name = 'protocollo.aggiungi.fascicolazione.wizard'
     _description = 'Fascicola Protocollo'
 
-    def  set_before(self, before, value):
+    def set_before(self, before, value):
         if not value:
             value = ''
         before += value + '\n'

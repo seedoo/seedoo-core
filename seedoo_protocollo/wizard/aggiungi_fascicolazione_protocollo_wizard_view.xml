@@ -25,7 +25,7 @@ this module contains the full copyright notices and license terms. -->
                         <separator string="Fascicoli" colspan="4"/>
                         <field name="dossier_ids" nolabel="1"
                                options="{'limit': 10, 'no_create': True}"
-                               domain="[('state','=','open')]"
+                               domain="[('state','=','open'),'|','|',('user_id','=',uid),('office_comp_ids.member_ids.user_id','=',uid),('employee_comp_ids.user_id','=',uid)]"
                                colspan="4"/>
                         <separator string="Motivazione"
                                    attrs="{'invisible':[('display_motivation','=',False)]}"
