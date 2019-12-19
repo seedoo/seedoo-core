@@ -32,8 +32,11 @@ class IrMailServer(models.Model):
             if mail_server_ids:
                 mail_server = self.browse(cr, SUPERUSER_ID, mail_server_ids[0])
 
-        if mail_server.replace_return_path and 'Return-Path' in message and 'From' in message:
-            message.replace_header('Return-Path', message.get('From'))
+        if mail_server.replace_return_path and 'From' in message:
+            if 'Return-Path' in message:
+                message.replace_header('Return-Path', message.get('From'))
+            else:
+                message.add_header('Return-Path', message.get('From'))
 
         return super(IrMailServer, self).send_email(cr, uid, message, mail_server_id, smtp_server, smtp_port,
                                                     smtp_user, smtp_password, smtp_encryption, smtp_debug,
