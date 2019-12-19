@@ -71,6 +71,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="perm_unlink" eval="False"/>
         </record>
 
+        <!--
         <record id="seedoo_gedoc.ir_rule_readdossier0" model="ir.rule">
             <field name="domain_force">[
                 '|','|','|','|',
@@ -82,6 +83,7 @@ this module contains the full copyright notices and license terms. -->
             ]
             </field>
         </record>
+        -->
 
     </data>
 </openerp>
