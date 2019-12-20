@@ -5,6 +5,23 @@
 from openerp.osv import orm, fields
 from openerp.tools.translate import _
 
+# Procudura per la creazione degli archivi e inserimento dei relativi protocolli al suo interno. Lo scopo di tale
+# procedura è quello di ridurre i tempi di esecuzione dell'algoritmo di visibilità, in quanto i protocolli all'interno
+# di archivi diversi dall'archivio corrente non saranno più visibili agli utenti (a meno che non si abbia il relativo
+# permesso). L'ottimizzazione è ottenuta tramite l'uso di un indice sql sulla colonna archivio_id del protocollo.
+# L'idea dell'uso dell'archivio è quella di riportare i tempi dell'algoritmo di visibilità pari a quelli che si
+# ottengono quando il database è vuoto o con pochi protocolli. In parte tale obiettivo è stato raggiunto, perchè le
+# query eseguite SOLAMENTE nella tabella protocollo_protocollo hanno dei tempi quasi uguali a quelli del database vuoto.
+# Nelle query che richiedono una JOIN della tabella protocollo_protocollo con la tabella protocollo_assegnazione, i
+# tempi migliorano ma sono sempre più alti di quando il database è vuoto. Bisognerà sperimentare in futuro, quando ci
+# saranno più archivi e più protocolli, se tali tempi continuano a peggiorare o rimangono comunque stabili. Per ovviare
+# al problema sono state fatte anche delle prove con l'inserimento di un indice su un campo archivio_id nella tabella
+# protocollo_assegnazione (quindi una sorta di archiviazione anche per i record di tale tabella), ma non sono stati
+# ottenuti dei buoni risultati, anzi in alcuni casi peggiorava anche i tempi dell'algoritmo, dovendo controllare una
+# ulteriore condizione.
+# E' importante considerare il fatto che le prestazioni dell'algoritmo, una volta archiviati i protocolli correnti, non
+# miglioreranno subito, ma ci vorrà qualche minuto (in media dovrebbero essere 5) dovuto probabilmente alla cache
+# interna.
 class protocollo_archivio(orm.Model):
     _name = 'protocollo.archivio'
 

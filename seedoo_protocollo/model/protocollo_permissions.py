@@ -209,23 +209,23 @@ class protocollo_protocollo(osv.Model):
             protocollo_visible_ids.extend(protocollo_ids_assigned_not_refused)
         _logger.info("---Query assigned_not_refused %s seconds ---" % (time.time() - start_time))
 
-        start_time = time.time()
+        # start_time = time.time()
         # un utente deve poter vedere i protocolli (IN e OUT) registrati di cui è autore della assegnazione per
         # competenza (assegnatore)
-        if employee_ids:
-            cr.execute('''
-                SELECT DISTINCT(pa.protocollo_id)
-                FROM protocollo_assegnazione pa, protocollo_protocollo pp
-                WHERE pp.registration_date IS NOT NULL AND
-                      pa.protocollo_id = pp.id AND
-                      pa.assegnatore_id IN (''' + employee_ids_str + ''') AND 
-                      pa.tipologia_assegnazione = 'competenza' AND 
-                      pa.parent_id IS NULL AND
-                      pp.archivio_id IN (''' + archivio_ids_str + ''')
-            ''')
-            protocollo_ids_assegnatore = [res[0] for res in cr.fetchall()]
-            protocollo_visible_ids.extend(protocollo_ids_assegnatore)
-        _logger.info("---Query assegnatore %s seconds ---" % (time.time() - start_time))
+        # if employee_ids:
+        #     cr.execute('''
+        #         SELECT DISTINCT(pa.protocollo_id)
+        #         FROM protocollo_assegnazione pa, protocollo_protocollo pp
+        #         WHERE pp.registration_date IS NOT NULL AND
+        #               pa.protocollo_id = pp.id AND
+        #               pa.assegnatore_id IN (''' + employee_ids_str + ''') AND
+        #               pa.tipologia_assegnazione = 'competenza' AND
+        #               pa.parent_id IS NULL AND
+        #               pp.archivio_id IN (''' + archivio_ids_str + ''')
+        #     ''')
+        #     protocollo_ids_assegnatore = [res[0] for res in cr.fetchall()]
+        #     protocollo_visible_ids.extend(protocollo_ids_assegnatore)
+        # _logger.info("---Query assegnatore %s seconds ---" % (time.time() - start_time))
 
         return protocollo_visible_ids
 
