@@ -203,8 +203,6 @@ class protocollo_assegnazione(orm.Model):
         'child_ids': fields.one2many('protocollo.assegnazione', 'parent_id', 'Assegnazioni Dipendenti'),
 
         'motivazione_rifiuto': fields.text('Motivazione del Rifiuto'),
-
-        'archivio_id': fields.many2one('protocollo.archivio', 'Archivio'),
     }
 
     _sql_constraints = [
@@ -212,102 +210,126 @@ class protocollo_assegnazione(orm.Model):
          'Protocollo e Assegnatario con già uno stato nel DB!'),
     ]
 
-    def delete_archivio_id_idx(self, cr):
-        cr.execute('DROP INDEX idx_protocollo_assegnazione_archivio_id')
+    def delete_indexes(self, cr):
+        cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_assegnazione_tipologia_assegnatario_emp\'')
+        if cr.fetchone():
+            cr.execute('DROP INDEX idx_protocollo_assegnazione_tipologia_assegnatario_emp')
 
-    def create_archivio_id_idx(self, cr):
-        cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_assegnazione_archivio_id\'')
-        if not cr.fetchone():
-            cr.execute("""
-            CREATE INDEX idx_protocollo_assegnazione_archivio_id
-            ON public.protocollo_assegnazione
-            USING btree
-            (archivio_id);
-            """)
+        cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_assegnazione_tipologia_assegnatario_dep\'')
+        if cr.fetchone():
+            cr.execute('DROP INDEX idx_protocollo_assegnazione_tipologia_assegnatario_dep')
 
-    def init(self, cr):
+        cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_assegnazione_tipassegnatario_assemp_state\'')
+        if cr.fetchone():
+            cr.execute('DROP INDEX idx_protocollo_assegnazione_tipassegnatario_assemp_state')
+
+        cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_assegnazione_tipassegnatario_assdep_state\'')
+        if cr.fetchone():
+            cr.execute('DROP INDEX idx_protocollo_assegnazione_tipassegnatario_assdep_state')
+
+        cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_assegnazione_tipassegnatario_assempdep_state\'')
+        if cr.fetchone():
+            cr.execute('DROP INDEX idx_protocollo_assegnazione_tipassegnatario_assempdep_state')
+
+        cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_assegnazione_tipologia_assegnazione_com\'')
+        if cr.fetchone():
+            cr.execute('DROP INDEX idx_protocollo_assegnazione_tipologia_assegnazione_com')
+
+        cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_assegnazione_tipologia_assegnazione_con\'')
+        if cr.fetchone():
+            cr.execute('DROP INDEX idx_protocollo_assegnazione_tipologia_assegnazione_con')
+
+        cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_assegnazione_tipologiaassegnazione_parent_state\'')
+        if cr.fetchone():
+            cr.execute('DROP INDEX idx_protocollo_assegnazione_tipologiaassegnazione_parent_state')
+
+        cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_assegnazione_tipologia_assegnatario_parent_null\'')
+        if cr.fetchone():
+            cr.execute('DROP INDEX idx_protocollo_assegnazione_tipologia_assegnatario_parent_null')
+
+    def create_indexes(self, cr):
         cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_assegnazione_tipologia_assegnatario_emp\'')
         if not cr.fetchone():
             cr.execute("""
-            CREATE INDEX idx_protocollo_assegnazione_tipologia_assegnatario_emp
-            ON public.protocollo_assegnazione
-            USING btree
-            (tipologia_assegnatario)
-            WHERE tipologia_assegnatario = 'employee';
+                CREATE INDEX idx_protocollo_assegnazione_tipologia_assegnatario_emp
+                ON public.protocollo_assegnazione
+                USING btree
+                (tipologia_assegnatario)
+                WHERE tipologia_assegnatario = 'employee';
             """)
         cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_assegnazione_tipologia_assegnatario_dep\'')
         if not cr.fetchone():
             cr.execute("""
-            CREATE INDEX idx_protocollo_assegnazione_tipologia_assegnatario_dep
-            ON public.protocollo_assegnazione
-            USING btree
-            (tipologia_assegnatario)
-            WHERE tipologia_assegnatario = 'department';
-        """)
+                CREATE INDEX idx_protocollo_assegnazione_tipologia_assegnatario_dep
+                ON public.protocollo_assegnazione
+                USING btree
+                (tipologia_assegnatario)
+                WHERE tipologia_assegnatario = 'department';
+            """)
         cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_assegnazione_tipassegnatario_assemp_state\'')
         if not cr.fetchone():
             cr.execute("""
-            CREATE INDEX idx_protocollo_assegnazione_tipassegnatario_assemp_state
-            ON public.protocollo_assegnazione
-            USING btree
-            (tipologia_assegnatario, assegnatario_employee_id, state);
-        """)
+                CREATE INDEX idx_protocollo_assegnazione_tipassegnatario_assemp_state
+                ON public.protocollo_assegnazione
+                USING btree
+                (tipologia_assegnatario, assegnatario_employee_id, state);
+            """)
         cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_assegnazione_tipassegnatario_assdep_state\'')
         if not cr.fetchone():
             cr.execute("""
-            CREATE INDEX idx_protocollo_assegnazione_tipassegnatario_assdep_state
-            ON public.protocollo_assegnazione
-            USING btree
-            (tipologia_assegnatario, assegnatario_department_id, state);
-        """)
+                CREATE INDEX idx_protocollo_assegnazione_tipassegnatario_assdep_state
+                ON public.protocollo_assegnazione
+                USING btree
+                (tipologia_assegnatario, assegnatario_department_id, state);
+            """)
         cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_assegnazione_tipassegnatario_assempdep_state\'')
         if not cr.fetchone():
             cr.execute("""
-            CREATE INDEX idx_protocollo_assegnazione_tipassegnatario_assempdep_state
-            ON public.protocollo_assegnazione
-            USING btree
-            (tipologia_assegnatario, assegnatario_employee_department_id, state);
-        """)
+                CREATE INDEX idx_protocollo_assegnazione_tipassegnatario_assempdep_state
+                ON public.protocollo_assegnazione
+                USING btree
+                (tipologia_assegnatario, assegnatario_employee_department_id, state);
+            """)
         cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_assegnazione_tipologia_assegnazione_com\'')
         if not cr.fetchone():
             cr.execute("""
-            CREATE INDEX idx_protocollo_assegnazione_tipologia_assegnazione_com
-            ON public.protocollo_assegnazione
-            USING btree
-            (tipologia_assegnazione)
-            WHERE tipologia_assegnazione = 'competenza';
-        """)
+                CREATE INDEX idx_protocollo_assegnazione_tipologia_assegnazione_com
+                ON public.protocollo_assegnazione
+                USING btree
+                (tipologia_assegnazione)
+                WHERE tipologia_assegnazione = 'competenza';
+            """)
         cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_assegnazione_tipologia_assegnazione_con\'')
         if not cr.fetchone():
             cr.execute("""
-            CREATE INDEX idx_protocollo_assegnazione_tipologia_assegnazione_con
-            ON public.protocollo_assegnazione
-            USING btree
-            (tipologia_assegnazione)
-            WHERE tipologia_assegnazione = 'conoscenza';
-        """)
+                CREATE INDEX idx_protocollo_assegnazione_tipologia_assegnazione_con
+                ON public.protocollo_assegnazione
+                USING btree
+                (tipologia_assegnazione)
+                WHERE tipologia_assegnazione = 'conoscenza';
+            """)
         cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_assegnazione_tipologiaassegnazione_parent_state\'')
         if not cr.fetchone():
             cr.execute("""
-            CREATE INDEX idx_protocollo_assegnazione_tipologiaassegnazione_parent_state
-            ON public.protocollo_assegnazione
-            USING btree
-            (tipologia_assegnazione, parent_id, state);
-        """)
+                CREATE INDEX idx_protocollo_assegnazione_tipologiaassegnazione_parent_state
+                ON public.protocollo_assegnazione
+                USING btree
+                (tipologia_assegnazione, parent_id, state);
+            """)
         cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_assegnazione_tipologia_assegnatario_parent_null\'')
         if not cr.fetchone():
             cr.execute("""
-            CREATE INDEX idx_protocollo_assegnazione_tipologia_assegnatario_parent_null
-            ON public.protocollo_assegnazione
-            USING btree
-            (tipologia_assegnatario, parent_id)
-            WHERE (tipologia_assegnatario = 'department' OR (tipologia_assegnatario = 'employee' AND parent_id IS NULL));
-        """)
-        self.create_archivio_id_idx(cr)
+                CREATE INDEX idx_protocollo_assegnazione_tipologia_assegnatario_parent_null
+                ON public.protocollo_assegnazione
+                USING btree
+                (tipologia_assegnatario, parent_id)
+                WHERE (tipologia_assegnatario = 'department' OR (tipologia_assegnatario = 'employee' AND parent_id IS NULL));
+            """)
+
+    def init(self, cr):
+        self.create_indexes(cr)
 
     def _crea_assegnazione(self, cr, uid, protocollo_id, assegnatario_id, assegnatore_id, tipologia, parent_id=False, values={}):
-        protocollo_obj = self.pool.get('protocollo.protocollo')
-        protocollo = protocollo_obj.browse(cr, uid, protocollo_id, {'skip_check': True})
         assegnatario_obj = self.pool.get('protocollo.assegnatario')
         assegnatario = assegnatario_obj.browse(cr, uid, assegnatario_id)
         assegnatore_obj = self.pool.get('hr.employee')
@@ -331,7 +353,6 @@ class protocollo_assegnazione(orm.Model):
         vals['assegnatore_complete_name'] = assegnatore_complete_name
         vals['assegnatore_department_id'] = assegnatore.department_id.id if assegnatore.department_id else False
         vals['parent_id'] = parent_id
-        vals['archivio_id'] = protocollo.archivio_id.id
 
         if assegnatario.tipologia == 'employee':
             vals['assegnatario_employee_id'] = assegnatario.employee_id.id

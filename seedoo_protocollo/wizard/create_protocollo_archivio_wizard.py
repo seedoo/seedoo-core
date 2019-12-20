@@ -204,21 +204,6 @@ class protocollo_archivio_wizard(osv.TransientModel):
             if count_diff == 0:
                 raise orm.except_orm(_("Avviso"), _("Nessun protocollo presente in archivio corrente nell'intervallo selezionato"))
 
-            cr.execute('''
-                UPDATE protocollo_assegnazione pa
-                SET archivio_id = pp.archivio_id
-                FROM protocollo_protocollo pp
-                WHERE protocollo_id = pp.id AND pp.archivio_id!=pa.archivio_id;
-            ''')
-
-            cr.commit()
-
-            # update indexes
-            protocollo_obj.delete_archivio_id_idx(cr)
-            protocollo_obj.create_archivio_id_idx(cr)
-            protocollo_assegnazione_obj.delete_archivio_id_idx(cr)
-            protocollo_assegnazione_obj.create_archivio_id_idx(cr)
-
             _logger.info("Archiviati %d protocolli", (count_diff))
 
             protocollo_archivio = self.pool.get('protocollo.archivio').browse(cr, uid, protocollo_archivio_id)

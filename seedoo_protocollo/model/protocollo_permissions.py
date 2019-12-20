@@ -203,7 +203,6 @@ class protocollo_protocollo(osv.Model):
                                 pa.tipologia_assegnazione = 'conoscenza'
                           )
                       )
-                      AND pa.archivio_id IN (''' + archivio_ids_str + ''')
                       AND pp.archivio_id IN (''' + archivio_ids_str + ''')
             ''')
             protocollo_ids_assigned_not_refused = [res[0] for res in cr.fetchall()]
@@ -222,7 +221,6 @@ class protocollo_protocollo(osv.Model):
                       pa.assegnatore_id IN (''' + employee_ids_str + ''') AND 
                       pa.tipologia_assegnazione = 'competenza' AND 
                       pa.parent_id IS NULL AND
-                      pa.archivio_id IN (''' + archivio_ids_str + ''') AND
                       pp.archivio_id IN (''' + archivio_ids_str + ''')
             ''')
             protocollo_ids_assegnatore = [res[0] for res in cr.fetchall()]
@@ -318,7 +316,6 @@ class protocollo_protocollo(osv.Model):
                       pp.reserved = FALSE AND
                       pp.archivio_id IN (''' + archivio_ids_str + ''') AND 
                       pp.id = pa.protocollo_id AND
-                      pa.archivio_id IN (''' + archivio_ids_str + ''') AND
                       pa.tipologia_assegnatario = 'employee' AND
                       pa.parent_id IS NULL AND
                       pa.assegnatario_employee_department_id IN (''' + employee_department_ids_str + ''') AND
@@ -340,7 +337,6 @@ class protocollo_protocollo(osv.Model):
                       pp.reserved = FALSE AND
                       pp.archivio_id IN (''' + archivio_ids_str + ''') AND 
                       pp.id = pa.protocollo_id AND
-                      pa.archivio_id IN (''' + archivio_ids_str + ''') AND
                       pa.tipologia_assegnatario = 'department' AND
                       pa.assegnatario_department_id IN (''' + employee_department_child_ids_str + ''') AND
                       pa.state != 'rifiutato'
@@ -361,7 +357,6 @@ class protocollo_protocollo(osv.Model):
                       pp.reserved = FALSE AND
                       pp.archivio_id IN (''' + archivio_ids_str + ''') AND 
                       pp.id = pa.protocollo_id AND
-                      pa.archivio_id IN (''' + archivio_ids_str + ''') AND
                       pa.tipologia_assegnatario = 'employee' AND
                       pa.parent_id IS NULL AND
                       pa.assegnatario_employee_department_id IN (''' + employee_department_child_ids_str + ''') AND
@@ -383,7 +378,6 @@ class protocollo_protocollo(osv.Model):
                       pp.reserved = FALSE AND
                       pp.archivio_id IN (''' + archivio_ids_str + ''') AND 
                       pp.id = pa.protocollo_id AND
-                      pa.archivio_id IN (''' + archivio_ids_str + ''') AND
                       pa.tipologia_assegnatario = 'employee' AND
                       pa.assegnatario_employee_department_id IN (''' + employee_department_ids_str + ''') AND
                       pa.state = 'rifiutato'
@@ -2626,53 +2620,59 @@ class protocollo_protocollo(osv.Model):
         'modifica_documento_visibility': True
     }
 
-    def delete_archivio_id_idx(self, cr):
-        cr.execute('DROP INDEX idx_protocollo_protocollo_archivio_id')
+    def delete_indexes(self, cr):
+        cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_protocollo_registration_date\'')
+        if cr.fetchone():
+            cr.execute('DROP INDEX idx_protocollo_protocollo_registration_date')
 
-    def create_archivio_id_idx(self, cr):
+        cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_protocollo_registration_employee_id\'')
+        if cr.fetchone():
+            cr.execute('DROP INDEX idx_protocollo_protocollo_registration_employee_id')
+
+        cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_protocollo_registration_employee_department_id\'')
+        if cr.fetchone():
+            cr.execute('DROP INDEX idx_protocollo_protocollo_registration_employee_department_id')
+
         cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_protocollo_archivio_id\'')
-        if not cr.fetchone():
-            cr.execute("""
-            CREATE INDEX idx_protocollo_protocollo_archivio_id
-            ON public.protocollo_protocollo
-            USING btree
-            (archivio_id);
-            """)
+        if cr.fetchone():
+            cr.execute('DROP INDEX idx_protocollo_protocollo_archivio_id')
 
-    def init(self, cr):
+    def create_indexes(self, cr):
         cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_protocollo_registration_date\'')
         if not cr.fetchone():
             cr.execute("""
-            CREATE INDEX idx_protocollo_protocollo_registration_date
-            ON public.protocollo_protocollo
-            USING btree
-            (registration_date);
+                CREATE INDEX idx_protocollo_protocollo_registration_date
+                ON public.protocollo_protocollo
+                USING btree
+                (registration_date);
             """)
         cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_protocollo_registration_employee_id\'')
         if not cr.fetchone():
             cr.execute("""
-            CREATE INDEX idx_protocollo_protocollo_registration_employee_id
-            ON public.protocollo_protocollo
-            USING btree
-            (registration_employee_id);
+                CREATE INDEX idx_protocollo_protocollo_registration_employee_id
+                ON public.protocollo_protocollo
+                USING btree
+                (registration_employee_id);
             """)
         cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_protocollo_registration_employee_department_id\'')
         if not cr.fetchone():
             cr.execute("""
-            CREATE INDEX idx_protocollo_protocollo_registration_employee_department_id
-            ON public.protocollo_protocollo
-            USING btree
-            (registration_employee_department_id);
+                CREATE INDEX idx_protocollo_protocollo_registration_employee_department_id
+                ON public.protocollo_protocollo
+                USING btree
+                (registration_employee_department_id);
             """)
-        cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_protocollo_type\'')
+        cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_protocollo_archivio_id\'')
         if not cr.fetchone():
             cr.execute("""
-            CREATE INDEX idx_protocollo_protocollo_type
-            ON public.protocollo_protocollo
-            USING btree
-            (type);
+                CREATE INDEX idx_protocollo_protocollo_archivio_id
+                ON public.protocollo_protocollo
+                USING btree
+                (archivio_id);
             """)
-        self.create_archivio_id_idx(cr)
+
+    def init(self, cr):
+        self.create_indexes(cr)
 
 
     def fields_get(self, cr, uid, fields=None, context=None):
