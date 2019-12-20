@@ -223,26 +223,17 @@ class protocollo_dossier(osv.Model):
         'giuridica': 'Persona Giuridica',
     }
 
-    def on_change_dossier_type_classification(
-            self, cr, uid, ids,
-            dossier_type, classification_id, parent_id, context=None):
+    def get_dossier_values(self, cr, uid, ids, dossier_type, classification_id, parent_id, context=None):
         name = ''
         if parent_id and dossier_type != 'fascicolo':
-            parent = self.pool.get('protocollo.dossier').browse(
-                cr, uid, parent_id, context=context)
+            parent = self.pool.get('protocollo.dossier').browse(cr, uid, parent_id, context=context)
             classification_id = parent.classification_id.id
-            num = len(parent.child_ids) + 1
-            name = '<' + self.DOSSIER_TYPE[dossier_type] + ' N.' + \
-                str(num) + ' del "' + \
-                parent.name + '">'
-        elif dossier_type and dossier_type in self.DOSSIER_TYPE and \
-                classification_id:
-            classification = self.pool.get('protocollo.classification').\
-                browse(cr, uid, classification_id, context=context)
-            num = len(classification.dossier_ids)
-            name = '<' + self.DOSSIER_TYPE[dossier_type] + ' N.' + \
-                str(num) + ' del \'' + \
-                classification.name + '\'>'
+            num = len(list(set(parent.child_ids.ids) - set(ids))) + 1
+            name = '<' + self.DOSSIER_TYPE[dossier_type] + ' N.' + str(num) + ' del "' + parent.name + '">'
+        elif dossier_type and dossier_type in self.DOSSIER_TYPE and classification_id:
+            classification = self.pool.get('protocollo.classification').browse(cr, uid, classification_id, context=context)
+            num = len(list(set(classification.dossier_ids.ids) - set(ids))) + 1
+            name = '<' + self.DOSSIER_TYPE[dossier_type] + ' N.' + str(num) + ' del \'' + classification.name + '\'>'
             if dossier_type == 'fascicolo':
                 parent_id = False
         parent_type = self.PARENT_TYPE[dossier_type]
@@ -252,6 +243,10 @@ class protocollo_dossier(osv.Model):
             'parent_id': parent_id,
             'parent_type': parent_type
         }
+        return values
+
+    def on_change_dossier_type_classification(self, cr, uid, ids, dossier_type, classification_id, parent_id, context=None):
+        values = self.get_dossier_values(cr, uid, ids, dossier_type, classification_id, parent_id, context)
         return {'value': values}
 
     def _parent_type(self, cr, uid, ids, name, arg, context=None):
@@ -273,7 +268,7 @@ class protocollo_dossier(osv.Model):
             'Codice Fascicolo',
             size=256,
             required=True,
-            readonly=False,
+            readonly=True,
         ),
         'description': fields.text(
             'Oggetto',
@@ -540,11 +535,23 @@ class protocollo_dossier(osv.Model):
         self.write(cr, uid, ids, vals)
         return True
 
+    def create(self, cr, uid, vals, context=None):
+        if vals and not ('name' in vals) and 'dossier_type' in vals and 'classification_id' in vals and 'parent_id' in vals:
+            dossier_values = self.get_dossier_values(cr, uid, [], vals['dossier_type'], vals['classification_id'], vals['parent_id'], context)
+            vals['name'] = dossier_values['name']
+        return super(protocollo_dossier, self).create(cr, uid, vals, context=context)
+
     def write(self, cr, uid, ids, vals, context=None):
         if 'dossier_type' in vals and vals['dossier_type'] == 'fascicolo':
             vals['parent_id'] = False
-        return super(protocollo_dossier, self).write(
-            cr, uid, ids, vals, context=context)
+        if vals and len(ids)==1 and not ('name' in vals) and ('dossier_type' in vals or 'classification_id' in vals or 'parent_id' in vals):
+            dossier = self.browse(cr, uid, ids[0])
+            dossier_type = vals['dossier_type'] if 'dossier_type' in vals else dossier.dossier_type
+            classification_id = vals['classification_id'] if 'classification_id' in vals else dossier.classification_id.id
+            parent_id = vals['parent_id'] if 'parent_id' in vals else dossier.parent_id.id
+            dossier_values = self.get_dossier_values(cr, uid, ids, dossier_type, classification_id, parent_id, context)
+            vals['name'] = dossier_values['name']
+        return super(protocollo_dossier, self).write(cr, uid, ids, vals, context=context)
 
     def unlink(self, cr, uid, ids, context=None):
         stat = self.read(cr, uid, ids, ['state'], context=context)

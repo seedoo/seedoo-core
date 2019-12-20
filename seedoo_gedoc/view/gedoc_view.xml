@@ -113,7 +113,7 @@ this module contains the full copyright notices and license terms. -->
                                 class="oe_highlight_positive"/>
                         <button name="close" states="open"
                                 string="Chiudi Fascicolo"
-                                confirm="Sei sicuro di voler chiudere il fascicolo?"
+                                confirm="Sei sicuro di voler chiudere il fascicolo? Una volta chiuso non potrà più essere riaperto!"
                                 class="oe_highlight_warning"/>
                         <field name="state" widget="statusbar"
                                statusbar_visible="draft,open,closed"
