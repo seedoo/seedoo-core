@@ -2018,7 +2018,6 @@ class protocollo_protocollo(orm.Model):
         protocollo_obj = self.pool.get('protocollo.protocollo')
         department_obj = self.pool.get('hr.department')
         employee_obj = self.pool.get('hr.employee')
-        assegnazione_obj = self.pool.get('protocollo.assegnazione')
         protocollo = protocollo_obj.browse(cr, uid, ids)
 
         if protocollo.type == 'in' and (protocollo.typology.pec or protocollo.typology.sharedmail):
@@ -2030,8 +2029,6 @@ class protocollo_protocollo(orm.Model):
         sender_receiver_obj = self.pool.get('protocollo.sender_receiver')
         sender_receiver = []
         department = []
-        assegnazione_conoscenza = []
-        assegnazione_competenza = []
 
         for sr in protocollo.sender_receivers:
             sr_copy_id = sender_receiver_obj.copy(cr, uid, sr.id, {}, context=context)
@@ -2069,19 +2066,9 @@ class protocollo_protocollo(orm.Model):
         vals['sender_internal_department'] = protocollo.sender_internal_department.id
 
         protocollo_id = protocollo_obj.create(cr, uid, vals)
-        protocollo_new = protocollo_obj.browse(cr, uid, protocollo_id)
-        assegnazione_vals = {'protocollo_id': protocollo_id}
 
-        assegnatario_competenza_ids = []
-        for assegnazione in protocollo.assegnazione_competenza_ids:
-            assegnatario_competenza_ids.append(assegnazione.assegnatario_id.id)
-        if assegnatario_competenza_ids:
-            assegnazione_obj.salva_assegnazione_competenza(cr, uid, protocollo_id, assegnatario_competenza_ids,
-                                                           assegnazione.assegnatore_id.id)
-
-        for assegnazione in protocollo.assegnazione_conoscenza_ids:
-            assegnazione_obj.salva_assegnazione_conoscenza(cr, uid, protocollo_id, [assegnazione.assegnatario_id.id],
-                                                           assegnazione.assegnatore_id.id, False)
+        self.clona_assegnatari_competenza(cr, uid, protocollo, protocollo_id, employee)
+        self.clona_assegnatari_conoscenza(cr, uid, protocollo, protocollo_id, employee)
 
         return {
             'name': 'Protocollo',
@@ -2093,6 +2080,30 @@ class protocollo_protocollo(orm.Model):
             'type': 'ir.actions.act_window',
             'flags': {'initial_mode': 'edit'}
         }
+
+    def clona_assegnatari_competenza(self, cr, uid, protocollo, protocollo_new_id, assegnatore, all=False):
+        assegnatario_competenza_ids = []
+        assegnazione_obj = self.pool.get('protocollo.assegnazione')
+        if all:
+            for assegnazione in protocollo.assegnazione_competenza_ids:
+                assegnatario_competenza_ids.append(assegnazione.assegnatario_id.id)
+        else:
+            assegnazione_id = assegnazione_obj.search(cr, uid, [
+                ('protocollo_id', '=', protocollo.id),
+                ('tipologia_assegnazione', '=', 'competenza'),
+                ('parent_id', '=', False)
+            ], limit=1, order='id ASC')
+            if assegnazione_id:
+                assegnazione = assegnazione_obj.browse(cr, uid, assegnazione_id)
+                assegnatario_competenza_ids.append(assegnazione.assegnatario_id.id)
+        if assegnatario_competenza_ids:
+            assegnazione_obj.salva_assegnazione_competenza(cr, uid, protocollo_new_id, assegnatario_competenza_ids, assegnatore.id)
+
+    def clona_assegnatari_conoscenza(self, cr, uid, protocollo, protocollo_new_id, assegnatore):
+        assegnazione_obj = self.pool.get('protocollo.assegnazione')
+        for assegnazione in protocollo.assegnazione_conoscenza_ids:
+            assegnazione_obj.salva_assegnazione_conoscenza(cr, uid, protocollo_new_id, [assegnazione.assegnatario_id.id],
+                                                           assegnatore.id, False)
 
     def carica_documento_principale(self, cr, uid, protocollo_id, datas, datas_fname, datas_description, context=None):
 
