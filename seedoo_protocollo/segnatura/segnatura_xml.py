@@ -45,8 +45,8 @@ class SegnaturaXML:
             self.ufficioProtocollatore = None
 
         if protocollo.aoo_id.ident_code is not False:
-            self.codiceAOO = str(protocollo.aoo_id.ident_code)
-            self.denominazioneAOO = str(protocollo.aoo_id.name)
+            self.codiceAOO = protocollo.aoo_id.ident_code
+            self.denominazioneAOO = protocollo.aoo_id.name
         else:
             self.codiceAOO = None
             self.denominazioneAOO = None
