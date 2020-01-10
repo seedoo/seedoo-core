@@ -49,8 +49,7 @@
             <field name="email_from">${object.assegnatore_id.user_id.partner_id.email|safe}</field>
             <field name="email_to">${object.assegnatario_employee_id.user_id.partner_id.email|safe}</field>
             <field name="subject"><![CDATA[Assegnazione Documento Prot. ${object.protocollo_id.name} del ${format_tz(object.protocollo_id.registration_date, tz=user.tz, format='%d/%m/%Y %H:%M:%S')}]]></field>
-            <field name="body_html"><![CDATA[
-                                        <div style="padding:0px;width:600px;margin:auto;background: #FFFFFF repeat top 100%;color:#777777">
+            <field name="body_html"><![CDATA[<div style="padding:0px;width:600px;margin:auto;background: #FFFFFF repeat top 100%;color:#777777">
                                             <table cellspacing="0" cellpadding="0" style="width:600px;background:inherit;color:inherit">
                                         <tbody><tr>
                                             <td valign="center" width="200" style="padding:10px 10px 10px 5px;font-size: 12px">
