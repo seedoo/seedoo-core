@@ -1530,6 +1530,7 @@ class protocollo_protocollo(orm.Model):
                     sender_receiver.write(msgvals)
 
                 sent_all = sent_all and sent_receiver
+                cr.commit()
 
             if not sent_all:
                 self._revert_workflow_data(cr, uid, prot)
@@ -1677,6 +1678,7 @@ class protocollo_protocollo(orm.Model):
                     sender_receiver.write(msgvals)
 
                 sent_all = sent_all and sent_receiver
+                cr.commit()
 
             if not sent_all:
                 self._revert_workflow_data(cr, uid, prot)
