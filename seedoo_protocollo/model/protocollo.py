@@ -1841,25 +1841,51 @@ class protocollo_protocollo(orm.Model):
         try:
             new_context = context.copy()
             new_context['skip_check'] = True
+            employee_obj = self.pool.get('hr.employee')
             protocollo = self.browse(cr, uid, ids, new_context)
             check_permission, error = self.assegnazione_validation(cr, uid, protocollo, 'prendi_in_carico', new_context)
             if check_permission == True:
                 if context and 'assegnatario_employee_id' in context and context['assegnatario_employee_id']:
                     assegnatario_employee_id = context['assegnatario_employee_id']
-                    employee = self.pool.get('hr.employee').browse(cr, uid, assegnatario_employee_id)
+                    employee = employee_obj.browse(cr, uid, assegnatario_employee_id)
                     assegnatario_name = employee.name
                 else:
                     assegnazione_obj = self.pool.get('protocollo.assegnazione')
-                    assegnazione_ids = assegnazione_obj.search(cr, uid, [
+                    assegnazione_dipendente_ids = assegnazione_obj.search(cr, uid, [
                         ('protocollo_id', '=', protocollo.id),
                         ('tipologia_assegnazione', '=', 'competenza'),
                         ('tipologia_assegnatario', '=', 'employee'),
+                        ('assegnatario_employee_id.user_id.id', '=', uid),
                         ('state', '=', 'assegnato'),
-                        ('assegnatario_employee_id.user_id.id', '=', uid)
+                        ('parent_id', '=', False)
                     ])
-                    assegnazione = assegnazione_obj.browse(cr, uid, assegnazione_ids[0])
-                    assegnatario_employee_id = assegnazione.assegnatario_employee_id.id
-                    assegnatario_name = assegnazione.assegnatario_employee_id.name
+                    department_ids = []
+                    for employee_id in employee_obj.search(cr, uid, [('user_id', '=', uid)]):
+                        employee = employee_obj.browse(cr, uid, employee_id)
+                        if employee.department_id:
+                            department_ids.append(employee.department_id.id)
+                    assegnazione_ufficio_ids = assegnazione_obj.search(cr, uid, [
+                        ('protocollo_id', '=', protocollo.id),
+                        ('tipologia_assegnazione', '=', 'competenza'),
+                        ('tipologia_assegnatario', '=', 'department'),
+                        ('assegnatario_department_id', 'in', department_ids),
+                        ('state', '=', 'assegnato')
+                    ])
+                    if assegnazione_dipendente_ids:
+                        assegnazione = assegnazione_obj.browse(cr, uid, assegnazione_dipendente_ids[0])
+                        assegnatario_employee_id = assegnazione.assegnatario_employee_id.id
+                        assegnatario_name = assegnazione.assegnatario_employee_id.name
+                    elif assegnazione_ufficio_ids:
+                        assegnazione = assegnazione_obj.browse(cr, uid, assegnazione_ufficio_ids[0])
+                        employee_id = employee_obj.search(cr, uid, [
+                            ('department_id', '=', assegnazione.assegnatario_department_id.id),
+                            ('user_id', '=', uid),
+                        ], limit=1)
+                        employee = employee_obj.browse(cr, uid, employee_id)
+                        assegnatario_employee_id = employee.id
+                        assegnatario_name = employee.name
+                    else:
+                        raise orm.except_orm(_('Azione Non Valida!'), _('Assegnazione non trovata!'))
 
                 action_class = "history_icon taken"
                 post_vars = {
@@ -1884,6 +1910,7 @@ class protocollo_protocollo(orm.Model):
         try:
             new_context = context.copy()
             new_context['skip_check'] = True
+            employee_obj = self.pool.get('hr.employee')
             protocollo = self.browse(cr, uid, ids, new_context)
             check_permission, error = self.assegnazione_validation(cr, uid, protocollo, 'rifiuta', new_context)
             if check_permission == True:
@@ -1893,16 +1920,41 @@ class protocollo_protocollo(orm.Model):
                     assegnatario_name = employee.name
                 else:
                     assegnazione_obj = self.pool.get('protocollo.assegnazione')
-                    assegnazione_ids = assegnazione_obj.search(cr, uid, [
+                    assegnazione_dipendente_ids = assegnazione_obj.search(cr, uid, [
                         ('protocollo_id', '=', protocollo.id),
                         ('tipologia_assegnazione', '=', 'competenza'),
                         ('tipologia_assegnatario', '=', 'employee'),
+                        ('assegnatario_employee_id.user_id.id', '=', uid),
                         ('state', '=', 'assegnato'),
-                        ('assegnatario_employee_id.user_id.id', '=', uid)
+                        ('parent_id', '=', False)
                     ])
-                    assegnazione = assegnazione_obj.browse(cr, uid, assegnazione_ids[0])
-                    assegnatario_employee_id = assegnazione.assegnatario_employee_id.id
-                    assegnatario_name = assegnazione.assegnatario_employee_id.name
+                    department_ids = []
+                    for employee_id in employee_obj.search(cr, uid, [('user_id', '=', uid)]):
+                        employee = employee_obj.browse(cr, uid, employee_id)
+                        if employee.department_id:
+                            department_ids.append(employee.department_id.id)
+                    assegnazione_ufficio_ids = assegnazione_obj.search(cr, uid, [
+                        ('protocollo_id', '=', protocollo.id),
+                        ('tipologia_assegnazione', '=', 'competenza'),
+                        ('tipologia_assegnatario', '=', 'department'),
+                        ('assegnatario_department_id', 'in', department_ids),
+                        ('state', '=', 'assegnato')
+                    ])
+                    if assegnazione_dipendente_ids:
+                        assegnazione = assegnazione_obj.browse(cr, uid, assegnazione_dipendente_ids[0])
+                        assegnatario_employee_id = assegnazione.assegnatario_employee_id.id
+                        assegnatario_name = assegnazione.assegnatario_employee_id.name
+                    elif assegnazione_ufficio_ids:
+                        assegnazione = assegnazione_obj.browse(cr, uid, assegnazione_ufficio_ids[0])
+                        employee_id = employee_obj.search(cr, uid, [
+                            ('department_id', '=', assegnazione.assegnatario_department_id.id),
+                            ('user_id', '=', uid),
+                        ], limit=1)
+                        employee = employee_obj.browse(cr, uid, employee_id)
+                        assegnatario_employee_id = employee.id
+                        assegnatario_name = employee.name
+                    else:
+                        raise orm.except_orm(_('Azione Non Valida!'), _('Assegnazione non trovata!'))
 
                 action_class = "history_icon refused"
                 post_vars = {

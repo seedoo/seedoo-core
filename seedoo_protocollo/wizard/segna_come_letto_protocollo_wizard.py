@@ -22,26 +22,51 @@ class protocollo_segna_come_letto_wizard(osv.TransientModel):
                 result['errore'] = 'Il protocollo non può più essere "Segnato come Letto"!'
                 return result
 
+            assegnatario_department_ids = []
             assegnazione_obj = self.pool.get('protocollo.assegnazione')
+
+            # ricerca tutte le assegnazioni fatte ad un dipendente associato all'utente corrente
             assegnazione_ids = assegnazione_obj.search(cr, uid, [
                 ('protocollo_id', '=', context['active_id']),
                 ('tipologia_assegnazione', '=', 'conoscenza'),
+                ('tipologia_assegnatario', '=', 'employee'),
                 ('assegnatario_employee_id.user_id.id', '=', uid),
-                ('state', '=', 'assegnato')
+                ('state', '=', 'assegnato'),
+                ('parent_id', '=', False)
             ])
             if assegnazione_ids:
-                assegnatario_department_ids = []
                 assegnazione_list = assegnazione_obj.browse(cr, uid, assegnazione_ids)
                 for assegnazione in assegnazione_list:
                     assegnatario_department_ids.append(assegnazione.assegnatario_employee_department_id.id)
 
-                result['assegnatario_department_ids_visible'] = assegnatario_department_ids
-                if len(assegnatario_department_ids) == 1:
-                    department_obj = self.pool.get('hr.department')
-                    department = department_obj.browse(cr, uid, assegnatario_department_ids[0])
-                    result['assegnatario_department_id'] = department.id
-                    result['assegnatario_department_name'] = department.name
-                    result['assegnatario_department_id_visible'] = False
+            # ricerca tutte le assegnazioni fatte ad un ufficio associato all'utente corrente: è importante non
+            # ricercare l'assegnazione del dipendente correlata all'ufficio perchè potrebbe non esserci (caso in cui
+            # il dipendente viene spostato nell'ufficio dopo che l'assegnazione è stata fatta)
+            department_ids = []
+            employee_obj = self.pool.get('hr.employee')
+            for employee_id in employee_obj.search(cr, uid, [('user_id', '=', uid)]):
+                employee = employee_obj.browse(cr, uid, employee_id)
+                if employee.department_id:
+                    department_ids.append(employee.department_id.id)
+            assegnazione_ids = assegnazione_obj.search(cr, uid, [
+                ('protocollo_id', '=', context['active_id']),
+                ('tipologia_assegnazione', '=', 'conoscenza'),
+                ('tipologia_assegnatario', '=', 'department'),
+                ('assegnatario_department_id', 'in', department_ids),
+                ('state', '=', 'assegnato')
+            ])
+            if assegnazione_ids:
+                assegnazione_list = assegnazione_obj.browse(cr, uid, assegnazione_ids)
+                for assegnazione in assegnazione_list:
+                    assegnatario_department_ids.append(assegnazione.assegnatario_department_id.id)
+
+            result['assegnatario_department_ids_visible'] = assegnatario_department_ids
+            if len(assegnatario_department_ids) == 1:
+                department_obj = self.pool.get('hr.department')
+                department = department_obj.browse(cr, uid, assegnatario_department_ids[0])
+                result['assegnatario_department_id'] = department.id
+                result['assegnatario_department_name'] = department.name
+                result['assegnatario_department_id_visible'] = False
 
         return result
 

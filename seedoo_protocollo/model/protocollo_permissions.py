@@ -116,8 +116,18 @@ class protocollo_protocollo(osv.Model):
                           pa.state = %s AND
                           pa.assegnatario_department_id = he.department_id AND
                           he.resource_id = rr.id AND
-                          rr.user_id = %s
-                ''', (str(protocollo.id), stato, str(assegnatario_uid)))
+                          rr.user_id = %s AND 
+                          pa.id NOT IN (
+                                SELECT pa2.parent_id
+                                FROM protocollo_assegnazione pa2
+                                WHERE pa.protocollo_id = pa2.protocollo_id AND
+                                      pa2.tipologia_assegnatario = 'employee' AND
+                                      pa2.tipologia_assegnazione = 'conoscenza' AND
+                                      pa2.state != %s AND
+                                      pa2.parent_id IS NOT NULL AND
+                                      pa2.assegnatario_employee_id = he.id
+                          )
+                ''', (str(protocollo.id), stato, str(assegnatario_uid), stato))
         assegnazione_ids = [res[0] for res in cr.fetchall()]
         if len(assegnazione_ids) > 0:
             return True
@@ -842,11 +852,19 @@ class protocollo_protocollo(osv.Model):
             FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
             WHERE pp.id = pa.protocollo_id AND
                   (
-                       (pa.parent_id IS NULL AND pa.assegnatario_employee_id = he.id AND he.resource_id = rr.id AND rr.user_id = ''' + str(uid) + ''' AND rr.active = TRUE) OR
-                       (pa.parent_id IS NOT NULL AND pa.assegnatario_employee_department_id = he.department_id AND pa.assegnatario_employee_id = he.id AND he.resource_id = rr.id AND rr.user_id = ''' + str(uid) + ''' AND rr.active = TRUE)
+                       (pa.tipologia_assegnatario = 'employee' AND pa.parent_id IS NULL AND pa.assegnatario_employee_id = he.id AND he.resource_id = rr.id AND rr.user_id = ''' + str(uid) + ''' AND rr.active = TRUE) OR
+                       (pa.tipologia_assegnatario = 'department' AND pa.assegnatario_department_id = he.department_id AND he.resource_id = rr.id AND rr.user_id = ''' + str(uid) + ''' AND rr.active = TRUE AND pa.id NOT IN (
+                            SELECT pa2.parent_id 
+                            FROM protocollo_assegnazione pa2
+                            WHERE pp.id = pa2.protocollo_id AND 
+                                  pa2.tipologia_assegnatario = 'employee' AND
+                                  pa2.tipologia_assegnazione = 'conoscenza' AND
+                                  pa2.state != 'assegnato' AND  
+                                  pa2.parent_id IS NOT NULL AND 
+                                  pa2.assegnatario_employee_id = he.id
+                       ))
                   ) AND
                   pp.registration_date IS NOT NULL AND
-                  pa.tipologia_assegnatario = 'employee' AND
                   pa.tipologia_assegnazione = 'conoscenza' AND
                   pa.state = 'assegnato' AND
                   pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
@@ -883,11 +901,19 @@ class protocollo_protocollo(osv.Model):
             WHERE pp.archivio_id = %d AND 
                   pp.id = pa.protocollo_id AND
                   (
-                       (pa.parent_id IS NULL AND pa.assegnatario_employee_id = he.id AND he.resource_id = rr.id AND rr.user_id = %s AND rr.active = TRUE) OR
-                       (pa.parent_id IS NOT NULL AND pa.assegnatario_employee_department_id = he.department_id AND pa.assegnatario_employee_id = he.id AND he.resource_id = rr.id AND rr.user_id = %s AND rr.active = TRUE)
+                       (pa.tipologia_assegnatario = 'employee' AND pa.parent_id IS NULL AND pa.assegnatario_employee_id = he.id AND he.resource_id = rr.id AND rr.user_id = %s AND rr.active = TRUE) OR
+                       (pa.tipologia_assegnatario = 'department' AND pa.assegnatario_department_id = he.department_id AND he.resource_id = rr.id AND rr.user_id = %s AND rr.active = TRUE AND pa.id NOT IN (
+                            SELECT pa2.parent_id 
+                            FROM protocollo_assegnazione pa2
+                            WHERE pp.id = pa2.protocollo_id AND 
+                                  pa2.tipologia_assegnatario = 'employee' AND
+                                  pa2.tipologia_assegnazione = 'conoscenza' AND
+                                  pa2.state != 'assegnato' AND  
+                                  pa2.parent_id IS NOT NULL AND 
+                                  pa2.assegnatario_employee_id = he.id
+                       ))
                   ) AND
                   pp.registration_date IS NOT NULL AND
-                  pa.tipologia_assegnatario = 'employee' AND 
                   pa.tipologia_assegnazione = 'conoscenza' AND 
                   pa.state = 'assegnato' AND
                   pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
@@ -1820,7 +1846,9 @@ class protocollo_protocollo(osv.Model):
                 check = True
 
             if check:
-                check = self._check_stato_assegnatario_conoscenza(cr, uid, protocollo, 'assegnato')
+                check_ufficio = self._check_stato_assegnatario_conoscenza_ufficio(cr, uid, protocollo, 'assegnato')
+                check_dipendente = self._check_stato_assegnatario_conoscenza(cr, uid, protocollo, 'assegnato')
+                check = check_ufficio or check_dipendente
                 types = self.get_protocollo_types_by_group(cr, uid, 'seedoo_protocollo', 'group_segna_come_letto_protocollo_', '')
                 check_gruppi = protocollo.type in types
                 check = check and check_gruppi
