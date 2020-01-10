@@ -283,7 +283,10 @@ class ProtocolloMailPecWizard(osv.TransientModel):
             messaggio_pec_id = messaggio_pec_obj.create(cr, uid, {'type': 'messaggio', 'messaggio_ref': mail_message.id})
 
             if configurazione.segnatura_xml_parse:
-                srvals = self.elaboraSegnatura(cr, uid, protocollo_obj, mail_message)
+                try:
+                    srvals = self.elaboraSegnatura(cr, uid, protocollo_obj, mail_message)
+                except Exception as e:
+                    _logger.error('Error in segnature parsing: %s', str(e))
             if len(srvals) > 0 and len(srvals['mittente']) > 0:
                 is_segnatura = True
 
