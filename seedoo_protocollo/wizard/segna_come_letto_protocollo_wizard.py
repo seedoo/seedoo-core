@@ -94,6 +94,21 @@ class protocollo_segna_come_letto_wizard(osv.TransientModel):
             ('department_id', '=', wizard.assegnatario_department_id.id),
             ('user_id', '=', uid)
         ])
+        # se non trova nessun dipendente allora vuol dire che è stato selezionato un ufficio relativo ad una
+        # assegnazione per dipendente, di cui ora il dipendente non fa più parte, quindi bisogna ricercare il nuovo
+        # ufficio tramite l'assegnazione in questione
+        if not employee_ids:
+            assegnazione_obj = self.pool.get('protocollo.assegnazione')
+            assegnazione_id = assegnazione_obj.search(cr, uid, [
+                ('protocollo_id', '=', context['active_id']),
+                ('tipologia_assegnatario', '=', 'employee'),
+                ('assegnatario_employee_department_id', '=', wizard.assegnatario_department_id.id),
+                ('assegnatario_employee_id.user_id.id', '=', uid),
+                ('parent_id', '=', False)
+            ], limit=1)
+            assegnazione = assegnazione_obj.browse(cr, uid, assegnazione_id)
+            if assegnazione and assegnazione.assegnatario_employee_id:
+                employee_ids = [assegnazione.assegnatario_employee_id.id]
         assegnatario_employee_id = employee_ids[0] if employee_ids else False
         protocollo_obj.segna_come_letto(cr, uid, [context['active_id']], assegnatario_employee_id)
         return {'type': 'ir.actions.act_window_close'}

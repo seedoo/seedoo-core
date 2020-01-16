@@ -205,10 +205,10 @@ class protocollo_assegnazione(orm.Model):
         'motivazione_rifiuto': fields.text('Motivazione del Rifiuto'),
     }
 
-    _sql_constraints = [
-        ('protocollo_assegnazione_unique', 'unique(protocollo_id, assegnatario_id, tipologia_assegnazione)',
-         'Protocollo e Assegnatario con già uno stato nel DB!'),
-    ]
+    # _sql_constraints = [
+    #     ('protocollo_assegnazione_unique', 'unique(protocollo_id, assegnatario_id, tipologia_assegnazione)',
+    #      'Protocollo e Assegnatario con già uno stato nel DB!'),
+    # ]
 
     def delete_indexes(self, cr):
         cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_assegnazione_tipologia_assegnatario_emp\'')
@@ -495,7 +495,7 @@ class protocollo_assegnazione(orm.Model):
         assegnazione_list = []
         for protocollo_id in protocollo_ids:
             if state in ['preso', 'rifiutato']:
-                # verifica che il protocollo non abbia uno stato diverso da 'Assegnato'
+                # verifica che il protocollo non abbia uno stato diverso da 'assegnato'
                 assegnazione_state_ids = self.search(cr, uid, [
                     ('protocollo_id', '=', protocollo_id),
                     ('tipologia_assegnazione', '=', 'competenza'),
@@ -505,23 +505,48 @@ class protocollo_assegnazione(orm.Model):
                 ])
                 if assegnazione_state_ids:
                     assegnazione_state = self.browse(cr, uid, assegnazione_state_ids[0])
-                    for state_assegnatario in self._fields['state'].selection:
-                        if state_assegnatario[0] == assegnazione_state.state:
-                            raise orm.except_orm(
-                                'Attenzione!',
-                                '''
-                                Non è più possibile eseguire l\'operazione richiesta!
-                                Il protocollo è in stato "%s"!
-                                ''' % (str(state_assegnatario[1]),)
-                            )
-                            break
+
+                    # verifica che l'assegnazione sia per dipendente oppure se è per ufficio si deve controllare anche
+                    # che l'ufficio sia lo stesso attualmente assegnato al dipendente
+                    if not assegnazione_state.parent_id or \
+                            assegnazione_state.assegnatario_employee_department_id.id == assegnazione_state.assegnatario_employee_id.department_id.id:
+                        for state_assegnatario in self._fields['state'].selection:
+                            if state_assegnatario[0] == assegnazione_state.state:
+                                raise orm.except_orm(
+                                    'Attenzione!',
+                                    '''
+                                    Non è più possibile eseguire l\'operazione richiesta!
+                                    Il protocollo è in stato "%s"!
+                                    ''' % (str(state_assegnatario[1]),)
+                                )
+                                break
 
             # verifica che l'utente sia uno degli assegnatari del protocollo
-            assegnazione_ids = self.search(cr, uid, [
+            assegnazione_ids = []
+
+            # ricerca per prima cosa se esiste un'assegnazione per dipendente
+            assegnazione_employee_ids = self.search(cr, uid, [
                 ('protocollo_id', '=', protocollo_id),
                 ('tipologia_assegnazione', '=', 'competenza'),
-                ('assegnatario_employee_id', 'in', employee_ids)
+                ('assegnatario_employee_id', 'in', employee_ids),
+                ('parent_id', '=', False)
             ])
+            assegnazione_ids = assegnazione_ids + assegnazione_employee_ids
+
+            for employee_id in employee_ids:
+                # per seconda cosa ricerca per ogni employee se esiste un'assegnazione per ufficio in cui è attualmente
+                # presente, infatti l'assegnazione per ufficio non sarebbe più valida se lui non appartenesse più all'
+                # ufficio
+                employee = employee_obj.browse(cr, uid, employee_id)
+                if employee.department_id:
+                    assegnazione_employee_department_ids = self.search(cr, uid, [
+                        ('protocollo_id', '=', protocollo_id),
+                        ('tipologia_assegnazione', '=', 'competenza'),
+                        ('assegnatario_employee_id', '=', employee.id),
+                        ('assegnatario_employee_department_id', '=', employee.department_id.id),
+                        ('parent_id', '!=', False)
+                    ])
+                    assegnazione_ids = assegnazione_ids + assegnazione_employee_department_ids
 
             if len(assegnazione_ids) == 0:
                 # se non trova assegnazioni per l'utente allora verifica che ci sia l'assegnazione per il suo ufficio,
@@ -584,11 +609,31 @@ class protocollo_assegnazione(orm.Model):
         assegnazione_list = []
         for protocollo_id in protocollo_ids:
             # verifica che l'utente sia uno degli assegnatari del protocollo
-            assegnazione_ids = self.search(cr, uid, [
+            assegnazione_ids = []
+
+            # ricerca per prima cosa se esiste un'assegnazione per dipendente
+            assegnazione_employee_ids = self.search(cr, uid, [
                 ('protocollo_id', '=', protocollo_id),
                 ('tipologia_assegnazione', '=', 'conoscenza'),
-                ('assegnatario_employee_id', 'in', employee_ids)
+                ('assegnatario_employee_id', 'in', employee_ids),
+                ('parent_id', '=', False)
             ])
+            assegnazione_ids = assegnazione_ids + assegnazione_employee_ids
+
+            for employee_id in employee_ids:
+                # per seconda cosa ricerca per ogni employee se esiste un'assegnazione per ufficio in cui è attualmente
+                # presente, infatti l'assegnazione per ufficio non sarebbe più valida se lui non appartenesse più all'
+                # ufficio
+                employee = employee_obj.browse(cr, uid, employee_id)
+                if employee.department_id:
+                    assegnazione_employee_department_ids = self.search(cr, uid, [
+                        ('protocollo_id', '=', protocollo_id),
+                        ('tipologia_assegnazione', '=', 'conoscenza'),
+                        ('assegnatario_employee_id', '=', employee.id),
+                        ('assegnatario_employee_department_id', '=', employee.department_id.id),
+                        ('parent_id', '!=', False)
+                    ])
+                    assegnazione_ids = assegnazione_ids + assegnazione_employee_department_ids
 
             if len(assegnazione_ids) == 0:
                 # se non trova assegnazioni per l'utente allora verifica che ci sia l'assegnazione per il suo ufficio,

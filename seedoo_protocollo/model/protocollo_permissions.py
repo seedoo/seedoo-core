@@ -25,6 +25,7 @@ class protocollo_protocollo(osv.Model):
         return protocolli
 
     def _check_stato_assegnatario_competenza(self, cr, uid, protocollo, stato, assegnatario_employee_id=None):
+        department_domain = []
         domain = [
             ('protocollo_id', '=', protocollo.id),
             ('tipologia_assegnazione', '=', 'competenza'),
@@ -33,12 +34,17 @@ class protocollo_protocollo(osv.Model):
         ]
         if assegnatario_employee_id:
             domain.append(('assegnatario_employee_id.id', '=', assegnatario_employee_id))
+            department_domain.append(('member_ids.id', '=', assegnatario_employee_id))
         else:
             domain.append(('assegnatario_employee_id.user_id.id', '=', uid))
+            department_domain.append(('member_ids.user_id.id', '=', uid))
         assegnazione_obj = self.pool.get('protocollo.assegnazione')
         assegnazione_ids = assegnazione_obj.search(cr, uid, domain)
-        if len(assegnazione_ids) > 0:
-            return True
+        department_ids = self.pool.get('hr.department').search(cr, uid, department_domain)
+        for assegnazione_id in assegnazione_ids:
+            assegnazione = assegnazione_obj.browse(cr, uid, assegnazione_id)
+            if not assegnazione.parent_id or (assegnazione.parent_id and assegnazione.parent_id.assegnatario_department_id.id in department_ids):
+                return True
         return False
 
     def _check_stato_assegnatore_competenza(self, cr, uid, protocollo, stato, assegnatore_employee_id=None, assegnazione_domain=[]):
@@ -100,8 +106,11 @@ class protocollo_protocollo(osv.Model):
             ('tipologia_assegnatario', '=', 'employee'),
             ('state', '=', stato)
         ])
-        if len(assegnazione_ids) > 0:
-            return True
+        department_ids = self.pool.get('hr.department').search(cr, uid, [('member_ids.user_id.id', '=', assegnatario_uid)])
+        for assegnazione_id in assegnazione_ids:
+            assegnazione = assegnazione_obj.browse(cr, uid, assegnazione_id)
+            if not assegnazione.parent_id or (assegnazione.parent_id and assegnazione.parent_id.assegnatario_department_id.id in department_ids):
+                return True
         return False
 
     def _check_stato_assegnatario_conoscenza_ufficio(self, cr, uid, protocollo, stato, assegnatario_uid=None):
@@ -644,28 +653,37 @@ class protocollo_protocollo(osv.Model):
             SELECT DISTINCT(p.id) FROM (
                 SELECT DISTINCT(pa.protocollo_id) AS id
                 FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
-                WHERE pp.id = pa.protocollo_id
-                    AND pa.assegnatario_employee_id = he.id
-                    AND he.resource_id = rr.id
-                    AND rr.user_id = %s
-                    AND rr.active = TRUE
-                    AND pp.registration_date IS NOT NULL
-                    AND pa.tipologia_assegnatario = 'employee'
-                    AND pa.state IN ('preso', 'letto') 
-                    AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
-                    ''' + dossier_condition + '''
+                WHERE pp.id = pa.protocollo_id AND 
+                      pp.registration_date IS NOT NULL AND 
+                      pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
+                      (
+                            (pa.tipologia_assegnatario = 'employee' AND pa.parent_id IS NULL AND pa.assegnatario_employee_id = he.id AND he.resource_id = rr.id AND rr.user_id = %s AND rr.active = TRUE AND pa.state IN ('preso', 'letto')) OR 
+                            (pa.tipologia_assegnatario = 'department' AND pa.assegnatario_department_id = he.department_id AND he.resource_id = rr.id AND rr.user_id = %s AND rr.active = TRUE AND pa.id IN (
+                                SELECT pa2.parent_id
+                                FROM protocollo_assegnazione pa2
+                                WHERE pp.id = pa2.protocollo_id AND 
+                                      pa2.tipologia_assegnatario = 'employee' AND
+                                      pa2.parent_id IS NOT NULL AND
+                                      pa2.assegnatario_employee_id = he.id AND 
+                                      pa2.state IN ('preso', 'letto')
+                            ))
+                      )
+                      ''' + dossier_condition + '''
                     
-                UNION SELECT DISTINCT(pp.id) AS id
-                    FROM protocollo_protocollo pp, hr_employee he, resource_resource rr
-                    WHERE pp.registration_employee_state = 'working'
-                        AND pp.registration_employee_id = he.id
-                        AND he.resource_id = rr.id
-                        AND rr.user_id = %s
-                        AND rr.active = TRUE
-                        AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
-                        ''' + dossier_condition + ''')
-                        p
-        ''', (uid,uid))
+                UNION
+                
+                SELECT DISTINCT(pp.id) AS id
+                FROM protocollo_protocollo pp, hr_employee he, resource_resource rr
+                WHERE pp.registration_employee_state = 'working' AND 
+                      pp.registration_employee_id = he.id AND 
+                      he.resource_id = rr.id AND 
+                      rr.user_id = %s AND 
+                      rr.active = TRUE AND 
+                      pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
+                      ''' + dossier_condition + '''
+                          
+            ) p
+        ''', (uid, uid, uid))
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
 
         end = int(round(time.time() * 1000))
@@ -681,33 +699,42 @@ class protocollo_protocollo(osv.Model):
         if fascicolo_ids:
             dossier_condition = 'AND pp.id NOT IN (SELECT protocollo_id FROM dossier_protocollo_rel WHERE dossier_id IN (' + ', '.join(map(str, fascicolo_ids)) + '))'
 
-        cr.execute('''SELECT COUNT (DISTINCT(p.id)) FROM (
-            SELECT DISTINCT(pa.protocollo_id) AS id
-                FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
-                WHERE pp.id = pa.protocollo_id
-                    AND pp.archivio_id = %s
-                    AND pa.assegnatario_employee_id = he.id
-                    AND he.resource_id = rr.id
-                    AND rr.user_id = %s
-                    AND rr.active = TRUE
-                    AND pp.registration_date IS NOT NULL
-                    AND pa.tipologia_assegnatario = 'employee'
-                    AND pa.state IN ('preso', 'letto') 
-                    AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
-                    ''' + dossier_condition + '''
-            
-            UNION SELECT DISTINCT(pp.id) AS id
+        cr.execute('''
+            SELECT COUNT (DISTINCT(p.id)) FROM (
+                SELECT DISTINCT(pa.protocollo_id) AS id
+                    FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
+                    WHERE pp.archivio_id = %s AND 
+                          pp.id = pa.protocollo_id AND 
+                          pp.registration_date IS NOT NULL AND 
+                          pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
+                          (
+                                (pa.tipologia_assegnatario = 'employee' AND pa.parent_id IS NULL AND pa.assegnatario_employee_id = he.id AND he.resource_id = rr.id AND rr.user_id = %s AND rr.active = TRUE AND pa.state IN ('preso', 'letto')) OR 
+                                (pa.tipologia_assegnatario = 'department' AND pa.assegnatario_department_id = he.department_id AND he.resource_id = rr.id AND rr.user_id = %s AND rr.active = TRUE AND pa.id IN (
+                                    SELECT pa2.parent_id
+                                    FROM protocollo_assegnazione pa2
+                                    WHERE pp.id = pa2.protocollo_id AND 
+                                          pa2.tipologia_assegnatario = 'employee' AND
+                                          pa2.parent_id IS NOT NULL AND
+                                          pa2.assegnatario_employee_id = he.id AND 
+                                          pa2.state IN ('preso', 'letto')
+                                ))
+                          )
+                          ''' + dossier_condition + '''
+                
+                UNION 
+                
+                SELECT DISTINCT(pp.id) AS id
                 FROM protocollo_protocollo pp, hr_employee he, resource_resource rr
-                WHERE pp.archivio_id = %s
-                    AND pp.registration_employee_state = 'working'
-                    AND pp.registration_employee_id = he.id
-                    AND he.resource_id = rr.id
-                    AND rr.user_id = %s
-                    AND rr.active = TRUE
-                    AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
-                    ''' + dossier_condition + ''')
-                    p
-        ''', (current_archivio_id, uid, current_archivio_id, uid))
+                WHERE pp.archivio_id = %s AND 
+                      pp.registration_employee_state = 'working' AND 
+                      pp.registration_employee_id = he.id AND 
+                      he.resource_id = rr.id AND 
+                      rr.user_id = %s AND 
+                      rr.active = TRUE AND 
+                      pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
+                      ''' + dossier_condition + '''
+            ) p
+        ''', (current_archivio_id, uid, uid, current_archivio_id, uid))
         result = cr.fetchall()
         count_value = result[0][0]
 
@@ -1257,8 +1284,10 @@ class protocollo_protocollo(osv.Model):
                   pa1.state = 'assegnato' AND
                   (pa1.tipologia_assegnatario = 'department' OR (pa1.tipologia_assegnatario = 'employee' AND pa1.parent_id IS NULL)) AND
                   (
-                      (pa2.assegnatario_employee_id IS NULL AND (pp.registration_employee_id != pa1.assegnatore_id OR (pp.registration_employee_id = pa1.assegnatore_id AND pp.registration_employee_state = 'working'))) OR
-                      (pa2.assegnatario_employee_id IS NOT NULL AND pa2.state = 'preso')
+                      (pa2.assegnatario_employee_id IS NULL AND (
+                          (pp.registration_employee_id != pa1.assegnatore_id AND pa1.assegnatore_department_id = he.department_id) OR (pp.registration_employee_id = pa1.assegnatore_id AND pp.registration_employee_state = 'working'))
+                      ) OR
+                      (pa2.assegnatario_employee_id IS NOT NULL AND pa2.state = 'preso' AND pa1.assegnatore_department_id = he.department_id)
                   )
         ''', (uid, ))
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
@@ -1289,8 +1318,10 @@ class protocollo_protocollo(osv.Model):
                   pa1.state = 'assegnato' AND
                   (pa1.tipologia_assegnatario = 'department' OR (pa1.tipologia_assegnatario = 'employee' AND pa1.parent_id IS NULL)) AND
                   (
-                      (pa2.assegnatario_employee_id IS NULL AND (pp.registration_employee_id != pa1.assegnatore_id OR (pp.registration_employee_id = pa1.assegnatore_id AND pp.registration_employee_state = 'working'))) OR
-                      (pa2.assegnatario_employee_id IS NOT NULL AND pa2.state = 'preso')
+                      (pa2.assegnatario_employee_id IS NULL AND (
+                          (pp.registration_employee_id != pa1.assegnatore_id AND pa1.assegnatore_department_id = he.department_id) OR (pp.registration_employee_id = pa1.assegnatore_id AND pp.registration_employee_state = 'working'))
+                      ) OR
+                      (pa2.assegnatario_employee_id IS NOT NULL AND pa2.state = 'preso' AND pa1.assegnatore_department_id = he.department_id)
                   )
             """ % (uid, current_archivio_id)
 
@@ -1324,8 +1355,10 @@ class protocollo_protocollo(osv.Model):
                   pa1.state = 'rifiutato' AND
                   (pa1.tipologia_assegnatario = 'department' OR (pa1.tipologia_assegnatario = 'employee' AND pa1.parent_id IS NULL)) AND
                   (
-                      (pa2.assegnatario_employee_id IS NULL AND (pp.registration_employee_id != pa1.assegnatore_id OR (pp.registration_employee_id = pa1.assegnatore_id AND pp.registration_employee_state = 'working'))) OR
-                      (pa2.assegnatario_employee_id IS NOT NULL AND pa2.state = 'preso')
+                      (pa2.assegnatario_employee_id IS NULL AND (
+                          (pp.registration_employee_id != pa1.assegnatore_id AND pa1.assegnatore_department_id = he.department_id) OR (pp.registration_employee_id = pa1.assegnatore_id AND pp.registration_employee_state = 'working'))
+                      ) OR
+                      (pa2.assegnatario_employee_id IS NOT NULL AND pa2.state = 'preso' AND pa1.assegnatore_department_id = he.department_id)
                   )
         ''', (uid, ))
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
@@ -1356,8 +1389,10 @@ class protocollo_protocollo(osv.Model):
                   pa1.state = 'rifiutato' AND
                   (pa1.tipologia_assegnatario = 'department' OR (pa1.tipologia_assegnatario = 'employee' AND pa1.parent_id IS NULL)) AND
                   (
-                      (pa2.assegnatario_employee_id IS NULL AND (pp.registration_employee_id != pa1.assegnatore_id OR (pp.registration_employee_id = pa1.assegnatore_id AND pp.registration_employee_state = 'working'))) OR
-                      (pa2.assegnatario_employee_id IS NOT NULL AND pa2.state = 'preso')
+                      (pa2.assegnatario_employee_id IS NULL AND (
+                          (pp.registration_employee_id != pa1.assegnatore_id AND pa1.assegnatore_department_id = he.department_id) OR (pp.registration_employee_id = pa1.assegnatore_id AND pp.registration_employee_state = 'working'))
+                      ) OR
+                      (pa2.assegnatario_employee_id IS NOT NULL AND pa2.state = 'preso' AND pa1.assegnatore_department_id = he.department_id)
                   )
         """ % (uid, current_archivio_id)
 
