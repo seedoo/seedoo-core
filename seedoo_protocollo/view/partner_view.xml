@@ -99,5 +99,25 @@
             </field>
         </record>
 
+        <record model="ir.ui.view" id="res_partner_kanban_view_seedoo_protocollo">
+            <field name="name">res.partner.kanban.view.seedoo.protocollo</field>
+            <field name="model">res.partner</field>
+            <field name="priority">100</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="display_name"/>
+                    <field name="email"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_vignette oe_semantic_html_override">
+                                <field name="display_name"/><span t-if="record.email.raw_value"> - <field name="email"/></span>
+                                <a t-if="!read_only_mode" type="delete">X</a>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
     </data>
 </openerp>

@@ -385,5 +385,30 @@ this module contains the full copyright notices and license terms. -->
                 </xpath>
             </field>
         </record>
+
+        <record id="email_compose_message_wizard_form_sharedmail_seedoo_protocollo" model="ir.ui.view">
+            <field name="name">email.compose.message.wizard.form.sharedmail.seedoo.protocollo</field>
+            <field name="model">mail.compose.message</field>
+            <field name="inherit_id" ref="sharedmail.email_compose_message_wizard_form_sharedmail"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_ids']" position="attributes">
+                    <attribute name="widget">many2many_kanban</attribute>
+                    <attribute name="context">{'show_sharedmail_email':True, 'kanban_view_ref' : 'seedoo_protocollo.res_partner_kanban_view_seedoo_protocollo'}</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="email_compose_message_wizard_form_pec_seedoo_protocollo" model="ir.ui.view">
+            <field name="name">email.compose.message.wizard.form.pec.seedoo.protocollo</field>
+            <field name="model">mail.compose.message</field>
+            <field name="inherit_id" ref="l10n_it_pec_messages.email_compose_message_wizard_form_pec"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_ids']" position="attributes">
+                    <attribute name="widget">many2many_kanban</attribute>
+                    <attribute name="context">{'show_pec_email':True, 'kanban_view_ref' : 'seedoo_protocollo.res_partner_kanban_view_seedoo_protocollo'}</attribute>
+                </xpath>
+            </field>
+        </record>
+
     </data>
 </openerp>
