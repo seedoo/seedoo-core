@@ -393,7 +393,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='partner_ids']" position="attributes">
                     <attribute name="widget">many2many_kanban</attribute>
-                    <attribute name="context">{'show_sharedmail_email':True, 'kanban_view_ref' : 'seedoo_protocollo.res_partner_kanban_view_seedoo_protocollo'}</attribute>
+                    <attribute name="context">{'show_sharedmail_email':True, 'kanban_view_ref' : 'seedoo_protocollo.res_partner_kanban_view_seedoo_protocollo_email'}</attribute>
                 </xpath>
             </field>
         </record>
@@ -405,7 +405,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='partner_ids']" position="attributes">
                     <attribute name="widget">many2many_kanban</attribute>
-                    <attribute name="context">{'show_pec_email':True, 'kanban_view_ref' : 'seedoo_protocollo.res_partner_kanban_view_seedoo_protocollo'}</attribute>
+                    <attribute name="context">{'show_pec_email':True, 'kanban_view_ref' : 'seedoo_protocollo.res_partner_kanban_view_seedoo_protocollo_pec'}</attribute>
                 </xpath>
             </field>
         </record>
