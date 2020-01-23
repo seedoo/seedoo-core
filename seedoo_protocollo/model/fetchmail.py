@@ -34,12 +34,12 @@ class fetchmail_server(osv.osv):
     _inherit = 'fetchmail.server'
 
     _columns = {
-        'move_processed_emails': fields.boolean('Sposta le email processate'),
+        'move_processed_emails': fields.boolean('Sposta le email processate sulla mailbox'),
         'email_account': fields.selection([
             ('gmail', 'Gmail'), ('aruba', 'Aruba'), ('legalmail', 'Legalmail'), ('other', 'Altro')
-        ], 'Email account'),
-        'processed_folder': fields.char('Nome cartella delle email processate correttamente'),
-        'error_folder': fields.char('Nome cartella delle email processate con errore'),
+        ], 'Provider'),
+        'processed_folder': fields.char('Percorso folder email processate'),
+        'error_folder': fields.char('Percorso folder email errore'),
         'fetchmail_server_history_ids': fields.one2many('fetchmail.server.history', 'fetchmail_server_id', 'Storico'),
     }
 
