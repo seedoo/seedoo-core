@@ -77,7 +77,6 @@ class ir_attachment(osv.Model):
                 res[attach.id] = True
         return res
 
-
     def _is_message_attach(self, cr, uid, ids, name, arg, context=None):
         return {}
 
@@ -91,6 +90,22 @@ class ir_attachment(osv.Model):
                 attachment_list.append(record['attachment_id'])
         return [('id', 'in', attachment_list)]
 
+    def _get_edit(self, cr, uid, ids, field, arg, context=None):
+        if isinstance(ids, (list, tuple)) and not len(ids):
+            return []
+        if isinstance(ids, (long, int)):
+            ids = [ids]
+        res = dict.fromkeys(ids, False)
+        for attach in self.browse(cr, uid, ids):
+            res[attach.id] = False
+            if attach.is_protocol and attach.res_model and attach.res_id:
+                new_context = dict(context or {})
+                new_context['skip_check'] = True
+                resource = self.pool.get(attach.res_model).browse(cr, uid, attach.res_id, new_context)
+                if resource and resource.modifica_allegati_visibility:
+                    res[attach.id] = True
+        return res
+
     _columns = {
         'is_protocol': fields.boolean('Doc Protocollo'),
         'reserved': fields.function(_get_reserved, type='boolean', string='Documento Riservato'),
@@ -102,6 +117,7 @@ class ir_attachment(osv.Model):
         'is_message_attach': fields.function(_is_message_attach, fnct_search=_is_message_attach_search,
                                                   type='boolean', method=True, string='Visibile'),
         'is_eml': fields.function(_is_eml, type='boolean', method=True, string='EML'),
+        'edit': fields.function(_get_edit, type='boolean', string='Modifica'),
     }
 
     _order = 'is_main'

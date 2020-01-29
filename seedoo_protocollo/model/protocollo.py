@@ -2323,7 +2323,7 @@ class protocollo_protocollo(orm.Model):
                 # non si considera il file Segnatura.xml perchè tanto verrà eliminato e rigenerato
                 attachment_domain.append(('name', '!=', 'Segnatura.xml'))
         attachment_ids = attachment_obj.search(cr, uid, attachment_domain)
-        if attachment_ids and (not context or not ('append' in context)):
+        if attachment_ids and context and 'delete_all' in context:
             attachment_obj.unlink(cr, SUPERUSER_ID, attachment_ids)
         elif attachment_ids and context and 'append' in context:
             attachment_index = len(attachment_ids) + 1
@@ -2332,14 +2332,25 @@ class protocollo_protocollo(orm.Model):
         nomi_allegati = ''
         try:
             for file_data in file_data_list:
-                attachment_created_id = self._create_protocol_attachment(
-                    cr, uid, prot,
-                    file_data['datas_fname'],
-                    file_data['datas'],
-                    file_data['datas_description'],
-                    attachment_index
-                )
-                attachment_created_ids.append(attachment_created_id)
+                if 'attachment_id' in file_data and file_data['attachment_id']:
+                    if prot.registration_date:
+                        raise orm.except_orm(_('Attenzione!'), _('Non è possibile modificare il documento: il protocollo è già stato registrato!'))
+                    attachment_values = {
+                        'name': file_data['datas_fname'],
+                        'datas': file_data['datas'],
+                        'datas_fname': file_data['datas_fname'],
+                        'datas_description': file_data['datas_description']
+                    }
+                    attachment_obj.write(cr, uid, [file_data['attachment_id']], attachment_values)
+                else:
+                    attachment_created_id = self._create_protocol_attachment(
+                        cr, uid, prot,
+                        file_data['datas_fname'],
+                        file_data['datas'],
+                        file_data['datas_description'],
+                        attachment_index
+                    )
+                    attachment_created_ids.append(attachment_created_id)
                 nomi_allegati += file_data['datas_fname']
                 if counter < len(file_data_list) - 1:
                     nomi_allegati += ', '
@@ -2365,6 +2376,26 @@ class protocollo_protocollo(orm.Model):
             thread_pool.message_post(cr, uid, protocollo_id, type="notification", context=context, **post_vars)
 
         return attachment_created_ids
+
+    def elimina_allegato_protocollo(self, cr, uid, ids, context=None):
+        protocollo_id = False
+        attachment_obj = self.pool.get('ir.attachment')
+        attachments = attachment_obj.browse(cr, uid, ids)
+        for attachment in attachments:
+            if attachment.res_model == 'protocollo.protocollo':
+                protocollo_id = attachment.res_id
+        attachment_obj.unlink(cr, SUPERUSER_ID, ids)
+        if protocollo_id:
+            return {
+                'name': 'Protocollo',
+                'view_type': 'form',
+                'view_mode': 'form,tree',
+                'res_model': 'protocollo.protocollo',
+                'res_id': protocollo_id,
+                'context': context,
+                'type': 'ir.actions.act_window',
+                'flags': {'initial_mode': 'edit'}
+            }
 
     def _get_oggetto_mail_pec(self, cr, uid, subject, prot_name, prot_registration_date):
         prefix = "Prot. n. " + prot_name + " del " + prot_registration_date + " - "

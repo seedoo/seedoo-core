@@ -358,6 +358,7 @@ this module contains the full copyright notices and license terms. -->
                             <field name="carica_documento_visibility"/>
                             <field name="modifica_documento_visibility"/>
                             <field name="carica_allegati_visibility"/>
+                            <field name="modifica_allegati_visibility"/>
                             <field name="inserisci_testo_mailpec_visibility"/>
                             <field name="protocollo_fields_editability"/>
                             <field name="server_sharedmail_id_required"/>
@@ -576,7 +577,7 @@ this module contains the full copyright notices and license terms. -->
                                         <tr>
                                             <td align="left" valign="middle">
                                                 <div class="icon_item_type">
-                                                   <div class="individual" attrs="{'invisible':[('sender_internal_employee','=',False)]}">
+                                                    <div class="individual" attrs="{'invisible':[('sender_internal_employee','=',False)]}">
                                                         <span>Tipo</span>
                                                     </div>
                                                     <div class="legal" attrs="{'invisible':[('sender_internal_department','=',False)]}">
@@ -740,53 +741,72 @@ this module contains the full copyright notices and license terms. -->
                             <page string="Allegati" class="tab-allegati">
                                 <group col="4" colspan="4">
                                     <div class="oe_edit_only">
-                                        <button string="Carica Allegati" type="action" class="oe_inline oe_highlight_positive oe_button btn_seedoo btn_carica_documenti button-form-protocollo"
+                                        <button string="Carica Allegato" type="action" class="oe_inline oe_highlight_positive oe_button btn_seedoo btn_carica_documenti button-form-protocollo"
                                                     attrs="{'invisible':[('carica_allegati_visibility','=',False)]}"
-                                                    name="%(protocollo_carica_allegati_wizard_action)d"/>
+                                                    name="%(protocollo_carica_allegato_wizard_action)d"/>
                                     </div>
-                                    <field name="attachment_ids" colspan="4" widget="many2many_kanban" nolabel="1" class="container_allegati">
-                                    <kanban quick_create="false" create="false">
-                                        <field name="type"/>
-                                        <field name="name"/>
-                                        <field name="datas_description"/>
-                                        <field name="is_main"/>
-                                        <templates>
-                                            <t t-name="kanban-box">
-                                                <t t-if="!record.is_main.raw_value">
-                                                    <a type="open" class="protocollo_attachments_box">
-                                                        <div class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_color_border item_box" >
-                                                            <table class="oe_kanban_table">
-                                                                <tr>
-                                                                    <td class="oe_kanban_messaggio pec_button_col" align="left" valign="middle">
-                                                                        <div class="icon_item_type">
-                                                                           <div t-att-class="record.type.raw_value">
-                                                                               <i class="fa fa-paperclip" aria-hidden="true"></i>
-                                                                           </div>
-                                                                        </div>
-                                                                    </td>
-                                                                    <td>
-                                                                        <h3><field name="name"/></h3>
-                                                                        <t t-if="record.datas_description.raw_value">
-                                                                            <p>
-                                                                                <field name="datas_description" />
-                                                                            </p>
-                                                                        </t>
-                                                                    </td>
-                                                                </tr>
-                                                            </table>
-                                                        </div>
-                                                    </a>
+                                    <field name="attachment_ids" colspan="4" widget="many2many_kanban" attrs="{'readonly':[('modifica_allegati_visibility','=',False)]}" nolabel="1" class="container_allegati">
+                                        <kanban quick_create="false" create="false">
+                                            <field name="type"/>
+                                            <field name="name"/>
+                                            <field name="datas_description"/>
+                                            <field name="is_main"/>
+                                            <field name="edit"/>
+                                            <templates>
+                                                <t t-name="kanban-box">
+                                                    <div t-if="!record.is_main.raw_value" style="position: relative; margin-bottom:10px; margin-right:10px" class="item_box">
+                                                        <a type="action" name="%(protocollo_elimina_allegato_action)d" t-if="record.edit.raw_value" class="oe_edit_only" style="position: absolute; right: 5px; padding: 0 4px; display: inline-block;background: rgba(255,255,255,0.6);">X</a>
+                                                        <a type="action" name="%(protocollo_mostra_allegato_wizard_action)d" t-if="read_only_mode" context="{'read_only_mode': True}">
+                                                            <div class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_color_border" style="height: 100%">
+                                                                <table class="oe_kanban_table">
+                                                                    <tr>
+                                                                        <td class="oe_kanban_messaggio pec_button_col" align="left" valign="middle">
+                                                                            <div class="icon_item_type">
+                                                                               <div t-att-class="record.type.raw_value">
+                                                                                   <i class="fa fa-paperclip" aria-hidden="true"></i>
+                                                                               </div>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <h3><field name="name"/></h3>
+                                                                            <t t-if="record.datas_description.raw_value">
+                                                                                <p>
+                                                                                    <field name="datas_description" />
+                                                                                </p>
+                                                                            </t>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </div>
+                                                        </a>
+                                                        <a type="action" name="%(protocollo_carica_allegato_wizard_action)d" t-if="!read_only_mode" context="{'read_only_mode': False}">
+                                                            <div class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_color_border" style="height: 100%">
+                                                                <table class="oe_kanban_table">
+                                                                    <tr>
+                                                                        <td class="oe_kanban_messaggio pec_button_col" align="left" valign="middle">
+                                                                            <div class="icon_item_type">
+                                                                               <div t-att-class="record.type.raw_value">
+                                                                                   <i class="fa fa-paperclip" aria-hidden="true"></i>
+                                                                               </div>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <h3><field name="name"/></h3>
+                                                                            <t t-if="record.datas_description.raw_value">
+                                                                                <p>
+                                                                                    <field name="datas_description" />
+                                                                                </p>
+                                                                            </t>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </div>
+                                                        </a>
+                                                    </div>
                                                 </t>
-                                            </t>
-                                        </templates>
-                                    </kanban>
-                                    <!--<tree default_order='is_main' string="is_main" fonts="bold:is_main==True;">-->
-                                        <!--<field name="name" string="Nome"/>-->
-                                        <!--<field name="datas_description"/>-->
-                                        <!--&lt;!&ndash;<field name="user_id"/>&ndash;&gt;-->
-                                        <!--<field name="is_main"/>-->
-                                    <!--</tree>-->
-                                </field>
+                                            </templates>
+                                        </kanban>
+                                    </field>
                                 </group>
                             </page>
                             <page string="Altro">

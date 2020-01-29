@@ -2447,6 +2447,19 @@ class protocollo_protocollo(osv.Model):
 
         return dict(res)
 
+    def _modifica_allegati_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
+        res = []
+        check = False
+        protocolli = self._get_protocolli(cr, uid, ids)
+        for protocollo in protocolli:
+
+            if protocollo.state == 'draft':
+                check = True
+
+            res.append((protocollo.id, check))
+
+        return dict(res)
+
     def _carica_documento_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         res = []
         check = False
@@ -2670,6 +2683,7 @@ class protocollo_protocollo(osv.Model):
         'carica_documento_visibility': fields.function(_carica_documento_visibility, type='boolean', string='Carica documento'),
         'modifica_documento_visibility': fields.function(_modifica_documento_visibility, type='boolean', string='Modifica documento'),
         'carica_allegati_visibility': fields.function(_carica_allegati_visibility, type='boolean', string='Carica Allegati'),
+        'modifica_allegati_visibility': fields.function(_modifica_allegati_visibility, type='boolean', string='Modifica Allegati'),
         'protocollo_fields_editability': fields.function(_protocollo_fields_editability, type='boolean', string='Modificabilità Campi Protocollo'),
         'typology_editability': fields.function(_typology_editability, type='boolean', string='Modificabilità Campi Mezzo di Trasmissione'),
     }
