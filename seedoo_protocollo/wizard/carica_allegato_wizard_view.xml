@@ -22,24 +22,15 @@ this module contains the full copyright notices and license terms. -->
                             <field name="attachment_description_required" invisible="1"/>
                         </group>
                         <group colspan="4">
-                            <div id="protocollo-accordion">
-                                <div class="dati-protocollo-container" id="anteprima-container" attrs="{'invisible':[('preview','=',False)]}">
-                                    <div class="protocollo-accordion-toggle button-form-protocollo">
-                                        <h4 class="accordion-toggle">Anteprima</h4>
-                                    </div>
-                                    <div class="accordion-content" style="margin-top: 30px;">
-                                        <field name="preview"
-                                               string="Anteprima Allegato"
-                                               noupload="True"
-                                               nolabel="1"
-                                               options="{'uploadbutton':false}"
-                                               attrs="{'invisible':[('preview','=',False)], 'readonly':True}"
-                                               widget="pdfviewer"
-                                               colspan="4"
-                                        />
-                                    </div>
-                                </div>
-                            </div>
+                            <field name="preview"
+                                   string="Anteprima Allegato"
+                                   noupload="True"
+                                   nolabel="1"
+                                   options="{'uploadbutton':false}"
+                                   attrs="{'invisible':[('preview','=',False)], 'readonly':True}"
+                                   widget="pdfviewer"
+                                   colspan="4"
+                            />
                         </group>
                         <field name="attachment_description_required" invisible="1"/>
                         <field name="read_only_mode" invisible="1"/>
