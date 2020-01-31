@@ -121,6 +121,7 @@ openerp.m2m_tree_widget = function(instance) {
             //this.$input = this.$el.find("input");
 
             var dataset = new instance.web.DataSet(this, this.field.relation, self.build_context());
+            var context = self.build_context().eval();
             var fields = _.keys(self.fields);
             var label = '';
             var order = '';
@@ -135,10 +136,10 @@ openerp.m2m_tree_widget = function(instance) {
             if (self.options.css_class) {
             	css_class = self.options.css_class;
             }
-            if (self.options.typology) {
-            	typology = self.options.typology;
-            	if (self.options.uncheck_different_typology) {
-            	    uncheckDifferentTypology = true;
+            if (context.typology) {
+            	typology = context.typology;
+            	if (context.uncheck_different_typology) {
+            	    uncheckDifferentTypology = context.uncheck_different_typology;
                 }
             }
             if (self.options.order) {

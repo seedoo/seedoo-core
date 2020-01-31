@@ -87,7 +87,7 @@ Se sono presenti assegnatari per conoscenza verranno rimossi al completamento de
             ('protocollo_id', '=', context['active_id']),
             ('tipologia_assegnazione', '=', 'competenza'),
             ('parent_id', '=', False)
-        ])
+        ], order='create_date')
         if assegnazione_ids:
             assegnazione = assegnazione_obj.browse(cr, uid, assegnazione_ids[0])
             return assegnazione.assegnatario_id.id
@@ -115,12 +115,20 @@ Se sono presenti assegnatari per conoscenza verranno rimossi al completamento de
         # se il protocollo è stato già registrato e l'utente che sta aggiungendo gli assegnatari non ha il permesso di
         # modifica, allora le vecchie assegnazioni per conoscenza non devono essere modificabili.
         if protocollo.registration_date and not protocollo.modifica_assegnatari_visibility:
-            for assegnazione in protocollo.assegnazione_conoscenza_ids:
-                assegnatario_conoscenza_disable_ids.append(assegnazione.assegnatario_id.id)
-                # se l'assegnazione per conoscenza è di tipo employee allora anche l'ufficio di appartenenza non
-                # deve essere selezionabile, mentre gli altri appartenenti all'ufficio possono esserlo
-                if assegnazione.tipologia_assegnatario == 'employee' and assegnazione.assegnatario_id.parent_id:
-                    assegnatario_conoscenza_disable_ids.append(assegnazione.assegnatario_id.parent_id.id)
+            assegnazione_obj = self.pool.get('protocollo.assegnazione')
+            assegnazione_conoscenza_domain = [
+                ('protocollo_id', '=', context['active_id']),
+                ('tipologia_assegnazione', '=', 'conoscenza')
+            ]
+            assegnazione_conoscenza_ids = assegnazione_obj.search(cr, uid, assegnazione_conoscenza_domain)
+            if assegnazione_conoscenza_ids:
+                assegnazione_conoscenza_list = assegnazione_obj.browse(cr, uid, assegnazione_conoscenza_ids)
+                for assegnazione in assegnazione_conoscenza_list:
+                    assegnatario_conoscenza_disable_ids.append(assegnazione.assegnatario_id.id)
+                    # se l'assegnazione per conoscenza è di tipo employee allora anche l'ufficio di appartenenza non
+                    # deve essere selezionabile, mentre gli altri appartenenti all'ufficio possono esserlo
+                    if assegnazione.tipologia_assegnatario == 'employee' and assegnazione.assegnatario_id.parent_id:
+                        assegnatario_conoscenza_disable_ids.append(assegnazione.assegnatario_id.parent_id.id)
         return assegnatario_conoscenza_disable_ids
 
     def _default_display_motivation(self, cr, uid, context):
@@ -142,7 +150,9 @@ Se sono presenti assegnatari per conoscenza verranno rimossi al completamento de
         protocollo = None
         if context and 'active_id' in context:
             protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
-        if not protocollo or not protocollo.registration_date:
+        # l'assegnatario per competenza è obbligatorio solo se il protocollo è stato registrato e chi sta facendo
+        # l'assegnazione viene fatta da un utente che ha il permesso di modifica assegnatari
+        if not protocollo or not protocollo.registration_date or (context and 'call_by_modifica_assegnatari' in context):
             return False
         else:
             return True
@@ -161,17 +171,26 @@ Se sono presenti assegnatari per conoscenza verranno rimossi al completamento de
     }
 
     def salva_assegnazione_competenza(self, cr, uid, protocollo, wizard, assegnatore_id, save_history, before, after):
+        old_assegnatario_id = self._default_assegnatario_competenza_id(cr, uid, {'active_id': protocollo.id})
+        new_assegnatario_id = wizard.assegnatario_competenza_id.id if wizard.assegnatario_competenza_id else False
+        # Se il protocollo è registrato e il nuovo assegnatario coincide con il vecchio, allora gli assegnatari per
+        # competenza non devono essere modificati. In pratica un utente con il permesso di modifica assegnatari, sta
+        # salvando l'assegnazione senza però cambiarla. Solamente se il nuovo assegnatario è diverso dal vecchio, si
+        # devono eliminare tutti i vecchi assegnatari, compresi quelli inseriti tramite lo smistamento
+        if protocollo.registration_date and old_assegnatario_id and new_assegnatario_id and old_assegnatario_id==new_assegnatario_id:
+            return
+
         if save_history:
             before['competenza'] = ', '.join([a.assegnatario_id.nome for a in protocollo.assegnazione_competenza_ids])
         self.pool.get('protocollo.assegnazione').salva_assegnazione_competenza(
             cr,
             uid,
             protocollo.id,
-            [wizard.assegnatario_competenza_id.id] if wizard.assegnatario_competenza_id else [],
+            [new_assegnatario_id] if new_assegnatario_id else [],
             assegnatore_id
         )
         if save_history:
-            after['competenza'] = wizard.assegnatario_competenza_id.nome
+            after['competenza'] = wizard.assegnatario_competenza_id.nome if wizard.assegnatario_competenza_id else ''
 
     def salva_assegnazione_conoscenza(self, cr, uid, protocollo, wizard, assegnatore_id, save_history, before, after):
         if save_history:
@@ -230,24 +249,28 @@ Se sono presenti assegnatari per conoscenza verranno rimossi al completamento de
         if save_history:
             action_class = "history_icon update"
             body = "<div class='%s'><ul>" % action_class
+            data_modified = False
             if (before['competenza'] or after['competenza']) and before['competenza']!=after['competenza']:
+                data_modified = True
                 body = body + "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#007ea6'> %s </span></li>" \
                               % (protocollo_obj.get_label_competenza(cr, uid), before['competenza'], after['competenza'])
             if (before['conoscenza'] or after['conoscenza']) and before['conoscenza']!=after['conoscenza']:
+                data_modified = True
                 body = body + "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#007ea6'> %s </span></li>" \
                               % ('Assegnatari Conoscenza', before['conoscenza'], after['conoscenza'])
-            body += "</ul></div>"
-            subject_label = "Modifica assegnatari" if before['competenza'] or before['conoscenza'] else "Aggiunta assegnatari"
-            post_vars = {
-                'subject': "%s%s" % (subject_label, ": " + wizard.motivation if wizard.motivation else ""),
-                'body': body,
-                'model': "protocollo.protocollo",
-                'res_id': context['active_id']
-            }
-            new_context = dict(context).copy()
-            new_context.update({'pec_messages': True})
-            thread_pool = self.pool.get('protocollo.protocollo')
-            thread_pool.message_post(cr, uid, context['active_id'], type="notification", context=new_context, **post_vars)
+            if data_modified:
+                body += "</ul></div>"
+                subject_label = "Modifica assegnatari" if before['competenza'] or before['conoscenza'] else "Aggiunta assegnatari"
+                post_vars = {
+                    'subject': "%s%s" % (subject_label, ": " + wizard.motivation if wizard.motivation else ""),
+                    'body': body,
+                    'model': "protocollo.protocollo",
+                    'res_id': context['active_id']
+                }
+                new_context = dict(context).copy()
+                new_context.update({'pec_messages': True})
+                thread_pool = self.pool.get('protocollo.protocollo')
+                thread_pool.message_post(cr, uid, context['active_id'], type="notification", context=new_context, **post_vars)
 
         protocollo_action = {
                 'name': 'Protocollo',

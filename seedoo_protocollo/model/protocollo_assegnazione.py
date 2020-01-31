@@ -435,7 +435,8 @@ class protocollo_assegnazione(orm.Model):
                 assegnazione_to_unlink_ids = self.search(cr, uid, [
                     ('protocollo_id', '=', protocollo_id),
                     ('tipologia_assegnazione', '=', 'competenza'),
-                    ('assegnatario_id', 'in', assegnatario_to_unlink_ids)
+                    ('assegnatario_id', 'in', assegnatario_to_unlink_ids),
+                    ('parent_id', '=', False)
                 ])
                 if assegnazione_to_unlink_ids:
                     self.unlink(cr, uid, assegnazione_to_unlink_ids)

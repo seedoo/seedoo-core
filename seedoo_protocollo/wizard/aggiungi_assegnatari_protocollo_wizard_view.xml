@@ -38,10 +38,10 @@
                                 <separator string="Assegnatari per Conoscenza"/>
                                 <field name="assegnatario_conoscenza_ids"
                                        widget="m2m_tree"
-                                       options="{'limit': 5000, 'label': 'nome', 'all_checkable': true, 'field_no_checkbox': 'no_checkbox', 'css_class': 'tipologia', 'typology': 'tipologia', 'uncheck_different_typology': true, 'order': '-tipologia,nome'}"
+                                       options="{'limit': 5000, 'label': 'nome', 'all_checkable': true, 'field_no_checkbox': 'no_checkbox', 'css_class': 'tipologia', 'order': '-tipologia,nome'}"
                                        attrs="{'invisible':[('reserved','=',True)]}"
                                        nolabel="1"
-                                       context="{'reserved': reserved, 'disable_ids': assegnatario_conoscenza_disable_ids[0][2]}"
+                                       context="{'reserved': reserved, 'typology': 'tipologia', 'uncheck_different_typology': True, 'disable_ids': assegnatario_conoscenza_disable_ids[0][2]}"
                                 />
                                 <field name="conoscenza_reserved_error" nolabel="1" attrs="{'invisible':[('reserved','=',False)]}"/>
                             </group>
