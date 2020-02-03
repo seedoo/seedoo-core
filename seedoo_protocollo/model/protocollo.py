@@ -2667,7 +2667,7 @@ class protocollo_journal(orm.Model):
             STATE_SELECTION,
             'Status',
             readonly=True,
-            help="Lo stato del protocollo.",
+            help="Stato del registro",
             select=True,
         ),
         'aoo_id': fields.many2one('protocollo.aoo', 'AOO', ondelete="cascade", required=True),
