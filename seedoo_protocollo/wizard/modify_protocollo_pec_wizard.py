@@ -71,16 +71,9 @@ class wizard(osv.TransientModel):
                     })
         return res
 
-    def _default_protocol_sent(self, cr, uid, context):
-        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
-        if protocollo.state == 'registered':
-            return False
-        return True
-
     _defaults = {
         'name': _default_name,
-        'sender_receivers': _default_sender_receivers,
-        'protocol_sent': _default_protocol_sent,
+        'sender_receivers': _default_sender_receivers
     }
 
     def _process_mail(self, cr, uid, ids, protocollo_obj, context=None):
@@ -114,7 +107,7 @@ class wizard(osv.TransientModel):
             srvals = {'pec_mail': send_rec.pec_mail, 'to_resend': True}
             after[send_rec.sender_receiver_id.id] = {'name': send_rec.name, 'mail': send_rec.pec_mail}
             # after = self.set_after(after, '', 'pec_mail: ' + send_rec.pec_mail + ', ')
-            sender_receiver_obj.write(cr, uid, [send_rec.sender_receiver_id.id], srvals)
+            sender_receiver_obj.write(cr, uid, [send_rec.sender_receiver_id.id], srvals, context={'skip_check_email': True})
 
         protocollo_obj.write(cr, uid, [context['active_id']], vals)
         if protocollo.registration_date:

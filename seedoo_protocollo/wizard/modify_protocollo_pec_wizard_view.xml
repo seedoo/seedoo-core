@@ -28,19 +28,15 @@ this module contains the full copyright notices and license terms. -->
                             <!--</h1>-->
                             <separator string="Destinatari"/>
                             <group col="4" colspan="4">
-                                <field name="sender_receivers" nolabel="1">
+                                <field name="sender_receivers" nolabel="1" colspan="4">
                                     <tree editable="bottom" create="0" delete="0">
                                         <field name="name" readonly="1"
                                                string="Nome Cognome/Ragione Sociale"/>
                                         <field name="pec_mail"/>
                                     </tree>
                                 </field>
+                                <field name="cause" required="1" colspan="4"/>
                             </group>
-                            <label for="cause"/>
-                            <field name="cause"
-                                   attrs="{'required': [('protocol_sent', '=', False)]}"
-                                   colspan="4"/>
-                            <field name="protocol_sent" invisible="1"/>
                         </div>
                     </sheet>
                     <footer>

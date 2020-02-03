@@ -1441,14 +1441,16 @@ class protocollo_protocollo(orm.Model):
 
             sender_receivers_pec_mails = []
             for sender_receiver in prot.sender_receivers:
-                if (sender_receiver.pec_errore_consegna_status and sender_receiver.to_resend) or not sender_receiver.pec_invio_status:
+                if ((sender_receiver.pec_errore_consegna_status or sender_receiver.pec_non_accettazione_status) and sender_receiver.to_resend) \
+                        or not sender_receiver.pec_invio_status:
                     sender_receivers_pec_mails.append(sender_receiver.pec_mail)
 
             msg_id = False
             sent_all = True
             mail_to_send_dict = {}
             for sender_receiver in prot.sender_receivers:
-                if (sender_receiver.pec_errore_consegna_status and sender_receiver.to_resend) or not sender_receiver.pec_invio_status:
+                if ((sender_receiver.pec_errore_consegna_status or sender_receiver.pec_non_accettazione_status) and sender_receiver.to_resend) \
+                        or not sender_receiver.pec_invio_status:
 
                     if prot.email_pec_sending_mode == 'all_receivers':
                         values['email_to'] = ','.join(sender_receivers_pec_mails)
@@ -1803,7 +1805,7 @@ class protocollo_protocollo(orm.Model):
                         msg_date = False
                         for pec_messaggio in sender_receiver.pec_messaggio_ids:
                             if pec_messaggio.type=='messaggio' and (not msg_date or pec_messaggio.messaggio_ref.date>msg_date):
-                                error = True if pec_messaggio.errore_consegna_ref else False
+                                error = True if (pec_messaggio.errore_consegna_ref or pec_messaggio.non_accettazione_ref) else False
                                 msg_date = pec_messaggio.messaggio_ref.date
                         if error:
                             return True

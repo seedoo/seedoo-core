@@ -356,15 +356,14 @@ class protocollo_sender_receiver(orm.Model):
         'sharedmail_numero_invii': 0,
     }
 
-    def check_field_in_create(self, cr, uid, vals):
+    def check_field_in_create(self, cr, uid, vals, context=None):
         partner_obj = self.pool.get('res.partner')
         errors = ''
 
         if vals.has_key('pec_mail') and vals['pec_mail']:
             pec_mail_error = ''
-            if vals.has_key('save_partner') and vals['save_partner']:
-                pec_mail_error = partner_obj.check_email_field(cr, uid, [('pec_mail', '=ilike', vals['pec_mail'])],
-                                                               'Mail PEC', vals['pec_mail'], False)
+            if vals.has_key('save_partner') and vals['save_partner'] and (not context or not ('skip_check_email' in context)):
+                pec_mail_error = partner_obj.check_email_field(cr, uid, [('pec_mail', '=ilike', vals['pec_mail'])], 'Mail PEC', vals['pec_mail'], False)
             else:
                 pec_mail_error = partner_obj.check_email_validity('Mail PEC', vals['pec_mail'], False)
             if pec_mail_error:
@@ -372,9 +371,8 @@ class protocollo_sender_receiver(orm.Model):
 
         if vals.has_key('email') and vals['email']:
             email_error = ''
-            if vals.has_key('save_partner') and vals['save_partner']:
-                email_error = partner_obj.check_email_field(cr, uid, [('email', '=ilike', vals['email'])],
-                                                     'Mail', vals['email'], False)
+            if vals.has_key('save_partner') and vals['save_partner'] and (not context or not ('skip_check_email' in context)):
+                email_error = partner_obj.check_email_field(cr, uid, [('email', '=ilike', vals['email'])], 'Mail', vals['email'], False)
             else:
                 email_error = partner_obj.check_email_validity('Mail', vals['email'], False)
             if email_error:
@@ -382,7 +380,7 @@ class protocollo_sender_receiver(orm.Model):
 
         partner_obj.dispatch_email_error(errors)
 
-    def check_field_in_write(self, cr, uid, ids, vals):
+    def check_field_in_write(self, cr, uid, ids, vals, context=None):
         partner_obj = self.pool.get('res.partner')
         errors = ''
 
@@ -397,9 +395,8 @@ class protocollo_sender_receiver(orm.Model):
                 if vals.has_key('pec_mail'):
                     pec_mail = vals['pec_mail']
                 pec_mail_error = ''
-                if pec_mail and save_partner:
-                    pec_mail_error = partner_obj.check_email_field(cr, uid, [('id', '!=', sender_receiver_vals['id']), ('pec_mail', '=ilike', pec_mail)],
-                                      'Mail PEC', pec_mail, False)
+                if pec_mail and save_partner and (not context or not ('skip_check_email' in context)):
+                    pec_mail_error = partner_obj.check_email_field(cr, uid, [('pec_mail', '=ilike', pec_mail)], 'Mail PEC', pec_mail, False)
                 elif pec_mail:
                     pec_mail_error = partner_obj.check_email_validity('Mail PEC', pec_mail, False)
                 if pec_mail_error:
@@ -409,9 +406,8 @@ class protocollo_sender_receiver(orm.Model):
                 if vals.has_key('email'):
                     email = vals['email']
                 email_error = ''
-                if email and save_partner:
-                    email_error = partner_obj.check_email_field(cr, uid, [('id', '!=', sender_receiver_vals['id']), ('email', '=ilike', email)],
-                                      'Mail', email, False)
+                if email and save_partner and (not context or not ('skip_check_email' in context)):
+                    email_error = partner_obj.check_email_field(cr, uid, [('email', '=ilike', email)], 'Mail', email, False)
                 elif email:
                     email_error = partner_obj.check_email_validity('Mail', email, False)
                 if email_error:
@@ -431,7 +427,7 @@ class protocollo_sender_receiver(orm.Model):
         return sender_receiver_id
 
     def write(self, cr, uid, ids, vals, context=None):
-        self.check_field_in_write(cr, uid, ids, vals)
+        self.check_field_in_write(cr, uid, ids, vals, context)
         if isinstance(ids, int):
             ids = [ids]
         for sender_receiver_id in ids:
