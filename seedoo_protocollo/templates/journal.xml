@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<openerp>
+    <data noupdate="0">
+
+        <template id="journal_qweb">
+            <t t-call="report.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="report.external_layout">
+                        <div class="page">
+                            <style type="text/css">
+                                table th {color: #0D5C63 !important; text-transform:uppercase; }
+                                h3, h3 span {color:#666 !important;}
+                                h4, h4 span {color:#999 !important;}
+                            </style>
+                            <p>
+                                <img t-if="o.user_id.company_id.logo"
+                                     t-att-src="'data:image/png;base64,%s' %o.user_id.company_id.logo"/>
+                            </p>
+                            <h3>Registro Giornaliero -
+                                <span t-field="o.user_id.company_id.name"/>
+                            </h3>
+                            <h4>Registro di protocollo del
+                                <strong>
+                                    <span t-field="o.date"/>
+                                </strong>
+                            </h4>
+                            <table style="width:100%;font-size: 10px;">
+                                <tr style="padding: 5px; border: 1px solid #aaa;height: 30px; background-color: #f0f0f0">
+                                    <th style="padding: 2px 5px 2px 2px;"
+                                        width="5%">Tipo
+                                    </th>
+                                    <th style="padding: 2px 5px 2px 2px;"
+                                        width="5%">Registro
+                                    </th>
+                                    <th style="padding: 2px 5px 2px 2px;"
+                                        width="5%">Numero
+                                    </th>
+                                    <th style="padding: 2px 5px 2px 2px;"
+                                        width="10%">Data
+                                    </th>
+                                    <th style="padding: 2px 5px 2px 2px;"
+                                        width="20%">Oggetto
+                                    </th>
+                                    <th style="padding: 2px 5px 2px 2px;"
+                                        width="20%">Impronta
+                                    </th>
+                                    <th style="padding: 2px 5px 2px 2px;"
+                                        width="20%">Mittente/Destinatario
+                                    </th>
+                                    <th style="padding: 2px 5px 2px 2px;"
+                                        width="15%">Prot. Mittente
+                                    </th>
+                                </tr>
+                                <t t-foreach="o.protocol_ids" t-as="protocol">
+                                    <tr style="padding: 5px; border: 1px solid #aaa;height: 30px">
+                                        <td width="5%"
+                                            style="padding: 2px 5px 2px 2px;">
+                                            <span t-field="protocol.type"/>
+                                        </td>
+                                        <td width="5%"
+                                            style="padding: 2px 5px 2px 2px;">
+                                            <span t-field="protocol.registry"/>
+                                        </td>
+                                        <td width="5%"
+                                            style="padding: 2px 5px 2px 2px;">
+                                            <span t-field="protocol.name"/>
+                                        </td>
+                                        <td width="10%"
+                                            style="padding: 2px 5px 2px 2px;">
+                                            <span t-field="protocol.registration_date"/>
+                                        </td>
+                                        <td width="20%"
+                                            style="padding: 2px 5px 2px 2px;">
+                                            <span t-field="protocol.subject"/>
+                                        </td>
+                                        <td width="20%"
+                                            style="padding: 2px 5px 2px 2px;">
+                                            <span t-field="protocol.fingerprint"/>
+                                        </td>
+                                        <td width="20%"
+                                            style="padding: 2px 5px 2px 2px;">
+                                            <t t-foreach="protocol.sender_receivers"
+                                               t-as="sr">
+                                                <span t-field="sr.name"/>
+                                                <br/>
+                                            </t>
+                                        </td>
+                                        <td width="15%"
+                                            style="padding: 2px 5px 2px 2px;">
+                                            <span t-if="protocol.sender_protocol" t-field="protocol.sender_protocol"/>
+                                            del
+                                            <span t-field="protocol.sender_registration_date"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</openerp>

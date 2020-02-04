@@ -75,6 +75,11 @@
         "wizard/create_mittente_destinatario_wizard_view.xml",
         "wizard/create_destinatari_da_gruppo_wizard_view.xml",
         "wizard/segna_come_letto_protocollo_wizard_view.xml",
+
+        "templates/journal.xml",
+
+        "view/journal.xml",
+
         "view/res_config.xml",
         "view/partner_view.xml",
         "view/offices_view.xml",
