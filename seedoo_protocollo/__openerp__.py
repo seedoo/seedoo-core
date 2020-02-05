@@ -97,7 +97,6 @@
         "view/ir_mail_server_view.xml",
         "view/email_template_view.xml",
         # "view/contact_view.xml",
-        "view/report_view.xml",
         "view/menu_item.xml",
         "view/res_groups_view.xml",
         "gedoc/view/gedoc_view.xml",
