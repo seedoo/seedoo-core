@@ -21,7 +21,7 @@ class ReportController(http.Controller):
         if journal_id.state != "draft":
             request.not_found("Registro Giornaliero già chiuso.")  # TODO: Recuperare l'attachment già esistente
 
-        pdf_filename = "Registro Giornaliero %s.pdf" % journal_id.date
+        pdf_filename = "%s.pdf" % journal_id.display_name
         pdf_content = journal_id.render_pdf()
 
         headers = [

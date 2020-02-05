@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
-
+import base64
 import datetime
 import logging
 import time
 
 from openerp import models, fields, api
 from openerp.exceptions import ValidationError
-from openerp.report import render_report
 from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
 
 _logger = logging.getLogger(__name__)
@@ -20,13 +19,21 @@ SELECTION_STATE = [
 class ProtocolloJournal(models.Model):
     _name = "protocollo.journal"
     _description = "Registro Giornaliero"
-    _order = "name DESC"
+    _order = "date DESC"
 
     name = fields.Date(
         string="Data evento",
         required=True,
-        default=fields.Date.today(),
-        readonly=True
+        readonly=True,
+        compute="_compute_name",
+        store=True
+    )
+
+    display_name = fields.Char(
+        string="Nome Registro",
+        readonly=True,
+        compute="_compute_name",
+        store=True
     )
 
     date = fields.Date(
@@ -52,7 +59,7 @@ class ProtocolloJournal(models.Model):
         column2="protocollo_id",
         required=False,
         readonly=True,
-        compute="compute_protocol_ids"
+        compute="_compute_protocol_ids"
     )
 
     state = fields.Selection(
@@ -71,17 +78,38 @@ class ProtocolloJournal(models.Model):
         required=True
     )
 
+    @api.depends("date")
+    @api.multi
+    def _compute_name(self):
+        for rec in self:
+            rec.name = rec.date
+            rec.display_name = "Registro Giornaliero del %s" % rec.date
+
     @api.depends("aoo_id", "date")
     @api.multi
-    def compute_protocol_ids(self):
+    def _compute_protocol_ids(self):
         for rec in self:
             protocollo_ids = self.get_protocolli_day(rec.aoo_id, rec.date)
             rec.protocol_ids = [(6, 0, protocollo_ids.ids)]
 
     @api.multi
     def action_close(self):
+        ir_attachment_obj = self.env["ir.attachment"]
+
         for rec in self:
-            self.journal_close(rec)
+            name = "%s.pdf" % rec.display_name
+            ir_attachment_obj.create({
+                "name": name,
+                "datas_fname": name,
+                "res_model": rec._name,
+                "res_id": rec.id,
+                "datas": base64.b64encode(rec.render_pdf()),
+                "file_type": "application/json"
+            })
+
+            rec.write({
+                "state": "closed"
+            })
 
     @api.multi
     def action_print(self):
@@ -92,6 +120,14 @@ class ProtocolloJournal(models.Model):
             "url": "/seedoo_protocollo/journal/pdf/%d" % self.id,
             "target": "new"
         }
+
+    @api.multi
+    def render_pdf(self):
+        self.ensure_one()
+
+        report_obj = self.env["report"]
+        pdf_content = report_obj.get_pdf(self, "seedoo_protocollo.journal_qweb")
+        return pdf_content
 
     @api.model
     def cron_generate_missing(self):
@@ -138,26 +174,7 @@ class ProtocolloJournal(models.Model):
 
         for date_day in date_list:
             journal_id = self.journal_create(aoo_id, date_day)
-            self.journal_close(journal_id)
-
-            report_data, format = render_report(
-                cr=self.env.cr,
-                uid=self.env.uid,
-                ids=[journal_id.id],
-                name="seedoo_protocollo.journal_qweb",
-                data={},
-                context=self.env.context
-            )
-
-        # attach_vals = {
-        #     'name': 'Registro Giornaliero',
-        #     'datas_fname': 'Registro Giornaliero.pdf',
-        #     'res_model': 'protocollo.journal',
-        #     'res_id': journal_id,
-        #     'datas': base64.encodestring(report_data),
-        #     'file_type': format
-        # }
-        # self.pool.get('ir.attachment').create(cr, uid, attach_vals)
+            journal_id.action_close()
 
     @api.model
     def journal_create(self, aoo_id, day_date):
@@ -183,23 +200,6 @@ class ProtocolloJournal(models.Model):
             raise ValidationError("Impossibile creare il Registro di Protocollo per la data %s" % day_date)
 
         return journal_id
-
-    @api.model
-    def journal_close(self, journal_id):
-        if not journal_id:
-            raise ValidationError("Impossibile chiudere il registro. Registro di protocollo non valido.")
-
-        journal_id.write({
-            "state": "closed",
-        })
-
-    @api.model
-    def render_pdf(self):
-        self.ensure_one()
-
-        report_obj = self.env["report"]
-        pdf_content = report_obj.get_pdf(self, "seedoo_protocollo.journal_qweb")
-        return pdf_content
 
     @api.model
     def get_protocolli_day(self, aoo_id, day_date):
