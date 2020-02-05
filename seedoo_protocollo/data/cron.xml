@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<openerp>
+    <data noupdate="1">
+
+        <record model="ir.cron" id="ir_cron_journal_protocol_action">
+            <field name="name">Protocol Journal Service</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="nextcall" eval="time.strftime('%Y')+'-01-01 00:05:00.000000'"/>
+            <field name="doall" eval="False"/>
+            <field name="model">protocollo.journal</field>
+            <field name="function">cron_generate_missing</field>
+            <field name="args">()</field>
+            <field name="active" eval="True"/>
+        </record>
+
+    </data>
+</openerp>

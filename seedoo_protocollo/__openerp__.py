@@ -34,6 +34,8 @@
         'data/res.country.state.csv',
     ],
     "data": [
+        "data/cron.xml",
+
         "data/protocollo_company.xml",
         "data/protocollo_configuration.xml",
         "data/protocollo_conferma_template.xml",
@@ -76,6 +78,8 @@
         "wizard/create_destinatari_da_gruppo_wizard_view.xml",
         "wizard/segna_come_letto_protocollo_wizard_view.xml",
 
+        "data/report_paperformat.xml",
+
         "templates/journal.xml",
 
         "report/journal.xml",
@@ -103,7 +107,6 @@
         "wizard/create_journal_wizard_view.xml",
         "wizard/create_emergency_registry_wizard_view.xml",
         "workflow/protocollo_workflow.xml",
-        "data/protocollo_report.xml",
         "menu/menu.xml",
         "data/protocollo_tile.xml",
         "view/protocollo_dashboard_view.xml",

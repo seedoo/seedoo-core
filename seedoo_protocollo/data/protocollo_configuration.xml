@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
-<openerp>
+<?xml version="1.0" encoding="UTF-8" ?>
 
+<openerp>
     <data noupdate="1">
-        <!-- Config Param -->
+
         <record id="configurazione_protocollo_default" model="protocollo.configurazione">
             <field name="rinomina_documento_allegati" eval="False"/>
             <field name="rinomina_oggetto_mail_pec" eval="False"/>
@@ -31,10 +31,6 @@
             <field name="select_attachments" eval="True"/>
         </record>
 
-    </data>
-
-    <data noupdate="1">
-        <!-- Protocol Folder -->
         <record model="document.directory" id="dir_protocol">
             <field name="name">Protocollazioni</field>
             <field name="user_id" eval="False"/>
@@ -42,13 +38,13 @@
             <field name="resource_id">0</field>
         </record>
 
-        <!-- Email template for protocol notification -->
         <record id="notify_protocol" model="email.template">
             <field name="name">Assegnazione Documento Protocollato</field>
             <field name="model_id" ref="model_protocollo_assegnazione"/>
             <field name="email_from">${object.assegnatore_id.user_id.partner_id.email|safe}</field>
             <field name="email_to">${object.assegnatario_employee_id.user_id.partner_id.email|safe}</field>
-            <field name="subject"><![CDATA[Assegnazione Documento Prot. ${object.protocollo_id.name} del ${format_tz(object.protocollo_id.registration_date, tz=user.tz, format='%d/%m/%Y %H:%M:%S')}]]></field>
+            <field name="subject">
+                <![CDATA[Assegnazione Documento Prot. ${object.protocollo_id.name} del ${format_tz(object.protocollo_id.registration_date, tz=user.tz, format='%d/%m/%Y %H:%M:%S')}]]></field>
             <field name="body_html"><![CDATA[<div style="padding:0px;width:600px;margin:auto;background: #FFFFFF repeat top 100%;color:#777777">
                                             <table cellspacing="0" cellpadding="0" style="width:600px;background:inherit;color:inherit">
                                         <tbody><tr>
@@ -73,12 +69,14 @@
                                         <div style="padding:0px;width:600px;margin:auto; margin-top: 10px; background: #fff repeat top 100%;color:#777777">
                                         </div>]]></field>
         </record>
+
         <record id="notify_reserved_protocol" model="email.template">
             <field name="name">Assegnazione Protocollo Riservato</field>
             <field name="model_id" ref="model_protocollo_protocollo"/>
             <field name="email_from">${object.registry.company_id.email|safe}</field>
             <field name="email_to">${object.aoo_id.reserved_employee_id.user_id.email|safe}</field>
-            <field name="subject"><![CDATA[Assegnazione Protocollo ${object.name} del ${object.registration_date}]]></field>
+            <field name="subject">
+                <![CDATA[Assegnazione Protocollo ${object.name} del ${object.registration_date}]]></field>
             <field name="body_html">
                 <![CDATA[
                     <p>
@@ -96,22 +94,6 @@
                 ]]>
             </field>
         </record>
-    </data>
 
-    <!-- Cron for Journal Protocollo -->
-    <data noupdate="1">
-        <record id="ir_cron_journal_protocol_action" model="ir.cron">
-            <field name="name">Protocol Journal Service</field>
-            <field name="interval_number">1</field>
-            <field name="interval_type">days</field>
-            <field name="numbercall">-1</field>
-            <field name="nextcall" eval="time.strftime('%Y')+'-01-01 00:05:00.000000'"/>
-            <field name="doall" eval="False"/>
-            <field name="model">protocollo.journal</field>
-            <field name="function">_create_journal</field>
-            <field name="args">()</field>
-            <field name="active" eval="True"/>
-        </record>
     </data>
-
 </openerp>
