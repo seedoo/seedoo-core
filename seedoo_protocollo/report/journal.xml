@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <openerp>
-    <data>
+    <data noupdate="0">
 
         <report id="report_protocollo_journal_qweb"
                 name="seedoo_protocollo.journal_qweb"
@@ -12,6 +12,10 @@
                 attachment_use="False"
                 attachment="False"
                 menu="False"/>
+
+        <record model="ir.actions.report.xml" id="report_protocollo_journal_qweb">
+            <field name="paperformat_id" ref="seedoo_protocollo.paperformat_euro_landscape"/>
+        </record>
 
     </data>
 </openerp>

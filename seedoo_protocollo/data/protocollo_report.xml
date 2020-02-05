@@ -4,7 +4,7 @@
 this module contains the full copyright notices and license terms. -->
 
 <openerp>
-    <data>
+    <data noupdate="0">
 
         <record id="paperformat_euro_landscape" model="report.paperformat">
             <field name="name">European A4 Landscape</field>
@@ -20,11 +20,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="header_line" eval="False"/>
             <field name="header_spacing">20</field>
             <field name="dpi">90</field>
-        </record>
-
-        <record id="seedoo_protocollo.report_protocollo_journal_qweb" model="ir.actions.report.xml">
-            <field name="paperformat_id"
-                   ref="seedoo_protocollo.paperformat_euro_landscape"/>
         </record>
 
     </data>
