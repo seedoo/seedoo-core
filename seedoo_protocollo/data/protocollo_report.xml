@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
+
 <!-- This file is part of Seedoo.  The COPYRIGHT file at the top level of
 this module contains the full copyright notices and license terms. -->
 
@@ -7,7 +8,7 @@ this module contains the full copyright notices and license terms. -->
 
         <record id="paperformat_euro_landscape" model="report.paperformat">
             <field name="name">European A4 Landscape</field>
-            <field name="default" eval="True" />
+            <field name="default" eval="True"/>
             <field name="format">A4</field>
             <field name="page_height">0</field>
             <field name="page_width">0</field>
@@ -16,25 +17,15 @@ this module contains the full copyright notices and license terms. -->
             <field name="margin_bottom">20</field>
             <field name="margin_left">20</field>
             <field name="margin_right">20</field>
-            <field name="header_line" eval="False" />
+            <field name="header_line" eval="False"/>
             <field name="header_spacing">20</field>
             <field name="dpi">90</field>
         </record>
 
-        <report id="report_protocollo_journal_qweb"
-                model="protocollo.journal"
-                string="Stampa Registro Giornaliero"
-                report_type="qweb-pdf"
-                name="seedoo_protocollo.journal_qweb"
-                file="seedoo_protocollo.journal_qweb"
-                attachment_use="True"
-                attachment="(object.state in ('closed')) and ('registro'+(object.date or '').replace('/','_')+'.pdf')"
-        />
-
         <record id="seedoo_protocollo.report_protocollo_journal_qweb" model="ir.actions.report.xml">
             <field name="paperformat_id"
-            ref="seedoo_protocollo.paperformat_euro_landscape"/>
-       </record>
+                   ref="seedoo_protocollo.paperformat_euro_landscape"/>
+        </record>
 
     </data>
 </openerp>

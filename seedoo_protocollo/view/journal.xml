@@ -26,6 +26,11 @@
                                 confirm="Attenzione! La procedura chiuderà il Registro Giornaliero per la data selezionata. Non sarà più possibile registrare protocolli per la data di riferimento del registro. Vuoi procedere?"
                                 attrs="{'invisible': [('state', '!=', 'draft')]}"
                                 class="oe_highlight"/>
+                        <button name="action_print"
+                                type="object"
+                                string="Stampa Registro"
+                                attrs="{'invisible': [('state', '!=', 'draft')]}"
+                                class="oe_highlight"/>
 
                         <field name="state" widget="statusbar"/>
                     </header>

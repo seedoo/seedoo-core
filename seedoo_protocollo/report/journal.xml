@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<openerp>
+    <data>
+
+        <report id="report_protocollo_journal_qweb"
+                name="seedoo_protocollo.journal_qweb"
+                model="protocollo.journal"
+                report_type="qweb-pdf"
+                string="Stampa Registro Giornaliero"
+                file="seedoo_protocollo.journal_qweb"
+                attachment_use="False"
+                attachment="False"
+                menu="False"/>
+
+    </data>
+</openerp>

@@ -5,7 +5,6 @@
 from . import model
 from . import gedoc
 from . import wizard
-from . import report
 from . import tests
 from . import segnatura
 from . import convert

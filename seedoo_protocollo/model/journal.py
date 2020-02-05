@@ -83,6 +83,16 @@ class ProtocolloJournal(models.Model):
         for rec in self:
             self.journal_close(rec)
 
+    @api.multi
+    def action_print(self):
+        self.ensure_one()
+
+        return {
+            "type": "ir.actions.act_url",
+            "url": "/seedoo_protocollo/journal/pdf/%d" % self.id,
+            "target": "new"
+        }
+
     @api.model
     def cron_generate_missing(self):
         aoo_obj = self.env["protocollo.aoo"]
@@ -182,6 +192,14 @@ class ProtocolloJournal(models.Model):
         journal_id.write({
             "state": "closed",
         })
+
+    @api.model
+    def render_pdf(self):
+        self.ensure_one()
+
+        report_obj = self.env["report"]
+        pdf_content = report_obj.get_pdf(self, "seedoo_protocollo.journal_qweb")
+        return pdf_content
 
     @api.model
     def get_protocolli_day(self, aoo_id, day_date):

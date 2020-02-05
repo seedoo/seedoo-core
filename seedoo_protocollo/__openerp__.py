@@ -78,6 +78,8 @@
 
         "templates/journal.xml",
 
+        "report/journal.xml",
+
         "view/journal.xml",
 
         "view/res_config.xml",
