@@ -2405,17 +2405,10 @@ class protocollo_protocollo(orm.Model):
         return subject_text
 
     def _get_name_documento_allegato(self, cr, uid, attachment_name, prot_number, prefix, is_main):
-
         reg_date = fields.datetime.now()[0:10]
         doc_type = 'Documento' if is_main else 'Allegato'
-        att_name = attachment_name.split('.')[0]
-        gext = '.' + attachment_name.split('.')[-1]
-        att_ext = gext in mimetypes.types_map and gext or ''
         complete_prefix = prefix + '_' + prot_number + '_' + reg_date + '_' + doc_type
-        if attachment_name.find(complete_prefix) == -1:
-            file_name = complete_prefix + "_" + att_name + att_ext
-        else:
-            return attachment_name
+        file_name = complete_prefix + "_" + attachment_name
         return file_name
 
     # @api.cr_uid_ids_context
