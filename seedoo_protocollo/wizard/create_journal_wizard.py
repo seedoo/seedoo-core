@@ -16,7 +16,8 @@ class ProtocolloJournalWizard(models.TransientModel):
     date_registro = fields.Date(
         string="Data Registro",
         help="Indicare la data per la quale si vuole creare il Registro Giornaliero",
-        required=True
+        required=True,
+        default=lambda self: fields.Date.today()
     )
 
     aoo_id = fields.Many2one(

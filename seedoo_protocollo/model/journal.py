@@ -78,6 +78,10 @@ class ProtocolloJournal(models.Model):
         required=True
     )
 
+    ts_chiusura = fields.Datetime(
+        string="Date & Time chiusura"
+    )
+
     @api.depends("date")
     @api.multi
     def _compute_name(self):
@@ -108,7 +112,8 @@ class ProtocolloJournal(models.Model):
             })
 
             rec.write({
-                "state": "closed"
+                "state": "closed",
+                "ts_chiusura": fields.Datetime.now()
             })
 
     @api.multi

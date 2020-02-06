@@ -39,7 +39,9 @@
                             <field name="date"/>
                             <field name="user_id"/>
                             <notebook colspan="4">
-                                <page string="Protocollazioni della Giornata" class="lista_protocolli">
+                                <page name="lista_protocolli"
+                                      string="Protocollazioni della Giornata"
+                                      class="lista_protocolli">
                                     <field name="protocol_ids" colspan="4" nolabel="1"/>
                                 </page>
                             </notebook>
