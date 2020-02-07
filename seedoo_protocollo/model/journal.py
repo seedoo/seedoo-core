@@ -188,6 +188,8 @@ class ProtocolloJournal(models.Model):
     def journal_create(self, aoo_id, day_date):
         journal_obj = self.env["protocollo.journal"]
 
+        _logger.info("Creating journal for %s - %s" % (aoo_id.name, day_date))
+
         journal_id = journal_obj.search([
             ("date", "=", day_date),
             ("aoo_id", "=", aoo_id.id)
@@ -221,95 +223,3 @@ class ProtocolloJournal(models.Model):
         ])
 
         return protocollo_ids
-
-# def _create_journal(self, cr, uid, ids=False, context=None):
-#     aoo_ids = self.pool.get('protocollo.aoo').search(cr, uid, [])
-#
-#     if aoo_ids and len(aoo_ids) > 0:
-#         for aoo_id in aoo_ids:
-#             journal_obj = self.pool.get('protocollo.journal')
-#             journal_ids = []
-#             last_journal_id = journal_obj.search(
-#                 cr, uid,
-#                 [
-#                     ('aoo_id', '=', aoo_id),
-#                     ('state', '=', 'closed'),
-#                     ('date', '<', time.strftime(DEFAULT_SERVER_DATE_FORMAT))
-#                 ], order='date desc', limit=1)
-#
-#             protocollo_obj = self.pool.get('protocollo.protocollo')
-#             if last_journal_id:
-#                 today = datetime.datetime.now()
-#                 last_journal = journal_obj.browse(cr, uid, last_journal_id[0])
-#                 last_journal_date = datetime.datetime.strptime(
-#                     last_journal.date,
-#                     DEFAULT_SERVER_DATE_FORMAT
-#                 )
-#                 num_days = (today - last_journal_date).days
-#                 if num_days in (0, 1):
-#                     continue
-#                 for day in range(1, num_days):
-#                     last_date = (last_journal_date + datetime.timedelta(days=day))
-#                     protocol_ids = protocollo_obj.search(cr, uid, [
-#                         ('aoo_id', '=', aoo_id),
-#                         ('state', 'in', ['registered', 'notified', 'sent', 'waiting', 'error', 'canceled']),
-#                         ('registration_date', '>', last_date.strftime(DEFAULT_SERVER_DATE_FORMAT) + ' 00:00:00'),
-#                         ('registration_date', '<', last_date.strftime(DEFAULT_SERVER_DATE_FORMAT) + ' 23:59:59'),
-#                     ])
-#                     try:
-#                         journal_id = journal_obj.create(
-#                             cr, uid,
-#                             {
-#                                 'name': last_date.strftime(DSDF),
-#                                 'aoo_id': aoo_id,
-#                                 'user_id': uid,
-#                                 'protocol_ids': [[6, 0, protocol_ids]],
-#                                 'date': last_date.strftime(DEFAULT_SERVER_DATE_FORMAT),
-#                                 'state': 'closed',
-#                             }
-#                         )
-#                         journal_ids.append(journal_id)
-#                     except Exception as e:
-#                         _logger.exception("Unable to create Protocol Journal %s" % last_date.strftime(DEFAULT_SERVER_DATE_FORMAT))
-#                         _logger.info(e)
-#                         return False
-#             else:
-#                 today = datetime.datetime.now()
-#                 yesterday = today + datetime.timedelta(days=-1)
-#                 protocol_ids = protocollo_obj.search(cr, uid, [
-#                     ('aoo_id', '=', aoo_id),
-#                     ('state', 'in', ['registered', 'notified', 'sent', 'waiting', 'error', 'canceled']),
-#                     ('registration_date', '>', yesterday.strftime(DEFAULT_SERVER_DATE_FORMAT) + ' 00:00:00'),
-#                     ('registration_date', '<', yesterday.strftime(DEFAULT_SERVER_DATE_FORMAT) + ' 23:59:59'),
-#                 ])
-#                 try:
-#                     journal_id = journal_obj.create(
-#                         cr, uid,
-#                         {
-#                             'name': yesterday.strftime(DSDF),
-#                             'aoo_id': aoo_id,
-#                             'user_id': uid,
-#                             'protocol_ids': [[6, 0, protocol_ids]],
-#                             'date': yesterday.strftime(DEFAULT_SERVER_DATE_FORMAT),
-#                             'state': 'closed',
-#                         }
-#                     )
-#                     journal_ids.append(journal_id)
-#                 except Exception as e:
-#                     _logger.exception("Unable to create Protocol Journal %s" % time.strftime(DEFAULT_SERVER_DATE_FORMAT))
-#                     _logger.info(e)
-#                     return False
-#             if len(journal_ids) > 0:
-#                 for journal_id in journal_ids:
-#                     report_data, format = render_report(cr, uid, [journal_id], 'seedoo_protocollo.journal_qweb', {},
-#                                                         context=context)
-#                     # attach_vals = {
-#                     #     'name': 'Registro Giornaliero',
-#                     #     'datas_fname': 'Registro Giornaliero.pdf',
-#                     #     'res_model': 'protocollo.journal',
-#                     #     'res_id': journal_id,
-#                     #     'datas': base64.encodestring(report_data),
-#                     #     'file_type': format
-#                     # }
-#                     # self.pool.get('ir.attachment').create(cr, uid, attach_vals)
-#     return True
