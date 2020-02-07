@@ -1,9 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
+
 <!-- This file is part of Seedoo.  The COPYRIGHT file at the top level of
 this module contains the full copyright notices and license terms. -->
 
 <openerp>
-    <data>
+    <data noupdate="0">
 
         <record model="ir.ui.view" id="protocollo_config_settings_form">
             <field name="name">protocollo.config.settings.form</field>
@@ -84,6 +85,21 @@ this module contains the full copyright notices and license terms. -->
             </field>
         </record>
 
+        <record id="protocollo_config_cron" model="ir.actions.act_window">
+            <field name="name">Protocollo</field>
+            <field name="res_model">ir.cron</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="domain">[
+                '&amp;',
+                ("seedoo_visible", "=", True),
+                '|',
+                ('active', '=', True),
+                ('active', '=', False)
+                ]
+            </field>
+        </record>
+
         <record id="protocollo_config_settings_act" model="ir.actions.act_window">
             <field name="name">Protocollo</field>
             <field name="res_model">protocollo.config.settings</field>
@@ -91,8 +107,6 @@ this module contains the full copyright notices and license terms. -->
             <field name="view_mode">form</field>
             <field name="target">inline</field>
         </record>
-
-
 
         <record id="view_protocollo_config_settings" model="ir.ui.view">
             <field name="name">Protocollo Settings</field>

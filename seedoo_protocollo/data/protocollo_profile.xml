@@ -696,6 +696,7 @@ this module contains the full copyright notices and license terms. -->
                 (4, ref('seedoo_protocollo.group_configurazione_titolario')),
                 (4, ref('seedoo_protocollo.group_configurazione_utenti')),
                 (4, ref('seedoo_protocollo.group_configurazione_rubrica')),
+                (4, ref('seedoo_protocollo.group_configurazione_cron')),
                 (4, ref('seedoo_protocollo.group_ripristina_per_protocollazione')),
                 (4, ref('seedoo_protocollo.group_protocollazione_riservata')),
             ]"/>

@@ -21,8 +21,8 @@ this module contains the full copyright notices and license terms. -->
                   groups="group_protocollo_user"/>
 
         <!--<menuitem action="protocollo_protocollo_in_act"-->
-                  <!--parent="protocollo_doc_in"-->
-                  <!--id="protocollo_protocollo_in_menu" sequence="10"/>-->
+        <!--parent="protocollo_doc_in"-->
+        <!--id="protocollo_protocollo_in_menu" sequence="10"/>-->
 
         <!-- Documenti-->
 
@@ -91,10 +91,10 @@ this module contains the full copyright notices and license terms. -->
                 parent="protocollo_journal_menu"/>
 
         <menuitem action="protocollo_emergency_registry_act"
-                parent="protocollo_registry_menu"
-                id="protocollo_emergency_registry_menu"
-                groups="group_configurazione_emergenza"
-                sequence="30"/>
+                  parent="protocollo_registry_menu"
+                  id="protocollo_emergency_registry_menu"
+                  groups="group_configurazione_emergenza"
+                  sequence="30"/>
 
         <menuitem
                 icon="STOCK_EXECUTE"
@@ -105,10 +105,10 @@ this module contains the full copyright notices and license terms. -->
                 parent="protocollo_emergency_registry_menu"/>
 
         <!--<menuitem name="Organigramma"-->
-                  <!--id="protocollo_menu_organigramma"-->
-                  <!--parent="protocollo_protocollo_menu"-->
-                  <!--action="action_organigramma"-->
-                  <!--sequence="45"/>-->
+        <!--id="protocollo_menu_organigramma"-->
+        <!--parent="protocollo_protocollo_menu"-->
+        <!--action="action_organigramma"-->
+        <!--sequence="45"/>-->
 
         <!--<menuitem action="protocollo_classification_act"
                   parent="protocollo_protocollo_menu"
@@ -132,11 +132,11 @@ this module contains the full copyright notices and license terms. -->
 
 
         <menuitem name="Archivio"
-                action="protocollo_archivio_action"
-                parent="protocollo_configuration"
-                id="protocollo_archivio_menu"
-                groups="group_configurazione_archivio"
-                sequence="15"/>
+                  action="protocollo_archivio_action"
+                  parent="protocollo_configuration"
+                  id="protocollo_archivio_menu"
+                  groups="group_configurazione_archivio"
+                  sequence="15"/>
 
         <menuitem
                 icon="STOCK_EXECUTE"
@@ -183,13 +183,19 @@ this module contains the full copyright notices and license terms. -->
                   id="protocollo_configuration_email_pec"
                   sequence="70"/>
 
-        <menuitem name="Parametri Generali" action="protocollo_config_settings_act"
+        <menuitem id="protocollo_configuration_cron"
+                  name="Cron"
+                  action="protocollo_config_cron"
+                  parent="protocollo_configuration"
+                  groups="group_configurazione_cron"
+                  sequence="80"/>
+
+        <menuitem name="Parametri Generali"
+                  action="protocollo_config_settings_act"
                   parent="protocollo_configuration"
                   id="protocollo_configuration_menu"
                   groups="group_configurazione_parametri"
                   sequence="90"/>
-
-
 
         <menuitem name="Server in Ingresso" action="fetchmail.action_email_server_tree"
                   parent="protocollo_configuration_email_pec"

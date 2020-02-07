@@ -178,8 +178,11 @@ class ProtocolloJournal(models.Model):
             date_list.append(yesterday)
 
         for date_day in date_list:
-            journal_id = self.journal_create(aoo_id, date_day)
-            journal_id.action_close()
+            try:
+                journal_id = self.journal_create(aoo_id, date_day)
+                journal_id.action_close()
+            except Exception as e:
+                _logger.error("Error creating journal via cron: %s" % e)
 
     @api.model
     def journal_create(self, aoo_id, day_date):

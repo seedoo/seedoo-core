@@ -15,6 +15,7 @@
             <field name="args">()</field>
             <field name="doall" eval="False"/>
             <field name="user_id" ref="base.user_root"/>
+            <field name="seedoo_visible" eval="True"/>
         </record>
 
     </data>
