@@ -58,3 +58,20 @@ class Protocollo(models.Model):
                 protocollo_each.server_pec_id_required = True
             else:
                 protocollo_each.server_pec_id_required = False
+
+    @api.model
+    def get_state_label(self, protocollo):
+        state = ''
+        if protocollo.state == 'draft':
+            state = 'bozza'
+        elif protocollo.state == 'registered':
+            state = 'registrato'
+        elif protocollo.state == 'waiting':
+            state = 'pec-inviata'
+        elif protocollo.state == 'error':
+            state = 'pec-errore'
+        elif protocollo.state == 'sent':
+            state = 'inviato'
+        elif protocollo.state == 'canceled':
+            state = 'annullato'
+        return state
