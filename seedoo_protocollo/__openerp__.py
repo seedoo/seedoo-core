@@ -85,6 +85,7 @@
         "report/journal.xml",
 
         "view/journal.xml",
+        "view/ir_cron.xml",
 
         "view/res_config.xml",
         "view/partner_view.xml",

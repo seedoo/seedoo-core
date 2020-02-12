@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<openerp>
+    <data noupdate="0">
+
+        <record model="ir.ui.view" id="ir_cron_view">
+            <field name="name">ir_cron_view</field>
+            <field name="model">ir.cron</field>
+            <field name="inherit_id" ref="base.ir_cron_view"/>
+            <field name="arch" type="xml">
+                <field name="priority" position="after">
+                    <field name="seedoo_visible"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>
