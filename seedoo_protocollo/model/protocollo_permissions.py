@@ -608,7 +608,7 @@ class protocollo_protocollo(osv.Model):
         return [('id', 'in', protocollo_visible_ids)]
 
     def _non_classificati_visibility_count(self, cr, uid):
-        time_start = datetime.datetime.now()
+        time_start = time.time()
         archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)])
         current_archivio_id = archivio_ids[0]
 
@@ -629,13 +629,9 @@ class protocollo_protocollo(osv.Model):
         result = cr.fetchall()
         count_value = result[0][0]
 
-        time_end = datetime.datetime.now()
+        time_end = time.time()
         time_duration = time_end - time_start
-
-        _logger.info("_non_classificati_visibility_count: %d - %.03f s" % (
-            count_value,
-            float(time_duration.microseconds) / 1000000
-        ))
+        _logger.info("_non_classificati_visibility_count: %d - %s s" % (count_value, time_duration))
 
         return count_value
 
@@ -691,7 +687,7 @@ class protocollo_protocollo(osv.Model):
         return [('id', 'in', protocollo_visible_ids)]
 
     def _non_fascicolati_visibility_count(self, cr, uid):
-        time_start = datetime.datetime.now()
+        time_start = time.time()
         archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)])
         current_archivio_id = archivio_ids[0]
         dossier_condition = ''
@@ -738,13 +734,9 @@ class protocollo_protocollo(osv.Model):
         result = cr.fetchall()
         count_value = result[0][0]
 
-        time_end = datetime.datetime.now()
+        time_end = time.time()
         time_duration = time_end - time_start
-
-        _logger.info("_non_fascicolati_visibility_count: %d - %.03f s" % (
-            count_value,
-            float(time_duration.microseconds) / 1000000
-        ))
+        _logger.info("_non_fascicolati_visibility_count: %d - %s s" % (count_value, time_duration))
 
         return count_value
 
@@ -771,7 +763,7 @@ class protocollo_protocollo(osv.Model):
         # if not protocollo_type:
         #     return 0
 
-        time_start = datetime.datetime.now()
+        time_start = time.time()
 
         sql_query = """SELECT COUNT(pp.id)
                        FROM protocollo_protocollo pp
@@ -782,13 +774,9 @@ class protocollo_protocollo(osv.Model):
         result = cr.fetchall()
         count_value = result[0][0]
 
-        time_end = datetime.datetime.now()
+        time_end = time.time()
         time_duration = time_end - time_start
-
-        _logger.info("_bozza_creato_da_me_visibility_count: %d - %.03f s" % (
-            count_value,
-            float(time_duration.microseconds) / 1000000
-        ))
+        _logger.info("_bozza_creato_da_me_visibility_count: %d - %s s" % (count_value, time_duration))
 
         return count_value
 
@@ -834,7 +822,7 @@ class protocollo_protocollo(osv.Model):
         # if not protocollo_type:
         #     return 0
 
-        time_start = datetime.datetime.now()
+        time_start = time.time()
         archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)])
         current_archivio_id = archivio_ids[0]
 
@@ -858,13 +846,9 @@ class protocollo_protocollo(osv.Model):
         result = cr.fetchall()
         count_value = result[0][0]
 
-        time_end = datetime.datetime.now()
+        time_end = time.time()
         time_duration = time_end - time_start
-
-        _logger.info("_assegnato_a_me_visibility_count: %d - %.03f s" % (
-            count_value,
-            float(time_duration.microseconds) / 1000000
-        ))
+        _logger.info("_assegnato_a_me_visibility_count: %d - %s s" % (count_value, time_duration))
 
         return count_value
 
@@ -918,7 +902,7 @@ class protocollo_protocollo(osv.Model):
         # if not protocollo_type:
         #     return 0
 
-        time_start = datetime.datetime.now()
+        time_start = time.time()
         archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)])
         current_archivio_id = archivio_ids[0]
 
@@ -950,13 +934,9 @@ class protocollo_protocollo(osv.Model):
         result = cr.fetchall()
         count_value = result[0][0]
 
-        time_end = datetime.datetime.now()
+        time_end = time.time()
         time_duration = time_end - time_start
-
-        _logger.info("_assegnato_cc_visibility_count: %d - %.03f s" % (
-            count_value,
-            float(time_duration.microseconds) / 1000000
-        ))
+        _logger.info("_assegnato_cc_visibility_count: %d - %s s" % (count_value, time_duration))
 
         return count_value
 
@@ -998,7 +978,7 @@ class protocollo_protocollo(osv.Model):
         if not protocollo_type:
             return 0
 
-        time_start = datetime.datetime.now()
+        time_start = time.time()
         archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)])
         current_archivio_id = archivio_ids[0]
 
@@ -1023,14 +1003,9 @@ class protocollo_protocollo(osv.Model):
         result = cr.fetchall()
         count_value = result[0][0]
 
-        time_end = datetime.datetime.now()
+        time_end = time.time()
         time_duration = time_end - time_start
-
-        _logger.info("_assegnato_a_me_cc_visibility_count: %d - %s - %.03f s" % (
-            count_value,
-            protocollo_type,
-            float(time_duration.microseconds) / 1000000
-        ))
+        _logger.info("_assegnato_a_me_cc_visibility_count: %d - %s - %s s" % (count_value, protocollo_type, time_duration))
 
         return count_value
 
@@ -1075,7 +1050,7 @@ class protocollo_protocollo(osv.Model):
         # if not protocollo_type:
         #     return 0
 
-        time_start = datetime.datetime.now()
+        time_start = time.time()
         archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)])
         current_archivio_id = archivio_ids[0]
 
@@ -1099,13 +1074,9 @@ class protocollo_protocollo(osv.Model):
         result = cr.fetchall()
         count_value = result[0][0]
 
-        time_end = datetime.datetime.now()
+        time_end = time.time()
         time_duration = time_end - time_start
-
-        _logger.info("_assegnato_a_mio_ufficio_visibility_count: %d - %.03f s" % (
-            count_value,
-            float(time_duration.microseconds) / 1000000
-        ))
+        _logger.info("_assegnato_a_mio_ufficio_visibility_count: %d - %s s" % (count_value, time_duration))
 
         return count_value
 
@@ -1150,7 +1121,7 @@ class protocollo_protocollo(osv.Model):
         # if not protocollo_type:
         #     return 0
 
-        time_start = datetime.datetime.now()
+        time_start = time.time()
         archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)])
         current_archivio_id = archivio_ids[0]
 
@@ -1174,13 +1145,9 @@ class protocollo_protocollo(osv.Model):
         result = cr.fetchall()
         count_value = result[0][0]
 
-        time_end = datetime.datetime.now()
+        time_end = time.time()
         time_duration = time_end - time_start
-
-        _logger.info("_assegnato_a_mio_ufficio_cc_visibility_count: %d - %.03f s" % (
-            count_value,
-            float(time_duration.microseconds) / 1000000
-        ))
+        _logger.info("_assegnato_a_mio_ufficio_cc_visibility_count: %d - %s s" % (count_value, time_duration))
 
         return count_value
 
@@ -1190,16 +1157,34 @@ class protocollo_protocollo(osv.Model):
     def _da_assegnare_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
         start = int(round(time.time() * 1000))
         cr.execute('''
-            SELECT DISTINCT(pp.id) 
-            FROM protocollo_protocollo AS pp
-            INNER JOIN hr_employee AS he ON pp.registration_employee_id = he.id
-            INNER JOIN resource_resource AS rr ON he.resource_id = rr.id AND rr.user_id = %s AND rr.active = TRUE
-            LEFT JOIN protocollo_assegnazione AS pa ON pp.id=pa.protocollo_id AND pa.tipologia_assegnazione = 'competenza'
-            WHERE pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND 
-                  pp.registration_employee_state = 'working' AND
-                  pa.protocollo_id IS NULL AND 
-                  pp.is_imported = FALSE
-        ''', (uid,))
+            SELECT DISTINCT(p.id) FROM (
+                SELECT DISTINCT (pp.id) AS id
+                FROM protocollo_protocollo pp, hr_employee he, resource_resource rr
+                WHERE pp.registration_employee_id = he.id AND
+                      he.resource_id = rr.id AND
+                      rr.user_id = %s AND
+                      rr.active = TRUE AND
+                      pp.registration_employee_state = 'working' AND
+                      pp.registration_date IS NOT NULL AND
+                      pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
+                      pp.is_imported = FALSE
+                
+                EXCEPT
+                
+                SELECT DISTINCT (pa.protocollo_id) AS id
+                FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
+                WHERE pp.id = pa.protocollo_id AND
+                      pa.tipologia_assegnazione = 'competenza' AND
+                      pp.registration_employee_id = he.id AND
+                      he.resource_id = rr.id AND
+                      rr.user_id = %s AND
+                      rr.active = TRUE AND
+                      pp.registration_employee_state = 'working' AND
+                      pp.registration_date IS NOT NULL AND
+                      pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
+                      pp.is_imported = FALSE
+              ) p
+        ''', (uid, uid))
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
         end = int(round(time.time() * 1000))
         _logger.info("_da_assegnare_visibility_search" + str(end - start))
@@ -1238,33 +1223,49 @@ class protocollo_protocollo(osv.Model):
         # if not protocollo_type:
         #     return 0
 
-        time_start = datetime.datetime.now()
+        time_start = time.time()
         archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)])
         current_archivio_id = archivio_ids[0]
 
-        sql_query = """SELECT COUNT(DISTINCT(pp.id)) 
-            FROM protocollo_protocollo AS pp
-            INNER JOIN hr_employee AS he ON pp.registration_employee_id = he.id
-            INNER JOIN resource_resource AS rr ON he.resource_id = rr.id AND rr.user_id = %s AND rr.active = TRUE
-            LEFT JOIN protocollo_assegnazione AS pa ON pp.id=pa.protocollo_id AND pa.tipologia_assegnazione = 'competenza'
-            WHERE pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
-                  pp.registration_employee_state = 'working' AND 
-                  pp.archivio_id = %d AND 
-                  pa.protocollo_id IS NULL AND 
-                  pp.is_imported = FALSE
-            """ % (uid, current_archivio_id)
+        sql_query = """
+            SELECT COUNT(DISTINCT(p.id)) FROM (
+                SELECT DISTINCT (pp.id) AS id
+                FROM protocollo_protocollo pp, hr_employee he, resource_resource rr
+                WHERE pp.registration_employee_id = he.id AND
+                      he.resource_id = rr.id AND
+                      rr.user_id = %s AND
+                      rr.active = TRUE AND
+                      pp.registration_employee_state = 'working' AND
+                      pp.registration_date IS NOT NULL AND
+                      pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
+                      pp.is_imported = FALSE AND
+                      pp.archivio_id = %s
+                
+                EXCEPT
+                
+                SELECT DISTINCT (pa.protocollo_id) AS id
+                FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
+                WHERE pp.id = pa.protocollo_id AND
+                      pa.tipologia_assegnazione = 'competenza' AND
+                      pp.registration_employee_id = he.id AND
+                      he.resource_id = rr.id AND
+                      rr.user_id = %s AND
+                      rr.active = TRUE AND
+                      pp.registration_employee_state = 'working' AND
+                      pp.registration_date IS NOT NULL AND
+                      pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
+                      pp.is_imported = FALSE AND
+                      pp.archivio_id = %s
+              ) p
+            """ % (uid, current_archivio_id, uid, current_archivio_id)
 
         cr.execute(sql_query)
         result = cr.fetchall()
         count_value = result[0][0]
 
-        time_end = datetime.datetime.now()
+        time_end = time.time()
         time_duration = time_end - time_start
-
-        _logger.info("_da_assegnare_visibility_count: %d - %.03f s" % (
-            count_value,
-            float(time_duration.microseconds) / 1000000
-        ))
+        _logger.info("_da_assegnare_visibility_count: %d - %s s" % (count_value, time_duration))
 
         return count_value
 
@@ -1303,7 +1304,7 @@ class protocollo_protocollo(osv.Model):
         # if not protocollo_type:
         #     return 0
 
-        time_start = datetime.datetime.now()
+        time_start = time.time()
         archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)])
         current_archivio_id = archivio_ids[0]
 
@@ -1329,13 +1330,9 @@ class protocollo_protocollo(osv.Model):
         result = cr.fetchall()
         count_value = result[0][0]
 
-        time_end = datetime.datetime.now()
+        time_end = time.time()
         time_duration = time_end - time_start
-
-        _logger.info("_assegnato_da_me_in_attesa_visibility_count: %d - %.03f s" % (
-            count_value,
-            float(time_duration.microseconds) / 1000000
-        ))
+        _logger.info("_assegnato_da_me_in_attesa_visibility_count: %d - %s s" % (count_value, time_duration))
 
         return count_value
 
@@ -1374,7 +1371,7 @@ class protocollo_protocollo(osv.Model):
         # if not protocollo_type:
         #     return 0
 
-        time_start = datetime.datetime.now()
+        time_start = time.time()
         archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)])
         current_archivio_id = archivio_ids[0]
 
@@ -1400,13 +1397,9 @@ class protocollo_protocollo(osv.Model):
         result = cr.fetchall()
         count_value = result[0][0]
 
-        time_end = datetime.datetime.now()
+        time_end = time.time()
         time_duration = time_end - time_start
-
-        _logger.info("_assegnato_da_me_in_rifiutato_visibility_count: %d - %.03f s" % (
-            count_value,
-            float(time_duration.microseconds) / 1000000
-        ))
+        _logger.info("_assegnato_da_me_in_rifiutato_visibility_count: %d - %s s" % (count_value, time_duration))
 
         return count_value
 
@@ -1437,7 +1430,7 @@ class protocollo_protocollo(osv.Model):
         return self._da_inviare_visibility_count(cr, uid, "")
 
     def _da_inviare_visibility_count(self, cr, uid, protocollo_type):
-        time_start = datetime.datetime.now()
+        time_start = time.time()
         archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)])
         current_archivio_id = archivio_ids[0]
 
@@ -1458,13 +1451,10 @@ class protocollo_protocollo(osv.Model):
         result = cr.fetchall()
         count_value = result[0][0]
 
-        time_end = datetime.datetime.now()
+        time_end = time.time()
         time_duration = time_end - time_start
 
-        _logger.info("_da_inviare_visibility_count: %d - %.03f s" % (
-            count_value,
-            float(time_duration.microseconds) / 1000000
-        ))
+        _logger.info("_da_inviare_visibility_count: %d - %s s" % (count_value, time_duration))
 
         return count_value
 
