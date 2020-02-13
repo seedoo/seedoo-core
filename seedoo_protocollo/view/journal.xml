@@ -37,6 +37,7 @@
                     <sheet>
                         <group>
                             <field name="date"/>
+                            <field name="ts_chiusura"/>
                             <field name="user_id"/>
                             <notebook colspan="4">
                                 <page name="lista_protocolli"

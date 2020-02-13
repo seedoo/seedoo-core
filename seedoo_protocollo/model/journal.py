@@ -79,7 +79,9 @@ class ProtocolloJournal(models.Model):
     )
 
     ts_chiusura = fields.Datetime(
-        string="Date & Time chiusura"
+        string="Data ed ora chiusura",
+        help="Data ed ora di chiusura del registro",
+        readonly=True
     )
 
     @api.depends("date")
