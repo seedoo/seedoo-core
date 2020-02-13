@@ -154,7 +154,7 @@ class ProtocolloJournal(models.Model):
         last_journal_id = journal_obj.search(
             args=[
                 ("aoo_id", "=", aoo_id.id),
-                ("state", "=", "closed"),
+                ("state", "in", self.get_closed_states()),
                 ("date", "<", time.strftime(DEFAULT_SERVER_DATE_FORMAT))
             ],
             order="date DESC",
@@ -185,6 +185,10 @@ class ProtocolloJournal(models.Model):
                 journal_id.action_close()
             except Exception as e:
                 _logger.error("Error creating journal via cron: %s" % e)
+
+    @api.model
+    def get_closed_states(self):
+        return ["closed"]
 
     @api.model
     def journal_create(self, aoo_id, day_date):
