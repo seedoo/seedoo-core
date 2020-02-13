@@ -562,91 +562,73 @@ class protocollo_protocollo(osv.Model):
             return True
         return super(protocollo_protocollo, self).message_subscribe(cr, uid, ids, partner_ids, subtype_ids=None, context=None)
 
-    # def write(self, cr, uid, ids, vals, context=None):
-    #     protocollo_ids = super(protocollo_protocollo, self).write(cr, uid, ids, vals, context=context)
-    #     self.clear_cache()
-    #     return protocollo_ids
-    #
-    # def create(self, cr, uid, vals, context=None):
-    #     self.clear_cache()
-    #     protocollo_id = super(protocollo_protocollo, self).create(cr, uid, vals, context=context)
-    #     return protocollo_id
-    #
-    # def rifiuta_presa_in_carico(self, cr, uid, ids, context=None):
-    #     result = super(protocollo_protocollo, self).rifiuta_presa_in_carico(cr, uid, ids, context=context)
-    #     self.clear_cache()
-    #     return result
-
     ####################################################################################################################
 
     ####################################################################################################################
     # Visibilità dei protocolli nella dashboard
     ####################################################################################################################
 
+    ####################################################################################################################
+
+    def _non_classificati_query(self, cr, uid, type='search'):
+        archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)], limit=1)
+        archivio_id = archivio_ids[0]
+        query = 'SELECT DISTINCT(pp.id) '
+        if type == 'count':
+            query = 'SELECT COUNT(DISTINCT(pp.id)) '
+        query += '''
+            FROM protocollo_protocollo pp, hr_employee he, resource_resource rr
+            WHERE pp.classification IS NULL AND 
+                  pp.registration_employee_state = 'working' AND 
+                  pp.registration_employee_id = he.id AND 
+                  he.resource_id = rr.id AND 
+                  rr.user_id = %s AND 
+                  rr.active = TRUE AND 
+                  pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND 
+                  pp.is_imported = FALSE AND 
+                  pp.archivio_id = %s 
+        ''' % (uid, archivio_id)
+        cr.execute(query)
+        result = cr.fetchall()
+        return result
+
     def _non_classificati_visibility(self, cr, uid, ids, name, arg, context=None):
         return {}
 
     def _non_classificati_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
-        start = int(round(time.time() * 1000))
-
-        cr.execute('''
-            SELECT DISTINCT(pp.id) AS id
-            FROM protocollo_protocollo pp, hr_employee he, resource_resource rr
-            WHERE pp.classification IS NULL 
-                AND pp.registration_employee_state = 'working'
-                AND pp.registration_employee_id = he.id
-                AND he.resource_id = rr.id
-                AND rr.user_id = %s
-                AND rr.active = TRUE
-                AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
-                AND pp.is_imported = FALSE
-        ''', (uid,))
-        protocollo_visible_ids = [res[0] for res in cr.fetchall()]
-
-        end = int(round(time.time() * 1000))
-        _logger.info("_non_classificati_visibility_search: " + str(end - start))
+        time_start = time.time()
+        results = self._non_classificati_query(cr, uid, 'search')
+        protocollo_visible_ids = [res[0] for res in results]
+        time_end = time.time()
+        time_duration = time_end - time_start
+        _logger.info("_non_classificati_visibility_search: %s sec" % (time_duration,))
         return [('id', 'in', protocollo_visible_ids)]
 
     def _non_classificati_visibility_count(self, cr, uid):
         time_start = time.time()
-        archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)])
-        current_archivio_id = archivio_ids[0]
-
-        sql_query = """SELECT COUNT(DISTINCT(pp.id)) AS id
-            FROM protocollo_protocollo pp, hr_employee he, resource_resource rr
-            WHERE pp.classification IS NULL 
-                AND pp.archivio_id = %d
-                AND pp.registration_employee_state = 'working'
-                AND pp.registration_employee_id = he.id
-                AND he.resource_id = rr.id
-                AND rr.user_id = %s
-                AND rr.active = TRUE
-                AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
-                AND pp.is_imported = FALSE
-        """ % (current_archivio_id, uid)
-
-        cr.execute(sql_query)
-        result = cr.fetchall()
+        result = self._non_classificati_query(cr, uid, 'count')
         count_value = result[0][0]
-
         time_end = time.time()
         time_duration = time_end - time_start
-        _logger.info("_non_classificati_visibility_count: %d - %s s" % (count_value, time_duration))
-
+        _logger.info("_non_classificati_visibility_count: %s - %s sec" % (count_value, time_duration))
         return count_value
 
-    def _non_fascicolati_visibility(self, cr, uid, ids, name, arg, context=None):
-        return {}
+    ####################################################################################################################
 
-    def _non_fascicolati_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
-        start = int(round(time.time() * 1000))
+    ####################################################################################################################
+
+    def _non_fascicolati_query(self, cr, uid, type='search'):
+        archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)], limit=1)
+        archivio_id = archivio_ids[0]
         dossier_condition = ''
         fascicolo_ids = self.pool.get('protocollo.dossier').search(cr, uid, [])
         if fascicolo_ids:
             dossier_condition = 'AND pp.id NOT IN (SELECT protocollo_id FROM dossier_protocollo_rel WHERE dossier_id IN (' + ', '.join(map(str, fascicolo_ids)) + '))'
-
-        cr.execute('''
-            SELECT DISTINCT(p.id) FROM (
+        query = 'SELECT DISTINCT(p.id) '
+        if type == 'count':
+            query = 'SELECT COUNT(DISTINCT(p.id)) '
+        query += '''
+            FROM (
                 SELECT DISTINCT(pa.protocollo_id) AS id
                 FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
                 WHERE pp.id = pa.protocollo_id AND 
@@ -663,8 +645,9 @@ class protocollo_protocollo(osv.Model):
                                       pa2.assegnatario_employee_id = he.id AND 
                                       pa2.state IN ('preso', 'letto')
                             ))
-                      )
-                      ''' + dossier_condition + '''
+                      ) AND
+                      pp.archivio_id = %s 
+                      %s
                     
                 UNION
                 
@@ -675,119 +658,90 @@ class protocollo_protocollo(osv.Model):
                       he.resource_id = rr.id AND 
                       rr.user_id = %s AND 
                       rr.active = TRUE AND 
-                      pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
-                      ''' + dossier_condition + '''
+                      pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
+                      pp.archivio_id = %s 
+                      %s
                           
             ) p
-        ''', (uid, uid, uid))
-        protocollo_visible_ids = [res[0] for res in cr.fetchall()]
+        ''' % (uid, uid, archivio_id, dossier_condition, uid, archivio_id, dossier_condition)
+        cr.execute(query)
+        result = cr.fetchall()
+        return result
 
-        end = int(round(time.time() * 1000))
-        _logger.info("_non_fascicolati_visibility_search: " + str(end - start))
+    def _non_fascicolati_visibility(self, cr, uid, ids, name, arg, context=None):
+        return {}
+
+    def _non_fascicolati_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
+        time_start = time.time()
+        results = self._non_fascicolati_query(cr, uid, 'search')
+        protocollo_visible_ids = [res[0] for res in results]
+        time_end = time.time()
+        time_duration = time_end - time_start
+        _logger.info("_non_fascicolati_visibility_search: %s sec" % (time_duration,))
         return [('id', 'in', protocollo_visible_ids)]
 
     def _non_fascicolati_visibility_count(self, cr, uid):
         time_start = time.time()
-        archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)])
-        current_archivio_id = archivio_ids[0]
-        dossier_condition = ''
-        fascicolo_ids = self.pool.get('protocollo.dossier').search(cr, uid, [])
-        if fascicolo_ids:
-            dossier_condition = 'AND pp.id NOT IN (SELECT protocollo_id FROM dossier_protocollo_rel WHERE dossier_id IN (' + ', '.join(map(str, fascicolo_ids)) + '))'
-
-        cr.execute('''
-            SELECT COUNT (DISTINCT(p.id)) FROM (
-                SELECT DISTINCT(pa.protocollo_id) AS id
-                    FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
-                    WHERE pp.archivio_id = %s AND 
-                          pp.id = pa.protocollo_id AND 
-                          pp.registration_date IS NOT NULL AND 
-                          pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
-                          (
-                                (pa.tipologia_assegnatario = 'employee' AND pa.parent_id IS NULL AND pa.assegnatario_employee_id = he.id AND he.resource_id = rr.id AND rr.user_id = %s AND rr.active = TRUE AND pa.state IN ('preso', 'letto')) OR 
-                                (pa.tipologia_assegnatario = 'department' AND pa.assegnatario_department_id = he.department_id AND he.resource_id = rr.id AND rr.user_id = %s AND rr.active = TRUE AND pa.id IN (
-                                    SELECT pa2.parent_id
-                                    FROM protocollo_assegnazione pa2
-                                    WHERE pp.id = pa2.protocollo_id AND 
-                                          pa2.tipologia_assegnatario = 'employee' AND
-                                          pa2.parent_id IS NOT NULL AND
-                                          pa2.assegnatario_employee_id = he.id AND 
-                                          pa2.state IN ('preso', 'letto')
-                                ))
-                          )
-                          ''' + dossier_condition + '''
-                
-                UNION 
-                
-                SELECT DISTINCT(pp.id) AS id
-                FROM protocollo_protocollo pp, hr_employee he, resource_resource rr
-                WHERE pp.archivio_id = %s AND 
-                      pp.registration_employee_state = 'working' AND 
-                      pp.registration_employee_id = he.id AND 
-                      he.resource_id = rr.id AND 
-                      rr.user_id = %s AND 
-                      rr.active = TRUE AND 
-                      pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
-                      ''' + dossier_condition + '''
-            ) p
-        ''', (current_archivio_id, uid, uid, current_archivio_id, uid))
-        result = cr.fetchall()
+        result = self._non_fascicolati_query(cr, uid, 'count')
         count_value = result[0][0]
-
         time_end = time.time()
         time_duration = time_end - time_start
-        _logger.info("_non_fascicolati_visibility_count: %d - %s s" % (count_value, time_duration))
-
+        _logger.info("_non_fascicolati_visibility_count: %s - %s sec" % (count_value, time_duration))
         return count_value
+
+    ####################################################################################################################
+
+    ####################################################################################################################
+
+    def _bozza_creato_da_me_query(self, cr, uid, type='search'):
+        archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)], limit=1)
+        archivio_id = archivio_ids[0]
+        query = 'SELECT DISTINCT(pp.id) '
+        if type == 'count':
+            query = 'SELECT COUNT(DISTINCT(pp.id)) '
+        query += '''
+            FROM protocollo_protocollo pp
+            WHERE pp.state = 'draft' AND 
+                  pp.user_id = %s AND 
+                  pp.archivio_id = %s 
+        ''' % (uid, archivio_id)
+        cr.execute(query)
+        result = cr.fetchall()
+        return result
 
     def _bozza_creato_da_me_visibility(self, cr, uid, ids, name, arg, context=None):
         return {}
 
     def _bozza_creato_da_me_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
-        protocollo_visible_ids = self.search(cr, uid, [('state', '=', 'draft'), ('user_id', '=', uid)])
-        return [('id', 'in', protocollo_visible_ids)]
-
-    # @api.cr_uid
-    # def _bozza_creato_da_me_visibility_count_in(self, cr, uid):
-    #     return self._bozza_creato_da_me_visibility_count(cr, uid, "in")
-    #
-    # @api.cr_uid
-    # def _bozza_creato_da_me_visibility_count_out(self, cr, uid):
-    #     return self._bozza_creato_da_me_visibility_count(cr, uid, "out")
-
-    @api.cr_uid
-    def _bozza_creato_da_me_visibility_count_total(self, cr, uid):
-        return self._bozza_creato_da_me_visibility_count(cr, uid, "")
-
-    def _bozza_creato_da_me_visibility_count(self, cr, uid, protocollo_type):
-        # if not protocollo_type:
-        #     return 0
-
         time_start = time.time()
-
-        sql_query = """SELECT COUNT(pp.id)
-                       FROM protocollo_protocollo pp
-                       WHERE pp.state = 'draft'
-                            AND pp.user_id = %d""" % (uid)
-
-        cr.execute(sql_query)
-        result = cr.fetchall()
-        count_value = result[0][0]
-
+        results = self._bozza_creato_da_me_query(cr, uid, 'search')
+        protocollo_visible_ids = [res[0] for res in results]
         time_end = time.time()
         time_duration = time_end - time_start
-        _logger.info("_bozza_creato_da_me_visibility_count: %d - %s s" % (count_value, time_duration))
+        _logger.info("_bozza_creato_da_me_visibility_search: %s sec" % (time_duration,))
+        return [('id', 'in', protocollo_visible_ids)]
 
+    @api.cr_uid
+    def _bozza_creato_da_me_visibility_count(self, cr, uid):
+        time_start = time.time()
+        result = self._bozza_creato_da_me_query(cr, uid, 'count')
+        count_value = result[0][0]
+        time_end = time.time()
+        time_duration = time_end - time_start
+        _logger.info("_bozza_creato_da_me_visibility_count: %s - %s sec" % (count_value, time_duration))
         return count_value
 
-    def _assegnato_a_me_visibility(self, cr, uid, ids, name, arg, context=None):
-        return {}
+    ####################################################################################################################
 
-    def _assegnato_a_me_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
-        start = int(round(time.time() * 1000))
+    ####################################################################################################################
 
-        cr.execute('''
-            SELECT DISTINCT(pa.protocollo_id) 
+    def _assegnato_a_me_query(self, cr, uid, type='search'):
+        archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)], limit=1)
+        archivio_id = archivio_ids[0]
+        query = 'SELECT DISTINCT(pa.protocollo_id) '
+        if type == 'count':
+            query = 'SELECT COUNT(DISTINCT(pa.protocollo_id)) '
+        query += '''
             FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
             WHERE pp.id = pa.protocollo_id AND 
                   pa.assegnatario_employee_id = he.id AND
@@ -799,118 +753,48 @@ class protocollo_protocollo(osv.Model):
                   pa.tipologia_assegnazione = 'competenza' AND
                   pa.state = 'assegnato' AND
                   pa.parent_id IS NULL AND
-                  pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
-        ''', (uid,))
-        protocollo_visible_ids = [res[0] for res in cr.fetchall()]
-        end = int(round(time.time() * 1000))
-        _logger.info("_assegnato_a_me_visibility_search: " + str(end - start))
-        return [('id', 'in', protocollo_visible_ids)]
-
-    # @api.cr_uid
-    # def _assegnato_a_me_visibility_count_in(self, cr, uid):
-    #     return self._assegnato_a_me_visibility_count(cr, uid, "in")
-    #
-    # @api.cr_uid
-    # def _assegnato_a_me_visibility_count_out(self, cr, uid):
-    #     return self._assegnato_a_me_visibility_count(cr, uid, "out")
-
-    @api.cr_uid
-    def _assegnato_a_me_visibility_count_total(self, cr, uid):
-        return self._assegnato_a_me_visibility_count(cr, uid, "")
-
-    def _assegnato_a_me_visibility_count(self, cr, uid, protocollo_type):
-        # if not protocollo_type:
-        #     return 0
-
-        time_start = time.time()
-        archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)])
-        current_archivio_id = archivio_ids[0]
-
-        sql_query = """SELECT COUNT(DISTINCT(pa.protocollo_id)) 
-            FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
-            WHERE pp.id = pa.protocollo_id 
-                AND pp.archivio_id = %d 
-                AND pa.assegnatario_employee_id = he.id
-                AND he.resource_id = rr.id
-                AND rr.user_id = %d
-                AND rr.active = TRUE
-                AND pp.registration_date IS NOT NULL
-                AND pa.tipologia_assegnatario = 'employee'
-                AND pa.tipologia_assegnazione = 'competenza'
-                AND pa.state = 'assegnato'
-                AND pa.parent_id IS NULL
-                AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
-        """ % (current_archivio_id, uid)
-
-        cr.execute(sql_query)
+                  pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND 
+                  pp.archivio_id = %s 
+        ''' % (uid, archivio_id)
+        cr.execute(query)
         result = cr.fetchall()
-        count_value = result[0][0]
+        return result
 
-        time_end = time.time()
-        time_duration = time_end - time_start
-        _logger.info("_assegnato_a_me_visibility_count: %d - %s s" % (count_value, time_duration))
-
-        return count_value
-
-    def _assegnato_cc_visibility(self, cr, uid, ids, name, arg, context=None):
+    def _assegnato_a_me_visibility(self, cr, uid, ids, name, arg, context=None):
         return {}
 
-    def _assegnato_cc_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
-        start = int(round(time.time() * 1000))
-
-        cr.execute('''
-            SELECT DISTINCT(pa.protocollo_id)
-            FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
-            WHERE pp.id = pa.protocollo_id AND
-                  (
-                       (pa.tipologia_assegnatario = 'employee' AND pa.parent_id IS NULL AND pa.assegnatario_employee_id = he.id AND he.resource_id = rr.id AND rr.user_id = ''' + str(uid) + ''' AND rr.active = TRUE) OR
-                       (pa.tipologia_assegnatario = 'department' AND pa.assegnatario_department_id = he.department_id AND he.resource_id = rr.id AND rr.user_id = ''' + str(uid) + ''' AND rr.active = TRUE AND pa.id NOT IN (
-                            SELECT pa2.parent_id 
-                            FROM protocollo_assegnazione pa2
-                            WHERE pp.id = pa2.protocollo_id AND 
-                                  pa2.tipologia_assegnatario = 'employee' AND
-                                  pa2.tipologia_assegnazione = 'conoscenza' AND
-                                  pa2.state != 'assegnato' AND  
-                                  pa2.parent_id IS NOT NULL AND 
-                                  pa2.assegnatario_employee_id = he.id
-                       ))
-                  ) AND
-                  pp.registration_date IS NOT NULL AND
-                  pa.tipologia_assegnazione = 'conoscenza' AND
-                  pa.state = 'assegnato' AND
-                  pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
-        ''')
-
-        protocollo_visible_ids = [res[0] for res in cr.fetchall()]
-        end = int(round(time.time() * 1000))
-        _logger.info("_assegnato_cc_visibility_search: " + str(end - start))
+    def _assegnato_a_me_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
+        time_start = time.time()
+        results = self._assegnato_a_me_query(cr, uid, 'search')
+        protocollo_visible_ids = [res[0] for res in results]
+        time_end = time.time()
+        time_duration = time_end - time_start
+        _logger.info("_assegnato_a_me_visibility_search: %s sec" % (time_duration, ))
         return [('id', 'in', protocollo_visible_ids)]
 
-    # @api.cr_uid
-    # def _assegnato_cc_visibility_count_in(self, cr, uid):
-    #     return self._assegnato_cc_visibility_count(cr, uid, "in")
-    #
-    # @api.cr_uid
-    # def _assegnato_cc_visibility_count_out(self, cr, uid):
-    #     return self._assegnato_cc_visibility_count(cr, uid, "out")
-
     @api.cr_uid
-    def _assegnato_cc_visibility_count_total(self, cr, uid):
-        return self._assegnato_cc_visibility_count(cr, uid, "")
-
-    def _assegnato_cc_visibility_count(self, cr, uid, protocollo_type):
-        # if not protocollo_type:
-        #     return 0
-
+    def _assegnato_a_me_visibility_count(self, cr, uid):
         time_start = time.time()
-        archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)])
-        current_archivio_id = archivio_ids[0]
+        result = self._assegnato_a_me_query(cr, uid, 'count')
+        count_value = result[0][0]
+        time_end = time.time()
+        time_duration = time_end - time_start
+        _logger.info("_assegnato_a_me_visibility_count: %s - %s sec" % (count_value, time_duration))
+        return count_value
 
-        sql_query = """
-            SELECT COUNT(DISTINCT(pa.protocollo_id)) 
+    ####################################################################################################################
+
+    ####################################################################################################################
+
+    def _assegnato_cc_query(self, cr, uid, type='search'):
+        archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)], limit=1)
+        archivio_id = archivio_ids[0]
+        query = 'SELECT DISTINCT(pa.protocollo_id) '
+        if type == 'count':
+            query = 'SELECT COUNT(DISTINCT(pa.protocollo_id)) '
+        query += '''
             FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
-            WHERE pp.archivio_id = %d AND 
-                  pp.id = pa.protocollo_id AND
+            WHERE pp.id = pa.protocollo_id AND
                   (
                        (pa.tipologia_assegnatario = 'employee' AND pa.parent_id IS NULL AND pa.assegnatario_employee_id = he.id AND he.resource_id = rr.id AND rr.user_id = %s AND rr.active = TRUE) OR
                        (pa.tipologia_assegnatario = 'department' AND pa.assegnatario_department_id = he.department_id AND he.resource_id = rr.id AND rr.user_id = %s AND rr.active = TRUE AND pa.id NOT IN (
@@ -925,29 +809,48 @@ class protocollo_protocollo(osv.Model):
                        ))
                   ) AND
                   pp.registration_date IS NOT NULL AND
-                  pa.tipologia_assegnazione = 'conoscenza' AND 
+                  pa.tipologia_assegnazione = 'conoscenza' AND
                   pa.state = 'assegnato' AND
-                  pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
-        """ % (current_archivio_id, uid, uid)
-
-        cr.execute(sql_query)
+                  pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
+                  pp.archivio_id = %s
+        ''' % (uid, uid, archivio_id)
+        cr.execute(query)
         result = cr.fetchall()
-        count_value = result[0][0]
+        return result
 
-        time_end = time.time()
-        time_duration = time_end - time_start
-        _logger.info("_assegnato_cc_visibility_count: %d - %s s" % (count_value, time_duration))
-
-        return count_value
-
-    def _assegnato_a_me_cc_visibility(self, cr, uid, ids, name, arg, context=None):
+    def _assegnato_cc_visibility(self, cr, uid, ids, name, arg, context=None):
         return {}
 
-    def _assegnato_a_me_cc_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
-        start = int(round(time.time() * 1000))
+    def _assegnato_cc_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
+        time_start = time.time()
+        results = self._assegnato_cc_query(cr, uid, 'search')
+        protocollo_visible_ids = [res[0] for res in results]
+        time_end = time.time()
+        time_duration = time_end - time_start
+        _logger.info("_assegnato_cc_visibility_search: %s sec" % (time_duration,))
+        return [('id', 'in', protocollo_visible_ids)]
 
-        cr.execute('''
-            SELECT DISTINCT(pa.protocollo_id) 
+    @api.cr_uid
+    def _assegnato_cc_visibility_count(self, cr, uid):
+        time_start = time.time()
+        result = self._assegnato_cc_query(cr, uid, 'count')
+        count_value = result[0][0]
+        time_end = time.time()
+        time_duration = time_end - time_start
+        _logger.info("_assegnato_cc_visibility_count: %s - %s sec" % (count_value, time_duration))
+        return count_value
+
+    ####################################################################################################################
+
+    ####################################################################################################################
+
+    def _assegnato_a_me_cc_query(self, cr, uid, type='search'):
+        archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)], limit=1)
+        archivio_id = archivio_ids[0]
+        query = 'SELECT DISTINCT(pa.protocollo_id) '
+        if type == 'count':
+            query = 'SELECT COUNT(DISTINCT(pa.protocollo_id)) '
+        query += '''
             FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
             WHERE pp.id = pa.protocollo_id AND 
                   pa.assegnatario_employee_id = he.id AND
@@ -959,63 +862,45 @@ class protocollo_protocollo(osv.Model):
                   pa.tipologia_assegnazione = 'conoscenza' AND
                   pa.state = 'assegnato' AND
                   pa.parent_id IS NULL AND
-                  pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
-        ''', (uid,))
-        protocollo_visible_ids = [res[0] for res in cr.fetchall()]
-        end = int(round(time.time() * 1000))
-        _logger.info("_assegnato_a_me_cc_visibility_search: " + str(end - start))
-        return [('id', 'in', protocollo_visible_ids)]
-
-    # @api.cr_uid
-    # def _assegnato_a_me_cc_visibility_count_in(self, cr, uid):
-    #     return self._assegnato_a_me_cc_visibility_count(cr, uid, "in")
-    #
-    # @api.cr_uid
-    # def _assegnato_a_me_cc_visibility_count_out(self, cr, uid):
-    #     return self._assegnato_a_me_cc_visibility_count(cr, uid, "out")
-
-    def _assegnato_a_me_cc_visibility_count(self, cr, uid, protocollo_type):
-        if not protocollo_type:
-            return 0
-
-        time_start = time.time()
-        archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)])
-        current_archivio_id = archivio_ids[0]
-
-        sql_query = """SELECT COUNT(DISTINCT(pa.protocollo_id)) 
-            FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
-            WHERE pp.archivio_id = %d 
-                AND pp.type = '%s'
-                AND pp.id = pa.protocollo_id 
-                AND pa.assegnatario_employee_id = he.id
-                AND he.resource_id = rr.id
-                AND rr.user_id = %d
-                AND rr.active = TRUE
-                AND pp.registration_date IS NOT NULL
-                AND pa.tipologia_assegnatario = 'employee' 
-                AND pa.tipologia_assegnazione = 'conoscenza'
-                AND pa.state = 'assegnato'
-                AND pa.parent_id IS NULL
-                AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
-        """ % (current_archivio_id, protocollo_type, uid)
-
-        cr.execute(sql_query)
+                  pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
+                  pp.archivio_id = %s
+        ''' % (uid, archivio_id)
+        cr.execute(query)
         result = cr.fetchall()
-        count_value = result[0][0]
+        return result
 
-        time_end = time.time()
-        time_duration = time_end - time_start
-        _logger.info("_assegnato_a_me_cc_visibility_count: %d - %s - %s s" % (count_value, protocollo_type, time_duration))
-
-        return count_value
-
-    def _assegnato_a_mio_ufficio_visibility(self, cr, uid, ids, name, arg, context=None):
+    def _assegnato_a_me_cc_visibility(self, cr, uid, ids, name, arg, context=None):
         return {}
 
-    def _assegnato_a_mio_ufficio_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
-        start = int(round(time.time() * 1000))
-        cr.execute('''
-            SELECT DISTINCT(pa.protocollo_id) 
+    def _assegnato_a_me_cc_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
+        time_start = time.time()
+        results = self._assegnato_a_me_cc_query(cr, uid, 'search')
+        protocollo_visible_ids = [res[0] for res in results]
+        time_end = time.time()
+        time_duration = time_end - time_start
+        _logger.info("_assegnato_a_me_cc_visibility_search: %s sec" % (time_duration,))
+        return [('id', 'in', protocollo_visible_ids)]
+
+    def _assegnato_a_me_cc_visibility_count(self, cr, uid):
+        time_start = time.time()
+        result = self._assegnato_a_me_cc_query(cr, uid, 'count')
+        count_value = result[0][0]
+        time_end = time.time()
+        time_duration = time_end - time_start
+        _logger.info("_assegnato_a_me_cc_visibility_count: %s - %s sec" % (count_value, time_duration))
+        return count_value
+
+    ####################################################################################################################
+
+    ####################################################################################################################
+
+    def _assegnato_a_mio_ufficio_query(self, cr, uid, type='search'):
+        archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)], limit=1)
+        archivio_id = archivio_ids[0]
+        query = 'SELECT DISTINCT(pa.protocollo_id) '
+        if type == 'count':
+            query = 'SELECT COUNT(DISTINCT(pa.protocollo_id)) '
+        query += '''
             FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_department hd, hr_employee he, resource_resource rr
             WHERE pp.id = pa.protocollo_id AND 
                   pa.assegnatario_department_id = hd.id AND
@@ -1027,66 +912,46 @@ class protocollo_protocollo(osv.Model):
                   pa.tipologia_assegnatario = 'department' AND 
                   pa.tipologia_assegnazione = 'competenza' AND
                   pa.state = 'assegnato' AND
-                  pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
-        ''', (uid,))
-        protocollo_visible_ids = [res[0] for res in cr.fetchall()]
-        end = int(round(time.time() * 1000))
-        _logger.info("_assegnato_a_mio_ufficio_visibility_search: " + str(end - start))
-        return [('id', 'in', protocollo_visible_ids)]
-
-    # @api.cr_uid
-    # def _assegnato_a_mio_ufficio_visibility_count_in(self, cr, uid):
-    #     return self._assegnato_a_mio_ufficio_visibility_count(cr, uid, "in")
-    #
-    # @api.cr_uid
-    # def _assegnato_a_mio_ufficio_visibility_count_out(self, cr, uid):
-    #     return self._assegnato_a_mio_ufficio_visibility_count(cr, uid, "out")
-
-    @api.cr_uid
-    def _assegnato_a_mio_ufficio_visibility_count_total(self, cr, uid):
-        return self._assegnato_a_mio_ufficio_visibility_count(cr, uid, "")
-
-    def _assegnato_a_mio_ufficio_visibility_count(self, cr, uid, protocollo_type):
-        # if not protocollo_type:
-        #     return 0
-
-        time_start = time.time()
-        archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)])
-        current_archivio_id = archivio_ids[0]
-
-        sql_query = """SELECT COUNT(DISTINCT(pa.protocollo_id)) 
-            FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_department hd, hr_employee he, resource_resource rr
-            WHERE pp.archivio_id = %d 
-                AND pp.id = pa.protocollo_id 
-                AND pa.assegnatario_department_id = hd.id
-                AND hd.id = he.department_id
-                AND he.resource_id = rr.id
-                AND rr.user_id = %d
-                AND rr.active = TRUE
-                AND pp.registration_date IS NOT NULL
-                AND pa.tipologia_assegnatario = 'department' 
-                AND pa.tipologia_assegnazione = 'competenza'
-                AND pa.state = 'assegnato'
-                AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
-        """ % (current_archivio_id, uid)
-
-        cr.execute(sql_query)
+                  pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
+                  pp.archivio_id = %s
+        ''' % (uid, archivio_id)
+        cr.execute(query)
         result = cr.fetchall()
-        count_value = result[0][0]
+        return result
 
-        time_end = time.time()
-        time_duration = time_end - time_start
-        _logger.info("_assegnato_a_mio_ufficio_visibility_count: %d - %s s" % (count_value, time_duration))
-
-        return count_value
-
-    def _assegnato_a_mio_ufficio_cc_visibility(self, cr, uid, ids, name, arg, context=None):
+    def _assegnato_a_mio_ufficio_visibility(self, cr, uid, ids, name, arg, context=None):
         return {}
 
-    def _assegnato_a_mio_ufficio_cc_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
-        start = int(round(time.time() * 1000))
-        cr.execute('''
-            SELECT DISTINCT(pa.protocollo_id) 
+    def _assegnato_a_mio_ufficio_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
+        time_start = time.time()
+        results = self._assegnato_a_mio_ufficio_query(cr, uid, 'search')
+        protocollo_visible_ids = [res[0] for res in results]
+        time_end = time.time()
+        time_duration = time_end - time_start
+        _logger.info("_assegnato_a_mio_ufficio_visibility_search: %s sec" % (time_duration,))
+        return [('id', 'in', protocollo_visible_ids)]
+
+    @api.cr_uid
+    def _assegnato_a_mio_ufficio_visibility_count(self, cr, uid):
+        time_start = time.time()
+        result = self._assegnato_a_mio_ufficio_query(cr, uid, 'count')
+        count_value = result[0][0]
+        time_end = time.time()
+        time_duration = time_end - time_start
+        _logger.info("_assegnato_a_mio_ufficio_visibility_count: %s - %s sec" % (count_value, time_duration))
+        return count_value
+
+    ####################################################################################################################
+
+    ####################################################################################################################
+
+    def _assegnato_a_mio_ufficio_cc_query(self, cr, uid, type='search'):
+        archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)], limit=1)
+        archivio_id = archivio_ids[0]
+        query = 'SELECT DISTINCT(pa.protocollo_id) '
+        if type == 'count':
+            query = 'SELECT COUNT(DISTINCT(pa.protocollo_id)) '
+        query += '''
             FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_department hd, hr_employee he, resource_resource rr
             WHERE pp.id = pa.protocollo_id AND 
                   pa.assegnatario_department_id = hd.id AND
@@ -1098,66 +963,47 @@ class protocollo_protocollo(osv.Model):
                   pa.tipologia_assegnatario = 'department' AND 
                   pa.tipologia_assegnazione = 'conoscenza' AND
                   pa.state = 'assegnato' AND
-                  pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
-        ''', (uid,))
-        protocollo_visible_ids = [res[0] for res in cr.fetchall()]
-        end = int(round(time.time() * 1000))
-        _logger.info("_assegnato_a_mio_ufficio_cc_visibility_search" + str(end - start))
-        return [('id', 'in', protocollo_visible_ids)]
-
-    # @api.cr_uid
-    # def _assegnato_a_mio_ufficio_cc_visibility_count_in(self, cr, uid):
-    #     return self._assegnato_a_mio_ufficio_cc_visibility_count(cr, uid, "in")
-    #
-    # @api.cr_uid
-    # def _assegnato_a_mio_ufficio_cc_visibility_count_out(self, cr, uid):
-    #     return self._assegnato_a_mio_ufficio_cc_visibility_count(cr, uid, "out")
-
-    @api.cr_uid
-    def _assegnato_a_mio_ufficio_cc_visibility_count_total(self, cr, uid):
-        return self._assegnato_a_mio_ufficio_cc_visibility_count(cr, uid, "")
-
-    def _assegnato_a_mio_ufficio_cc_visibility_count(self, cr, uid, protocollo_type):
-        # if not protocollo_type:
-        #     return 0
-
-        time_start = time.time()
-        archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)])
-        current_archivio_id = archivio_ids[0]
-
-        sql_query = """SELECT COUNT(DISTINCT(pa.protocollo_id)) 
-            FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_department hd, hr_employee he, resource_resource rr
-            WHERE pp.archivio_id = %d 
-                AND pp.id = pa.protocollo_id 
-                AND pa.assegnatario_department_id = hd.id
-                AND hd.id=he.department_id
-                AND he.resource_id = rr.id
-                AND rr.user_id = %d
-                AND rr.active = TRUE
-                AND pp.registration_date IS NOT NULL
-                AND pa.tipologia_assegnatario = 'department' 
-                AND pa.tipologia_assegnazione = 'conoscenza'
-                AND pa.state = 'assegnato'
-                AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error')
-        """ % (current_archivio_id, uid)
-
-        cr.execute(sql_query)
+                  pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
+                  pp.archivio_id = %s
+        ''' % (uid, archivio_id)
+        cr.execute(query)
         result = cr.fetchall()
-        count_value = result[0][0]
+        return result
 
-        time_end = time.time()
-        time_duration = time_end - time_start
-        _logger.info("_assegnato_a_mio_ufficio_cc_visibility_count: %d - %s s" % (count_value, time_duration))
-
-        return count_value
-
-    def _da_assegnare_visibility(self, cr, uid, ids, name, arg, context=None):
+    def _assegnato_a_mio_ufficio_cc_visibility(self, cr, uid, ids, name, arg, context=None):
         return {}
 
-    def _da_assegnare_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
-        start = int(round(time.time() * 1000))
-        cr.execute('''
-            SELECT DISTINCT(p.id) FROM (
+    def _assegnato_a_mio_ufficio_cc_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
+        time_start = time.time()
+        results = self._assegnato_a_mio_ufficio_cc_query(cr, uid, 'search')
+        protocollo_visible_ids = [res[0] for res in results]
+        time_end = time.time()
+        time_duration = time_end - time_start
+        _logger.info("_assegnato_a_mio_ufficio_cc_visibility_search: %s sec" % (time_duration,))
+        return [('id', 'in', protocollo_visible_ids)]
+
+    @api.cr_uid
+    def _assegnato_a_mio_ufficio_cc_visibility_count(self, cr, uid):
+        time_start = time.time()
+        result = self._assegnato_a_mio_ufficio_cc_query(cr, uid, 'count')
+        count_value = result[0][0]
+        time_end = time.time()
+        time_duration = time_end - time_start
+        _logger.info("_assegnato_a_mio_ufficio_cc_visibility_count: %s - %s sec" % (count_value, time_duration))
+        return count_value
+
+    ####################################################################################################################
+
+    ####################################################################################################################
+
+    def _da_assegnare_query(self, cr, uid, type='search'):
+        archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)], limit=1)
+        archivio_id = archivio_ids[0]
+        query = 'SELECT DISTINCT(p.id) '
+        if type == 'count':
+            query = 'SELECT COUNT(DISTINCT(p.id)) '
+        query += '''
+            FROM (
                 SELECT DISTINCT (pp.id) AS id
                 FROM protocollo_protocollo pp, hr_employee he, resource_resource rr
                 WHERE pp.registration_employee_id = he.id AND
@@ -1167,7 +1013,8 @@ class protocollo_protocollo(osv.Model):
                       pp.registration_employee_state = 'working' AND
                       pp.registration_date IS NOT NULL AND
                       pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
-                      pp.is_imported = FALSE
+                      pp.is_imported = FALSE AND
+                      pp.archivio_id = %s
                 
                 EXCEPT
                 
@@ -1182,13 +1029,195 @@ class protocollo_protocollo(osv.Model):
                       pp.registration_employee_state = 'working' AND
                       pp.registration_date IS NOT NULL AND
                       pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
-                      pp.is_imported = FALSE
+                      pp.is_imported = FALSE AND
+                      pp.archivio_id = %s
               ) p
-        ''', (uid, uid))
-        protocollo_visible_ids = [res[0] for res in cr.fetchall()]
-        end = int(round(time.time() * 1000))
-        _logger.info("_da_assegnare_visibility_search" + str(end - start))
+        ''' % (uid, archivio_id, uid, archivio_id)
+        cr.execute(query)
+        result = cr.fetchall()
+        return result
+
+    def _da_assegnare_visibility(self, cr, uid, ids, name, arg, context=None):
+        return {}
+
+    def _da_assegnare_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
+        time_start = time.time()
+        results = self._da_assegnare_query(cr, uid, 'search')
+        protocollo_visible_ids = [res[0] for res in results]
+        time_end = time.time()
+        time_duration = time_end - time_start
+        _logger.info("_da_assegnare_visibility_search: %s sec" % (time_duration,))
         return [('id', 'in', protocollo_visible_ids)]
+
+    @api.cr_uid
+    def _da_assegnare_visibility_count(self, cr, uid):
+        time_start = time.time()
+        result = self._da_assegnare_query(cr, uid, 'count')
+        count_value = result[0][0]
+        time_end = time.time()
+        time_duration = time_end - time_start
+        _logger.info("_da_assegnare_visibility_count: %s - %s sec" % (count_value, time_duration))
+        return count_value
+
+    ####################################################################################################################
+
+    ####################################################################################################################
+
+    def _assegnato_da_me_in_attesa_query(self, cr, uid, type='search'):
+        archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)], limit=1)
+        archivio_id = archivio_ids[0]
+        query = 'SELECT DISTINCT(pp.id) '
+        if type == 'count':
+            query = 'SELECT COUNT(DISTINCT(pp.id)) '
+        query += '''
+            FROM protocollo_protocollo AS pp
+            INNER JOIN protocollo_assegnazione AS pa1 ON pp.id = pa1.protocollo_id AND pa1.tipologia_assegnazione = 'competenza'
+            INNER JOIN hr_employee AS he ON pa1.assegnatore_id = he.id
+            INNER JOIN resource_resource AS rr ON he.resource_id = rr.id AND rr.user_id = %s AND rr.active = TRUE
+            LEFT JOIN protocollo_assegnazione AS pa2 ON pp.id=pa2.protocollo_id AND pa1.assegnatore_id = pa2.assegnatario_employee_id AND pa2.tipologia_assegnazione = 'competenza'
+            WHERE pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
+                  pa1.state = 'assegnato' AND
+                  (pa1.tipologia_assegnatario = 'department' OR (pa1.tipologia_assegnatario = 'employee' AND pa1.parent_id IS NULL)) AND
+                  (
+                      (pa2.assegnatario_employee_id IS NULL AND (
+                          (pp.registration_employee_id != pa1.assegnatore_id AND pa1.assegnatore_department_id = he.department_id) OR (pp.registration_employee_id = pa1.assegnatore_id AND pp.registration_employee_state = 'working'))
+                      ) OR
+                      (pa2.assegnatario_employee_id IS NOT NULL AND pa2.state = 'preso' AND pa1.assegnatore_department_id = he.department_id)
+                  ) AND
+                  pp.archivio_id = %s
+        ''' % (uid, archivio_id)
+        cr.execute(query)
+        result = cr.fetchall()
+        return result
+
+    def _assegnato_da_me_in_attesa_visibility(self, cr, uid, ids, name, arg, context=None):
+        return {}
+
+    def _assegnato_da_me_in_attesa_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
+        time_start = time.time()
+        results = self._assegnato_da_me_in_attesa_query(cr, uid, 'search')
+        protocollo_visible_ids = [res[0] for res in results]
+        time_end = time.time()
+        time_duration = time_end - time_start
+        _logger.info("_assegnato_da_me_in_attesa_visibility_search: %s sec" % (time_duration,))
+        return [('id', 'in', protocollo_visible_ids)]
+
+    @api.cr_uid
+    def _assegnato_da_me_in_attesa_visibility_count(self, cr, uid):
+        time_start = time.time()
+        result = self._assegnato_da_me_in_attesa_query(cr, uid, 'count')
+        count_value = result[0][0]
+        time_end = time.time()
+        time_duration = time_end - time_start
+        _logger.info("_assegnato_da_me_in_attesa_visibility_count: %s - %s sec" % (count_value, time_duration))
+        return count_value
+
+    ####################################################################################################################
+
+    ####################################################################################################################
+
+    def _assegnato_da_me_in_rifiutato_query(self, cr, uid, type='search'):
+        archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)], limit=1)
+        archivio_id = archivio_ids[0]
+        query = 'SELECT DISTINCT(pp.id) '
+        if type == 'count':
+            query = 'SELECT COUNT(DISTINCT(pp.id)) '
+        query += '''
+            FROM protocollo_protocollo AS pp
+            INNER JOIN protocollo_assegnazione AS pa1 ON pp.id = pa1.protocollo_id AND pa1.tipologia_assegnazione = 'competenza'
+            INNER JOIN hr_employee AS he ON pa1.assegnatore_id = he.id
+            INNER JOIN resource_resource AS rr ON he.resource_id = rr.id AND rr.user_id = %s AND rr.active = TRUE
+            LEFT JOIN protocollo_assegnazione AS pa2 ON pp.id = pa2.protocollo_id AND pa1.assegnatore_id = pa2.assegnatario_employee_id AND pa2.tipologia_assegnazione = 'competenza'
+            WHERE pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
+                  pa1.state = 'rifiutato' AND
+                  (pa1.tipologia_assegnatario = 'department' OR (pa1.tipologia_assegnatario = 'employee' AND pa1.parent_id IS NULL)) AND
+                  (
+                      (pa2.assegnatario_employee_id IS NULL AND (
+                          (pp.registration_employee_id != pa1.assegnatore_id AND pa1.assegnatore_department_id = he.department_id) OR (pp.registration_employee_id = pa1.assegnatore_id AND pp.registration_employee_state = 'working'))
+                      ) OR
+                      (pa2.assegnatario_employee_id IS NOT NULL AND pa2.state = 'preso' AND pa1.assegnatore_department_id = he.department_id)
+                  ) AND
+                  pp.archivio_id = %s
+        ''' % (uid, archivio_id)
+        cr.execute(query)
+        result = cr.fetchall()
+        return result
+
+    def _assegnato_da_me_in_rifiutato_visibility(self, cr, uid, ids, name, arg, context=None):
+        return {}
+
+    def _assegnato_da_me_in_rifiutato_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
+        time_start = time.time()
+        results = self._assegnato_da_me_in_rifiutato_query(cr, uid, 'search')
+        protocollo_visible_ids = [res[0] for res in results]
+        time_end = time.time()
+        time_duration = time_end - time_start
+        _logger.info("_assegnato_da_me_in_rifiutato_visibility_search: %s sec" % (time_duration,))
+        return [('id', 'in', protocollo_visible_ids)]
+
+    @api.cr_uid
+    def _assegnato_da_me_in_rifiutato_visibility_count(self, cr, uid):
+        time_start = time.time()
+        result = self._assegnato_da_me_in_rifiutato_query(cr, uid, 'count')
+        count_value = result[0][0]
+        time_end = time.time()
+        time_duration = time_end - time_start
+        _logger.info("_assegnato_da_me_in_rifiutato_visibility_count: %s - %s sec" % (count_value, time_duration))
+        return count_value
+
+    ####################################################################################################################
+
+    ####################################################################################################################
+
+    def _da_inviare_query(self, cr, uid, type='search'):
+        archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)], limit=1)
+        archivio_id = archivio_ids[0]
+        query = 'SELECT DISTINCT(pp.id) '
+        if type == 'count':
+            query = 'SELECT COUNT(DISTINCT(pp.id)) '
+        query += '''
+            FROM protocollo_protocollo pp, hr_employee he, resource_resource rr
+            WHERE pp.registration_employee_state = 'working' AND 
+                  pp.registration_employee_id = he.id AND
+                  he.resource_id = rr.id AND
+                  rr.user_id = %s AND
+                  rr.active = TRUE AND
+                  pp.registration_date IS NOT NULL AND
+                  pp.type = 'out' AND 
+                  pp.state IN ('registered', 'error') AND
+                  pp.archivio_id = %s
+        ''' % (uid, archivio_id)
+        cr.execute(query)
+        result = cr.fetchall()
+        return result
+
+    def _da_inviare_visibility(self, cr, uid, ids, name, arg, context=None):
+        return {}
+
+    def _da_inviare_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
+        time_start = time.time()
+        results = self._da_inviare_query(cr, uid, 'search')
+        protocollo_visible_ids = [res[0] for res in results]
+        time_end = time.time()
+        time_duration = time_end - time_start
+        _logger.info("_da_inviare_visibility_search: %s sec" % (time_duration,))
+        return [('id', 'in', protocollo_visible_ids)]
+
+    @api.cr_uid
+    def _da_inviare_visibility_count(self, cr, uid):
+        time_start = time.time()
+        result = self._da_inviare_query(cr, uid, 'count')
+        count_value = result[0][0]
+        time_end = time.time()
+        time_duration = time_end - time_start
+        _logger.info("_da_inviare_visibility_count: %s - %s sec" % (count_value, time_duration))
+        return count_value
+
+    ####################################################################################################################
+
+    ####################################################################################################################
+    # Filtri sulle viste tree dei protocolli
+    ####################################################################################################################
 
     def _da_assegnare_general_visibility(self, cr, uid, ids, name, arg, context=None):
         return {}
@@ -1206,261 +1235,6 @@ class protocollo_protocollo(osv.Model):
         end = int(round(time.time() * 1000))
         _logger.info("_da_assegnare_general_visibility_search" + str(end - start))
         return [('id', 'in', protocollo_visible_ids)]
-
-    # @api.cr_uid
-    # def _da_assegnare_visibility_count_in(self, cr, uid):
-    #     return self._da_assegnare_visibility_count(cr, uid, "in")
-    #
-    # @api.cr_uid
-    # def _da_assegnare_visibility_count_out(self, cr, uid):
-    #     return self._da_assegnare_visibility_count(cr, uid, "out")
-
-    @api.cr_uid
-    def _da_assegnare_visibility_count_total(self, cr, uid):
-        return self._da_assegnare_visibility_count(cr, uid, "")
-
-    def _da_assegnare_visibility_count(self, cr, uid, protocollo_type):
-        # if not protocollo_type:
-        #     return 0
-
-        time_start = time.time()
-        archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)])
-        current_archivio_id = archivio_ids[0]
-
-        sql_query = """
-            SELECT COUNT(DISTINCT(p.id)) FROM (
-                SELECT DISTINCT (pp.id) AS id
-                FROM protocollo_protocollo pp, hr_employee he, resource_resource rr
-                WHERE pp.registration_employee_id = he.id AND
-                      he.resource_id = rr.id AND
-                      rr.user_id = %s AND
-                      rr.active = TRUE AND
-                      pp.registration_employee_state = 'working' AND
-                      pp.registration_date IS NOT NULL AND
-                      pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
-                      pp.is_imported = FALSE AND
-                      pp.archivio_id = %s
-                
-                EXCEPT
-                
-                SELECT DISTINCT (pa.protocollo_id) AS id
-                FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
-                WHERE pp.id = pa.protocollo_id AND
-                      pa.tipologia_assegnazione = 'competenza' AND
-                      pp.registration_employee_id = he.id AND
-                      he.resource_id = rr.id AND
-                      rr.user_id = %s AND
-                      rr.active = TRUE AND
-                      pp.registration_employee_state = 'working' AND
-                      pp.registration_date IS NOT NULL AND
-                      pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
-                      pp.is_imported = FALSE AND
-                      pp.archivio_id = %s
-              ) p
-            """ % (uid, current_archivio_id, uid, current_archivio_id)
-
-        cr.execute(sql_query)
-        result = cr.fetchall()
-        count_value = result[0][0]
-
-        time_end = time.time()
-        time_duration = time_end - time_start
-        _logger.info("_da_assegnare_visibility_count: %d - %s s" % (count_value, time_duration))
-
-        return count_value
-
-    def _assegnato_da_me_in_attesa_visibility(self, cr, uid, ids, name, arg, context=None):
-        return {}
-
-    def _assegnato_da_me_in_attesa_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
-        start = int(round(time.time() * 1000))
-        cr.execute('''
-            SELECT DISTINCT(pp.id)
-            FROM protocollo_protocollo AS pp
-            INNER JOIN protocollo_assegnazione AS pa1 ON pp.id = pa1.protocollo_id AND pa1.tipologia_assegnazione = 'competenza'
-            INNER JOIN hr_employee AS he ON pa1.assegnatore_id = he.id
-            INNER JOIN resource_resource AS rr ON he.resource_id = rr.id AND rr.user_id = %s AND rr.active = TRUE
-            LEFT JOIN protocollo_assegnazione AS pa2 ON pp.id=pa2.protocollo_id AND pa1.assegnatore_id = pa2.assegnatario_employee_id AND pa2.tipologia_assegnazione = 'competenza'
-            WHERE pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
-                  pa1.state = 'assegnato' AND
-                  (pa1.tipologia_assegnatario = 'department' OR (pa1.tipologia_assegnatario = 'employee' AND pa1.parent_id IS NULL)) AND
-                  (
-                      (pa2.assegnatario_employee_id IS NULL AND (
-                          (pp.registration_employee_id != pa1.assegnatore_id AND pa1.assegnatore_department_id = he.department_id) OR (pp.registration_employee_id = pa1.assegnatore_id AND pp.registration_employee_state = 'working'))
-                      ) OR
-                      (pa2.assegnatario_employee_id IS NOT NULL AND pa2.state = 'preso' AND pa1.assegnatore_department_id = he.department_id)
-                  )
-        ''', (uid, ))
-        protocollo_visible_ids = [res[0] for res in cr.fetchall()]
-        end = int(round(time.time() * 1000))
-        _logger.info("_assegnato_da_me_in_attesa_visibility_search" + str(end - start))
-        return [('id', 'in', protocollo_visible_ids)]
-
-    @api.cr_uid
-    def _assegnato_da_me_in_attesa_visibility_count_total(self, cr, uid):
-        return self._assegnato_da_me_in_attesa_visibility_count(cr, uid, "")
-
-    def _assegnato_da_me_in_attesa_visibility_count(self, cr, uid, protocollo_type):
-        # if not protocollo_type:
-        #     return 0
-
-        time_start = time.time()
-        archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)])
-        current_archivio_id = archivio_ids[0]
-
-        sql_query = """
-            SELECT COUNT(DISTINCT(pp.id))
-            FROM protocollo_protocollo AS pp
-            INNER JOIN protocollo_assegnazione AS pa1 ON pp.id = pa1.protocollo_id AND pa1.tipologia_assegnazione = 'competenza'
-            INNER JOIN hr_employee AS he ON pa1.assegnatore_id = he.id
-            INNER JOIN resource_resource AS rr ON he.resource_id = rr.id AND rr.user_id = %s AND rr.active = TRUE
-            LEFT JOIN protocollo_assegnazione AS pa2 ON pp.id=pa2.protocollo_id AND pa1.assegnatore_id = pa2.assegnatario_employee_id AND pa2.tipologia_assegnazione = 'competenza'
-            WHERE pp.archivio_id = %d AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
-                  pa1.state = 'assegnato' AND
-                  (pa1.tipologia_assegnatario = 'department' OR (pa1.tipologia_assegnatario = 'employee' AND pa1.parent_id IS NULL)) AND
-                  (
-                      (pa2.assegnatario_employee_id IS NULL AND (
-                          (pp.registration_employee_id != pa1.assegnatore_id AND pa1.assegnatore_department_id = he.department_id) OR (pp.registration_employee_id = pa1.assegnatore_id AND pp.registration_employee_state = 'working'))
-                      ) OR
-                      (pa2.assegnatario_employee_id IS NOT NULL AND pa2.state = 'preso' AND pa1.assegnatore_department_id = he.department_id)
-                  )
-            """ % (uid, current_archivio_id)
-
-        cr.execute(sql_query)
-        result = cr.fetchall()
-        count_value = result[0][0]
-
-        time_end = time.time()
-        time_duration = time_end - time_start
-        _logger.info("_assegnato_da_me_in_attesa_visibility_count: %d - %s s" % (count_value, time_duration))
-
-        return count_value
-
-    def _assegnato_da_me_in_rifiutato_visibility(self, cr, uid, ids, name, arg, context=None):
-        return {}
-
-    def _assegnato_da_me_in_rifiutato_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
-        start = int(round(time.time() * 1000))
-        cr.execute('''
-            SELECT DISTINCT(pp.id)
-            FROM protocollo_protocollo AS pp
-            INNER JOIN protocollo_assegnazione AS pa1 ON pp.id = pa1.protocollo_id AND pa1.tipologia_assegnazione = 'competenza'
-            INNER JOIN hr_employee AS he ON pa1.assegnatore_id = he.id
-            INNER JOIN resource_resource AS rr ON he.resource_id = rr.id AND rr.user_id = %s AND rr.active = TRUE
-            LEFT JOIN protocollo_assegnazione AS pa2 ON pp.id = pa2.protocollo_id AND pa1.assegnatore_id = pa2.assegnatario_employee_id AND pa2.tipologia_assegnazione = 'competenza'
-            WHERE pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
-                  pa1.state = 'rifiutato' AND
-                  (pa1.tipologia_assegnatario = 'department' OR (pa1.tipologia_assegnatario = 'employee' AND pa1.parent_id IS NULL)) AND
-                  (
-                      (pa2.assegnatario_employee_id IS NULL AND (
-                          (pp.registration_employee_id != pa1.assegnatore_id AND pa1.assegnatore_department_id = he.department_id) OR (pp.registration_employee_id = pa1.assegnatore_id AND pp.registration_employee_state = 'working'))
-                      ) OR
-                      (pa2.assegnatario_employee_id IS NOT NULL AND pa2.state = 'preso' AND pa1.assegnatore_department_id = he.department_id)
-                  )
-        ''', (uid, ))
-        protocollo_visible_ids = [res[0] for res in cr.fetchall()]
-        end = int(round(time.time() * 1000))
-        _logger.info("_assegnato_da_me_in_rifiutato_visibility_search" + str(end - start))
-        return [('id', 'in', protocollo_visible_ids)]
-
-    @api.cr_uid
-    def _assegnato_da_me_in_rifiutato_visibility_count_total(self, cr, uid):
-        return self._assegnato_da_me_in_rifiutato_visibility_count(cr, uid, "")
-
-    def _assegnato_da_me_in_rifiutato_visibility_count(self, cr, uid, protocollo_type):
-        # if not protocollo_type:
-        #     return 0
-
-        time_start = time.time()
-        archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)])
-        current_archivio_id = archivio_ids[0]
-
-        sql_query = """
-            SELECT COUNT(DISTINCT(pp.id))
-            FROM protocollo_protocollo AS pp
-            INNER JOIN protocollo_assegnazione AS pa1 ON pp.id = pa1.protocollo_id AND pa1.tipologia_assegnazione = 'competenza'
-            INNER JOIN hr_employee AS he ON pa1.assegnatore_id = he.id
-            INNER JOIN resource_resource AS rr ON he.resource_id = rr.id AND rr.user_id = %s AND rr.active = TRUE
-            LEFT JOIN protocollo_assegnazione AS pa2 ON pp.id = pa2.protocollo_id AND pa1.assegnatore_id = pa2.assegnatario_employee_id AND pa2.tipologia_assegnazione = 'competenza'
-            WHERE pp.archivio_id = %d AND pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
-                  pa1.state = 'rifiutato' AND
-                  (pa1.tipologia_assegnatario = 'department' OR (pa1.tipologia_assegnatario = 'employee' AND pa1.parent_id IS NULL)) AND
-                  (
-                      (pa2.assegnatario_employee_id IS NULL AND (
-                          (pp.registration_employee_id != pa1.assegnatore_id AND pa1.assegnatore_department_id = he.department_id) OR (pp.registration_employee_id = pa1.assegnatore_id AND pp.registration_employee_state = 'working'))
-                      ) OR
-                      (pa2.assegnatario_employee_id IS NOT NULL AND pa2.state = 'preso' AND pa1.assegnatore_department_id = he.department_id)
-                  )
-        """ % (uid, current_archivio_id)
-
-        cr.execute(sql_query)
-        result = cr.fetchall()
-        count_value = result[0][0]
-
-        time_end = time.time()
-        time_duration = time_end - time_start
-        _logger.info("_assegnato_da_me_in_rifiutato_visibility_count: %d - %s s" % (count_value, time_duration))
-
-        return count_value
-
-    def _da_inviare_visibility(self, cr, uid, ids, name, arg, context=None):
-        return {}
-
-    def _da_inviare_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
-        start = int(round(time.time() * 1000))
-        cr.execute('''
-            SELECT DISTINCT(pp.id) 
-            FROM protocollo_protocollo pp, hr_employee he, resource_resource rr
-            WHERE pp.registration_employee_state = 'working' AND 
-                  pp.registration_employee_id = he.id AND
-                  he.resource_id = rr.id AND
-                  rr.user_id = %s AND
-                  rr.active = TRUE AND
-                  pp.registration_date IS NOT NULL AND
-                  pp.type = 'out' AND 
-                  pp.state IN ('registered', 'error')
-        ''', (uid,))
-        protocollo_visible_ids = [res[0] for res in cr.fetchall()]
-        end = int(round(time.time() * 1000))
-        _logger.info("_da_inviare_visibility_search" + str(end - start))
-        return [('id', 'in', protocollo_visible_ids)]
-
-    @api.cr_uid
-    def _da_inviare_visibility_count_total(self, cr, uid):
-        return self._da_inviare_visibility_count(cr, uid, "")
-
-    def _da_inviare_visibility_count(self, cr, uid, protocollo_type):
-        time_start = time.time()
-        archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)])
-        current_archivio_id = archivio_ids[0]
-
-        sql_query = """SELECT COUNT(DISTINCT(pp.id)) 
-            FROM protocollo_protocollo pp, hr_employee he, resource_resource rr
-            WHERE pp.archivio_id = %d AND
-                  pp.registration_employee_state = 'working' AND
-                  pp.registration_employee_id = he.id AND
-                  he.resource_id = rr.id AND
-                  rr.user_id = %s AND
-                  rr.active = TRUE AND
-                  pp.registration_date IS NOT NULL AND
-                  pp.type = 'out' AND 
-                  pp.state IN ('registered', 'error')
-        """ % (current_archivio_id, uid)
-
-        cr.execute(sql_query)
-        result = cr.fetchall()
-        count_value = result[0][0]
-
-        time_end = time.time()
-        time_duration = time_end - time_start
-
-        _logger.info("_da_inviare_visibility_count: %d - %s s" % (count_value, time_duration))
-
-        return count_value
-
-    ####################################################################################################################
-    # Filtri sulle viste tree dei protocolli
-    ####################################################################################################################
 
     def _get_protocollo_assegnazione_ids(self, cr, uid, tipologia_assegnazione, tipologia_assegnatario, nome):
         cr.execute('''
