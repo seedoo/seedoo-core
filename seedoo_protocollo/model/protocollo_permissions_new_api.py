@@ -11,6 +11,8 @@ class Protocollo(models.Model):
     preso = fields.Boolean(string='Preso', compute='_compute_state_assegnazione', store=True, readonly=True)
     rifiutato = fields.Boolean(string='Rifiutato', compute='_compute_state_assegnazione', store=True, readonly=True)
 
+    da_assegnare = fields.Boolean(string='Da Assegnare', compute='_compute_da_assegnare', store=True, readonly=True, default=False)
+
     server_sharedmail_id_required = fields.Boolean(string='Server Sharedmail Obbligatorio', compute='_compute_server_sharedmail_id_required', readonly=True)
     server_pec_id_required = fields.Boolean(string='Server PEC Obbligatorio', compute='_compute_server_pec_id_required', readonly=True)
 
@@ -38,6 +40,15 @@ class Protocollo(models.Model):
                 protocollo.in_attesa = in_attesa
                 protocollo.preso = preso
                 protocollo.rifiutato = rifiutato
+
+    @api.multi
+    @api.depends('assegnazione_competenza_ids')
+    def _compute_da_assegnare(self):
+        for protocollo in self:
+            da_assegnare = True
+            if protocollo.assegnazione_competenza_ids:
+                da_assegnare = False
+            protocollo.da_assegnare = da_assegnare
 
     @api.multi
     @api.depends('typology')

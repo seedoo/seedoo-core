@@ -999,40 +999,22 @@ class protocollo_protocollo(osv.Model):
     def _da_assegnare_query(self, cr, uid, type='search'):
         archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)], limit=1)
         archivio_id = archivio_ids[0]
-        query = 'SELECT DISTINCT(p.id) '
+        query = 'SELECT DISTINCT(pp.id) '
         if type == 'count':
-            query = 'SELECT COUNT(DISTINCT(p.id)) '
+            query = 'SELECT COUNT(DISTINCT(pp.id)) '
         query += '''
-            FROM (
-                SELECT DISTINCT (pp.id) AS id
-                FROM protocollo_protocollo pp, hr_employee he, resource_resource rr
-                WHERE pp.registration_employee_id = he.id AND
-                      he.resource_id = rr.id AND
-                      rr.user_id = %s AND
-                      rr.active = TRUE AND
-                      pp.registration_employee_state = 'working' AND
-                      pp.registration_date IS NOT NULL AND
-                      pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
-                      pp.is_imported = FALSE AND
-                      pp.archivio_id = %s
-                
-                EXCEPT
-                
-                SELECT DISTINCT (pa.protocollo_id) AS id
-                FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
-                WHERE pp.id = pa.protocollo_id AND
-                      pa.tipologia_assegnazione = 'competenza' AND
-                      pp.registration_employee_id = he.id AND
-                      he.resource_id = rr.id AND
-                      rr.user_id = %s AND
-                      rr.active = TRUE AND
-                      pp.registration_employee_state = 'working' AND
-                      pp.registration_date IS NOT NULL AND
-                      pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
-                      pp.is_imported = FALSE AND
-                      pp.archivio_id = %s
-              ) p
-        ''' % (uid, archivio_id, uid, archivio_id)
+            FROM protocollo_protocollo pp, hr_employee he, resource_resource rr
+            WHERE pp.registration_employee_id = he.id AND
+                  he.resource_id = rr.id AND
+                  rr.user_id = %s AND
+                  rr.active = TRUE AND
+                  pp.registration_employee_state = 'working' AND
+                  pp.registration_date IS NOT NULL AND
+                  pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
+                  pp.da_assegnare = TRUE AND
+                  pp.is_imported = FALSE AND
+                  pp.archivio_id = %s
+        ''' % (uid, archivio_id)
         cr.execute(query)
         result = cr.fetchall()
         return result
