@@ -51,6 +51,13 @@ class protocollo_configurazione(orm.Model):
 
         'non_classificati_active': fields.boolean('Visualizza Box "Da Classificare" nella Dashboard'),
         'non_fascicolati_active': fields.boolean('Visualizza Box "Da Fascicolare" nella Dashboard'),
+        'assegnato_a_me_active': fields.boolean('Visualizza Box "Assegnati a Me" nella Dashboard'),
+        'assegnato_a_mio_ufficio_active': fields.boolean('Visualizza Box "Assegnati al mio Ufficio" nella Dashboard'),
+        'assegnato_a_me_competenza_active': fields.boolean('Visualizza Box "Assegnati a Me per Competenza" nella Dashboard'),
+        'assegnato_a_mio_ufficio_competenza_active': fields.boolean('Visualizza Box "Assegnati al mio Ufficio per Competenza" nella Dashboard'),
+        'assegnato_cc_active': fields.boolean('Visualizza Box "Assegnati per Conoscenza" nella Dashboard'),
+        'assegnato_da_me_active': fields.boolean('Visualizza Box "Assegnati da Me" nella Dashboard'),
+        'da_assegnare_active': fields.boolean('Visualizza Box "Da Assegnare" nella Dashboard'),
 
         'sostituisci_assegnatari': fields.boolean('Sostituisci Assegnatari Default in Modifica Classificazione'),
 
@@ -89,6 +96,13 @@ class protocollo_configurazione(orm.Model):
         'email_pec_unique': True,
         'non_classificati_active': False,
         'non_fascicolati_active': False,
+        'assegnato_a_me_active': False,
+        'assegnato_a_mio_ufficio_active': False,
+        'assegnato_a_me_competenza_active': True,
+        'assegnato_a_mio_ufficio_competenza_active': True,
+        'assegnato_cc_active': True,
+        'assegnato_da_me_active': True,
+        'da_assegnare_active': True,
         'sostituisci_assegnatari': True,
         'assegnazione': 'all',
         'select_eml': True,

@@ -36,8 +36,24 @@ class TileTile(models.Model):
             self._remove_tile_from_ids(cr, uid, ids, 'seedoo_protocollo', 'tile_protocollo_non_classificati')
         if not configurazione.non_fascicolati_active:
             self._remove_tile_from_ids(cr, uid, ids, 'seedoo_protocollo', 'tile_protocollo_non_fascicolati')
-        if configurazione.assegnatari_competenza_uffici_required or configurazione.assegnatari_competenza_dipendenti_required:
-            self._remove_tile_from_ids(cr, uid, ids, 'seedoo_protocollo', 'act_tile_protocollo_totali_da_assegnare')
+        if not configurazione.assegnato_a_me_active:
+            self._remove_tile_from_ids(cr, uid, ids, 'seedoo_protocollo', 'tile_protocollo_totali_assegnati_a_me')
+        if not configurazione.assegnato_a_mio_ufficio_active:
+            self._remove_tile_from_ids(cr, uid, ids, 'seedoo_protocollo', 'tile_protocollo_totali_assegnati_mio_ufficio')
+        if not configurazione.assegnato_a_me_competenza_active:
+            self._remove_tile_from_ids(cr, uid, ids, 'seedoo_protocollo', 'tile_protocollo_totali_assegnati_a_me_comp')
+        if not configurazione.assegnato_a_me_active:
+            self._remove_tile_from_ids(cr, uid, ids, 'seedoo_protocollo', 'tile_protocollo_totali_assegnati_a_me')
+        if not configurazione.assegnato_a_mio_ufficio_competenza_active:
+            self._remove_tile_from_ids(cr, uid, ids, 'seedoo_protocollo', 'tile_protocollo_totali_assegnati_mio_ufficio_comp')
+        if not configurazione.assegnato_cc_active:
+            self._remove_tile_from_ids(cr, uid, ids, 'seedoo_protocollo', 'tile_protocollo_totali_assegnati_cc')
+        if not configurazione.assegnato_da_me_active:
+            self._remove_tile_from_ids(cr, uid, ids, 'seedoo_protocollo', 'tile_protocollo_totali_assegnati_da_me_assegnato')
+        if not configurazione.da_assegnare_active or \
+                configurazione.assegnatari_competenza_uffici_required or \
+                configurazione.assegnatari_competenza_dipendenti_required:
+            self._remove_tile_from_ids(cr, uid, ids, 'seedoo_protocollo', 'tile_protocollo_tatali_da_assegnare')
 
         return [('id', 'in', ids)]
 

@@ -79,6 +79,13 @@ this module contains the full copyright notices and license terms. -->
                     <group string="Dashboard">
                         <field name="non_classificati_active"/>
                         <field name="non_fascicolati_active"/>
+                        <field name="assegnato_a_me_active" on_change="on_change_assegnato_a_me_active(assegnato_a_me_active)"/>
+                        <field name="assegnato_a_mio_ufficio_active" on_change="on_change_assegnato_a_mio_ufficio_active(assegnato_a_mio_ufficio_active)"/>
+                        <field name="assegnato_a_me_competenza_active" on_change="on_change_assegnato_a_me_competenza_active(assegnato_a_me_competenza_active)"/>
+                        <field name="assegnato_a_mio_ufficio_competenza_active" on_change="on_change_assegnato_a_mio_ufficio_competenza_active(assegnato_a_mio_ufficio_competenza_active)"/>
+                        <field name="assegnato_cc_active" on_change="on_change_assegnato_cc_active(assegnato_cc_active)"/>
+                        <field name="assegnato_da_me_active"/>
+                        <field name="da_assegnare_active"/>
                     </group>
                     <field name="config_id" invisible="True" on_change="on_change_config_id(config_id)"/>
                 </form>

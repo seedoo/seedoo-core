@@ -87,6 +87,20 @@ class protocollo_config_settings(osv.osv_memory):
                                                   string='Visualizza Box "Da Classificare"'),
         'non_fascicolati_active': fields.related('config_id', 'non_fascicolati_active', type='boolean',
                                                   string='Visualizza Box "Da Fascicolare"'),
+        'assegnato_a_me_active': fields.related('config_id', 'assegnato_a_me_active', type='boolean',
+                                                string='Visualizza Box "Assegnati a Me"'),
+        'assegnato_a_mio_ufficio_active': fields.related('config_id', 'assegnato_a_mio_ufficio_active', type='boolean',
+                                                         string='Visualizza Box "Assegnati al mio Ufficio"'),
+        'assegnato_a_me_competenza_active': fields.related('config_id', 'assegnato_a_me_competenza_active', type='boolean',
+                                                           string='Visualizza Box "Assegnati a Me per Competenza"'),
+        'assegnato_a_mio_ufficio_competenza_active': fields.related('config_id', 'assegnato_a_mio_ufficio_competenza_active', type='boolean',
+                                                                    string='Visualizza Box "Assegnati al mio Ufficio per Competenza"'),
+        'assegnato_cc_active': fields.related('config_id', 'assegnato_cc_active', type='boolean',
+                                              string='Visualizza Box "Assegnati per Conoscenza"'),
+        'assegnato_da_me_active': fields.related('config_id', 'assegnato_da_me_active', type='boolean',
+                                                 string='Visualizza Box "Assegnati da Me"'),
+        'da_assegnare_active': fields.related('config_id', 'da_assegnare_active', type='boolean',
+                                              string='Visualizza Box "Da Assegnare"'),
 
         'sostituisci_assegnatari': fields.related('config_id', 'sostituisci_assegnatari', type='boolean',
                                                  string='Sostituisci Assegnatari Default in Modifica Classificazione'),
@@ -115,6 +129,39 @@ class protocollo_config_settings(osv.osv_memory):
         for fname, v in config_data.items():
             if fname in self._columns:
                 values[fname] = v[0] if v and self._columns[fname]._type == 'many2one' else v
+        return {'value': values}
+
+    def on_change_assegnato_a_me_active(self, cr, uid, ids, assegnato_a_me_active, context=None):
+        values = {}
+        if assegnato_a_me_active:
+            values['assegnato_a_me_competenza_active'] = False
+            values['assegnato_cc_active'] = False
+        return {'value': values}
+
+    def on_change_assegnato_a_mio_ufficio_active(self, cr, uid, ids, assegnato_a_mio_ufficio_active, context=None):
+        values = {}
+        if assegnato_a_mio_ufficio_active:
+            values['assegnato_a_mio_ufficio_competenza_active'] = False
+            values['assegnato_cc_active'] = False
+        return {'value': values}
+
+    def on_change_assegnato_a_me_competenza_active(self, cr, uid, ids, assegnato_a_me_competenza_active, context=None):
+        values = {}
+        if assegnato_a_me_competenza_active:
+            values['assegnato_a_me_active'] = False
+        return {'value': values}
+
+    def on_change_assegnato_a_mio_ufficio_competenza_active(self, cr, uid, ids, assegnato_a_mio_ufficio_competenza_active, context=None):
+        values = {}
+        if assegnato_a_mio_ufficio_competenza_active:
+            values['assegnato_a_mio_ufficio_active'] = False
+        return {'value': values}
+
+    def on_change_assegnato_cc_active(self, cr, uid, ids, assegnato_cc_active, context=None):
+        values = {}
+        if assegnato_cc_active:
+            values['assegnato_a_me_active'] = False
+            values['assegnato_a_mio_ufficio_active'] = False
         return {'value': values}
 
 

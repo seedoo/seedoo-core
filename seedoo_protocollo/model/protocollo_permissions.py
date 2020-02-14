@@ -750,7 +750,6 @@ class protocollo_protocollo(osv.Model):
                   rr.active = TRUE AND
                   pp.registration_date IS NOT NULL AND
                   pa.tipologia_assegnatario = 'employee' AND 
-                  pa.tipologia_assegnazione = 'competenza' AND
                   pa.state = 'assegnato' AND
                   pa.parent_id IS NULL AND
                   pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND 
@@ -786,7 +785,7 @@ class protocollo_protocollo(osv.Model):
 
     ####################################################################################################################
 
-    def _assegnato_cc_query(self, cr, uid, type='search'):
+    def _assegnato_a_me_comp_query(self, cr, uid, type='search'):
         archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)], limit=1)
         archivio_id = archivio_ids[0]
         query = 'SELECT DISTINCT(pa.protocollo_id) '
@@ -794,50 +793,43 @@ class protocollo_protocollo(osv.Model):
             query = 'SELECT COUNT(DISTINCT(pa.protocollo_id)) '
         query += '''
             FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
-            WHERE pp.id = pa.protocollo_id AND
-                  (
-                       (pa.tipologia_assegnatario = 'employee' AND pa.parent_id IS NULL AND pa.assegnatario_employee_id = he.id AND he.resource_id = rr.id AND rr.user_id = %s AND rr.active = TRUE) OR
-                       (pa.tipologia_assegnatario = 'department' AND pa.assegnatario_department_id = he.department_id AND he.resource_id = rr.id AND rr.user_id = %s AND rr.active = TRUE AND pa.id NOT IN (
-                            SELECT pa2.parent_id 
-                            FROM protocollo_assegnazione pa2
-                            WHERE pp.id = pa2.protocollo_id AND 
-                                  pa2.tipologia_assegnatario = 'employee' AND
-                                  pa2.tipologia_assegnazione = 'conoscenza' AND
-                                  pa2.state != 'assegnato' AND  
-                                  pa2.parent_id IS NOT NULL AND 
-                                  pa2.assegnatario_employee_id = he.id
-                       ))
-                  ) AND
+            WHERE pp.id = pa.protocollo_id AND 
+                  pa.assegnatario_employee_id = he.id AND
+                  he.resource_id = rr.id AND
+                  rr.user_id = %s AND
+                  rr.active = TRUE AND
                   pp.registration_date IS NOT NULL AND
-                  pa.tipologia_assegnazione = 'conoscenza' AND
+                  pa.tipologia_assegnatario = 'employee' AND 
+                  pa.tipologia_assegnazione = 'competenza' AND
                   pa.state = 'assegnato' AND
-                  pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
-                  pp.archivio_id = %s
-        ''' % (uid, uid, archivio_id)
+                  pa.parent_id IS NULL AND
+                  pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND 
+                  pp.archivio_id = %s 
+        ''' % (uid, archivio_id)
         cr.execute(query)
         result = cr.fetchall()
         return result
 
-    def _assegnato_cc_visibility(self, cr, uid, ids, name, arg, context=None):
+    def _assegnato_a_me_comp_visibility(self, cr, uid, ids, name, arg, context=None):
         return {}
 
-    def _assegnato_cc_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
+    def _assegnato_a_me_comp_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
         time_start = time.time()
-        results = self._assegnato_cc_query(cr, uid, 'search')
+        results = self._assegnato_a_me_comp_query(cr, uid, 'search')
         protocollo_visible_ids = [res[0] for res in results]
         time_end = time.time()
         time_duration = time_end - time_start
-        _logger.info("_assegnato_cc_visibility_search: %s sec" % (time_duration,))
+        _logger.info("_assegnato_a_me_comp_visibility_search: %s sec" % (time_duration, ))
         return [('id', 'in', protocollo_visible_ids)]
 
     @api.cr_uid
-    def _assegnato_cc_visibility_count(self, cr, uid):
+    def _assegnato_a_me_comp_visibility_count(self, cr, uid):
         time_start = time.time()
-        result = self._assegnato_cc_query(cr, uid, 'count')
+        result = self._assegnato_a_me_comp_query(cr, uid, 'count')
         count_value = result[0][0]
         time_end = time.time()
         time_duration = time_end - time_start
-        _logger.info("_assegnato_cc_visibility_count: %s - %s sec" % (count_value, time_duration))
+        _logger.info("_assegnato_a_me_comp_visibility_count: %s - %s sec" % (count_value, time_duration))
         return count_value
 
     ####################################################################################################################
@@ -910,7 +902,6 @@ class protocollo_protocollo(osv.Model):
                   rr.active = TRUE AND
                   pp.registration_date IS NOT NULL AND
                   pa.tipologia_assegnatario = 'department' AND 
-                  pa.tipologia_assegnazione = 'competenza' AND
                   pa.state = 'assegnato' AND
                   pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
                   pp.archivio_id = %s
@@ -939,6 +930,57 @@ class protocollo_protocollo(osv.Model):
         time_end = time.time()
         time_duration = time_end - time_start
         _logger.info("_assegnato_a_mio_ufficio_visibility_count: %s - %s sec" % (count_value, time_duration))
+        return count_value
+
+    ####################################################################################################################
+
+    ####################################################################################################################
+
+    def _assegnato_a_mio_ufficio_comp_query(self, cr, uid, type='search'):
+        archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)], limit=1)
+        archivio_id = archivio_ids[0]
+        query = 'SELECT DISTINCT(pa.protocollo_id) '
+        if type == 'count':
+            query = 'SELECT COUNT(DISTINCT(pa.protocollo_id)) '
+        query += '''
+            FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_department hd, hr_employee he, resource_resource rr
+            WHERE pp.id = pa.protocollo_id AND 
+                  pa.assegnatario_department_id = hd.id AND
+                  hd.id=he.department_id AND
+                  he.resource_id = rr.id AND
+                  rr.user_id = %s AND
+                  rr.active = TRUE AND
+                  pp.registration_date IS NOT NULL AND
+                  pa.tipologia_assegnatario = 'department' AND 
+                  pa.tipologia_assegnazione = 'competenza' AND
+                  pa.state = 'assegnato' AND
+                  pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
+                  pp.archivio_id = %s
+        ''' % (uid, archivio_id)
+        cr.execute(query)
+        result = cr.fetchall()
+        return result
+
+    def _assegnato_a_mio_ufficio_comp_visibility(self, cr, uid, ids, name, arg, context=None):
+        return {}
+
+    def _assegnato_a_mio_ufficio_comp_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
+        time_start = time.time()
+        results = self._assegnato_a_mio_ufficio_comp_query(cr, uid, 'search')
+        protocollo_visible_ids = [res[0] for res in results]
+        time_end = time.time()
+        time_duration = time_end - time_start
+        _logger.info("_assegnato_a_mio_ufficio_comp_visibility_search: %s sec" % (time_duration,))
+        return [('id', 'in', protocollo_visible_ids)]
+
+    @api.cr_uid
+    def _assegnato_a_mio_ufficio_comp_visibility_count(self, cr, uid):
+        time_start = time.time()
+        result = self._assegnato_a_mio_ufficio_comp_query(cr, uid, 'count')
+        count_value = result[0][0]
+        time_end = time.time()
+        time_duration = time_end - time_start
+        _logger.info("_assegnato_a_mio_ufficio_comp_visibility_count: %s - %s sec" % (count_value, time_duration))
         return count_value
 
     ####################################################################################################################
@@ -990,6 +1032,64 @@ class protocollo_protocollo(osv.Model):
         time_end = time.time()
         time_duration = time_end - time_start
         _logger.info("_assegnato_a_mio_ufficio_cc_visibility_count: %s - %s sec" % (count_value, time_duration))
+        return count_value
+
+    ####################################################################################################################
+
+    ####################################################################################################################
+
+    def _assegnato_cc_query(self, cr, uid, type='search'):
+        archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)], limit=1)
+        archivio_id = archivio_ids[0]
+        query = 'SELECT DISTINCT(pa.protocollo_id) '
+        if type == 'count':
+            query = 'SELECT COUNT(DISTINCT(pa.protocollo_id)) '
+        query += '''
+            FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
+            WHERE pp.id = pa.protocollo_id AND
+                  (
+                       (pa.tipologia_assegnatario = 'employee' AND pa.parent_id IS NULL AND pa.assegnatario_employee_id = he.id AND he.resource_id = rr.id AND rr.user_id = %s AND rr.active = TRUE) OR
+                       (pa.tipologia_assegnatario = 'department' AND pa.assegnatario_department_id = he.department_id AND he.resource_id = rr.id AND rr.user_id = %s AND rr.active = TRUE AND pa.id NOT IN (
+                            SELECT pa2.parent_id 
+                            FROM protocollo_assegnazione pa2
+                            WHERE pp.id = pa2.protocollo_id AND 
+                                  pa2.tipologia_assegnatario = 'employee' AND
+                                  pa2.tipologia_assegnazione = 'conoscenza' AND
+                                  pa2.state != 'assegnato' AND  
+                                  pa2.parent_id IS NOT NULL AND 
+                                  pa2.assegnatario_employee_id = he.id
+                       ))
+                  ) AND
+                  pp.registration_date IS NOT NULL AND
+                  pa.tipologia_assegnazione = 'conoscenza' AND
+                  pa.state = 'assegnato' AND
+                  pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
+                  pp.archivio_id = %s
+        ''' % (uid, uid, archivio_id)
+        cr.execute(query)
+        result = cr.fetchall()
+        return result
+
+    def _assegnato_cc_visibility(self, cr, uid, ids, name, arg, context=None):
+        return {}
+
+    def _assegnato_cc_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
+        time_start = time.time()
+        results = self._assegnato_cc_query(cr, uid, 'search')
+        protocollo_visible_ids = [res[0] for res in results]
+        time_end = time.time()
+        time_duration = time_end - time_start
+        _logger.info("_assegnato_cc_visibility_search: %s sec" % (time_duration,))
+        return [('id', 'in', protocollo_visible_ids)]
+
+    @api.cr_uid
+    def _assegnato_cc_visibility_count(self, cr, uid):
+        time_start = time.time()
+        result = self._assegnato_cc_query(cr, uid, 'count')
+        count_value = result[0][0]
+        time_end = time.time()
+        time_duration = time_end - time_start
+        _logger.info("_assegnato_cc_visibility_count: %s - %s sec" % (count_value, time_duration))
         return count_value
 
     ####################################################################################################################
@@ -2300,19 +2400,25 @@ class protocollo_protocollo(osv.Model):
                                                          type='boolean', string='Bozza Creata da me'),
         'assegnato_a_me_visibility': fields.function(_assegnato_a_me_visibility,
                                                      fnct_search=_assegnato_a_me_visibility_search, type='boolean',
-                                                     string='Assegnato a me per Competenza'),
-        'assegnato_cc_visibility': fields.function(_assegnato_cc_visibility,
-                                                   fnct_search=_assegnato_cc_visibility_search, type='boolean',
-                                                   string='Assegnato per CC'),
+                                                     string='Assegnato a me'),
+        'assegnato_a_me_comp_visibility': fields.function(_assegnato_a_me_comp_visibility,
+                                                          fnct_search=_assegnato_a_me_comp_visibility_search, type='boolean',
+                                                          string='Assegnato a me per Competenza'),
         'assegnato_a_me_cc_visibility': fields.function(_assegnato_a_me_cc_visibility,
                                                         fnct_search=_assegnato_a_me_cc_visibility_search,
                                                         type='boolean', string='Assegnato a me per CC'),
         'assegnato_a_mio_ufficio_visibility': fields.function(_assegnato_a_mio_ufficio_visibility,
                                                               fnct_search=_assegnato_a_mio_ufficio_visibility_search,
-                                                              type='boolean', string='Assegnato a me per CC'),
+                                                              type='boolean', string='Assegnato al mio Ufficio'),
+        'assegnato_a_mio_ufficio_comp_visibility': fields.function(_assegnato_a_mio_ufficio_comp_visibility,
+                                                                   fnct_search=_assegnato_a_mio_ufficio_comp_visibility_search,
+                                                                   type='boolean', string='Assegnato al mio Ufficio per Competenza'),
         'assegnato_a_mio_ufficio_cc_visibility': fields.function(_assegnato_a_mio_ufficio_cc_visibility,
                                                                  fnct_search=_assegnato_a_mio_ufficio_cc_visibility_search,
                                                                  type='boolean', string='Assegnato al mio Ufficio per Conoscenza'),
+        'assegnato_cc_visibility': fields.function(_assegnato_cc_visibility,
+                                                   fnct_search=_assegnato_cc_visibility_search, type='boolean',
+                                                   string='Assegnato per CC'),
         'da_assegnare_visibility': fields.function(_da_assegnare_visibility,
                                                                 fnct_search=_da_assegnare_visibility_search,
                                                                 type='boolean', string='Da Assegnare'),
@@ -2520,10 +2626,12 @@ class protocollo_protocollo(osv.Model):
             'filtro_conoscenza_visibility',
             'bozza_creato_da_me_visibility',
             'assegnato_a_me_visibility',
-            'assegnato_cc_visibility',
+            'assegnato_a_me_comp_visibility',
             'assegnato_a_me_cc_visibility',
             'assegnato_a_mio_ufficio_visibility',
+            'assegnato_a_mio_ufficio_comp_visibility',
             'assegnato_a_mio_ufficio_cc_visibility',
+            'assegnato_cc_visibility',
             'assegnato_da_me_in_attesa_visibility',
             'assegnato_da_me_in_rifiutato_visibility',
         ]
