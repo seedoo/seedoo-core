@@ -1148,26 +1148,47 @@ class protocollo_protocollo(osv.Model):
     def _assegnato_da_me_in_attesa_query(self, cr, uid, type='search'):
         archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)], limit=1)
         archivio_id = archivio_ids[0]
-        query = 'SELECT DISTINCT(pp.id) '
+        query = 'SELECT DISTINCT(p.id) '
         if type == 'count':
-            query = 'SELECT COUNT(DISTINCT(pp.id)) '
+            query = 'SELECT COUNT(DISTINCT(p.id)) '
         query += '''
-            FROM protocollo_protocollo AS pp
-            INNER JOIN protocollo_assegnazione AS pa1 ON pp.id = pa1.protocollo_id AND pa1.tipologia_assegnazione = 'competenza'
-            INNER JOIN hr_employee AS he ON pa1.assegnatore_id = he.id
-            INNER JOIN resource_resource AS rr ON he.resource_id = rr.id AND rr.user_id = %s AND rr.active = TRUE
-            LEFT JOIN protocollo_assegnazione AS pa2 ON pp.id=pa2.protocollo_id AND pa1.assegnatore_id = pa2.assegnatario_employee_id AND pa2.tipologia_assegnazione = 'competenza'
-            WHERE pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
-                  pa1.state = 'assegnato' AND
-                  (pa1.tipologia_assegnatario = 'department' OR (pa1.tipologia_assegnatario = 'employee' AND pa1.parent_id IS NULL)) AND
-                  (
-                      (pa2.assegnatario_employee_id IS NULL AND (
-                          (pp.registration_employee_id != pa1.assegnatore_id AND pa1.assegnatore_department_id = he.department_id) OR (pp.registration_employee_id = pa1.assegnatore_id AND pp.registration_employee_state = 'working'))
-                      ) OR
-                      (pa2.assegnatario_employee_id IS NOT NULL AND pa2.state = 'preso' AND pa1.assegnatore_department_id = he.department_id)
-                  ) AND
-                  pp.archivio_id = %s
-        ''' % (uid, archivio_id)
+            FROM (
+                SELECT DISTINCT(pp.id) 
+                FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
+                WHERE pp.id = pa.protocollo_id AND 
+                      pa.assegnatore_id = he.id AND 
+                      he.resource_id = rr.id AND 
+                      rr.user_id = %s AND
+                      rr.active = TRUE AND
+                      pp.registration_date IS NOT NULL AND
+                      pp.registration_employee_state = 'working' AND
+                      pa.tipologia_assegnazione = 'competenza' AND
+                      pa.state = 'assegnato' AND
+                      pa.parent_id IS NULL AND
+                      pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
+                      pp.archivio_id = %s
+                
+                UNION
+                
+                SELECT DISTINCT(pp.id) 
+                FROM protocollo_protocollo pp, protocollo_assegnazione pa1, protocollo_assegnazione pa2, hr_employee he, resource_resource rr
+                WHERE pp.registration_date IS NOT NULL AND
+                      pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
+                      pp.id = pa1.protocollo_id AND
+                      pa1.assegnatario_employee_id = he.id AND
+                      pa1.tipologia_assegnazione = 'competenza' AND
+                      pa1.state = 'preso' AND
+                      pp.id = pa2.protocollo_id AND
+                      pa2.assegnatore_id = he.id AND
+                      pa2.tipologia_assegnazione = 'competenza' AND
+                      pa2.state = 'assegnato' AND
+                      pa2.parent_id IS NULL AND
+                      he.resource_id = rr.id AND
+                      rr.user_id = %s AND
+                      rr.active = TRUE AND
+                      pp.archivio_id = %s
+            ) p
+        ''' % (uid, archivio_id, uid, archivio_id)
         cr.execute(query)
         result = cr.fetchall()
         return result
@@ -1201,26 +1222,47 @@ class protocollo_protocollo(osv.Model):
     def _assegnato_da_me_in_rifiutato_query(self, cr, uid, type='search'):
         archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)], limit=1)
         archivio_id = archivio_ids[0]
-        query = 'SELECT DISTINCT(pp.id) '
+        query = 'SELECT DISTINCT(p.id) '
         if type == 'count':
-            query = 'SELECT COUNT(DISTINCT(pp.id)) '
+            query = 'SELECT COUNT(DISTINCT(p.id)) '
         query += '''
-            FROM protocollo_protocollo AS pp
-            INNER JOIN protocollo_assegnazione AS pa1 ON pp.id = pa1.protocollo_id AND pa1.tipologia_assegnazione = 'competenza'
-            INNER JOIN hr_employee AS he ON pa1.assegnatore_id = he.id
-            INNER JOIN resource_resource AS rr ON he.resource_id = rr.id AND rr.user_id = %s AND rr.active = TRUE
-            LEFT JOIN protocollo_assegnazione AS pa2 ON pp.id = pa2.protocollo_id AND pa1.assegnatore_id = pa2.assegnatario_employee_id AND pa2.tipologia_assegnazione = 'competenza'
-            WHERE pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
-                  pa1.state = 'rifiutato' AND
-                  (pa1.tipologia_assegnatario = 'department' OR (pa1.tipologia_assegnatario = 'employee' AND pa1.parent_id IS NULL)) AND
-                  (
-                      (pa2.assegnatario_employee_id IS NULL AND (
-                          (pp.registration_employee_id != pa1.assegnatore_id AND pa1.assegnatore_department_id = he.department_id) OR (pp.registration_employee_id = pa1.assegnatore_id AND pp.registration_employee_state = 'working'))
-                      ) OR
-                      (pa2.assegnatario_employee_id IS NOT NULL AND pa2.state = 'preso' AND pa1.assegnatore_department_id = he.department_id)
-                  ) AND
-                  pp.archivio_id = %s
-        ''' % (uid, archivio_id)
+            FROM (
+                SELECT DISTINCT(pp.id) 
+                FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
+                WHERE pp.id = pa.protocollo_id AND 
+                      pa.assegnatore_id = he.id AND 
+                      he.resource_id = rr.id AND 
+                      rr.user_id = %s AND
+                      rr.active = TRUE AND
+                      pp.registration_date IS NOT NULL AND
+                      pp.registration_employee_state = 'working' AND
+                      pa.tipologia_assegnazione = 'competenza' AND
+                      pa.state = 'rifiutato' AND
+                      pa.parent_id IS NULL AND
+                      pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
+                      pp.archivio_id = %s
+
+                UNION
+
+                SELECT DISTINCT(pp.id) 
+                FROM protocollo_protocollo pp, protocollo_assegnazione pa1, protocollo_assegnazione pa2, hr_employee he, resource_resource rr
+                WHERE pp.registration_date IS NOT NULL AND
+                      pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
+                      pp.id = pa1.protocollo_id AND
+                      pa1.assegnatario_employee_id = he.id AND
+                      pa1.tipologia_assegnazione = 'competenza' AND
+                      pa1.state = 'preso' AND
+                      pp.id = pa2.protocollo_id AND
+                      pa2.assegnatore_id = he.id AND
+                      pa2.tipologia_assegnazione = 'competenza' AND
+                      pa2.state = 'rifiutato' AND
+                      pa2.parent_id IS NULL AND
+                      he.resource_id = rr.id AND
+                      rr.user_id = %s AND
+                      rr.active = TRUE AND
+                      pp.archivio_id = %s
+            ) p
+        ''' % (uid, archivio_id, uid, archivio_id)
         cr.execute(query)
         result = cr.fetchall()
         return result
