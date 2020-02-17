@@ -1145,9 +1145,10 @@ class protocollo_protocollo(osv.Model):
 
     ####################################################################################################################
 
-    def _assegnato_da_me_in_attesa_query(self, cr, uid, type='search'):
-        archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)], limit=1)
-        archivio_id = archivio_ids[0]
+    def _assegnato_da_me_in_attesa_query(self, cr, uid, type, archivio_id=None):
+        if not archivio_id:
+            archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)], limit=1)
+            archivio_id = archivio_ids[0]
         query = 'SELECT DISTINCT(p.id) '
         if type == 'count':
             query = 'SELECT COUNT(DISTINCT(p.id)) '
@@ -1219,9 +1220,10 @@ class protocollo_protocollo(osv.Model):
 
     ####################################################################################################################
 
-    def _assegnato_da_me_in_rifiutato_query(self, cr, uid, type='search'):
-        archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)], limit=1)
-        archivio_id = archivio_ids[0]
+    def _assegnato_da_me_in_rifiutato_query(self, cr, uid, type, archivio_id=None):
+        if not archivio_id:
+            archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)], limit=1)
+            archivio_id = archivio_ids[0]
         query = 'SELECT DISTINCT(p.id) '
         if type == 'count':
             query = 'SELECT COUNT(DISTINCT(p.id)) '
@@ -1348,19 +1350,27 @@ class protocollo_protocollo(osv.Model):
 
     def _da_assegnare_general_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
         start = int(round(time.time() * 1000))
+        if context and 'archivio_id' in context and context['archivio_id']:
+            archivio_id = context['archivio_id']
+        else:
+            archivio_id = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)], limit=1)[0]
         cr.execute('''
             SELECT DISTINCT(pp.id) 
             FROM protocollo_protocollo AS pp
-            LEFT JOIN protocollo_assegnazione AS pa ON pp.id=pa.protocollo_id AND pa.tipologia_assegnazione = 'competenza'
             WHERE pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND 
-                  pa.protocollo_id IS NULL
-        ''', (uid,))
+                  pp.da_assegnare = TRUE AND 
+                  pp.archivio_id = %s
+        ''', (uid, archivio_id))
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
         end = int(round(time.time() * 1000))
         _logger.info("_da_assegnare_general_visibility_search" + str(end - start))
         return [('id', 'in', protocollo_visible_ids)]
 
-    def _get_protocollo_assegnazione_ids(self, cr, uid, tipologia_assegnazione, tipologia_assegnatario, nome):
+    def _get_protocollo_assegnazione_ids(self, cr, uid, tipologia_assegnazione, tipologia_assegnatario, nome, context=None):
+        if context and 'archivio_id' in context and context['archivio_id']:
+            archivio_id = context['archivio_id']
+        else:
+            archivio_id = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)], limit=1)[0]
         cr.execute('''
             SELECT DISTINCT(pa.protocollo_id) 
             FROM protocollo_protocollo pp, protocollo_assegnazione pa, protocollo_assegnatario ass
@@ -1369,8 +1379,9 @@ class protocollo_protocollo(osv.Model):
                   pa.tipologia_assegnatario = %s AND
                   pa.parent_id IS NULL AND
                   pa.assegnatario_id = ass.id AND 
-                  ass.nome ILIKE %s
-        ''', (tipologia_assegnazione, tipologia_assegnatario, '%' + nome + '%',))
+                  ass.nome ILIKE %s AND 
+                  pp.archivio_id = %s
+        ''', (tipologia_assegnazione, tipologia_assegnatario, '%' + nome + '%', archivio_id))
         protocollo_ids = [res[0] for res in cr.fetchall()]
         return protocollo_ids
 
@@ -1380,7 +1391,7 @@ class protocollo_protocollo(osv.Model):
 
     def _search_assegnazione_competenza_dipendente_ids(self, cr, uid, obj, name, args, domain=None, context=None):
         #TODO: gestire gli altri casi della ricerca
-        return [('id', 'in', self._get_protocollo_assegnazione_ids(cr, uid, 'competenza', 'employee', args[0][2]))]
+        return [('id', 'in', self._get_protocollo_assegnazione_ids(cr, uid, 'competenza', 'employee', args[0][2], context))]
 
     def _get_assegnazione_competenza_ufficio_ids(self, cr, uid, ids, field_names, arg=None, context=None):
         result = dict((res_id, []) for res_id in ids)
@@ -1388,7 +1399,7 @@ class protocollo_protocollo(osv.Model):
 
     def _search_assegnazione_competenza_ufficio_ids(self, cr, uid, obj, name, args, domain=None, context=None):
         #TODO: gestire gli altri casi della ricerca
-        return [('id', 'in', self._get_protocollo_assegnazione_ids(cr, uid, 'competenza', 'department', args[0][2]))]
+        return [('id', 'in', self._get_protocollo_assegnazione_ids(cr, uid, 'competenza', 'department', args[0][2], context))]
 
     def _get_assegnazione_conoscenza_dipendente_ids(self, cr, uid, ids, field_names, arg=None, context=None):
         result = dict((res_id, []) for res_id in ids)
@@ -1396,7 +1407,7 @@ class protocollo_protocollo(osv.Model):
 
     def _search_assegnazione_conoscenza_dipendente_ids(self, cr, uid, obj, name, args, domain=None, context=None):
         #TODO: gestire gli altri casi della ricerca
-        return [('id', 'in', self._get_protocollo_assegnazione_ids(cr, uid, 'conoscenza', 'employee', args[0][2]))]
+        return [('id', 'in', self._get_protocollo_assegnazione_ids(cr, uid, 'conoscenza', 'employee', args[0][2], context))]
 
     def _get_assegnazione_conoscenza_ufficio_ids(self, cr, uid, ids, field_names, arg=None, context=None):
         result = dict((res_id, []) for res_id in ids)
@@ -1404,14 +1415,17 @@ class protocollo_protocollo(osv.Model):
 
     def _search_assegnazione_conoscenza_ufficio_ids(self, cr, uid, obj, name, args, domain=None, context=None):
         #TODO: gestire gli altri casi della ricerca
-        return [('id', 'in', self._get_protocollo_assegnazione_ids(cr, uid, 'conoscenza', 'department', args[0][2]))]
+        return [('id', 'in', self._get_protocollo_assegnazione_ids(cr, uid, 'conoscenza', 'department', args[0][2], context))]
 
     def _filtro_a_me_competenza_visibility(self, cr, uid, ids, name, arg, context=None):
         return {}
 
     def _filtro_a_me_competenza_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
         start = int(round(time.time() * 1000))
-
+        if context and 'archivio_id' in context and context['archivio_id']:
+            archivio_id = context['archivio_id']
+        else:
+            archivio_id = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)], limit=1)[0]
         cr.execute('''
             SELECT DISTINCT(pa.protocollo_id) 
             FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
@@ -1423,8 +1437,9 @@ class protocollo_protocollo(osv.Model):
                   pp.registration_date IS NOT NULL AND
                   pa.tipologia_assegnatario = 'employee' AND 
                   pa.parent_id IS NULL AND
-                  pa.tipologia_assegnazione = 'competenza'
-        ''', (uid,))
+                  pa.tipologia_assegnazione = 'competenza' AND 
+                  pp.archivio_id = %s
+        ''', (uid, archivio_id))
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
         end = int(round(time.time() * 1000))
         _logger.info("_filtro_a_me_competenza_visibility_search: " + str(end - start))
@@ -1435,7 +1450,10 @@ class protocollo_protocollo(osv.Model):
 
     def _filtro_a_me_conoscenza_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
         start = int(round(time.time() * 1000))
-
+        if context and 'archivio_id' in context and context['archivio_id']:
+            archivio_id = context['archivio_id']
+        else:
+            archivio_id = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)], limit=1)[0]
         cr.execute('''
             SELECT DISTINCT(pa.protocollo_id) 
             FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
@@ -1447,8 +1465,9 @@ class protocollo_protocollo(osv.Model):
                   pp.registration_date IS NOT NULL AND
                   pa.tipologia_assegnatario = 'employee' AND 
                   pa.parent_id IS NULL AND
-                  pa.tipologia_assegnazione = 'conoscenza'
-        ''', (uid,))
+                  pa.tipologia_assegnazione = 'conoscenza' AND 
+                  pp.archivio_id = %s
+        ''', (uid, archivio_id))
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
         end = int(round(time.time() * 1000))
         _logger.info("_filtro_a_me_conocenza_visibility_search: " + str(end - start))
@@ -1459,6 +1478,10 @@ class protocollo_protocollo(osv.Model):
 
     def _filtro_a_mio_ufficio_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
         start = int(round(time.time() * 1000))
+        if context and 'archivio_id' in context and context['archivio_id']:
+            archivio_id = context['archivio_id']
+        else:
+            archivio_id = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)], limit=1)[0]
         cr.execute('''
             SELECT DISTINCT(pa.protocollo_id) 
             FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_department hd, hr_employee he, resource_resource rr
@@ -1470,8 +1493,9 @@ class protocollo_protocollo(osv.Model):
                   rr.active = TRUE AND
                   pp.registration_date IS NOT NULL AND
                   pa.tipologia_assegnatario = 'department' AND 
-                  pa.tipologia_assegnazione = 'competenza'
-        ''', (uid,))
+                  pa.tipologia_assegnazione = 'competenza' AND 
+                  pp.archivio_id = %s
+        ''', (uid, archivio_id))
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
         end = int(round(time.time() * 1000))
         _logger.info("_filtro_a_mio_ufficio_visibility_search: " + str(end - start))
@@ -1482,6 +1506,10 @@ class protocollo_protocollo(osv.Model):
 
     def _filtro_a_mio_ufficio_cc_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
         start = int(round(time.time() * 1000))
+        if context and 'archivio_id' in context and context['archivio_id']:
+            archivio_id = context['archivio_id']
+        else:
+            archivio_id = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)], limit=1)[0]
         cr.execute('''
             SELECT DISTINCT(pa.protocollo_id) 
             FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_department hd, hr_employee he, resource_resource rr
@@ -1493,8 +1521,9 @@ class protocollo_protocollo(osv.Model):
                   rr.active = TRUE AND
                   pp.registration_date IS NOT NULL AND
                   pa.tipologia_assegnatario = 'department' AND 
-                  pa.tipologia_assegnazione = 'conoscenza'
-        ''', (uid,))
+                  pa.tipologia_assegnazione = 'conoscenza' AND 
+                  pp.archivio_id = %s
+        ''', (uid, archivio_id))
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
         end = int(round(time.time() * 1000))
         _logger.info("_filtro_a_mio_ufficio_cc_visibility_search" + str(end - start))
@@ -1505,7 +1534,10 @@ class protocollo_protocollo(osv.Model):
 
     def _filtro_da_me_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
         start = int(round(time.time() * 1000))
-
+        if context and 'archivio_id' in context and context['archivio_id']:
+            archivio_id = context['archivio_id']
+        else:
+            archivio_id = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)], limit=1)[0]
         cr.execute('''
             SELECT DISTINCT(pa.protocollo_id) 
             FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
@@ -1515,8 +1547,9 @@ class protocollo_protocollo(osv.Model):
                   rr.user_id = %s AND
                   rr.active = TRUE AND
                   pp.registration_date IS NOT NULL AND
-                  (pa.tipologia_assegnatario = 'department' OR (pa.tipologia_assegnatario = 'employee' AND pa.parent_id IS NULL)) 
-        ''', (uid,))
+                  (pa.tipologia_assegnatario = 'department' OR (pa.tipologia_assegnatario = 'employee' AND pa.parent_id IS NULL)) AND 
+                  pp.archivio_id = %s
+        ''', (uid, archivio_id))
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
         end = int(round(time.time() * 1000))
         _logger.info("_filtro_da_me_visibility_search: " + str(end - start))
@@ -1527,6 +1560,10 @@ class protocollo_protocollo(osv.Model):
 
     def _filtro_competenza_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
         start = int(round(time.time() * 1000))
+        if context and 'archivio_id' in context and context['archivio_id']:
+            archivio_id = context['archivio_id']
+        else:
+            archivio_id = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)], limit=1)[0]
         cr.execute('''
             SELECT DISTINCT(pa.protocollo_id) 
             FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
@@ -1535,8 +1572,9 @@ class protocollo_protocollo(osv.Model):
                   he.resource_id = rr.id AND
                   rr.active = TRUE AND
                   pp.registration_date IS NOT NULL AND
-                  pa.tipologia_assegnazione = 'competenza'
-        ''', (uid,))
+                  pa.tipologia_assegnazione = 'competenza' AND 
+                  pp.archivio_id = %s
+        ''', (archivio_id,))
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
         end = int(round(time.time() * 1000))
         _logger.info("_filtro_competenza_visibility_search" + str(end - start))
@@ -1547,6 +1585,10 @@ class protocollo_protocollo(osv.Model):
 
     def _filtro_conoscenza_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
         start = int(round(time.time() * 1000))
+        if context and 'archivio_id' in context and context['archivio_id']:
+            archivio_id = context['archivio_id']
+        else:
+            archivio_id = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)], limit=1)[0]
         cr.execute('''
             SELECT DISTINCT(pa.protocollo_id) 
             FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_employee he, resource_resource rr
@@ -1555,69 +1597,28 @@ class protocollo_protocollo(osv.Model):
                   he.resource_id = rr.id AND
                   rr.active = TRUE AND
                   pp.registration_date IS NOT NULL AND
-                  pa.tipologia_assegnazione = 'conoscenza'
-        ''', (uid,))
+                  pa.tipologia_assegnazione = 'conoscenza' AND 
+                  pp.archivio_id = %s
+        ''', (archivio_id,))
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
         end = int(round(time.time() * 1000))
         _logger.info("_filtro_conoscenza_visibility_search" + str(end - start))
         return [('id', 'in', protocollo_visible_ids)]
 
-    # def _filtro_in_attesa_visibility(self, cr, uid, ids, name, arg, context=None):
-    #     return {}
-    #
-    # def _filtro_in_attesa_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
-    #     start = int(round(time.time() * 1000))
-    #     cr.execute('''
-    #         SELECT DISTINCT(pa.protocollo_id)
-    #         FROM protocollo_protocollo pp, protocollo_assegnazione pa
-    #         WHERE pp.id = pa.protocollo_id AND
-    #               pp.registration_employee_id IS NOT NULL AND
-    #               pa.state = 'assegnato' AND
-    #               pa.tipologia_assegnazione = 'competenza' AND
-    #               pa.parent_id IS NULL
-    #     ''', (uid,))
-    #     protocollo_visible_ids = [res[0] for res in cr.fetchall()]
-    #     end = int(round(time.time() * 1000))
-    #     _logger.info("_filtro_in_attesa_visibility_search" + str(end - start))
-    #     return [('id', 'in', protocollo_visible_ids)]
-    #
-    # def _filtro_rifiutato_visibility(self, cr, uid, ids, name, arg, context=None):
-    #     return {}
-    #
-    # def _filtro_rifiutato_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
-    #     start = int(round(time.time() * 1000))
-    #     cr.execute('''
-    #         SELECT DISTINCT(pa.protocollo_id)
-    #         FROM protocollo_protocollo pp, protocollo_assegnazione pa
-    #         WHERE pp.id = pa.protocollo_id AND
-    #               pp.registration_employee_id IS NOT NULL AND
-    #               pa.state = 'rifiutato' AND
-    #               pa.tipologia_assegnazione = 'competenza' AND
-    #               pa.parent_id IS NULL
-    #     ''', (uid,))
-    #     protocollo_visible_ids = [res[0] for res in cr.fetchall()]
-    #     end = int(round(time.time() * 1000))
-    #     _logger.info("_filtro_rifiutato_visibility_search" + str(end - start))
-    #     return [('id', 'in', protocollo_visible_ids)]
-    #
-    # def _filtro_preso_in_carico_visibility(self, cr, uid, ids, name, arg, context=None):
-    #     return {}
-    #
-    # def _filtro_preso_in_carico_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
-    #     start = int(round(time.time() * 1000))
-    #     cr.execute('''
-    #                 SELECT DISTINCT(pa.protocollo_id)
-    #                 FROM protocollo_protocollo pp, protocollo_assegnazione pa
-    #                 WHERE pp.id = pa.protocollo_id AND
-    #                       pp.registration_employee_id IS NOT NULL AND
-    #                       pa.state = 'preso' AND
-    #                       pa.tipologia_assegnazione = 'competenza' AND
-    #                       pa.parent_id IS NULL
-    #             ''', (uid,))
-    #     protocollo_visible_ids = [res[0] for res in cr.fetchall()]
-    #     end = int(round(time.time() * 1000))
-    #     _logger.info("_filtro_preso_in_carico_visibility_search" + str(end - start))
-    #     return [('id', 'in', protocollo_visible_ids)]
+    def _filtro_da_me_in_attesa_visibility(self, cr, uid, ids, name, arg, context=None):
+        return {}
+
+    def _filtro_da_me_in_attesa_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
+        archivio_id = None
+        if context and 'archivio_id' in context and context['archivio_id']:
+            archivio_id = context['archivio_id']
+        time_start = time.time()
+        results = self._assegnato_da_me_in_attesa_query(cr, uid, 'search', archivio_id)
+        protocollo_visible_ids = [res[0] for res in results]
+        time_end = time.time()
+        time_duration = time_end - time_start
+        _logger.info("_filtro_da_me_in_attesa_visibility_search: %s sec" % (time_duration,))
+        return [('id', 'in', protocollo_visible_ids)]
 
     ####################################################################################################################
     # Visibilità dei button sui protocolli
@@ -2523,15 +2524,9 @@ class protocollo_protocollo(osv.Model):
         'filtro_conoscenza_visibility': fields.function(_filtro_conoscenza_visibility,
                                                         fnct_search=_filtro_conoscenza_visibility_search,
                                                         type='boolean', string='Assegnato da me per Conoscenza'),
-        # 'filtro_in_attesa_visibility': fields.function(_filtro_in_attesa_visibility,
-        #                                                fnct_search=_filtro_in_attesa_visibility_search, type='boolean',
-        #                                                string='Visibile'),
-        # 'filtro_rifiutato_visibility': fields.function(_filtro_rifiutato_visibility,
-        #                                                fnct_search=_filtro_rifiutato_visibility_search, type='boolean',
-        #                                                string='Visibile'),
-        # 'filtro_preso_in_carico_visibility': fields.function(_filtro_preso_in_carico_visibility,
-        #                                                      fnct_search=_filtro_preso_in_carico_visibility_search,
-        #                                                      type='boolean', string='Visibile'),
+        'filtro_da_me_in_attesa_visibility': fields.function(_filtro_da_me_in_attesa_visibility,
+                                                             fnct_search=_filtro_da_me_in_attesa_visibility_search,
+                                                             type='boolean', string='Assegnato da me in attesa'),
 
         # Visibilità dei button sui protocolli
         'registra_visibility': fields.function(_registra_visibility, type='boolean', string='Registra'),
