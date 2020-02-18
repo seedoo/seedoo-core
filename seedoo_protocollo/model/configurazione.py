@@ -226,7 +226,7 @@ class protocollo_configurazione(orm.Model):
                     errors.append(_("Assegnatari per Conoscenza: i protocolli riservati non possono avere assegnatari per conoscenza"))
                 if protocollo.type in ['in', 'out'] and protocollo.sender_internal_department:
                     errors.append(_("Mittente: i protocolli riservati non possono avere uffici come mittenti"))
-            else:
+            elif not self.user_has_groups(cr, uid, 'seedoo_protocollo.group_registra_protocollo_senza_assegnazione'):
                 if protocollo.doc_id:
                     if configurazione.assegnatari_competenza_uffici_required and \
                             not configurazione.assegnatari_competenza_dipendenti_required and \
