@@ -45,6 +45,7 @@ class fetchmail_server(osv.osv):
 
     _defaults = {
         'move_processed_emails': False,
+        'original': True
     }
 
     def fetch_mail(self, cr, uid, ids, context=None):

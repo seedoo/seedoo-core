@@ -56,7 +56,7 @@ this module contains the full copyright notices and license terms. -->
                   groups="group_vedi_menu_richieste_protocollo"/>
         -->
 
-        <menuitem name="Archiviati" action="protocollo_archivio_action"
+        <menuitem name="Archivi" action="protocollo_archivio_action"
                   parent="protocollo_doc"
                   id="protocollo_protocollo_archiviati_menu" sequence="90"
                   groups="group_vedi_menu_protocolli_archiviati"/>
