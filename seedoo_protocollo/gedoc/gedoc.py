@@ -14,7 +14,8 @@ class protocollo_classification(osv.Model):
         'assignee_default_in': fields.many2one('protocollo.assegnatario', 'Assegnatario Default Protocollo Ingresso',
                                                domain=[('tipologia', '=', 'department'),('is_visible', '=', True)]),
         'assignee_default_out': fields.many2one('protocollo.assegnatario', 'Assegnatario Default Protocollo Uscita',
-                                               domain=[('tipologia', '=', 'department'),('is_visible', '=', True)])
+                                               domain=[('tipologia', '=', 'department'),('is_visible', '=', True)]),
+        'skip_assignee_default': fields.boolean('Ignora Assegnatari Default', help='Solo se uguale a Ufficio Protocollatore')
     }
 
     def _get_default_aoo_id(self, cr, uid, context=None):

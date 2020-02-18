@@ -132,11 +132,28 @@ class protocollo_aggiungi_classificazione_step1_wizard(osv.TransientModel):
 
     def get_assignee_default_ids(self, cr, uid, protocollo, wizard):
         assignee_default_ids = []
-        if protocollo.type == 'in' and wizard.classification and wizard.classification.assignee_default_in and wizard.classification.assignee_default_in.is_visible:
+        if protocollo.type == 'in' and \
+            wizard.classification and \
+            wizard.classification.assignee_default_in and \
+            wizard.classification.assignee_default_in.is_visible and \
+            not self.skip_assignee_default(cr, uid, protocollo, wizard.classification, wizard.classification.assignee_default_in):
             assignee_default_ids.append(wizard.classification.assignee_default_in.id)
-        elif protocollo.type == 'out' and wizard.classification and wizard.classification.assignee_default_out and wizard.classification.assignee_default_out.is_visible:
+        elif protocollo.type == 'out' and \
+            wizard.classification and \
+            wizard.classification.assignee_default_out and \
+            wizard.classification.assignee_default_out.is_visible and \
+            not self.skip_assignee_default(cr, uid, protocollo, wizard.classification, wizard.classification.assignee_default_out):
             assignee_default_ids.append(wizard.classification.assignee_default_out.id)
         return assignee_default_ids
+
+
+
+    def skip_assignee_default(self, cr, uid, protocollo, classification, assignee_default):
+        if classification.skip_assignee_default and \
+            protocollo.registration_employee_department_id and \
+            protocollo.registration_employee_department_id.id == assignee_default.department_id.id:
+            return True
+        return False
 
 
 
