@@ -149,6 +149,12 @@ class protocollo_aggiungi_classificazione_step1_wizard(osv.TransientModel):
 
 
     def skip_assignee_default(self, cr, uid, protocollo, classification, assignee_default):
+        # se il protocollo è registrato e possiede già degli assegnatari per competenza allora deve mostrare
+        # l'assegnatario anche se coincide con l'ufficio del protocollatore
+        if protocollo.registration_date and protocollo.assegnazione_competenza_ids:
+            return False
+        # se il protocollo non è registrato o non possiede già degli assegnatari per competenza allora deve mostrare
+        # l'assegnatario solo se è diverso dall'ufficio del protocollatore
         if classification.skip_assignee_default and \
             protocollo.registration_employee_department_id and \
             protocollo.registration_employee_department_id.id == assignee_default.department_id.id:
