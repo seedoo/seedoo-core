@@ -361,10 +361,9 @@ class protocollo_assegnazione(orm.Model):
             vals['assegnatario_department_id'] = assegnatario.department_id.id
             vals['assegnatario_department_parent_id'] = assegnatario.department_id.parent_id.id if assegnatario.department_id.parent_id.id else False
 
-        assegnazione_id = self.create(cr, uid, vals)
+        assegnazione_id = self.create(cr, uid, vals, {'recompute': False})
         assegnazione = self.browse(cr, uid, assegnazione_id, {'skip_check': True})
         self.notifica_assegnazione(cr, uid, assegnazione)
-
         return assegnazione_id
 
 
@@ -406,6 +405,8 @@ class protocollo_assegnazione(orm.Model):
 
 
     def salva_assegnazione_competenza(self, cr, uid, protocollo_id, assegnatario_ids, assegnatore_id, assegnatario_id_to_replace=False, values={}, context={}):
+        import time
+        time_start = time.time()
         if protocollo_id and assegnatore_id:
 
             self.check_assegnazione_competenza(cr, uid, assegnatario_ids)
@@ -439,11 +440,15 @@ class protocollo_assegnazione(orm.Model):
                     ('parent_id', '=', False)
                 ])
                 if assegnazione_to_unlink_ids:
-                    self.unlink(cr, uid, assegnazione_to_unlink_ids)
+                    self.unlink(cr, uid, assegnazione_to_unlink_ids, {'recompute': False})
 
             if assegnatario_to_create_ids:
                 # creazione della nuova assegnazione
                 self._crea_assegnazioni(cr, uid, protocollo_id, assegnatario_to_create_ids, assegnatore_id, 'competenza', values)
+
+        time_end = time.time()
+        time_duration = time_end - time_start
+        _logger.info("crea assegnazioni: %s sec" % (time_duration, ))
 
 
     def salva_assegnazione_conoscenza(self, cr, uid, protocollo_id, assegnatario_ids, assegnatore_id, delete=True):
@@ -477,7 +482,7 @@ class protocollo_assegnazione(orm.Model):
                     ('assegnatario_id', 'in', assegnatario_to_unlink_ids)
                 ])
                 if assegnazione_to_unlink_ids:
-                    self.unlink(cr, uid, assegnazione_to_unlink_ids)
+                    self.unlink(cr, uid, assegnazione_to_unlink_ids, {'recompute': False})
 
             if assegnatario_to_create_ids:
                 # creazione della nuova assegnazione

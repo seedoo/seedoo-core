@@ -19,7 +19,8 @@ class Protocollo(models.Model):
     @api.multi
     @api.depends('registration_date', 'assegnazione_competenza_ids.state')
     def _compute_state_assegnazione(self):
-        for protocollo in self:
+        for protocollo_each in self:
+            protocollo = protocollo_each.with_context(skip_check=True)
             if protocollo.registration_date:
                 in_attesa = False
                 preso = protocollo.preso
@@ -37,18 +38,19 @@ class Protocollo(models.Model):
                         in_attesa = in_attesa or False
                         preso = preso or False
                         rifiutato = rifiutato or True
-                protocollo.in_attesa = in_attesa
-                protocollo.preso = preso
-                protocollo.rifiutato = rifiutato
+                protocollo_each.in_attesa = in_attesa
+                protocollo_each.preso = preso
+                protocollo_each.rifiutato = rifiutato
 
     @api.multi
     @api.depends('assegnazione_competenza_ids')
     def _compute_da_assegnare(self):
-        for protocollo in self:
+        for protocollo_each in self:
+            protocollo = protocollo_each.with_context(skip_check=True)
             da_assegnare = True
             if protocollo.assegnazione_competenza_ids:
                 da_assegnare = False
-            protocollo.da_assegnare = da_assegnare
+            protocollo_each.da_assegnare = da_assegnare
 
     @api.multi
     @api.depends('typology')
