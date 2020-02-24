@@ -58,7 +58,7 @@ class Etichetta(http.Controller):
         ammi_code = document.registry.company_id.ammi_code
         ident_code = document.aoo_id.ident_code
         header_code = ammi_code + " - " + ident_code if ammi_code else ident_code
-        registry_code = document.registry.code
+        registry_code = self.get_registry_row_string(document)
 
         barcode_text = "%04d0%s" % (year, name)
 
@@ -221,6 +221,9 @@ class Etichetta(http.Controller):
                 ("Content-Disposition", "inline; filename=%s" % filename)
             ]
         )
+
+    def get_registry_row_string(self, document):
+        return document.registry.code
 
 
 class LabelPosition:
