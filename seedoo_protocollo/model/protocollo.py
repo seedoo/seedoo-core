@@ -845,12 +845,12 @@ class protocollo_protocollo(orm.Model):
         os.remove(path)
         return True
 
-    def _create_protocol_document(self, cr, uid, prot, prot_number, prot_datas):
-        def sha1OfFile(filepath):
-            import hashlib
-            with open(filepath, 'rb') as f:
-                return hashlib.sha1(f.read()).hexdigest()
+    def sha256OfFile(self, filepath):
+        import hashlib
+        with open(filepath, 'rb') as f:
+            return hashlib.sha256(f.read()).hexdigest()
 
+    def _create_protocol_document(self, cr, uid, prot, prot_number, prot_datas):
         parent_id = 0
         ruid = 0
         # if prot.reserved:
@@ -884,7 +884,7 @@ class protocollo_protocollo(orm.Model):
         attachment_obj.unlink(cr, SUPERUSER_ID, old_attachment_id)
         new_attachment = attachment_obj.browse(cr, user_id, attachment_id)
         file_path = attachment_obj._full_path(cr, uid, new_attachment.store_fname)
-        return sha1OfFile(file_path)
+        return self.sha256OfFile(file_path)
 
     def _create_protocol_attachment(self, cr, uid, prot, name, datas, description, attachment_index):
         attachment_values = {

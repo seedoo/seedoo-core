@@ -117,9 +117,13 @@ class SegnaturaXML:
         return testoDelMessaggio
 
     def createDocumentoFromIrAttachment(self, document):
-        documento = etree.Element("Documento", nome=document.name,
-                                  tipoRiferimento="MIME")
-
+        documento = etree.Element("Documento", nome=document.name, tipoRiferimento="telematico")
+        collocazione = etree.Element("CollocazioneTelematica")
+        impronta = etree.Element("Impronta", algoritmo="SHA-256", codifica="base64")
+        file_path = self.irAttachmentObj._full_path(self.cr, self.uid, document.store_fname)
+        impronta.text = self.protocolloObj.sha256OfFile(file_path)
+        documento.append(collocazione)
+        documento.append(impronta)
         return documento
 
     def createDocumento(self, name):
