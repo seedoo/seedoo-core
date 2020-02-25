@@ -97,14 +97,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="res_model">ir.cron</field>
             <field name="view_mode">tree,form</field>
             <field name="view_type">form</field>
-            <field name="domain">[
-                '&amp;',
-                ("seedoo_visible", "=", True),
-                '|',
-                ('active', '=', True),
-                ('active', '=', False)
-                ]
-            </field>
+            <field name="domain">[('model', 'in', ('protocollo.journal', 'dematerializzazione.importer'))]</field>
         </record>
 
         <record id="protocollo_config_settings_act" model="ir.actions.act_window">
