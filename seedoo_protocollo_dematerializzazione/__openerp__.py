@@ -17,7 +17,6 @@
         "seedoo_protocollo"
     ],
     "data": [
-        "data/configurazione.xml",
         "data/cron.xml",
         "security/security.xml",
         "security/security_rules.xml",

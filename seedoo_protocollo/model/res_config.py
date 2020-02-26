@@ -110,7 +110,11 @@ class protocollo_config_settings(osv.osv_memory):
         'select_eml': fields.related('config_id', 'select_eml', type='boolean', string='Abilita Scelta Intero Messaggio (file .EML)'),
         'select_body': fields.related('config_id', 'select_body', type='boolean', string='Abilita Scelta Corpo del Messaggio'),
         'select_attachments': fields.related('config_id', 'select_attachments', type='boolean', string='Abilita Scelta Allegati'),
-        'ammi_logo': fields.related('config_id', 'ammi_logo', type='binary', attacchment=True, string='Logo Registro Giornaliero')
+        'ammi_logo': fields.related('config_id', 'ammi_logo', type='binary', attacchment=True, string='Logo Registro Giornaliero'),
+
+        'etichetta_altezza': fields.related('config_id', 'etichetta_altezza', type='integer', string='Altezza Etichetta'),
+        'etichetta_larghezza': fields.related('config_id', 'etichetta_larghezza', type='integer', string='Larghezza Etichetta'),
+        'etichetta_logo': fields.related('config_id', 'etichetta_logo', type='binary', attacchment=True, string='Logo Etichetta')
     }
 
     def _default_config_id(self, cr, uid, context):

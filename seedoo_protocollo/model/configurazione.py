@@ -66,7 +66,11 @@ class protocollo_configurazione(orm.Model):
         'select_eml': fields.boolean('Abilita Scelta Intero Messaggio (file .EML)'),
         'select_body': fields.boolean('Abilita Scelta Corpo del Messaggio'),
         'select_attachments': fields.boolean('Abilita Scelta Allegati'),
-        'ammi_logo': fields.binary('Logo Registro Giornaliero', attacchment=True)
+        'ammi_logo': fields.binary('Logo Registro Giornaliero', attacchment=True),
+
+        'etichetta_altezza': fields.integer('Altezza Etichetta'),
+        'etichetta_larghezza': fields.integer('Larghezza Etichetta'),
+        'etichetta_logo': fields.binary('Logo Etichetta', attacchment=True)
     }
 
     _defaults = {
@@ -108,7 +112,9 @@ class protocollo_configurazione(orm.Model):
         'select_eml': True,
         'select_body': True,
         'select_attachments': True,
-        'sender_segnatura_xml_parse': True
+        'sender_segnatura_xml_parse': True,
+        'etichetta_altezza': 28,
+        'etichetta_larghezza': 54
     }
 
 

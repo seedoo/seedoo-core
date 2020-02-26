@@ -29,6 +29,8 @@
             <field name="select_eml" eval="True"/>
             <field name="select_body" eval="True"/>
             <field name="select_attachments" eval="True"/>
+            <field name="etichetta_altezza" eval="28"/>
+            <field name="etichetta_larghezza" eval="54"/>
         </record>
 
         <record model="document.directory" id="dir_protocol">

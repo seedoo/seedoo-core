@@ -29,7 +29,7 @@ class Etichetta(http.Controller):
         uid = SUPERUSER_ID
         cr = http.request.cr
         ir_model_data_obj = request.registry.get('ir.model.data')
-        ir_model_data_id = ir_model_data_obj.search(cr, uid, [('name', '=', 'configurazione_default')])[0]
+        ir_model_data_id = ir_model_data_obj.search(cr, uid, [('name', '=', 'configurazione_protocollo_default')])[0]
         ir_model_data = ir_model_data_obj.browse(cr, uid, ir_model_data_id)
         configurazione = request.registry.get(ir_model_data.model).browse(cr, uid, ir_model_data.res_id)
 

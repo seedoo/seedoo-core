@@ -5,50 +5,21 @@ this module contains the full copyright notices and license terms. -->
 <openerp>
     <data>
 
-        <record model="ir.ui.view" id="dematerializzazione_config_settings_form">
-            <field name="name">dematerializzazione.config.settings.form</field>
-            <field name="model">dematerializzazione.config.settings</field>
+        <record id="protocollo_config_settings_form_inherit_seedoo_protocollo_dematerializzazione" model="ir.ui.view">
+            <field name="name">protocollo.config.settings.form.inherit.seedoo.protocollo.dematerializzazione</field>
+            <field name="model">protocollo.config.settings</field>
+            <field name="inherit_id" ref="seedoo_protocollo.protocollo_config_settings_form"/>
             <field name="arch" type="xml">
-                <form string="Configure Human Resources" class="oe_form_configuration">
-                    <header>
-                        <button string="Applica" type="object" name="execute" class="oe_highlight"/>
-                        or
-                        <button string="Annulla" type="object" name="cancel" class="oe_link"/>
-                    </header>
-                    <group string="Configurazione Etichetta">
-                        <field name="etichetta_altezza"/>
-                        <newline/>
-                        <field name="etichetta_larghezza"/>
-                        <newline/>
-                        <field name="etichetta_logo"
-                               widget="image"
-                               class="oe_avatar"/>
-                        <field name="config_id" invisible="True" on_change="on_change_config_id(config_id)"/>
-                    </group>
-                    <!--
-                    <group string="Sorgenti Importazioni">
-                        <field name="importer_ids" nolabel="1" colspan="4"/>
-                    </group>
-                    -->
-                    <group string="Schedulazione Importazioni" cols="4">
-                        <field name="active"/>
-                        <newline/>
-                        <field name="interval_number"/>
-                        <field name="interval_type"/>
-                        <field name="nextcall"/>
-                        <newline/>
-                        <field name="cron_id" invisible="True" on_change="on_change_cron_id(cron_id)"/>
-                    </group>
-                </form>
-            </field>
-        </record>
 
-        <record id="dematerializzazione_config_settings_act" model="ir.actions.act_window">
-            <field name="name">Dematerializzazione</field>
-            <field name="res_model">dematerializzazione.config.settings</field>
-            <field name="view_id" ref="dematerializzazione_config_settings_form"/>
-            <field name="view_mode">form</field>
-            <field name="target">inline</field>
+                <xpath expr="//group[last()]" position="after">
+                    <group string="Configurazione Etichetta" class="seedoo_protocollo_dematerializzazione">
+                        <field name="etichetta_altezza"/>
+                        <field name="etichetta_larghezza"/>
+                        <field name="etichetta_logo" widget="image" class="oe_avatar"/>
+                    </group>
+                </xpath>
+
+            </field>
         </record>
 
     </data>

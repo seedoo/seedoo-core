@@ -21,13 +21,6 @@ this module contains the full copyright notices and license terms. -->
                   groups="group_carica_documenti_da_importer"
                   sequence="2"/>
 
-        <menuitem id="dematerializzazione_configuration_menu"
-                  name="Parametri Demat"
-                  action="dematerializzazione_config_settings_act"
-                  parent="seedoo_protocollo.protocollo_configuration"
-                  groups="group_configurazione_dematerializzazione"
-                  sequence="100"/>
-
         <menuitem id="dematerializzazione_configuration_importer_menu"
                   name="Importer"
                   action="dematerializzazione_importer_action"
