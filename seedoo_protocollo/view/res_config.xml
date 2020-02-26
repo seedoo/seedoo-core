@@ -98,6 +98,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="view_mode">tree,form</field>
             <field name="view_type">form</field>
             <field name="domain">[('model', 'in', ('protocollo.journal', 'dematerializzazione.importer'))]</field>
+            <field name="context">{'active_test': False}</field>
         </record>
 
         <record id="protocollo_config_settings_act" model="ir.actions.act_window">
