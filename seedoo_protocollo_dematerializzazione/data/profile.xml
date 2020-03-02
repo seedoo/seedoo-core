@@ -7,7 +7,6 @@ this module contains the full copyright notices and license terms. -->
 
         <record id="group_protocollo_assegnatario_protocollatore_plus" model="protocollo.profile">
             <field name="name">Assegnatario - Protocollatore PLUS</field>
-            <field name="category_id" ref="seedoo_protocollo.module_category_protocollo"/>
             <field name="groups_id" eval="[
                 (4, ref('base.group_sharedmail_reader')),
                 (4, ref('base.group_sharedmail_sent')),
@@ -63,7 +62,6 @@ this module contains the full copyright notices and license terms. -->
 
         <record id="group_protocollo_assegnatario_protocollatore_plus_resp_uff" model="protocollo.profile">
             <field name="name">Assegnatario - Protocollatore PLUS - Responsabile Uff.</field>
-            <field name="category_id" ref="seedoo_protocollo.module_category_protocollo"/>
             <field name="groups_id" eval="[
                 (4, ref('base.group_sharedmail_reader')),
                 (4, ref('base.group_sharedmail_sent')),
@@ -123,7 +121,6 @@ this module contains the full copyright notices and license terms. -->
 
         <record id="group_protocollo_assegnatario_protocollatore_plus_resp_serv" model="protocollo.profile">
             <field name="name">Assegnatario - Protocollatore PLUS - Responsabile Serv.</field>
-            <field name="category_id" ref="seedoo_protocollo.module_category_protocollo"/>
             <field name="groups_id" eval="[
                 (4, ref('base.group_sharedmail_reader')),
                 (4, ref('base.group_sharedmail_sent')),
