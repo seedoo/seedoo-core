@@ -19,7 +19,7 @@ from lxml import etree
 
 import openerp.exceptions
 from openerp import SUPERUSER_ID
-from openerp import netsvc
+from openerp import netsvc, tools
 from openerp.osv import orm, fields, osv
 from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT as DSDF
 from openerp.tools import DEFAULT_SERVER_DATE_FORMAT as DSDT
@@ -256,7 +256,7 @@ class protocollo_protocollo(orm.Model):
             }
         return {'value': values}
 
-    def on_change_typology(self, cr, uid, ids, typology_id, context=None):
+    def on_change_typology(self, cr, uid, ids, typology_id, body, context=None):
         values = {'pec': False, 'sharedmail': False, 'inserisci_testo_mailpec_visibility': False}
         if typology_id:
             typology_obj = self.pool.get('protocollo.typology')
@@ -1422,10 +1422,16 @@ class protocollo_protocollo(orm.Model):
             if configurazione.lunghezza_massima_oggetto_pec > 0:
                 subject = subject[:configurazione.lunghezza_massima_oggetto_pec]
 
+            body_html = prot.body
+            mail_notification_obj = self.pool.get('mail.notification')
+            signature_company = mail_notification_obj.get_signature_footer(cr, uid, uid, user_signature=False, context=context)
+            if signature_company:
+                body_html = tools.append_content_to_html(body_html, signature_company, plaintext=False, container_tag='div')
+
             values = {}
             values['subject'] = subject
-            values['body_html'] = prot.body
-            values['body'] = prot.body
+            values['body_html'] = body_html
+            values['body'] = body_html
             #TODO: email_from non necessariamente deve essere la username dell'autenticazione del server SMTP
             values['email_from'] = mail_server.name
             values['reply_to'] = mail_server.in_server_id.user
@@ -1574,10 +1580,16 @@ class protocollo_protocollo(orm.Model):
             if configurazione.lunghezza_massima_oggetto_mail > 0:
                 subject = subject[:configurazione.lunghezza_massima_oggetto_mail]
 
+            body_html = prot.body
+            mail_notification_obj = self.pool.get('mail.notification')
+            signature_company = mail_notification_obj.get_signature_footer(cr, uid, uid, user_signature=False, context=context)
+            if signature_company:
+                body_html = tools.append_content_to_html(body_html, signature_company, plaintext=False, container_tag='div')
+
             values = {}
             values['subject'] = subject
-            values['body_html'] = prot.body
-            values['body'] = prot.body
+            values['body_html'] = body_html
+            values['body'] = body_html
             values['email_from'] = mail_server.name
             values['reply_to'] = mail_server.in_server_id.user
             values['mail_server_id'] = mail_server.id

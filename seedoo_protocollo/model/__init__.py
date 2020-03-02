@@ -17,6 +17,7 @@ from . import journal
 from . import mail_message
 from . import mail_message_permissions
 from . import mail_thread
+from . import mail_notification
 from . import protocollo
 from . import protocollo_aoo
 from . import protocollo_archivio

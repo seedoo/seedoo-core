@@ -459,7 +459,7 @@ this module contains the full copyright notices and license terms. -->
                                             <field name="typology"
                                                    domain="[('is_visible','=',True)]"
                                                    attrs="{'invisible' : [('type','not in',('in','out'))], 'readonly':[('typology_editability','=',False)]}"
-                                                   on_change="on_change_typology(typology)"
+                                                   on_change="on_change_typology(typology, body)"
                                                    options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open': True, 'no_create': True}"
                                                    context="{'tree_view_ref': 'seedoo_protocollo.protocollo_typology_tree_selection', 'type': type, 'mail_pec_ref': mail_pec_ref}"
                                             />
