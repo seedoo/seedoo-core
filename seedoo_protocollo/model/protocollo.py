@@ -1422,12 +1422,7 @@ class protocollo_protocollo(orm.Model):
             if configurazione.lunghezza_massima_oggetto_pec > 0:
                 subject = subject[:configurazione.lunghezza_massima_oggetto_pec]
 
-            body_html = prot.body
-            mail_notification_obj = self.pool.get('mail.notification')
-            signature_company = mail_notification_obj.get_signature_footer(cr, uid, uid, user_signature=False, context=context)
-            if signature_company:
-                body_html = tools.append_content_to_html(body_html, signature_company, plaintext=False, container_tag='div')
-
+            body_html = self.get_body_signature(cr, uid, prot.body, False, context)
             values = {}
             values['subject'] = subject
             values['body_html'] = body_html
@@ -1580,12 +1575,7 @@ class protocollo_protocollo(orm.Model):
             if configurazione.lunghezza_massima_oggetto_mail > 0:
                 subject = subject[:configurazione.lunghezza_massima_oggetto_mail]
 
-            body_html = prot.body
-            mail_notification_obj = self.pool.get('mail.notification')
-            signature_company = mail_notification_obj.get_signature_footer(cr, uid, uid, user_signature=False, context=context)
-            if signature_company:
-                body_html = tools.append_content_to_html(body_html, signature_company, plaintext=False, container_tag='div')
-
+            body_html = self.get_body_signature(cr, uid, prot.body, False, context)
             values = {}
             values['subject'] = subject
             values['body_html'] = body_html
@@ -1821,6 +1811,13 @@ class protocollo_protocollo(orm.Model):
                         if error:
                             return True
         return False
+
+    def get_body_signature(self, cr, uid, body_html, user_signature, context=None):
+        mail_notification_obj = self.pool.get('mail.notification')
+        signature_company = mail_notification_obj.get_signature_footer(cr, uid, uid, user_signature=user_signature, context=context)
+        if signature_company:
+            body_html = tools.append_content_to_html(body_html, signature_company, plaintext=False, container_tag='div')
+        return body_html
 
     def check_journal(self, cr, uid, ids, *args):
         journal_obj = self.pool.get('protocollo.journal')
