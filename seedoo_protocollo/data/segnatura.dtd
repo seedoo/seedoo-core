@@ -754,7 +754,7 @@
 	rife IDREF #IMPLIED
 	nome CDATA #IMPLIED
 	tipoMIME CDATA #IMPLIED
-	tipoRiferimento (MIME | DIME | telematico | cartaceo) "MIME"
+	tipoRiferimento (MIME | telematico | cartaceo) "MIME"
 >
 <!--
 *************************** TitoloDocumento *****************************
