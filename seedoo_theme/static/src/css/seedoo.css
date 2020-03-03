@@ -225,11 +225,6 @@ button.oe_kanban_button_new {
 .openerp button.oe_highlight_positive {
   background-color: #007ea6;
 }
-.openerp button.btn_invia_protocollo,
-.openerp button.btn_invia_pec,
-.openerp button.btn_invia_richiesta {
-  background-color: #44a1a0 !important;
-}
 .openerp button.btn_presa_in_carico,
 .openerp button.btn_presa_in_carico_richiesta {
   background-color: #44a1a0 !important;

@@ -379,7 +379,7 @@
 .openerp button.btn_rifiuta_presa_in_carico_richiesta:hover,
 .openerp button.btn_stampa_etichetta:hover,
 .openerp button.btn_riassegna:hover {
-  background-color: #999 !important;
+  background-color: #007ea6 !important;
 }
 .openerp button.btn_form_protocollo_icon {
   background-color: #fff !important;

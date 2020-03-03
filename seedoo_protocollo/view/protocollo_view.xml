@@ -294,7 +294,7 @@ this module contains the full copyright notices and license terms. -->
 
                         <button name="sent_mail_pec" string="Invia PEC Protocollo"
                                 attrs="{'invisible':[('invio_pec_visibility','=',False)]}"
-                                class="oe_highlight btn_seedoo btn_invia_pec"/>
+                                class="oe_highlight_positive btn_seedoo btn_invia_pec"/>
 
                         <button name="%(protocollo_modify_pec_action)d" string="Modifica Destinatari PEC" type="action"
                                 attrs="{'invisible':[('modifica_pec_visibility','=',False)]}"
@@ -306,7 +306,7 @@ this module contains the full copyright notices and license terms. -->
 
                         <button name="sent_mail_pec" string="Invia Mail Protocollo"
                                 attrs="{'invisible':[('invio_sharedmail_visibility','=',False)]}"
-                                class="oe_highlight btn_seedoo btn_invia_pec"/>
+                                class="oe_highlight_positive btn_seedoo btn_invia_pec"/>
 
                         <!--<button name="aggiungi_destinatari_pec" string="Aggiungi - Destinatario" type="object"-->
                                 <!--attrs="{'invisible':[('aggiungi_pec_visibility','=',False)]}"-->
@@ -314,7 +314,7 @@ this module contains the full copyright notices and license terms. -->
 
                         <button name="sent" string="Invia Protocollo"
                                 attrs="{'invisible':[('invio_protocollo_visibility','=',False)]}"
-                                class="oe_highlight btn_seedoo btn_invia_protocollo"  />
+                                class="oe_highlight_positive btn_seedoo btn_invia_protocollo"  />
 
                         <field name="state" widget="statusbar"
                                statusbar_colors='{"draft":"blue","notified":"green","registered":"notified", "sent":"green","error":"red","canceled":"red"}'
