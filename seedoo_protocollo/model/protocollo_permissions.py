@@ -2134,7 +2134,12 @@ class protocollo_protocollo(osv.Model):
                 check_gruppi = protocollo.type in types
                 check = check and check_gruppi
 
-            if self._check_stato_assegnatore_competenza(cr, uid, protocollo, 'rifiutato') or uid==SUPERUSER_ID:
+            if uid==SUPERUSER_ID or \
+                    self._check_stato_assegnatore_competenza(cr, uid, protocollo, 'rifiutato') and \
+                    (
+                            (uid==protocollo.user_id.id and protocollo.registration_employee_state=='working') or \
+                            self._check_stato_assegnatario_competenza(cr, uid, protocollo, 'preso')
+                    ):
                 check = check and True
             else:
                 check = False
