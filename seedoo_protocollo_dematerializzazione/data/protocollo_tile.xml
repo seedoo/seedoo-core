@@ -24,6 +24,7 @@
             <field name="sequence_tile">3</field>
             <field name="icon_tile">fa fa-folder-open-o</field>
             <field name="tag_tile">generale</field>
+            <field name="primary_format">{}</field>
         </record>
 
     </data>

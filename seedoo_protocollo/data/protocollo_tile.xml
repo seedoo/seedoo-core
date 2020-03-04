@@ -34,6 +34,7 @@
             <field name="sequence_tile">1</field>
             <field name="icon_tile">fa fa-envelope-o</field>
             <field name="tag_tile">generale</field>
+            <field name="primary_format">{}</field>
         </record>
 
         <!--  Tile: PEC-->
@@ -48,6 +49,7 @@
             <field name="sequence_tile">2</field>
             <field name="icon_tile">fa fa-envelope-o</field>
             <field name="tag_tile">generale</field>
+            <field name="primary_format">{}</field>
         </record>
 
         <!--  Tile: Protocolli non classificati-->
@@ -62,6 +64,7 @@
             <field name="sequence_tile">75</field>
             <field name="icon_tile">fa fa-th-list</field>
             <field name="tag_tile">totale</field>
+            <field name="primary_format">{}</field>
         </record>
 
         <!--  Tile: Protocolli non tile_protocollo_non_fascicolati-->
@@ -76,6 +79,7 @@
             <field name="sequence_tile">50</field>
             <field name="icon_tile">fa fa-folder-open-o</field>
             <field name="tag_tile">totale</field>
+            <field name="primary_format">{}</field>
         </record>
 
         <!--ACCORPAMENTO TILES NELLA DASHBOARD -->
@@ -191,6 +195,7 @@
             <field name="sequence_tile">70</field>
             <field name="icon_tile">fa fa-pencil-square-o</field>
             <field name="tag_tile">totale</field>
+            <field name="primary_format">{}</field>
         </record>
 
         <!--  Tile: Protocolli assegnati a me totali-->
@@ -205,6 +210,7 @@
             <field name="sequence_tile">10</field>
             <field name="icon_tile">fa fa-user</field>
             <field name="tag_tile">totale</field>
+            <field name="primary_format">{}</field>
         </record>
 
         <!--  Tile: Protocolli assegnati a me per competenza totali-->
@@ -219,6 +225,7 @@
             <field name="sequence_tile">10</field>
             <field name="icon_tile">fa fa-user</field>
             <field name="tag_tile">totale</field>
+            <field name="primary_format">{}</field>
         </record>
 
         <!--  Tile: Protocolli registrati al mio ufficio totali-->
@@ -233,6 +240,7 @@
             <field name="sequence_tile">20</field>
             <field name="icon_tile">fa fa-users</field>
             <field name="tag_tile">totale</field>
+            <field name="primary_format">{}</field>
         </record>
 
         <!--  Tile: Protocolli registrati al mio ufficio per competenza totali-->
@@ -247,6 +255,7 @@
             <field name="sequence_tile">20</field>
             <field name="icon_tile">fa fa-users</field>
             <field name="tag_tile">totale</field>
+            <field name="primary_format">{}</field>
         </record>
 
         <!--  Tile: Protocolli assegnati per cc-->
@@ -261,6 +270,7 @@
             <field name="sequence_tile">30</field>
             <field name="icon_tile">fa fa-user</field>
             <field name="tag_tile">totale</field>
+            <field name="primary_format">{}</field>
         </record>
 
         <!--  Tile: Protocolli da assegnare totali -->
@@ -275,6 +285,7 @@
             <field name="sequence_tile">80</field>
             <field name="icon_tile">fa fa-users</field>
             <field name="tag_tile">totale</field>
+            <field name="primary_format">{}</field>
         </record>
 
         <!--  Tile: Protocolli da inviare -->
@@ -289,6 +300,7 @@
             <field name="sequence_tile">85</field>
             <field name="icon_tile">fa fa-users</field>
             <field name="tag_tile">totale</field>
+            <field name="primary_format">{}</field>
         </record>
 
         <!--  Tile: Protocolli assegnati da me totali - Assegnato-->
@@ -303,6 +315,7 @@
             <field name="sequence_tile">90</field>
             <field name="icon_tile">fa fa-users</field>
             <field name="tag_tile">totale</field>
+            <field name="primary_format">{}</field>
         </record>
 
         <!--  Tile: Protocolli assegnati da me totali - Rifiutati-->
@@ -317,6 +330,7 @@
             <field name="sequence_tile">100</field>
             <field name="icon_tile">fa fa-users</field>
             <field name="tag_tile">totale</field>
+            <field name="primary_format">{}</field>
         </record>
 
         <delete id="web_dashboard_tile.installed_modules" model="tile.tile"/>
