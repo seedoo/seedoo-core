@@ -14,6 +14,6 @@ class MailNotification(models.Model):
         if signature_footer:
             signature_footer = signature_footer.replace(
                 "<a style='color:inherit' href='https://www.odoo.com/'>Odoo</a>",
-                "<a style='color:inherit' href='https://www.seedoo.it/r/xx2'>Seedoo</a>"
+                "<a style='color:inherit' href='https://www.seedoo.it/r/oxa'>Seedoo</a>"
             )
         return signature_footer

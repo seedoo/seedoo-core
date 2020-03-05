@@ -9,6 +9,18 @@
         </t>
     </t>
 
+    <t t-extend="Login Layout">
+        <t t-jquery="div.oe_single_form_footer" t-operation="append">
+            <div>test</div>
+        </t>
+    </t>
+
+    <template t-extend="web.menu_secondary">
+        <t t-jquery="div[class=oe_footer]" t-operation="append">
+            <div>test</div>
+        </t>
+    </template>
+
     <t t-extend="WebClient">
         <t t-jquery="div[class=oe_footer]" t-operation="replace">
             <div class="oe_footer">
