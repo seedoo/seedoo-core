@@ -43,7 +43,7 @@ class Protocollo(models.Model):
                 protocollo_each.rifiutato = rifiutato
 
     @api.multi
-    @api.depends('assegnazione_competenza_ids')
+    @api.depends('registration_date', 'assegnazione_competenza_ids')
     def _compute_da_assegnare(self):
         for protocollo_each in self:
             protocollo = protocollo_each.with_context(skip_check=True)
