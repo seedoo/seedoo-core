@@ -2078,25 +2078,34 @@ class protocollo_protocollo(orm.Model):
         return super(protocollo_protocollo, self).unlink(
             cr, uid, unlink_ids, context=context)
 
-    def action_clona_protocollo(self, cr, uid, ids, context=None):
+    def action_clona_protocollo(self, cr, uid, ids, defaults, context=None):
         protocollo_obj = self.pool.get('protocollo.protocollo')
         department_obj = self.pool.get('hr.department')
         employee_obj = self.pool.get('hr.employee')
-        protocollo = protocollo_obj.browse(cr, uid, ids)
+        protocollo = protocollo_obj.browse(cr, uid, ids, context={'skip_check': True})
+        if not defaults:
+            defaults = {}
 
-        if protocollo.type == 'in' and (protocollo.typology.pec or protocollo.typology.sharedmail):
+        type = defaults.get('type', protocollo.type)
+        types = self.get_protocollo_types_by_group(cr, uid, 'seedoo_protocollo', 'group_crea_protocollo_', '')
+        if not (type in types):
+            raise orm.except_orm(_('Azione Non Valida!'), ('La tua utenza non ha i permessi di creazione del protocollo'))
+
+        if protocollo.type == 'in' and (protocollo.typology.pec or protocollo.typology.sharedmail) and \
+                (not context or not 'skip_typology_check' in context or not context['skip_typology_check']):
             raise orm.except_orm(_('Azione Non Valida!'), ('Impossibile duplicare un protocollo in ingresso di tipo PEC o e-mail'))
 
         if protocollo.registration_type == 'emergency':
             raise orm.except_orm(_('Azione Non Valida!'), ('Impossibile duplicare un protocollo in emergenza'))
 
         sender_receiver_obj = self.pool.get('protocollo.sender_receiver')
-        sender_receiver = []
+        sender_receivers = defaults.get('sender_receivers', [])
         department = []
 
-        for sr in protocollo.sender_receivers:
-            sr_copy_id = sender_receiver_obj.copy(cr, uid, sr.id, {}, context=context)
-            sender_receiver.append(sr_copy_id)
+        if not sender_receivers:
+            for sr in protocollo.sender_receivers:
+                sr_copy_id = sender_receiver_obj.copy(cr, uid, sr.id, {}, context=context)
+                sender_receivers.append(sr_copy_id)
 
         department_ids = department_obj.search(cr, uid, [('can_used_to_protocol', '=', True)])
         employee = None
@@ -2105,29 +2114,28 @@ class protocollo_protocollo(orm.Model):
             employee = employee_obj.get_department_employee(cr, uid, department_ids[0])
 
         vals = {}
-        vals['type'] = protocollo.type
+        vals['type'] = type
         #vals['receiving_date'] = protocollo.receiving_date
-        vals['subject'] = protocollo.subject
-        vals['body'] = protocollo.body
+        vals['subject'] = defaults.get('subject', protocollo.subject)
+        vals['body'] = defaults.get('body', protocollo.body)
         vals['user_id'] = uid
         vals['registration_employee_department_id'] = len(department_ids) == 1 and department.id or False
         vals['registration_employee_department_name'] = len(department_ids) == 1 and department.complete_name or False
         vals['registration_employee_id'] = employee and employee.id or False
         vals['registration_employee_name'] = employee and employee.name_related or False
         vals['state'] = 'draft'
-        vals['typology'] = protocollo.typology.id
-        vals['senders'] = protocollo.senders
-        vals['receivers'] = protocollo.receivers
-        vals['reserved'] = protocollo.reserved
-        vals['sender_receivers'] = [[6, 0, sender_receiver]]
-        vals['classification'] = protocollo.classification.id
-        vals['classification_name'] = protocollo.classification_name
-        vals['sender_internal_name'] = protocollo.sender_internal_name
-        vals['sender_internal_assegnatario'] = protocollo.sender_internal_assegnatario.id
-        vals['sender_internal_name'] = protocollo.sender_internal_name
-        vals['sender_internal_employee'] = protocollo.sender_internal_employee.id
-        vals['sender_internal_employee_department'] = protocollo.sender_internal_employee_department.id
-        vals['sender_internal_department'] = protocollo.sender_internal_department.id
+        vals['typology'] = defaults.get('typology', protocollo.typology.id)
+        #vals['senders'] = protocollo.senders
+        #vals['receivers'] = protocollo.receivers
+        vals['reserved'] = defaults.get('reserved', protocollo.reserved)
+        vals['sender_receivers'] = [[6, 0, sender_receivers]]
+        vals['classification'] = defaults.get('classification', protocollo.classification.id)
+        vals['classification_name'] = defaults.get('classification_name', protocollo.classification_name)
+        vals['sender_internal_name'] = defaults.get('sender_internal_name', protocollo.sender_internal_name)
+        vals['sender_internal_assegnatario'] = defaults.get('sender_internal_assegnatario', protocollo.sender_internal_assegnatario.id)
+        vals['sender_internal_employee'] = defaults.get('sender_internal_employee', protocollo.sender_internal_employee.id)
+        vals['sender_internal_employee_department'] = defaults.get('sender_internal_employee_department', protocollo.sender_internal_employee_department.id)
+        vals['sender_internal_department'] = defaults.get('sender_internal_department', protocollo.sender_internal_department.id)
 
         protocollo_id = protocollo_obj.create(cr, uid, vals)
 
