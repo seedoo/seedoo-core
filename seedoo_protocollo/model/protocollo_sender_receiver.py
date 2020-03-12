@@ -356,6 +356,16 @@ class protocollo_sender_receiver(orm.Model):
         'sharedmail_numero_invii': 0,
     }
 
+    def init(self, cr):
+        cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_sender_receiver_protocollo_id\'')
+        if not cr.fetchone():
+            cr.execute("""
+                CREATE INDEX idx_protocollo_sender_receiver_protocollo_id
+                ON public.protocollo_sender_receiver
+                USING btree
+                (protocollo_id);
+            """)
+
     def check_field_in_create(self, cr, uid, vals, context=None):
         partner_obj = self.pool.get('res.partner')
         errors = ''
