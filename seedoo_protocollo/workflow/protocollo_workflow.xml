@@ -69,7 +69,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="wkf_id" ref="wkf_protocollo"/>
             <field name="name">error</field>
             <field name="kind">function</field>
-            <field name="action">write({'state':'error'})</field>
+            <field name="action">write({'state':'error', 'registration_employee_state':'working'})</field>
         </record>
 
         <record model="workflow.activity" id="act_canceled">
