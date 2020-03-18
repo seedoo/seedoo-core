@@ -32,7 +32,8 @@ class protocollo_messaggio_pec(orm.Model):
         'consegna_ora': fields.related('consegna_ref', 'cert_datetime', type='datetime', string='Orario PEC Consegna', readonly=False, store=False),
         'non_accettazione_ora': fields.related('non_accettazione_ref', 'cert_datetime', type='datetime', string='Orario PEC Non Accettazione', readonly=False, store=False),
         'errore_consegna_ora': fields.related('errore_consegna_ref', 'cert_datetime', type='datetime', string='Orario PEC Errore Consegna', readonly=False, store=False),
-        'messaggio_direction': fields.related('messaggio_ref', 'direction', type='char', string='Direzione Messaggio', readonly=False, store=False)
+        'messaggio_direction': fields.related('messaggio_ref', 'direction', type='char', string='Direzione Messaggio', readonly=False, store=False),
+        'sender_receiver_ids': fields.many2many('protocollo.sender_receiver', 'protocollo_sender_receiver_messaggio_pec_rel', 'messaggio_pec_id', 'sender_receiver_id', 'Mittenti/Destinatari'),
     }
 
     _defaults = {

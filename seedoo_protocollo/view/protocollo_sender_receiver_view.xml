@@ -306,6 +306,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="model">protocollo.sender_receiver</field>
             <field name="arch" type="xml">
                 <kanban create="0">
+                    <field name="source"/>
                     <field name="type"/>
                     <field name="pec_invio_status"/>
                     <field name="pec_accettazione_status"/>
@@ -362,8 +363,11 @@ this module contains the full copyright notices and license terms. -->
                                                 <t t-if="record.pec_non_accettazione_status.raw_value">
                                                     <div class="icon_status icon_non_accettazione_status"><span>Non Accettato</span></div>
                                                 </t>
-                                                <t t-if="record.pec_conferma_status.raw_value">
+                                                <t t-if="record.source.raw_value=='sender' and record.pec_conferma_status.raw_value">
                                                     <div class="icon_status icon_conferma_status"><span>Conferma</span></div>
+                                                </t>
+                                                <t t-if="record.source.raw_value=='receiver' and record.pec_conferma_status.raw_value">
+                                                    <div class="icon_status icon_conferma_out_status"><span>Conferma</span></div>
                                                 </t>
                                                 <t t-if="record.pec_numero_invii.raw_value and record.pec_numero_invii.raw_value > 1">
                                                     <div class="icon_numero_invii"><field name="pec_numero_invii"/></div>
