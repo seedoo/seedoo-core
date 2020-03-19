@@ -57,7 +57,7 @@
                         <field name="assegnatari_empty" invisible="1"/>
                     </sheet>
                     <footer>
-                        <button string="Ok" name="action_save" type="object" attrs="{'invisible':[('assegnatari_empty','=',True)]}" class="oe_highlight"/>
+                        <button string="Riassegna" name="action_save" type="object" attrs="{'invisible':[('assegnatari_empty','=',True)]}" class="oe_highlight"/>
                         <button string="Abbandona" class="oe_link" special="cancel"/>
                     </footer>
                 </form>
