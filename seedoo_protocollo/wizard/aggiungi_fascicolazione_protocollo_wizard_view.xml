@@ -35,8 +35,7 @@ this module contains the full copyright notices and license terms. -->
                                colspan="4"/>
                     </sheet>
                     <footer>
-                        <button string="Ok" name="action_save" type="object" class="oe_highlight"/>
-                        o
+                        <button string="Fascicola" name="action_save" type="object" class="oe_highlight"/>
                         <button string="Abbandona" class="oe_link" special="cancel"/>
                     </footer>
                 </form>
