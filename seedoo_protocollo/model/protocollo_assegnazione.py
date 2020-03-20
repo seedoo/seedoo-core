@@ -460,7 +460,7 @@ class protocollo_assegnazione(orm.Model):
 
         time_end = time.time()
         time_duration = time_end - time_start
-        _logger.info("crea assegnazioni: %s sec" % (time_duration, ))
+        _logger.debug("crea assegnazioni: %s sec" % (time_duration, ))
 
 
     def salva_assegnazione_conoscenza(self, cr, uid, protocollo_id, assegnatario_ids, assegnatore_id, delete=True):

@@ -55,7 +55,7 @@ class fetchmail_server(osv.osv):
         mail_thread = self.pool.get('mail.thread')
         action_pool = self.pool.get('ir.actions.server')
         for server in self.browse(cr, uid, ids, context=context):
-            _logger.info('start checking for new emails on %s server %s', server.type, server.name)
+            _logger.debug('start checking for new emails on %s server %s', server.type, server.name)
             context.update({'fetchmail_server_id': server.id, 'server_type': server.type})
             error_description = ''
             datetime_start = datetime.datetime.now()
@@ -104,7 +104,7 @@ class fetchmail_server(osv.osv):
                                     failed += 1
                                 error_description += '- ' + str(resp) + '\n'
                                 cr.rollback()
-                                _logger.info("Error in %s server %s: %s", server.type, server.name, str(resp))
+                                _logger.debug("Error in %s server %s: %s", server.type, server.name, str(resp))
                                 continue
                         ################################################################################################
 
@@ -114,7 +114,7 @@ class fetchmail_server(osv.osv):
                         cr.commit()
                         if not exception:
                             count += 1
-                    _logger.info("Fetched %d email(s) on %s server %s; %d succeeded, %d failed.", count, server.type, server.name, (count - failed), failed)
+                    _logger.debug("Fetched %d email(s) on %s server %s; %d succeeded, %d failed.", count, server.type, server.name, (count - failed), failed)
                 except Exception as e:
                     error_description += '- ' + str(e) + '\n'
                     _logger.exception("General failure when trying to fetch mail from %s server %s.", server.type, server.name)
@@ -151,7 +151,7 @@ class fetchmail_server(osv.osv):
                         if numMsgs < MAX_POP_MESSAGES:
                             break
                         pop_server.quit()
-                        _logger.info("Fetched %d email(s) on %s server %s; %d succeeded, %d failed.", numMsgs, server.type, server.name, (numMsgs - failed), failed)
+                        _logger.debug("Fetched %d email(s) on %s server %s; %d succeeded, %d failed.", numMsgs, server.type, server.name, (numMsgs - failed), failed)
                 except Exception:
                     error_description += '- ' + str(e) + '\n'
                     _logger.exception("General failure when trying to fetch mail from %s server %s.", server.type, server.name)

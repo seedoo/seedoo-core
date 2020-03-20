@@ -170,7 +170,7 @@ class protocollo_protocollo(osv.Model):
         ''', (current_user_id,))
         protocollo_ids_drafts = [res[0] for res in cr.fetchall()]
         protocollo_visible_ids.extend(protocollo_ids_drafts)
-        _logger.info("---Query draft %s seconds ---" % (time.time() - start_time))
+        _logger.debug("---Query draft %s seconds ---" % (time.time() - start_time))
 
         start_time = time.time()
         # un utente deve poter vedere i protocolli (IN e OUT) registrati da lui
@@ -184,7 +184,7 @@ class protocollo_protocollo(osv.Model):
             ''')
             protocollo_ids_created = [res[0] for res in cr.fetchall()]
             protocollo_visible_ids.extend(protocollo_ids_created)
-        _logger.info("---Query created %s seconds ---" % (time.time() - start_time))
+        _logger.debug("---Query created %s seconds ---" % (time.time() - start_time))
 
         start_time = time.time()
         # un utente deve poter vedere i protocolli registrati (IN e OUT) assegnati a lui o al suo ufficio,
@@ -204,7 +204,7 @@ class protocollo_protocollo(osv.Model):
             ''')
             protocollo_ids_assigned_not_refused = [res[0] for res in cr.fetchall()]
             protocollo_visible_ids.extend(protocollo_ids_assigned_not_refused)
-        _logger.info("---Query assigned_not_refused %s seconds ---" % (time.time() - start_time))
+        _logger.debug("---Query assigned_not_refused %s seconds ---" % (time.time() - start_time))
 
         # start_time = time.time()
         # un utente deve poter vedere i protocolli (IN e OUT) registrati di cui è autore della assegnazione per
@@ -222,7 +222,7 @@ class protocollo_protocollo(osv.Model):
         #     ''')
         #     protocollo_ids_assegnatore = [res[0] for res in cr.fetchall()]
         #     protocollo_visible_ids.extend(protocollo_ids_assegnatore)
-        # _logger.info("---Query assegnatore %s seconds ---" % (time.time() - start_time))
+        # _logger.debug("---Query assegnatore %s seconds ---" % (time.time() - start_time))
 
         return protocollo_visible_ids
 
@@ -250,7 +250,7 @@ class protocollo_protocollo(osv.Model):
             ''')
             protocollo_ids_department = [res[0] for res in cr.fetchall()]
             protocollo_visible_ids.extend(protocollo_ids_department)
-        _logger.info("---Query department  %s seconds ---" % (time.time() - start_time))
+        _logger.debug("---Query department  %s seconds ---" % (time.time() - start_time))
 
         start_time = time.time()
         # un utente deve poter vedere i protocolli (IN, OUT, INTERNAL) REGISTRATI da un UFFICIO FIGLIO del suo ufficio di appartenenza.
@@ -267,7 +267,7 @@ class protocollo_protocollo(osv.Model):
             ''')
             protocollo_ids_department_childs = [res[0] for res in cr.fetchall()]
             protocollo_visible_ids.extend(protocollo_ids_department_childs)
-        _logger.info("---Query ids_department_childs  %s seconds ---" % (time.time() - start_time))
+        _logger.debug("---Query ids_department_childs  %s seconds ---" % (time.time() - start_time))
 
         start_time = time.time()
         # un utente deve poter vedere QUALUNQUE protocollo (IN, OUT, INTERNAL) in stato BOZZA appartenente alla sua AOO
@@ -283,7 +283,7 @@ class protocollo_protocollo(osv.Model):
             ''')
             protocollo_ids_aoo = [res[0] for res in cr.fetchall()]
             protocollo_visible_ids.extend(protocollo_ids_aoo)
-        _logger.info("---Query aoo  %s seconds ---" % (time.time() - start_time))
+        _logger.debug("---Query aoo  %s seconds ---" % (time.time() - start_time))
 
         start_time = time.time()
         # un utente deve poter vedere QUALUNQUE protocollo (IN, OUT, INTERNAL) REGISTRATO da un utente della sua AOO
@@ -299,7 +299,7 @@ class protocollo_protocollo(osv.Model):
             ''')
             protocollo_ids_aoo = [res[0] for res in cr.fetchall()]
             protocollo_visible_ids.extend(protocollo_ids_aoo)
-        _logger.info("---Query aoo 2  %s seconds ---" % (time.time() - start_time))
+        _logger.debug("---Query aoo 2  %s seconds ---" % (time.time() - start_time))
 
         start_time = time.time()
         # un utente deve poter vedere i protocolli (IN, OUT, INTERNAL) REGISTRATI e ASSEGNATI ad un UTENTE del suo UFFICIO di appartenenza
@@ -320,7 +320,7 @@ class protocollo_protocollo(osv.Model):
             ''')
             protocollo_ids_registrati_ass_ut_uff = [res[0] for res in cr.fetchall()]
             protocollo_visible_ids.extend(protocollo_ids_registrati_ass_ut_uff)
-        _logger.info("---Query registrati_ass_ut_uff  %s seconds ---" % (time.time() - start_time))
+        _logger.debug("---Query registrati_ass_ut_uff  %s seconds ---" % (time.time() - start_time))
 
         start_time = time.time()
         # un utente deve poter vedere i protocolli (IN, OUT, INTERNAL) REGISTRATI e ASSEGNATI ad un suo UFFICIO FIGLIO
@@ -340,7 +340,7 @@ class protocollo_protocollo(osv.Model):
             ''')
             protocollo_ids_ass_uff_fig = [res[0] for res in cr.fetchall()]
             protocollo_visible_ids.extend(protocollo_ids_ass_uff_fig)
-        _logger.info("---Query ass_uff_fig  %s seconds ---" % (time.time() - start_time))
+        _logger.debug("---Query ass_uff_fig  %s seconds ---" % (time.time() - start_time))
 
         start_time = time.time()
         # un utente deve poter vedere i protocolli (IN e OUT) REGISTRATI e ASSEGNATI ad un UTENTE di un suo UFFICIO FIGLIO
@@ -361,7 +361,7 @@ class protocollo_protocollo(osv.Model):
             ''')
             protocollo_ids_ass_ut_uff_fig = [res[0] for res in cr.fetchall()]
             protocollo_visible_ids.extend(protocollo_ids_ass_ut_uff_fig)
-        _logger.info("---Query ass_ut_uff_fig  %s seconds ---" % (time.time() - start_time))
+        _logger.debug("---Query ass_ut_uff_fig  %s seconds ---" % (time.time() - start_time))
 
         start_time = time.time()
         # un utente deve poter vedere i protocolli (IN, OUT, INTERNAL) REGISTRATI, ASSEGNATI e RIFIUTATI da un UTENTE del suo UFFICIO
@@ -381,7 +381,7 @@ class protocollo_protocollo(osv.Model):
             ''')
             protocollo_ids_ass_rif_ut_uff = [res[0] for res in cr.fetchall()]
             protocollo_visible_ids.extend(protocollo_ids_ass_rif_ut_uff)
-        _logger.info("---Query ass_rif_ut_uff  %s seconds ---" % (time.time() - start_time))
+        _logger.debug("---Query ass_rif_ut_uff  %s seconds ---" % (time.time() - start_time))
 
         return protocollo_visible_ids
 
@@ -433,9 +433,9 @@ class protocollo_protocollo(osv.Model):
 
             protocollo_visible_ids = list(set(protocollo_visible_ids))
 
-        _logger.info("--- %s start ---" % (start_time))
-        _logger.info("--- TEMPO ALGORTIMO: %s SECONDI ---" % (time.time() - start_time))
-        _logger.info("--- %s len ---" % (len(protocollo_visible_ids)))
+        _logger.debug("--- %s start ---" % (start_time))
+        _logger.debug("--- TEMPO ALGORTIMO: %s SECONDI ---" % (time.time() - start_time))
+        _logger.debug("--- %s len ---" % (len(protocollo_visible_ids)))
 
         return protocollo_visible_ids
 
@@ -455,11 +455,11 @@ class protocollo_protocollo(osv.Model):
              WHERE pp.archivio_id IN (''' + archivio_ids_str + ''')
          ''')
         protocollo_ids_archivio = [res[0] for res in cr.fetchall()]
-        _logger.info("---Query draft %s seconds ---" % (time.time() - start_time))
+        _logger.debug("---Query draft %s seconds ---" % (time.time() - start_time))
 
-        # _logger.info("--- %s seconds ---" % (time.time() - start_time_total))
-        _logger.info("--- %s start ---" % (start_time))
-        _logger.info("--- %s len ---" % (len(protocollo_ids_archivio)))
+        # _logger.debug("--- %s seconds ---" % (time.time() - start_time_total))
+        _logger.debug("--- %s start ---" % (start_time))
+        _logger.debug("--- %s len ---" % (len(protocollo_ids_archivio)))
 
         return protocollo_ids_archivio
 
@@ -579,7 +579,7 @@ class protocollo_protocollo(osv.Model):
         protocollo_visible_ids = [res[0] for res in results]
         time_end = time.time()
         time_duration = time_end - time_start
-        _logger.info("_non_classificati_visibility_search: %s sec" % (time_duration,))
+        _logger.debug("_non_classificati_visibility_search: %s sec" % (time_duration,))
         return [('id', 'in', protocollo_visible_ids)]
 
     def _non_classificati_visibility_count(self, cr, uid):
@@ -588,7 +588,7 @@ class protocollo_protocollo(osv.Model):
         count_value = result[0][0]
         time_end = time.time()
         time_duration = time_end - time_start
-        _logger.info("_non_classificati_visibility_count: %s - %s sec" % (count_value, time_duration))
+        _logger.debug("_non_classificati_visibility_count: %s - %s sec" % (count_value, time_duration))
         return count_value
 
     ####################################################################################################################
@@ -655,7 +655,7 @@ class protocollo_protocollo(osv.Model):
         protocollo_visible_ids = [res[0] for res in results]
         time_end = time.time()
         time_duration = time_end - time_start
-        _logger.info("_non_fascicolati_visibility_search: %s sec" % (time_duration,))
+        _logger.debug("_non_fascicolati_visibility_search: %s sec" % (time_duration,))
         return [('id', 'in', protocollo_visible_ids)]
 
     def _non_fascicolati_visibility_count(self, cr, uid):
@@ -664,7 +664,7 @@ class protocollo_protocollo(osv.Model):
         count_value = result[0][0]
         time_end = time.time()
         time_duration = time_end - time_start
-        _logger.info("_non_fascicolati_visibility_count: %s - %s sec" % (count_value, time_duration))
+        _logger.debug("_non_fascicolati_visibility_count: %s - %s sec" % (count_value, time_duration))
         return count_value
 
     ####################################################################################################################
@@ -696,7 +696,7 @@ class protocollo_protocollo(osv.Model):
         protocollo_visible_ids = [res[0] for res in results]
         time_end = time.time()
         time_duration = time_end - time_start
-        _logger.info("_bozza_creato_da_me_visibility_search: %s sec" % (time_duration,))
+        _logger.debug("_bozza_creato_da_me_visibility_search: %s sec" % (time_duration,))
         return [('id', 'in', protocollo_visible_ids)]
 
     @api.cr_uid
@@ -706,7 +706,7 @@ class protocollo_protocollo(osv.Model):
         count_value = result[0][0]
         time_end = time.time()
         time_duration = time_end - time_start
-        _logger.info("_bozza_creato_da_me_visibility_count: %s - %s sec" % (count_value, time_duration))
+        _logger.debug("_bozza_creato_da_me_visibility_count: %s - %s sec" % (count_value, time_duration))
         return count_value
 
     ####################################################################################################################
@@ -746,7 +746,7 @@ class protocollo_protocollo(osv.Model):
         protocollo_visible_ids = [res[0] for res in results]
         time_end = time.time()
         time_duration = time_end - time_start
-        _logger.info("_assegnato_a_me_visibility_search: %s sec" % (time_duration, ))
+        _logger.debug("_assegnato_a_me_visibility_search: %s sec" % (time_duration, ))
         return [('id', 'in', protocollo_visible_ids)]
 
     @api.cr_uid
@@ -756,7 +756,7 @@ class protocollo_protocollo(osv.Model):
         count_value = result[0][0]
         time_end = time.time()
         time_duration = time_end - time_start
-        _logger.info("_assegnato_a_me_visibility_count: %s - %s sec" % (count_value, time_duration))
+        _logger.debug("_assegnato_a_me_visibility_count: %s - %s sec" % (count_value, time_duration))
         return count_value
 
     ####################################################################################################################
@@ -797,7 +797,7 @@ class protocollo_protocollo(osv.Model):
         protocollo_visible_ids = [res[0] for res in results]
         time_end = time.time()
         time_duration = time_end - time_start
-        _logger.info("_assegnato_a_me_comp_visibility_search: %s sec" % (time_duration, ))
+        _logger.debug("_assegnato_a_me_comp_visibility_search: %s sec" % (time_duration, ))
         return [('id', 'in', protocollo_visible_ids)]
 
     @api.cr_uid
@@ -807,7 +807,7 @@ class protocollo_protocollo(osv.Model):
         count_value = result[0][0]
         time_end = time.time()
         time_duration = time_end - time_start
-        _logger.info("_assegnato_a_me_comp_visibility_count: %s - %s sec" % (count_value, time_duration))
+        _logger.debug("_assegnato_a_me_comp_visibility_count: %s - %s sec" % (count_value, time_duration))
         return count_value
 
     ####################################################################################################################
@@ -848,7 +848,7 @@ class protocollo_protocollo(osv.Model):
         protocollo_visible_ids = [res[0] for res in results]
         time_end = time.time()
         time_duration = time_end - time_start
-        _logger.info("_assegnato_a_me_cc_visibility_search: %s sec" % (time_duration,))
+        _logger.debug("_assegnato_a_me_cc_visibility_search: %s sec" % (time_duration,))
         return [('id', 'in', protocollo_visible_ids)]
 
     def _assegnato_a_me_cc_visibility_count(self, cr, uid):
@@ -857,7 +857,7 @@ class protocollo_protocollo(osv.Model):
         count_value = result[0][0]
         time_end = time.time()
         time_duration = time_end - time_start
-        _logger.info("_assegnato_a_me_cc_visibility_count: %s - %s sec" % (count_value, time_duration))
+        _logger.debug("_assegnato_a_me_cc_visibility_count: %s - %s sec" % (count_value, time_duration))
         return count_value
 
     ####################################################################################################################
@@ -912,7 +912,7 @@ class protocollo_protocollo(osv.Model):
         protocollo_visible_ids = [res[0] for res in results]
         time_end = time.time()
         time_duration = time_end - time_start
-        _logger.info("_assegnato_a_mio_ufficio_visibility_search: %s sec" % (time_duration,))
+        _logger.debug("_assegnato_a_mio_ufficio_visibility_search: %s sec" % (time_duration,))
         return [('id', 'in', protocollo_visible_ids)]
 
     @api.cr_uid
@@ -922,7 +922,7 @@ class protocollo_protocollo(osv.Model):
         count_value = result[0][0]
         time_end = time.time()
         time_duration = time_end - time_start
-        _logger.info("_assegnato_a_mio_ufficio_visibility_count: %s - %s sec" % (count_value, time_duration))
+        _logger.debug("_assegnato_a_mio_ufficio_visibility_count: %s - %s sec" % (count_value, time_duration))
         return count_value
 
     ####################################################################################################################
@@ -963,7 +963,7 @@ class protocollo_protocollo(osv.Model):
         protocollo_visible_ids = [res[0] for res in results]
         time_end = time.time()
         time_duration = time_end - time_start
-        _logger.info("_assegnato_a_mio_ufficio_comp_visibility_search: %s sec" % (time_duration,))
+        _logger.debug("_assegnato_a_mio_ufficio_comp_visibility_search: %s sec" % (time_duration,))
         return [('id', 'in', protocollo_visible_ids)]
 
     @api.cr_uid
@@ -973,7 +973,7 @@ class protocollo_protocollo(osv.Model):
         count_value = result[0][0]
         time_end = time.time()
         time_duration = time_end - time_start
-        _logger.info("_assegnato_a_mio_ufficio_comp_visibility_count: %s - %s sec" % (count_value, time_duration))
+        _logger.debug("_assegnato_a_mio_ufficio_comp_visibility_count: %s - %s sec" % (count_value, time_duration))
         return count_value
 
     ####################################################################################################################
@@ -1014,7 +1014,7 @@ class protocollo_protocollo(osv.Model):
         protocollo_visible_ids = [res[0] for res in results]
         time_end = time.time()
         time_duration = time_end - time_start
-        _logger.info("_assegnato_a_mio_ufficio_cc_visibility_search: %s sec" % (time_duration,))
+        _logger.debug("_assegnato_a_mio_ufficio_cc_visibility_search: %s sec" % (time_duration,))
         return [('id', 'in', protocollo_visible_ids)]
 
     @api.cr_uid
@@ -1024,7 +1024,7 @@ class protocollo_protocollo(osv.Model):
         count_value = result[0][0]
         time_end = time.time()
         time_duration = time_end - time_start
-        _logger.info("_assegnato_a_mio_ufficio_cc_visibility_count: %s - %s sec" % (count_value, time_duration))
+        _logger.debug("_assegnato_a_mio_ufficio_cc_visibility_count: %s - %s sec" % (count_value, time_duration))
         return count_value
 
     ####################################################################################################################
@@ -1072,7 +1072,7 @@ class protocollo_protocollo(osv.Model):
         protocollo_visible_ids = [res[0] for res in results]
         time_end = time.time()
         time_duration = time_end - time_start
-        _logger.info("_assegnato_cc_visibility_search: %s sec" % (time_duration,))
+        _logger.debug("_assegnato_cc_visibility_search: %s sec" % (time_duration,))
         return [('id', 'in', protocollo_visible_ids)]
 
     @api.cr_uid
@@ -1082,7 +1082,7 @@ class protocollo_protocollo(osv.Model):
         count_value = result[0][0]
         time_end = time.time()
         time_duration = time_end - time_start
-        _logger.info("_assegnato_cc_visibility_count: %s - %s sec" % (count_value, time_duration))
+        _logger.debug("_assegnato_cc_visibility_count: %s - %s sec" % (count_value, time_duration))
         return count_value
 
     ####################################################################################################################
@@ -1121,7 +1121,7 @@ class protocollo_protocollo(osv.Model):
         protocollo_visible_ids = [res[0] for res in results]
         time_end = time.time()
         time_duration = time_end - time_start
-        _logger.info("_da_assegnare_visibility_search: %s sec" % (time_duration,))
+        _logger.debug("_da_assegnare_visibility_search: %s sec" % (time_duration,))
         return [('id', 'in', protocollo_visible_ids)]
 
     @api.cr_uid
@@ -1131,7 +1131,7 @@ class protocollo_protocollo(osv.Model):
         count_value = result[0][0]
         time_end = time.time()
         time_duration = time_end - time_start
-        _logger.info("_da_assegnare_visibility_count: %s - %s sec" % (count_value, time_duration))
+        _logger.debug("_da_assegnare_visibility_count: %s - %s sec" % (count_value, time_duration))
         return count_value
 
     ####################################################################################################################
@@ -1196,7 +1196,7 @@ class protocollo_protocollo(osv.Model):
         protocollo_visible_ids = [res[0] for res in results]
         time_end = time.time()
         time_duration = time_end - time_start
-        _logger.info("_assegnato_da_me_in_attesa_visibility_search: %s sec" % (time_duration,))
+        _logger.debug("_assegnato_da_me_in_attesa_visibility_search: %s sec" % (time_duration,))
         return [('id', 'in', protocollo_visible_ids)]
 
     @api.cr_uid
@@ -1206,7 +1206,7 @@ class protocollo_protocollo(osv.Model):
         count_value = result[0][0]
         time_end = time.time()
         time_duration = time_end - time_start
-        _logger.info("_assegnato_da_me_in_attesa_visibility_count: %s - %s sec" % (count_value, time_duration))
+        _logger.debug("_assegnato_da_me_in_attesa_visibility_count: %s - %s sec" % (count_value, time_duration))
         return count_value
 
     ####################################################################################################################
@@ -1271,7 +1271,7 @@ class protocollo_protocollo(osv.Model):
         protocollo_visible_ids = [res[0] for res in results]
         time_end = time.time()
         time_duration = time_end - time_start
-        _logger.info("_assegnato_da_me_in_rifiutato_visibility_search: %s sec" % (time_duration,))
+        _logger.debug("_assegnato_da_me_in_rifiutato_visibility_search: %s sec" % (time_duration,))
         return [('id', 'in', protocollo_visible_ids)]
 
     @api.cr_uid
@@ -1281,7 +1281,7 @@ class protocollo_protocollo(osv.Model):
         count_value = result[0][0]
         time_end = time.time()
         time_duration = time_end - time_start
-        _logger.info("_assegnato_da_me_in_rifiutato_visibility_count: %s - %s sec" % (count_value, time_duration))
+        _logger.debug("_assegnato_da_me_in_rifiutato_visibility_count: %s - %s sec" % (count_value, time_duration))
         return count_value
 
     ####################################################################################################################
@@ -1319,7 +1319,7 @@ class protocollo_protocollo(osv.Model):
         protocollo_visible_ids = [res[0] for res in results]
         time_end = time.time()
         time_duration = time_end - time_start
-        _logger.info("_da_inviare_visibility_search: %s sec" % (time_duration,))
+        _logger.debug("_da_inviare_visibility_search: %s sec" % (time_duration,))
         return [('id', 'in', protocollo_visible_ids)]
 
     @api.cr_uid
@@ -1329,7 +1329,7 @@ class protocollo_protocollo(osv.Model):
         count_value = result[0][0]
         time_end = time.time()
         time_duration = time_end - time_start
-        _logger.info("_da_inviare_visibility_count: %s - %s sec" % (count_value, time_duration))
+        _logger.debug("_da_inviare_visibility_count: %s - %s sec" % (count_value, time_duration))
         return count_value
 
     ####################################################################################################################
@@ -1356,7 +1356,7 @@ class protocollo_protocollo(osv.Model):
         ''', (uid, archivio_id))
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
         end = int(round(time.time() * 1000))
-        _logger.info("_da_assegnare_general_visibility_search" + str(end - start))
+        _logger.debug("_da_assegnare_general_visibility_search" + str(end - start))
         return [('id', 'in', protocollo_visible_ids)]
 
     def _get_protocollo_assegnazione_ids(self, cr, uid, tipologia_assegnazione, tipologia_assegnatario, nome, context=None):
@@ -1435,7 +1435,7 @@ class protocollo_protocollo(osv.Model):
         ''', (uid, archivio_id))
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
         end = int(round(time.time() * 1000))
-        _logger.info("_filtro_a_me_competenza_visibility_search: " + str(end - start))
+        _logger.debug("_filtro_a_me_competenza_visibility_search: " + str(end - start))
         return [('id', 'in', protocollo_visible_ids)]
 
     def _filtro_a_me_conoscenza_visibility(self, cr, uid, ids, name, arg, context=None):
@@ -1463,7 +1463,7 @@ class protocollo_protocollo(osv.Model):
         ''', (uid, archivio_id))
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
         end = int(round(time.time() * 1000))
-        _logger.info("_filtro_a_me_conocenza_visibility_search: " + str(end - start))
+        _logger.debug("_filtro_a_me_conocenza_visibility_search: " + str(end - start))
         return [('id', 'in', protocollo_visible_ids)]
 
     def _filtro_a_mio_ufficio_visibility(self, cr, uid, ids, name, arg, context=None):
@@ -1491,7 +1491,7 @@ class protocollo_protocollo(osv.Model):
         ''', (uid, archivio_id))
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
         end = int(round(time.time() * 1000))
-        _logger.info("_filtro_a_mio_ufficio_visibility_search: " + str(end - start))
+        _logger.debug("_filtro_a_mio_ufficio_visibility_search: " + str(end - start))
         return [('id', 'in', protocollo_visible_ids)]
 
     def _filtro_a_mio_ufficio_cc_visibility(self, cr, uid, ids, name, arg, context=None):
@@ -1519,7 +1519,7 @@ class protocollo_protocollo(osv.Model):
         ''', (uid, archivio_id))
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
         end = int(round(time.time() * 1000))
-        _logger.info("_filtro_a_mio_ufficio_cc_visibility_search" + str(end - start))
+        _logger.debug("_filtro_a_mio_ufficio_cc_visibility_search" + str(end - start))
         return [('id', 'in', protocollo_visible_ids)]
 
     def _filtro_da_me_visibility(self, cr, uid, ids, name, arg, context=None):
@@ -1545,7 +1545,7 @@ class protocollo_protocollo(osv.Model):
         ''', (uid, archivio_id))
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
         end = int(round(time.time() * 1000))
-        _logger.info("_filtro_da_me_visibility_search: " + str(end - start))
+        _logger.debug("_filtro_da_me_visibility_search: " + str(end - start))
         return [('id', 'in', protocollo_visible_ids)]
 
     def _filtro_competenza_visibility(self, cr, uid, ids, name, arg, context=None):
@@ -1570,7 +1570,7 @@ class protocollo_protocollo(osv.Model):
         ''', (archivio_id,))
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
         end = int(round(time.time() * 1000))
-        _logger.info("_filtro_competenza_visibility_search" + str(end - start))
+        _logger.debug("_filtro_competenza_visibility_search" + str(end - start))
         return [('id', 'in', protocollo_visible_ids)]
 
     def _filtro_conoscenza_visibility(self, cr, uid, ids, name, arg, context=None):
@@ -1595,7 +1595,7 @@ class protocollo_protocollo(osv.Model):
         ''', (archivio_id,))
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
         end = int(round(time.time() * 1000))
-        _logger.info("_filtro_conoscenza_visibility_search" + str(end - start))
+        _logger.debug("_filtro_conoscenza_visibility_search" + str(end - start))
         return [('id', 'in', protocollo_visible_ids)]
 
     def _filtro_da_me_in_attesa_visibility(self, cr, uid, ids, name, arg, context=None):
@@ -1610,7 +1610,7 @@ class protocollo_protocollo(osv.Model):
         protocollo_visible_ids = [res[0] for res in results]
         time_end = time.time()
         time_duration = time_end - time_start
-        _logger.info("_filtro_da_me_in_attesa_visibility_search: %s sec" % (time_duration,))
+        _logger.debug("_filtro_da_me_in_attesa_visibility_search: %s sec" % (time_duration,))
         return [('id', 'in', protocollo_visible_ids)]
 
     ####################################################################################################################
@@ -1635,7 +1635,7 @@ class protocollo_protocollo(osv.Model):
 
             res.append((protocollo.id, check))
 
-        #_logger.info("--- TEMPO _registra_visibility: %s SECONDI ---" % (time.time() - start_time))
+        #_logger.debug("--- TEMPO _registra_visibility: %s SECONDI ---" % (time.time() - start_time))
         return dict(res)
 
     def _elimina_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
@@ -1654,7 +1654,7 @@ class protocollo_protocollo(osv.Model):
 
             res.append((protocollo.id, check))
 
-        #_logger.info("--- TEMPO _elimina_visibility: %s SECONDI ---" % (time.time() - start_time))
+        #_logger.debug("--- TEMPO _elimina_visibility: %s SECONDI ---" % (time.time() - start_time))
         return dict(res)
 
     def _annulla_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
@@ -1675,7 +1675,7 @@ class protocollo_protocollo(osv.Model):
 
             res.append((protocollo.id, check))
 
-        #_logger.info("--- TEMPO _annulla_visibility: %s SECONDI ---" % (time.time() - start_time))
+        #_logger.debug("--- TEMPO _annulla_visibility: %s SECONDI ---" % (time.time() - start_time))
         return dict(res)
 
     def assegnazione_validation(self, cr, uid, protocollo, action, context={}):
@@ -1747,7 +1747,7 @@ class protocollo_protocollo(osv.Model):
         for protocollo in protocolli:
             check, error = self.assegnazione_validation(cr, uid, protocollo, 'prendi_in_carico', context)
             res.append((protocollo.id, check))
-        #_logger.info("--- TEMPO _prendi_in_carico_visibility: %s SECONDI ---" % (time.time() - start_time))
+        #_logger.debug("--- TEMPO _prendi_in_carico_visibility: %s SECONDI ---" % (time.time() - start_time))
         return dict(res)
 
     def _rifiuta_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
@@ -1757,7 +1757,7 @@ class protocollo_protocollo(osv.Model):
         for protocollo in protocolli:
             check, error = self.assegnazione_validation(cr, uid, protocollo, 'rifiuta', context)
             res.append((protocollo.id, check))
-        #_logger.info("--- TEMPO _rifiuta_visibility: %s SECONDI ---" % (time.time() - start_time))
+        #_logger.debug("--- TEMPO _rifiuta_visibility: %s SECONDI ---" % (time.time() - start_time))
         return dict(res)
 
     def _segna_come_letto_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
@@ -1785,7 +1785,7 @@ class protocollo_protocollo(osv.Model):
 
             res.append((protocollo.id, check))
 
-        #_logger.info("--- TEMPO _segna_come_letto_visibility: %s SECONDI ---" % (time.time() - start_time))
+        #_logger.debug("--- TEMPO _segna_come_letto_visibility: %s SECONDI ---" % (time.time() - start_time))
         return dict(res)
 
     def _modifica_dati_generali_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
@@ -1816,7 +1816,7 @@ class protocollo_protocollo(osv.Model):
 
             res.append((protocollo.id, check))
 
-        #_logger.info("--- TEMPO _modifica_dati_generali_visibility: %s SECONDI ---" % (time.time() - start_time))
+        #_logger.debug("--- TEMPO _modifica_dati_generali_visibility: %s SECONDI ---" % (time.time() - start_time))
         return dict(res)
 
     def _aggiungi_mittenti_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
@@ -1832,7 +1832,7 @@ class protocollo_protocollo(osv.Model):
 
             res.append((protocollo.id, check))
 
-        #_logger.info("--- TEMPO _aggiungi_mittenti_visibility: %s SECONDI ---" % (time.time() - start_time))
+        #_logger.debug("--- TEMPO _aggiungi_mittenti_visibility: %s SECONDI ---" % (time.time() - start_time))
         return dict(res)
 
     def _modifica_mittenti_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
@@ -1848,7 +1848,7 @@ class protocollo_protocollo(osv.Model):
 
             res.append((protocollo.id, check))
 
-        #_logger.info("--- TEMPO _modifica_mittenti_visibility: %s SECONDI ---" % (time.time() - start_time))
+        #_logger.debug("--- TEMPO _modifica_mittenti_visibility: %s SECONDI ---" % (time.time() - start_time))
         return dict(res)
 
     def _aggiungi_destinatari_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
@@ -1864,7 +1864,7 @@ class protocollo_protocollo(osv.Model):
 
             res.append((protocollo.id, check))
 
-        #_logger.info("--- TEMPO _aggiungi_destinatari_visibility: %s SECONDI ---" % (time.time() - start_time))
+        #_logger.debug("--- TEMPO _aggiungi_destinatari_visibility: %s SECONDI ---" % (time.time() - start_time))
         return dict(res)
 
     def _modifica_destinatari_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
@@ -1880,7 +1880,7 @@ class protocollo_protocollo(osv.Model):
 
             res.append((protocollo.id, check))
 
-        #_logger.info("--- TEMPO _modifica_destinatari_visibility: %s SECONDI ---" % (time.time() - start_time))
+        #_logger.debug("--- TEMPO _modifica_destinatari_visibility: %s SECONDI ---" % (time.time() - start_time))
         return dict(res)
 
     def _aggiungi_mittente_interno_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
@@ -1896,7 +1896,7 @@ class protocollo_protocollo(osv.Model):
 
             res.append((protocollo.id, check))
 
-        #_logger.info("--- TEMPO _aggiungi_mittente_interno_visibility: %s SECONDI ---" % (time.time() - start_time))
+        #_logger.debug("--- TEMPO _aggiungi_mittente_interno_visibility: %s SECONDI ---" % (time.time() - start_time))
         return dict(res)
 
     def _modifica_mittente_interno_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
@@ -1912,7 +1912,7 @@ class protocollo_protocollo(osv.Model):
 
             res.append((protocollo.id, check))
 
-        #_logger.info("--- TEMPO _modifica_mittente_interno_visibility: %s SECONDI ---" % (time.time() - start_time))
+        #_logger.debug("--- TEMPO _modifica_mittente_interno_visibility: %s SECONDI ---" % (time.time() - start_time))
         return dict(res)
 
     def _aggiungi_classificazione_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
@@ -1928,7 +1928,7 @@ class protocollo_protocollo(osv.Model):
 
             res.append((protocollo.id, check))
 
-        #_logger.info("--- TEMPO _aggiungi_classificazione_visibility: %s SECONDI ---" % (time.time() - start_time))
+        #_logger.debug("--- TEMPO _aggiungi_classificazione_visibility: %s SECONDI ---" % (time.time() - start_time))
         return dict(res)
 
     #TODO: attualmente rendiamo il button visibile solo al protocollatore, in futuro dovrà essere estesa anche all'assegnatore
@@ -1949,7 +1949,7 @@ class protocollo_protocollo(osv.Model):
 
             res.append((protocollo.id, check))
 
-        #_logger.info("--- TEMPO _modifica_classificazione_visibility: %s SECONDI ---" % (time.time() - start_time))
+        #_logger.debug("--- TEMPO _modifica_classificazione_visibility: %s SECONDI ---" % (time.time() - start_time))
         return dict(res)
 
     def _classifica_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
@@ -1978,7 +1978,7 @@ class protocollo_protocollo(osv.Model):
 
             res.append((protocollo.id, check))
 
-        #_logger.info("--- TEMPO _classifica_visibility: %s SECONDI ---" % (time.time() - start_time))
+        #_logger.debug("--- TEMPO _classifica_visibility: %s SECONDI ---" % (time.time() - start_time))
         return dict(res)
 
     def _aggiungi_fascicolazione_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
@@ -2005,7 +2005,7 @@ class protocollo_protocollo(osv.Model):
 
             res.append((protocollo.id, check))
 
-        #_logger.info("--- TEMPO _aggiungi_fascicolazione_visibility: %s SECONDI ---" % (time.time() - start_time))
+        #_logger.debug("--- TEMPO _aggiungi_fascicolazione_visibility: %s SECONDI ---" % (time.time() - start_time))
         return dict(res)
 
     def _modifica_fascicolazione_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
@@ -2032,7 +2032,7 @@ class protocollo_protocollo(osv.Model):
 
             res.append((protocollo.id, check))
 
-        #_logger.info("--- TEMPO _modifica_fascicolazione_visibility: %s SECONDI ---" % (time.time() - start_time))
+        #_logger.debug("--- TEMPO _modifica_fascicolazione_visibility: %s SECONDI ---" % (time.time() - start_time))
         return dict(res)
 
     def _fascicola_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
@@ -2061,7 +2061,7 @@ class protocollo_protocollo(osv.Model):
 
             res.append((protocollo.id, check))
 
-        #_logger.info("--- TEMPO _fascicola_visibility: %s SECONDI ---" % (time.time() - start_time))
+        #_logger.debug("--- TEMPO _fascicola_visibility: %s SECONDI ---" % (time.time() - start_time))
         return dict(res)
 
     def _aggiungi_assegnatari_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
@@ -2071,7 +2071,7 @@ class protocollo_protocollo(osv.Model):
         for protocollo in protocolli:
             check = self._check_aggiungi_assegnatari_visibility(cr, uid, protocollo)
             res.append((protocollo.id, check))
-        #_logger.info("--- TEMPO _aggiungi_assegnatari_visibility: %s SECONDI ---" % (time.time() - start_time))
+        #_logger.debug("--- TEMPO _aggiungi_assegnatari_visibility: %s SECONDI ---" % (time.time() - start_time))
         return dict(res)
 
     def _check_aggiungi_assegnatari_visibility(self, cr, uid, protocollo):
@@ -2105,7 +2105,7 @@ class protocollo_protocollo(osv.Model):
 
             res.append((protocollo.id, check))
 
-        #_logger.info("--- TEMPO _modifica_assegnatari_visibility: %s SECONDI ---" % (time.time() - start_time))
+        #_logger.debug("--- TEMPO _modifica_assegnatari_visibility: %s SECONDI ---" % (time.time() - start_time))
         return dict(res)
 
     def _aggiungi_assegnatari_cc_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
@@ -2115,7 +2115,7 @@ class protocollo_protocollo(osv.Model):
         for protocollo in protocolli:
             check = self._check_aggiungi_assegnatari_cc_visibility(cr, uid, protocollo)
             res.append((protocollo.id, check))
-        #_logger.info("--- TEMPO _aggiungi_assegnatari_cc_visibility: %s SECONDI ---" % (time.time() - start_time))
+        #_logger.debug("--- TEMPO _aggiungi_assegnatari_cc_visibility: %s SECONDI ---" % (time.time() - start_time))
         return dict(res)
 
     def _check_aggiungi_assegnatari_cc_visibility(self, cr, uid, protocollo):
@@ -2164,7 +2164,7 @@ class protocollo_protocollo(osv.Model):
 
             res.append((protocollo.id, check))
 
-        #_logger.info("--- TEMPO _assegna_visibility: %s SECONDI ---" % (time.time() - start_time))
+        #_logger.debug("--- TEMPO _assegna_visibility: %s SECONDI ---" % (time.time() - start_time))
         return dict(res)
 
     def _riassegna_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
@@ -2195,7 +2195,7 @@ class protocollo_protocollo(osv.Model):
 
             res.append((protocollo.id, check))
 
-        #_logger.info("--- TEMPO _riassegna_visibility: %s SECONDI ---" % (time.time() - start_time))
+        #_logger.debug("--- TEMPO _riassegna_visibility: %s SECONDI ---" % (time.time() - start_time))
         return dict(res)
 
     def _invio_pec_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
@@ -2222,7 +2222,7 @@ class protocollo_protocollo(osv.Model):
 
             res.append((protocollo.id, check))
 
-        #_logger.info("--- TEMPO _invio_pec_visibility: %s SECONDI ---" % (time.time() - start_time))
+        #_logger.debug("--- TEMPO _invio_pec_visibility: %s SECONDI ---" % (time.time() - start_time))
         return dict(res)
 
     def _invio_sharedmail_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
@@ -2249,7 +2249,7 @@ class protocollo_protocollo(osv.Model):
 
             res.append((protocollo.id, check))
 
-        #_logger.info("--- TEMPO _invio_sharedmail_visibility: %s SECONDI ---" % (time.time() - start_time))
+        #_logger.debug("--- TEMPO _invio_sharedmail_visibility: %s SECONDI ---" % (time.time() - start_time))
         return dict(res)
 
     def _invio_protocollo_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
@@ -2275,7 +2275,7 @@ class protocollo_protocollo(osv.Model):
 
             res.append((protocollo.id, check))
 
-        #_logger.info("--- TEMPO _invio_protocollo_visibility: %s SECONDI ---" % (time.time() - start_time))
+        #_logger.debug("--- TEMPO _invio_protocollo_visibility: %s SECONDI ---" % (time.time() - start_time))
         return dict(res)
 
     def _modifica_pec_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
@@ -2301,7 +2301,7 @@ class protocollo_protocollo(osv.Model):
 
             res.append((protocollo.id, check))
 
-        #_logger.info("--- TEMPO _modifica_pec_visibility: %s SECONDI ---" % (time.time() - start_time))
+        #_logger.debug("--- TEMPO _modifica_pec_visibility: %s SECONDI ---" % (time.time() - start_time))
         return dict(res)
 
     def _modifica_email_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
@@ -2324,7 +2324,7 @@ class protocollo_protocollo(osv.Model):
 
             res.append((protocollo.id, check))
 
-        #_logger.info("--- TEMPO _modifica_email_visibility: %s SECONDI ---" % (time.time() - start_time))
+        #_logger.debug("--- TEMPO _modifica_email_visibility: %s SECONDI ---" % (time.time() - start_time))
         return dict(res)
 
     def _aggiungi_pec_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
@@ -2346,7 +2346,7 @@ class protocollo_protocollo(osv.Model):
 
             res.append((protocollo.id, check))
 
-        #_logger.info("--- TEMPO _aggiungi_pec_visibility: %s SECONDI ---" % (time.time() - start_time))
+        #_logger.debug("--- TEMPO _aggiungi_pec_visibility: %s SECONDI ---" % (time.time() - start_time))
         return dict(res)
 
     def _protocollazione_riservata_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
@@ -2359,7 +2359,7 @@ class protocollo_protocollo(osv.Model):
 
             res.append((protocollo.id, check))
 
-        #_logger.info("--- TEMPO _protocollazione_riservata_visibility: %s SECONDI ---" % (time.time() - start_time))
+        #_logger.debug("--- TEMPO _protocollazione_riservata_visibility: %s SECONDI ---" % (time.time() - start_time))
         return dict(res)
 
     def _inserisci_testo_mailpec_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
@@ -2376,7 +2376,7 @@ class protocollo_protocollo(osv.Model):
 
             res.append((protocollo.id, check))
 
-        #_logger.info("--- TEMPO _inserisci_testo_mailpec_visibility: %s SECONDI ---" % (time.time() - start_time))
+        #_logger.debug("--- TEMPO _inserisci_testo_mailpec_visibility: %s SECONDI ---" % (time.time() - start_time))
         return dict(res)
 
     def _carica_allegati_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
@@ -2399,7 +2399,7 @@ class protocollo_protocollo(osv.Model):
 
             res.append((protocollo.id, check))
 
-        #_logger.info("--- TEMPO _carica_allegati_visibility: %s SECONDI ---" % (time.time() - start_time))
+        #_logger.debug("--- TEMPO _carica_allegati_visibility: %s SECONDI ---" % (time.time() - start_time))
         return dict(res)
 
     def _modifica_allegati_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
@@ -2414,7 +2414,7 @@ class protocollo_protocollo(osv.Model):
 
             res.append((protocollo.id, check))
 
-        #_logger.info("--- TEMPO _modifica_allegati_visibility: %s SECONDI ---" % (time.time() - start_time))
+        #_logger.debug("--- TEMPO _modifica_allegati_visibility: %s SECONDI ---" % (time.time() - start_time))
         return dict(res)
 
     def _carica_documento_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
@@ -2432,7 +2432,7 @@ class protocollo_protocollo(osv.Model):
 
             res.append((protocollo.id, check))
 
-        #_logger.info("--- TEMPO _carica_documento_visibility: %s SECONDI ---" % (time.time() - start_time))
+        #_logger.debug("--- TEMPO _carica_documento_visibility: %s SECONDI ---" % (time.time() - start_time))
         return dict(res)
 
     def _modifica_documento_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
@@ -2447,7 +2447,7 @@ class protocollo_protocollo(osv.Model):
 
             res.append((protocollo.id, check))
 
-        #_logger.info("--- TEMPO _modifica_documento_visibility: %s SECONDI ---" % (time.time() - start_time))
+        #_logger.debug("--- TEMPO _modifica_documento_visibility: %s SECONDI ---" % (time.time() - start_time))
         return dict(res)
 
     ####################################################################################################################

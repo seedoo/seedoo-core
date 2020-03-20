@@ -194,7 +194,7 @@ class ProtocolloJournal(models.Model):
     def journal_create(self, aoo_id, day_date):
         journal_obj = self.env["protocollo.journal"]
 
-        _logger.info("Creating journal for %s - %s" % (aoo_id.name, day_date))
+        _logger.debug("Creating journal for %s - %s" % (aoo_id.name, day_date))
 
         journal_id = journal_obj.search([
             ("date", "=", day_date),

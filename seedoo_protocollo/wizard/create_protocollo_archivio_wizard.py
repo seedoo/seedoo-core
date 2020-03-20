@@ -204,7 +204,7 @@ class protocollo_archivio_wizard(osv.TransientModel):
             if count_diff == 0:
                 raise orm.except_orm(_("Avviso"), _("Nessun protocollo presente in archivio corrente nell'intervallo selezionato"))
 
-            _logger.info("Archiviati %d protocolli", (count_diff))
+            _logger.debug("Archiviati %d protocolli", (count_diff))
 
             protocollo_archivio = self.pool.get('protocollo.archivio').browse(cr, uid, protocollo_archivio_id)
             context.update({'archivio_id': protocollo_archivio_id, 'is_current': False})

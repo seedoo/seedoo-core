@@ -744,7 +744,7 @@ class protocollo_protocollo(orm.Model):
 
         sequence_obj = self.pool.get('ir.sequence')
 
-        _logger.info("Acquiring lock")
+        _logger.debug("Acquiring lock")
         LockerSingleton.lock.acquire()
 
         new_cr = self.pool.cursor()
@@ -762,7 +762,7 @@ class protocollo_protocollo(orm.Model):
 
         next_num = False
 
-        _logger.info("Getting sequence")
+        _logger.debug("Getting sequence")
         try:
             next_num = sequence_obj.get_serialized_sequence_code(new_cr, uid, prot.registry.sequence.code) or None
         except Exception as e:
@@ -772,7 +772,7 @@ class protocollo_protocollo(orm.Model):
         new_cr.close()
 
         LockerSingleton.lock.release()
-        _logger.info("Lock released")
+        _logger.debug("Lock released")
 
         if not next_num:
             raise orm.except_orm(_('Errore'),
@@ -1788,7 +1788,7 @@ class protocollo_protocollo(orm.Model):
         return res[ids[0]]
 
     def check_all_mail_messages(self, cr, uid, ids, *args):
-        _logger.info('check_all_mail_messages')
+        _logger.debug('check_all_mail_messages')
         for protocollo in self.browse(cr, SUPERUSER_ID, ids):
             if protocollo.pec:
                 for sr in protocollo.sender_receivers:
@@ -1797,7 +1797,7 @@ class protocollo_protocollo(orm.Model):
         return True
 
     def test_error_mail_message(self, cr, uid, ids, *args):
-        _logger.info('test_error_mail_message')
+        _logger.debug('test_error_mail_message')
         for protocollo in self.browse(cr, SUPERUSER_ID, ids):
             if protocollo.pec:
                 for sender_receiver in protocollo.sender_receivers:
@@ -2278,9 +2278,9 @@ class protocollo_protocollo(orm.Model):
                     if commit:
                         cr.commit()
                     if log:
-                        _logger.info("Protocollo numero %s - (%s/%s) aggiornato", protocollo.name, str(count), str(total))
+                        _logger.debug("Protocollo numero %s - (%s/%s) aggiornato", protocollo.name, str(count), str(total))
                 elif log:
-                        _logger.info("Protocollo numero %s - (%s/%s) non aggiornato: segnatura xml presente", protocollo.name, str(count), str(total))
+                        _logger.debug("Protocollo numero %s - (%s/%s) non aggiornato: segnatura xml presente", protocollo.name, str(count), str(total))
             except Exception as e:
                 _logger.error("Protocollo numero %s - (%s/%s) non aggiornato: %s", protocollo.name, str(count), str(total), str(e))
 

@@ -180,7 +180,7 @@ class res_partner(orm.Model):
             context=context, content_subtype=content_subtype, **kwargs)
         if (context.get('main_message_id') and (context.get('pec_type') or context.get('send_error'))):
             wf_service = netsvc.LocalService("workflow")
-            _logger.info('workflow: mail message trigger')
+            _logger.debug('workflow: mail message trigger')
             wf_service.trg_trigger(uid, 'mail.message',
                                    context['main_message_id'], cr)
         return msg_id

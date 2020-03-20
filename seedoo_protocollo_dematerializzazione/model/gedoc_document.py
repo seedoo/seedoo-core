@@ -67,7 +67,7 @@ class gedoc_document(osv.Model):
         time_end = datetime.datetime.now()
         time_duration = time_end - time_start
 
-        _logger.info("_doc_imported_visibility_count: %d - %.03f s" % (
+        _logger.debug("_doc_imported_visibility_count: %d - %.03f s" % (
             count_value,
             float(time_duration.microseconds) / 1000000
         ))
