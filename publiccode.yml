@@ -2,12 +2,12 @@
 # metadata file that makes public software easily discoverable.
 # More info at https://github.com/italia/publiccode.yml
 
-publiccodeYmlVersion: '0.2'
+publiccodeYmlVersion: '0.3'
 name: Seedoo Community
 url: 'https://github.com/seedoo/seedoo-core.git'
 landingURL: 'https://www.seedoo.it/'
-releaseDate: '2019-08-21'
-softwareVersion: 1.8.10
+releaseDate: '2020-03-20'
+softwareVersion: 1.8.11
 developmentStatus: stable
 softwareType: standalone/backend
 platforms:
