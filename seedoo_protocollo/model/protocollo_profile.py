@@ -13,17 +13,14 @@ _ = GettextAlias()
 
 class ProtocolloProfile(orm.Model):
     _name = 'protocollo.profile'
+    _inherit = 'mail.thread'
+    _mail_flat_thread = False
 
     _columns = {
-
         'name': fields.char(size=256, string='Nome'),
         'groups_id': fields.many2many('res.groups', 'res_groups_profile_rel', 'uid', 'gid', 'Permessi'),
         'user_ids': fields.one2many('res.users', 'profile_id', 'Utenti'),
-        'state': fields.selection(
-            [
-                ('enabled', 'Attivo'),
-                ('disabled', 'Disattivo'),
-            ], 'Stato'),
+        'state': fields.selection([('enabled', 'Attivo'),('disabled', 'Disattivo')], 'Stato')
     }
 
     _defaults = {
@@ -51,6 +48,39 @@ class ProtocolloProfile(orm.Model):
                 user_ids = profile.user_ids.ids
                 for user_id in user_ids:
                     self.associate_profile_to_user(cr, uid, profile, old_profile_group_ids[profile.id], user_id)
+
+                if uid != SUPERUSER_ID:
+                    old_group_ids = old_profile_group_ids[profile.id]
+                    new_group_ids = profile.groups_id.ids
+
+                    group_obj = self.pool.get('res.groups')
+
+                    removed_group_ids = list(set(old_group_ids) - set(new_group_ids))
+                    removed_group_names = []
+                    for removed_group_id in removed_group_ids:
+                        group = group_obj.browse(cr, uid, removed_group_id)
+                        removed_group_names.append(group.name)
+
+                    added_group_ids = list(set(new_group_ids) - set(old_group_ids))
+                    added_group_names = []
+                    for added_group_id in added_group_ids:
+                        group = group_obj.browse(cr, uid, added_group_id)
+                        added_group_names.append(group.name)
+
+                    action_class = "history_icon update"
+                    body = "<div class='%s'><ul>" % action_class
+                    if removed_group_names:
+                        body = body + "<li>%s: <span style='color:#990000'> %s</span></li>" % ('Permessi Eliminati', ', '.join(removed_group_names))
+                    if added_group_names:
+                        body = body + "<li>%s: <span style='color:#007ea6'> %s </span></li>" % ('Permessi Aggiunti', ', '.join(added_group_names))
+                    body += "</ul></div>"
+                    post_vars = {
+                        'subject': 'Modifica Profilo',
+                        'body': body,
+                        'model': 'protocollo.profile',
+                        'res_id': profile.id
+                    }
+                    self.message_post(cr, uid, profile.id, type='notification', context=context, **post_vars)
 
         return True
 
