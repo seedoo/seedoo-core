@@ -146,7 +146,7 @@ class protocollo_sender_receiver(orm.Model):
         messaggio_pec_obj = self.pool.get('protocollo.messaggio.pec')
         for sr in self.browse(cr, uid, ids, context={'skip_check': True}):
             prot = sr.protocollo_id
-            if prot:
+            if prot and sr.pec_messaggio_ids.ids:
                 pec_messaggio_ids = messaggio_pec_obj.search(cr, uid, [
                     ('id', '=', max(sr.pec_messaggio_ids.ids)),
                     ('type', '=', 'messaggio')
@@ -164,7 +164,7 @@ class protocollo_sender_receiver(orm.Model):
         messaggio_pec_obj = self.pool.get('protocollo.messaggio.pec')
         for sr in self.browse(cr, uid, ids, context={'skip_check': True}):
             prot = sr.protocollo_id
-            if prot:
+            if prot and sr.pec_messaggio_ids.ids:
                 pec_messaggio_ids = messaggio_pec_obj.search(cr, uid, [
                     ('id', '=', max(sr.pec_messaggio_ids.ids)),
                     ('type', '=', 'messaggio'),
@@ -184,7 +184,7 @@ class protocollo_sender_receiver(orm.Model):
         messaggio_pec_obj = self.pool.get('protocollo.messaggio.pec')
         for sr in self.browse(cr, uid, ids, context={'skip_check': True}):
             prot = sr.protocollo_id
-            if prot:
+            if prot and sr.pec_messaggio_ids.ids:
                 pec_messaggio_ids = messaggio_pec_obj.search(cr, uid, [
                     ('id', '=', max(sr.pec_messaggio_ids.ids)),
                     ('type', '=', 'messaggio'),
@@ -203,7 +203,7 @@ class protocollo_sender_receiver(orm.Model):
         messaggio_pec_obj = self.pool.get('protocollo.messaggio.pec')
         for sr in self.browse(cr, uid, ids, context={'skip_check': True}):
             prot = sr.protocollo_id
-            if prot:
+            if prot and sr.pec_messaggio_ids.ids:
                 pec_messaggio_ids = messaggio_pec_obj.search(cr, uid, [
                     ('id', '=', max(sr.pec_messaggio_ids.ids)),
                     ('type', '=', 'messaggio'),
@@ -222,7 +222,7 @@ class protocollo_sender_receiver(orm.Model):
         messaggio_pec_obj = self.pool.get('protocollo.messaggio.pec')
         for sr in self.browse(cr, uid, ids, context={'skip_check': True}):
             prot = sr.protocollo_id
-            if prot:
+            if prot and sr.pec_messaggio_ids.ids:
                 pec_messaggio_ids = messaggio_pec_obj.search(cr, uid, [
                     ('id', '=', max(sr.pec_messaggio_ids.ids)),
                     ('type', '=', 'messaggio'),
