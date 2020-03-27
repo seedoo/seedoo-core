@@ -148,8 +148,8 @@ class protocollo_sender_receiver(orm.Model):
             prot = sr.protocollo_id
             if prot:
                 pec_messaggio_ids = messaggio_pec_obj.search(cr, uid, [
-                    ('sender_receiver_ids', '=', sr.id),
-                    ('type', '=', 'messaggio'),
+                    ('id', '=', max(sr.pec_messaggio_ids.ids)),
+                    ('type', '=', 'messaggio')
                 ], order='id DESC', limit=1)
                 if pec_messaggio_ids and prot.type == 'out' and prot.state in ('waiting', 'sent', 'error', 'notified', 'canceled'):
                     res[sr.id] = True
@@ -166,7 +166,7 @@ class protocollo_sender_receiver(orm.Model):
             prot = sr.protocollo_id
             if prot:
                 pec_messaggio_ids = messaggio_pec_obj.search(cr, uid, [
-                    ('sender_receiver_ids', '=', sr.id),
+                    ('id', '=', max(sr.pec_messaggio_ids.ids)),
                     ('type', '=', 'messaggio'),
                     ('accettazione_ref', '!=', False)
                 ], order='id DESC', limit=1)
@@ -186,7 +186,7 @@ class protocollo_sender_receiver(orm.Model):
             prot = sr.protocollo_id
             if prot:
                 pec_messaggio_ids = messaggio_pec_obj.search(cr, uid, [
-                    ('sender_receiver_ids', '=', sr.id),
+                    ('id', '=', max(sr.pec_messaggio_ids.ids)),
                     ('type', '=', 'messaggio'),
                     ('consegna_ref', '!=', False)
                 ], order='id DESC', limit=1)
@@ -205,7 +205,7 @@ class protocollo_sender_receiver(orm.Model):
             prot = sr.protocollo_id
             if prot:
                 pec_messaggio_ids = messaggio_pec_obj.search(cr, uid, [
-                    ('sender_receiver_ids', '=', sr.id),
+                    ('id', '=', max(sr.pec_messaggio_ids.ids)),
                     ('type', '=', 'messaggio'),
                     ('non_accettazione_ref', '!=', False)
                 ], order='id DESC', limit=1)
@@ -224,7 +224,7 @@ class protocollo_sender_receiver(orm.Model):
             prot = sr.protocollo_id
             if prot:
                 pec_messaggio_ids = messaggio_pec_obj.search(cr, uid, [
-                    ('sender_receiver_ids', '=', sr.id),
+                    ('id', '=', max(sr.pec_messaggio_ids.ids)),
                     ('type', '=', 'messaggio'),
                     ('errore_consegna_ref', '!=', False)
                 ], order='id DESC', limit=1)
