@@ -4,7 +4,8 @@
 
 import logging
 from openerp.osv import fields, osv
-import mimetypes
+import magic
+import base64
 
 _logger = logging.getLogger(__name__)
 
@@ -55,10 +56,9 @@ class protocollo_carica_allegato_wizard(osv.TransientModel):
         return configurazione.allegati_descrizione_required
 
     def _default_preview(self, cr, uid, context):
-        if context and 'active_model' in context and context['active_model'] == 'ir.attachment' and 'read_only_mode' in context and context['read_only_mode']:
-            attachment = self.pool.get('ir.attachment').browse(cr, uid, context['active_id'])
-            if attachment and attachment.file_type=='application/pdf':
-                return attachment.datas
+        attachment = self.pool.get('ir.attachment').browse(cr, uid, context['active_id'])
+        if attachment and attachment.file_type=='application/pdf':
+            return attachment.datas
         return False
 
     _defaults = {
@@ -69,6 +69,14 @@ class protocollo_carica_allegato_wizard(osv.TransientModel):
         'attachment_description_required': _default_attachment_description_required,
         'preview': _default_preview
     }
+
+    def on_change_datas(self, cr, uid, ids, datas, context=None):
+        values = {'preview': False}
+        if datas:
+            mimetype = magic.from_buffer(base64.b64decode(datas), mime=True)
+            if mimetype == 'application/pdf':
+                values = {'preview': datas}
+        return {'value': values}
 
     def action_save(self, cr, uid, ids, context=None):
         wizard = self.browse(cr, uid, ids[0], context)

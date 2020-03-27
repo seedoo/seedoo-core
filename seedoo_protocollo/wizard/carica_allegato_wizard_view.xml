@@ -14,7 +14,12 @@ this module contains the full copyright notices and license terms. -->
                         <group colspan="4" col="2">
                             <field name="error_description" attrs="{'invisible':[('error_description','=',False)]}" class="message-error" colspan="2"/>
 
-                            <field name="datas" filename="datas_fname" attrs="{'readonly':[('read_only_mode','=',True)]}" options='{"max_file_size": "100M"}'/>
+                            <field name="datas"
+                                   filename="datas_fname"
+                                   on_change="on_change_datas(datas)"
+                                   attrs="{'readonly':[('read_only_mode','=',True)]}"
+                                   options='{"max_file_size": "100M"}'
+                            />
                             <field name="datas_fname" invisible="1"/>
                         </group>
                         <group colspan="4" col="2">
