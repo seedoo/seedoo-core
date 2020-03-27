@@ -32,7 +32,7 @@ this module contains the full copyright notices and license terms. -->
                                    noupload="True"
                                    nolabel="1"
                                    options="{'uploadbutton':false}"
-                                   attrs="{'invisible':[('preview','=',False)], 'readonly':True}"
+                                   attrs="{'invisible':['|',('preview','=',False),('preview','=',False)], 'readonly':True}"
                                    widget="pdfviewer"
                                    colspan="4"
                             />

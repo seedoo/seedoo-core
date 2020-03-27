@@ -56,9 +56,10 @@ class protocollo_carica_allegato_wizard(osv.TransientModel):
         return configurazione.allegati_descrizione_required
 
     def _default_preview(self, cr, uid, context):
-        attachment = self.pool.get('ir.attachment').browse(cr, uid, context['active_id'])
-        if attachment and attachment.file_type=='application/pdf':
-            return attachment.datas
+        if context and 'active_model' in context and context['active_model'] == 'ir.attachment':
+            attachment = self.pool.get('ir.attachment').browse(cr, uid, context['active_id'])
+            if attachment and attachment.file_type=='application/pdf':
+                return attachment.datas
         return False
 
     _defaults = {
