@@ -523,10 +523,10 @@ li.badge {
 .oe_dashboard_column .oe_employee_vignette .oe_employee_details h4 {
   margin-bottom: 15px;
 }
-.oe_dashboard_column .oe_kanban_record:nth-child(2) .oe_employee_image {
+.oe_dashboard_column .oe_kanban_record:nth-child(n+2) .oe_employee_image {
   display: none;
 }
-.oe_dashboard_column .oe_kanban_record:nth-child(2) .oe_employee_details h4 {
+.oe_dashboard_column .oe_kanban_record:nth-child(n+2) .oe_employee_details h4 {
   display: none;
 }
 .oe_dashboard_column .oe_employee_details .employee_data_list li {
