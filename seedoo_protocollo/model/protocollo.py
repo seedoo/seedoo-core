@@ -1302,15 +1302,11 @@ class protocollo_protocollo(orm.Model):
                         sender_receivers_pec_ids.append(sender_receiver_obj.id)
 
                 if receipt_type == 'conferma':
-                    attachment = self.pool.get('ir.attachment').create(cr, uid, {'name': 'conferma.xml',
-                                                                                 'datas_fname': 'conferma.xml',
-                                                                                 'datas': etree_tostring.encode(
-                                                                                     'base64')})
+                    attachment_data = ('conferma.xml', etree_tostring.encode('base64'))
+                    # attachment = self.pool.get('ir.attachment').create(cr, uid, {'name': 'conferma.xml', 'datas_fname': 'conferma.xml', 'datas': etree_tostring.encode('base64')})
                 elif receipt_type == 'annullamento':
-                    attachment = self.pool.get('ir.attachment').create(cr, uid, {'name': 'annullamento.xml',
-                                                                                 'datas_fname': 'annullamento.xml',
-                                                                                 'datas': etree_tostring.encode(
-                                                                                     'base64')})
+                    attachment_data = ('annullamento.xml', etree_tostring.encode('base64'))
+                    # attachment = self.pool.get('ir.attachment').create(cr, uid, {'name': 'annullamento.xml', 'datas_fname': 'annullamento.xml', 'datas': etree_tostring.encode('base64')})
 
                 # vals = {'pec_conferma_ref': mail.mail_message_id.id}
                 # self.write(cr, uid, [prot.id], vals)
@@ -1329,11 +1325,15 @@ class protocollo_protocollo(orm.Model):
                                                                                       'cancel_protocol')[1]
 
                 template = email_template_obj.browse(cr, uid, template_id, new_context)
-                template.attachment_ids = [(6, 0, [attachment])]
-                template.write({
-                    'mail_server_id': mail_server.id
-                })
-                mail_receipt_id = template.send_mail(prot.id, force_send=True)
+                # template.attachment_ids = [(6, 0, [attachment])]
+                # template.write({
+                #     'mail_server_id': mail_server.id
+                # })
+                # mail_receipt_id = template.send_mail(prot.id, force_send=True)
+                new_context.update({'protocollo_attachments': [attachment_data]})
+                new_context.update({'protocollo_mail_server_id': mail_server.id})
+                mail_receipt_id = template.with_context(new_context).send_mail(prot.id, force_send=True)
+                #mail_receipt_id = email_template_obj.send_mail(cr, uid, template_id, prot.id, force_send=True, context=new_context)
 
                 for sender_receiver_id in sender_receivers_pec_ids:
                     vals = {}

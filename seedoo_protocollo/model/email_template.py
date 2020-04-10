@@ -12,6 +12,12 @@ class EmailTemplate(models.Model):
     def generate_email(self, template_id, res_id):
         template_values = super(EmailTemplate, self).generate_email(template_id, res_id)
 
+        if self._context and 'protocollo_attachments' in self._context and self._context['protocollo_attachments']:
+            template_values['attachments'] = self._context['protocollo_attachments']
+
+        if self._context and 'protocollo_mail_server_id' in self._context and self._context['protocollo_mail_server_id']:
+            template_values['mail_server_id'] = self._context['protocollo_mail_server_id']
+
         body_html = template_values.get('body_html')
         if not body_html:
             return template_values
