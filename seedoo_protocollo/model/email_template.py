@@ -15,7 +15,8 @@ class EmailTemplate(models.Model):
         if self._context and 'protocollo_attachments' in self._context and self._context['protocollo_attachments']:
             template_values['attachments'] = self._context['protocollo_attachments']
 
-        if self._context and 'protocollo_mail_server_id' in self._context and self._context['protocollo_mail_server_id']:
+        #TODO eliminare la gestione con il valore protocollo_notification_mail_server_id usata su enterprise e usare solo questa
+        if self._context and 'protocollo_mail_server_id' in self._context and self._context['protocollo_mail_server_id'] and not template_values['mail_server_id']:
             template_values['mail_server_id'] = self._context['protocollo_mail_server_id']
 
         body_html = template_values.get('body_html')
