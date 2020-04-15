@@ -107,7 +107,12 @@ class res_partner(orm.Model):
             raise orm.except_orm('Errore!', errors)
 
     def check_email_validity(self, field, value, dispatch=True):
-        if re.match("^.+\\@(\\[?)[a-zA-Z0-9\\-\\.]+\\.([a-zA-Z]{2,13}|[0-9]{1,3})(\\]?)$", value)==None or re.match("^.*[,; ]+.*$", value)!=None:
+        # re.match("^.+\\@(\\[?)[a-zA-Z0-9\\-\\.]+\\.([a-zA-Z]{2,13}|[0-9]{1,3})(\\]?)$", value) re per validare il formato delle email
+        # re.match("^.*[,; ]+.*$", value) -> re per trovare se sono stati inseriti più indirizzi email, separati dai caratteri [,; ], all'interno di una stessa riga
+        # re.match("^.*[@]+.*[@]+.*$", value) -> re per trovare gli indirizzi email contenenti due occorrenze del caratter @
+        if re.match("^.+\\@(\\[?)[a-zA-Z0-9\\-\\.]+\\.([a-zA-Z]{2,13}|[0-9]{1,3})(\\]?)$", value)==None or \
+                re.match("^.*[,; ]+.*$", value)!=None or \
+                re.match("^.*[@]+.*[@]+.*$", value)!=None:
             error = 'Il campo ' + field.encode() + ' contiene un indirizzo email non valido'
             if dispatch:
                 self.dispatch_email_error(error)
