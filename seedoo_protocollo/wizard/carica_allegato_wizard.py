@@ -14,6 +14,16 @@ class protocollo_carica_allegato_wizard(osv.TransientModel):
     _name = 'protocollo.carica.allegato.wizard'
     _description = 'Allegato Protocollo'
 
+    def _get_preview_datas(self, cr, uid, ids, field, arg, context=None):
+        if isinstance(ids, (list, tuple)) and not len(ids):
+            return []
+        if isinstance(ids, (long, int)):
+            ids = [ids]
+        res = dict.fromkeys(ids, False)
+        for wizard in self.browse(cr, uid, ids):
+            res[wizard.id] = wizard.datas
+        return res
+
     _columns = {
         'read_only_mode': fields.boolean('Modalità Read Only', readonly=1),
         'datas_fname': fields.char('Nome Allegato', size=256, readonly=False),
@@ -21,7 +31,8 @@ class protocollo_carica_allegato_wizard(osv.TransientModel):
         'datas_description': fields.char('Descrizione', size=256, readonly=False),
         'error_description': fields.text('Errore', readonly=True),
         'attachment_description_required': fields.boolean('Descrizione allegato obbligatoria', readonly=1),
-        'preview': fields.binary('Anteprima Allegato', readonly=True),
+        #'preview': fields.binary('Anteprima Allegato', readonly=True),
+        'preview': fields.function(_get_preview_datas, type='binary', string='Anteprima Allegato', readonly=True)
     }
 
     def _default_read_only_mode(self, cr, uid, context):
@@ -55,12 +66,12 @@ class protocollo_carica_allegato_wizard(osv.TransientModel):
         configurazione = self.pool.get('protocollo.configurazione').browse(cr, uid, configurazione_ids[0])
         return configurazione.allegati_descrizione_required
 
-    def _default_preview(self, cr, uid, context):
-        if context and 'active_model' in context and context['active_model'] == 'ir.attachment':
-            attachment = self.pool.get('ir.attachment').browse(cr, uid, context['active_id'])
-            if attachment and attachment.file_type=='application/pdf':
-                return attachment.datas
-        return False
+    # def _default_preview(self, cr, uid, context):
+    #     if context and 'active_model' in context and context['active_model'] == 'ir.attachment':
+    #         attachment = self.pool.get('ir.attachment').browse(cr, uid, context['active_id'])
+    #         if attachment and attachment.file_type=='application/pdf':
+    #             return attachment.datas
+    #     return False
 
     _defaults = {
         'read_only_mode': _default_read_only_mode,
@@ -68,7 +79,7 @@ class protocollo_carica_allegato_wizard(osv.TransientModel):
         'datas': _default_datas,
         'datas_description': _default_datas_description,
         'attachment_description_required': _default_attachment_description_required,
-        'preview': _default_preview
+        #'preview': _default_preview
     }
 
     def on_change_datas(self, cr, uid, ids, datas, context=None):
