@@ -77,9 +77,8 @@ openerp.web_pdf_widget = function(instance)
     function b64toBlob(b64Data, contentType) {
         contentType = contentType || '';
         var sliceSize = 1024;
-        console.log(b64Data);
-        var byteCharacters = atob(b64Data);
-        console.log(byteCharacters);
+
+        var byteCharacters = atob(b64Data.replace(/\r\n/g, ''));
         var byteArrays = [];
 
         for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
