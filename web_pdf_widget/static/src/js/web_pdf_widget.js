@@ -32,7 +32,9 @@ openerp.web_pdf_widget = function(instance)
             var url;
             if (this.get('value') && !instance.web.form.is_bin_size(this.get('value'))) {
                 var blob = b64toBlob(this.get('value'), 'application/pdf');
+                console.log(blob);
                 var blobUrl = URL.createObjectURL(blob);
+                console.log(blobUrl);
                 url = blobUrl;
             } else if (this.get('value')) {
                 var id = JSON.stringify(this.view.datarecord.id || null);
@@ -79,7 +81,6 @@ openerp.web_pdf_widget = function(instance)
         var sliceSize = 1024;
 
         var byteCharacters = atob(b64Data.replace(/\s/g, ''));
-        console.log('dopo');
         var byteArrays = [];
 
         for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
