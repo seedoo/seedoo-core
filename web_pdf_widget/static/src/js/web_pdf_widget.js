@@ -79,6 +79,7 @@ openerp.web_pdf_widget = function(instance)
         var sliceSize = 1024;
 
         var byteCharacters = atob(b64Data.replace(/\s/g, ''));
+        console.log('dopo');
         var byteArrays = [];
 
         for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
