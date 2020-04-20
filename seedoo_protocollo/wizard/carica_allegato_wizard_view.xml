@@ -16,6 +16,7 @@ this module contains the full copyright notices and license terms. -->
 
                             <field name="datas"
                                    filename="datas_fname"
+                                   required="1"
                                    on_change="on_change_datas(datas)"
                                    attrs="{'readonly':[('read_only_mode','=',True)]}"
                                    options='{"max_file_size": "100M"}'
@@ -49,21 +50,37 @@ this module contains the full copyright notices and license terms. -->
             </field>
         </record>
 
-        <act_window id="protocollo_carica_allegato_wizard_action"
-                    name="Carica Allegato"
-                    res_model="protocollo.carica.allegato.wizard"
-                    view_type="form"
-                    view_mode="form"
-                    target="new"
-        />
+<!--        <act_window id="protocollo_carica_allegato_wizard_action"-->
+<!--                    name="Carica Allegato"-->
+<!--                    res_model="protocollo.carica.allegato.wizard"-->
+<!--                    view_type="form"-->
+<!--                    view_mode="form"-->
+<!--                    target="new"-->
+<!--        />-->
 
-        <act_window id="protocollo_mostra_allegato_wizard_action"
-                    name="Allegato"
-                    res_model="protocollo.carica.allegato.wizard"
-                    view_type="form"
-                    view_mode="form"
-                    target="new"
-        />
+<!--        <act_window id="protocollo_mostra_allegato_wizard_action"-->
+<!--                    name="Allegato"-->
+<!--                    res_model="protocollo.carica.allegato.wizard"-->
+<!--                    view_type="form"-->
+<!--                    view_mode="form"-->
+<!--                    target="new"-->
+<!--        />-->
+
+        <record id="protocollo_carica_allegato_wizard_action" model="ir.actions.server">
+            <field name="name">Carica Allegato</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="seedoo_protocollo.model_protocollo_protocollo"/>
+            <field name="state">code</field>
+            <field name="code">action = self.carica_allegato_protocollo(cr, uid, context.get('active_ids', []), context)</field>
+        </record>
+
+        <record id="protocollo_mostra_allegato_wizard_action" model="ir.actions.server">
+            <field name="name">Mostra Allegato</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="seedoo_protocollo.model_protocollo_protocollo"/>
+            <field name="state">code</field>
+            <field name="code">action = self.mostra_allegato_protocollo(cr, uid, context.get('active_ids', []), context)</field>
+        </record>
 
         <record id="protocollo_elimina_allegato_action" model="ir.actions.server">
             <field name="name">Elimina Allegato</field>

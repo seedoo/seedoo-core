@@ -2387,6 +2387,57 @@ class protocollo_protocollo(orm.Model):
 
         return attachment_created_ids
 
+    def carica_allegato_protocollo(self, cr, uid, ids, context=None):
+        configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
+        configurazione = self.pool.get('protocollo.configurazione').browse(cr, uid, configurazione_ids[0])
+        if context['active_model'] == 'ir.attachment':
+            attachment = self.pool.get('ir.attachment').browse(cr, uid, context['active_id'])
+            wizard_datas = {
+                'read_only_mode': False,
+                'datas_fname': attachment.datas_fname,
+                'datas': attachment.datas,
+                'datas_description': attachment.datas_description,
+                'attachment_description_required': configurazione.allegati_descrizione_required
+            }
+        else:
+            wizard_datas = {
+                'read_only_mode': False,
+            }
+        wizard_id = self.pool.get('protocollo.carica.allegato.wizard').create(cr, uid, wizard_datas)
+        return {
+            'name': 'Carica Allegato',
+            'view_type': 'form',
+            'view_mode': 'form,tree',
+            'res_model': 'protocollo.carica.allegato.wizard',
+            'res_id': wizard_id,
+            'context': context,
+            'type': 'ir.actions.act_window',
+            'target': 'new'
+        }
+
+    def mostra_allegato_protocollo(self, cr, uid, ids, context=None):
+        configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
+        configurazione = self.pool.get('protocollo.configurazione').browse(cr, uid, configurazione_ids[0])
+        attachment = self.pool.get('ir.attachment').browse(cr, uid, context['active_id'])
+        wizard_datas = {
+            'read_only_mode': True,
+            'datas_fname': attachment.datas_fname,
+            'datas': attachment.datas,
+            'datas_description': attachment.datas_description,
+            'attachment_description_required': configurazione.allegati_descrizione_required
+        }
+        wizard_id = self.pool.get('protocollo.carica.allegato.wizard').create(cr, uid, wizard_datas)
+        return {
+            'name': 'Allegato',
+            'view_type': 'form',
+            'view_mode': 'form,tree',
+            'res_model': 'protocollo.carica.allegato.wizard',
+            'res_id': wizard_id,
+            'context': context,
+            'type': 'ir.actions.act_window',
+            'target': 'new'
+        }
+
     def elimina_allegato_protocollo(self, cr, uid, ids, context=None):
         protocollo_id = False
         attachment_obj = self.pool.get('ir.attachment')

@@ -30,15 +30,10 @@ openerp.web_pdf_widget = function(instance)
         render_value: function() {
             var self = this;
             var url;
+            console.log(this.get('value'));
             if (this.get('value') && !instance.web.form.is_bin_size(this.get('value'))) {
                 var blob = b64toBlob(this.get('value'), 'application/pdf');
-                console.log(blob);
                 var blobUrl = URL.createObjectURL(blob);
-                console.log(blobUrl);
-                if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-                    blobUrl = 'blob:' + 'https://demo.seedoo.it/' + blobUrl.replace('blob:', '');
-                    console.log(blobUrl);
-                }
                 url = blobUrl;
             } else if (this.get('value')) {
                 var id = JSON.stringify(this.view.datarecord.id || null);
