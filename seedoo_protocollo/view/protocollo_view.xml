@@ -756,7 +756,7 @@ this module contains the full copyright notices and license terms. -->
                                                 <t t-name="kanban-box">
                                                     <div t-if="!record.is_main.raw_value" style="position: relative; margin-bottom:10px; margin-right:10px" class="item_box">
                                                         <a type="action" name="%(protocollo_elimina_allegato_action)d" t-if="record.edit.raw_value" class="oe_edit_only" style="position: absolute; right: 5px; padding: 0 4px; display: inline-block;background: rgba(255,255,255,0.6);">X</a>
-                                                        <a type="action" name="%(protocollo_mostra_allegato_wizard_action)d" t-if="read_only_mode" context="{'read_only_mode': True}">
+                                                        <a type="action" name="%(protocollo_mostra_allegato_wizard_action)d" t-if="read_only_mode">
                                                             <div class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_color_border" style="height: 100%">
                                                                 <table class="oe_kanban_table">
                                                                     <tr>
@@ -779,7 +779,7 @@ this module contains the full copyright notices and license terms. -->
                                                                 </table>
                                                             </div>
                                                         </a>
-                                                        <a type="action" name="%(protocollo_carica_allegato_wizard_action)d" t-if="!read_only_mode" context="{'read_only_mode': False}">
+                                                        <a type="action" name="%(protocollo_carica_allegato_wizard_action)d" t-if="!read_only_mode">
                                                             <div class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_color_border" style="height: 100%">
                                                                 <table class="oe_kanban_table">
                                                                     <tr>

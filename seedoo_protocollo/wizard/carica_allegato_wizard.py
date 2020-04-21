@@ -21,7 +21,11 @@ class protocollo_carica_allegato_wizard(osv.TransientModel):
             ids = [ids]
         res = dict.fromkeys(ids, False)
         for wizard in self.browse(cr, uid, ids):
-            res[wizard.id] = wizard.datas
+            res[wizard.id] = False
+            if wizard.datas:
+                mimetype = magic.from_buffer(base64.b64decode(wizard.datas), mime=True)
+                if mimetype == 'application/pdf':
+                    res[wizard.id] = wizard.datas
         return res
 
     _columns = {
@@ -31,56 +35,8 @@ class protocollo_carica_allegato_wizard(osv.TransientModel):
         'datas_description': fields.char('Descrizione', size=256, readonly=False),
         'error_description': fields.text('Errore', readonly=True),
         'attachment_description_required': fields.boolean('Descrizione allegato obbligatoria', readonly=1),
-        #'preview': fields.binary('Anteprima Allegato', readonly=True),
         'preview': fields.function(_get_preview_datas, type='binary', string='Anteprima Allegato', readonly=True)
     }
-
-    # def _default_read_only_mode(self, cr, uid, context):
-    #     if context and 'read_only_mode' in context and context['read_only_mode']:
-    #         return True
-    #     return False
-    #
-    # def _default_datas_fname(self, cr, uid, context):
-    #     if context and 'active_model' in context and context['active_model']=='ir.attachment':
-    #         attachment = self.pool.get('ir.attachment').browse(cr, uid, context['active_id'])
-    #         if attachment:
-    #             return attachment.datas_fname
-    #     return False
-    #
-    # def _default_datas(self, cr, uid, context):
-    #     if context and 'active_model' in context and context['active_model'] == 'ir.attachment':
-    #         attachment = self.pool.get('ir.attachment').browse(cr, uid, context['active_id'])
-    #         if attachment:
-    #             return attachment.datas
-    #     return False
-    #
-    # def _default_datas_description(self, cr, uid, context):
-    #     if context and 'active_model' in context and context['active_model'] == 'ir.attachment':
-    #         attachment = self.pool.get('ir.attachment').browse(cr, uid, context['active_id'])
-    #         if attachment:
-    #             return attachment.datas_description
-    #     return False
-    #
-    # def _default_attachment_description_required(self, cr, uid, context):
-    #     configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
-    #     configurazione = self.pool.get('protocollo.configurazione').browse(cr, uid, configurazione_ids[0])
-    #     return configurazione.allegati_descrizione_required
-    #
-    # def _default_preview(self, cr, uid, context):
-    #     if context and 'active_model' in context and context['active_model'] == 'ir.attachment':
-    #         attachment = self.pool.get('ir.attachment').browse(cr, uid, context['active_id'])
-    #         if attachment and attachment.file_type=='application/pdf':
-    #             return attachment.datas
-    #     return False
-    #
-    # _defaults = {
-    #     'read_only_mode': _default_read_only_mode,
-    #     'datas_fname': _default_datas_fname,
-    #     'datas': _default_datas,
-    #     'datas_description': _default_datas_description,
-    #     'attachment_description_required': _default_attachment_description_required,
-    #     'preview': _default_preview
-    # }
 
     def on_change_datas(self, cr, uid, ids, datas, context=None):
         if ids:

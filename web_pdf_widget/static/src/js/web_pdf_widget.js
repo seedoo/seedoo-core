@@ -30,7 +30,6 @@ openerp.web_pdf_widget = function(instance)
         render_value: function() {
             var self = this;
             var url;
-            console.log(this.get('value'));
             if (this.get('value') && !instance.web.form.is_bin_size(this.get('value'))) {
                 var blob = b64toBlob(this.get('value'), 'application/pdf');
                 var blobUrl = URL.createObjectURL(blob);
