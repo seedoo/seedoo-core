@@ -240,7 +240,7 @@ this module contains the full copyright notices and license terms. -->
                   ('pec_type','!=', False),('server_id.user_ids','in',uid), ('recovered_message_parent', '=', False)]</field>
         </record>
 
-        <record model='ir.ui.view' id='pec_message_search_view_protocol'>
+        <record id="pec_message_search_view_protocol" model="ir.ui.view">
             <field name="name">message.search.form.protocol</field>
             <field name="model">mail.message</field>
             <field name="inherit_id" ref="l10n_it_pec_messages.pec_message_search_view"/>
@@ -265,7 +265,22 @@ this module contains the full copyright notices and license terms. -->
             </field>
         </record>
 
-        <record model='ir.ui.view' id='message_pec_tree_protocol'>
+        <record id="out_pec_message_search_view_protocol" model="ir.ui.view">
+            <field name="name">out.message.search.form.protocol</field>
+            <field name="model">mail.message</field>
+            <field name="inherit_id" ref="l10n_it_pec_messages.out_pec_message_search_view"/>
+            <field name="arch" type="xml">
+                <group string='Tipologia PEC' position="after">
+                     <group string="Stato">
+                        <filter string="Protocollato" name="protocollato" domain="[('pec_state','=','protocol')]"/>
+                        <filter string="Da protocollare" name="da_protocollare" domain="[('pec_state','=','new')]"/>
+                        <filter string="Non protocollato" name="non_protocollato" domain="[('pec_state','=','not_protocol')]"/>
+                    </group>
+                </group>
+            </field>
+        </record>
+
+        <record id="message_pec_tree_protocol" model="ir.ui.view">
             <field name="name">message.pec.tree.protocol</field>
             <field name="model">mail.message</field>
             <field name="inherit_id" ref="l10n_it_pec_messages.message_pec_tree"/>
@@ -277,6 +292,19 @@ this module contains the full copyright notices and license terms. -->
                 </xpath>
                 <xpath expr="//field[@name='date']" position="replace">
                     <field name="server_received_datetime"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="out_message_pec_tree_protocol" model="ir.ui.view">
+            <field name="name">out.message.pec.tree.protocol</field>
+            <field name="model">mail.message</field>
+            <field name="inherit_id" ref="l10n_it_pec_messages.out_message_pec_tree"/>
+            <field name="priority">100</field>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='pec_server_user']" position="after">
+                    <field name="pec_state"/>
+                    <field name="recovered_message_parent" invisible="1"/>
                 </xpath>
             </field>
         </record>
@@ -297,8 +325,11 @@ this module contains the full copyright notices and license terms. -->
                             attrs="{'invisible':[('ripristina_da_protocollare_visibility','=',False)]}"
                             class="oe_highlight_warning btn_seedoo btn_ripristina_messaggio"/>
                 </xpath>
-                <xpath expr="//field[@name='date']" position="replace">
-                    <field name="server_received_datetime" readonly="1"/>
+                <xpath expr="//field[@name='date']" position="attributes">
+                    <attribute name="attrs">{'invisible':[('direction','=','in')]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='date']" position="before">
+                    <field name="server_received_datetime" attrs="{'invisible':[('direction','!=','in')]}" readonly="1"/>
                 </xpath>
                 <xpath expr="//field[@name='author_id']" position="after">
                     <field name="pec_state"/>
@@ -313,7 +344,7 @@ this module contains the full copyright notices and license terms. -->
             </field>
         </record>
 
-        <record model='ir.ui.view' id='sharedmail_message_search_view_protocol'>
+        <record id="sharedmail_message_search_view_protocol" model="ir.ui.view">
             <field name="name">message.sharedmail.search.protocol</field>
             <field name="model">mail.message</field>
             <field name="inherit_id" ref="sharedmail.sharedmail_message_search_view"/>
@@ -338,7 +369,22 @@ this module contains the full copyright notices and license terms. -->
             </field>
         </record>
 
-        <record model='ir.ui.view' id='message_sharedmail_tree_protocol'>
+        <record id="out_sharedmail_message_search_view_protocol" model="ir.ui.view">
+            <field name="name">out.message.sharedmail.search.protocol</field>
+            <field name="model">mail.message</field>
+            <field name="inherit_id" ref="sharedmail.out_sharedmail_message_search_view"/>
+            <field name="arch" type="xml">
+                <search string="Message" position="inside">
+                    <group string="Stato">
+                        <filter string="Protocollato" name="protocollato" domain="[('sharedmail_state','=','protocol')]"/>
+                        <filter string="Da protocollare" name="da_protocollare" domain="[('sharedmail_state','=','new')]"/>
+                        <filter string="Non protocollato" name="non_protocollato" domain="[('sharedmail_state','=','not_protocol')]"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="message_sharedmail_tree_protocol" model="ir.ui.view">
             <field name="name">message.sharedmail.tree.protocol</field>
             <field name="model">mail.message</field>
             <field name="inherit_id" ref="sharedmail.message_sharedmail_tree"/>
@@ -350,6 +396,19 @@ this module contains the full copyright notices and license terms. -->
                 </xpath>
                 <xpath expr="//field[@name='date']" position="replace">
                     <field name="server_received_datetime"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="out_message_sharedmail_tree_protocol" model="ir.ui.view">
+            <field name="name">out.message.sharedmail.tree.protocol</field>
+            <field name="model">mail.message</field>
+            <field name="inherit_id" ref="sharedmail.out_message_sharedmail_tree"/>
+            <field name="priority">100</field>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='server_sharedmail_user']" position="after">
+                    <field name="sharedmail_state" string="Stato in protocollo"/>
+                    <field name="recovered_message_parent" invisible="1"/>
                 </xpath>
             </field>
         </record>
@@ -370,8 +429,11 @@ this module contains the full copyright notices and license terms. -->
                             attrs="{'invisible':[('ripristina_da_protocollare_visibility','=',False)]}"
                             class="oe_highlight_warning btn_seedoo btn_ripristina_messaggio"/>
                 </xpath>
-                <xpath expr="//field[@name='date']" position="replace">
-                    <field name="server_received_datetime" readonly="1"/>
+                 <xpath expr="//field[@name='date']" position="attributes">
+                    <attribute name="attrs">{'invisible':[('direction_sharedmail','=','in')]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='date']" position="before">
+                    <field name="server_received_datetime" attrs="{'invisible':[('direction_sharedmail','!=','in')]}" readonly="1"/>
                 </xpath>
                 <xpath expr="//field[@name='author_id']" position="after">
                     <field name="sharedmail_state"/>
