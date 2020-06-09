@@ -40,7 +40,7 @@ class fetchmail_server(osv.osv):
         ], 'Provider'),
         'processed_folder': fields.char('Percorso folder email processate'),
         'error_folder': fields.char('Percorso folder email errore'),
-        'fetchmail_server_history_ids': fields.one2many('fetchmail.server.history', 'fetchmail_server_id', 'Storico'),
+        'fetchmail_server_history_ids': fields.one2many('fetchmail.server.history', 'fetchmail_server_id', 'Storico', readonly=True),
     }
 
     _defaults = {
@@ -188,6 +188,7 @@ class fetchmail_server(osv.osv):
                                                                      strip_attachments=(not server.attach),
                                                                      context=context)
                                 pop_server.dele(num)
+                                count += 1
                             except Exception as e:
                                 error_description += '- ' + str(e) + '\n'
                                 _logger.exception('Failed to process mail from %s server %s.', server.type, server.name)
