@@ -94,6 +94,10 @@ this module contains the full copyright notices and license terms. -->
                         <newline/>
                     </page>
                 </page>
+                <field name="classification_id" position="attributes">
+                    <attribute name="widget">m2o_tree</attribute>
+                    <attribute name="options">{'limit': 5000, 'label': 'complete_name', 'all_checkable': false, 'order': 'sequence', 'no_open': True}</attribute>
+                </field>
             </field>
         </record>
 
@@ -118,9 +122,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="arch" type="xml">
                 <tree string="Titolario">
                     <field name="sequence" widget="handle"/>
-                    <field name="sequence"/>
-                    <field name="complete_name"/>
-                    <field name="parent_id"/>
+                    <field name="path_name"/>
                 </tree>
             </field>
         </record>
