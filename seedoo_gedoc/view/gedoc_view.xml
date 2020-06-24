@@ -120,46 +120,51 @@ this module contains the full copyright notices and license terms. -->
                                statusbar_colors='{"open":"blue","closed":"green"}'/>
                     </header>
                     <sheet>
-                        <group col="4">
-                            <field name="name" class="oe_inline"/>
-                            <field name="description"
-                                   on_change="on_change_dossier_type_classification(dossier_type, classification_id, parent_id, description)"
-                                   class="oe_inline"/>
-                            <field name="dossier_type"
-                                   on_change="on_change_dossier_type_classification(dossier_type, classification_id, parent_id, description)"
-                                   context="{'call_by_dossier_type': True}"
-                            />
-                            <field name="date_open"/>
-                            <field name="dossier_typology"/>
-                            <field name="date_close"/>
-                            <field name="parent_id"
-                                   on_change="on_change_dossier_type_classification(dossier_type, classification_id, parent_id, description)"
-                                   domain="[('dossier_type', '=', parent_type)]"
-                                   attrs="{'invisible':[('dossier_type','=','fascicolo')], 'required':[('dossier_type','in',('sottofascicolo','inserto'))]}"
-                                   options="{'no_open': True}"
-                                   context="{'call_by_parent_id': True}"
-                            />
-                            <field name="parent_type" invisible="1"/>
-                            <field name="classification_id"
-                                   on_change="on_change_dossier_type_classification(dossier_type, classification_id, parent_id, description)"
-                                   attrs="{'readonly':['|',('state','=','closed'),('dossier_type','in',('sottofascicolo','inserto'))]}"
-                                   options="{'no_open': True}"
-                                   context="{'call_by_classification_id': True}"
-                                   colspan="4"
-                            />
+                        <group colspan="4" col="4">
+                            <group colspan="2">
+                                <field name="name" class="oe_inline"/>
+                                <field name="classification_id"
+                                       on_change="on_change_dossier_type_classification(dossier_type, classification_id, parent_id, description)"
+                                       attrs="{'readonly':['|',('state','=','closed'),('dossier_type','in',('sottofascicolo','inserto'))]}"
+                                       options="{'no_open': True}"
+                                       context="{'call_by_classification_id': True}"
+                                />
+                                <field name="description"
+                                       on_change="on_change_dossier_type_classification(dossier_type, classification_id, parent_id, description)"
+                                       class="oe_inline"
+                                />
+                                <field name="dossier_type"
+                                       on_change="on_change_dossier_type_classification(dossier_type, classification_id, parent_id, description)"
+                                       context="{'call_by_dossier_type': True}"
+                                />
+                                <field name="dossier_typology"/>
+                                <field name="parent_id"
+                                       on_change="on_change_dossier_type_classification(dossier_type, classification_id, parent_id, description)"
+                                       domain="[('dossier_type', '=', parent_type)]"
+                                       attrs="{'invisible':[('dossier_type','=','fascicolo')], 'required':[('dossier_type','in',('sottofascicolo','inserto'))]}"
+                                       options="{'no_open': True}"
+                                       context="{'call_by_parent_id': True}"
+                                />
+                                <field name="parent_type" invisible="1"/>
+                            </group>
+                            <group colspan="2">
+                                <field name="date_open"/>
+                                <field name="date_close"/>
+                            </group>
                         </group>
 
-                        <group col="8" string="Informazioni Generali">
-                            <field name="user_id"/>
-                            <field name="owner_partner_id"
-                                   options="{'limit': 10, 'create': false, 'create_edit': false}"/>
-                            <newline/>
-                            <field name="year"/>
-                            <field name="paperless"/>
-                            <newline/>
-                            <field name="partner_id"
-                                   attrs="{'invisible':[('dossier_typology','not in',('fisica', 'giuridica'))]}"/>
+                        <group string="Informazioni Generali" colspan="4" col="4">
+                            <group colspan="2">
+                                <field name="user_id"/>
+                                <field name="year"/>
+                                <field name="partner_id" attrs="{'invisible':[('dossier_typology','not in',('fisica', 'giuridica'))]}"/>
+                            </group>
+                            <group colspan="2">
+                                <field name="owner_partner_id" options="{'limit': 10, 'create': false, 'create_edit': false}"/>
+                                <field name="paperless"/>
+                            </group>
                         </group>
+
                         <notebook>
                             <page string="Sottofascicoli" attrs="{'invisible':[('dossier_type','!=','fascicolo')]}">
                                 <field name="sottofascicolo_ids"/>
