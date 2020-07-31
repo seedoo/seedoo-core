@@ -9,6 +9,7 @@ from openerp import tools, api
 from openerp import netsvc
 from openerp.osv import *
 from openerp.osv import orm, fields
+from openerp.addons.base.ir.ir_mail_server import extract_rfc2822_addresses
 
 _logger = logging.getLogger(__name__)
 
@@ -110,9 +111,11 @@ class res_partner(orm.Model):
         # re.match("^.+\\@(\\[?)[a-zA-Z0-9\\-\\.]+\\.([a-zA-Z]{2,13}|[0-9]{1,3})(\\]?)$", value) re per validare il formato delle email
         # re.match("^.*[,; ]+.*$", value) -> re per trovare se sono stati inseriti più indirizzi email, separati dai caratteri [,; ], all'interno di una stessa riga
         # re.match("^.*[@]+.*[@]+.*$", value) -> re per trovare gli indirizzi email contenenti due occorrenze del caratter @
+        # extract_rfc2822_addresses(value) -> re usata dal validatore odoo prima di mandare la mail
         if re.match("^.+\\@(\\[?)[a-zA-Z0-9\\-\\.]+\\.([a-zA-Z]{2,13}|[0-9]{1,3})(\\]?)$", value)==None or \
                 re.match("^.*[,; ]+.*$", value)!=None or \
-                re.match("^.*[@]+.*[@]+.*$", value)!=None:
+                re.match("^.*[@]+.*[@]+.*$", value)!=None or \
+                not extract_rfc2822_addresses(value):
             error = 'Il campo ' + field.encode() + ' contiene un indirizzo email non valido'
             if dispatch:
                 self.dispatch_email_error(error)
