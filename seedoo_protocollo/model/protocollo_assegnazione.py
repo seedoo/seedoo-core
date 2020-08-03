@@ -203,6 +203,8 @@ class protocollo_assegnazione(orm.Model):
         'child_ids': fields.one2many('protocollo.assegnazione', 'parent_id', 'Assegnazioni Dipendenti'),
 
         'motivazione_rifiuto': fields.text('Motivazione del Rifiuto'),
+
+        'archivio_id': fields.many2one('protocollo.archivio', 'Archivio', required=True),
     }
 
     # _sql_constraints = [
