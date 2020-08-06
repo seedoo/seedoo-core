@@ -6,6 +6,7 @@ import logging
 
 from openerp import SUPERUSER_ID
 from openerp.osv import fields, osv
+from datetime import datetime
 from utility.conversion import ConversionUtility
 from lxml import etree
 from ..segnatura.segnatura_xml_parser import SegnaturaXMLParser
@@ -468,7 +469,14 @@ class ProtocolloMailPecWizard(osv.TransientModel):
         srvals = {
             'sender_protocol': segnatura_xml.getNumeroRegistrazione(),
             'sender_register': segnatura_xml.getCodiceRegistro(),
-            'sender_registration_date': segnatura_xml.getDataRegistrazione()
+            'sender_registration_date': False
         }
+
+        try:
+            data_registrazione = segnatura_xml.getDataRegistrazione()
+            datetime.strptime(data_registrazione, "%Y-%m-%d")
+            srvals['sender_registration_date'] = data_registrazione
+        except ValueError:
+            _logger.error("Error in segnature parsing: format date of tag DataRegistrazione must be YYYY-MM-DD but is %s", data_registrazione)
 
         return srvals
