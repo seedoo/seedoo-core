@@ -8,6 +8,7 @@ import functools
 
 from openerp import SUPERUSER_ID, api, _
 from openerp.osv import fields, osv
+from openerp.exceptions import AccessError
 
 _logger = logging.getLogger(__name__)
 
@@ -160,7 +161,7 @@ class protocollo_protocollo(osv.Model):
     ####################################################################################################################
     def get_protocollo_base_visibile_ids(self, cr, uid, current_user_id, archivio_ids, archivio_ids_str,
                                           employee_ids, employee_ids_str,
-                                          employee_department_ids, employee_department_ids_str):
+                                          employee_department_ids, employee_department_ids_str, protocollo_ids_filter):
         protocollo_visible_ids = []
 
         start_time = time.time()
@@ -171,7 +172,8 @@ class protocollo_protocollo(osv.Model):
             WHERE pp.state = 'draft' AND 
                   pp.user_id = %s AND 
                   pp.archivio_id IN (''' + archivio_ids_str + ''')
-        ''', (current_user_id,))
+                  ''' + protocollo_ids_filter + '''
+        ''', (current_user_id, ))
         protocollo_ids_drafts = [res[0] for res in cr.fetchall()]
         protocollo_visible_ids.extend(protocollo_ids_drafts)
         _logger.debug("---Query draft %s seconds ---" % (time.time() - start_time))
@@ -185,6 +187,7 @@ class protocollo_protocollo(osv.Model):
                 WHERE pp.registration_date IS NOT NULL AND
                       pp.registration_employee_id IN (''' + employee_ids_str + ''') AND
                       pp.archivio_id IN (''' + archivio_ids_str + ''')
+                      ''' + protocollo_ids_filter + '''
             ''')
             protocollo_ids_created = [res[0] for res in cr.fetchall()]
             protocollo_visible_ids.extend(protocollo_ids_created)
@@ -205,6 +208,7 @@ class protocollo_protocollo(osv.Model):
                       ) AND
                       pa.state != 'rifiutato' AND 
                       pp.archivio_id IN (''' + archivio_ids_str + ''')
+                      ''' + protocollo_ids_filter + '''
             ''')
             protocollo_ids_assigned_not_refused = [res[0] for res in cr.fetchall()]
             protocollo_visible_ids.extend(protocollo_ids_assigned_not_refused)
@@ -234,7 +238,7 @@ class protocollo_protocollo(osv.Model):
     def get_protocollo_configuration_visibile_ids(self, cr, uid, current_user_id, archivio_ids, archivio_ids_str,
                                           employee_ids, employee_ids_str,
                                           employee_department_ids, employee_department_ids_str,
-                                          employee_department_child_ids, employee_department_child_ids_str, aoo_ids):
+                                          employee_department_child_ids, employee_department_child_ids_str, aoo_ids, protocollo_ids_filter):
         protocollo_visible_ids = []
         aoo_id_str = ', '.join(map(str, aoo_ids))
         assegnazione_obj = self.pool.get('protocollo.assegnazione')
@@ -251,6 +255,7 @@ class protocollo_protocollo(osv.Model):
                       pp.reserved=FALSE AND
                       pp.type IN (''' + str(types).strip('[]') + ''') AND
                       pp.archivio_id IN (''' + archivio_ids_str + ''')
+                      ''' + protocollo_ids_filter + '''
             ''')
             protocollo_ids_department = [res[0] for res in cr.fetchall()]
             protocollo_visible_ids.extend(protocollo_ids_department)
@@ -268,6 +273,7 @@ class protocollo_protocollo(osv.Model):
                       pp.reserved=FALSE AND
                       pp.type IN (''' + str(types).strip('[]') + ''') AND
                       pp.archivio_id IN (''' + archivio_ids_str + ''')
+                      ''' + protocollo_ids_filter + '''
             ''')
             protocollo_ids_department_childs = [res[0] for res in cr.fetchall()]
             protocollo_visible_ids.extend(protocollo_ids_department_childs)
@@ -284,6 +290,7 @@ class protocollo_protocollo(osv.Model):
                       pp.state = 'draft' AND
                       pp.aoo_id IN (''' + aoo_id_str + ''') AND
                       pp.archivio_id IN (''' + archivio_ids_str + ''')
+                      ''' + protocollo_ids_filter + '''
             ''')
             protocollo_ids_aoo = [res[0] for res in cr.fetchall()]
             protocollo_visible_ids.extend(protocollo_ids_aoo)
@@ -300,6 +307,7 @@ class protocollo_protocollo(osv.Model):
                       pp.registration_date IS NOT NULL AND
                       pp.aoo_id IN (''' + aoo_id_str + ''') AND
                       pp.archivio_id IN (''' + archivio_ids_str + ''')
+                      ''' + protocollo_ids_filter + '''
             ''')
             protocollo_ids_aoo = [res[0] for res in cr.fetchall()]
             protocollo_visible_ids.extend(protocollo_ids_aoo)
@@ -321,6 +329,7 @@ class protocollo_protocollo(osv.Model):
                       pa.parent_id IS NULL AND
                       pa.assegnatario_employee_department_id IN (''' + employee_department_ids_str + ''') AND
                       pa.state != 'rifiutato'
+                      ''' + protocollo_ids_filter + '''
             ''')
             protocollo_ids_registrati_ass_ut_uff = [res[0] for res in cr.fetchall()]
             protocollo_visible_ids.extend(protocollo_ids_registrati_ass_ut_uff)
@@ -341,6 +350,7 @@ class protocollo_protocollo(osv.Model):
                       pa.tipologia_assegnatario = 'department' AND
                       pa.assegnatario_department_id IN (''' + employee_department_child_ids_str + ''') AND
                       pa.state != 'rifiutato'
+                      ''' + protocollo_ids_filter + '''
             ''')
             protocollo_ids_ass_uff_fig = [res[0] for res in cr.fetchall()]
             protocollo_visible_ids.extend(protocollo_ids_ass_uff_fig)
@@ -362,6 +372,7 @@ class protocollo_protocollo(osv.Model):
                       pa.parent_id IS NULL AND
                       pa.assegnatario_employee_department_id IN (''' + employee_department_child_ids_str + ''') AND
                       pa.state != 'rifiutato'
+                      ''' + protocollo_ids_filter + '''
             ''')
             protocollo_ids_ass_ut_uff_fig = [res[0] for res in cr.fetchall()]
             protocollo_visible_ids.extend(protocollo_ids_ass_ut_uff_fig)
@@ -382,6 +393,7 @@ class protocollo_protocollo(osv.Model):
                       pa.tipologia_assegnatario = 'employee' AND
                       pa.assegnatario_employee_department_id IN (''' + employee_department_ids_str + ''') AND
                       pa.state = 'rifiutato'
+                      ''' + protocollo_ids_filter + '''
             ''')
             protocollo_ids_ass_rif_ut_uff = [res[0] for res in cr.fetchall()]
             protocollo_visible_ids.extend(protocollo_ids_ass_rif_ut_uff)
@@ -390,7 +402,7 @@ class protocollo_protocollo(osv.Model):
         return protocollo_visible_ids
 
 
-    def _get_protocollo_visibile_ids(self, cr, uid, current_user_id, archivio_ids):
+    def _get_protocollo_visibile_ids(self, cr, uid, current_user_id, archivio_ids, protocollo_ids):
         protocollo_visible_ids = []
 
         employee_obj = self.pool.get('hr.employee')
@@ -415,13 +427,15 @@ class protocollo_protocollo(osv.Model):
             employee_department_ids_str = ', '.join(map(str, employee_department_ids))
             employee_department_child_ids_str = ', '.join(map(str, employee_department_child_ids))
             archivio_ids_str = ', '.join(map(str, archivio_ids))
+            protocollo_ids_str = ', '.join(map(str, protocollo_ids))
+            protocollo_ids_filter = 'AND pp.id IN (%s)' % (protocollo_ids_str) if protocollo_ids else ''
 
             ############################################################################################################
             # Visibilità dei protocolli: casi base
             ############################################################################################################
             protocollo_base_visible_ids = self.get_protocollo_base_visibile_ids(
                 cr, uid, current_user_id, archivio_ids, archivio_ids_str, employee_ids, employee_ids_str,
-                employee_department_ids, employee_department_ids_str)
+                employee_department_ids, employee_department_ids_str, protocollo_ids_filter)
             protocollo_visible_ids.extend(protocollo_base_visible_ids)
             ############################################################################################################
 
@@ -431,7 +445,7 @@ class protocollo_protocollo(osv.Model):
             protocollo_configuration_visible_ids = self.get_protocollo_configuration_visibile_ids(
                 cr, uid, current_user_id, archivio_ids, archivio_ids_str, employee_ids, employee_ids_str,
                 employee_department_ids, employee_department_ids_str,
-                employee_department_child_ids, employee_department_child_ids_str, aoo_ids)
+                employee_department_child_ids, employee_department_child_ids_str, aoo_ids, protocollo_ids_filter)
             protocollo_visible_ids.extend(protocollo_configuration_visible_ids)
             ############################################################################################################
 
@@ -482,67 +496,90 @@ class protocollo_protocollo(osv.Model):
             if len(archivio_ids) > 0:
                 check_gruppo_archive = self.user_has_groups(cr, current_user_id, 'seedoo_protocollo.group_vedi_protocolli_archiviati')
                 if is_current or not check_gruppo_archive:
-                    protocollo_visible_ids = self._get_protocollo_visibile_ids(cr, SUPERUSER_ID, current_user_id, archivio_ids)
+                    protocollo_visible_ids = self._get_protocollo_visibile_ids(cr, SUPERUSER_ID, current_user_id, archivio_ids, [])
                 else:
                     protocollo_visible_ids = self._get_protocollo_archivio_ids(cr, archivio_ids)
 
         return [('id', 'in', protocollo_visible_ids)]
 
-    # def get_fields_without_skip_check(self, cr, uid):
-    #     return []
+    def filter_protocollo_ids(self, cr, uid, protocollo_ids, context):
+        protocollo_visible_ids = []
+        protocollo_archivio_obj = self.pool.get('protocollo.archivio')
+        is_current = True
+        if context and 'is_current_archive' in context:
+            is_current = context['is_current_archive']
+        archivio_ids = protocollo_archivio_obj._get_archivio_ids(cr, uid, is_current)
+        if len(archivio_ids) > 0:
+            check_gruppo_archive = self.user_has_groups(cr, uid, 'seedoo_protocollo.group_vedi_protocolli_archiviati')
+            if is_current or not check_gruppo_archive:
+                protocollo_visible_ids = self._get_protocollo_visibile_ids(cr, SUPERUSER_ID, uid, archivio_ids, protocollo_ids)
+            else:
+                protocollo_visible_ids = self._get_protocollo_archivio_ids(cr, archivio_ids)
+        return protocollo_visible_ids
 
-    def check_access_rule(self, cr, uid, ids, operation, context=None):
-        if context and context.has_key('skip_check') and context['skip_check']:
-            return ids
-        return super(protocollo_protocollo, self).check_access_rule(cr, uid, ids, operation, context=context)
+    # def check_access_rule(self, cr, uid, ids, operation, context=None):
+    #     if context and context.has_key('skip_check') and context['skip_check']:
+    #         return ids
+    #     return super(protocollo_protocollo, self).check_access_rule(cr, uid, ids, operation, context=context)
 
-    # def search_read(self, cr, uid, domain=None, fields=None, offset=0, limit=None, order=None, context=None):
-    #     record_ids = self.search(cr, uid, domain or [], offset=offset, limit=limit, order=order, context=context)
-    #     if not record_ids:
-    #         return []
-    #
-    #     if fields and fields == ['id']:
-    #         # shortcut read if we only want the ids
-    #         return [{'id': id} for id in record_ids]
-    #
-    #     # read() ignores active_test, but it would forward it to any downstream search call
-    #     # (e.g. for x2m or function fields), and this is not the desired behavior, the flag
-    #     # was presumably only meant for the main search().
-    #     # TODO: Move this to read() directly?
-    #     read_ctx = dict(context or {})
-    #     read_ctx.pop('active_test', None)
-    #     read_ctx['skip_check'] = True
-    #
-    #     fields_without_skip_check = self.get_fields_without_skip_check(cr, uid)
-    #     fields_with_skip_check = list(set(fields) - set(fields_without_skip_check))
-    #     result = self.read(cr, uid, record_ids, fields_with_skip_check, context=read_ctx)
-    #     if fields_without_skip_check:
-    #         read_ctx.pop('skip_check')
-    #         result_without_skip_check = self.read(cr, uid, record_ids, fields_without_skip_check, context=read_ctx)
-    #         for record_id in range(len(result_without_skip_check)):
-    #             result[record_id].update(result_without_skip_check[record_id])
-    #
-    #     if len(result) <= 1:
-    #         return result
-    #
-    #     # reorder read
-    #     index = dict((r['id'], r) for r in result)
-    #     return [index[x] for x in record_ids if x in index]
+    # def _apply_ir_rules(self, cr, uid, query, mode='read', context=None):
+    #     if context and context.has_key('skip_check') and context['skip_check']:
+    #         return
+    #     return super(protocollo_protocollo, self)._apply_ir_rules(cr, uid, query, mode='read', context=context)
 
-    def search(self, cr, uid, args, offset=0, limit=None, order=None, context=None, count=False):
-        if context and context.has_key('skip_check') and context['skip_check']:
-            return super(protocollo_protocollo, self).search(cr, SUPERUSER_ID, args, offset=offset, limit=limit, order=order, context=context, count=count)
-        return super(protocollo_protocollo, self).search(cr, uid, args, offset=offset, limit=limit, order=order, context=context, count=count)
+    def get_search_protocollo_ids(self, cr, uid, domain):
+        search_protocollo_ids = []
+        if not domain:
+            domain = []
+        for domain_condition in domain:
+            if len(domain_condition)==3 and domain_condition[0]=='id':
+                if domain_condition[1] == '=':
+                    search_protocollo_ids = [domain_condition[2]]
+                elif domain_condition[1] == 'in':
+                    search_protocollo_ids = domain_condition[2]
+        return search_protocollo_ids
 
-    def _apply_ir_rules(self, cr, uid, query, mode='read', context=None):
-        if context and context.has_key('skip_check') and context['skip_check']:
-            return
-        return super(protocollo_protocollo, self)._apply_ir_rules(cr, uid, query, mode='read', context=context)
+    def search_read(self, cr, uid, domain=None, fields=None, offset=0, limit=None, order=None, context=None):
+        search_ctx = dict(context or {})
+        search_ctx['skip_check_read'] = True
+        return super(protocollo_protocollo, self).search_read(cr, uid, domain, fields, offset, limit, order, search_ctx)
 
-    def message_subscribe(self, cr, uid, ids, partner_ids, subtype_ids=None, context=None):
-        if context and context.has_key('skip_check') and context['skip_check']:
-            return True
-        return super(protocollo_protocollo, self).message_subscribe(cr, uid, ids, partner_ids, subtype_ids=None, context=None)
+    def _search(self, cr, uid, args, offset=0, limit=None, order=None, context=None, count=False, access_rights_uid=None):
+        if uid == SUPERUSER_ID or (context and context.has_key('skip_check') and context['skip_check']):
+            return super(protocollo_protocollo, self)._search(cr, uid, args, offset, limit, order, context, count, access_rights_uid)
+
+        if context and context.has_key('filtered_protocollo_ids'):
+            filtered_protocollo_ids = context['filtered_protocollo_ids']
+        else:
+            search_protocollo_ids = self.get_search_protocollo_ids(cr, uid, args)
+            filtered_protocollo_ids = self.filter_protocollo_ids(cr, uid, search_protocollo_ids, context)
+
+        args = [('id', 'in', filtered_protocollo_ids)] + args
+        return super(protocollo_protocollo, self)._search(cr, uid, args, offset, limit, order, context, count, access_rights_uid)
+
+    def read(self, cr, uid, ids, fields=None, context=None, load='_classic_read'):
+        if not context or not context.has_key('skip_check_read') or not context['skip_check_read']:
+            self.check_access(cr, uid, ids, 'read', context)
+        return super(protocollo_protocollo, self).read(cr, uid, ids, fields, context, load)
+
+    def _write(self, cr, uid, ids, vals, context=None):
+        self.check_access(cr, uid, ids, 'write', context)
+        return super(protocollo_protocollo, self)._write(cr, uid, ids, vals, context)
+
+    def unlink(self, cr, uid, ids, context=None):
+        self.check_access(cr, uid, ids, 'unlink', context)
+        return super(protocollo_protocollo, self).unlink(cr, uid, ids, context)
+
+    def check_access(self, cr, uid, ids, operation, context):
+        if uid == SUPERUSER_ID or (context and context.has_key('skip_check') and context['skip_check']):
+            return None
+        protocollo_ids = self.filter_protocollo_ids(cr, uid, ids, context)
+        for id in ids:
+            if id not in protocollo_ids:
+                raise AccessError(_(
+                    "The requested operation cannot be completed due to group security restrictions. "
+                    "Please contact your system administrator.\n\n(Document type: %s, Operation: %s)"
+                ) % (self._description, operation))
 
     ####################################################################################################################
 

@@ -2703,8 +2703,15 @@ class protocollo_protocollo(orm.Model):
             context = {'pec_messages': True}
             protocollo_obj.message_post(cr, uid, protocollo_id, type="notification", context=context, **post_vars)
 
+
     def get_label_competenza(self, cr, uid):
         return 'Assegnario Competenza'
+
+
+    def message_subscribe(self, cr, uid, ids, partner_ids, subtype_ids=None, context=None):
+        if context and context.has_key('skip_check') and context['skip_check']:
+            return True
+        return super(protocollo_protocollo, self).message_subscribe(cr, uid, ids, partner_ids, subtype_ids=None, context=None)
 
 
 class protocollo_emergency_registry_line(orm.Model):
