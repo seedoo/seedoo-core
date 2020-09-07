@@ -117,7 +117,8 @@ class protocollo_aggiungi_classificazione_step1_wizard(osv.TransientModel):
             uid,
             context.get('active_id', False),
             assegnatario_ids,
-            employee_ids[0] if employee_ids else False
+            employee_ids[0] if employee_ids else False,
+            context={'riassegna': True}
         )
         if save_history:
             after = ', '.join([a.assegnatario_id.nome for a in protocollo.assegnazione_competenza_ids])

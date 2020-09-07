@@ -52,7 +52,7 @@
                 this.display_string(display);
                 return;
             }
-            if (! no_recurse) {
+            if (!no_recurse || this.get("effective_readonly")) {
                 var dataset = new instance.web.DataSetStatic(this, this.field.relation, self.build_context());
                 var def = this.alive(dataset.name_get([self.get("value")])).done(function(data) {
                     if (!data[0]) {
@@ -255,8 +255,10 @@
         },
         set_value: function(value_) {
             var self = this;
-            if (value_ instanceof Array) {
+            if (self.display_value == undefined) {
                 this.display_value = {};
+            }
+            if (value_ instanceof Array) {
                 if (! this.options.always_reload) {
                     this.display_value["" + value_[0]] = value_[1];
                 }

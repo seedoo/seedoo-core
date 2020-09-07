@@ -40,7 +40,7 @@ class fetchmail_server(osv.osv):
         ], 'Provider'),
         'processed_folder': fields.char('Percorso folder email processate'),
         'error_folder': fields.char('Percorso folder email errore'),
-        'fetchmail_server_history_ids': fields.one2many('fetchmail.server.history', 'fetchmail_server_id', 'Storico'),
+        'fetchmail_server_history_ids': fields.one2many('fetchmail.server.history', 'fetchmail_server_id', 'Storico', readonly=True),
     }
 
     _defaults = {
@@ -94,18 +94,65 @@ class fetchmail_server(osv.osv):
                             if exception:
                                 folder_name = server.error_folder
                             folder_name = self._get_folder_path(server, folder_name)
-                            rv, resp = imap_server.uid('copy', num, folder_name)
+
+                            rv, resp, exception_copy_description = None, None, None
+                            try:
+                                # copia della email dalla inbox alla cartella configurata
+                                rv, resp = imap_server.uid('copy', num, folder_name)
+                            except Exception as exception_copy:
+                                if exception_copy.message:
+                                    exception_copy_description = exception_copy.message
+                                else:
+                                    exception_copy_description = 'Failed to copy mail'
+                                _logger.exception('Failed to copy mail from %s server %s: %s', server.type, server.name, str(exception_copy))
+
                             if rv == 'OK':
-                                imap_server.uid('store', num, '+FLAGS', '(\\Deleted)')
-                                imap_server.expunge()
-                            else:
-                                imap_server.uid('store', num, '-FLAGS', '(\\Seen)')
-                                if not exception:
-                                    failed += 1
-                                error_description += '- ' + str(resp) + '\n'
-                                cr.rollback()
-                                _logger.debug("Error in %s server %s: %s", server.type, server.name, str(resp))
-                                continue
+                                try:
+                                    # eliminazione della email dalla inbox
+                                    imap_server.uid('store', num, '+FLAGS', '(\\Deleted)')
+                                except Exception as exception_delete:
+                                    if exception_delete.message:
+                                        exception_copy_description = exception_delete.message
+                                    else:
+                                        exception_copy_description = 'Failed to delete mail'
+                                    _logger.exception('Failed to delete mail from %s server %s: %s', server.type, server.name, str(exception_delete))
+
+                                if not exception_copy_description:
+                                    try:
+                                        imap_server.expunge()
+                                    except Exception as exception_expunge:
+                                        # se viene generato un errore durante un expunge non dovrebbe generare nessun
+                                        # problema (almeno non è stato evidenziato nei test fatti): infatti la email
+                                        # risulta comunque eliminata dalla cartella inbox. Per questo motivo,
+                                        # attualmente non facciamo nessuna gestione dell'errore
+                                        _logger.exception('Failed to expunge mail from %s server %s: %s', server.type, server.name, str(exception_expunge))
+                            elif not exception_copy_description:
+                                exception_copy_description = str(resp)
+                                _logger.exception("Error in %s server %s: %s", server.type, server.name, str(resp))
+
+                            if exception_copy_description:
+                                # si è verificata una eccezione durante la procedura di spostamento della email, quindi
+                                # è necessario rimettere la email come non letta e fare il rollback di quanto salvato
+                                # nel db
+                                try:
+                                    imap_server.uid('store', num, '-FLAGS', '(\\Seen)')
+                                    if not exception:
+                                        failed += 1
+                                    error_description += '- ' + exception_copy_description + '\n'
+                                    cr.rollback()
+                                    continue
+                                except Exception as exception_seen:
+                                    # si è verificata una eccezione mentre si cercava di mettere la email in non letta,
+                                    # essendo un caso limite porta a delle diverse conseguenze a secondo del punto in
+                                    # cui è stata generata la prima eccezione (in tutti i casi la email sarà comunque
+                                    # salvata su seedoo):
+                                    # - exception_copy: questo è il caso peggiore perché la email rimarrà nella inbox
+                                    # come letta ma non sarà spostata in nessuna cartella
+                                    # - exception_delete: la email rimarrà nella inbox come letta ma sarà spostata
+                                    # nella cartella
+                                    # - exception_delete: la email rimarrà nella inbox come letta ma sarà spostata
+                                    # nella cartella
+                                    _logger.exception('Failed to remove flag seen from %s server %s: %s', server.type, server.name, str(exception_seen))
                         ################################################################################################
 
                         if res_id and server.action_id:
@@ -114,7 +161,7 @@ class fetchmail_server(osv.osv):
                         cr.commit()
                         if not exception:
                             count += 1
-                    _logger.debug("Fetched %d email(s) on %s server %s; %d succeeded, %d failed.", count, server.type, server.name, (count - failed), failed)
+                    _logger.debug("Fetched %d email(s) on %s server %s; %d succeeded, %d failed.", (count + failed), server.type, server.name, count, failed)
                 except Exception as e:
                     error_description += '- ' + str(e) + '\n'
                     _logger.exception("General failure when trying to fetch mail from %s server %s.", server.type, server.name)
@@ -141,6 +188,7 @@ class fetchmail_server(osv.osv):
                                                                      strip_attachments=(not server.attach),
                                                                      context=context)
                                 pop_server.dele(num)
+                                count += 1
                             except Exception as e:
                                 error_description += '- ' + str(e) + '\n'
                                 _logger.exception('Failed to process mail from %s server %s.', server.type, server.name)

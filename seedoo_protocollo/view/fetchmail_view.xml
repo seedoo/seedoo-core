@@ -13,7 +13,7 @@
                 </button>
 
                 <notebook position="inside">
-                    <page string="Seedoo">
+                    <page string="Seedoo" attrs="{'invisible': [('type','!=','imap')]}">
                         <group>
                             <field name="move_processed_emails"/>
                             <field name="email_account" attrs="{'invisible': [('move_processed_emails','=',False)], 'required': [('move_processed_emails','=',True)]}"/>

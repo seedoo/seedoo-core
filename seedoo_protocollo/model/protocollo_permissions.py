@@ -76,7 +76,9 @@ class protocollo_protocollo(osv.Model):
                       pa.tipologia_assegnazione = 'competenza' AND
                       pa.state = %s AND
                       pa.assegnatario_department_id = he.department_id AND
-                      he.id = %s
+                      he.id = %s AND
+                      he.resource_id = rr.id AND
+                      rr.active = TRUE
             ''', (str(protocollo.id), stato, str(assegnatario_employee_id)))
         else:
             cr.execute('''
@@ -88,7 +90,8 @@ class protocollo_protocollo(osv.Model):
                       pa.state = %s AND
                       pa.assegnatario_department_id = he.department_id AND
                       he.resource_id = rr.id AND
-                      rr.user_id = %s
+                      rr.user_id = %s AND
+                      rr.active = TRUE
             ''', (str(protocollo.id), stato, str(uid)))
         assegnazione_ids = [res[0] for res in cr.fetchall()]
         if len(assegnazione_ids) > 0:
@@ -125,7 +128,8 @@ class protocollo_protocollo(osv.Model):
                           pa.state = %s AND
                           pa.assegnatario_department_id = he.department_id AND
                           he.resource_id = rr.id AND
-                          rr.user_id = %s AND 
+                          rr.user_id = %s AND
+                          rr.active = TRUE AND 
                           pa.id NOT IN (
                                 SELECT pa2.parent_id
                                 FROM protocollo_assegnazione pa2

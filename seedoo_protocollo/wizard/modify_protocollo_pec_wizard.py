@@ -117,7 +117,7 @@ class wizard(osv.TransientModel):
         body = "<div class='%s'><ul>" % action_class
         for key, after_item in after.items():
             body = body + "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#007ea6'> %s </span></li>" \
-                              % (after_item['name'], before[key]['mail'].encode("utf-8"), after_item['mail'].encode("utf-8"))
+                              % (after_item['name'], before[key]['mail'], after_item['mail'])
         body += "</ul></div>"
         post_vars = {'subject': "Modificato indirizzo PEC: %s" % wizard.cause,
                      'body': body,

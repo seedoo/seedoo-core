@@ -38,7 +38,6 @@ this module contains the full copyright notices and license terms. -->
                             <field name="path_name"/>
                             <field name="parent_id" domain="[('is_visible_parent','=',True)]" context="{'id': id}"/>
                             <field name="description" colspan="4"/>
-                            <field name="sequence"/>
                         </group>
                         <notebook>
                             <page string="Fascicoli">
@@ -70,9 +69,8 @@ this module contains the full copyright notices and license terms. -->
             <field name="model">protocollo.classification</field>
             <field name="arch" type="xml">
                 <search string="Titolario">
-                    <field name="sequence"/>
+                    <field name="path_name"/>
                     <field name="code"/>
-                    <field name="complete_name"/>
                     <field name="parent_id"/>
                     <field name="class_type"/>
                 </search>
@@ -113,48 +111,66 @@ this module contains the full copyright notices and license terms. -->
                                 class="oe_highlight_positive"/>
                         <button name="close" states="open"
                                 string="Chiudi Fascicolo"
-                                confirm="Sei sicuro di voler chiudere il fascicolo? Una volta chiuso non potrà più essere riaperto!"
                                 class="oe_highlight_warning"/>
+                        <button name="reopen" states="closed"
+                                string="Apri Fascicolo"
+                                class="oe_highlight_positive"/>
                         <field name="state" widget="statusbar"
                                statusbar_visible="draft,open,closed"
                                statusbar_colors='{"open":"blue","closed":"green"}'/>
                     </header>
                     <sheet>
-                        <div class="gedoc_header">
-                            <group col="4">
+                        <group colspan="4" col="4">
+                            <group colspan="2">
                                 <field name="name" class="oe_inline"/>
-                                <field name="description" class="oe_inline"/>
-                                <field name="dossier_type"
-                                       on_change="on_change_dossier_type_classification(dossier_type, classification_id, parent_id)"/>
-                                <field name="date_open"/>
-                                <field name="dossier_typology"/>
-                                <field name="date_close"/>
                                 <field name="classification_id"
-                                       on_change="on_change_dossier_type_classification(dossier_type, classification_id, parent_id)"
-                                       colspan="4"/>
+                                       on_change="on_change_dossier_type_classification(dossier_type, classification_id, parent_id, description)"
+                                       attrs="{'readonly':['|',('state','=','closed'),('dossier_type','in',('sottofascicolo','inserto'))]}"
+                                       options="{'no_open': True}"
+                                       context="{'call_by_classification_id': True}"
+                                />
+                                <field name="description"
+                                       on_change="on_change_dossier_type_classification(dossier_type, classification_id, parent_id, description)"
+                                       class="oe_inline"
+                                />
+                                <field name="dossier_type"
+                                       on_change="on_change_dossier_type_classification(dossier_type, classification_id, parent_id, description)"
+                                       context="{'call_by_dossier_type': True}"
+                                />
+                                <field name="dossier_typology"/>
+                                <field name="parent_id"
+                                       on_change="on_change_dossier_type_classification(dossier_type, classification_id, parent_id, description)"
+                                       domain="[('dossier_type', '=', parent_type)]"
+                                       attrs="{'invisible':[('dossier_type','=','fascicolo')], 'required':[('dossier_type','in',('sottofascicolo','inserto'))]}"
+                                       options="{'no_open': True}"
+                                       context="{'call_by_parent_id': True}"
+                                />
+                                <field name="parent_type" invisible="1"/>
                             </group>
-                        </div>
-                        <group col="8" string="Informazioni Generali">
-                            <field name="user_id"/>
-                            <field name="owner_partner_id"
-                                   options="{'limit': 10, 'create': false, 'create_edit': false}"/>
-                            <newline/>
-                            <field name="year"/>
-                            <field name="paperless"/>
-                            <newline/>
-                            <field name="parent_id"
-                                   on_change="on_change_dossier_type_classification(dossier_type, classification_id, parent_id)"
-                                   domain="[('dossier_type', '=', parent_type)]"
-                                   attrs="{'invisible':[('dossier_type','=','fascicolo')], 'required': [('dossier_type','in',('sottofascicolo', 'inserto'))]}"/>
-                            <field name="parent_type" invisible="1"/>
-                            <newline/>
-                            <field name="partner_id"
-                                   attrs="{'invisible':[('dossier_typology','not in ',('fisica', 'giuridica'))]}"/>
+                            <group colspan="2">
+                                <field name="date_open"/>
+                                <field name="date_close"/>
+                            </group>
                         </group>
+
+                        <group string="Informazioni Generali" colspan="4" col="4">
+                            <group colspan="2">
+                                <field name="user_id"/>
+                                <field name="year"/>
+                                <field name="partner_id" attrs="{'invisible':[('dossier_typology','not in',('fisica', 'giuridica'))]}"/>
+                            </group>
+                            <group colspan="2">
+                                <field name="owner_partner_id" options="{'limit': 10, 'create': false, 'create_edit': false}"/>
+                                <field name="paperless"/>
+                            </group>
+                        </group>
+
                         <notebook>
-                            <page string="Sottofascicoli">
-                                <field name="child_ids"
-                                       attrs="{'invisible':[('dossier_type','=','inserto')]}"/>
+                            <page string="Sottofascicoli" attrs="{'invisible':[('dossier_type','!=','fascicolo')]}">
+                                <field name="sottofascicolo_ids"/>
+                            </page>
+                            <page string="Inserti" attrs="{'invisible':[('dossier_type','!=','sottofascicolo')]}">
+                                <field name="inserto_ids"/>
                             </page>
                             <page string="Documenti">
                                 <group col="4">

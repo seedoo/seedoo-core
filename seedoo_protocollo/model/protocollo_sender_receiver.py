@@ -146,9 +146,9 @@ class protocollo_sender_receiver(orm.Model):
         messaggio_pec_obj = self.pool.get('protocollo.messaggio.pec')
         for sr in self.browse(cr, uid, ids, context={'skip_check': True}):
             prot = sr.protocollo_id
-            if prot and sr.pec_messaggio_ids.ids:
+            if prot:
                 pec_messaggio_ids = messaggio_pec_obj.search(cr, uid, [
-                    ('id', '=', max(sr.pec_messaggio_ids.ids)),
+                    ('sender_receiver_ids', '=', sr.id),
                     ('type', '=', 'messaggio')
                 ], order='id DESC', limit=1)
                 if pec_messaggio_ids and prot.type == 'out' and prot.state in ('waiting', 'sent', 'error', 'notified', 'canceled'):
@@ -164,16 +164,15 @@ class protocollo_sender_receiver(orm.Model):
         messaggio_pec_obj = self.pool.get('protocollo.messaggio.pec')
         for sr in self.browse(cr, uid, ids, context={'skip_check': True}):
             prot = sr.protocollo_id
-            if prot and sr.pec_messaggio_ids.ids:
+            if prot:
                 pec_messaggio_ids = messaggio_pec_obj.search(cr, uid, [
-                    ('id', '=', max(sr.pec_messaggio_ids.ids)),
-                    ('type', '=', 'messaggio'),
-                    ('accettazione_ref', '!=', False)
+                    ('sender_receiver_ids', '=', sr.id),
+                    ('type', '=', 'messaggio')
                 ], order='id DESC', limit=1)
                 if pec_messaggio_ids and prot.state in ('waiting', 'sent', 'error', 'notified', 'canceled'):
-                    res[sr.id] = True
+                    pec_messaggio = messaggio_pec_obj.browse(cr, uid, pec_messaggio_ids[0])
+                    res[sr.id] = True if pec_messaggio.accettazione_ref else False
         return res
-
 
     def _get_consegna_status(self, cr, uid, ids, field, arg, context=None):
         if isinstance(ids, (list, tuple)) and not len(ids):
@@ -184,14 +183,14 @@ class protocollo_sender_receiver(orm.Model):
         messaggio_pec_obj = self.pool.get('protocollo.messaggio.pec')
         for sr in self.browse(cr, uid, ids, context={'skip_check': True}):
             prot = sr.protocollo_id
-            if prot and sr.pec_messaggio_ids.ids:
+            if prot:
                 pec_messaggio_ids = messaggio_pec_obj.search(cr, uid, [
-                    ('id', '=', max(sr.pec_messaggio_ids.ids)),
-                    ('type', '=', 'messaggio'),
-                    ('consegna_ref', '!=', False)
+                    ('sender_receiver_ids', '=', sr.id),
+                    ('type', '=', 'messaggio')
                 ], order='id DESC', limit=1)
                 if pec_messaggio_ids and prot.state in ('waiting', 'sent', 'error', 'notified', 'canceled'):
-                    res[sr.id] = True
+                    pec_messaggio = messaggio_pec_obj.browse(cr, uid, pec_messaggio_ids[0])
+                    res[sr.id] = True if pec_messaggio.consegna_ref else False
         return res
 
     def _get_non_accettazione_status(self, cr, uid, ids, field, arg, context=None):
@@ -203,14 +202,14 @@ class protocollo_sender_receiver(orm.Model):
         messaggio_pec_obj = self.pool.get('protocollo.messaggio.pec')
         for sr in self.browse(cr, uid, ids, context={'skip_check': True}):
             prot = sr.protocollo_id
-            if prot and sr.pec_messaggio_ids.ids:
+            if prot:
                 pec_messaggio_ids = messaggio_pec_obj.search(cr, uid, [
-                    ('id', '=', max(sr.pec_messaggio_ids.ids)),
-                    ('type', '=', 'messaggio'),
-                    ('non_accettazione_ref', '!=', False)
+                    ('sender_receiver_ids', '=', sr.id),
+                    ('type', '=', 'messaggio')
                 ], order='id DESC', limit=1)
                 if pec_messaggio_ids and prot.state in ('waiting', 'sent', 'error', 'notified', 'canceled'):
-                    res[sr.id] = True
+                    pec_messaggio = messaggio_pec_obj.browse(cr, uid, pec_messaggio_ids[0])
+                    res[sr.id] = True if pec_messaggio.non_accettazione_ref else False
         return res
 
     def _get_errore_consegna_status(self, cr, uid, ids, field, arg, context=None):
@@ -222,14 +221,14 @@ class protocollo_sender_receiver(orm.Model):
         messaggio_pec_obj = self.pool.get('protocollo.messaggio.pec')
         for sr in self.browse(cr, uid, ids, context={'skip_check': True}):
             prot = sr.protocollo_id
-            if prot and sr.pec_messaggio_ids.ids:
+            if prot:
                 pec_messaggio_ids = messaggio_pec_obj.search(cr, uid, [
-                    ('id', '=', max(sr.pec_messaggio_ids.ids)),
-                    ('type', '=', 'messaggio'),
-                    ('errore_consegna_ref', '!=', False)
+                    ('sender_receiver_ids', '=', sr.id),
+                    ('type', '=', 'messaggio')
                 ], order='id DESC', limit=1)
                 if pec_messaggio_ids and prot.state in ('waiting', 'sent', 'error', 'notified', 'canceled'):
-                    res[sr.id] = True
+                    pec_messaggio = messaggio_pec_obj.browse(cr, uid, pec_messaggio_ids[0])
+                    res[sr.id] = True if pec_messaggio.errore_consegna_ref else False
         return res
 
     def _get_conferma_status(self, cr, uid, ids, field, arg, context=None):

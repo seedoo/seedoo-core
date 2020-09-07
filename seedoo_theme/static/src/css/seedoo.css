@@ -131,6 +131,9 @@ textarea,
   border-color: #44a1a0;
   background-color: #fff;
 }
+.openerp .oe_leftbar .oe_footer {
+  height: auto;
+}
 .openerp .oe_view_manager_current > .oe_view_manager_header .oe_header_row td {
   padding: 4px;
 }

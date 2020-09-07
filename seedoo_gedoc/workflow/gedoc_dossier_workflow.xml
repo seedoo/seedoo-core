@@ -33,7 +33,13 @@ this module contains the full copyright notices and license terms. -->
             <field name="name">closed</field>
             <field name="kind">function</field>
             <field name="action">action_close()</field>
-            <field name="kind">stopall</field>
+        </record>
+
+        <record model="workflow.activity" id="act_dossier_reopen">
+            <field name="wkf_id" ref="wkf_dossier"/>
+            <field name="name">reopen</field>
+            <field name="kind">function</field>
+            <field name="action">write({'state':'open'})</field>
         </record>
 
         <record model="workflow.transition" id="td10">
@@ -52,6 +58,12 @@ this module contains the full copyright notices and license terms. -->
             <field name="act_from" ref="act_dossier_open"/>
             <field name="act_to" ref="act_dossier_closed"/>
             <field name="signal">close</field>
+        </record>
+
+        <record model="workflow.transition" id="td25">
+            <field name="act_from" ref="act_dossier_closed"/>
+            <field name="act_to" ref="act_dossier_open"/>
+            <field name="signal">reopen</field>
         </record>
 
     </data>

@@ -35,7 +35,7 @@ class res_users(osv.Model):
 
 class protocollo_classification(osv.Model):
     _name = 'protocollo.classification'
-    _rec_name = 'complete_name'
+    _rec_name = 'path_name'
 
     def _name_get_fnc(self, cr, uid, ids, prop, unknow_none, context=None):
         if isinstance(ids, (list, tuple)) and not len(ids):
@@ -70,16 +70,18 @@ class protocollo_classification(osv.Model):
                 SELECT DISTINCT(pc.id) 
                 FROM protocollo_classification pc
                 WHERE '''+where
-           )
+            )
 
             classification_ids = [res[0] for res in cr.fetchall()]
         return [('id', 'in', classification_ids)]
 
     def _path_name_get(self, cr, uid, id, context=None):
-        read = self.read(cr, uid, id, ['name', 'parent_id'], context=context)
-        name = read['name']
-        if read['parent_id']:
-            name = self._path_name_get(cr, uid, read['parent_id'][0]) + ' / ' + read['name']
+        #read = self.read(cr, uid, id, ['name', 'parent_id'], context=context)
+        cr.execute('SELECT name, parent_id FROM protocollo_classification pc WHERE id = ' + str(id))
+        read = cr.fetchone()
+        name = read[0]
+        if read[1]:
+            name = self._path_name_get(cr, uid, read[1]) + ' / ' + read[0]
         return name
 
     def _path_name_get_fnc(self, cr, uid, ids, prop, unknow_none, context=None):
@@ -87,18 +89,51 @@ class protocollo_classification(osv.Model):
             return dict([])
         if isinstance(ids, (long, int)):
             ids = [ids]
-        reads = self.read(cr, uid, ids, ['name', 'code', 'parent_id'], context=context)
+        #reads = self.read(cr, uid, ids, ['name', 'code', 'parent_id'], context=context)
+        reads = []
+        if ids:
+            cr.execute('SELECT id, name, code, parent_id FROM protocollo_classification pc WHERE id IN (' + ','.join(map(str, ids)) + ')')
+            reads = cr.fetchall()
         res = []
         for record in reads:
-            name = record['name']
-            if record['parent_id']:
-                name = self._path_name_get(cr, uid, record['parent_id'][0]) + ' / ' + record['name']
-            if record['code']:
-                name = record['code'] + ' - ' + name
+            name = record[1]
+            if record[3]:
+                name = self._path_name_get(cr, uid, record[3]) + ' / ' + record[1]
+            if record[2]:
+                name = record[2] + ' - ' + name
             else:
                 name = name
-            res.append((record['id'], name))
+            res.append((record[0], name))
         return dict(res)
+
+    def _path_name_search(self, cr, uid, id, context=None):
+        classification_ids = []
+        cr.execute('SELECT id FROM protocollo_classification pc WHERE parent_id = ' + str(id))
+        for res in cr.fetchall():
+            classification_ids.append(res[0])
+            if res[0]:
+                classification_ids += self._path_name_search(cr, uid, res[0], context)
+        return classification_ids
+
+    def _path_name_search_fnc(self, cr, uid, obj, name, args, domain=None, context=None):
+        classification_ids = []
+        if args and len(args[0])==3:
+            arg = args[0]
+            operator = arg[1]
+            value = arg[2]
+            if operator in ['like', 'ilike', 'not like', 'not ilike']:
+                condition = operator + " '%"+value+"%'"
+            elif operator in ['=', '!='] and value==False:
+                condition = 'IS NULL' if operator=='=' else 'IS NOT NULL'
+            else:
+                condition = operator + " '"+value+"'"
+            where = "CASE WHEN pc.code IS NULL THEN pc.name "+condition+" ELSE concat_ws(' - ', pc.code, pc.name) "+condition+" END"
+
+            cr.execute('SELECT pc.id FROM protocollo_classification pc WHERE '+where)
+            for res in cr.fetchall():
+                classification_ids.append(res[0])
+                classification_ids += self._path_name_search(cr, uid, res[0], context)
+        return [('id', 'in', classification_ids)]
 
     def _get_child_ids(self, cr, uid, classification):
         res = []
@@ -166,6 +201,7 @@ class protocollo_classification(osv.Model):
             string='Nome Completo'),
         'path_name': fields.function(
             _path_name_get_fnc,
+            fnct_search=_path_name_search_fnc,
             type='char',
             string='Nome Completo'),
         'description': fields.text('Descrizione'),
@@ -187,6 +223,7 @@ class protocollo_classification(osv.Model):
             'protocollo.dossier',
             'classification_id',
             'Fascicoli',
+            readonly=True
         ),
         'sequence': fields.integer('Ordine di visualizzazione', help="Sequence"),
         'active': fields.boolean('Attivo'),
@@ -216,24 +253,52 @@ class protocollo_dossier(osv.Model):
     }
 
     DOSSIER_TYPOLOGY = {
-        'procedimento': 'Procedimento Amministrativo',
+        'procedimento': 'Procedimento',
         'affare': 'Affare',
-        'attivita': 'Attivita\'',
+        'attivita': 'Attività',
         'fisica': 'Persona Fisica',
         'giuridica': 'Persona Giuridica',
+        'materia': 'Materia',
     }
 
-    def get_dossier_values(self, cr, uid, ids, dossier_type, classification_id, parent_id, context=None):
+    def get_dossier_values(self, cr, uid, ids, dossier_type, classification_id, parent_id, description, context=None):
         name = ''
+        parent = None
+        if not description:
+            description = ''
         if parent_id and dossier_type != 'fascicolo':
-            parent = self.pool.get('protocollo.dossier').browse(cr, uid, parent_id, context=context)
+            parent = self.browse(cr, SUPERUSER_ID, parent_id, context=context)
+            parent_split = parent.name.split(' - ', 1)
             classification_id = parent.classification_id.id
-            num = len(list(set(parent.child_ids.ids) - set(ids))) + 1
-            name = '<' + self.DOSSIER_TYPE[dossier_type] + ' N.' + str(num) + ' del "' + parent.name + '">'
+            #num = len(list(set(parent.child_ids.ids) - set(ids))) + 1
+            #name = '<' + self.DOSSIER_TYPE[dossier_type] + ' N.' + str(num) + ' del "' + parent.name + '">'
+            #TODO: gestire tramite una sequence
+            domain = [('parent_id', '=', parent_id)]
+            if ids:
+                domain.append(('id', 'not in', ids))
+            child_ids = self.search(cr, SUPERUSER_ID, domain, order='id DESC')
+            if child_ids:
+                split_result = self.browse(cr, SUPERUSER_ID, child_ids[0]).name.split(' - ', 1)[0].split('.')
+                num = int(split_result[len(split_result)-1])
+            else:
+                num = 0
+            name = '%s.%s - %s / %s' % (parent_split[0], str(num + 1), parent_split[1], description)
         elif dossier_type and dossier_type in self.DOSSIER_TYPE and classification_id:
             classification = self.pool.get('protocollo.classification').browse(cr, uid, classification_id, context=context)
-            num = len(list(set(classification.dossier_ids.ids) - set(ids))) + 1
-            name = '<' + self.DOSSIER_TYPE[dossier_type] + ' N.' + str(num) + ' del \'' + classification.name + '\'>'
+            parent_split = classification.path_name.split(' - ', 1)
+            #num = len(list(set(classification.dossier_ids.ids) - set(ids))) + 1
+            #name = '<' + self.DOSSIER_TYPE[dossier_type] + ' N.' + str(num) + ' del \'' + classification.name + '\'>'
+            #TODO: gestire tramite una sequence
+            domain = [('classification_id', '=', classification_id),('dossier_type', '=', 'fascicolo')]
+            if ids:
+                domain.append(('id', 'not in', ids))
+            child_ids = self.search(cr, SUPERUSER_ID, domain, order='id DESC')
+            if child_ids:
+                split_result = self.browse(cr, SUPERUSER_ID, child_ids[0]).name.split(' - ', 1)[0].split('.')
+                num = int(split_result[len(split_result) - 1])
+            else:
+                num = 0
+            name = '%s.%s - %s / %s' % (parent_split[0], str(num + 1), parent_split[1], description)
             if dossier_type == 'fascicolo':
                 parent_id = False
         parent_type = self.PARENT_TYPE[dossier_type]
@@ -243,10 +308,15 @@ class protocollo_dossier(osv.Model):
             'parent_id': parent_id,
             'parent_type': parent_type
         }
+        if parent and context.get('call_by_parent_id', False):
+            values['office_comp_ids'] = parent.office_comp_ids.ids
+            values['office_view_ids'] = parent.office_view_ids.ids
+            values['employee_comp_ids'] = parent.employee_comp_ids.ids
+            values['employee_view_ids'] = parent.employee_view_ids.ids
         return values
 
-    def on_change_dossier_type_classification(self, cr, uid, ids, dossier_type, classification_id, parent_id, context=None):
-        values = self.get_dossier_values(cr, uid, ids, dossier_type, classification_id, parent_id, context)
+    def on_change_dossier_type_classification(self, cr, uid, ids, dossier_type, classification_id, parent_id, description, context=None):
+        values = self.get_dossier_values(cr, uid, ids, dossier_type, classification_id, parent_id, description, context)
         return {'value': values}
 
     def _parent_type(self, cr, uid, ids, name, arg, context=None):
@@ -265,7 +335,7 @@ class protocollo_dossier(osv.Model):
 
     _columns = {
         'name': fields.char(
-            'Codice Fascicolo',
+            'Nome',
             size=256,
             required=True,
             readonly=True,
@@ -281,11 +351,8 @@ class protocollo_dossier(osv.Model):
         'classification_id': fields.many2one(
             'protocollo.classification',
             'Rif. Titolario',
-            required=True,
-            readonly=True,
-            states={'draft':
-                    [('readonly', False)]
-                    }),
+            required=True
+        ),
         'year': fields.char(
             'Anno',
             size=4,
@@ -344,6 +411,18 @@ class protocollo_dossier(osv.Model):
             'parent_id',
             'Sottofascicoli',
             readonly=True,
+        ),
+        'sottofascicolo_ids': fields.one2many('protocollo.dossier',
+                                              'parent_id',
+                                              'Sottofascicoli',
+                                              domain=[('dossier_type', '=', 'sottofascicolo')],
+                                              readonly=True
+        ),
+        'inserto_ids': fields.one2many('protocollo.dossier',
+                                       'parent_id',
+                                       'Inserti',
+                                       domain=[('dossier_type', '=', 'inserto')],
+                                       readonly=True
         ),
         'parent_type': fields.function(
             _parent_type,
@@ -479,8 +558,7 @@ class protocollo_dossier(osv.Model):
     _defaults = {
         'state': 'draft',
         'user_id': lambda obj, cr, uid, context: uid,
-        'dossier_type': 'fascicolo',
-        'dossier_typology': 'procedimento',
+        'dossier_type': 'fascicolo'
     }
 
     # _sql_constraints = [
@@ -497,34 +575,34 @@ class protocollo_dossier(osv.Model):
 
     def action_open(self, cr, uid, ids, *args):
         for dossier in self.browse(cr, uid, ids):
-            if dossier.parent_id:
-                num = len(
-                    [d.id for d in dossier.parent_id.child_ids
-                     if d.state in ('open', 'closed')]
-                ) + 1
-                name = self.DOSSIER_TYPE[dossier.dossier_type] + \
-                    ' N.' + str(num) + ' del "' + \
-                    dossier.parent_id.name + '"'
-            else:
-                num = len(
-                    [d.id for d in dossier.classification_id.dossier_ids
-                     if d.state in ('open', 'closed') and
-                     d.dossier_type == 'fascicolo']
-                ) + 1
-                name = self.DOSSIER_TYPE[dossier.dossier_type] + \
-                    ' N.' + str(num) + ' del \'' + \
-                    dossier.classification_id.name + '\''
+            # if dossier.parent_id:
+            #     num = len(
+            #         [d.id for d in dossier.parent_id.child_ids
+            #          if d.state in ('open', 'closed')]
+            #     ) + 1
+            #     name = self.DOSSIER_TYPE[dossier.dossier_type] + \
+            #         ' N.' + str(num) + ' del "' + \
+            #         dossier.parent_id.name + '"'
+            # else:
+            #     num = len(
+            #         [d.id for d in dossier.classification_id.dossier_ids
+            #          if d.state in ('open', 'closed') and
+            #          d.dossier_type == 'fascicolo']
+            #     ) + 1
+            #     name = self.DOSSIER_TYPE[dossier.dossier_type] + \
+            #         ' N.' + str(num) + ' del \'' + \
+            #         dossier.classification_id.name + '\''
             date_open = fields.datetime.now()
             year = date_open[:4]
             vals = {
-                'name': name,
+                # 'name': name,
                 'state': 'open',
                 'date_open': date_open,
-                'year': year,
+                'year': year
             }
             if dossier.dossier_type == 'fascicolo':
                 vals['parent_id'] = False
-            self.write(cr, uid, ids, vals)
+            self.write(cr, uid, [dossier.id], vals)
         return True
 
     def action_close(self, cr, uid, ids, *args):
@@ -536,20 +614,27 @@ class protocollo_dossier(osv.Model):
         return True
 
     def create(self, cr, uid, vals, context=None):
-        if vals and not ('name' in vals) and 'dossier_type' in vals and 'classification_id' in vals and 'parent_id' in vals:
-            dossier_values = self.get_dossier_values(cr, uid, [], vals['dossier_type'], vals['classification_id'], vals['parent_id'], context)
+        if vals and 'parent_id' in vals and vals['parent_id']:
+            parent = self.browse(cr, uid, vals['parent_id'], context)
+            vals['classification_id'] = parent.classification_id.id
+        if vals and not ('name' in vals) and 'dossier_type' in vals and 'classification_id' in vals and 'parent_id' in vals and 'description' in vals:
+            dossier_values = self.get_dossier_values(cr, uid, [], vals['dossier_type'], vals['classification_id'], vals['parent_id'], vals['description'], context)
             vals['name'] = dossier_values['name']
         return super(protocollo_dossier, self).create(cr, uid, vals, context=context)
 
     def write(self, cr, uid, ids, vals, context=None):
         if 'dossier_type' in vals and vals['dossier_type'] == 'fascicolo':
             vals['parent_id'] = False
+        if vals and 'parent_id' in vals and vals['parent_id']:
+            parent = self.browse(cr, uid, vals['parent_id'], context)
+            vals['classification_id'] = parent.classification_id.id
         if vals and len(ids)==1 and not ('name' in vals) and ('dossier_type' in vals or 'classification_id' in vals or 'parent_id' in vals):
             dossier = self.browse(cr, uid, ids[0])
             dossier_type = vals['dossier_type'] if 'dossier_type' in vals else dossier.dossier_type
             classification_id = vals['classification_id'] if 'classification_id' in vals else dossier.classification_id.id
             parent_id = vals['parent_id'] if 'parent_id' in vals else dossier.parent_id.id
-            dossier_values = self.get_dossier_values(cr, uid, ids, dossier_type, classification_id, parent_id, context)
+            description = vals['description'] if 'description' in vals else dossier.description
+            dossier_values = self.get_dossier_values(cr, uid, ids, dossier_type, classification_id, parent_id, description, context)
             vals['name'] = dossier_values['name']
         return super(protocollo_dossier, self).write(cr, uid, ids, vals, context=context)
 

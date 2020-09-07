@@ -12,10 +12,7 @@
                     <newline/>
                     <field name="assignee_default_out" options="{'no_open': True}"/>
                     <newline/>
-                </xpath>
-                <xpath expr="//field[@name='sequence']" position="before">
                     <field name="skip_assignee_default"/>
-                    <newline/>
                 </xpath>
             </field>
         </record>

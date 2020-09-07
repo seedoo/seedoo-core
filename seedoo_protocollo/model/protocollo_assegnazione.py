@@ -213,6 +213,10 @@ class protocollo_assegnazione(orm.Model):
     # ]
 
     def delete_indexes(self, cr):
+        cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_assegnazione_parent_id\'')
+        if cr.fetchone():
+            cr.execute('DROP INDEX idx_protocollo_assegnazione_parent_id')
+
         cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_assegnazione_protocollo_id\'')
         if cr.fetchone():
             cr.execute('DROP INDEX idx_protocollo_assegnazione_protocollo_id')
@@ -261,6 +265,14 @@ class protocollo_assegnazione(orm.Model):
                 ON public.protocollo_assegnazione
                 USING btree
                 (protocollo_id);
+            """)
+        cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_assegnazione_parent_id\'')
+        if not cr.fetchone():
+            cr.execute("""
+                CREATE INDEX idx_protocollo_assegnazione_parent_id
+                ON public.protocollo_assegnazione
+                USING btree
+                (parent_id);
             """)
         cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_assegnazione_tipologia_assegnatario_emp\'')
         if not cr.fetchone():
