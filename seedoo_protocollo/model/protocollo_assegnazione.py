@@ -204,7 +204,7 @@ class protocollo_assegnazione(orm.Model):
 
         'motivazione_rifiuto': fields.text('Motivazione del Rifiuto'),
 
-        'archivio_id': fields.many2one('protocollo.archivio', 'Archivio', required=True),
+        'archivio_id': fields.many2one('protocollo.archivio', 'Archivio'),
     }
 
     # _sql_constraints = [
@@ -379,6 +379,7 @@ class protocollo_assegnazione(orm.Model):
         vals['assegnatore_complete_name'] = assegnatore_complete_name
         vals['assegnatore_department_id'] = assegnatore.department_id.id if assegnatore.department_id else False
         vals['parent_id'] = parent_id
+        vals['archivio_id'] = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)])[0]
 
         if assegnatario.tipologia == 'employee':
             vals['assegnatario_employee_id'] = assegnatario.employee_id.id
