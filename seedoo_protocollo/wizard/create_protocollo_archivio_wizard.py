@@ -130,6 +130,7 @@ class protocollo_archivio_wizard(osv.TransientModel):
         'protocol_end': get_default_protocol_end,
     }
 
+
     def action_create(self, cr, uid, ids, context=None):
         wizard = self.browse(cr, uid, ids[0], context)
         protocollo_obj = self.pool.get('protocollo.protocollo')
@@ -169,35 +170,9 @@ class protocollo_archivio_wizard(osv.TransientModel):
             count_start = protocollo_obj.search(cr, uid, [('archivio_id', '=', protocollo_archivio_id)], count=True)
 
             if wizard.interval_type == 'date':
-                cr.execute('''
-                    UPDATE protocollo_protocollo pp
-                    SET archivio_id = %s
-                    WHERE pp.aoo_id = %s AND
-                          pp.state IN ('registered', 'notified', 'sent', 'waiting', 'error', 'canceled') AND
-                          pp.archivio_id IN (''' + archivio_ids_str + ''') AND
-                          pp.registration_date > %s AND 
-                          pp.registration_date < %s
-                ''', (
-                    protocollo_archivio_id,
-                    wizard.aoo_id.id,
-                    wizard.date_start,
-                    wizard.date_end
-                ))
+                self.archive_by_date(cr, uid, wizard, protocollo_archivio_id, archivio_ids_str)
             elif wizard.interval_type == 'number':
-                cr.execute('''
-                    UPDATE protocollo_protocollo pp
-                    SET archivio_id = %s
-                    WHERE pp.aoo_id = %s AND
-                          pp.state IN ('registered', 'notified', 'sent', 'waiting', 'error', 'canceled') AND
-                          pp.archivio_id IN (''' + archivio_ids_str + ''') AND
-                          ((pp.year=%s AND pp.name >= %s) OR pp.year > %s) AND 
-                          ((pp.year=%s AND pp.name <= %s) OR pp.year < %s)
-                ''', (
-                    protocollo_archivio_id,
-                    wizard.aoo_id.id,
-                    wizard.year_start, wizard.protocol_start, wizard.year_start,
-                    wizard.year_end, wizard.protocol_end, wizard.year_end
-                ))
+                self.archive_by_number(cr, uid, wizard, protocollo_archivio_id, archivio_ids_str)
 
             count_end = protocollo_obj.search(cr, uid, [('archivio_id', '=', protocollo_archivio_id)], count=True)
             count_diff = count_end - count_start
@@ -211,3 +186,37 @@ class protocollo_archivio_wizard(osv.TransientModel):
             return protocollo_archivio.go_to_archive_action()
 
         return {'type': 'ir.actions.act_window_close'}
+
+
+    def archive_by_date(self, cr, uid, wizard, protocollo_archivio_id, archivio_ids_str):
+        cr.execute('''
+            UPDATE protocollo_protocollo pp
+            SET archivio_id = %s
+            WHERE pp.aoo_id = %s AND
+                  pp.state IN ('registered', 'notified', 'sent', 'waiting', 'error', 'canceled') AND
+                  pp.archivio_id IN (''' + archivio_ids_str + ''') AND
+                  pp.registration_date > %s AND 
+                  pp.registration_date < %s
+        ''', (
+            protocollo_archivio_id,
+            wizard.aoo_id.id,
+            wizard.date_start,
+            wizard.date_end
+        ))
+
+
+    def archive_by_number(self, cr, uid, wizard, protocollo_archivio_id, archivio_ids_str):
+        cr.execute('''
+            UPDATE protocollo_protocollo pp
+            SET archivio_id = %s
+            WHERE pp.aoo_id = %s AND
+                  pp.state IN ('registered', 'notified', 'sent', 'waiting', 'error', 'canceled') AND
+                  pp.archivio_id IN (''' + archivio_ids_str + ''') AND
+                  ((pp.year=%s AND pp.name >= %s) OR pp.year > %s) AND 
+                  ((pp.year=%s AND pp.name <= %s) OR pp.year < %s)
+        ''', (
+            protocollo_archivio_id,
+            wizard.aoo_id.id,
+            wizard.year_start, wizard.protocol_start, wizard.year_start,
+            wizard.year_end, wizard.protocol_end, wizard.year_end
+        ))

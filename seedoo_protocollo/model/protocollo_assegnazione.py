@@ -203,6 +203,8 @@ class protocollo_assegnazione(orm.Model):
         'child_ids': fields.one2many('protocollo.assegnazione', 'parent_id', 'Assegnazioni Dipendenti'),
 
         'motivazione_rifiuto': fields.text('Motivazione del Rifiuto'),
+
+        'archivio_id': fields.many2one('protocollo.archivio', 'Archivio'),
     }
 
     # _sql_constraints = [
@@ -211,6 +213,10 @@ class protocollo_assegnazione(orm.Model):
     # ]
 
     def delete_indexes(self, cr):
+        cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_assegnazione_parent_id\'')
+        if cr.fetchone():
+            cr.execute('DROP INDEX idx_protocollo_assegnazione_parent_id')
+
         cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_assegnazione_protocollo_id\'')
         if cr.fetchone():
             cr.execute('DROP INDEX idx_protocollo_assegnazione_protocollo_id')
@@ -259,6 +265,14 @@ class protocollo_assegnazione(orm.Model):
                 ON public.protocollo_assegnazione
                 USING btree
                 (protocollo_id);
+            """)
+        cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_assegnazione_parent_id\'')
+        if not cr.fetchone():
+            cr.execute("""
+                CREATE INDEX idx_protocollo_assegnazione_parent_id
+                ON public.protocollo_assegnazione
+                USING btree
+                (parent_id);
             """)
         cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_assegnazione_tipologia_assegnatario_emp\'')
         if not cr.fetchone():
@@ -365,6 +379,7 @@ class protocollo_assegnazione(orm.Model):
         vals['assegnatore_complete_name'] = assegnatore_complete_name
         vals['assegnatore_department_id'] = assegnatore.department_id.id if assegnatore.department_id else False
         vals['parent_id'] = parent_id
+        vals['archivio_id'] = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)])[0]
 
         if assegnatario.tipologia == 'employee':
             vals['assegnatario_employee_id'] = assegnatario.employee_id.id

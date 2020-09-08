@@ -207,7 +207,7 @@ class protocollo_protocollo(osv.Model):
                           (pa.tipologia_assegnatario = 'department' AND pa.assegnatario_department_id  IN (''' + employee_department_ids_str + '''))
                       ) AND
                       pa.state != 'rifiutato' AND 
-                      pp.archivio_id IN (''' + archivio_ids_str + ''')
+                      pa.archivio_id IN (''' + archivio_ids_str + ''')
                       ''' + protocollo_ids_filter + '''
             ''')
             protocollo_ids_assigned_not_refused = [res[0] for res in cr.fetchall()]
@@ -323,7 +323,7 @@ class protocollo_protocollo(osv.Model):
                 WHERE pp.type IN (''' + str(types).strip('[]') + ''') AND
                       pp.registration_date IS NOT NULL AND
                       pp.reserved = FALSE AND
-                      pp.archivio_id IN (''' + archivio_ids_str + ''') AND 
+                      pa.archivio_id IN (''' + archivio_ids_str + ''') AND 
                       pp.id = pa.protocollo_id AND
                       pa.tipologia_assegnatario = 'employee' AND
                       pa.parent_id IS NULL AND
@@ -345,7 +345,7 @@ class protocollo_protocollo(osv.Model):
                 WHERE pp.type IN (''' + str(types).strip('[]') + ''') AND
                       pp.registration_date IS NOT NULL AND
                       pp.reserved = FALSE AND
-                      pp.archivio_id IN (''' + archivio_ids_str + ''') AND 
+                      pa.archivio_id IN (''' + archivio_ids_str + ''') AND 
                       pp.id = pa.protocollo_id AND
                       pa.tipologia_assegnatario = 'department' AND
                       pa.assegnatario_department_id IN (''' + employee_department_child_ids_str + ''') AND
@@ -366,7 +366,7 @@ class protocollo_protocollo(osv.Model):
                 WHERE pp.type IN (''' + str(types).strip('[]') + ''') AND
                       pp.registration_date IS NOT NULL AND
                       pp.reserved = FALSE AND
-                      pp.archivio_id IN (''' + archivio_ids_str + ''') AND 
+                      pa.archivio_id IN (''' + archivio_ids_str + ''') AND 
                       pp.id = pa.protocollo_id AND
                       pa.tipologia_assegnatario = 'employee' AND
                       pa.parent_id IS NULL AND
@@ -388,7 +388,7 @@ class protocollo_protocollo(osv.Model):
                 WHERE pp.type IN (''' + str(types).strip('[]') + ''') AND
                       pp.registration_date IS NOT NULL AND
                       pp.reserved = FALSE AND
-                      pp.archivio_id IN (''' + archivio_ids_str + ''') AND 
+                      pa.archivio_id IN (''' + archivio_ids_str + ''') AND 
                       pp.id = pa.protocollo_id AND
                       pa.tipologia_assegnatario = 'employee' AND
                       pa.assegnatario_employee_department_id IN (''' + employee_department_ids_str + ''') AND
@@ -665,7 +665,7 @@ class protocollo_protocollo(osv.Model):
                                       pa2.state IN ('preso', 'letto')
                             ))
                       ) AND
-                      pp.archivio_id = %s 
+                      pa.archivio_id = %s 
                       %s
                     
                 UNION
@@ -772,7 +772,7 @@ class protocollo_protocollo(osv.Model):
                   pa.state = 'assegnato' AND
                   pa.parent_id IS NULL AND
                   pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND 
-                  pp.archivio_id = %s 
+                  pa.archivio_id = %s 
         ''' % (uid, archivio_id)
         cr.execute(query)
         result = cr.fetchall()
@@ -823,7 +823,7 @@ class protocollo_protocollo(osv.Model):
                   pa.state = 'assegnato' AND
                   pa.parent_id IS NULL AND
                   pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND 
-                  pp.archivio_id = %s 
+                  pa.archivio_id = %s 
         ''' % (uid, archivio_id)
         cr.execute(query)
         result = cr.fetchall()
@@ -874,7 +874,7 @@ class protocollo_protocollo(osv.Model):
                   pa.state = 'assegnato' AND
                   pa.parent_id IS NULL AND
                   pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
-                  pp.archivio_id = %s
+                  pa.archivio_id = %s
         ''' % (uid, archivio_id)
         cr.execute(query)
         result = cr.fetchall()
@@ -923,7 +923,7 @@ class protocollo_protocollo(osv.Model):
                   pa.tipologia_assegnatario = 'department' AND
                   pa.state = 'assegnato' AND
                   pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
-                  pp.archivio_id = %s AND
+                  pa.archivio_id = %s AND
                   pa.id NOT IN (
                       SELECT pa.parent_id
                       FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_department hd, hr_employee he, resource_resource rr
@@ -937,7 +937,7 @@ class protocollo_protocollo(osv.Model):
                             pa.parent_id IS NOT NULL AND
                             pa.state != 'assegnato' AND
                             pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
-                            pp.archivio_id = %s
+                            pa.archivio_id = %s
                   )
         ''' % (uid, archivio_id, uid, archivio_id)
         cr.execute(query)
@@ -989,7 +989,7 @@ class protocollo_protocollo(osv.Model):
                   pa.tipologia_assegnazione = 'competenza' AND
                   pa.state = 'assegnato' AND
                   pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
-                  pp.archivio_id = %s
+                  pa.archivio_id = %s
         ''' % (uid, archivio_id)
         cr.execute(query)
         result = cr.fetchall()
@@ -1040,7 +1040,7 @@ class protocollo_protocollo(osv.Model):
                   pa.tipologia_assegnazione = 'conoscenza' AND
                   pa.state = 'assegnato' AND
                   pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
-                  pp.archivio_id = %s
+                  pa.archivio_id = %s
         ''' % (uid, archivio_id)
         cr.execute(query)
         result = cr.fetchall()
@@ -1098,7 +1098,7 @@ class protocollo_protocollo(osv.Model):
                   pa.tipologia_assegnazione = 'conoscenza' AND
                   pa.state = 'assegnato' AND
                   pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
-                  pp.archivio_id = %s
+                  pa.archivio_id = %s
         ''' % (uid, uid, archivio_id)
         cr.execute(query)
         result = cr.fetchall()
@@ -1147,7 +1147,7 @@ class protocollo_protocollo(osv.Model):
                   pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
                   pp.da_assegnare = TRUE AND
                   pp.is_imported = FALSE AND
-                  pp.archivio_id = %s
+                  pa.archivio_id = %s
         ''' % (uid, archivio_id)
         cr.execute(query)
         result = cr.fetchall()
@@ -1201,7 +1201,7 @@ class protocollo_protocollo(osv.Model):
                       pa.state = 'assegnato' AND
                       pa.parent_id IS NULL AND
                       pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
-                      pp.archivio_id = %s
+                      pa.archivio_id = %s
                 
                 UNION
                 
@@ -1221,9 +1221,10 @@ class protocollo_protocollo(osv.Model):
                       he.resource_id = rr.id AND
                       rr.user_id = %s AND
                       rr.active = TRUE AND
-                      pp.archivio_id = %s
+                      pa1.archivio_id = %s AND
+                      pa2.archivio_id = %s
             ) p
-        ''' % (uid, archivio_id, uid, archivio_id)
+        ''' % (uid, archivio_id, uid, archivio_id, archivio_id)
         cr.execute(query)
         result = cr.fetchall()
         return result
@@ -1276,7 +1277,7 @@ class protocollo_protocollo(osv.Model):
                       pa.state = 'rifiutato' AND
                       pa.parent_id IS NULL AND
                       pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
-                      pp.archivio_id = %s
+                      pa.archivio_id = %s
 
                 UNION
 
@@ -1296,9 +1297,10 @@ class protocollo_protocollo(osv.Model):
                       he.resource_id = rr.id AND
                       rr.user_id = %s AND
                       rr.active = TRUE AND
-                      pp.archivio_id = %s
+                      pa1.archivio_id = %s AND
+                      pa2.archivio_id = %s
             ) p
-        ''' % (uid, archivio_id, uid, archivio_id)
+        ''' % (uid, archivio_id, uid, archivio_id, archivio_id)
         cr.execute(query)
         result = cr.fetchall()
         return result
@@ -1414,7 +1416,7 @@ class protocollo_protocollo(osv.Model):
                   pa.parent_id IS NULL AND
                   pa.assegnatario_id = ass.id AND 
                   ass.nome ILIKE %s AND 
-                  pp.archivio_id = %s
+                  pa.archivio_id = %s
         ''', (tipologia_assegnazione, tipologia_assegnatario, '%' + nome + '%', archivio_id))
         protocollo_ids = [res[0] for res in cr.fetchall()]
         return protocollo_ids
@@ -1472,7 +1474,7 @@ class protocollo_protocollo(osv.Model):
                   pa.tipologia_assegnatario = 'employee' AND 
                   pa.parent_id IS NULL AND
                   pa.tipologia_assegnazione = 'competenza' AND 
-                  pp.archivio_id = %s
+                  pa.archivio_id = %s
         ''', (uid, archivio_id))
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
         end = int(round(time.time() * 1000))
@@ -1500,7 +1502,7 @@ class protocollo_protocollo(osv.Model):
                   pa.tipologia_assegnatario = 'employee' AND 
                   pa.parent_id IS NULL AND
                   pa.tipologia_assegnazione = 'conoscenza' AND 
-                  pp.archivio_id = %s
+                  pa.archivio_id = %s
         ''', (uid, archivio_id))
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
         end = int(round(time.time() * 1000))
@@ -1528,7 +1530,7 @@ class protocollo_protocollo(osv.Model):
                   pp.registration_date IS NOT NULL AND
                   pa.tipologia_assegnatario = 'department' AND 
                   pa.tipologia_assegnazione = 'competenza' AND 
-                  pp.archivio_id = %s
+                  pa.archivio_id = %s
         ''', (uid, archivio_id))
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
         end = int(round(time.time() * 1000))
@@ -1556,7 +1558,7 @@ class protocollo_protocollo(osv.Model):
                   pp.registration_date IS NOT NULL AND
                   pa.tipologia_assegnatario = 'department' AND 
                   pa.tipologia_assegnazione = 'conoscenza' AND 
-                  pp.archivio_id = %s
+                  pa.archivio_id = %s
         ''', (uid, archivio_id))
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
         end = int(round(time.time() * 1000))
@@ -1582,7 +1584,7 @@ class protocollo_protocollo(osv.Model):
                   rr.active = TRUE AND
                   pp.registration_date IS NOT NULL AND
                   (pa.tipologia_assegnatario = 'department' OR (pa.tipologia_assegnatario = 'employee' AND pa.parent_id IS NULL)) AND 
-                  pp.archivio_id = %s
+                  pa.archivio_id = %s
         ''', (uid, archivio_id))
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
         end = int(round(time.time() * 1000))
@@ -1607,7 +1609,7 @@ class protocollo_protocollo(osv.Model):
                   rr.active = TRUE AND
                   pp.registration_date IS NOT NULL AND
                   pa.tipologia_assegnazione = 'competenza' AND 
-                  pp.archivio_id = %s
+                  pa.archivio_id = %s
         ''', (archivio_id,))
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
         end = int(round(time.time() * 1000))
@@ -1632,7 +1634,7 @@ class protocollo_protocollo(osv.Model):
                   rr.active = TRUE AND
                   pp.registration_date IS NOT NULL AND
                   pa.tipologia_assegnazione = 'conoscenza' AND 
-                  pp.archivio_id = %s
+                  pa.archivio_id = %s
         ''', (archivio_id,))
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
         end = int(round(time.time() * 1000))

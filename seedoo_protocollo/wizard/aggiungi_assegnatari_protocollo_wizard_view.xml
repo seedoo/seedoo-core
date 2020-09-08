@@ -31,6 +31,7 @@
                                        nolabel="1"
                                        context="{'reserved': reserved}"
                                        attrs="{'required':[('assegnatario_competenza_id_required','=',True)]}"
+                                       on_change="on_change_assegnatario_competenza_id(assegnatario_competenza_id)"
                                 />
                                 <field name="assegnatario_competenza_id_required" invisible="1"/>
                             </group>
@@ -42,6 +43,7 @@
                                        attrs="{'invisible':[('reserved','=',True)]}"
                                        nolabel="1"
                                        context="{'reserved': reserved, 'typology': 'tipologia', 'uncheck_different_typology': True, 'disable_ids': assegnatario_conoscenza_disable_ids[0][2]}"
+                                       on_change="on_change_assegnatario_conoscenza_ids(assegnatario_conoscenza_ids)"
                                 />
                                 <field name="conoscenza_reserved_error" nolabel="1" attrs="{'invisible':[('reserved','=',False)]}"/>
                             </group>
@@ -58,9 +60,10 @@
 
                         <field name="assegnatario_conoscenza_disable_ids" invisible="1"/>
                         <field name="assegnatari_empty" invisible="1"/>
+                        <field name="assegnatari_change" invisible="1"/>
                     </sheet>
                     <footer>
-                        <button string="Ok" name="action_save" type="object" attrs="{'invisible':[('assegnatari_empty','=',True)]}" class="oe_highlight"/>
+                        <button string="Ok" name="action_save" type="object" attrs="{'invisible':['|',('assegnatari_empty','=',True),('assegnatari_change','=',False)]}" class="oe_highlight"/>
                         <button string="Abbandona" class="oe_link" special="cancel"/>
                     </footer>
                 </form>

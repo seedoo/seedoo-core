@@ -49,6 +49,7 @@ class protocollo_aggiungi_assegnatari_wizard(osv.TransientModel):
         'assegnatari_empty': fields.boolean('Assegnatari Non Presenti'),
         'assegnatore_department_id_invisible': fields.boolean('Dipartimento Assegnatore Non Visibile', readonly=True),
         'assegnatario_competenza_id_required': fields.boolean('Assegnatario per Competenza Obbligatorio', readonly=True),
+        'assegnatari_change': fields.boolean('Assegnatari Modificati'),
     }
 
     def _default_reserved(self, cr, uid, context):
@@ -167,8 +168,23 @@ Se sono presenti assegnatari per conoscenza verranno rimossi al completamento de
         'display_motivation': _default_display_motivation,
         'assegnatari_empty': _default_assegnatari_empty,
         'assegnatore_department_id_invisible': _default_assegnatore_department_id_invisible,
-        'assegnatario_competenza_id_required': _default_assegnatario_competenza_id_required
+        'assegnatario_competenza_id_required': _default_assegnatario_competenza_id_required,
+        'assegnatari_change': False
     }
+
+    def on_change_assegnatario_competenza_id(self, cr, uid, ids, assegnatario_competenza_id, context=None):
+        # si controlla se la chiave 'reserved' è all'interno del context in modo da distinguere quando il metodo
+        # on_change viene chiamato dal default oppure dall'interfaccia tramite il click dell'utente
+        if context and 'reserved' in context:
+            return {'value': {'assegnatari_change': True}}
+        return {}
+
+    def on_change_assegnatario_conoscenza_ids(self, cr, uid, ids, assegnatario_conoscenza_ids, context=None):
+        # si controlla se la chiave 'reserved' è all'interno del context in modo da distinguere quando il metodo
+        # on_change viene chiamato dal default oppure dall'interfaccia tramite il click dell'utente
+        if context and 'reserved' in context:
+            return {'value': {'assegnatari_change': True}}
+        return {}
 
     def salva_assegnazione_competenza(self, cr, uid, protocollo, wizard, assegnatore_id, save_history, before, after):
         old_assegnatario_id = self._default_assegnatario_competenza_id(cr, uid, {'active_id': protocollo.id})
