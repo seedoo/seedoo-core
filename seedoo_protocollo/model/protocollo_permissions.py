@@ -539,11 +539,22 @@ class protocollo_protocollo(osv.Model):
                     search_protocollo_ids = domain_condition[2]
         return search_protocollo_ids
 
+    # il metedo search_read viene richiamato per leggere i campi del protocollo da mostrare in seguito ad una action di
+    # ricerca. Per evitare di richiamare nuovamente l'algoritmo di visibilità, si inserisce nel context la chiave
+    # skip_check_read in modo che quando si chiama il metodo read la chiamata all'algoritmo di visibilità viene saltata.
     def search_read(self, cr, uid, domain=None, fields=None, offset=0, limit=None, order=None, context=None):
         search_ctx = dict(context or {})
         search_ctx['skip_check_read'] = True
         return super(protocollo_protocollo, self).search_read(cr, uid, domain, fields, offset, limit, order, search_ctx)
 
+    # il metodo _search viene esteso per gestire la visibilità dei protocolli. Ci sono due possibili casistiche in cui
+    # il search viene richiamato:
+    # - dalla action richiamata nelle viste tree (do_search_read): in tale action la search viene richiamata due volte,
+    #   una prima per recuperare i protocolli da mostrare nella vista e una seconda per conteggiare il numero di
+    #   protocolli totali. Per evitare di richiamare l'algoritmo di visibilità due volte, nella seconda chiamata si
+    #   passa nel context, tramite la chiave filtered_protocollo_ids, i protocolli visibili
+    # - tutti i restanti casi presenti nel codice: in questo caso si dovranno recuperare i protocolli visibili mediante
+    #   richiamando il metodo filter_protocollo_ids
     def _search(self, cr, uid, args, offset=0, limit=None, order=None, context=None, count=False, access_rights_uid=None):
         if uid == SUPERUSER_ID or (context and context.has_key('skip_check') and context['skip_check']):
             return super(protocollo_protocollo, self)._search(cr, uid, args, offset, limit, order, context, count, access_rights_uid)
