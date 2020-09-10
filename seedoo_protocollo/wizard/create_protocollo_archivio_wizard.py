@@ -136,8 +136,7 @@ class protocollo_archivio_wizard(osv.TransientModel):
         protocollo_obj = self.pool.get('protocollo.protocollo')
         protocollo_assegnazione_obj = self.pool.get('protocollo.assegnazione')
         protocollo_archivio_obj = self.pool.get('protocollo.archivio')
-        archivio_corrente = protocollo_archivio_obj._get_archivio_ids(cr, uid, True)
-        archivio_ids_str = ', '.join(map(str, archivio_corrente))
+        archivio_corrente_id = protocollo_archivio_obj._get_archivio_ids(cr, uid, True)[0]
 
         #Selezione dei protocolli da archiviare
         if wizard.interval_type in ['date', 'number']:
@@ -170,9 +169,9 @@ class protocollo_archivio_wizard(osv.TransientModel):
             count_start = protocollo_obj.search(cr, uid, [('archivio_id', '=', protocollo_archivio_id)], count=True)
 
             if wizard.interval_type == 'date':
-                self.archive_by_date(cr, uid, wizard, protocollo_archivio_id, archivio_ids_str)
+                self.archive_by_date(cr, uid, wizard, archivio_corrente_id, protocollo_archivio_id)
             elif wizard.interval_type == 'number':
-                self.archive_by_number(cr, uid, wizard, protocollo_archivio_id, archivio_ids_str)
+                self.archive_by_number(cr, uid, wizard, archivio_corrente_id, protocollo_archivio_id)
 
             count_end = protocollo_obj.search(cr, uid, [('archivio_id', '=', protocollo_archivio_id)], count=True)
             count_diff = count_end - count_start
@@ -188,35 +187,37 @@ class protocollo_archivio_wizard(osv.TransientModel):
         return {'type': 'ir.actions.act_window_close'}
 
 
-    def archive_by_date(self, cr, uid, wizard, protocollo_archivio_id, archivio_ids_str):
+    def archive_by_date(self, cr, uid, wizard, archivio_corrente_id, protocollo_archivio_id):
         cr.execute('''
             UPDATE protocollo_protocollo pp
             SET archivio_id = %s
             WHERE pp.aoo_id = %s AND
                   pp.state IN ('registered', 'notified', 'sent', 'waiting', 'error', 'canceled') AND
-                  pp.archivio_id IN (''' + archivio_ids_str + ''') AND
+                  pp.archivio_id = %s AND
                   pp.registration_date > %s AND 
                   pp.registration_date < %s
         ''', (
             protocollo_archivio_id,
             wizard.aoo_id.id,
+            archivio_corrente_id,
             wizard.date_start,
             wizard.date_end
         ))
 
 
-    def archive_by_number(self, cr, uid, wizard, protocollo_archivio_id, archivio_ids_str):
+    def archive_by_number(self, cr, uid, wizard, archivio_corrente_id, protocollo_archivio_id):
         cr.execute('''
             UPDATE protocollo_protocollo pp
             SET archivio_id = %s
             WHERE pp.aoo_id = %s AND
                   pp.state IN ('registered', 'notified', 'sent', 'waiting', 'error', 'canceled') AND
-                  pp.archivio_id IN (''' + archivio_ids_str + ''') AND
+                  pp.archivio_id = %s AND
                   ((pp.year=%s AND pp.name >= %s) OR pp.year > %s) AND 
                   ((pp.year=%s AND pp.name <= %s) OR pp.year < %s)
         ''', (
             protocollo_archivio_id,
             wizard.aoo_id.id,
+            archivio_corrente_id,
             wizard.year_start, wizard.protocol_start, wizard.year_start,
             wizard.year_end, wizard.protocol_end, wizard.year_end
         ))
