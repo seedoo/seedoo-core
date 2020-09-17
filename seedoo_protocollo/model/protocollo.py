@@ -655,7 +655,8 @@ class protocollo_protocollo(orm.Model):
                                          domain="[('pec', '=', True),('user_ids', 'in', uid),('state','=','done')]"),
         'is_imported': fields.boolean('Protocollo Importato', readonly=True),
         'request_user_id': fields.many2one('res.users', 'Autore Richiesta di protocollo', readonly=True),
-
+        'archivio_id': fields.many2one('protocollo.archivio', 'Archivio', required=True),
+        'is_current_archive': fields.related('archivio_id', 'is_current', type='boolean', string='Archivio Corrente', readonly=True)
     }
 
     # def _get_default_name(self, cr, uid, context=None):
@@ -715,6 +716,13 @@ class protocollo_protocollo(orm.Model):
             return department_ids[0]
         return False
 
+    def _get_default_archivio_id(self, cr, uid, context=None):
+        aoo_ids = self.pool.get('protocollo.aoo').search(cr, uid, [], context=context)
+        if len(aoo_ids) > 0:
+            archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('aoo_id', '=', aoo_ids[0]), ('is_current', '=', True)], context=context)
+            return archivio_ids[0]
+        return False
+
     _defaults = {
         'registration_type': 'normal',
         'emergency_active': _get_default_is_emergency_active,
@@ -730,7 +738,8 @@ class protocollo_protocollo(orm.Model):
         'email_pec_sending_mode': 'all_receivers',
         'is_imported': False,
         'registration_employee_department_id_readonly': _default_registration_employee_department_id_readonly,
-        'registration_employee_state': 'working'
+        'registration_employee_state': 'working',
+        'archivio_id': _get_default_archivio_id,
     }
 
     _sql_constraints = [

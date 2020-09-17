@@ -27,6 +27,43 @@
                                     class="oe_highlight_positive btn_seedoo btn_rimuovi_mittente"
                                     context="{'archive_exists':True,'archivio_id':id}"/>
                         </group>
+                        <group string="Richieste di Archiviazione" col="4">
+                            <field name="archivio_request_ids" nolabel="1">
+                                <tree>
+                                    <field name="create_date"/>
+                                    <field name="state"/>
+                                    <field name="running_start"/>
+                                    <field name="running_end"/>
+                                    <field name="archived_protocol_count"/>
+                                    <button name="run"
+                                            string="Esegui"
+                                            type="object"
+                                            icon="gtk-go-forward"
+                                            attrs="{'invisible':[('state', 'in', ('running', 'completed'))]}"
+                                    />
+                                </tree>
+                                <form>
+                                    <group colspan="4" col="4">
+                                        <field name="create_date"/>
+                                        <field name="state"/>
+                                        <field name="running_start"/>
+                                        <field name="running_end"/>
+                                        <field name="interval_type" />
+                                        <newline/>
+                                        <field name="date_start" attrs="{'invisible':[('interval_type','!=','date')],'required':[('interval_type','=','date')]}"/>
+                                        <field name="date_end" attrs="{'invisible':[('interval_type','!=','date')],'required':[('interval_type','=','date')]}"/>
+                                        <field name="year_start" attrs="{'invisible':[('interval_type','!=','number')],'required':[('interval_type','=','number')]}"/>
+                                        <field name="year_end" attrs="{'invisible':[('interval_type','!=','number')],'required':[('interval_type','=','number')]}"/>
+                                        <field name="protocol_start" attrs="{'invisible':[('interval_type','!=','number')],'required':[('interval_type','=','number')]}"/>
+                                        <field name="protocol_end" attrs="{'invisible':[('interval_type','!=','number')],'required':[('interval_type','=','number')]}"/>
+                                        <newline/>
+                                        <field name="archived_protocol_count"/>
+                                        <newline/>
+                                        <field name="error" attrs="{'invisible':[('error','=', False)]}" colspan="4"/>
+                                    </group>
+                                </form>
+                            </field>
+                        </group>
                     </sheet>
                 </form>
             </field>

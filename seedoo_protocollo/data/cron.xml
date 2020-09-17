@@ -3,7 +3,7 @@
 <openerp>
     <data noupdate="1">
 
-        <record model="ir.cron" id="ir_cron_protocollo_journal_cron_generate_missing">
+        <record id="ir_cron_protocollo_journal_cron_generate_missing" model="ir.cron">
             <field name="name">Registro Giornaliero - Creazione e Chiusura</field>
             <field name="active" eval="True"/>
             <field name="interval_type">days</field>

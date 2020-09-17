@@ -22,6 +22,7 @@ from . import email_template
 from . import protocollo
 from . import protocollo_aoo
 from . import protocollo_archivio
+from . import protocollo_archivio_request
 from . import protocollo_assegnazione
 from . import protocollo_assegnazione_new_api
 from . import protocollo_messaggio_pec

@@ -128,7 +128,7 @@ class protocollo_assegnatario(osv.osv):
             return []
         if isinstance(ids, (int, long)):
             ids = [ids]
-        reads = self.read(cr, uid, ids, ['nome','parent_id'], context=context)
+        reads = self.read(cr, uid, ids, ['nome', 'parent_id'], context=context)
         res = []
         for record in reads:
             name = record['nome']
@@ -213,6 +213,10 @@ class protocollo_assegnazione(orm.Model):
     # ]
 
     def delete_indexes(self, cr):
+        cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_assegnazione_id\'')
+        if cr.fetchone():
+            cr.execute('DROP INDEX idx_protocollo_assegnazione_id')
+
         cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_assegnazione_parent_id\'')
         if cr.fetchone():
             cr.execute('DROP INDEX idx_protocollo_assegnazione_parent_id')
@@ -258,6 +262,14 @@ class protocollo_assegnazione(orm.Model):
             cr.execute('DROP INDEX idx_protocollo_assegnazione_tipologia_assegnatario_parent_null')
 
     def create_indexes(self, cr):
+        cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_assegnazione_id\'')
+        if not cr.fetchone():
+            cr.execute("""
+                CREATE INDEX idx_protocollo_assegnazione_id
+                ON public.protocollo_assegnazione
+                USING btree
+                (id);
+            """)
         cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_assegnazione_protocollo_id\'')
         if not cr.fetchone():
             cr.execute("""
@@ -391,6 +403,10 @@ class protocollo_assegnazione(orm.Model):
         assegnazione_id = self.create(cr, uid, vals, {'recompute': False})
         assegnazione = self.browse(cr, uid, assegnazione_id, {'skip_check': True})
         self.notifica_assegnazione(cr, uid, assegnazione)
+        # il metodo refresh serve per invalidare la cache degli id memorizzati nell'oggetto assegnatario_obj: se non si
+        # invalida la cache ad ogni creazione di un'assegnazione, si ricalcola il name anche per le assegnazione create
+        # in precedenza, rallentando notevolmente il processo
+        assegnatario_obj.refresh(cr, uid)
         return assegnazione_id
 
 
