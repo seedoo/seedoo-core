@@ -19,7 +19,7 @@ class protocollo_assegnatario(osv.osv):
     _auto = False
 
     def _dept_name_get_fnc(self, cr, uid, ids, prop, unknow_none, context=None):
-        res = self.name_get(cr, uid, ids, context=context)
+        res = self.complete_name_get(cr, uid, ids, context=context)
         return dict(res)
 
     def _name_search_fnc(self, cr, uid, obj, name, args, domain=None, context=None):
@@ -108,7 +108,7 @@ class protocollo_assegnatario(osv.osv):
         return res
 
     _columns = {
-        'name': fields.function(_dept_name_get_fnc, fnct_search=_name_search_fnc, type='char', string='Name'),
+        'complete_name': fields.function(_dept_name_get_fnc, fnct_search=_name_search_fnc, type='char', string='Name'),
         'nome': fields.char('Nome', size=512, readonly=True),
         'tipologia': fields.selection(TIPO_ASSEGNATARIO_SELECTION, 'Tipologia', readonly=True),
         'employee_id': fields.many2one('hr.employee', 'Dipendente', readonly=True),
@@ -121,7 +121,7 @@ class protocollo_assegnatario(osv.osv):
         'is_visible': fields.function(_is_visible, fnct_search=_is_visible_search, type='boolean', string='Visibile'),
     }
 
-    def name_get(self, cr, uid, ids, context=None):
+    def complete_name_get(self, cr, uid, ids, context=None):
         if context is None:
             context = {}
         if not ids:
@@ -133,7 +133,8 @@ class protocollo_assegnatario(osv.osv):
         for record in reads:
             name = record['nome']
             if record['parent_id']:
-                name = record['parent_id'][1]+' / '+name
+                parent_reads = self.read(cr, uid, [record['parent_id'][0]], ['complete_name'], context=context)
+                name = parent_reads[0]['complete_name']+' / '+name
             res.append((record['id'], name))
         return res
 
@@ -382,7 +383,7 @@ class protocollo_assegnazione(orm.Model):
         vals = dict(values or {})
         vals['protocollo_id'] = protocollo_id
         vals['assegnatario_id'] = assegnatario.id
-        vals['assegnatario_name'] = assegnatario.name
+        vals['assegnatario_name'] = assegnatario.complete_name
         vals['tipologia_assegnatario'] = assegnatario.tipologia
         vals['tipologia_assegnazione'] = tipologia
         vals['state'] = 'assegnato'
