@@ -12,13 +12,19 @@ class protocollo_aggiungi_assegnatari_wizard(osv.TransientModel):
     _name = 'protocollo.aggiungi.assegnatari.wizard'
     _description = 'Aggiungi Assegnatari'
 
-    def _get_assegnatore_call_by_modifica_assegnatari(self, protocollo):
+    def _get_assegnatore_call_by_modifica_assegnatari(self, cr, uid, protocollo):
         assegnatore = False
-        if protocollo.assegnazione_competenza_ids:
-            assegnatore = protocollo.assegnazione_competenza_ids[0].assegnatore_id
-        elif protocollo.assegnazione_conoscenza_ids:
-            assegnatore = protocollo.assegnazione_conoscenza_ids[0].assegnatore_id
-        return assegnatore
+        # if protocollo.assegnazione_competenza_ids:
+        #     assegnatore = protocollo.assegnazione_competenza_ids[0].assegnatore_id
+        # elif protocollo.assegnazione_conoscenza_ids:
+        #     assegnatore = protocollo.assegnazione_conoscenza_ids[0].assegnatore_id
+        employee_obj = self.pool.get('hr.employee')
+        employee_ids = employee_obj.search(cr, uid, [('user_id', '=', uid)])
+        employee_count = len(employee_ids)
+        if employee_count == 1:
+            employee = employee_obj.browse(cr, uid, employee_ids[0])
+            return employee
+        return False
 
 
     _columns = {
@@ -69,7 +75,7 @@ Se sono presenti assegnatari per conoscenza verranno rimossi al completamento de
         assegnatore_department_id = False
         protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
         if context and 'call_by_modifica_assegnatari' in context and protocollo.registration_date:
-            assegnatore = self._get_assegnatore_call_by_modifica_assegnatari(protocollo)
+            assegnatore = self._get_assegnatore_call_by_modifica_assegnatari(cr, uid, protocollo)
             if assegnatore:
                 assegnatore_department_id = assegnatore.department_id.id
         else:
@@ -237,11 +243,10 @@ Se sono presenti assegnatari per conoscenza verranno rimossi al completamento de
 
         assegnatore_id = False
         if context and 'call_by_modifica_assegnatari' in context and protocollo.registration_date:
-            assegnatore = self._get_assegnatore_call_by_modifica_assegnatari(protocollo)
+            assegnatore = self._get_assegnatore_call_by_modifica_assegnatari(cr, uid, protocollo)
             if assegnatore:
                 assegnatore_id = assegnatore.id
-        else:
-            # se il protocollo è in stato bozza allora la modifica viene fatta solo
+        if not assegnatore_id:
             employee_ids = self.pool.get('hr.employee').search(cr, uid, [
                 ('department_id', '=', wizard.assegnatore_department_id.id),
                 ('user_id', '=', uid)

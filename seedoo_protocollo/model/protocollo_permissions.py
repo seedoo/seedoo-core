@@ -2099,13 +2099,11 @@ class protocollo_protocollo(osv.Model):
             check = False
 
             count = assegnazione_obj.search(cr, uid, [('protocollo_id', '=', protocollo.id)], count=True)
-            if count:
-
-                if protocollo.state == 'draft' and (uid == protocollo.user_id.id or uid == SUPERUSER_ID):
-                    check = True
-                elif protocollo.state in ['registered', 'notified', 'waiting', 'sent', 'error']:
-                    types = self.get_protocollo_types_by_group(cr, uid, 'seedoo_protocollo', 'group_modifica_assegnatari_protocollo_', '')
-                    check = protocollo.type in types
+            if count and protocollo.state == 'draft' and (uid == protocollo.user_id.id or uid == SUPERUSER_ID):
+                check = True
+            elif protocollo.state in ['registered', 'notified', 'waiting', 'sent', 'error']:
+                types = self.get_protocollo_types_by_group(cr, uid, 'seedoo_protocollo', 'group_modifica_assegnatari_protocollo_', '')
+                check = protocollo.type in types
 
             res.append((protocollo.id, check))
 
