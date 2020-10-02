@@ -1346,7 +1346,7 @@ class protocollo_protocollo(osv.Model):
         return {}
 
     def _da_assegnare_general_visibility_search(self, cr, uid, obj, name, args, domain=None, context=None):
-        start = int(round(time.time() * 1000))
+        time_start = time.time()
         if context and 'archivio_id' in context and context['archivio_id']:
             archivio_id = context['archivio_id']
         else:
@@ -1357,10 +1357,11 @@ class protocollo_protocollo(osv.Model):
             WHERE pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND 
                   pp.da_assegnare = TRUE AND 
                   pp.archivio_id = %s
-        ''', (uid, archivio_id))
+        ''', (archivio_id,))
         protocollo_visible_ids = [res[0] for res in cr.fetchall()]
-        end = int(round(time.time() * 1000))
-        _logger.debug("_da_assegnare_general_visibility_search" + str(end - start))
+        time_end = time.time()
+        time_duration = time_end - time_start
+        _logger.debug("_da_assegnare_general_visibility_search: %s sec" % (time_duration,))
         return [('id', 'in', protocollo_visible_ids)]
 
     def _get_protocollo_assegnazione_ids(self, cr, uid, tipologia_assegnazione, tipologia_assegnatario, nome, context=None):
