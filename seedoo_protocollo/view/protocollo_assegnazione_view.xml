@@ -10,7 +10,7 @@
                 <form string="Assegnatario" create="0" edit="0">
                     <sheet>
                         <group col="2">
-                            <field name="name"/>
+                            <field name="complete_name"/>
                             <field name="tipologia"/>
                             <field name="parent_id"/>
                             <field name="child_ids"/>
@@ -26,7 +26,7 @@
             <field name="arch" type="xml">
                 <tree string="Assegnatari" create="0" edit="0"
                       colors="black:tipologia=='employee';green:tipologia=='department' and parent_id==False;blue:tipologia=='department'" >
-                    <field name="name"/>
+                    <field name="complete_name"/>
                     <field name="tipologia"/>
                     <field name="parent_id" invisible="1"/>
                 </tree>

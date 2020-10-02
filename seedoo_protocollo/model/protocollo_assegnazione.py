@@ -19,7 +19,7 @@ class protocollo_assegnatario(osv.osv):
     _auto = False
 
     def _dept_name_get_fnc(self, cr, uid, ids, prop, unknow_none, context=None):
-        res = self.name_get(cr, uid, ids, context=context)
+        res = self.complete_name_get(cr, uid, ids, context=context)
         return dict(res)
 
     def _name_search_fnc(self, cr, uid, obj, name, args, domain=None, context=None):
@@ -108,7 +108,7 @@ class protocollo_assegnatario(osv.osv):
         return res
 
     _columns = {
-        'name': fields.function(_dept_name_get_fnc, fnct_search=_name_search_fnc, type='char', string='Name'),
+        'complete_name': fields.function(_dept_name_get_fnc, fnct_search=_name_search_fnc, type='char', string='Name'),
         'nome': fields.char('Nome', size=512, readonly=True),
         'tipologia': fields.selection(TIPO_ASSEGNATARIO_SELECTION, 'Tipologia', readonly=True),
         'employee_id': fields.many2one('hr.employee', 'Dipendente', readonly=True),
@@ -121,19 +121,20 @@ class protocollo_assegnatario(osv.osv):
         'is_visible': fields.function(_is_visible, fnct_search=_is_visible_search, type='boolean', string='Visibile'),
     }
 
-    def name_get(self, cr, uid, ids, context=None):
+    def complete_name_get(self, cr, uid, ids, context=None):
         if context is None:
             context = {}
         if not ids:
             return []
         if isinstance(ids, (int, long)):
             ids = [ids]
-        reads = self.read(cr, uid, ids, ['nome','parent_id'], context=context)
+        reads = self.read(cr, uid, ids, ['nome', 'parent_id'], context=context)
         res = []
         for record in reads:
             name = record['nome']
             if record['parent_id']:
-                name = record['parent_id'][1]+' / '+name
+                parent_reads = self.read(cr, uid, [record['parent_id'][0]], ['complete_name'], context=context)
+                name = parent_reads[0]['complete_name']+' / '+name
             res.append((record['id'], name))
         return res
 
@@ -203,6 +204,8 @@ class protocollo_assegnazione(orm.Model):
         'child_ids': fields.one2many('protocollo.assegnazione', 'parent_id', 'Assegnazioni Dipendenti'),
 
         'motivazione_rifiuto': fields.text('Motivazione del Rifiuto'),
+
+        'archivio_id': fields.many2one('protocollo.archivio', 'Archivio'),
     }
 
     # _sql_constraints = [
@@ -211,6 +214,10 @@ class protocollo_assegnazione(orm.Model):
     # ]
 
     def delete_indexes(self, cr):
+        cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_assegnazione_id\'')
+        if cr.fetchone():
+            cr.execute('DROP INDEX idx_protocollo_assegnazione_id')
+
         cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_assegnazione_parent_id\'')
         if cr.fetchone():
             cr.execute('DROP INDEX idx_protocollo_assegnazione_parent_id')
@@ -218,6 +225,10 @@ class protocollo_assegnazione(orm.Model):
         cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_assegnazione_protocollo_id\'')
         if cr.fetchone():
             cr.execute('DROP INDEX idx_protocollo_assegnazione_protocollo_id')
+
+        cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_assegnazione_archivio_id\'')
+        if cr.fetchone():
+            cr.execute('DROP INDEX idx_protocollo_assegnazione_archivio_id')
 
         cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_assegnazione_tipologia_assegnatario_emp\'')
         if cr.fetchone():
@@ -256,6 +267,14 @@ class protocollo_assegnazione(orm.Model):
             cr.execute('DROP INDEX idx_protocollo_assegnazione_tipologia_assegnatario_parent_null')
 
     def create_indexes(self, cr):
+        cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_assegnazione_id\'')
+        if not cr.fetchone():
+            cr.execute("""
+                CREATE INDEX idx_protocollo_assegnazione_id
+                ON public.protocollo_assegnazione
+                USING btree
+                (id);
+            """)
         cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_assegnazione_protocollo_id\'')
         if not cr.fetchone():
             cr.execute("""
@@ -271,6 +290,14 @@ class protocollo_assegnazione(orm.Model):
                 ON public.protocollo_assegnazione
                 USING btree
                 (parent_id);
+            """)
+        cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_assegnazione_archivio_id\'')
+        if not cr.fetchone():
+            cr.execute("""
+                CREATE INDEX idx_protocollo_assegnazione_archivio_id
+                ON public.protocollo_assegnazione
+                USING btree
+                (archivio_id);
             """)
         cr.execute('SELECT indexname FROM pg_indexes WHERE indexname = \'idx_protocollo_assegnazione_tipologia_assegnatario_emp\'')
         if not cr.fetchone():
@@ -368,7 +395,7 @@ class protocollo_assegnazione(orm.Model):
         vals = dict(values or {})
         vals['protocollo_id'] = protocollo_id
         vals['assegnatario_id'] = assegnatario.id
-        vals['assegnatario_name'] = assegnatario.name
+        vals['assegnatario_name'] = assegnatario.complete_name
         vals['tipologia_assegnatario'] = assegnatario.tipologia
         vals['tipologia_assegnazione'] = tipologia
         vals['state'] = 'assegnato'
@@ -377,6 +404,7 @@ class protocollo_assegnazione(orm.Model):
         vals['assegnatore_complete_name'] = assegnatore_complete_name
         vals['assegnatore_department_id'] = assegnatore.department_id.id if assegnatore.department_id else False
         vals['parent_id'] = parent_id
+        vals['archivio_id'] = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)])[0]
 
         if assegnatario.tipologia == 'employee':
             vals['assegnatario_employee_id'] = assegnatario.employee_id.id
@@ -388,6 +416,10 @@ class protocollo_assegnazione(orm.Model):
         assegnazione_id = self.create(cr, uid, vals, {'recompute': False})
         assegnazione = self.browse(cr, uid, assegnazione_id, {'skip_check': True})
         self.notifica_assegnazione(cr, uid, assegnazione)
+        # il metodo refresh serve per invalidare la cache degli id memorizzati nell'oggetto assegnatario_obj: se non si
+        # invalida la cache ad ogni creazione di un'assegnazione, si ricalcola il name anche per le assegnazione create
+        # in precedenza, rallentando notevolmente il processo
+        assegnatario_obj.refresh(cr, uid)
         return assegnazione_id
 
 

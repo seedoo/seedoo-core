@@ -14,6 +14,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="perm_write" eval="True"/>
             <field name="perm_create" eval="True"/>
             <field name="perm_unlink" eval="True"/>
+            <field name="active" eval="False"/>
         </record>
 
         <record id="employee_access_aoo_rule" model="ir.rule">

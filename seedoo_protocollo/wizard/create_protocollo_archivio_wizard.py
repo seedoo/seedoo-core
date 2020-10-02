@@ -2,7 +2,7 @@
 # This file is part of Seedoo.  The COPYRIGHT file at the top level of
 # this module contains the full copyright notices and license terms.
 
-import logging
+import logging, os
 from openerp.osv import fields, osv, orm
 from openerp.tools.translate import _
 import datetime
@@ -61,7 +61,6 @@ class protocollo_archivio_wizard(osv.TransientModel):
         return False
 
     def get_default_name(self, cr, uid, wizard):
-        #TODO
         return "Archivio di Deposito"
 
     def get_default_archivio_id(self, cr, uid, context):
@@ -130,13 +129,12 @@ class protocollo_archivio_wizard(osv.TransientModel):
         'protocol_end': get_default_protocol_end,
     }
 
+
     def action_create(self, cr, uid, ids, context=None):
         wizard = self.browse(cr, uid, ids[0], context)
         protocollo_obj = self.pool.get('protocollo.protocollo')
-        protocollo_assegnazione_obj = self.pool.get('protocollo.assegnazione')
         protocollo_archivio_obj = self.pool.get('protocollo.archivio')
-        archivio_corrente = protocollo_archivio_obj._get_archivio_ids(cr, uid, True)
-        archivio_ids_str = ', '.join(map(str, archivio_corrente))
+        archivio_request_obj = self.pool.get('protocollo.archivio.request')
 
         #Selezione dei protocolli da archiviare
         if wizard.interval_type in ['date', 'number']:
@@ -164,50 +162,28 @@ class protocollo_archivio_wizard(osv.TransientModel):
             # Archivio da wizard
             protocollo_archivio_id = wizard.archivio_id.id
 
-        #Aggiunta dei protocolli all'archivio creato o preselezionato
         if wizard.interval_type in ['date', 'number']:
-            count_start = protocollo_obj.search(cr, uid, [('archivio_id', '=', protocollo_archivio_id)], count=True)
+            archivio_request_id = archivio_request_obj.create(cr, uid, {
+                'archivio_id': protocollo_archivio_id,
+                'aoo_id': wizard.aoo_id.id,
+                'interval_type': wizard.interval_type,
+                'date_start': wizard.date_start if wizard.interval_type == 'date' else False,
+                'date_end': wizard.date_end if wizard.interval_type == 'date' else False,
+                'year_start': wizard.year_start if wizard.interval_type == 'number' else False,
+                'year_end': wizard.year_end if wizard.interval_type == 'number' else False,
+                'protocol_start': wizard.protocol_start if wizard.interval_type == 'number' else False,
+                'protocol_end': wizard.protocol_end if wizard.interval_type == 'number' else False,
+                'state': 'waiting'
+            })
 
-            if wizard.interval_type == 'date':
-                cr.execute('''
-                    UPDATE protocollo_protocollo pp
-                    SET archivio_id = %s
-                    WHERE pp.aoo_id = %s AND
-                          pp.state IN ('registered', 'notified', 'sent', 'waiting', 'error', 'canceled') AND
-                          pp.archivio_id IN (''' + archivio_ids_str + ''') AND
-                          pp.registration_date > %s AND 
-                          pp.registration_date < %s
-                ''', (
-                    protocollo_archivio_id,
-                    wizard.aoo_id.id,
-                    wizard.date_start,
-                    wizard.date_end
-                ))
-            elif wizard.interval_type == 'number':
-                cr.execute('''
-                    UPDATE protocollo_protocollo pp
-                    SET archivio_id = %s
-                    WHERE pp.aoo_id = %s AND
-                          pp.state IN ('registered', 'notified', 'sent', 'waiting', 'error', 'canceled') AND
-                          pp.archivio_id IN (''' + archivio_ids_str + ''') AND
-                          ((pp.year=%s AND pp.name >= %s) OR pp.year > %s) AND 
-                          ((pp.year=%s AND pp.name <= %s) OR pp.year < %s)
-                ''', (
-                    protocollo_archivio_id,
-                    wizard.aoo_id.id,
-                    wizard.year_start, wizard.protocol_start, wizard.year_start,
-                    wizard.year_end, wizard.protocol_end, wizard.year_end
-                ))
+            archivio_request_obj.run(cr, uid, [archivio_request_id])
 
-            count_end = protocollo_obj.search(cr, uid, [('archivio_id', '=', protocollo_archivio_id)], count=True)
-            count_diff = count_end - count_start
-            if count_diff == 0:
-                raise orm.except_orm(_("Avviso"), _("Nessun protocollo presente in archivio corrente nell'intervallo selezionato"))
-
-            _logger.debug("Archiviati %d protocolli", (count_diff))
-
-            protocollo_archivio = self.pool.get('protocollo.archivio').browse(cr, uid, protocollo_archivio_id)
-            context.update({'archivio_id': protocollo_archivio_id, 'is_current': False})
-            return protocollo_archivio.go_to_archive_action()
-
-        return {'type': 'ir.actions.act_window_close'}
+        return {
+            'name': 'Archivio',
+            'view_type': 'form',
+            'view_mode': 'form,tree,kanban',
+            'res_model': 'protocollo.archivio',
+            'res_id': protocollo_archivio_id,
+            'target': 'current',
+            'type': 'ir.actions.act_window',
+        }

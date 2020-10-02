@@ -45,14 +45,14 @@ class protocollo_sender_internal_wizard(osv.TransientModel):
         wizard = self.browse(cr, uid, ids[0], context)
         vals = {}
         vals['sender_internal_assegnatario'] = wizard.sender_internal_ref.id
-        vals['sender_internal_name'] = wizard.sender_internal_ref.name
+        vals['sender_internal_name'] = wizard.sender_internal_ref.complete_name
         vals['sender_internal_employee'] = wizard.sender_internal_ref.employee_id.id if wizard.sender_internal_ref.employee_id else False
         vals['sender_internal_employee_department'] = wizard.sender_internal_ref.employee_id.department_id.id if wizard.sender_internal_ref.employee_id else False
         vals['sender_internal_department'] = wizard.sender_internal_ref.department_id.id if wizard.sender_internal_ref.department_id else False
 
         if save_history:
             old_sender_internal_id = protocollo.sender_internal_assegnatario.id if protocollo.sender_internal_assegnatario else False
-            old_sender_internal_name = protocollo.sender_internal_assegnatario.name if protocollo.sender_internal_assegnatario else ''
+            old_sender_internal_name = protocollo.sender_internal_assegnatario.complete_name if protocollo.sender_internal_assegnatario else ''
             operation_label = "Inserimento mittente" if not old_sender_internal_id else "Modifica mittente"
 
             if old_sender_internal_id != vals['sender_internal_assegnatario']:

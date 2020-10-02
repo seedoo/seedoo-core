@@ -225,7 +225,7 @@ class protocollo_aggiungi_classificazione_step2_wizard(osv.TransientModel):
         assegnatario_lista_name = []
         assegnatario_list = self.pool.get('protocollo.assegnatario').browse(cr, uid, context['assignee_default_ids'])
         for assegnatario in assegnatario_list:
-            assegnatario_lista_name.append(assegnatario.name)
+            assegnatario_lista_name.append(assegnatario.complete_name)
         assignee_default = '\n'.join(assegnatario_lista_name)
         return assignee_default
 

@@ -2,8 +2,14 @@
 # This file is part of Seedoo.  The COPYRIGHT file at the top level of
 # this module contains the full copyright notices and license terms.
 
+import logging
+import psycopg2
+from openerp import sql_db
 from openerp.osv import orm, fields
+from openerp.tools import config
 from openerp.tools.translate import _
+
+_logger = logging.getLogger(__name__)
 
 # Procudura per la creazione degli archivi e inserimento dei relativi protocolli al suo interno. Lo scopo di tale
 # procedura è quello di ridurre i tempi di esecuzione dell'algoritmo di visibilità, in quanto i protocolli all'interno
@@ -63,6 +69,7 @@ class protocollo_archivio(orm.Model):
         'is_current': fields.boolean('Corrente'),
         'total': fields.function(_get_protocolli_archiviati_count, 'Numero totale protocolli', type='integer', string= 'PEC - Numero invii'),
         'configura_protocollo_visibility': fields.function(_configura_protocollo_visibility, type='boolean', string='Archivia protocolli'),
+        'archivio_request_ids': fields.one2many('protocollo.archivio.request', 'archivio_id', 'Richieste di Archiviazione', readonly=True)
     }
 
     def _get_archivio_ids(self, cr, uid, is_current=True, context=None):
@@ -110,25 +117,119 @@ class protocollo_archivio(orm.Model):
         }
 
 
-class protocollo_protocollo(orm.Model):
+    def archive(self, cr, uid, archivio_request_id, archivio_corrente_id, archivio_id, aoo_id,
+                interval_type,
+                date_start, date_end,
+                year_start, protocol_start, year_end, protocol_end,
+                context=None):
+        postgres_connection_parameters = {
+            'host': config['db_host'],
+            'port': config['db_port'],
+            'user': config['db_user'],
+            'password': config['db_password'],
+            'database': config['db_name']
+        }
+        connection = psycopg2.connect(**postgres_connection_parameters)
+        cursor = connection.cursor()
 
-    _inherit = 'protocollo.protocollo'
+        error = None
+        count_total = 0
+        try:
+            cursor.execute("""
+                SELECT COUNT(pp.id)
+                FROM protocollo_protocollo pp
+                WHERE pp.archivio_id = %s
+                """, (
+                archivio_id,
+            ))
+            count_start = int(cursor.fetchone()[0])
 
-    _columns = {
-        'archivio_id': fields.many2one('protocollo.archivio', 'Archivio', required=True),
-        'is_current_archive': fields.related('archivio_id', 'is_current', type='boolean', string='Archivio Corrente',
-                                         readonly=True)
-    }
+            if interval_type == 'date':
+                self.archive_by_date(cr, uid, cursor, archivio_corrente_id, archivio_id, aoo_id, date_start, date_end)
+            elif interval_type == 'number':
+                self.archive_by_number(cr, uid, cursor, archivio_corrente_id, archivio_id, aoo_id, year_start, protocol_start, year_end, protocol_end)
 
-    def _get_default_archivio_id(self, cr, uid, context=None):
-        aoo_ids = self.pool.get('protocollo.aoo').search(cr, uid, [], context=context)
-        if len(aoo_ids) > 0:
-            archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('aoo_id', '=', aoo_ids[0]),
-                                                                                 ('is_current', '=', True)],
-                                                                       context=context)
-            return archivio_ids[0]
-        return False
+            cursor.execute("""
+                SELECT COUNT(pp.id)
+                FROM protocollo_protocollo pp
+                WHERE pp.archivio_id = %s
+                """, (
+                archivio_id,
+            ))
+            count_end = int(cursor.fetchone()[0])
+            count_total = count_end - count_start
 
-    _defaults = {
-        'archivio_id': _get_default_archivio_id,
-    }
+            _logger.debug("Archiviati %d protocolli", (count_total))
+        except Exception as e:
+            connection.rollback()
+            _logger.error('Error in partitioning: %s', str(e))
+            error = str(e)
+        finally:
+            cursor.execute("""
+                UPDATE protocollo_archivio_request
+                SET state = %s, running_end = %s, archived_protocol_count = %s, error = %s
+                WHERE id = %s
+                """, (
+                'completed' if not error else 'error',
+                fields.datetime.now(),
+                count_total,
+                error,
+                archivio_request_id
+            ))
+            connection.commit()
+            cursor.close()
+            connection.close()
+
+
+    def archive_by_date(self, cr, uid, cursor, archivio_corrente_id, archivio_id, aoo_id, date_start, date_end):
+        cursor.execute('''
+            UPDATE protocollo_protocollo pp
+            SET archivio_id = %s
+            WHERE pp.aoo_id = %s AND
+                  pp.state IN ('registered', 'notified', 'sent', 'waiting', 'error', 'canceled') AND
+                  pp.archivio_id = %s AND
+                  pp.registration_date > %s AND 
+                  pp.registration_date < %s
+        ''', (
+            archivio_id,
+            aoo_id,
+            archivio_corrente_id,
+            date_start,
+            date_end
+        ))
+        cursor.execute('''
+            UPDATE protocollo_assegnazione pa
+            SET archivio_id = pp.archivio_id
+            FROM protocollo_protocollo pp
+            WHERE pa.protocollo_id=pp.id AND 
+                  pp.archivio_id = %s
+        ''', (
+            archivio_id,
+        ))
+
+
+    def archive_by_number(self, cr, uid, cursor, archivio_corrente_id, archivio_id, aoo_id, year_start, protocol_start, year_end, protocol_end):
+        cursor.execute('''
+            UPDATE protocollo_protocollo pp
+            SET archivio_id = %s
+            WHERE pp.aoo_id = %s AND
+                  pp.state IN ('registered', 'notified', 'sent', 'waiting', 'error', 'canceled') AND
+                  pp.archivio_id = %s AND
+                  ((pp.year=%s AND pp.name >= %s) OR pp.year > %s) AND 
+                  ((pp.year=%s AND pp.name <= %s) OR pp.year < %s)
+        ''', (
+            archivio_id,
+            aoo_id,
+            archivio_corrente_id,
+            year_start, protocol_start, year_start,
+            year_end, protocol_end, year_end
+        ))
+        cursor.execute('''
+            UPDATE protocollo_assegnazione pa
+            SET archivio_id = pp.archivio_id
+            FROM protocollo_protocollo pp
+            WHERE pa.protocollo_id=pp.id AND 
+                  pp.archivio_id = %s
+        ''', (
+            archivio_id,
+        ))
