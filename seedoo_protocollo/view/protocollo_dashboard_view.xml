@@ -22,7 +22,7 @@
             <field name="domain">[('tag_tile','=','totale'),('configuration_active','=',True)]</field>
         </record>
 
-{#        <!-- ActWindow Protocollo Board Uscita -->
+        <!-- ActWindow Protocollo Board Uscita -->
         <record model="ir.actions.act_window" id="protocollo_board_uscita_act">
             <field name="name">Board Protocollo Uscita</field>
             <field name="res_model">tile.tile</field>
@@ -40,9 +40,9 @@
             <field name="view_mode">kanban</field>
             <field name="view_id" ref="web_dashboard_tile.dashboard_tile_tile_tree_view"/>
             <field name="domain">[('tag_tile','=','ingresso'),('configuration_active','=',True)]</field>
-        </record>#}
+        </record>
 
-{#        <!-- ActWindow Protocollo Board Assegnazioni Ingresso -->
+        <!-- ActWindow Protocollo Board Assegnazioni Ingresso -->
         <record model="ir.actions.act_window" id="protocollo_board_uscita_assegnazioni_act">
             <field name="name">Board Protocollo Assegnazioni Uscita</field>
             <field name="res_model">tile.tile</field>
@@ -60,7 +60,7 @@
             <field name="view_mode">kanban</field>
             <field name="view_id" ref="web_dashboard_tile.dashboard_tile_tile_tree_view"/>
             <field name="domain">[('tag_tile','=','ingresso_assegnazioni')]</field>
-        </record>#}
+        </record>
 
         <!-- Vista Protocollo Dashboard -->
         <record model="ir.ui.view" id="protocollo_dashboard_form">
@@ -108,17 +108,13 @@
             <field name="view_id" ref="protocollo_dashboard_form"/>
         </record>
 
-        <!-- Menu Protocollo Dashboard -->
-        <menuitem name="La mia Dashboard" action="protocollo_dashboard_act"
-              parent="mail.mail_feeds"
-              id="protocollo_dashboard_menu_item" sequence="1"
-              groups="group_vedi_menu_protocolli_registrati"/>
-
                 <!-- Disable Vendite -->
         <record id="web_dashboard_tile.mail_dashboard" model="ir.ui.menu">
             <field name="name">Dashboard Generale</field>
             <field name="groups_id"
                    eval="[(6,0,[ref('base.group_system'), ref('base.group_erp_manager')])]"/>
+            <field name="sequence">100</field>
         </record>
+
     </data>
 </openerp>
