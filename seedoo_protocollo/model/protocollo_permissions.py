@@ -1158,7 +1158,7 @@ class protocollo_protocollo(osv.Model):
                   pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
                   pp.da_assegnare = TRUE AND
                   pp.is_imported = FALSE AND
-                  pa.archivio_id = %s
+                  pp.archivio_id = %s
         ''' % (uid, archivio_id)
         cr.execute(query)
         result = cr.fetchall()
