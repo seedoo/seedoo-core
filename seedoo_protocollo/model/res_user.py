@@ -43,7 +43,16 @@ class res_users(orm.Model):
         'profile_id': fields.many2one('protocollo.profile', 'Seedoo')
     }
 
-    
+    def _get_default_action_id(self, cr, uid, context=None):
+        action = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'seedoo_protocollo', 'protocollo_dashboard_act')
+        if action:
+            return action[1]
+        return False
+
+    _defaults = {
+        'action_id': _get_default_action_id
+    }
+
     def get_users_from_group(self, cr, uid, group, context=None):
         group_obj = self.pool.get('res.groups')
         manager_group_ids = group_obj.search(cr, uid, [('name', '=', group)])

@@ -7,6 +7,21 @@ this module contains the full copyright notices and license terms. -->
 
         <menuitem name="Protocollo" id="menu_root_protocollo" sequence="20" groups="group_protocollo_user"/>
 
+        <menuitem id="protocollo_dashboard_menu"
+                  parent="menu_root_protocollo"
+                  name="Dashboard"
+                  sequence="5"
+        />
+
+        <!-- Menu Protocollo Dashboard -->
+        <menuitem id="protocollo_dashboard_menu_item"
+                  name="La mia Dashboard"
+                  action="protocollo_dashboard_act"
+                  parent="protocollo_dashboard_menu"
+                  sequence="10"
+                  groups="group_vedi_menu_protocolli_registrati"
+        />
+
         <menuitem name="Documenti" parent="menu_root_protocollo"
                   id="protocollo_doc" sequence="10"/>
 
