@@ -12,8 +12,8 @@ this module contains the full copyright notices and license terms. -->
             <field name="arch" type="xml">
                 <form string="E-mail da Protocollare" version="7.0" create="false" edit="false" delete="false">
                     <header>
-                        <button name="%(create_protocollo_mailpec_action)d"
-                                type="action"
+                        <button name="create_protocollo_mailpec_action"
+                                type="object"
                                 string="Crea Bozza Protocollo"
                                 attrs="{'invisible':[('crea_bozza_da_email_visibility','=',False)]}"
                                 class="oe_highlight_positive"

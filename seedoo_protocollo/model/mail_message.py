@@ -334,3 +334,22 @@ class MailMessage(orm.Model):
         else:
             return super(MailMessage, self)._needaction_count(cr, uid, domain, context=context)
 
+    def create_protocollo_mailpec_action(self, cr, uid, ids, context={}):
+        wizard_obj = self.pool.get('protocollo.mailpec.wizard')
+        for id in ids:
+            context['active_id'] = id
+            options = wizard_obj._get_doc_principale_option(cr, uid, context)
+            required = wizard_obj._default_documento_descrizione_wizard_required(cr, uid, context)
+            if options and len(options)==1 and options[0][0] in ['eml', 'testo'] and not required:
+                wizard_id = wizard_obj.create(cr, uid, {'select_doc_principale': options[0][0]}, context)
+                return wizard_obj.action_save(cr, uid, [wizard_id], context)
+            else:
+                return {
+                    'name': 'Creazione Bozza Protocollo',
+                    'view_type': 'form',
+                    'view_mode': 'form,tree',
+                    'res_model': 'protocollo.mailpec.wizard',
+                    'context': context,
+                    'type': 'ir.actions.act_window',
+                    'target': 'new'
+                }
