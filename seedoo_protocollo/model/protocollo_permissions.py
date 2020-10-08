@@ -198,17 +198,26 @@ class protocollo_protocollo(osv.Model):
         # purchè lui o un dipendente del suo ufficio non abbia rifiutato la presa in carico
         if employee_ids and employee_department_ids:
             cr.execute('''
-                SELECT DISTINCT(pa.protocollo_id)
-                FROM protocollo_assegnazione pa, protocollo_protocollo pp
-                WHERE pp.registration_date IS NOT NULL AND
-                      pa.protocollo_id = pp.id AND
-                      (
-                          (pa.tipologia_assegnatario = 'employee' AND pa.assegnatario_employee_id IN (''' + employee_ids_str + ''') AND pa.parent_id IS NULL) OR 
-                          (pa.tipologia_assegnatario = 'department' AND pa.assegnatario_department_id  IN (''' + employee_department_ids_str + '''))
-                      ) AND
-                      pa.state != 'rifiutato' AND 
-                      pa.archivio_id IN (''' + archivio_ids_str + ''')
-                      ''' + protocollo_ids_filter + '''
+                SELECT DISTINCT(p.id)
+                FROM (
+                    SELECT DISTINCT(pa.protocollo_id) AS id
+                    FROM protocollo_assegnazione pa, protocollo_protocollo pp
+                    WHERE pp.registration_date IS NOT NULL AND
+                          pa.protocollo_id = pp.id AND
+                          pa.tipologia_assegnatario = 'employee' AND pa.assegnatario_employee_id IN (''' + employee_ids_str + ''') AND pa.parent_id IS NULL AND
+                          pa.state != 'rifiutato' AND 
+                          pa.archivio_id IN (''' + archivio_ids_str + ''')
+                          ''' + protocollo_ids_filter + '''
+                    UNION
+                    SELECT DISTINCT(pa.protocollo_id) AS id
+                    FROM protocollo_assegnazione pa, protocollo_protocollo pp
+                    WHERE pp.registration_date IS NOT NULL AND
+                          pa.protocollo_id = pp.id AND
+                          pa.tipologia_assegnatario = 'department' AND pa.assegnatario_department_id  IN (''' + employee_department_ids_str + ''') AND
+                          pa.state != 'rifiutato' AND 
+                          pa.archivio_id IN (''' + archivio_ids_str + ''')
+                          ''' + protocollo_ids_filter + '''
+                ) p
             ''')
             protocollo_ids_assigned_not_refused = [res[0] for res in cr.fetchall()]
             protocollo_visible_ids.extend(protocollo_ids_assigned_not_refused)
@@ -919,37 +928,42 @@ class protocollo_protocollo(osv.Model):
     def _assegnato_a_mio_ufficio_query(self, cr, uid, type='search'):
         archivio_ids = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)], limit=1)
         archivio_id = archivio_ids[0]
-        query = 'SELECT DISTINCT(pp.id) '
+        query = 'SELECT DISTINCT(p.id) '
         if type == 'count':
-            query = 'SELECT COUNT(DISTINCT(pp.id)) '
+            query = 'SELECT COUNT(DISTINCT(p.id)) '
         query += '''
-			FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_department hd, hr_employee he, resource_resource rr
-            WHERE pp.id = pa.protocollo_id AND
-                  pa.assegnatario_department_id = hd.id AND
-                  hd.id = he.department_id AND
-                  he.resource_id = rr.id AND
-                  rr.user_id = %s AND
-                  rr.active = TRUE AND
-                  pp.registration_date IS NOT NULL AND
-                  pa.tipologia_assegnatario = 'department' AND
-                  pa.state = 'assegnato' AND
-                  pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
-                  pa.archivio_id = %s AND
-                  pa.id NOT IN (
-                      SELECT pa.parent_id
-                      FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_department hd, hr_employee he, resource_resource rr
-                      WHERE pp.id = pa.protocollo_id AND
-                            pa.assegnatario_employee_id = he.id AND
-                            he.resource_id = rr.id AND
-                            rr.user_id = %s AND
-                            rr.active = TRUE AND
-                            pp.registration_date IS NOT NULL AND
-                            pa.tipologia_assegnatario = 'employee' AND
-                            pa.parent_id IS NOT NULL AND
-                            pa.state != 'assegnato' AND
-                            pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
-                            pa.archivio_id = %s
-                  )
+            FROM (
+                SELECT pp.id AS id
+                FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_department hd, hr_employee he, resource_resource rr
+                WHERE pp.id = pa.protocollo_id AND
+                      pa.assegnatario_department_id = hd.id AND
+                      hd.id = he.department_id AND
+                      he.resource_id = rr.id AND
+                      rr.user_id = %s AND
+                      rr.active = TRUE AND
+                      pp.registration_date IS NOT NULL AND
+                      pa.tipologia_assegnatario = 'department' AND
+                      pa.state = 'assegnato' AND
+                      pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
+                      pa.archivio_id = %s
+                  
+                EXCEPT
+                
+                SELECT pp.id as id
+                FROM protocollo_protocollo pp, protocollo_assegnazione pa, hr_department hd, hr_employee he, resource_resource rr
+                WHERE pp.id = pa.protocollo_id AND
+                      pa.assegnatario_employee_id = he.id AND
+                      he.resource_id = rr.id AND
+                      rr.user_id = %s AND
+                      rr.active = TRUE AND
+                      pp.registration_date IS NOT NULL AND
+                      pa.tipologia_assegnatario = 'employee' AND
+                      pa.tipologia_assegnazione = 'conoscenza' AND
+                      pa.parent_id IS NOT NULL AND
+                      pa.state != 'assegnato' AND
+                      pp.state IN ('registered', 'notified', 'waiting', 'sent', 'error') AND
+                      pa.archivio_id = %s
+            ) p
         ''' % (uid, archivio_id, uid, archivio_id)
         cr.execute(query)
         result = cr.fetchall()
