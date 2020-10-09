@@ -2026,19 +2026,19 @@ class protocollo_protocollo(osv.Model):
             check = False
 
             if protocollo.classification:
-	            is_protocollatore = uid==protocollo.user_id.id and protocollo.registration_employee_state=='working'
-	            if protocollo.state == 'draft:
-	                check = is_protocollatore or uid == SUPERUSER_ID
-	            elif protocollo.state in ['registered', 'notified', 'waiting', 'sent', 'error']:
-	                types = self.get_protocollo_types_by_group(cr, uid, 'seedoo_protocollo', 'group_modifica_classificazione_protocollo_', '')
-	                check = protocollo.type in types
-	                if check:
-	                    if is_protocollatore:
-	                        check = True
-	                    elif self._check_stato_assegnatario_competenza(cr, uid, protocollo, 'preso'):
-	                        configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
-	                        configurazione = self.pool.get('protocollo.configurazione').browse(cr, uid, configurazione_ids[0])
-	                        check = configurazione.modifica_classificazione
+                is_protocollatore = uid==protocollo.user_id.id and protocollo.registration_employee_state=='working'
+                if protocollo.state == 'draft':
+                    check = is_protocollatore or uid == SUPERUSER_ID
+                elif protocollo.state in ['registered', 'notified', 'waiting', 'sent', 'error']:
+                    types = self.get_protocollo_types_by_group(cr, uid, 'seedoo_protocollo', 'group_modifica_classificazione_protocollo_', '')
+                    check = protocollo.type in types
+                    if check:
+                        if is_protocollatore:
+                            check = True
+                        elif self._check_stato_assegnatario_competenza(cr, uid, protocollo, 'preso'):
+                            configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
+                            configurazione = self.pool.get('protocollo.configurazione').browse(cr, uid, configurazione_ids[0])
+                            check = configurazione.modifica_classificazione
 
             res.append((protocollo.id, check))
 
