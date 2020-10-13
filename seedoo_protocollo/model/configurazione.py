@@ -294,3 +294,9 @@ class protocollo_configurazione(orm.Model):
             return error_message_start + error_message + error_message_end
 
         return True
+
+
+    def get_configurazione_assegnazione(self, cr, uid, prima_assegnazione):
+        configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
+        configurazione = self.pool.get('protocollo.configurazione').browse(cr, uid, configurazione_ids[0])
+        return configurazione.assegnazione

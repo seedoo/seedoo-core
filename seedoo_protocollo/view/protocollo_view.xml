@@ -288,6 +288,7 @@ this module contains the full copyright notices and license terms. -->
 
                         <button name="%(protocollo_aggiungi_assegnatari_action)d" string="Assegna" type="action"
                                 attrs="{'invisible':[('assegna_visibility','=',False)]}"
+                                context="{'assegnatari_initial_state':assegnazione_first_level_ids}"
                                 class="oe_highlight_positive btn_seedoo btn_assegna"/>
 
                         <button name="%(protocollo_riassegna_action)d" string="Riassegna" type="action" id="btn_riassegna"

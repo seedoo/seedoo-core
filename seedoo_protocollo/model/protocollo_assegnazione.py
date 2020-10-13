@@ -68,7 +68,7 @@ class protocollo_assegnatario(osv.osv):
         assegnatario_not_visible_ids = self._get_assegnatario_not_visibile_ids(cr, uid)
         return [('id', 'not in', assegnatario_not_visible_ids)]
 
-    def _no_checkbox_get_fnc(self, cr, uid, ids, prop, unknow_none, context=None):
+    def _no_checkbox_get_fnc(self, cr, uid, ids, prop, unknow_none, context={}):
         if context is None:
             context = {}
         if not ids:
@@ -80,8 +80,8 @@ class protocollo_assegnatario(osv.osv):
         if context.has_key('reserved'):
             reserved = context['reserved']
 
-        configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
-        configurazione = self.pool.get('protocollo.configurazione').browse(cr, uid, configurazione_ids[0])
+        prima_assegnazione = context.get('prima_assegnazione', False)
+        configurazione_assegnazione = self.pool.get('protocollo.configurazione').get_configurazione_assegnazione(cr, uid, prima_assegnazione)
 
         reads = self.read(cr, uid, ids, ['tipologia', 'child_ids'], context=context)
         res = []
@@ -92,7 +92,7 @@ class protocollo_assegnatario(osv.osv):
                     no_checkbox = True
             else:
                 if record['tipologia']=='department':
-                    if not record['child_ids']:
+                    if configurazione_assegnazione=='employee' or not record['child_ids']:
                         no_checkbox = True
                     else:
                         employee_found = False
@@ -102,8 +102,9 @@ class protocollo_assegnatario(osv.osv):
                                 break
                         if not employee_found:
                             no_checkbox = True
-                elif record['tipologia']=='employee' and configurazione.assegnazione=='department':
-                    no_checkbox = True
+                elif record['tipologia']=='employee':
+                    if configurazione_assegnazione=='department':
+                        no_checkbox = True
             res.append((record['id'], no_checkbox))
         return res
 

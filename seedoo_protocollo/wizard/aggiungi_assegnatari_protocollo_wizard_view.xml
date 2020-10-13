@@ -29,7 +29,7 @@
                                        widget="m2o_tree"
                                        options="{'limit': 5000, 'label': 'nome', 'all_checkable': true, 'field_no_checkbox': 'no_checkbox', 'css_class': 'tipologia', 'order': '-tipologia,nome'}"
                                        nolabel="1"
-                                       context="{'reserved': reserved}"
+                                       context="{'reserved': reserved, 'prima_assegnazione': prima_assegnazione}"
                                        attrs="{'required':[('assegnatario_competenza_id_required','=',True)]}"
                                        on_change="on_change_assegnatario_competenza_id(assegnatario_competenza_id)"
                                 />
@@ -42,7 +42,7 @@
                                        options="{'limit': 5000, 'label': 'nome', 'all_checkable': true, 'field_no_checkbox': 'no_checkbox', 'css_class': 'tipologia', 'order': '-tipologia,nome'}"
                                        attrs="{'invisible':[('reserved','=',True)]}"
                                        nolabel="1"
-                                       context="{'reserved': reserved, 'typology': 'tipologia', 'uncheck_different_typology': True, 'disable_ids': assegnatario_conoscenza_disable_ids[0][2]}"
+                                       context="{'reserved': reserved, 'prima_assegnazione': prima_assegnazione, 'typology': 'tipologia', 'uncheck_different_typology': True, 'disable_ids': assegnatario_conoscenza_disable_ids[0][2]}"
                                        on_change="on_change_assegnatario_conoscenza_ids(assegnatario_conoscenza_ids)"
                                 />
                                 <field name="conoscenza_reserved_error" nolabel="1" attrs="{'invisible':[('reserved','=',False)]}"/>
@@ -61,6 +61,7 @@
                         <field name="assegnatario_conoscenza_disable_ids" invisible="1"/>
                         <field name="assegnatari_empty" invisible="1"/>
                         <field name="assegnatari_change" invisible="1"/>
+                        <field name="prima_assegnazione" invisible="1"/>
                     </sheet>
                     <footer>
                         <button string="Ok" name="action_save" type="object" attrs="{'invisible':['|',('assegnatari_empty','=',True),('assegnatari_change','=',False)]}" class="oe_highlight"/>

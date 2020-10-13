@@ -56,6 +56,7 @@ class protocollo_aggiungi_assegnatari_wizard(osv.TransientModel):
         'assegnatore_department_id_invisible': fields.boolean('Dipartimento Assegnatore Non Visibile', readonly=True),
         'assegnatario_competenza_id_required': fields.boolean('Assegnatario per Competenza Obbligatorio', readonly=True),
         'assegnatari_change': fields.boolean('Assegnatari Modificati'),
+        'prima_assegnazione': fields.boolean('Prima Assegnazione'),
     }
 
     def _default_reserved(self, cr, uid, context):
@@ -164,6 +165,20 @@ Se sono presenti assegnatari per conoscenza verranno rimossi al completamento de
         else:
             return True
 
+    def _default_prima_assegnazione(self, cr, uid, context={}):
+        if not context.get('active_id', False):
+            return False
+        protocollo = self.pool.get('protocollo.protocollo').browse(cr, uid, context['active_id'], {'skip_check': True})
+        # se il protocollo non è registrato è sicuramente la prima assegnazione
+        if not protocollo.registration_date:
+            return True
+        # se il protocollo è registrato ma non ha assegnazioni per competenza e la procedura non è stata chiamata da un
+        # utente che ha il permesso di modifica assegnatari, allora è una prima assegnazione
+        if not protocollo.assegnazione_competenza_ids and not context.get('call_by_modifica_assegnatari', False):
+            return True
+        # se nessuno dei precedenti casi è verificato allora è un'assegnazione successiva alla prima
+        return False
+
     _defaults = {
         'reserved': _default_reserved,
         'conoscenza_reserved_error': _default_conoscenza_reserved_error,
@@ -175,7 +190,8 @@ Se sono presenti assegnatari per conoscenza verranno rimossi al completamento de
         'assegnatari_empty': _default_assegnatari_empty,
         'assegnatore_department_id_invisible': _default_assegnatore_department_id_invisible,
         'assegnatario_competenza_id_required': _default_assegnatario_competenza_id_required,
-        'assegnatari_change': False
+        'assegnatari_change': False,
+        'prima_assegnazione': _default_prima_assegnazione,
     }
 
     def on_change_assegnatario_competenza_id(self, cr, uid, ids, assegnatario_competenza_id, context=None):
