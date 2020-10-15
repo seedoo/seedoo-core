@@ -261,6 +261,10 @@ this module contains the full copyright notices and license terms. -->
                                 attrs="{'invisible':[('elimina_visibility','=',False)]}"
                                 class="oe_highlight_warning btn_seedoo btn_elimina_protocollo oe_read_only"/>
 
+                        <button name="elimina_bozza_with_ref" string="Elimina Bozza" type="object"
+                                attrs="{'invisible':[('elimina_visibility_with_ref','=',False)]}"
+                                class="oe_highlight_warning btn_seedoo btn_elimina_protocollo oe_read_only"/>
+
                         <button name="%(protocollo_cancel_action)d" string="Annulla Protocollo" type="action"
                                 attrs="{'invisible':[('annulla_visibility','=',False)]}"
                                 class="oe_highlight_warning btn_seedoo btn_annulla_protocollo"/>
@@ -328,6 +332,7 @@ this module contains the full copyright notices and license terms. -->
                         <div invisible="1">
                             <field name="id"/>
                             <field name="elimina_visibility"/>
+                            <field name="elimina_visibility_with_ref"/>
                             <field name="registra_visibility"/>
                             <field name="annulla_visibility"/>
                             <field name="prendi_in_carico_visibility"/>

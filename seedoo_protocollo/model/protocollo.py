@@ -1850,13 +1850,25 @@ class protocollo_protocollo(orm.Model):
             new_context = context.copy()
             new_context['skip_check'] = True
             protocollo = self.browse(cr, uid, ids, new_context)
-            if protocollo.elimina_visibility:
+            if protocollo.elimina_visibility or protocollo.elimina_visibility_with_ref:
                 self.unlink(cr, SUPERUSER_ID, ids)
             else:
                 raise orm.except_orm(_('Azione Non Valida!'), _('Non è più possibile eliminare la bozza del protocollo'))
         except Exception as e:
             raise orm.except_orm(_('Azione Non Valida!'), _('Si è verificato un errore durante l\'eliminazione della bozza'))
         return True
+
+    def elimina_bozza_with_ref(self, cr, uid, ids, context={}):
+        new_context = context.copy()
+        new_context['skip_check'] = True
+        protocollo = self.browse(cr, uid, ids, new_context)
+        mail_pec_ref = protocollo.mail_pec_ref
+
+        if self.elimina_bozza(cr, uid, ids, context):
+            if mail_pec_ref.pec_type:
+                mail_pec_ref.pec_state = "not_protocol"
+            elif mail_pec_ref.sharedmail_type:
+                mail_pec_ref.sharedmail_state = "not_protocol"
 
     def prendi_in_carico(self, cr, uid, ids, context={}):
         try:

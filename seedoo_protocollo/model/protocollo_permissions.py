@@ -1726,6 +1726,23 @@ class protocollo_protocollo(osv.Model):
         #_logger.debug("--- TEMPO _elimina_visibility: %s SECONDI ---" % (time.time() - start_time))
         return dict(res)
 
+    def _elimina_visibility_with_ref(self, cr, uid, ids, prop, unknow_none, context=None):
+        res = []
+
+        protocolli = self._get_protocolli(cr, uid, ids)
+        for protocollo in protocolli:
+            check = False
+
+            if protocollo.state == 'draft' and \
+                    (uid == protocollo.user_id.id or uid == SUPERUSER_ID) and \
+                    protocollo.mail_pec_ref and \
+                    not protocollo.doc_imported_ref:
+                check = True
+
+            res.append((protocollo.id, check))
+
+        return dict(res)
+
     def _annulla_visibility(self, cr, uid, ids, prop, unknow_none, context=None):
         #start_time = time.time()
         res = []
@@ -2670,6 +2687,7 @@ class protocollo_protocollo(osv.Model):
         # Visibilità dei button sui protocolli
         'registra_visibility': fields.function(_registra_visibility, type='boolean', string='Registra'),
         'elimina_visibility': fields.function(_elimina_visibility, type='boolean', string='Elimina'),
+        'elimina_visibility_with_ref': fields.function(_elimina_visibility_with_ref, type='boolean', string='Elimina'),
         'annulla_visibility': fields.function(_annulla_visibility, type='boolean', string='Annulla'),
         'prendi_in_carico_visibility': fields.function(_prendi_in_carico_visibility, type='boolean',
                                                        string='Prendi in Carico'),
