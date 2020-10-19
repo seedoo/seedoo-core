@@ -566,8 +566,8 @@ class protocollo_assegnazione(orm.Model):
                     ('assegnatario_employee_id', 'in', employee_ids),
                     ('state', 'not in', ['assegnato', 'archiviato'])
                 ])
-                if assegnazione_state_ids:
-                    assegnazione_state = self.browse(cr, uid, assegnazione_state_ids[0])
+                for assegnazione_state_id in assegnazione_state_ids:
+                    assegnazione_state = self.browse(cr, uid, assegnazione_state_id)
 
                     # verifica che l'assegnazione sia per dipendente oppure se è per ufficio si deve controllare anche
                     # che l'ufficio sia lo stesso attualmente assegnato al dipendente
@@ -599,7 +599,7 @@ class protocollo_assegnazione(orm.Model):
             for employee_id in employee_ids:
                 # per seconda cosa ricerca per ogni employee se esiste un'assegnazione per ufficio in cui è attualmente
                 # presente, infatti l'assegnazione per ufficio non sarebbe più valida se lui non appartenesse più all'
-                # ufficio
+                # ufficio o se il suo stato sarebbe diverso da assegnato
                 employee = employee_obj.browse(cr, uid, employee_id)
                 if employee.department_id:
                     assegnazione_employee_department_ids = self.search(cr, uid, [
@@ -607,7 +607,8 @@ class protocollo_assegnazione(orm.Model):
                         ('tipologia_assegnazione', '=', 'competenza'),
                         ('assegnatario_employee_id', '=', employee.id),
                         ('assegnatario_employee_department_id', '=', employee.department_id.id),
-                        ('parent_id', '!=', False)
+                        ('parent_id', '!=', False),
+                        ('parent_id.state', '=', 'assegnato')
                     ])
                     assegnazione_ids = assegnazione_ids + assegnazione_employee_department_ids
 

@@ -1819,7 +1819,7 @@ class protocollo_protocollo(osv.Model):
                     else:
                         result_description = _("lo stato dell'assegnazione per competenza deve essere 'Assegnato'")
             elif assegnazione_competenza.assegnatario_employee_id.id in employee_ids:
-                if check_competenza_dipendente:
+                if check_competenza_dipendente and assegnazione_competenza.state == 'assegnato':
                     return True, None
                 else:
                     result_description = _("lo stato dell'assegnazione per competenza deve essere 'Assegnato'")
