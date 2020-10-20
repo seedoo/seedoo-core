@@ -109,10 +109,10 @@ class create_protocollo_wizard(osv.TransientModel):
         'protocolla_emergenza_visibility': _default_protocolla_emergenza_visibility
     }
 
-    def action_create(self, cr, uid, ids, context=None):
+    def get_values(self, cr, uid, ids, context=None):
         wizard = self.browse(cr, uid, ids[0], context)
         employee = self.pool.get('hr.employee').get_department_employee(cr, uid, wizard.registration_employee_department_id.id)
-        values = {
+        return {
             'type': wizard.type,
             'registration_type': wizard.registration_type,
             'registration_employee_department_id': wizard.registration_employee_department_id.id,
@@ -120,6 +120,9 @@ class create_protocollo_wizard(osv.TransientModel):
             'registration_employee_id': employee.id,
             'registration_employee_name': employee.name_related
         }
+
+    def action_create(self, cr, uid, ids, context=None):
+        values = self.get_values(cr, uid, ids)
         protocollo_id = self.pool.get('protocollo.protocollo').create(cr, uid, values)
         return {
             'name': 'Protocollo',
