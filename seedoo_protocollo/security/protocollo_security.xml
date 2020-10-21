@@ -14,7 +14,6 @@ this module contains the full copyright notices and license terms. -->
         <record id="group_protocollo_user" model="res.groups">
             <field name="name">Autorizzazioni Accesso</field>
             <field name="category_id" ref="module_category_protocollo"/>
-            <field name="is_protocollo_profile">True</field>
             <field name="implied_ids" eval="[(4, ref('base.group_user')),]"/>
             <field name="comment">Gruppo Base</field>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>

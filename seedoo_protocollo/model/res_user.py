@@ -8,16 +8,49 @@ from openerp.tools.safe_eval import safe_eval
 import logging
 
 _logger = logging.getLogger(__name__)
-# TODO verifica con Peruzzu
+
+
 class res_groups(orm.Model):
     _inherit = 'res.groups'
 
-    _columns = {
-        'is_protocollo_profile': fields.boolean('Profilo Seedoo Protocollo')
-    }
+    def get_creazione_cantatti_group_id(self, cr, uid, context={}):
+        model_data_obj = self.pool.get('ir.model.data')
+        creazione_cantatti_group_id = model_data_obj.get_object_reference(cr, uid, 'base', 'group_partner_manager')[1]
+        return creazione_cantatti_group_id
 
-    _defaults = {
-        'is_protocollo_profile': False
+    def get_protocollo_profile_category_ids(self, cr, uid, context={}):
+        model_data_obj = self.pool.get('ir.model.data')
+        category_documentale_id = model_data_obj.get_object_reference(cr, uid, 'seedoo_gedoc', 'module_gedoc_category')[1]
+        category_protocollo_id = model_data_obj.get_object_reference(cr, uid, 'seedoo_protocollo', 'module_category_protocollo')[1]
+        category_sharedmail_id = model_data_obj.get_object_reference(cr, uid, 'sharedmail', 'sharedmail')[1]
+        category_pec_id = model_data_obj.get_object_reference(cr, uid, 'l10n_it_pec_messages', 'module_l10n_it_pec_messages')[1]
+        category_ids = [category_documentale_id, category_protocollo_id, category_sharedmail_id, category_pec_id]
+        return category_ids
+
+    def _is_protocollo_profile(self, cr, uid, ids, name, arg, context=None):
+        if isinstance(ids, (list, tuple)) and not len(ids):
+            return []
+        if isinstance(ids, (long, int)):
+            ids = [ids]
+        category_ids = self.get_protocollo_profile_category_ids(cr, uid, context)
+        creazione_cantatti_group_id = self.get_creazione_cantatti_group_id(cr, uid, context)
+        reads = self.read(cr, uid, ids, ['category_id'])
+        res = []
+        for record in reads:
+            category_id = record['category_id'][0]
+            is_protocollo_profile = False
+            if record['id']==creazione_cantatti_group_id or (category_id and category_id in category_ids):
+                is_protocollo_profile = True
+            res.append((record['id'], is_protocollo_profile))
+        return res
+
+    def _is_protocollo_profile_search(self, cr, uid, obj, name, args, domain=None, context=None):
+        ids = self.search(cr, uid, [('category_id', 'in', self.get_protocollo_profile_category_ids(cr, uid, context))])
+        ids.append(self.get_creazione_cantatti_group_id(cr, uid, context))
+        return [('id', 'in', ids)]
+
+    _columns = {
+        'is_protocollo_profile': fields.function(_is_protocollo_profile, fnct_search=_is_protocollo_profile_search, type='boolean', string='Profilo Seedoo Protocollo')
     }
 
 
@@ -25,21 +58,7 @@ class res_groups(orm.Model):
 class res_users(orm.Model):
     _inherit = 'res.users'
 
-    def _get_protocollo_group(self, cr, uid, ids, name, args, context=None):
-        result = {}
-        if not ids:
-            return result
-        result = dict.fromkeys(ids, False)
-        # TODO verifica con Peruzzu se rimane utilizzare id e non nome
-        cr.execute(
-            "SELECT g.name from res_groups g WHERE g.id in (SELECT MAX(gr.id) from ir_module_category cat JOIN res_groups  gr ON cat.id = gr.category_id JOIN res_groups_users_rel rgu ON rgu.gid = gr.id where cat.name = 'Seedoo Protocollo' AND is_protocollo_profile=True AND rgu.uid IN %s)",(tuple(ids),))
-        res = cr.fetchone()
-        if res:
-            result[ids[0]] = res[0]
-        return result
-
     _columns = {
-        'group': fields.function(_get_protocollo_group, type='char', size=256, string='Gruppo Protocollo', readonly=1),
         'profile_id': fields.many2one('protocollo.profile', 'Seedoo')
     }
 
@@ -86,18 +105,24 @@ class res_users(orm.Model):
         if vals and vals.has_key('profile_id') and vals['profile_id']:
             profile_obj = self.pool.get('protocollo.profile')
             profile = profile_obj.browse(cr, uid, vals['profile_id'])
-            profile_obj.associate_profile_to_user(cr, uid, profile, [], user_id)
+            groups_obj = self.pool.get('res.groups')
+            old_user_group_ids = groups_obj.search(cr, uid, [
+                ('users', '=', user_id),
+                ('is_protocollo_profile', '=', True)
+            ], context=context)
+            profile_obj.associate_profile_to_user(cr, uid, profile, old_user_group_ids, user_id)
         return user_id
 
     def write(self, cr, uid, ids, vals, context=None):
         old_user_group_ids = {}
 
         if vals and vals.has_key('profile_id'):
-            for user in self.browse(cr, uid, ids):
-                if user and user.profile_id and user.profile_id.groups_id:
-                    old_user_group_ids[user.id] = user.profile_id.groups_id.ids
-                else:
-                    old_user_group_ids[user.id] = []
+            groups_obj = self.pool.get('res.groups')
+            for id in ids:
+                old_user_group_ids[id] = groups_obj.search(cr, uid, [
+                    ('users.id', '=', id),
+                    ('is_protocollo_profile', '=', True)
+                ], context=context)
 
         result = super(res_users, self).write(cr, uid, ids, vals, context=context)
 
@@ -106,59 +131,7 @@ class res_users(orm.Model):
             profile_obj = self.pool.get('protocollo.profile')
             if vals['profile_id']:
                 profile = profile_obj.browse(cr, uid, vals['profile_id'])
-            for user in self.browse(cr, uid, ids):
-                profile_obj.associate_profile_to_user(cr, uid, profile, old_user_group_ids[user.id], user.id)
+            for id in ids:
+                profile_obj.associate_profile_to_user(cr, uid, profile, old_user_group_ids[id], id)
 
         return result
-
-    # TODO verifica con Peruzzu
-    # def write(self, cr, uid, ids, values, context=None):
-    #     protocollo_profile_selected = True
-    #     protocollo_custom_selected = False
-    #     values_copy = values.copy()
-    #     protocollo_permissions_reset = {}
-    #     group_obj = self.pool.get('res.groups')
-    #     permissions_category = self.pool['ir.model.data'].get_object(cr, uid, 'seedoo_protocollo', 'module_category_protocollo')
-    #     profile_category = self.pool['ir.model.data'].get_object(cr, uid, 'seedoo_protocollo', 'module_protocollo_management')
-    #     seedoo_protocollo_groups = group_obj.search(cr, uid, [('category_id', 'in', permissions_category.ids)])
-    #     for group_item in seedoo_protocollo_groups:
-    #         protocollo_permissions_reset['in_group_' + str(group_item)] = False
-    #
-    #     for key, val in values.iteritems():
-    #         if key.startswith('sel_groups_'):
-    #             group_ids = group_obj.browse(cr, uid, val)
-    #             if group_ids.category_id.id != profile_category.id:
-    #                 protocollo_profile_selected = False
-    #
-    #             if group_ids.name == 'Personalizzabile':
-    #                 protocollo_profile_selected = False
-    #                 protocollo_custom_selected = True
-    #
-    #             if protocollo_profile_selected:
-    #                 for key_ingroup, val_ingroup in values.iteritems():
-    #                     if key_ingroup.startswith('in_group_') and key_ingroup in protocollo_permissions_reset:
-    #                         del values_copy[key_ingroup]
-    #
-    #         else:
-    #             protocollo_profile_selected = False
-    #
-    #     if protocollo_profile_selected:
-    #         values_copy.update(protocollo_permissions_reset)
-    #         values = values_copy
-    #     elif protocollo_custom_selected:
-    #         # for key, val in values.iteritems():
-    #         #     if key in protocollo_permissions_reset:
-    #         #         del values_copy[key]
-    #         values = values_copy
-    #     else:
-    #         protocollo_profile_preselected = self._get_protocollo_group(cr, uid, ids, "", "", context=None)
-    #         if len(protocollo_profile_preselected) > 0:
-    #             protocollo_custom_preselected = True if "Personalizzabile" in protocollo_profile_preselected.values() else False
-    #             if protocollo_custom_preselected is False:
-    #                 values.update(protocollo_permissions_reset)
-    #
-    #     res = super(res_users, self).write(cr, uid, ids, values, context=context)
-    #
-    #     #self.pool.get('protocollo.protocollo').clear_cache()
-    #
-    #     return res

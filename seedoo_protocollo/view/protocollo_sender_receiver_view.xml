@@ -114,7 +114,9 @@ this module contains the full copyright notices and license terms. -->
                                 </group>
                                 <group nolabel="1" colspan="4" col="4" attrs="{'invisible': [('partner_id','!=',False)]}">
                                     <field name="save_partner" on_change="on_change_save_partner(pec_mail, email, save_partner)"
-                                           attrs="{'readonly': [('partner_id','!=',False)], 'invisible': [('partner_id','!=',False)]}"/>
+                                           attrs="{'readonly': [('partner_id','!=',False)], 'invisible': [('partner_id','!=',False)]}"
+                                           groups="base.group_partner_manager"
+                                    />
                                 </group>
                             </div>
                             <newline/>

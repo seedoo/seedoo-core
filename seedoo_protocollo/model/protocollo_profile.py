@@ -45,9 +45,14 @@ class ProtocolloProfile(orm.Model):
 
         if vals and vals.has_key('groups_id') and vals['groups_id']:
             for profile in self.browse(cr, uid, ids):
+                groups_obj = self.pool.get('res.groups')
                 user_ids = profile.user_ids.ids
                 for user_id in user_ids:
-                    self.associate_profile_to_user(cr, uid, profile, old_profile_group_ids[profile.id], user_id)
+                    old_user_group_ids = groups_obj.search(cr, uid, [
+                        ('users', '=', user_id),
+                        ('is_protocollo_profile', '=', True)
+                    ], context=context)
+                    self.associate_profile_to_user(cr, uid, profile, old_user_group_ids, user_id)
 
                 if uid != SUPERUSER_ID:
                     old_group_ids = old_profile_group_ids[profile.id]

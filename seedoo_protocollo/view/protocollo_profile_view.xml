@@ -43,7 +43,7 @@
                             <page string="Permessi">
                                 <group>
                                     <field name="groups_id"
-                                           domain="['|',('category_id.name','ilike', 'Seedoo'),('category_id.name','in', ['Shared Mail','PEC'])]"
+                                           domain="[('is_protocollo_profile','=', True)]"
                                            options="{'no_create': True}"
                                            context="{'tree_view_ref': 'seedoo_protocollo.view_email_server_tree_sharedmail', 'form_view_ref': 'seedoo_protocollo.view_groups_profile_protocollo_form'}"
                                            nolabel="1"
