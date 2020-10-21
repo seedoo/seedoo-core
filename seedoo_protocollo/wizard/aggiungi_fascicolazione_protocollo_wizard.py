@@ -17,16 +17,6 @@ class protocollo_aggiungi_fascicolazione_wizard(osv.TransientModel):
     _name = 'protocollo.aggiungi.fascicolazione.wizard'
     _description = 'Fascicola Protocollo'
 
-    def set_before(self, before, value):
-        if not value:
-            value = ''
-        before += value + '\n'
-        return before
-
-    def set_after(self, after, value):
-        after += value + '\n'
-        return after
-
     _columns = {
         'name': fields.char('Numero Protocollo', size=256, readonly=True),
         'registration_date': fields.datetime('Data Registrazione', readonly=True),
@@ -65,6 +55,11 @@ class protocollo_aggiungi_fascicolazione_wizard(osv.TransientModel):
         'display_motivation': _default_display_motivation
     }
 
+    def get_bold_dossier_name(self, cr, uid, dossier):
+        bold_dossier_description = '<b>%s</b>' % dossier.description
+        bold_dossier_name = dossier.name.replace(dossier.description, bold_dossier_description)
+        return bold_dossier_name
+
     def action_save(self, cr, uid, ids, context=None):
         vals = {}
         wizard = self.browse(cr, uid, ids[0], context)
@@ -73,25 +68,40 @@ class protocollo_aggiungi_fascicolazione_wizard(osv.TransientModel):
 
         before = ''
         after = ''
+        before_color = '#990000'
+        after_color = '#007ea6'
+        same_color = '#999999'
+        operation = ''
+        operation_label = ''
         save_history = True if protocollo.state in protocollo_obj.get_history_state_list(cr, uid) else False
 
         vals['dossier_ids'] = [[6, 0, [d.id for d in wizard.dossier_ids]]]
         if save_history:
-            before = self.set_before('', ', '.join([d.name for d in protocollo.dossier_ids]))
-            after = self.set_after('', ', '.join([dw.name for dw in wizard.dossier_ids]))
-            operation_label = "Inserimento fascicolazione" if len(protocollo.dossier_ids.ids) == 0 else "Modifica fascicolazione"
+            if len(protocollo.dossier_ids.ids) == 0:
+                operation_label = "Inserimento fascicolazione"
+            else:
+                operation = '->'
+                operation_label = "Modifica fascicolazione"
+            if protocollo.dossier_ids.ids == wizard.dossier_ids.ids:
+                before_color = same_color
+                after_color = same_color
+            for d in protocollo.dossier_ids:
+                before += "<li><span style='color:%s'>%s</span></li>" % (before_color, self.get_bold_dossier_name(cr, uid, d))
+            for dw in wizard.dossier_ids:
+                after += "<li><span style='color:%s'>%s</span></li>" % (after_color, self.get_bold_dossier_name(cr, uid, dw))
 
         protocollo_obj.write(cr, uid, [context['active_id']], vals)
 
         if save_history:
             action_class = "history_icon update"
-            body = "<div class='%s'><ul>" % action_class
-            if before != after:
-                body = body + "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#007ea6'> %s </span></li>" \
-                                % ('Fascicolo', before.encode("utf-8"), after.encode("utf-8"))
-            else:
-                body = body + "<li>%s: <span style='color:#999'> %s</span> -> <span style='color:#999'> %s </span></li>" \
-                              % ('Fascicolo', before.encode("utf-8"), after.encode("utf-8"))
+            body = "<div class='%s'>" % action_class
+            body += "<ul>"
+            body += "<li><span>Fascicolo:</span></li>"
+            body += before
+            body += "<li>%s</li>" % operation
+            body += after
+            body += "</ul>"
+            body += "</div>"
 
             post_vars = {
                 'subject': "%s%s" % (operation_label, ": " + wizard.cause if wizard.cause else ""),
@@ -99,7 +109,6 @@ class protocollo_aggiungi_fascicolazione_wizard(osv.TransientModel):
                 'model': "protocollo.protocollo",
                 'res_id': context['active_id']
             }
-            body += "</ul></div>"
 
             new_context = dict(context).copy()
             # if protocollo.typology.name == 'PEC':
