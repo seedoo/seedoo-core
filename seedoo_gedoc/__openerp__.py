@@ -4,7 +4,7 @@
 
 {
     "name": "Seedoo Gestione Documentale",
-    "version": "8.0.1.8.11",
+    "version": "8.0.1.8.12",
     "category": "Document Management",
     "summary": "Modulo Gestione Documentale",
     "sequence": "1",
