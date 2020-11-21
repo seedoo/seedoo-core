@@ -602,15 +602,21 @@ class protocollo_assegnazione(orm.Model):
                 # ufficio o se il suo stato sarebbe diverso da assegnato
                 employee = employee_obj.browse(cr, uid, employee_id)
                 if employee.department_id:
-                    assegnazione_employee_department_ids = self.search(cr, uid, [
+                    assegnazione_employee_department_data_list = self.search_read(cr, uid, [
                         ('protocollo_id', '=', protocollo_id),
                         ('tipologia_assegnazione', '=', 'competenza'),
                         ('assegnatario_employee_id', '=', employee.id),
                         ('assegnatario_employee_department_id', '=', employee.department_id.id),
                         ('parent_id', '!=', False),
-                        ('parent_id.state', '=', 'assegnato')
-                    ])
-                    assegnazione_ids = assegnazione_ids + assegnazione_employee_department_ids
+                        #('parent_id.state', '=', 'assegnato')
+                    ], ['id', 'parent_id'])
+                    for assegnazione_employee_department_data in assegnazione_employee_department_data_list:
+                        assegnazione_department_ids = self.search(cr, uid, [
+                            ('id', '=', assegnazione_employee_department_data['parent_id'][0]),
+                            ('state', '=', 'assegnato')
+                        ])
+                        if assegnazione_department_ids:
+                            assegnazione_ids.append(assegnazione_employee_department_data['id'])
 
             if len(assegnazione_ids) == 0:
                 # se non trova assegnazioni per l'utente allora verifica che ci sia l'assegnazione per il suo ufficio,
