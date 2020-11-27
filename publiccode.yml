@@ -6,8 +6,8 @@ publiccodeYmlVersion: '0.2'
 name: Seedoo Community
 url: 'https://github.com/seedoo/seedoo-core.git'
 landingURL: 'https://www.seedoo.it/'
-releaseDate: '2020-03-20'
-softwareVersion: 1.8.11
+releaseDate: '2020-11-27'
+softwareVersion: 1.8.12
 developmentStatus: stable
 softwareType: standalone/backend
 platforms:
