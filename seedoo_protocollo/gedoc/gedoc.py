@@ -97,6 +97,32 @@ class protocollo_dossier(osv.Model):
         dossier_id = super(protocollo_dossier, self).create(cr, uid, vals, context=context)
         return dossier_id
 
+    # la lettura dei protocolli associati ai fascicoli deve essere fatta in maniera tale da restituire solamente i
+    # protocolli di cui si ha la visibilità, gli altri non devono essere restituiti.
+    def read(self, cr, uid, ids, fields=None, context=None, load='_classic_read'):
+        results = super(protocollo_dossier, self).read(cr, uid, ids, fields, context, load)
+        if 'protocollo_ids' in fields:
+            protocollo_obj = self.pool.get('protocollo.protocollo')
+            for result in results:
+                protocollo_ids = result['protocollo_ids'][:]
+                for protocollo_id in protocollo_ids:
+                    if not protocollo_obj.check_access(cr, uid, [protocollo_id], 'read', False, context):
+                        result['protocollo_ids'].remove(protocollo_id)
+        return results
+
+    # la scrittura dei protocolli associati ai fascicoli deve essere fatta in maniera tale da scrivere solamente i
+    # protocolli di cui si ha la visibilità, gli altri non devono essere eliminati.
+    def write(self, cr, uid, ids, vals, context={}):
+        if len(ids)==1 and 'protocollo_ids' in vals and vals['protocollo_ids'] and vals['protocollo_ids'][0][0]==6:
+            protocollo_obj = self.pool.get('protocollo.protocollo')
+            protocollo_ids = vals['protocollo_ids'][0][2]
+            results = self.read(cr, uid, ids, ['protocollo_ids'], {'skip_check': True})
+            for protocollo_id in results[0]['protocollo_ids']:
+                if not protocollo_obj.check_access(cr, uid, [protocollo_id], 'read', False, context):
+                    protocollo_ids.append(protocollo_id)
+        return super(protocollo_dossier, self).write(cr, uid, ids, vals, context)
+
+
 class DocumentSearch(osv.TransientModel):
     """
         Advanced Document Search

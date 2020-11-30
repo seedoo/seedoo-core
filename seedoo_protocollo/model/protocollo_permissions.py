@@ -540,12 +540,14 @@ class protocollo_protocollo(osv.Model):
         search_protocollo_ids = []
         if not domain:
             domain = []
+        last_domain_condition = None
         for domain_condition in domain:
-            if len(domain_condition)==3 and domain_condition[0]=='id':
+            if len(domain_condition)==3 and domain_condition[0]=='id' and last_domain_condition!='!':
                 if domain_condition[1] == '=':
                     search_protocollo_ids = [domain_condition[2]]
                 elif domain_condition[1] == 'in':
                     search_protocollo_ids = domain_condition[2]
+            last_domain_condition = domain_condition
         return search_protocollo_ids
 
     # il metedo search_read viene richiamato per leggere i campi del protocollo da mostrare in seguito ad una action di
@@ -579,27 +581,31 @@ class protocollo_protocollo(osv.Model):
 
     def read(self, cr, uid, ids, fields=None, context=None, load='_classic_read'):
         if not context or not context.has_key('skip_check_read') or not context['skip_check_read']:
-            self.check_access(cr, uid, ids, 'read', context)
+            self.check_access(cr, uid, ids, 'read', True, context)
         return super(protocollo_protocollo, self).read(cr, uid, ids, fields, context, load)
 
     def _write(self, cr, uid, ids, vals, context=None):
-        self.check_access(cr, uid, ids, 'write', context)
+        self.check_access(cr, uid, ids, 'write', True, context)
         return super(protocollo_protocollo, self)._write(cr, uid, ids, vals, context)
 
     def unlink(self, cr, uid, ids, context=None):
-        self.check_access(cr, uid, ids, 'unlink', context)
+        self.check_access(cr, uid, ids, 'unlink', True, context)
         return super(protocollo_protocollo, self).unlink(cr, uid, ids, context)
 
-    def check_access(self, cr, uid, ids, operation, context):
+    def check_access(self, cr, uid, check_ids, operation, generate_raise=True, context={}):
         if uid == SUPERUSER_ID or (context and context.has_key('skip_check') and context['skip_check']):
-            return None
-        protocollo_ids = self.filter_protocollo_ids(cr, uid, ids, context)
-        for id in ids:
+            return True
+        protocollo_ids = self.filter_protocollo_ids(cr, uid, check_ids, context)
+        for id in check_ids:
             if id not in protocollo_ids:
-                raise AccessError(_(
-                    "The requested operation cannot be completed due to group security restrictions. "
-                    "Please contact your system administrator.\n\n(Document type: %s, Operation: %s)"
-                ) % (self._description, operation))
+                if generate_raise:
+                    raise AccessError(_(
+                        "The requested operation cannot be completed due to group security restrictions. "
+                        "Please contact your system administrator.\n\n(Document type: %s, Operation: %s)"
+                    ) % (self._description, operation))
+                else:
+                    return False
+        return True
 
     ####################################################################################################################
 
