@@ -446,7 +446,7 @@ class protocollo_protocollo(orm.Model):
         protocollo_obj = self.pool.get("protocollo.protocollo")
         protocollo_obj.message_post(cr, uid, protocolloid, type="notification", context=context, **post_vars)
 
-        protocollo_id = protocollo_obj.browse(cr, uid, [protocolloid])
+        protocollo_id = protocollo_obj.browse(cr, uid, [protocolloid], context)
 
         result_filename = "%04d%s.pdf" % (protocollo_id.year, protocollo_id.name)
 
