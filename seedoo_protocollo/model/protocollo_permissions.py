@@ -2045,6 +2045,8 @@ class protocollo_protocollo(osv.Model):
                             configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
                             configurazione = self.pool.get('protocollo.configurazione').browse(cr, uid, configurazione_ids[0])
                             check = configurazione.modifica_classificazione
+                        else:
+                            check = False
 
             res.append((protocollo.id, check))
 
