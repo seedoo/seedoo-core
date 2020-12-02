@@ -56,13 +56,13 @@ this module contains the full copyright notices and license terms. -->
                   id="crea_protocollo_menu" sequence="30"
                   groups="group_crea_protocollo_ingresso,group_crea_protocollo_uscita"/>
 
-        <menuitem name="PEC" action="protocollo_pec_act" sequence="40"
-                  parent="protocollo_doc" id="protocollo_pec_menu"
-                  groups="group_pec_protocollo"/>
+<!--        <menuitem name="PEC" action="protocollo_pec_act" sequence="40"-->
+<!--                  parent="protocollo_doc" id="protocollo_pec_menu"-->
+<!--                  groups="group_pec_protocollo"/>-->
 
-        <menuitem name="E-mail" action="protocollo_sharedmail_act" sequence="50"
-                  parent="protocollo_doc" id="protocollo_sharedmail_menu"
-                  groups="group_sharedmail_protocollo"/>
+<!--        <menuitem name="E-mail" action="protocollo_sharedmail_act" sequence="50"-->
+<!--                  parent="protocollo_doc" id="protocollo_sharedmail_menu"-->
+<!--                  groups="group_sharedmail_protocollo"/>-->
 
         <!--
         <menuitem name="Richieste Protocollo" action="protocollo_protocollo_out_draft_others_act"
