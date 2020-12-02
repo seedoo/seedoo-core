@@ -28,10 +28,10 @@ this module contains the full copyright notices and license terms. -->
                   groups="group_configurazione_importer"
                   sequence="80"/>
 
-        <menuitem id="dematerializzazione_document_menu" name="Importati"
-                  parent="seedoo_protocollo.protocollo_doc"
-                  action="gedoc_document_in_imported_act" sequence="50"
-                  groups="group_vedi_menu_documenti_ingresso_importati"/>
+<!--        <menuitem id="dematerializzazione_document_menu" name="Importati"-->
+<!--                  parent="seedoo_protocollo.protocollo_doc"-->
+<!--                  action="gedoc_document_in_imported_act" sequence="50"-->
+<!--                  groups="group_vedi_menu_documenti_ingresso_importati"/>-->
 
     </data>
 </openerp>
