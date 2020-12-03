@@ -5,6 +5,7 @@
 from openerp.tools import DEFAULT_SERVER_DATE_FORMAT as DSDT
 from openerp.tools.translate import _
 from openerp.osv import orm
+from ..protocollo import convert_datetime
 import subprocess
 import datetime
 import logging
@@ -73,9 +74,7 @@ class Signature(orm.Model):
 
 
     def _get_protocollo_date(self, cr, uid, prot, prot_date):
-        pd = prot_date.split(' ')[0]
-        prot_date = datetime.datetime.strptime(pd, DSDT)
-        return prot_date.strftime('%d-%m-%Y')
+        return convert_datetime(prot_date, from_timezone="UTC", to_timezone="Europe/Rome", format_to="%d-%m-%Y")
 
 
     def _get_attachment_name(self, cr, uid, prot, attachment_index):

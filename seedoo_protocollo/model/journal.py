@@ -6,7 +6,8 @@ import time
 
 from openerp import models, fields, api
 from openerp.exceptions import ValidationError
-from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
+from openerp.tools import DEFAULT_SERVER_DATE_FORMAT,DEFAULT_SERVER_DATETIME_FORMAT
+from .protocollo import convert_datetime
 
 _logger = logging.getLogger(__name__)
 
@@ -220,12 +221,13 @@ class ProtocolloJournal(models.Model):
     @api.model
     def get_protocolli_day(self, aoo_id, day_date):
         protocollo_obj = self.env["protocollo.protocollo"]
-
+        start = convert_datetime(day_date + " 00:00:00", from_timezone="Europe/Rome", to_timezone="UTC")
+        end = convert_datetime(day_date + " 23:59:59", from_timezone="Europe/Rome", to_timezone="UTC")
         protocollo_ids = protocollo_obj.search([
             ("aoo_id", "=", aoo_id.id),
             ("state", "in", ["registered", "notified", "sent", "waiting", "error", "canceled"]),
-            ("registration_date", ">", day_date + " 00:00:00"),
-            ("registration_date", "<", day_date + " 23:59:59"),
+            ("registration_date", ">=", start),
+            ("registration_date", "<=", end),
         ])
 
         return protocollo_ids
