@@ -127,7 +127,7 @@ class protocollo_archivio(orm.Model):
             'port': config['db_port'],
             'user': config['db_user'],
             'password': config['db_password'],
-            'database': config['db_name']
+            'database': cr.dbname
         }
         connection = psycopg2.connect(**postgres_connection_parameters)
         cursor = connection.cursor()
