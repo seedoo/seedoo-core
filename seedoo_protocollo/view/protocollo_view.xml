@@ -923,6 +923,9 @@ this module contains the full copyright notices and license terms. -->
                            string="Allegati Descrizione"
                            filter_domain="[('attachment_ids.datas_description', 'ilike', self),
                                            ('attachment_ids.is_main', '=', False)]"/>
+                    <field name="assegnazione_ids"
+                           string="Assegnatario"
+                           filter_domain="[('filtro_assegnazione_ids', 'ilike', self)]"/>
                     <field name="assegnazione_competenza_ids"
                            string="Assegnatario Dipendente Competenza"
                            filter_domain="[('filtro_assegnazione_competenza_dipendente_ids', 'ilike', self)]"/>

@@ -1439,19 +1439,33 @@ class protocollo_protocollo(osv.Model):
             archivio_id = context['archivio_id']
         else:
             archivio_id = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)], limit=1)[0]
+        tipologia_assegnazione_query = ''
+        if tipologia_assegnazione:
+            tipologia_assegnazione_query = "pa.tipologia_assegnazione = '%s' AND " % tipologia_assegnazione
+        tipologia_assegnatario_query = ''
+        if tipologia_assegnatario:
+            tipologia_assegnatario_query = "pa.tipologia_assegnatario = '%s' AND " % tipologia_assegnatario
         cr.execute('''
             SELECT DISTINCT(pa.protocollo_id) 
             FROM protocollo_protocollo pp, protocollo_assegnazione pa, protocollo_assegnatario ass
             WHERE pp.id = pa.protocollo_id AND 
-                  pa.tipologia_assegnazione = %s AND
-                  pa.tipologia_assegnatario = %s AND
+                  ''' + tipologia_assegnazione_query + '''
+                  ''' + tipologia_assegnatario_query + '''
                   pa.parent_id IS NULL AND
                   pa.assegnatario_id = ass.id AND 
                   ass.nome ILIKE %s AND 
                   pa.archivio_id = %s
-        ''', (tipologia_assegnazione, tipologia_assegnatario, '%' + nome + '%', archivio_id))
+        ''', ('%' + nome + '%', archivio_id))
         protocollo_ids = [res[0] for res in cr.fetchall()]
         return protocollo_ids
+
+    def _get_assegnazione_ids(self, cr, uid, ids, field_names, arg=None, context=None):
+        result = dict((res_id, []) for res_id in ids)
+        return result
+
+    def _search_assegnazione_ids(self, cr, uid, obj, name, args, domain=None, context=None):
+        #TODO: gestire gli altri casi della ricerca
+        return [('id', 'in', self._get_protocollo_assegnazione_ids(cr, uid, '', '', args[0][2], context))]
 
     def _get_assegnazione_competenza_dipendente_ids(self, cr, uid, ids, field_names, arg=None, context=None):
         result = dict((res_id, []) for res_id in ids)
@@ -2649,6 +2663,12 @@ class protocollo_protocollo(osv.Model):
                                                                 fnct_search=_da_inviare_visibility_search,
                                                                 type='boolean', string='Da Inviare'),
 
+        'filtro_assegnazione_ids': fields.function(_get_assegnazione_ids,
+                                                   fnct_search=_search_assegnazione_ids,
+                                                   method=True,
+                                                   type='one2many',
+                                                   relation='protocollo.assegnazione',
+                                                   string='Assegnatario'),
         'filtro_assegnazione_competenza_dipendente_ids': fields.function(_get_assegnazione_competenza_dipendente_ids,
                                                           fnct_search=_search_assegnazione_competenza_dipendente_ids,
                                                           method=True,
@@ -2812,16 +2832,57 @@ class protocollo_protocollo(osv.Model):
     def init(self, cr):
         self.create_indexes(cr)
 
-
-    def fields_get(self, cr, uid, fields=None, context=None):
-        # lista dei campi da nascondere nella ricerca avanzata
-        fields_to_hide = [
+    def get_fields_to_hide(self, cr, uid):
+        return [
+            'id',
+            'create_uid',
+            'create_date',
+            'write_uid',
+            'write_date',
+            'user_id',
             'is_visible',
+            'is_current_archive',
             'registration_employee_id',
+            'registration_employee_department_id_readonly',
+            'doc_id',
+            'doc_content',
             'doc_fname',
+            'doc_description',
+            'datas',
+            'datas_fname',
+            'mimetype',
+            'attachment_ids',
+            'senders',
+            'receivers',
+            'sender_receivers',
+            'non_classificati_visibility',
+            'non_fascicolati_visibility',
+            'message_ids',
+            'message_follower_ids',
+            'message_is_follower',
+            'message_last_post',
+            'message_unread',
+            'template_id',
+            'pec_notifications_ids',
+            'sender_internal_employee',
+            'sender_internal_department',
+            'sender_internal_employee_department',
+            'mail_sharedmail_ref',
+            'mail_pec_ref',
+            'doc_imported_ref',
+            'mail_out_ref',
+            'xml_signature',
+            'classification',
+            'registration_employee_department_id',
+            'assigne_cc',
+            'assegnazione_ids',
             'assegnazione_first_level_ids',
             'assegnazione_competenza_ids',
             'assegnazione_conoscenza_ids',
+            'da_assegnare_visibility',
+            'da_assegnare_general_visibility',
+            'filtro_da_me_in_attesa_visibility',
+            'filtro_assegnazione_ids',
             'filtro_assegnazione_competenza_dipendente_ids',
             'filtro_assegnazione_competenza_ufficio_ids',
             'filtro_assegnazione_conoscenza_dipendente_ids',
@@ -2844,6 +2905,10 @@ class protocollo_protocollo(osv.Model):
             'assegnato_da_me_in_attesa_visibility',
             'assegnato_da_me_in_rifiutato_visibility',
         ]
+
+    def fields_get(self, cr, uid, fields=None, context=None):
+        # lista dei campi da nascondere nella ricerca avanzata
+        fields_to_hide = self.get_fields_to_hide(cr, uid)
         res = super(protocollo_protocollo, self).fields_get(cr, uid, fields, context)
         for field in fields_to_hide:
             if field in res:

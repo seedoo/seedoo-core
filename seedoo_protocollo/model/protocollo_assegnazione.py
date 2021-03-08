@@ -17,6 +17,7 @@ DEPARTMENT_MASK = 200000000
 class protocollo_assegnatario(osv.osv):
     _name = 'protocollo.assegnatario'
     _auto = False
+    _rec_name = 'nome'
 
     def _dept_name_get_fnc(self, cr, uid, ids, prop, unknow_none, context=None):
         res = self.complete_name_get(cr, uid, ids, context=context)
