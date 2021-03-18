@@ -34,7 +34,10 @@ class AnnullamentoXML:
         self.resUsersObj = self.pooler.get("res.users")
         self.protocolloObj = self.pooler.get("protocollo.protocollo")
         self.currentUser = self.resUsersObj.browse(cr, uid, uid)
-
+        if protocollo.registry.company_id.ammi_code:
+            self.codiceAmministrazione = str(protocollo.registry.company_id.ammi_code)
+        else:
+            self.codiceAmministrazione = None
         if protocollo.aoo_id.ident_code is not False:
             self.codiceAOO = str(protocollo.aoo_id.ident_code)
         else:
@@ -82,7 +85,7 @@ class AnnullamentoXML:
 
     def createIdentificatore(self):
         identificatore = etree.Element("Identificatore")
-        codiceAmministrazione = self.createCodiceAmministrazione()
+        codiceAmministrazione = self.createCodiceAmministrazione(self.codiceAmministrazione)
         codiceAOO = self.createCodiceAOO(self.codiceAOO)
         numeroRegistrazione = self.createNumeroRegistrazione(self.prot_number)
         dataRegistrazione = self.createDataRegistrazione(self.creation_date)

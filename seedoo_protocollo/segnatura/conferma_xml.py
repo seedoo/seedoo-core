@@ -31,7 +31,10 @@ class ConfermaXML:
         self.resUsersObj = self.pooler.get("res.users")
         self.protocolloObj = self.pooler.get("protocollo.protocollo")
         self.currentUser = self.resUsersObj.browse(cr, uid, uid)
-
+        if protocollo.registry.company_id.ammi_code:
+            self.codiceAmministrazione = str(protocollo.registry.company_id.ammi_code)
+        else:
+            self.codiceAmministrazione = None
         if protocollo.aoo_id.ident_code is not False:
             self.codiceAOO = str(protocollo.aoo_id.ident_code)
         else:
@@ -40,7 +43,7 @@ class ConfermaXML:
 
     def generate_receipt_root(self):
         root = etree.Element("ConfermaRicezione")
-        identificatore = self.createIdentificatoreMittente()
+        identificatore = self.createIdentificatore()
         messaggioRicevuto = self.createMessaggioRicevuto()
         root.append(identificatore)
         root.append(messaggioRicevuto)
@@ -64,13 +67,13 @@ class ConfermaXML:
 
     def createMessaggioRicevuto(self):
         messaggioRicevuto = etree.Element("MessaggioRicevuto")
-        identificatore = self.createIdentificatore()
+        identificatore = self.createIdentificatoreMittente()
         messaggioRicevuto.append(identificatore)
         return messaggioRicevuto
 
     def createIdentificatore(self):
         identificatore = etree.Element("Identificatore")
-        codiceAmministrazione = self.createCodiceAmministrazione()
+        codiceAmministrazione = self.createCodiceAmministrazione(self.codiceAmministrazione)
         codiceAOO = self.createCodiceAOO(self.codiceAOO)
         numeroRegistrazione = self.createNumeroRegistrazione(self.prot_number)
         dataRegistrazione = self.createDataRegistrazione(self.creation_date)
