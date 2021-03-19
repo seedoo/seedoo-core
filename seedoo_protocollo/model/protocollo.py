@@ -2175,28 +2175,43 @@ class protocollo_protocollo(orm.Model):
         }
 
     def clona_assegnatari_competenza(self, cr, uid, protocollo, protocollo_new_id, assegnatore, all=False):
-        assegnatario_competenza_ids = []
         assegnazione_obj = self.pool.get('protocollo.assegnazione')
+        domain = [
+            ('protocollo_id', '=', protocollo.id),
+            ('tipologia_assegnazione', '=', 'competenza'),
+            ('parent_id', '=', False)
+        ]
+        config_assegnazione = self.pool.get('protocollo.configurazione').get_configurazione_assegnazione(cr, uid, True)
+        if config_assegnazione != 'all':
+            domain.append(('tipologia_assegnatario', '=', config_assegnazione))
+        limit = 1
         if all:
-            for assegnazione in protocollo.assegnazione_competenza_ids:
-                assegnatario_competenza_ids.append(assegnazione.assegnatario_id.id)
-        else:
-            assegnazione_id = assegnazione_obj.search(cr, uid, [
-                ('protocollo_id', '=', protocollo.id),
-                ('tipologia_assegnazione', '=', 'competenza'),
-                ('parent_id', '=', False)
-            ], limit=1, order='id ASC')
-            if assegnazione_id:
-                assegnazione = assegnazione_obj.browse(cr, uid, assegnazione_id)
-                assegnatario_competenza_ids.append(assegnazione.assegnatario_id.id)
+            limit = None
+        assegnatario_competenza_ids = []
+        assegnazione_ids = assegnazione_obj.search(cr, uid, domain, order='id ASC', limit=limit)
+        for assegnazione_id in assegnazione_ids:
+            assegnazione = assegnazione_obj.browse(cr, uid, assegnazione_id)
+            assegnatario_competenza_ids.append(assegnazione.assegnatario_id.id)
         if assegnatario_competenza_ids:
             assegnazione_obj.salva_assegnazione_competenza(cr, uid, protocollo_new_id, assegnatario_competenza_ids, assegnatore.id)
 
     def clona_assegnatari_conoscenza(self, cr, uid, protocollo, protocollo_new_id, assegnatore):
         assegnazione_obj = self.pool.get('protocollo.assegnazione')
-        for assegnazione in protocollo.assegnazione_conoscenza_ids:
-            assegnazione_obj.salva_assegnazione_conoscenza(cr, uid, protocollo_new_id, [assegnazione.assegnatario_id.id],
-                                                           assegnatore.id, False)
+        domain = [
+            ('protocollo_id', '=', protocollo.id),
+            ('tipologia_assegnazione', '=', 'conoscenza'),
+            ('parent_id', '=', False)
+        ]
+        config_assegnazione = self.pool.get('protocollo.configurazione').get_configurazione_assegnazione(cr, uid, True)
+        if config_assegnazione != 'all':
+            domain.append(('tipologia_assegnatario', '=', config_assegnazione))
+        assegnatario_conoscenza_ids = []
+        assegnazione_ids = assegnazione_obj.search(cr, uid, domain, order='id ASC')
+        for assegnazione_id in assegnazione_ids:
+            assegnazione = assegnazione_obj.browse(cr, uid, assegnazione_id)
+            assegnatario_conoscenza_ids.append(assegnazione.assegnatario_id.id)
+        if assegnatario_conoscenza_ids:
+            assegnazione_obj.salva_assegnazione_conoscenza(cr, uid, protocollo_new_id, assegnatario_conoscenza_ids, assegnatore.id, False)
 
     def carica_documento_principale(self, cr, uid, protocollo_id, datas, datas_fname, datas_description, context=None):
 
