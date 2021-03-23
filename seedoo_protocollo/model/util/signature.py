@@ -158,21 +158,7 @@ class Signature(orm.Model):
         signature_jar = "signature2.jar"
         signature_cmd = os.path.join(os.path.dirname(os.path.abspath(__file__)), signature_jar)
         signature_mode = "--all-pages" if all_pages else "--first-page"
-        cmd = [
-            "java",
-            "-XX:MaxHeapSize=1g",
-            "-XX:InitialHeapSize=512m",
-            "-XX:CompressedClassSpaceSize=64m",
-            "-XX:MaxMetaspaceSize=128m",
-            "-XX:+UseConcMarkSweepGC",
-            "-jar",
-            signature_cmd,
-            "--input", file_path_input,
-            "--output", file_path_output,
-            signature_mode,
-            signature_string
-        ]
-
+        cmd = self._get_cmd(cr, uid, signature_cmd, file_path_input, file_path_output, signature_mode, signature_string)
         returncode = subprocess.call(cmd)
         if returncode == 40:
             return None
@@ -187,3 +173,19 @@ class Signature(orm.Model):
         os.remove(file_path_output)
 
         return signed_file_datas
+
+    def _get_cmd(self, cr, uid, signature_cmd, file_path_input, file_path_output, signature_mode, signature_string):
+        return [
+            "java",
+            "-XX:MaxHeapSize=1g",
+            "-XX:InitialHeapSize=512m",
+            "-XX:CompressedClassSpaceSize=64m",
+            "-XX:MaxMetaspaceSize=128m",
+            "-XX:+UseConcMarkSweepGC",
+            "-jar",
+            signature_cmd,
+            "--input", file_path_input,
+            "--output", file_path_output,
+            signature_mode,
+            signature_string
+        ]
