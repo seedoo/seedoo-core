@@ -2,11 +2,17 @@
 # This file is part of Seedoo.  The COPYRIGHT file at the top level of
 # this module contains the full copyright notices and license terms.
 
-from openerp import models, api, fields
+from openerp import models, api, tools
 
 
 class MailNotification(models.Model):
     _inherit = 'mail.notification'
+
+    @api.model
+    def get_signature_user(self):
+        if self.env.user.signature:
+            return tools.append_content_to_html('<br/><br/>--<br/>', self.env.user.signature, plaintext=False)
+        return False
 
     @api.model
     def get_signature_footer(self, user_id, res_model=None, res_id=None, user_signature=True):

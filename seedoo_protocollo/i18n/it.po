@@ -134,3 +134,9 @@ msgstr "Deve contenere quanto segue:"
 #, python-format
 msgid "Password must be %d characters or more."
 msgstr "La password deve essere di %d o più caratteri."
+
+#. module: mail
+#: code:addons/mail/mail_followers.py:155
+#, python-format
+msgid "Sent by %(company)s using %(odoo)s"
+msgstr "Inviato con %(odoo)s da %(company)s"
