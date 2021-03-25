@@ -39,11 +39,11 @@ this module contains the full copyright notices and license terms. -->
             <field name="model">protocollo.typology</field>
             <field name="arch" type="xml">
                 <tree string="Tipologie">
+                    <field name="display_order" widget="handle"/>
                     <field name="name"/>
                     <field name="active"/>
                     <field name="pec" string="Integrazione PEC"/>
                     <field name="sharedmail" string="Integrazione Shared Mail"/>
-                    <field name="display_order"/>
                 </tree>
             </field>
         </record>
