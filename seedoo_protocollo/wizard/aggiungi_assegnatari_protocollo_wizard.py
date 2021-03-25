@@ -296,6 +296,9 @@ Se sono presenti assegnatari per conoscenza verranno rimossi al completamento de
                 body = body + "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#007ea6'> %s </span></li>" \
                               % ('Assegnatari Conoscenza', before['conoscenza'], after['conoscenza'])
             if data_modified:
+                history_body_append = context.get('history_body_append', False)
+                if history_body_append:
+                    body += history_body_append
                 body += "</ul></div>"
                 subject_label = "Modifica assegnatari" if before['competenza'] or before['conoscenza'] else "Aggiunta assegnatari"
                 post_vars = {

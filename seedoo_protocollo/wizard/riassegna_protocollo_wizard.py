@@ -212,6 +212,9 @@ class protocollo_riassegna_wizard(osv.TransientModel):
         if (before['conoscenza'] or after['conoscenza']) and before['conoscenza']!=after['conoscenza']:
             body = body + "<li>%s: <span style='color:#990000'> %s</span> -> <span style='color:#007ea6'> %s </span></li>" \
                           % ('Assegnatari Conoscenza', before['conoscenza'], after['conoscenza'])
+        history_body_append = context.get('history_body_append', False)
+        if history_body_append:
+            body += history_body_append
         body += "</ul></div>"
         post_vars = {
             'subject': "%s%s" % (self.get_history_label(cr, uid, context), ": " + wizard.motivation if wizard.motivation else ""),
