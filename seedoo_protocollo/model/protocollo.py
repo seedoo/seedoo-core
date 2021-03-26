@@ -2115,7 +2115,7 @@ class protocollo_protocollo(orm.Model):
             if not protocollo.annulla_visibility:
                 raise orm.except_orm(
                     "Attenzione!",
-                    "La tua utenza non è abilitata per l'annullamento del protocollo!"
+                    "La tua utenza non è abilitata per l'annullamento del protocollo. Richiedi l'annullamento al Responsabile del Servizio di Protocollo"
                 )
         return {
             'name': 'Annulla Protocollo',
