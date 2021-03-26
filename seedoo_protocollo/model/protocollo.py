@@ -2099,6 +2099,34 @@ class protocollo_protocollo(orm.Model):
         return super(protocollo_protocollo, self).unlink(
             cr, uid, unlink_ids, context=context)
 
+    def action_server_cancel_protocollo(self, cr, uid, ids, context=None):
+        for id in ids:
+            protocollo = self.browse(cr, uid, id, context)
+            if protocollo.state == 'draft':
+                raise orm.except_orm(
+                    "Attenzione",
+                    "Il protocollo deve essere registrato prima di essere annullato!"
+                )
+            if protocollo.state == 'canceled':
+                raise orm.except_orm(
+                    "Attenzione",
+                    "Il protocollo è già stato annullato in precedenza!"
+                )
+            if not protocollo.annulla_visibility:
+                raise orm.except_orm(
+                    "Attenzione!",
+                    "La tua utenza non è abilitata per l'annullamento del protocollo!"
+                )
+        return {
+            'name': 'Annulla Protocollo',
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'protocollo.cancel.wizard',
+            'target': 'new',
+            'context': context
+        }
+
     def action_clona_protocollo(self, cr, uid, ids, defaults, context=None):
         protocollo_obj = self.pool.get('protocollo.protocollo')
         department_obj = self.pool.get('hr.department')
