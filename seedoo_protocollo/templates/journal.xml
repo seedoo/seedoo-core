@@ -55,10 +55,13 @@
                                     width="20%">Impronta
                                 </th>
                                 <th style="padding: 2px 5px 2px 2px;"
-                                    width="20%">Mittente/Destinatario
+                                    width="15%">Mittente/Destinatario
                                 </th>
                                 <th style="padding: 2px 5px 2px 2px;"
                                     width="15%">Prot. Mittente
+                                </th>
+                                <th style="padding: 2px 5px 2px 2px;"
+                                    width="5%">Stato
                                 </th>
                             </tr>
                             <t t-foreach="o.protocol_ids" t-as="protocol">
@@ -87,7 +90,7 @@
                                         style="padding: 2px 5px 2px 2px;">
                                         <span t-field="protocol.fingerprint"/>
                                     </td>
-                                    <td width="20%"
+                                    <td width="15%"
                                         style="padding: 2px 5px 2px 2px;">
                                         <t t-foreach="protocol.sender_receivers"
                                            t-as="sr">
@@ -102,6 +105,10 @@
                                             del
                                             <span t-field="protocol.sender_registration_date"/>
                                         </t>
+                                    </td>
+                                    <td width="5%"
+                                        style="padding: 2px 5px 2px 2px;">
+                                        <span t-field="protocol.state"/>
                                     </td>
                                 </tr>
                             </t>
