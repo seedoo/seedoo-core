@@ -1141,6 +1141,9 @@ class protocollo_protocollo(orm.Model):
                             body = body + "<li>%s: <span> %s </span></li>" % (self.get_label_competenza(cr, uid), ass_com)
                         if ass_con:
                             body = body + "<li>%s: <span> %s </span></li>" % ('Assegnatari Conoscenza', ass_con)
+                    history_body_append = self.get_registration_history_body_append(cr, uid, prot)
+                    if history_body_append:
+                        body += history_body_append
                     body += "</ul></div>"
                     post_vars = {
                         'subject': "Registrazione protocollo",
@@ -1183,6 +1186,9 @@ class protocollo_protocollo(orm.Model):
             pass
 
         return res
+
+    def get_registration_history_body_append(self, cr, uid, protocollo):
+        return False
 
     def _count_protocol(self, cr, uid, protid):
         protocollo_obj = self.pool.get("protocollo.protocollo")
