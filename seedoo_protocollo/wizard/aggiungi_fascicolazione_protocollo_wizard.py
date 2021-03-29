@@ -76,7 +76,7 @@ class protocollo_aggiungi_fascicolazione_wizard(osv.TransientModel):
         save_history = True if protocollo.state in protocollo_obj.get_history_state_list(cr, uid) else False
 
         vals['dossier_ids'] = [[6, 0, [d.id for d in wizard.dossier_ids]]]
-        if save_history:
+        if save_history and (len(protocollo.dossier_ids.ids)>0 or len(wizard.dossier_ids.ids)>0):
             if len(protocollo.dossier_ids.ids) == 0:
                 operation_label = "Inserimento fascicolazione"
             else:
@@ -92,7 +92,7 @@ class protocollo_aggiungi_fascicolazione_wizard(osv.TransientModel):
 
         protocollo_obj.write(cr, uid, [context['active_id']], vals)
 
-        if save_history:
+        if before or after:
             action_class = "history_icon update"
             body = "<div class='%s'>" % action_class
             body += "<ul>"
