@@ -159,10 +159,17 @@ class Signature(orm.Model):
         signature_cmd = os.path.join(os.path.dirname(os.path.abspath(__file__)), signature_jar)
         signature_mode = "--all-pages" if all_pages else "--first-page"
         cmd = self._get_cmd(cr, uid, signature_cmd, file_path_input, file_path_output, signature_mode, signature_string)
-        returncode = subprocess.call(cmd)
+        #returncode = subprocess.call(cmd)
+        proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        stdoutdata, stderrdata = proc.communicate()
+        returncode = proc.wait()
         if returncode == 40:
             return None
         elif returncode != 0:
+            if stdoutdata:
+                _logger.warning(stdoutdata)
+            if stderrdata:
+                _logger.error(stderrdata)
             error = "Signature Error: %s" % SIGNATURE_RETURN_CODE[returncode]
             raise Exception(error)
 
