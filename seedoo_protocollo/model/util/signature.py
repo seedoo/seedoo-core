@@ -184,8 +184,8 @@ class Signature(orm.Model):
     def _get_cmd(self, cr, uid, signature_cmd, file_path_input, file_path_output, signature_mode, signature_string):
         return [
             "java",
-            "-XX:MaxHeapSize=2g",
-            "-Xmx4g",
+            "-Xms256m",
+            "-Xmx512m",
             "-jar",
             signature_cmd,
             "--input", file_path_input,
