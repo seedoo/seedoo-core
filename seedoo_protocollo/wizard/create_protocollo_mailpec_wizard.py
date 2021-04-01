@@ -190,15 +190,8 @@ class ProtocolloMailPecWizard(osv.TransientModel):
     def _default_sender_receivers(self, cr, uid, context):
         mail_message = self.pool.get('mail.message').browse(cr, uid, context['active_id'], context=context)
         partner = mail_message.author_id
+        name, email, pec = self.get_email_data(mail_message.email_from, context.get('message_type', 'mail')=='pec')
         res = []
-        sr_substring = re.findall('<[^>]+>', mail_message.email_from)
-        if len(sr_substring):
-            sr_email = sr_substring[0].strip('<>')
-            sr_name = mail_message.email_from.replace(sr_substring[0], '').replace('"', '').strip()
-        else:
-            sr_name = ''
-            sr_email = mail_message.email_from
-
         if partner:
             res.append({
                 'partner_id': partner.id,
@@ -214,16 +207,11 @@ class ProtocolloMailPecWizard(osv.TransientModel):
                 'mobile': partner.mobile,
                 'pec_mail': partner.pec_mail
             })
-        elif 'message_type' in context and context['message_type'] == 'mail':
+        else:
             res.append({
-                'name': sr_name,
-                'email': sr_email,
-                'type': 'individual',
-            })
-        elif 'message_type' in context and context['message_type'] == 'pec':
-            res.append({
-                'name': sr_name,
-                'pec_mail': sr_email,
+                'name': name,
+                'email': email,
+                'pec_mail': pec,
                 'type': 'individual',
             })
         return res
@@ -244,6 +232,35 @@ class ProtocolloMailPecWizard(osv.TransientModel):
         'documento_descrizione_required_wizard': _default_documento_descrizione_wizard_required
         # 'doc_principale': _default_doc_principale,
     }
+
+    def get_email_data(self, email_from, is_pec):
+        found = re.findall('^"Per conto di: \S+@\S+" <[^>]+>', email_from)
+        if found:
+            # se il mittente ha il seguente formato:
+            # "Per conto di: test02@pec.flosslab.it" <posta-certificata@pec.aruba.it>
+            # allora deve restituire solamente la pec contenuta all'interno (nell'esempio: test02@pec.flosslab.it)
+            results = re.findall('^"Per conto di: \S+@\S+"', email_from)
+            if not results:
+                return '', '', ''
+            pec = results[0].replace('"', '').replace('Per conto di: ', '')
+            return '', '', pec
+        found = re.findall('<[^>]+>', email_from)
+        if found:
+            # se il mittente ha il seguente formato:
+            # Nome Cognome <test02@pec.flosslab.it>
+            # allora deve restituire Nome Cognome come name e l'indirizzo test02@pec.flosslab.it come email se si tratta
+            # di una mail altrimenti come pec si tratta di una pec
+            email = found[0].strip('<>')
+            name = email_from.replace(found[0], '').replace('"', '').strip()
+            if is_pec:
+                return name, '', email
+            else:
+                return name, email, ''
+        # se i precedenti casi non sono verificati si restituisce email_from come email se si tratta di una mail
+        # altrimenti come pec si tratta di una pec
+        if is_pec:
+            return '', '', email_from
+        return '', email_from, ''
 
     def action_save(self, cr, uid, ids, context=None):
         wizard = self.browse(cr, uid, ids[0], context=context)
@@ -269,6 +286,7 @@ class ProtocolloMailPecWizard(osv.TransientModel):
 
         is_pec = False
         is_segnatura = False
+        srvals = {}
 
         # Estrae i dati del mittente dalla segnatura
         configurazione_ids = self.pool.get('protocollo.configurazione').search(cr, uid, [])
@@ -278,29 +296,31 @@ class ProtocolloMailPecWizard(osv.TransientModel):
             is_pec = True
 
         if is_pec:
-            srvals = {}
             typology_id = protocollo_typology_obj.search(cr, uid, [('pec', '=', True)])[0]
             messaggio_pec_obj = self.pool.get('protocollo.messaggio.pec')
             messaggio_pec_id = messaggio_pec_obj.create(cr, uid, {'type': 'messaggio', 'messaggio_ref': mail_message.id})
 
-            if configurazione.segnatura_xml_parse:
-                try:
-                    srvals = self.elaboraSegnatura(cr, uid, protocollo_obj, mail_message)
-                except Exception as e:
-                    _logger.error('Error in segnature parsing: %s', str(e))
-            if len(srvals) > 0 and len(srvals['mittente']) > 0:
-                is_segnatura = True
+        if configurazione.segnatura_xml_parse:
+            try:
+                srvals = self.elaboraSegnatura(cr, uid, protocollo_obj, mail_message, context)
+            except Exception as e:
+                _logger.error('Error in segnature parsing: %s', str(e))
+        if len(srvals) > 0 and len(srvals['mittente']) > 0:
+            is_segnatura = True
 
         sender_segnatura_xml_parse = configurazione.sender_segnatura_xml_parse
 
-        if is_pec and is_segnatura:
-            srvals['mittente']['pec_messaggio_ids'] = [[6, 0, [messaggio_pec_id]]]
+        if is_segnatura:
+            if is_pec:
+                srvals['mittente']['pec_messaggio_ids'] = [[6, 0, [messaggio_pec_id]]]
+            else:
+                srvals['mittente']['sharedmail_messaggio_ids'] = [(4, context['active_id'])]
             if sender_segnatura_xml_parse:
                 sender_receiver.append(sender_receiver_obj.create(cr, uid, srvals['mittente']))
 
-        if (is_pec and (is_segnatura is False or (is_segnatura and not sender_segnatura_xml_parse))) or is_pec is False:
+        if not is_segnatura or (is_segnatura and not sender_segnatura_xml_parse):
             for send_rec in wizard.sender_receivers:
-                srvals = {
+                send_rec_vals = {
                     'type': send_rec.type,
                     'source': 'sender',
                     'partner_id': send_rec.partner_id and send_rec.partner_id.id or False,
@@ -315,14 +335,14 @@ class ProtocolloMailPecWizard(osv.TransientModel):
                 }
 
                 if is_pec:
-                    srvals['pec_mail'] = send_rec.pec_mail
-                    srvals['pec_messaggio_ids'] = [[6, 0, [messaggio_pec_id]]]
+                    send_rec_vals['pec_mail'] = send_rec.pec_mail
+                    send_rec_vals['pec_messaggio_ids'] = [[6, 0, [messaggio_pec_id]]]
                 else:
-                    srvals['pec_mail'] = ''
-                    srvals['email'] = send_rec.email
-                    srvals['sharedmail_messaggio_ids'] = [(4, context['active_id'])]
+                    send_rec_vals['pec_mail'] = send_rec.pec_mail
+                    send_rec_vals['email'] = send_rec.email
+                    send_rec_vals['sharedmail_messaggio_ids'] = [(4, context['active_id'])]
 
-                sender_receiver.append(sender_receiver_obj.create(cr, uid, srvals))
+                sender_receiver.append(sender_receiver_obj.create(cr, uid, send_rec_vals))
 
         vals['sender_receivers'] = [[6, 0, sender_receiver]]
         if 'protocollo' in srvals:
@@ -422,7 +442,7 @@ class ProtocolloMailPecWizard(osv.TransientModel):
             'flags': {'initial_mode': 'edit'}
         }
 
-    def elaboraSegnatura(self, cr, uid, protocollo_obj, mail_message):
+    def elaboraSegnatura(self, cr, uid, protocollo_obj, mail_message, context):
         srvals = {}
         srvals_mittente = {}
         srvals_protocollo = {}
@@ -438,7 +458,12 @@ class ProtocolloMailPecWizard(osv.TransientModel):
                 srvals_mittente = self.getDatiSegnaturaMittente(segnatura_xml)
                 srvals_protocollo = self.getDatiSegnaturaProtocollo(segnatura_xml)
 
-                srvals_mittente['pec_mail'] = mail_message.email_from.encode('utf8')
+                name, email, pec = self.get_email_data(
+                    mail_message.email_from.encode('utf8'),
+                    context.get('message_type', 'mail') == 'pec'
+                )
+                srvals_mittente['email'] = email
+                srvals_mittente['pec_mail'] = pec
 
         srvals['mittente'] = srvals_mittente
         srvals['protocollo'] = srvals_protocollo
