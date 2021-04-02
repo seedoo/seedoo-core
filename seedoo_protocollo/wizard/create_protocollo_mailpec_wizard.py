@@ -346,9 +346,9 @@ class ProtocolloMailPecWizard(osv.TransientModel):
 
         vals['sender_receivers'] = [[6, 0, sender_receiver]]
         if 'protocollo' in srvals:
-            vals['sender_protocol'] = srvals['protocollo']['sender_protocol']
-            vals['sender_register'] = srvals['protocollo']['sender_register']
-            vals['sender_registration_date'] = srvals['protocollo']['sender_registration_date']
+            vals['sender_protocol'] = srvals['protocollo']['sender_protocol'] if 'sender_protocol' in srvals['protocollo'] else False
+            vals['sender_register'] = srvals['protocollo']['sender_register'] if 'sender_register' in srvals['protocollo'] else False
+            vals['sender_registration_date'] = srvals['protocollo']['sender_registration_date'] if 'sender_registration_date' in srvals['protocollo'] else False
 
         if is_pec is False:
             typology_id = protocollo_typology_obj.search(cr, uid,[('sharedmail', '=', True)])[0]
