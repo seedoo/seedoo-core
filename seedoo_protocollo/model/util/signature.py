@@ -12,6 +12,7 @@ import logging
 import shutil
 import base64
 import os
+import resource
 
 _logger = logging.getLogger(__name__)
 
@@ -160,7 +161,9 @@ class Signature(orm.Model):
         signature_mode = "--all-pages" if all_pages else "--first-page"
         cmd = self._get_cmd(cr, uid, signature_cmd, file_path_input, file_path_output, signature_mode, signature_string)
         #returncode = subprocess.call(cmd)
-        proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        def set_limits():
+            resource.setrlimit(resource.RLIMIT_AS, (-1, -1))
+        proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, preexec_fn=set_limits)
         stdoutdata, stderrdata = proc.communicate()
         returncode = proc.wait()
         if returncode == 40:
@@ -184,8 +187,8 @@ class Signature(orm.Model):
     def _get_cmd(self, cr, uid, signature_cmd, file_path_input, file_path_output, signature_mode, signature_string):
         return [
             "java",
-            "-Xms256m",
-            "-Xmx512m",
+            # "-Xms256m",
+            # "-Xmx512m",
             "-jar",
             signature_cmd,
             "--input", file_path_input,
