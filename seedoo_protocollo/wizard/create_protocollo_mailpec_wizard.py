@@ -234,7 +234,7 @@ class ProtocolloMailPecWizard(osv.TransientModel):
     }
 
     def get_email_data(self, email_from, is_pec):
-        found = re.findall('^"Per conto di: \S+@\S+" <[^>]+>', email_from)
+        found = re.findall('^"Per conto di: \S+@\S+"\\n* <[^>]+>', email_from)
         if found:
             # se il mittente ha il seguente formato:
             # "Per conto di: test02@pec.flosslab.it" <posta-certificata@pec.aruba.it>
