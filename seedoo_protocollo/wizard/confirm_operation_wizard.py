@@ -37,7 +37,7 @@ class confirm_operation_wizard(models.TransientModel):
             message_obj = self.pool.get('mail.message')
             message = message_obj.browse(cr, SUPERUSER_ID, context['active_id'])
             if message.sharedmail_state == 'new':
-                message_obj.write(cr, SUPERUSER_ID, context['active_id'], {'sharedmail_state': 'not_protocol'})
+                message_obj.write(cr, uid, context['active_id'], {'sharedmail_state': 'not_protocol'})
             else:
                 raise orm.except_orm(_("Avviso"), _("Messaggio gia' archiviato in precedenza: aggiorna la pagina"))
 
@@ -45,7 +45,7 @@ class confirm_operation_wizard(models.TransientModel):
             message_obj = self.pool.get('mail.message')
             message = message_obj.browse(cr, SUPERUSER_ID, context['active_id'])
             if message.pec_state == 'new':
-                message_obj.write(cr, SUPERUSER_ID, context['active_id'], {'pec_state': 'not_protocol'})
+                message_obj.write(cr, uid, context['active_id'], {'pec_state': 'not_protocol'})
             else:
                 raise orm.except_orm(_("Avviso"), _("Messaggio gia' archiviato in precedenza: aggiorna la pagina"))
 
