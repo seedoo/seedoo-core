@@ -60,7 +60,7 @@ class ConversionUtility:
             ret = str(soup)
 
         try:
-            regular_expression = 'background-image: ?url\(.*\);?'
+            regular_expression = '.*background-image: ?url\(.*\).*;?'
             soup = BeautifulSoup(ret)
             results = soup.findAll(attrs={'style': re.compile(regular_expression)})
             for result in results:
@@ -68,15 +68,15 @@ class ConversionUtility:
                     if attribute[0]=='style' and re.match(regular_expression, attribute[1]):
                         found = re.search(regular_expression, attribute[1])
                         if found:
-                            url_to_check = re.sub("background-image: ?url\('", '', found.group(0))
-                            url_to_check = re.sub("'\);?", '', url_to_check)
+                            url_to_check = re.sub(".*background-image: ?url\('", '', found.group(0))
+                            url_to_check = re.sub("'\).*;?", '', url_to_check)
                             error = False
                             try:
                                 ret = urllib2.urlopen(url_to_check)
                             except Exception as e:
                                 error = True
                             if error or ret.code!=200:
-                                result['style'] = re.sub(regular_expression, '', attribute[1])
+                                result['style'] = attribute[1].replace("url('" + url_to_check + "')", 'none')
             ret = str(soup)
         except Exception as e:
             _logger.error(str(e))
