@@ -938,6 +938,21 @@ this module contains the full copyright notices and license terms. -->
                     <field name="assegnazione_conoscenza_ids"
                            string="Assegnatario Ufficio CC"
                            filter_domain="[('filtro_assegnazione_conoscenza_ufficio_ids', 'ilike', self)]"/>
+                    <field name="assegnazione_competenza_ids"
+                           string="In Attesa di Presa in Carico da"
+                           filter_domain="[('filtro_assegnazione_attesa_presa_in_carico_ids', 'ilike', self)]"/>
+                    <field name="assegnazione_competenza_ids"
+                           string="Preso in Carico da"
+                           filter_domain="[('filtro_assegnazione_presa_in_carico_ids', 'ilike', self)]"/>
+                    <field name="assegnazione_competenza_ids"
+                           string="Rifiutato da"
+                           filter_domain="[('filtro_assegnazione_rifiutata_ids', 'ilike', self)]"/>
+                    <field name="assegnazione_conoscenza_ids"
+                           string="In Attesa di Lettura da"
+                           filter_domain="[('filtro_assegnazione_attesa_lettura_ids', 'ilike', self)]"/>
+                    <field name="assegnazione_conoscenza_ids"
+                           string="Letto da"
+                           filter_domain="[('filtro_assegnazione_letta_ids', 'ilike', self)]"/>
                     <field name="classification_name" string="Titolario" filter_domain="[('classification_name', 'ilike', self)]"/>
                     <field name="notes"/>
                     <field name="typology"/>

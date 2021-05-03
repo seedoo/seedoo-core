@@ -1434,7 +1434,7 @@ class protocollo_protocollo(osv.Model):
         _logger.debug("_da_assegnare_general_visibility_search: %s sec" % (time_duration,))
         return [('id', 'in', protocollo_visible_ids)]
 
-    def _get_protocollo_assegnazione_ids(self, cr, uid, tipologia_assegnazione, tipologia_assegnatario, nome, context=None):
+    def _get_protocollo_assegnazione_ids(self, cr, uid, tipologia_assegnazione, tipologia_assegnatario, state, parent_null, nome, custom_condition_query='', context=None):
         if context and 'archivio_id' in context and context['archivio_id']:
             archivio_id = context['archivio_id']
         else:
@@ -1445,13 +1445,21 @@ class protocollo_protocollo(osv.Model):
         tipologia_assegnatario_query = ''
         if tipologia_assegnatario:
             tipologia_assegnatario_query = "pa.tipologia_assegnatario = '%s' AND " % tipologia_assegnatario
+        state_assegnazione_query = ''
+        if state:
+            state_assegnazione_query = "pa.state = '%s' AND " % state
+        parent_assegnazione_query = ''
+        if parent_null:
+            parent_assegnazione_query = "pa.parent_id IS NULL AND "
         cr.execute('''
             SELECT DISTINCT(pa.protocollo_id) 
             FROM protocollo_protocollo pp, protocollo_assegnazione pa, protocollo_assegnatario ass
             WHERE pp.id = pa.protocollo_id AND 
                   ''' + tipologia_assegnazione_query + '''
                   ''' + tipologia_assegnatario_query + '''
-                  pa.parent_id IS NULL AND
+                  ''' + state_assegnazione_query + '''
+                  ''' + parent_assegnazione_query + '''
+                  ''' + custom_condition_query + '''
                   pa.assegnatario_id = ass.id AND 
                   ass.nome ILIKE %s AND 
                   pa.archivio_id = %s
@@ -1465,39 +1473,108 @@ class protocollo_protocollo(osv.Model):
 
     def _search_assegnazione_ids(self, cr, uid, obj, name, args, domain=None, context=None):
         #TODO: gestire gli altri casi della ricerca
-        return [('id', 'in', self._get_protocollo_assegnazione_ids(cr, uid, '', '', args[0][2], context))]
+        return [('id', 'in', self._get_protocollo_assegnazione_ids(cr, uid, '', '', '', True, args[0][2], '', context))]
 
     def _get_assegnazione_competenza_dipendente_ids(self, cr, uid, ids, field_names, arg=None, context=None):
         result = dict((res_id, []) for res_id in ids)
         return result
 
     def _search_assegnazione_competenza_dipendente_ids(self, cr, uid, obj, name, args, domain=None, context=None):
-        #TODO: gestire gli altri casi della ricerca
-        return [('id', 'in', self._get_protocollo_assegnazione_ids(cr, uid, 'competenza', 'employee', args[0][2], context))]
+        return [('id', 'in', self._get_protocollo_assegnazione_ids(cr, uid, 'competenza', 'employee', '', True, args[0][2], '', context))]
 
     def _get_assegnazione_competenza_ufficio_ids(self, cr, uid, ids, field_names, arg=None, context=None):
         result = dict((res_id, []) for res_id in ids)
         return result
 
     def _search_assegnazione_competenza_ufficio_ids(self, cr, uid, obj, name, args, domain=None, context=None):
-        #TODO: gestire gli altri casi della ricerca
-        return [('id', 'in', self._get_protocollo_assegnazione_ids(cr, uid, 'competenza', 'department', args[0][2], context))]
+        return [('id', 'in', self._get_protocollo_assegnazione_ids(cr, uid, 'competenza', 'department', '', True, args[0][2], '', context))]
 
     def _get_assegnazione_conoscenza_dipendente_ids(self, cr, uid, ids, field_names, arg=None, context=None):
         result = dict((res_id, []) for res_id in ids)
         return result
 
     def _search_assegnazione_conoscenza_dipendente_ids(self, cr, uid, obj, name, args, domain=None, context=None):
-        #TODO: gestire gli altri casi della ricerca
-        return [('id', 'in', self._get_protocollo_assegnazione_ids(cr, uid, 'conoscenza', 'employee', args[0][2], context))]
+        return [('id', 'in', self._get_protocollo_assegnazione_ids(cr, uid, 'conoscenza', 'employee', '', True, args[0][2], '', context))]
 
     def _get_assegnazione_conoscenza_ufficio_ids(self, cr, uid, ids, field_names, arg=None, context=None):
         result = dict((res_id, []) for res_id in ids)
         return result
 
     def _search_assegnazione_conoscenza_ufficio_ids(self, cr, uid, obj, name, args, domain=None, context=None):
-        #TODO: gestire gli altri casi della ricerca
-        return [('id', 'in', self._get_protocollo_assegnazione_ids(cr, uid, 'conoscenza', 'department', args[0][2], context))]
+        return [('id', 'in', self._get_protocollo_assegnazione_ids(cr, uid, 'conoscenza', 'department', '', True, args[0][2], '', context))]
+
+    def _get_assegnazione_attesa_presa_in_carico_ids(self, cr, uid, ids, field_names, arg=None, context=None):
+        result = dict((res_id, []) for res_id in ids)
+        return result
+
+    def _search_assegnazione_attesa_presa_in_carico_ids(self, cr, uid, obj, name, args, domain=None, context=None):
+        if context and 'archivio_id' in context and context['archivio_id']:
+            archivio_id = context['archivio_id']
+        else:
+            archivio_id = self.pool.get('protocollo.archivio').search(cr, uid, [('is_current', '=', True)], limit=1)[0]
+        query = '''
+            SELECT DISTINCT(p.id) 
+            FROM (
+                SELECT pp.id AS id
+                FROM protocollo_protocollo pp, protocollo_assegnazione pa1, protocollo_assegnazione pa2, protocollo_assegnatario ass
+                WHERE pp.id = pa1.protocollo_id AND
+                      pa1.id = pa2.parent_id AND
+                      pa2.assegnatario_id = ass.id AND 
+                      pa1.tipologia_assegnatario = 'department' AND
+                      pa1.tipologia_assegnazione = 'competenza' AND
+                      pa1.state = 'assegnato' AND
+                      pa2.tipologia_assegnatario = 'employee' AND
+                      pa2.tipologia_assegnazione = 'competenza' AND
+                      pa2.state = 'assegnato' AND
+                      ass.nome ILIKE '%s' AND 
+                      pa1.archivio_id = %s AND 
+                      pa2.archivio_id = %s
+
+                UNION
+
+                SELECT pp.id AS id
+                FROM protocollo_protocollo pp, protocollo_assegnazione pa, protocollo_assegnatario ass
+                WHERE pp.id = pa.protocollo_id AND
+                      pa.assegnatario_id = ass.id AND 
+                      pa.tipologia_assegnatario = 'employee' AND
+                      pa.tipologia_assegnazione = 'competenza' AND
+                      pa.parent_id IS NULL AND
+                      pa.state = 'assegnato' AND
+                      ass.nome ILIKE '%s' AND 
+                      pa.archivio_id = %s 
+            ) p
+        ''' % ('%' + args[0][2] + '%', archivio_id, archivio_id, '%' + args[0][2] + '%', archivio_id)
+        cr.execute(query)
+        protocollo_ids = [res[0] for res in cr.fetchall()]
+        return [('id', 'in', protocollo_ids)]
+
+    def _get_assegnazione_presa_in_carico_ids(self, cr, uid, ids, field_names, arg=None, context=None):
+        result = dict((res_id, []) for res_id in ids)
+        return result
+
+    def _search_assegnazione_presa_in_carico_ids(self, cr, uid, obj, name, args, domain=None, context=None):
+        return [('id', 'in', self._get_protocollo_assegnazione_ids(cr, uid, 'competenza', '', '', False, args[0][2], "pa.state NOT IN ('assegnato', 'rifiutato') AND ", context))]
+
+    def _get_assegnazione_rifiutata_ids(self, cr, uid, ids, field_names, arg=None, context=None):
+        result = dict((res_id, []) for res_id in ids)
+        return result
+
+    def _search_assegnazione_rifiutata_ids(self, cr, uid, obj, name, args, domain=None, context=None):
+        return [('id', 'in', self._get_protocollo_assegnazione_ids(cr, uid, 'competenza', '', 'rifiutato', False, args[0][2], '', context))]
+
+    def _get_assegnazione_attesa_lettura_ids(self, cr, uid, ids, field_names, arg=None, context=None):
+        result = dict((res_id, []) for res_id in ids)
+        return result
+
+    def _search_assegnazione_attesa_lettura_ids(self, cr, uid, obj, name, args, domain=None, context=None):
+        return [('id', 'in', self._get_protocollo_assegnazione_ids(cr, uid, 'conoscenza', '', 'assegnato', False, args[0][2], '', context))]
+
+    def _get_assegnazione_letta_ids(self, cr, uid, ids, field_names, arg=None, context=None):
+        result = dict((res_id, []) for res_id in ids)
+        return result
+
+    def _search_assegnazione_letta_ids(self, cr, uid, obj, name, args, domain=None, context=None):
+        return [('id', 'in', self._get_protocollo_assegnazione_ids(cr, uid, 'conoscenza', '', '', False, args[0][2], "pa.state NOT IN ('assegnato') AND ", context))]
 
     def _filtro_a_me_competenza_visibility(self, cr, uid, ids, name, arg, context=None):
         return {}
@@ -2693,6 +2770,36 @@ class protocollo_protocollo(osv.Model):
                                                           type='one2many',
                                                           relation='protocollo.assegnazione',
                                                           string='Assegnatario Ufficio Conoscenza'),
+        'filtro_assegnazione_attesa_presa_in_carico_ids': fields.function(_get_assegnazione_attesa_presa_in_carico_ids,
+                                                          fnct_search=_search_assegnazione_attesa_presa_in_carico_ids,
+                                                          method=True,
+                                                          type='one2many',
+                                                          relation='protocollo.assegnazione',
+                                                          string='In Attesa di Presa in Carico da'),
+        'filtro_assegnazione_presa_in_carico_ids': fields.function(_get_assegnazione_presa_in_carico_ids,
+                                                          fnct_search=_search_assegnazione_presa_in_carico_ids,
+                                                          method=True,
+                                                          type='one2many',
+                                                          relation='protocollo.assegnazione',
+                                                          string='Preso in Carico da'),
+        'filtro_assegnazione_rifiutata_ids': fields.function(_get_assegnazione_rifiutata_ids,
+                                                          fnct_search=_search_assegnazione_rifiutata_ids,
+                                                          method=True,
+                                                          type='one2many',
+                                                          relation='protocollo.assegnazione',
+                                                          string='Rifiutato da'),
+        'filtro_assegnazione_attesa_lettura_ids': fields.function(_get_assegnazione_attesa_lettura_ids,
+                                                          fnct_search=_search_assegnazione_attesa_lettura_ids,
+                                                          method=True,
+                                                          type='one2many',
+                                                          relation='protocollo.assegnazione',
+                                                          string='In Attesa di Lettura da'),
+        'filtro_assegnazione_letta_ids': fields.function(_get_assegnazione_letta_ids,
+                                                          fnct_search=_search_assegnazione_letta_ids,
+                                                          method=True,
+                                                          type='one2many',
+                                                          relation='protocollo.assegnazione',
+                                                          string='Letto da'),
 
         'filtro_a_me_competenza_visibility': fields.function(_filtro_a_me_competenza_visibility,
                                                              fnct_search=_filtro_a_me_competenza_visibility_search,
@@ -2882,11 +2989,6 @@ class protocollo_protocollo(osv.Model):
             'da_assegnare_visibility',
             'da_assegnare_general_visibility',
             'filtro_da_me_in_attesa_visibility',
-            'filtro_assegnazione_ids',
-            'filtro_assegnazione_competenza_dipendente_ids',
-            'filtro_assegnazione_competenza_ufficio_ids',
-            'filtro_assegnazione_conoscenza_dipendente_ids',
-            'filtro_assegnazione_conoscenza_ufficio_ids',
             'filtro_a_me_conoscenza_visibility',
             'filtro_a_me_competenza_visibility',
             'filtro_a_mio_ufficio_visibility',
