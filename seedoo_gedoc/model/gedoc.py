@@ -11,25 +11,21 @@ from openerp import tools
 class res_users(osv.Model):
     _inherit = "res.users"
 
-    def on_change_login(self, cr, uid, ids, login, context=None):
+    def validate_login(self, cr, uid, login, context=None):
         if login and not tools.single_email_re.match(login):
             raise osv.except_osv(_('Warning!'), _('Devi inserire un indirizzo e-mail valido'))
-        else:
-            return {'value': {'email': login}}
+
+    def on_change_login(self, cr, uid, ids, login, context=None):
+        self.validate_login(cr, uid, login, context)
+        return {'value': {'email': login}}
 
     def create(self, cr, uid, vals, context=None):
-        if 'login' in vals and tools.single_email_re.match(vals.get('login')):
-            user_id = super(res_users, self).create(cr, uid, vals, context=context)
-            return user_id
-        else:
-            raise osv.except_osv(_('Warning!'), _('Devi inserire un indirizzo e-mail valido'))
+        self.validate_login(cr, uid, vals.get('login', False), context)
+        return super(res_users, self).create(cr, uid, vals, context=context)
 
     def write(self, cr, uid, ids, values, context=None):
-        if 'login' in values:
-            if tools.single_email_re.match(values.get('login')) is None:
-                raise osv.except_osv(_('Warning!'), _('Devi inserire un indirizzo e-mail valido'))
-        res = super(res_users, self).write(cr, uid, ids, values, context=context)
-        return res
+        self.validate_login(cr, uid, values.get('login', False), context)
+        return super(res_users, self).write(cr, uid, ids, values, context=context)
 
 
 
