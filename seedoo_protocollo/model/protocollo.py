@@ -759,12 +759,12 @@ class protocollo_protocollo(orm.Model):
         new_cr = self.pool.cursor()
         new_cr.execute("BEGIN TRANSACTION ISOLATION LEVEL SERIALIZABLE READ WRITE;")
 
-        last_id = self.search(new_cr, uid,
+        last_id = self.search(new_cr, SUPERUSER_ID,
                               [('state', 'in', ('registered', 'notified', 'sent', 'waiting', 'error', 'canceled'))],
                               limit=1, order='registration_date desc', context={'skip_check': True})
         if last_id:
             now = datetime.datetime.now()
-            last = self.browse(new_cr, uid, last_id[0], {'skip_check': True})
+            last = self.browse(new_cr, SUPERUSER_ID, last_id[0], {'skip_check': True})
             if last.registration_date[0:4] < str(now.year):
                 seq_id = sequence_obj.search(new_cr, uid, [('code', '=', prot.registry.sequence.code)])
                 sequence_obj.write(new_cr, SUPERUSER_ID, seq_id, {'number_next': 1})
