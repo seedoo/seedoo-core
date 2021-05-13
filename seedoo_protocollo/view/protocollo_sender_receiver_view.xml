@@ -350,7 +350,7 @@ this module contains the full copyright notices and license terms. -->
                                                         <field name="pec_mail"/>
                                                     </p>
                                                 </t>
-                                                <t t-if="record.pec_invio_status.raw_value">
+                                                <t t-if="record.pec_invio_status.raw_value or record.sharedmail_numero_invii.raw_value">
                                                     <div class="icon_status icon_messaggio_status"><span>Inviato</span></div>
                                                 </t>
                                                 <t t-if="record.pec_accettazione_status.raw_value">
