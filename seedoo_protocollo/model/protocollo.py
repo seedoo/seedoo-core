@@ -2133,7 +2133,7 @@ class protocollo_protocollo(orm.Model):
             'context': context
         }
 
-    def action_clona_protocollo(self, cr, uid, ids, defaults, context=None):
+    def action_clona_protocollo(self, cr, uid, ids, defaults, clona_assegnatari, context=None):
         protocollo_obj = self.pool.get('protocollo.protocollo')
         department_obj = self.pool.get('hr.department')
         employee_obj = self.pool.get('hr.employee')
@@ -2194,8 +2194,9 @@ class protocollo_protocollo(orm.Model):
 
         protocollo_id = protocollo_obj.create(cr, uid, vals)
 
-        self.clona_assegnatari_competenza(cr, uid, protocollo, protocollo_id, employee)
-        self.clona_assegnatari_conoscenza(cr, uid, protocollo, protocollo_id, employee)
+        if clona_assegnatari:
+            self.clona_assegnatari_competenza(cr, uid, protocollo, protocollo_id, employee)
+            self.clona_assegnatari_conoscenza(cr, uid, protocollo, protocollo_id, employee)
 
         return {
             'name': 'Protocollo',

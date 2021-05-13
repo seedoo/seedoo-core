@@ -1228,7 +1228,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="type">ir.actions.server</field>
             <field name="state">code</field>
             <field name="model_id" ref="model_protocollo_protocollo" />
-            <field name="code">action = self.action_clona_protocollo(cr, uid, context.get('active_ids', []), {}, context)</field>
+            <field name="code">action = self.action_clona_protocollo(cr, uid, context.get('active_ids', []), {}, True, context)</field>
         </record>
 
         <record model="ir.values" id="ir_values_action_server_clona_protocollo">
