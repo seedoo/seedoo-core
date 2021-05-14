@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<openerp>
+    <data noupdate="0">
+
+        <report id="report_protocollo_mail_mail_qweb"
+                name="seedoo_protocollo.template_mail_mail_qweb"
+                model="mail.message"
+                report_type="qweb-html"
+                string="Mail Body"
+                file="seedoo_protocollo.template_mail_mail_qweb"
+                attachment_use="False"
+                attachment="False"
+                menu="False"/>
+
+        <record model="ir.actions.report.xml" id="report_protocollo_mail_mail_qweb">
+            <field name="paperformat_id" ref="seedoo_protocollo.paperformat_euro_landscape"/>
+        </record>
+
+    </data>
+</openerp>

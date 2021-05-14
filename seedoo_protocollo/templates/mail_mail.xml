@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<openerp>
+    <data noupdate="0">
+
+        <template id="template_mail_mail_qweb">
+            <t t-call="report.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <div class="header"/>
+                    <div class="page">
+                        <style>
+                            .body_email{margin-left:20px;}
+                            .allegati_email{margin-top:20px;}
+                            .bold_text_email{font-weight: bold;}
+                            .h4_email{font-size: 18px;}
+                            .email_from{width:70%;}
+                            .email_cc{font-size: 16px;}
+                            .bold_text_email.date{float:right;}
+                            .image_email{font-size: 16px;}
+                            .document_png_email{width: 60px; height: 60px;}
+                            .subject_email{margin-top:10px;}
+                        </style>
+                        <div class="subject_email">
+                            <h3>
+                                <span t-field="o.subject"/>
+                            </h3>
+                            <hr/>
+                        </div>
+                        <t t-set="date" t-value="context_timestamp(datetime.datetime.strptime(o.server_received_datetime, '%Y-%m-%d %H:%M:%S')).strftime('%d-%m-%Y %H:%M')"/>
+                        <p class="bold_text_email date" t-esc="date"/>
+                        <p class="h4_email ">Da:
+                            <span class="bold_text_email h4_email" t-field="o.email_from"/>
+                        </p>
+                        <p class="h4_email">A:
+                            <span t-field="o.sharedmail_to"/>
+                        </p>
+                        <t t-if="o.sharedmail_cc">
+                            <p class="email_cc">CC:
+                                <span t-field="o.sharedmail_cc"/>
+                            </p>
+                        </t>
+                        <br/>
+                        <div class="body_email">
+                            <span t-field="o.body"/>
+                            <hr/>
+                            <t t-if="o.attachment_ids">
+                                <div class="allegati_email">
+                                    <t t-set="counter" t-value="0"/>
+                                    <t t-foreach="o.message_attachs" t-as="attachment">
+                                        <t t-set="counter" t-value="counter + 1"/>
+                                    </t>
+                                    <p class="bold_text_email">
+                                        <t t-esc="counter"/>
+                                        allegati
+                                    </p>
+                                    <br/>
+                                    <t t-foreach="o.message_attachs" t-as="attachment">
+                                        <t t-esc="attachment.name"/>
+                                        <br/>
+                                    </t>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</openerp>

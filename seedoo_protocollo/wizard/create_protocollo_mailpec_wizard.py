@@ -374,20 +374,28 @@ class ProtocolloMailPecWizard(osv.TransientModel):
         # Attachments
         file_data_list = []
 
-        body_pdf_content = base64.b64encode(ConversionUtility.html_to_pdf(wizard.body))
+        report_obj = self.pool.get('report')
+        report = report_obj._get_report_from_name(cr, uid, 'seedoo_protocollo.template_mail_mail_qweb')
+        docargs = {
+            'doc_ids': [mail_message.id],
+            'doc_model': report.model,
+            'docs': mail_message,
+        }
+        html_content = report_obj.render(cr, uid, mail_message.id, 'seedoo_protocollo.template_mail_mail_qweb', docargs)
+        mail_pdf_content = base64.b64encode(ConversionUtility.html_to_pdf_by_wkhtml(html_content))
         body_pdf_name = "mailbody.pdf"
 
         if wizard.select_doc_principale == 'testo':
             protocollo_obj.carica_documento_principale(cr,
                                                        uid,
                                                        protocollo_id,
-                                                       body_pdf_content,
+                                                       mail_pdf_content,
                                                        body_pdf_name,
                                                        wizard.doc_description,
                                                        {'skip_check': True})
         else:
             file_data_list.append({
-                'datas': body_pdf_content,
+                'datas': mail_pdf_content,
                 'datas_fname': body_pdf_name,
                 'datas_description': ''
             })

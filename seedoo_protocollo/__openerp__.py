@@ -81,8 +81,10 @@
         "data/report_paperformat.xml",
 
         "templates/journal.xml",
+        "templates/mail_mail.xml",
 
         "report/journal.xml",
+        "report/mail_mail.xml",
 
         "view/journal.xml",
 
