@@ -40,14 +40,14 @@
             </field>
         </record>
 
-        <act_window id="protocollo_segna_come_letto_action"
-                    name="Segna come letto"
-                    res_model="protocollo.segna.come.letto.wizard"
-                    view_type="form"
-                    view_mode="form"
-                    target="new"
-                    view_id="protocollo_segna_come_letto_view"
-        />
+<!--        <act_window id="protocollo_segna_come_letto_action"-->
+<!--                    name="Segna come letto"-->
+<!--                    res_model="protocollo.segna.come.letto.wizard"-->
+<!--                    view_type="form"-->
+<!--                    view_mode="form"-->
+<!--                    target="new"-->
+<!--                    view_id="protocollo_segna_come_letto_view"-->
+<!--        />-->
 
     </data>
 </openerp>

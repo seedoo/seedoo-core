@@ -44,7 +44,8 @@ class protocollo_segna_come_letto_wizard(osv.TransientModel):
             # il dipendente viene spostato nell'ufficio dopo che l'assegnazione è stata fatta)
             department_ids = []
             employee_obj = self.pool.get('hr.employee')
-            for employee_id in employee_obj.search(cr, uid, [('user_id', '=', uid)]):
+            employee_ids = employee_obj.search(cr, uid, [('user_id', '=', uid)])
+            for employee_id in employee_ids:
                 employee = employee_obj.browse(cr, uid, employee_id)
                 if employee.department_id:
                     department_ids.append(employee.department_id.id)
@@ -56,9 +57,17 @@ class protocollo_segna_come_letto_wizard(osv.TransientModel):
                 ('state', '=', 'assegnato')
             ])
             if assegnazione_ids:
+                #`controlla per ogni assegnazione per ufficio che non esista una assegnazione fatta al dipendente con
+                # stato diversa da assegnato (caso in cui l'utente abbia già segnato come letta l'assegnazione)
                 assegnazione_list = assegnazione_obj.browse(cr, uid, assegnazione_ids)
                 for assegnazione in assegnazione_list:
-                    assegnatario_department_ids.append(assegnazione.assegnatario_department_id.id)
+                    not_found = True
+                    for assegnazione_child in assegnazione.child_ids:
+                        if assegnazione_child.assegnatario_employee_id.id in employee_ids and assegnazione_child.state != 'assegnato':
+                            not_found = False
+                            break
+                    if not_found:
+                        assegnatario_department_ids.append(assegnazione.assegnatario_department_id.id)
 
             result['assegnatario_department_ids_visible'] = assegnatario_department_ids
             if len(assegnatario_department_ids) == 1:

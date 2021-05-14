@@ -278,7 +278,7 @@ this module contains the full copyright notices and license terms. -->
                                 attrs="{'invisible':[('rifiuta_visibility','=',False)]}"
                                 class="oe_highlight_warning btn_seedoo btn_rifiuta_presa_in_carico"/>
 
-                        <button name="%(protocollo_segna_come_letto_action)d" string="Segna come letto" type="action"
+                        <button name="action_segna_come_letto_protocollo" string="Segna come Letto" type="object"
                                 attrs="{'invisible':[('segna_come_letto_visibility','=',False)]}"
                                 class="oe_highlight btn_seedoo btn_presa_in_carico"/>
 

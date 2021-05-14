@@ -1876,6 +1876,28 @@ class protocollo_protocollo(orm.Model):
             elif mail_pec_ref.sharedmail_type:
                 mail_pec_ref.sharedmail_state = "not_protocol"
 
+    def action_prendi_in_carico_protocollo(self, cr, uid, ids, context={}):
+        wizard_model = 'protocollo.segna.come.letto.wizard'
+        wizard_obj = self.pool.get(wizard_model)
+        action = {
+            "name": "Segna come Letto",
+            "view_type": "form",
+            "view_mode": "form,tree",
+            "res_model": wizard_model,
+            "type": "ir.actions.act_window",
+            "target": "new"
+        }
+        new_context = {'active_id': ids[0]}
+        try:
+            wizard_id = wizard_obj.create(cr, uid, {}, new_context)
+            wizard = wizard_obj.browse(cr, uid, wizard_id, new_context)
+        except Exception:
+            return action
+        if not wizard.assegnatario_department_id_visible:
+            return wizard_obj.action_save(cr, uid, [wizard_id], new_context)
+        action['res_id'] = wizard.id
+        return action
+
     def prendi_in_carico(self, cr, uid, ids, context={}):
         try:
             new_context = context.copy()
@@ -2013,6 +2035,28 @@ class protocollo_protocollo(orm.Model):
         except Exception as e:
             raise orm.except_orm(_('Attenzione!'), _('Non sei più assegnatario di questo protocollo!'))
         return True
+
+    def action_segna_come_letto_protocollo(self, cr, uid, ids, context={}):
+        wizard_model = 'protocollo.segna.come.letto.wizard'
+        wizard_obj = self.pool.get(wizard_model)
+        action = {
+            "name": "Segna come Letto",
+            "view_type": "form",
+            "view_mode": "form,tree",
+            "res_model": wizard_model,
+            "type": "ir.actions.act_window",
+            "target": "new"
+        }
+        new_context = {'active_id': ids[0]}
+        try:
+            wizard_id = wizard_obj.create(cr, uid, {}, new_context)
+            wizard = wizard_obj.browse(cr, uid, wizard_id, new_context)
+        except Exception:
+            return action
+        if not wizard.assegnatario_department_id_visible:
+            return wizard_obj.action_save(cr, uid, [wizard_id], new_context)
+        action['res_id'] = wizard.id
+        return action
 
     def segna_come_letto(self, cr, uid, ids, assegnatario_employee_id, context=None):
         try:
