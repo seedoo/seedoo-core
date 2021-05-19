@@ -32,11 +32,21 @@
                             <span class="bold_text_email h4_email" t-field="o.email_from"/>
                         </p>
                         <p class="h4_email">A:
-                            <span t-field="o.sharedmail_to"/>
+                            <t t-if="o.sharedmail_cc">
+                                <span t-field="o.sharedmail_to"/>
+                            </t>
+                            <t t-if="o.pec_to">
+                                <span t-field="o.pec_to"/>
+                            </t>
                         </p>
-                        <t t-if="o.sharedmail_cc">
+                        <t t-if="o.sharedmail_cc or o.pec_cc">
                             <p class="email_cc">CC:
-                                <span t-field="o.sharedmail_cc"/>
+                                <t t-if="o.sharedmail_cc">
+                                    <span t-field="o.sharedmail_cc"/>
+                                </t>
+                                <t t-if="o.pec_cc">
+                                    <span t-field="o.pec_cc"/>
+                                </t>
                             </p>
                         </t>
                         <br/>
