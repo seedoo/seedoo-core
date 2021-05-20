@@ -3,7 +3,7 @@
 <openerp>
     <data noupdate="0">
 
-        <template id="template_mail_mail_qweb">
+        <template id="template_mail_message_qweb">
             <t t-call="report.html_container">
                 <t t-foreach="docs" t-as="o">
                     <div class="header"/>

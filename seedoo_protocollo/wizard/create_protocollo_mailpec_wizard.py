@@ -375,13 +375,13 @@ class ProtocolloMailPecWizard(osv.TransientModel):
         file_data_list = []
 
         report_obj = self.pool.get('report')
-        report = report_obj._get_report_from_name(cr, uid, 'seedoo_protocollo.template_mail_mail_qweb')
+        report = report_obj._get_report_from_name(cr, uid, 'seedoo_protocollo.template_mail_message_qweb')
         docargs = {
             'doc_ids': [mail_message.id],
             'doc_model': report.model,
             'docs': mail_message,
         }
-        html_content = report_obj.render(cr, uid, mail_message.id, 'seedoo_protocollo.template_mail_mail_qweb', docargs)
+        html_content = report_obj.render(cr, uid, mail_message.id, 'seedoo_protocollo.template_mail_message_qweb', docargs)
         mail_pdf_content = base64.b64encode(ConversionUtility.html_to_pdf_by_wkhtml(html_content))
         body_pdf_name = "mailbody.pdf"
 

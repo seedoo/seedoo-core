@@ -3,17 +3,17 @@
 <openerp>
     <data noupdate="0">
 
-        <report id="report_protocollo_mail_mail_qweb"
-                name="seedoo_protocollo.template_mail_mail_qweb"
+        <report id="report_protocollo_mail_message_qweb"
+                name="seedoo_protocollo.template_mail_message_qweb"
                 model="mail.message"
                 report_type="qweb-html"
                 string="Mail Body"
-                file="seedoo_protocollo.template_mail_mail_qweb"
+                file="seedoo_protocollo.template_mail_message_qweb"
                 attachment_use="False"
                 attachment="False"
                 menu="False"/>
 
-        <record model="ir.actions.report.xml" id="report_protocollo_mail_mail_qweb">
+        <record model="ir.actions.report.xml" id="report_protocollo_mail_message_qweb">
             <field name="paperformat_id" ref="seedoo_protocollo.paperformat_euro_landscape"/>
         </record>
 
