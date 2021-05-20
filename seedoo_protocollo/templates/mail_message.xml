@@ -14,7 +14,7 @@
                             .bold_text_email{font-weight: bold;}
                             .h4_email{font-size: 18px;}
                             .email_from{width:70%;}
-                            .email_cc{font-size: 16px;}
+                            .email_cc{font-size: 18px;}
                             .bold_text_email.date{float:right;}
                             .image_email{font-size: 16px;}
                             .document_png_email{width: 60px; height: 60px;}
@@ -61,7 +61,12 @@
                                     </t>
                                     <p class="bold_text_email">
                                         <t t-esc="counter"/>
-                                        allegati
+                                        <t t-if="counter &lt;= 1">
+                                            allegato
+                                        </t>
+                                        <t t-if="counter > 1">
+                                            allegati
+                                        </t>
                                     </p>
                                     <br/>
                                     <t t-foreach="o.message_attachs" t-as="attachment">
