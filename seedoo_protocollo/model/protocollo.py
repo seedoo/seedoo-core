@@ -980,47 +980,6 @@ class protocollo_protocollo(orm.Model):
 
         return True
 
-    def get_partner_values(self, cr, uid, send_rec):
-        values = {
-            'name': send_rec.name,
-            'is_company': True if (send_rec.type=='legal' or send_rec.type=='government') else False,
-            'tax_code': send_rec.tax_code,
-            'vat': send_rec.vat,
-            'street': send_rec.street,
-            'city': send_rec.city,
-            'country_id': send_rec.country_id and send_rec.country_id.id or False,
-            'email': send_rec.email,
-            'pec_mail': send_rec.pec_mail,
-            'phone': send_rec.phone,
-            'mobile': send_rec.mobile,
-            'fax': send_rec.fax,
-            'zip': send_rec.zip,
-            'legal_type': send_rec.type,
-            'pa_type': send_rec.pa_type,
-            'ident_code': send_rec.ident_code,
-            'ammi_code': send_rec.ammi_code,
-            'ipa_code': send_rec.ipa_code,
-            'street2': send_rec.street2,
-            'state_id': (send_rec.state_id and send_rec.state_id.id or False),
-            'function': send_rec.function,
-            'website': send_rec.website,
-            'title': (send_rec.title and send_rec.title.id or False),
-        }
-        return values
-
-    def action_create_partners(self, cr, uid, ids, *args):
-        send_rec_obj = self.pool.get('protocollo.sender_receiver')
-        for prot in self.browse(cr, uid, ids, {'skip_check': True}):
-            for send_rec in prot.sender_receivers:
-                if send_rec.save_partner and not send_rec.partner_id:
-                    # if send_rec.partner_id:
-                    #    raise orm.except_orm('Attenzione!', 'Si sta tentando di salvare un\' anagrafica già presente nel sistema')
-                    partner_obj = self.pool.get('res.partner')
-                    values = self.get_partner_values(cr, uid, send_rec)
-                    partner_id = partner_obj.create(cr, uid, values)
-                    send_rec_obj.write(cr, uid, [send_rec.id], {'partner_id': partner_id})
-        return True
-
     def action_register_process(self, cr, uid, ids, context=None, *args):
         res = []
         res_registrazione = None
@@ -1028,8 +987,6 @@ class protocollo_protocollo(orm.Model):
         check = self.check_journal(cr, uid, ids)
         if check:
             check = self.action_create_attachment(cr, uid, ids)
-        if check:
-            check = self.action_create_partners(cr, uid, ids)
         if check:
             res_registrazione = self.action_register(cr, uid, ids)
             check = True if res_registrazione is not None and len(res_registrazione) > 0 and 'Registrazione' in \

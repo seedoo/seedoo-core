@@ -39,7 +39,6 @@ class protocollo_sender_receiver(orm.Model):
         return res
 
     def on_change_partner(self, cr, uid, ids, partner_id, context=None):
-        values = {}
         if partner_id:
             partner = self.pool.get('res.partner').browse(cr, uid, partner_id, context=context)
             values = {
@@ -67,7 +66,7 @@ class protocollo_sender_receiver(orm.Model):
                 'website': partner.website,
                 'title': (partner.title and partner.title.id or False),
                 'save_partner': False,
-                'partner_id': False
+                'partner_id': partner.id
             }
         else:
             values = {
@@ -434,11 +433,46 @@ class protocollo_sender_receiver(orm.Model):
 
                 partner_obj.dispatch_email_error(errors)
 
+    def create_partner_from_sender_receiver(self, cr, uid, sender_receiver_id):
+        partner_obj = self.pool.get('res.partner')
+        sender_receiver = self.browse(cr, uid, sender_receiver_id)
+
+        values = self.get_partner_values(cr, uid, sender_receiver)
+        partner_id = partner_obj.create(cr, uid, values)
+        self.write(cr, uid, sender_receiver.id, {'partner_id': partner_id})
+
+    def get_partner_values(self, cr, uid, send_rec):
+        values = {
+            'name': send_rec.name,
+            'is_company': True if (send_rec.type=='legal' or send_rec.type=='government') else False,
+            'tax_code': send_rec.tax_code,
+            'vat': send_rec.vat,
+            'street': send_rec.street,
+            'city': send_rec.city,
+            'country_id': send_rec.country_id and send_rec.country_id.id or False,
+            'email': send_rec.email,
+            'pec_mail': send_rec.pec_mail,
+            'phone': send_rec.phone,
+            'mobile': send_rec.mobile,
+            'fax': send_rec.fax,
+            'zip': send_rec.zip,
+            'legal_type': send_rec.type,
+            'pa_type': send_rec.pa_type,
+            'ident_code': send_rec.ident_code,
+            'ammi_code': send_rec.ammi_code,
+            'ipa_code': send_rec.ipa_code,
+            'street2': send_rec.street2,
+            'state_id': (send_rec.state_id and send_rec.state_id.id or False),
+            'function': send_rec.function,
+            'website': send_rec.website,
+            'title': (send_rec.title and send_rec.title.id or False),
+        }
+        return values
+
     def create(self, cr, uid, vals, context=None):
         if 'partner_id' in vals and vals['partner_id']:
             copy_vals = self.on_change_partner(cr, uid, [], vals['partner_id'])
             vals.update(copy_vals['value'])
-            vals['partner_id'] = False
         self.check_field_in_create(cr, uid, vals)
         sender_receiver_id = super(protocollo_sender_receiver, self).create(cr, uid, vals, context=context)
         sender_receiver = self.browse(cr, uid, sender_receiver_id, {'skip_check': True})
@@ -451,6 +485,10 @@ class protocollo_sender_receiver(orm.Model):
             ids = [ids]
         for sender_receiver_id in ids:
             sender_receiver = self.browse(cr, uid, sender_receiver_id, {'skip_check': True})
+            # creazione del partner se save_partner viene modificato dal form
+            if 'partner_id' not in vals and not sender_receiver.partner_id and vals.get("save_partner", False):
+                self.create_partner_from_sender_receiver(cr, uid, sender_receiver.id)
+
             if 'pec_messaggio_ids' not in vals and 'sharedmail_messaggio_ids' not in vals and \
                     ('to_resend' not in vals or not vals['to_resend']):
                 self.save_history(cr, uid, sender_receiver, 'write', vals, context=context)

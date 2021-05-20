@@ -64,12 +64,15 @@ class create_mittente_destinatario_wizard(osv.TransientModel):
                 'website': wizard.website,
                 'title': (wizard.title and wizard.title.id or False),
                 'save_partner': wizard.save_partner,
-                'partner_id': False,
+                'partner_id': wizard.partner_id.id,
                 'pec_messaggio_ids': [(6, 0, pec_messaggio_ids)],
                 'sharedmail_messaggio_ids': [(6, 0, sharedmail_messaggio_ids)],
                 'protocollo_id': protocollo.id
             }
-            sender_receiver_obj.create(cr, uid, values)
+            sender_receiver = sender_receiver_obj.create(cr, uid, values)
+
+            if not wizard.partner_id and wizard.save_partner:
+                sender_receiver_obj.create_partner_from_sender_receiver(cr, uid, sender_receiver)
 
         return {
             'name': 'Protocollo',

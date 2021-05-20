@@ -16,7 +16,7 @@ this module contains the full copyright notices and license terms. -->
             <field name="model">protocollo.sender_receiver</field>
             <field name="arch" type="xml">
                 <tree string="Mittenti/Destinatari">
-                    <field name="type" />
+                    <field name="type"/>
                     <field name="ammi_code"
                            attrs="{'required': [('type','=','government')], 'readonly': [('type','in',('legal', 'individual'))]}"
                            width="5%%" string="Cod. iPA"/>
@@ -69,31 +69,31 @@ this module contains the full copyright notices and license terms. -->
                                 <newline/>
                                 <group>
                                     <group>
-                                        <field name="title" domain="[('domain','=',title_domain)]" options="{'no_create': True, 'no_open': True}"/>
-                                        <field name="tax_code"/>
-                                        <field name="vat"/>
-                                        <label for="street" string="Indirizzo"/>
+                                        <field name="title" domain="[('domain','=',title_domain)]" attrs="{'readonly': [('partner_id','!=',False)]}" options="{'no_create': True, 'no_open': True}"/>
+                                        <field name="tax_code" attrs="{'readonly': [('partner_id','!=',False)]}"/>
+                                        <field name="vat" attrs="{'readonly': [('partner_id','!=',False)]}"/>
+                                        <label for="street" string="Indirizzo" attrs="{'readonly': [('partner_id','!=',False)]}"/>
                                         <div>
-                                            <field name="street" placeholder="Via..." class="street_protocollo_sender_receiver_form"/>
-                                            <field name="street2" class="street2_protocollo_sender_receiver_form"/>
-                                            <div class="address_format">
-                                                <field name="city" placeholder="Città" style="width: 40%%" class="city_protocollo_sender_receiver_form"/>
-                                                <field name="state_id" placeholder="Provincia" style="width: 37%%" options="{'no_open': True}" class="oe_no_button city_protocollo_sender_receiver_form"/>
-                                                <field name="zip" placeholder="CAP" style="width: 20%%" class="zip_protocollo_sender_receiver_form"/>
+                                            <field name="street" placeholder="Via..." class="street_protocollo_sender_receiver_form" attrs="{'readonly': [('partner_id','!=',False)]}"/>
+                                            <field name="street2" class="street2_protocollo_sender_receiver_form" attrs="{'readonly': [('partner_id','!=',False)]}"/>
+                                            <div class="address_format" attrs="{'readonly': [('partner_id','!=',False)]}">
+                                                <field name="city" placeholder="Città" style="width: 40%%" class="city_protocollo_sender_receiver_form" attrs="{'readonly': [('partner_id','!=',False)]}"/>
+                                                <field name="state_id" placeholder="Provincia" style="width: 37%%" options="{'no_open': True}" class="oe_no_button city_protocollo_sender_receiver_form" attrs="{'readonly': [('partner_id','!=',False)]}"/>
+                                                <field name="zip" placeholder="CAP" style="width: 20%%" class="zip_protocollo_sender_receiver_form" attrs="{'readonly': [('partner_id','!=',False)]}"/>
                                             </div>
-                                            <field name="country_id" placeholder="Nazione" options="{'no_open': True, 'no_create': True}" class="oe_no_button country_id_protocollo_sender_receiver_form"/>
+                                            <field name="country_id" placeholder="Nazione" options="{'no_open': True, 'no_create': True}" class="oe_no_button country_id_protocollo_sender_receiver_form" attrs="{'readonly': [('partner_id','!=',False)]}"/>
                                         </div>
-                                        <field name="website" widget="url" placeholder="es. www.odoo.com"/>
+                                        <field name="website" widget="url" placeholder="es. www.odoo.com" attrs="{'readonly': [('partner_id','!=',False)]}"/>
                                     </group>
                                     <group>
                                         <field name="function" placeholder="ad esempio, Direttore Vendite"
-                                               attrs="{'invisible': [('type','!=', 'individual')]}"/>
-                                        <field name="phone" class="phone_protocollo_sender_receiver_form"/>
-                                        <field name="mobile" class="mobile_protocollo_sender_receiver_form"/>
-                                        <field name="fax" class="fax_protocollo_sender_receiver_form"/>
-                                        <field name="email" widget="email" on_change="on_change_email(email, save_partner)" class="email_protocollo_sender_receiver_form"/>
+                                               attrs="{'invisible': [('type','!=', 'individual')], 'readonly': [('partner_id','!=',False)]}"/>
+                                        <field name="phone" class="phone_protocollo_sender_receiver_form" attrs="{'readonly': [('partner_id','!=',False)]}"/>
+                                        <field name="mobile" class="mobile_protocollo_sender_receiver_form" attrs="{'readonly': [('partner_id','!=',False)]}"/>
+                                        <field name="fax" class="fax_protocollo_sender_receiver_form" attrs="{'readonly': [('partner_id','!=',False)]}"/>
+                                        <field name="email" widget="email" on_change="on_change_email(email, save_partner)" class="email_protocollo_sender_receiver_form" attrs="{'readonly': [('partner_id','!=',False)]}"/>
                                         <field name="pec_mail" widget="email" on_change="on_change_pec_mail(pec_mail, save_partner)"
-                                               attrs="{'required':[('add_pec_receiver_visibility','=',True)]}" class="pec_mail_protocollo_sender_receiver_form"/>
+                                               attrs="{'required':[('add_pec_receiver_visibility','=',True)], 'readonly': [('partner_id','!=',False)]}" class="pec_mail_protocollo_sender_receiver_form"/>
                                         <field name="title_domain" invisible="1"/>
                                     </group>
                                 </group>
