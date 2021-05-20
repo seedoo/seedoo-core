@@ -32,7 +32,7 @@
                             <span class="bold_text_email h4_email" t-field="o.email_from"/>
                         </p>
                         <p class="h4_email">A:
-                            <t t-if="o.sharedmail_cc">
+                            <t t-if="o.sharedmail_to">
                                 <span t-field="o.sharedmail_to"/>
                             </t>
                             <t t-if="o.pec_to">
