@@ -53,7 +53,7 @@
                         <div class="body_email">
                             <span t-field="o.body"/>
                             <hr/>
-                            <t t-if="o.attachment_ids">
+                            <t t-if="o.message_attachs">
                                 <div class="allegati_email">
                                     <t t-set="counter" t-value="0"/>
                                     <t t-foreach="o.message_attachs" t-as="attachment">
