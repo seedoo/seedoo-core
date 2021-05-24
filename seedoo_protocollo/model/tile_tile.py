@@ -59,9 +59,10 @@ class TileTile(models.Model):
     @api.multi
     def open_link(self):
         res = super(TileTile, self).open_link()
-
         if self.action_id and len(self.action_id.view_ids) == 2:
             res["views"] = [(self.action_id.view_ids[0].view_id.id, 'tree'), (self.action_id.view_ids[1].view_id.id, 'form')]
+        if self.action_id and self.action_id.search_view_id:
+            res["search_view_id"] = [self.action_id.search_view_id.id]
         return res
 
     TAG_SELECTION = [
