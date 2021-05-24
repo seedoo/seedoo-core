@@ -72,8 +72,8 @@ class create_mittente_destinatario_wizard(osv.TransientModel):
             sender_receiver = sender_receiver_obj.create(cr, uid, values)
 
             if not wizard.partner_id and wizard.save_partner:
-                sender_receiver_obj.create_partner_from_sender_receiver(cr, uid, sender_receiver)
-
+                partner_id = sender_receiver_obj.create_partner_from_sender_receiver(cr, uid, sender_receiver)
+                sender_receiver_obj.write(cr, uid, sender_receiver, {'partner_id': partner_id})
         return {
             'name': 'Protocollo',
             'view_type': 'form',

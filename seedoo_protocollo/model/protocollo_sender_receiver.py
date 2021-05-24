@@ -439,7 +439,8 @@ class protocollo_sender_receiver(orm.Model):
 
         values = self.get_partner_values(cr, uid, sender_receiver)
         partner_id = partner_obj.create(cr, uid, values)
-        self.write(cr, uid, sender_receiver.id, {'partner_id': partner_id})
+        return partner_id
+
 
     def get_partner_values(self, cr, uid, send_rec):
         values = {
@@ -486,9 +487,11 @@ class protocollo_sender_receiver(orm.Model):
         for sender_receiver_id in ids:
             sender_receiver = self.browse(cr, uid, sender_receiver_id, {'skip_check': True})
             # creazione del partner se save_partner viene modificato dal form
-            if 'partner_id' not in vals and not sender_receiver.partner_id and vals.get("save_partner", False):
-                self.create_partner_from_sender_receiver(cr, uid, sender_receiver.id)
-
+            if 'partner_id' not in vals and vals.get("save_partner", False):
+                vals.update({'partner_id': self.create_partner_from_sender_receiver(cr, uid, sender_receiver.id)})
+            if 'partner_id' in vals and vals['partner_id'] and not vals.get("save_partner", False):
+                copy_vals = self.on_change_partner(cr, uid, [], vals['partner_id'])
+                vals.update(copy_vals['value'])
             if 'pec_messaggio_ids' not in vals and 'sharedmail_messaggio_ids' not in vals and \
                     ('to_resend' not in vals or not vals['to_resend']):
                 self.save_history(cr, uid, sender_receiver, 'write', vals, context=context)
