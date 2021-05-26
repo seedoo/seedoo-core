@@ -61,7 +61,7 @@ class create_destinatari_da_gruppo_wizard(osv.TransientModel):
                     'website': partner.website,
                     'title': (partner.title and partner.title.id or False),
                     'save_partner': False,
-                    'partner_id': False,
+                    'partner_id': partner.id,
                     'protocollo_id': context['active_id']
                 }
                 sender_receiver_obj.create(cr, uid, values)
