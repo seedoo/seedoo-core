@@ -48,7 +48,7 @@ class protocollo_sender_receiver(orm.Model):
                 'ident_code': partner.ident_code,
                 'ammi_code': partner.ammi_code,
                 'ipa_code': partner.ipa_code,
-                'name': partner.display_name,
+                'name': partner.display_name or partner.name,
                 'tax_code': partner.tax_code,
                 'vat': partner.vat,
                 'street': partner.street,
@@ -486,16 +486,19 @@ class protocollo_sender_receiver(orm.Model):
             ids = [ids]
         for sender_receiver_id in ids:
             sender_receiver = self.browse(cr, uid, sender_receiver_id, {'skip_check': True})
-            # creazione del partner se save_partner viene modificato dal form
-            if 'partner_id' not in vals and vals.get("save_partner", False):
-                vals.update({'partner_id': self.create_partner_from_sender_receiver(cr, uid, sender_receiver.id)})
             if 'partner_id' in vals and vals['partner_id'] and not vals.get("save_partner", False):
                 copy_vals = self.on_change_partner(cr, uid, [], vals['partner_id'])
                 vals.update(copy_vals['value'])
             if 'pec_messaggio_ids' not in vals and 'sharedmail_messaggio_ids' not in vals and \
                     ('to_resend' not in vals or not vals['to_resend']):
                 self.save_history(cr, uid, sender_receiver, 'write', vals, context=context)
-        return super(protocollo_sender_receiver, self).write(cr, uid, ids, vals, context=context)
+        res = super(protocollo_sender_receiver, self).write(cr, uid, ids, vals, context=context)
+        # creazione del partner se save_partner viene modificato dal form
+        if 'partner_id' not in vals and vals.get("save_partner", False):
+            for sender_receiver_id in ids:
+                partner_id = self.create_partner_from_sender_receiver(cr, uid, sender_receiver_id)
+                self.write(cr, uid, [sender_receiver_id], {'partner_id': partner_id})
+        return res
 
     def elimina_mittente_destinatario(self, cr, uid, ids, context={}):
         mittente_destinatario = self.browse(cr, uid, ids[0])
