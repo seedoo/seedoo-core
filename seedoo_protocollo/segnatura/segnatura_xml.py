@@ -260,11 +260,15 @@ class SegnaturaXML:
             # privato = self.createPrivatoFromSenderReceiver(senderReceiver)
             # destinatario.append(privato)
         elif senderReceiver.type == "government":  # Amministrazione pubblica
-            amministrazione = self.createAmministrazioneFromSenderReceiver(
-                senderReceiver)
+            amministrazione = self.createAmministrazioneFromSenderReceiver(senderReceiver)
             destinatario.append(amministrazione)
-            aOO = self.createAOO()
-            destinatario.append(aOO)
+            if senderReceiver.pa_type == "aoo":
+                aoo_xml = self.createAOOFromSenderReceiver(senderReceiver)
+                destinatario.append(aoo_xml)
+            elif senderReceiver.pa_type == "uo" and senderReceiver.partner_id and \
+                senderReceiver.partner_id.parent_id and senderReceiver.partner_id.parent_id.pa_type == "aoo":
+                aoo_xml = self.createAOOFromSenderReceiver(senderReceiver.partner_id.parent_id)
+                destinatario.append(aoo_xml)
 
         return destinatario
 
@@ -514,6 +518,15 @@ class SegnaturaXML:
         aOO.append(codiceAOO)
         return aOO
 
+    def createAOOFromSenderReceiver(self, senderReceiver):
+        aOO = etree.Element("AOO")
+        denominazione = self.createDenominazione(senderReceiver.name)
+        ident_code = self.checkNullValue(senderReceiver.ident_code)
+        codiceAOO = self.createCodiceAOO(ident_code)
+        aOO.append(denominazione)
+        aOO.append(codiceAOO)
+        return aOO
+
     def createDenominazione(self, denominazioneVal=""):
         denominazione = etree.Element("Denominazione")
         denominazione.text = denominazioneVal
@@ -544,21 +557,30 @@ class SegnaturaXML:
         return amministrazione
 
     def createAmministrazioneFromSenderReceiver(self, senderReceiver):
-        amministrazione = etree.Element("Amministrazione")
-        denominazione = self.createDenominazione(senderReceiver.name)
-        amministrazione.append(denominazione)
+        amministazione = senderReceiver
+        uo = senderReceiver
+        if senderReceiver.pa_type=="aoo" and senderReceiver.partner_id and senderReceiver.partner_id.parent_id:
+            amministazione = senderReceiver.partner_id.parent_id
+            uo = senderReceiver.partner_id.parent_id
+        elif senderReceiver.pa_type == "uo" and senderReceiver.partner_id and senderReceiver.partner_id.parent_id:
+            senderReceiverParent = senderReceiver.partner_id.parent_id
+            if senderReceiverParent.pa_type == "pa":
+                amministazione = senderReceiverParent
+            elif senderReceiverParent.pa_type == "aoo" and senderReceiverParent.parent_id:
+                amministazione = senderReceiverParent.parent_id
 
-        # TODO Recuperare da qualche parte il codice amministrazione (codice
-        #  IPA??)
-        ammi_code = self.checkNullValue(senderReceiver.ammi_code)
+        amministrazione_xml = etree.Element("Amministrazione")
+        denominazione = self.createDenominazione(amministazione.name)
+        amministrazione_xml.append(denominazione)
+
+        ammi_code = self.checkNullValue(amministazione.ammi_code)
         codiceAmministrazione = self.createCodiceAmministrazione(ammi_code)
-        amministrazione.append(codiceAmministrazione)
+        amministrazione_xml.append(codiceAmministrazione)
 
-        unitaOrganizzativa = self.createUnitaOrganizzativaFromSenderReceiver(
-            senderReceiver)
-        amministrazione.append(unitaOrganizzativa)
+        unitaOrganizzativa_xml = self.createUnitaOrganizzativaFromSenderReceiver(uo)
+        amministrazione_xml.append(unitaOrganizzativa_xml)
 
-        return amministrazione
+        return amministrazione_xml
 
     # Finta amministrazione con i dati del privato per rispettare il DTD
     def createAmministrazioneFakeFromSenderReceiver(self, senderReceiver):

@@ -2337,7 +2337,7 @@ class protocollo_protocollo(orm.Model):
             count += 1
             protocollo = self.browse(cr, uid, id, {'skip_check': True})
             try:
-                if (not protocollo.xml_signature or force) and protocollo.type in ['in', 'out']:
+                if (not protocollo.xml_signature or force) and protocollo.type in ['out']:
                     segnatura_xml = SegnaturaXML(protocollo, protocollo.name, protocollo.registration_date, cr, uid)
                     xml = segnatura_xml.generate_segnatura_root()
                     etree_tostring = etree.tostring(xml, pretty_print=True)
