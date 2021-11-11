@@ -76,6 +76,28 @@ class hr_employee(orm.Model):
         'login_res_users': fields.related('user_id', 'login', type='char', string='Login Utente', readonly=1),
     }
 
+    def _check_user_id_and_department_id(self, cr, uid, ids, context=None):
+        for id in ids:
+            employee = self.browse(cr, uid, id, context=context)
+            if not employee.user_id or not employee.department_id:
+                continue
+            count = self.search(cr, SUPERUSER_ID, [
+                ('id', '!=', employee.id),
+                ('user_id', '=', employee.user_id.id),
+                ('department_id', '=', employee.department_id.id)
+            ], count=True)
+            if count > 0:
+                return False
+        return True
+
+    _constraints = [
+        (
+            _check_user_id_and_department_id,
+            'Ci può essere uno solo dipendente associato allo stesso utente e allo stesso ufficio!',
+            ['user_id', 'department_id']
+        )
+    ]
+
     def create(self, cr, uid, vals, context=None):
         new_context = dict(context or {})
         icp = self.pool.get('ir.config_parameter')
@@ -90,6 +112,11 @@ class hr_employee(orm.Model):
         if vals and vals.has_key('department_id') and vals['department_id']:
             self.pool.get('ir.rule').clear_cache(cr, uid)
         return res
+
+    def copy(self, cr, uid, id, default=None, context=None):
+        default = dict(default or {})
+        default['department_id'] = False
+        return super(hr_employee, self).copy(cr, uid, id, default, context=context)
 
     def get_department_employee(self, cr, uid, department_id):
         employee_ids = self.search(cr, uid, [
