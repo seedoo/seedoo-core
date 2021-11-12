@@ -20,6 +20,8 @@ this module contains the full copyright notices and license terms. -->
                     <newline/>
                     <field name="active"/>
                     <newline/>
+                    <field name="assignable_in_protocol"/>
+                    <newline/>
                     <field name="description" colspan="4"/>
                     <notebook colspan="6">
                         <page string="Dipendenti">
@@ -41,6 +43,7 @@ this module contains the full copyright notices and license terms. -->
                 </xpath>
                 <xpath expr="//field[@name='user_id']" position="after">
                     <field name="code"/>
+                    <field name="assignable_in_protocol"/>
                 </xpath>
                 <xpath expr="//field[@name='department_id']" position="attributes">
                     <attribute name="options">{'no_quick_create':True,'no_create_edit':True}</attribute>

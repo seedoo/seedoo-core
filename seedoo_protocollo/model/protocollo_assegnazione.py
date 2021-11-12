@@ -43,8 +43,9 @@ class protocollo_assegnatario(osv.osv):
     def _get_assegnatario_not_visibile_ids(self, cr, uid):
         assegnatario_not_visible_ids = []
         assegnatario_not_active_ids = self.search(cr, uid, [
-            '|', '|',
+            '|', '|', '|',
             ('active', '=', False),
+            ('assignable', '=', False),
             '&', ('tipologia', '=', 'employee'), ('parent_id', '=', False),
             '&', ('tipologia', '=', 'department'), ('aoo_id', '=', False)
         ])
@@ -118,6 +119,7 @@ class protocollo_assegnatario(osv.osv):
         'aoo_id': fields.many2one('protocollo.aoo', 'AOO', readonly=True),
         'parent_id': fields.many2one('protocollo.assegnatario', 'Ufficio di Appartenenza', readonly=True),
         'active': fields.boolean(string='Attivo'),
+        'assignable': fields.boolean('Assegnabile'),
         'child_ids': fields.one2many('protocollo.assegnatario', 'parent_id', 'Figli'),
         'no_checkbox': fields.function(_no_checkbox_get_fnc, type='boolean', string='No Checkbox'),
         'is_visible': fields.function(_is_visible, fnct_search=_is_visible_search, type='boolean', string='Visibile'),
@@ -153,7 +155,8 @@ class protocollo_assegnatario(osv.osv):
                   NULL AS department_id,
                   NULL AS aoo_id,
                   %s + e.department_id AS parent_id,
-                  r.active AS active
+                  r.active AS active,
+                  e.assignable_in_protocol AS assignable
                 FROM hr_employee e, resource_resource r
                 WHERE e.resource_id=r.id
               )
@@ -167,7 +170,8 @@ class protocollo_assegnatario(osv.osv):
                   d.id AS department_id,
                   d.aoo_id AS aoo_id,
                   %s + d.parent_id AS parent_id,
-                  d.active AS active
+                  d.active AS active,
+                  d.assignable_in_protocol AS assignable
                 FROM hr_department d
               )
         """, (EMPLOYEE_MASK, DEPARTMENT_MASK, DEPARTMENT_MASK, DEPARTMENT_MASK))
