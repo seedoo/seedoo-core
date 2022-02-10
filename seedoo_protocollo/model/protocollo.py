@@ -1785,6 +1785,7 @@ class protocollo_protocollo(orm.Model):
         return False
 
     def get_body_signature(self, cr, uid, body_html, user_signature, context=None):
+        body_html = body_html if body_html else ''
         mail_notification_obj = self.pool.get('mail.notification')
         signature_company = mail_notification_obj.get_signature_footer(cr, uid, uid, user_signature=user_signature, context=context)
         if signature_company:
