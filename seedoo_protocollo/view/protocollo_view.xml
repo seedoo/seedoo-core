@@ -973,10 +973,11 @@ this module contains the full copyright notices and license terms. -->
                         <filter string="Da me" name="registrato_da_me" domain="[('user_id','=',uid),('registration_date','!=',False)]"/>
                     </group>
                     <group string="Data">
+                        <!--https://github.com/odoo/odoo/issues/6469 fix domain doesn't take different time zones into account -->
                         <filter string="Ieri" name="registered_yesterday" domain="
-                         [('registration_date','&gt;',(context_today()-relativedelta(days=1)).strftime('%Y-%m-%d 00:00:00')),('registration_date','&lt;=',(context_today()-relativedelta(days=1)).strftime('%Y-%m-%d 23:59:59'))]"/>
-                        <filter string="Oggi" name="registered_today" domain="
-                        [('registration_date','&gt;',(context_today()).strftime('%Y-%m-%d 00:00:00')),('registration_date','&lt;=',(context_today()).strftime('%Y-%m-%d 23:59:59'))]"/>
+                         [('registration_date','&lt;=', datetime.datetime.combine((context_today()-relativedelta(days=1)), datetime.time(23,59,59))), ('registration_date','&gt;=', datetime.datetime.combine((context_today()-relativedelta(days=1)), datetime.time(0,0,0)))]"/>
+                        <filter string="Oggi" name="registered_today"
+                                domain="[('registration_date','&lt;=', datetime.datetime.combine(context_today(), datetime.time(23,59,59))), ('registration_date','&gt;=', datetime.datetime.combine(context_today(), datetime.time(0,0,0)))]"/>
                     </group>
                     <group string="Workflow">
                         <filter string="Senza Documento" name="senza_documento" domain="[('doc_id','=',False)]"/>
