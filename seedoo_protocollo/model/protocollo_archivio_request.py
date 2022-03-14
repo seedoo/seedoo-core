@@ -14,7 +14,7 @@ class protocollo_archivio_request(orm.Model):
     _name = 'protocollo.archivio.request'
 
     _columns = {
-        'archivio_id': fields.many2one('protocollo.archivio', 'Archivio', readonly=True),
+        'archivio_id': fields.many2one('protocollo.archivio', 'Archivio', ondelete='cascade', readonly=True),
         'aoo_id': fields.many2one('protocollo.aoo', 'AOO', readonly=True),
         'interval_type': fields.selection([
             ('date', 'Intervallo per data'),
