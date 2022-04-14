@@ -218,7 +218,7 @@ class documento_protocollato(osv.osv):
                 FROM ir_attachment a 
                 JOIN protocollo_protocollo p
                   ON a.res_id = p.id
-                JOIN protocollo_typology t
+                LEFT JOIN protocollo_typology t
                   ON p.typology = t.id
                 WHERE a.res_model = 'protocollo.protocollo'
                 
