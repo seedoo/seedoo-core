@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="fl_mail_client.MailList" owl="1">
+        <div class="o_MessageList o_MailList" t-att-class="{ 'o-empty': threadView and threadView.messages.length === 0, 'o-has-message-selection': props.selectedMessageLocalId }" t-on-scroll="onScroll">
+            <t t-if="threadView">
+                <!-- No result mails -->
+                <t t-if="orderedMails.length === 0">
+                    <div class="o_MessageList_empty o_MessageList_item">
+                        <div class="o_MessageList_emptyTitle o-neutral-face-icon">
+                            <t t-if="threadView.thread.id === 'mailreceived'">
+                                There aren't received emails
+                            </t>
+                            <t t-if="threadView.thread.id === 'mailsent'">
+                                There aren't sent emails
+                            </t>
+                        </div>
+                        New mails appear here.
+                    </div>
+                </t>
+
+                <t t-set="current_day" t-value="0"/>
+                <t t-set="prev_message" t-value="0"/>
+                <t t-foreach="orderedMails" t-as="mail" t-key="mail.localId">
+                    <t t-set="mail_day" t-value="getDateDay(mail)"/>
+                    <t t-if="current_day !== mail_day">
+                        <div class="o_MessageList_separator o_MessageList_separatorDate o_MessageList_item">
+                            <hr class="o_MessageList_separatorLine"/><span class="o_MessageList_separatorLabel o_MessageList_separatorLabelDate"><t t-esc="mail_day"/></span><hr class="o_MessageList_separatorLine"/>
+                            <t t-set="current_day" t-value="mail_day"/>
+                            <t t-set="isMessageSquashed" t-value="false"/>
+                        </div>
+                    </t>
+                    <Mail mailLocalId="mail.localId"
+                          threadViewLocalId="threadView.localId"/>
+                </t>
+                <!-- LOADING (if order desc)-->
+                <t t-if="props.order === 'desc' and orderedMails.length > 0">
+                    <t t-call="fl_mail_client.MailList.loadMore"/>
+                </t>
+            </t>
+            <t t-else="">
+                No message to display
+            </t>
+        </div>
+    </t>
+
+    <t t-name="fl_mail_client.MailList.loadMore" owl="1">
+        <t t-if="threadView.mailCache.isLoadingMore">
+            <div class="o_MessageList_item o_MessageList_isLoadingMore">
+                <i class="o_MessageList_isLoadingMoreIcon fa fa-spin fa-spinner"/>
+                Loading...
+            </div>
+        </t>
+        <t t-elif="!threadView.mailCache.isAllHistoryLoaded and !threadView.thread.isTemporary">
+            <a class="o_MessageList_item o_MessageList_loadMore" href="#" t-on-click="_onClickLoadMore" t-ref="loadMore">
+                Load more
+            </a>
+        </t>
+    </t>
+
+</templates>

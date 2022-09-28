@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-inherit="fl_mail_client.Mail" t-inherit-mode="extension">
+
+        <xpath expr="//div[@class='o_Mail_header_state_out']" position="before">
+            <div class="o_Mail_header_protocol_action">
+                <t t-if="mail.direction == 'in'">
+                    <t t-set="mail_count" t-value="0"/>
+                    <div class='div_fl_mail_client_state'>
+                        <ul class='ul_fl_mail_client_state'>
+                            <t t-foreach="state_mail_protocol_action()" t-as="mail_state">
+                                <t t-set="state_separator" t-value="''"/>
+                                <t t-if="state_mail_protocol_action().length !== mail_count+1">
+                                    <t t-set="state_separator" t-value="' /'"/>
+                                </t>
+                                <t t-if="mail_state[0] === mail.protocollo_action">
+                                    <b><li><t t-esc="mail_state[1] + state_separator"/></li></b>
+                                </t>
+                                <t t-elif="mail_state[0] !== mail.protocollo_action">
+                                    <li><t t-esc="mail_state[1] + state_separator"/></li>
+                                </t>
+                                <t t-set="mail_count" t-value="mail_count+1"/>
+                            </t>
+                        </ul>
+                    </div>
+                </t>
+            </div>
+        </xpath>
+
+        <xpath expr="//div[@class='o_Mail_header_state_out']" position="after">
+            <div>
+
+                <t t-if="!mail.button_non_protocollare_invisible">
+                    <span t-on-click="_onClickButtonNotToProtocol"
+                          alt="Protocol not to do"
+                          class="btn btn-sm btn-primary ul_span_protocolla"
+                    >Protocol not to do</span>
+                </t>
+
+                <t t-if="!mail.button_ripristina_da_non_protocollata_invisible">
+                    <span t-on-click="_onClickButtonRestoreFromNotRegistered"
+                          alt="Restore to protocol"
+                          class="btn btn-sm btn-primary ul_span_protocolla"
+                    >Ripristina per protocollazione</span>
+                </t>
+
+                <t t-if="!mail.button_ripristina_da_protocollata_invisible">
+                    <span t-on-click="_onClickButtonRestoreFromRegistered"
+                          alt="Restore to protocol"
+                          class="btn btn-sm btn-primary ul_span_protocolla"
+                    >Ripristina per protocollazione</span>
+                </t>
+
+                <t t-if="!mail.button_crea_bozza_protocollo_invisible">
+                    <span t-on-click="_onClickButtonProtocol"
+                          alt="Crea Bozza Protocollo"
+                          class="btn btn-sm btn-primary ul_span_protocolla"
+                    >Crea bozza protocollo</span>
+                </t>
+
+            </div>
+        </xpath>
+    </t>
+
+</templates>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <record id="action_sd_protocollo_protocollo_list_protocolli_da_fascicolare" model="ir.actions.act_window">
+            <field name="name">Protocolli da Fascicolare</field>
+            <field name="res_model">sd.protocollo.protocollo</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[("filter_protocolli_da_fascicolare", "=", True)]</field>
+            <field name="limit">20</field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_sd_protocollo_wizard_protocollo_registra_form" model="ir.ui.view">
+            <field name="name">view.sd.protocollo.wizard.protocollo.registra.form</field>
+            <field name="model">sd.protocollo.wizard.protocollo.registra</field>
+            <field name="inherit_id" ref="sd_protocollo.view_sd_protocollo_wizard_protocollo_registra_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//group[@name='mittente']" position="before">
+                    <group name="account"
+                           attrs="{'invisible': [('account_id_invisible', '=', True)]}"
+                    >
+                        <field name="account_id"
+                               attrs="{'required': [('account_id_required', '=', True)]}"
+                               widget="selection"
+                               context="{'display_with_email': True}"
+                        />
+                        <field name="pec" invisible="1"/>
+                        <field name="account_id_required" invisible="1"/>
+                        <field name="account_id_invisible" invisible="1"/>
+                    </group>
+                </xpath>
+
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

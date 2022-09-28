@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_sd_protocollo_wizard_protocollo_add_mittente_interno_form" model="ir.ui.view">
+            <field name="name">view.sd.protocollo.wizard.protocollo.add.mittente.interno.form</field>
+            <field name="model">sd.protocollo.wizard.protocollo.add.mittente.in</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="mittente_interno_id"
+                                   widget="ztree_select"
+                                   options="{
+                                   'ztree_parent_key': 'parent_id',
+                                   'ztree_expend_level': '1',
+                                   'ztree_name_field': 'nome',
+                                   'ztree_title_field': 'path_name',
+                                   'no_open': True,
+                                   'no_create': True
+                                   }"
+                                   context="{'protocollo_id': context['protocollo_id']}"
+                                   class="fl_set"
+                            />
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button string="Salva"
+                                name="action_salva"
+                                type="object"
+                                class="oe_highlight"
+                        />
+                        <button string="Abbandona"
+                                class="oe_link"
+                                special="cancel"
+                        />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

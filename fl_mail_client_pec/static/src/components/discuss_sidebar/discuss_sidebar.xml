@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-inherit="mail.DiscussSidebar" t-inherit-mode="extension">
+
+        <xpath expr="//div[hasclass('fl_mail_client_sidebar')]" position="replace">
+            <div class="o_DiscussSidebar_groupHeaderItem o_DiscussSidebar_groupTitle fl_mail_client_sidebar">
+                E-mail PEC
+            </div>
+        </xpath>
+
+    </t>
+</templates>

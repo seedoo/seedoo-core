@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <record id="view_sd_protocollo_archivio_tree" model="ir.ui.view">
+            <field name="name">view.sd.protocollo.archivio.tree</field>
+            <field name="model">sd.protocollo.archivio</field>
+            <field name="inherit_id" ref="sd_protocollo.view_sd_protocollo_archivio_tree"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='corrente']" position="after">
+                    <field name="aoo_id"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="view_sd_protocollo_archivio_form" model="ir.ui.view">
+            <field name="name">view.sd.protocollo.archivio.form</field>
+            <field name="model">sd.protocollo.archivio</field>
+            <field name="inherit_id" ref="sd_protocollo.view_sd_protocollo_archivio_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='company_id']" position="after">
+                    <field name="aoo_id"
+                           options="{'no_open': True, 'no_create': True}"
+                    />
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="view_sd_protocollo_archivio_search" model="ir.ui.view">
+            <field name="name">view.sd.protocollo.archivio.search</field>
+            <field name="model">sd.protocollo.archivio</field>
+            <field name="inherit_id" ref="sd_protocollo.view_sd_protocollo_archivio_search"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='corrente']" position="after">
+                    <field name="aoo_id"/>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

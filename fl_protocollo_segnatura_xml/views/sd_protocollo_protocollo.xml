@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <record id="view_sd_protocollo_protocollo_form" model="ir.ui.view">
+            <field name="name">view.sd.protocollo.protocollo.form</field>
+            <field name="model">sd.protocollo.protocollo</field>
+            <field name="inherit_id" ref="sd_protocollo.view_sd_protocollo_protocollo_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//h1[@name='protocol_title']" position="after">
+                    <field name="segnatura_xml" invisible="1"/>
+                    <button string=""
+                            class="oe_highlight protocollo-scarica_segnatura"
+                            name="scarica_segnatura_xml" type="object"
+                            attrs="{'invisible': [('segnatura_xml','=', False)]}"
+                    />
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

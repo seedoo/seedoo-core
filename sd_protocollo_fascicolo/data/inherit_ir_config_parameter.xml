@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="data_ir_config_parameter_non_fascicolati_active" model="ir.config_parameter" forcecreate="False">
+            <field name="key">sd_protocollo.non_fascicolati_active</field>
+            <field name="value">True</field>
+        </record>
+
+    </data>
+</odoo>

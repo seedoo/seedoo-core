@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="data_ir_config_parameter_unique_pec_mail" model="ir.config_parameter" forcecreate="False">
+            <field name="key">fl_partner_pec_unique.unique_pec_mail</field>
+            <field name="value">True</field>
+        </record>
+
+    </data>
+</odoo>

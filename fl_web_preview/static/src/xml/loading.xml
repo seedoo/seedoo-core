@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2020-2022 Flosslab S.r.l.
+    Copyright 2017-2019 MuK IT GmbH
+    License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
+-->
+<templates>
+    <t t-name="fl_web_preview.PreviewLoader">
+        <div class="fl_web_preview_loader">
+            <div class="fl_web_preview_loader_dot"/>
+            <div class="fl_web_preview_loader_dot"/>
+            <div class="fl_web_preview_loader_dot"/>
+            <div class="fl_web_preview_loader_dot"/>
+            <div class="fl_web_preview_loader_dot"/>
+            <div class="fl_web_preview_loader_dot"/>
+            <div class="fl_web_preview_loader_text"
+                 t-att-data-loading-text="loading_text"
+                 t-att-data-loading-text-00="loading_text_00"
+                 t-att-data-loading-text-25="loading_text_25"
+                 t-att-data-loading-text-50="loading_text_50"
+                 t-att-data-loading-text-75="loading_text_75"/>
+        </div>
+    </t>
+</templates>

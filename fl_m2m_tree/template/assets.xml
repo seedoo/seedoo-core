@@ -1,0 +1,7 @@
+<odoo>
+    <template id="assets_backend" inherit_id="web.assets_backend" name="FL M2M Tree Backend Assets">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/fl_m2m_tree/static/src/js/fl_m2m_tree.js"></script>
+        </xpath>
+    </template>
+</odoo>

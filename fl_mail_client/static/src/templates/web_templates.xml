@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <template id="assets_backend" name="assets seedoo" inherit_id="web.assets_backend">
+            <xpath expr="//link[@href='/base/static/src/css/modules.css']" position="after">
+                <link rel="stylesheet" href="/fl_mail_client/static/src/scss/res_config_settings.scss"/>
+                <link rel="stylesheet" href="/fl_mail_client/static/src/scss/mail.scss"/>
+            </xpath>
+        </template>
+    </data>
+</odoo>

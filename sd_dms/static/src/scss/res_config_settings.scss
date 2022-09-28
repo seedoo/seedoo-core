@@ -1,0 +1,18 @@
+/**********************************************************************************
+*   Copyright 2020-2022 Flosslab S.r.l.
+*   Copyright 2017-2019 MuK IT GmbH
+*   License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
+**********************************************************************************/
+
+.label-enterprise {
+  border-bottom: 1px solid #5f5e97;
+  background-color: #7C7BAD;
+  color: white;
+  padding: 2px;
+  border-radius: 4px;
+}
+
+.o_kanban_view .o_kanban_record.o_attachment_many2many {
+  padding: 0;
+  border: none;
+}

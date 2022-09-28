@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <data noupdate="0">
+
+        <!-- TREE VIEWS -->
+        <record id="view_mail_mail_tree" model="ir.ui.view">
+            <field name="name">view.mail.mail.tree</field>
+            <field name="model">mail.mail</field>
+            <field name="priority">20</field>
+            <field name="arch" type="xml">
+                <tree string="Emails" create="0" edit="0">
+                    <field name="subject"/>
+                    <field name="email_from" string="Sender"/>
+                    <field name="email_to"/>
+                    <field name="email_cc"/>
+                    <field name="state" invisible="1"/>
+                    <field name="author_id" invisible="1"/>
+                    <field name="message_id" invisible="1"/>
+                    <field name="recipient_ids" invisible="1"/>
+                    <field name="model" invisible="1"/>
+                    <field name="res_id" invisible="1"/>
+                    <field name="email_from" invisible="1"/>
+                    <field name="message_type" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_mail_mail_tree_received" model="ir.ui.view">
+            <field name="name">view.mail.mail.tree.received</field>
+            <field name="model">mail.mail</field>
+            <field name="mode">primary</field>
+            <field name="inherit_id" ref="fl_mail_client.view_mail_mail_tree"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='email_cc']" position="after">
+                    <field name="server_received_datetime"/>
+                </xpath>
+
+                <xpath expr="//tree" position="attributes">
+                    <attribute name="default_order">server_received_datetime desc</attribute>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="view_mail_mail_tree_sent" model="ir.ui.view">
+            <field name="name">view.mail.mail.tree.sent</field>
+            <field name="model">mail.mail</field>
+            <field name="mode">primary</field>
+            <field name="inherit_id" ref="fl_mail_client.view_mail_mail_tree"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='email_cc']" position="after">
+                    <field name="sent_datetime"/>
+                    <field name="state_out"/>
+                </xpath>
+
+                <xpath expr="//tree" position="attributes">
+                    <attribute name="default_order">sent_datetime desc</attribute>
+                </xpath>
+
+            </field>
+        </record>
+
+
+        <!-- FORM VIEWS -->
+        <record id="view_mail_mail_form" model="ir.ui.view">
+            <field name="name">view.mail.mail.form</field>
+            <field name="model">mail.mail</field>
+            <field name="priority">20</field>
+            <field name="arch" type="xml">
+                <form string="Email" create="0" edit="0">
+                    <header>
+                        <field name="state_out"
+                               widget="statusbar"
+                               statusbar_visible="outgoing,sent,accepted,received"
+                               attrs="{'invisible': [('direction', '!=', 'out')]}"
+                        />
+                    </header>
+                    <sheet>
+                        <div name="button_box" class="oe_button_box">
+
+                        </div>
+                        <label for="subject" class="oe_edit_only" readonly="1"/>
+                        <h2><field name="subject" readonly="1"/></h2>
+                        <div attrs="{'invisible': [('direction', '=', 'in')]}" style="vertical-align: top;">
+                            created on <field name="date" class="oe_inline" readonly="1"/>
+                        </div>
+                        <div attrs="{'invisible': [('server_received_datetime', '=', False)]}" style="vertical-align: top;">
+                            received on <field name="server_received_datetime" class="oe_inline" readonly="1"/>
+                        </div>
+                        <group>
+                            <field name="sent_datetime" readonly="1" attrs="{'invisible': [('direction', '!=', 'out')]}" />
+                            <field name="failure_reason" readonly="1" attrs="{'invisible': [('state', '!=', 'exception')]}"/>
+                        </group>
+                        <group>
+                            <field name="email_from" readonly="1"/>
+                            <field name="email_to" readonly="1"/>
+                            <field name="email_cc" readonly="1"/>
+                            <field name="email_bcc" readonly="1"/>
+                            <field name="reply_to" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="body_html"
+                                   widget="html"
+                                   options="{'style-inline': true}"
+                                   readonly="1"
+                                   nolabel="1"
+                                   colspan="2"
+                            />
+                        </group>
+                        <group>
+                            <field name="attachment_ids"
+                                   mode="kanban"
+                                   context="{'kanban_view_ref': 'fl_mail_client.view_ir_attachment_kanban'}"
+                                   colspan="2"
+                                   nolabel="1"
+                            />
+                        </group>
+                        <notebook>
+                            <page name="advanced"
+                                  string="Advanced"
+                                  groups="fl_mail_client.group_fl_mail_client_administrator"
+                            >
+                                <group invisible="1">
+                                    <field name="mail_message_id" invisible="1"/>
+                                    <field name="direction" invisible="1"/>
+                                    <field name="state" invisible="1"/>
+                                </group>
+                                <group name="eml"
+                                       string="Eml"
+                                       attrs="{'invisible': [('original_eml', '=', False)]}"
+                                >
+                                    <field name="original_eml"
+                                           filename="original_eml_filename"
+                                           attrs="{'invisible': [('original_eml', '=', False)]}"
+                                           readonly="1"
+                                    />
+                                    <field name="original_eml_filename" invisible="1"/>
+                                </group>
+                                <group name="status"
+                                       string="Status"
+                                >
+                                    <field name="fetchmail_server_id"
+                                           attrs="{'invisible': [('fetchmail_server_id', '=', False)]}"
+                                           options="{'no_open': True}"
+                                           readonly="1"
+                                    />
+                                    <field name="mail_server_id"
+                                           attrs="{'invisible': [('mail_server_id', '=', False)]}"
+                                           options="{'no_open': True}"
+                                           readonly="1"
+                                    />
+                                </group>
+                                <group name="headers"
+                                       string="Headers"
+                                >
+                                    <field name="message_id" readonly="1"/>
+                                    <field name="references" readonly="1"/>
+                                    <field name="headers" readonly="1"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+
+        <!-- SEARCH VIEWS -->
+        <record id="view_mail_mail_search" model="ir.ui.view">
+            <field name="name">view.mail.mail.search</field>
+            <field name="model">mail.mail</field>
+            <field name="priority">20</field>
+            <field name="arch" type="xml">
+                <search string="Email Search">
+                    <field name="email_from" filter_domain="[('email_from','ilike',self)]"/>
+                    <field name="email_to" filter_domain="[('email_to','ilike',self)]"/>
+                    <field name="email_cc" filter_domain="[('email_cc','ilike',self)]"/>
+                    <field name="email_bcc" filter_domain="[('email_bcc','ilike',self)]"/>
+                    <field name="account_id"/>
+                    <field name="subject"/>
+                    <field name="direction"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_mail_mail_search_received" model="ir.ui.view">
+            <field name="name">view.mail.mail.search.received</field>
+            <field name="model">mail.mail</field>
+            <field name="mode">primary</field>
+            <field name="inherit_id" ref="fl_mail_client.view_mail_mail_search"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[last()]" position="after">
+                    <field name="server_received_datetime"/>
+                    <field name="attachment_ids"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="view_mail_mail_search_sent" model="ir.ui.view">
+            <field name="name">view.mail.mail.search.sent</field>
+            <field name="model">mail.mail</field>
+            <field name="mode">primary</field>
+            <field name="inherit_id" ref="fl_mail_client.view_mail_mail_search"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[last()]" position="after">
+                    <field name="sent_datetime"/>
+                    <field name="body_html"/>
+                    <field name="attachment_ids"/>
+                    <separator/>
+                    <filter name="outgoing" string="Outgoing" domain="[('state','=','outgoing')]"/>
+                    <filter name="sent" string="Sent" domain="[('state','=','sent')]"/>
+                    <filter name="accepted" string="Accepted" domain="[('state','=','accepted')]"/>
+                    <filter name="exception" string="Failed" domain="[('state','=','exception')]"/>
+                    <filter name="received" string="Received" domain="[('state','=','received')]"/>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

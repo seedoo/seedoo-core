@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    Copyright 2020-2022 Flosslab S.r.l.
+    Copyright 2017-2019 MuK IT GmbH
+    License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
+-->
+<odoo>
+    <data noupdate="0">
+
+        <menuitem id="menu_sd_dms"
+                  name="Documents"
+                  web_icon="sd_dms,static/description/icon.png"
+                  groups="sd_dms.group_sd_dms_user"
+                  sequence="10"
+
+        />
+
+
+        <menuitem id="menu_item_sd_dms_document_list"
+                  name="Documents"
+                  parent="menu_sd_dms"
+                  sequence="10"
+                  action="action_sd_dms_document_list"
+                  groups="sd_dms.group_sd_dms_user"
+        />
+        <menuitem id="menu_item_sd_dms_folder_list"
+                  name="Folders"
+                  parent="menu_sd_dms"
+                  sequence="20"
+                  action="action_sd_dms_folder_list"
+                  groups="sd_dms.group_sd_dms_user"
+        />
+        <menuitem id="menu_item_sd_dms_configuration"
+                  name="Configuration"
+                  parent="menu_sd_dms"
+                  sequence="30"
+                  groups="sd_dms.group_sd_dms_administrator"
+        />
+
+        <menuitem id="menu_item_sd_dms_category_list"
+                  name="Categories"
+                  parent="menu_item_sd_dms_configuration"
+                  sequence="10"
+                  action="action_sd_dms_category_list"
+                  groups="sd_dms.group_sd_dms_administrator"
+        />
+        <menuitem id="menu_item_sd_dms_document_type_list"
+                  name="Document Types"
+                  parent="menu_item_sd_dms_configuration"
+                  sequence="15"
+                  action="action_sd_dms_document_type_list"
+                  groups="sd_dms.group_sd_dms_administrator"
+        />
+        <menuitem id="menu_item_sd_dms_document_list_migration"
+                  name="Migration"
+                  parent="menu_item_sd_dms_configuration"
+                  sequence="25"
+                  action="action_sd_dms_document_list_migration"
+                  groups="sd_dms.group_sd_dms_administrator"
+        />
+
+
+        <menuitem id="menu_item_res_config_settings"
+                  name="Settings"
+                  parent="menu_item_sd_dms_configuration"
+                  sequence="1000"
+                  action="action_res_config_settings"
+                  groups="sd_dms.group_sd_dms_administrator"
+        />
+
+    </data>
+</odoo>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <data noupdate="0">
+
+        <menuitem id="menu_sd_protocollo"
+                  name="Protocollo"
+                  groups="sd_protocollo.group_sd_protocollo_assegnatario"
+                  web_icon="sd_protocollo,static/description/icon.png"
+                  sequence="30"
+        />
+
+        <menuitem id="menu_item_sd_protocollo_dashboard"
+                  name="Dashboard"
+                  parent="menu_sd_protocollo"
+                  action="action_sd_protocollo_protocollo_dashboard"
+                  groups="sd_protocollo.group_sd_protocollo_assegnatario"
+                  sequence="0"
+        />
+
+        <menuitem id="menu_item_sd_protocollo_protocollo_list"
+                  name="Protocolli"
+                  parent="menu_sd_protocollo"
+                  action="action_sd_protocollo_protocollo_list"
+                  groups="sd_protocollo.group_sd_protocollo_assegnatario"
+                  sequence="1"
+        />
+
+        <menuitem id="menu_item_sd_protocollo_registri_list"
+                  name="Registri"
+                  parent="menu_sd_protocollo"
+                  groups="sd_protocollo.group_sd_protocollo_manager"
+                  sequence="10"
+        />
+
+        <menuitem id="menu_item_sd_protocollo_registro_giornaliero_list"
+                  name="Registro Giornaliero"
+                  parent="menu_item_sd_protocollo_registri_list"
+                  action="action_sd_protocollo_registro_giornaliero_list"
+                  groups="sd_protocollo.group_sd_protocollo_manager"
+                  sequence="10"
+        />
+
+        <menuitem id="menu_item_sd_protocollo_registro_emergenza_list"
+                  name="Registro Emergenza"
+                  parent="menu_item_sd_protocollo_registri_list"
+                  action="action_sd_protocollo_registro_emergenza_list"
+                  groups="sd_protocollo.group_sd_protocollo_manager"
+                  sequence="20"
+        />
+
+        <menuitem id="menu_item_sd_protocollo_archivio_list"
+                  name="Archivi"
+                  parent="menu_sd_protocollo"
+                  action="action_sd_protocollo_archivio_list"
+                  sequence="15"
+        />
+
+        <menuitem id="menu_item_sd_protocollo_configurazione"
+                  name="Configurazione"
+                  parent="menu_sd_protocollo"
+                  groups="sd_protocollo.group_sd_protocollo_administrator"
+                  sequence="20"
+        />
+
+        <menuitem id="menu_item_sd_protocollo_registro_list"
+                  name="Registri"
+                  parent="menu_item_sd_protocollo_configurazione"
+                  action="action_sd_protocollo_registro_list"
+                  sequence="20"
+        />
+
+        <menuitem id="menu_item_sd_protocollo_registro_giornaliero_configurazione_list"
+                  name="Registri Giornalieri"
+                  parent="menu_item_sd_protocollo_configurazione"
+                  action="action_sd_protocollo_registro_giornaliero_configurazione_list"
+                  sequence="30"
+        />
+
+        <menuitem id="menu_item_sd_protocollo_mezzo_trasmissione_list"
+                  name="Mezzi di Trasmissione"
+                  parent="menu_item_sd_protocollo_configurazione"
+                  action="action_sd_protocollo_mezzo_trasmissione_list"
+                  sequence="40"
+        />
+
+        <menuitem id="menu_item_sd_protocollo_cartella_list"
+                  name="Cartelle"
+                  parent="menu_item_sd_protocollo_configurazione"
+                  action="action_sd_protocollo_cartella_list"
+                  sequence="50"
+        />
+
+        <menuitem id="menu_item_res_config_settings"
+                  name="Impostazioni"
+                  parent="menu_item_sd_protocollo_configurazione"
+                  action="action_res_config_settings"
+                  sequence="80"
+        />
+
+    </data>
+</odoo>

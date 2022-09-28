@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <data noupdate="0">
+
+        <template id="template_registro_giornaliero_qweb">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.internal_layout">
+                        <t t-set="company" t-value="o.company_id"/>
+
+                        <t t-call="sd_protocollo.template_sd_protocollo_header_qweb"/>
+
+                        <div class="page" style="margin-top : 10px;padding-top: 10px;">
+                            <style type="text/css">
+                                table th {color: #0D5C63 !important; text-transform:uppercase; }
+                                h4, h4 span {color:#999 !important;}
+                            </style>
+                            <h4 style="">Registro giornaliero di protocollo del
+                                <strong>
+                                    <span t-field="o.data" t-field-options='{"format": "dd/MM/yyyy"}'/>
+                                </strong>
+                            </h4>
+                            <table style="width:100%;font-size: 10px;">
+                                <tr style="padding: 5px; border: 1px solid #aaa;height: 30px; background-color: #f0f0f0">
+                                    <th style="padding: 2px 5px 2px 2px;"
+                                        width="5%">Tipo
+                                    </th>
+                                    <th style="padding: 2px 5px 2px 2px;"
+                                        width="5%">Registro
+                                    </th>
+                                    <th style="padding: 2px 5px 2px 2px;"
+                                        width="5%">Numero
+                                    </th>
+                                    <th style="padding: 2px 5px 2px 2px;"
+                                        width="10%">Data
+                                    </th>
+                                    <th style="padding: 2px 5px 2px 2px;"
+                                        width="20%">Oggetto
+                                    </th>
+                                    <th style="padding: 2px 5px 2px 2px;"
+                                        width="20%">Impronta
+                                    </th>
+                                    <th style="padding: 2px 5px 2px 2px;"
+                                        width="20%">Mittente/Destinatario
+                                    </th>
+                                    <th style="padding: 2px 5px 2px 2px;"
+                                        width="15%">Prot. Mittente
+                                    </th>
+                                </tr>
+                                <t t-foreach="o.protocollo_ids" t-as="protocollo">
+                                    <tr style="padding: 5px; border: 1px solid #aaa;height: 30px">
+                                        <td width="5%"
+                                            style="padding: 2px 5px 2px 2px;">
+                                            <span t-field="protocollo.tipologia_protocollo"/>
+                                        </td>
+                                        <td width="5%"
+                                            style="padding: 2px 5px 2px 2px;">
+                                            <span t-field="protocollo.registro_id"/>
+                                        </td>
+                                        <td width="5%"
+                                            style="padding: 2px 5px 2px 2px;">
+                                            <span t-field="protocollo.numero_protocollo"/>
+                                        </td>
+                                        <td width="10%"
+                                            style="padding: 2px 5px 2px 2px;">
+                                            <span t-field="protocollo.data_registrazione"/>
+                                        </td>
+                                        <t t-if="protocollo.documento_id">
+                                            <td width="20%"
+                                                style="padding: 2px 5px 2px 2px;">
+                                                <span t-field="protocollo.documento_id.subject"/>
+                                            </td>
+                                        </t>
+                                        <td width="20%"
+                                            style="padding: 2px 5px 2px 2px;">
+                                            <span t-field="protocollo.documento_id_impronta"/>
+                                        </td>
+                                        <t t-if="protocollo.destinatario_ids">
+                                            <td width="20%"
+                                                style="padding: 2px 5px 2px 2px;">
+                                                <t t-foreach="protocollo.destinatario_ids"
+                                                   t-as="destinatario">
+                                                    <span t-field="destinatario.name"/>
+                                                    <br/>
+                                                </t>
+                                            </td>
+                                        </t>
+                                        <t t-if="protocollo.mittente_ids">
+                                            <td width="20%"
+                                                style="padding: 2px 5px 2px 2px;">
+                                                <t t-foreach="protocollo.mittente_ids"
+                                                   t-as="mittente">
+                                                    <span t-field="mittente.name"/>
+                                                    <br/>
+                                                </t>
+                                            </td>
+                                        </t>
+                                        <td width="15%"
+                                            style="padding: 2px 5px 2px 2px;">
+                                            <t t-if="protocollo.mittente_numero_protocollo">
+                                                <span t-field="protocollo.mittente_numero_protocollo"/>
+                                                <t t-if="protocollo.mittente_data_registrazione">
+                                                    del
+                                                    <span t-field="protocollo.mittente_data_registrazione"/>
+                                                </t>
+                                            </t>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </table>
+                        </div>
+
+                        <t t-call="sd_protocollo.template_sd_protocollo_footer_qweb"/>
+
+                    </t>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

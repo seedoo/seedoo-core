@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_fl_set_set_tree" model="ir.ui.view">
+            <field name="name">view.fl.set.set.tree</field>
+            <field name="model">fl.set.set</field>
+            <field name="arch" type="xml">
+                <tree string="Companies">
+                    <field name="name"/>
+                    <field name="parent_set_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_fl_set_set_form" model="ir.ui.view">
+            <field name="name">view.fl.set.set.form</field>
+            <field name="model">fl.set.set</field>
+            <field name="arch" type="xml">
+                <form string="department">
+                    <sheet>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger"
+                                attrs="{'invisible': [('active', '=', True)]}"/>
+                        <field name="active" invisible="1"/>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="company_id"
+                                       groups="base.group_multi_company"
+                                       options="{'no_open': True, 'no_quick_create': True}"
+                                />
+                                <field name="parent_set_id"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="user_ids"
+                                   options="{'no_create': True, 'no_open': True}"
+                            />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_fl_set_set_kanban" model="ir.ui.view">
+            <field name="name">view.fl.set.set.kanban</field>
+            <field name="model">fl.set.set</field>
+            <field name="arch" type="xml">
+                <kanban class="oe_background_grey o_kanban_dashboard o_hr_kanban">
+                    <field name="name"/>
+                    <field name="set_type"/>
+                    <field name="color"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="#{!selection_mode ? kanban_color(record.color.raw_value) : ''}">
+                                <div t-attf-class="o_kanban_card_header">
+                                    <div class="o_kanban_card_header_title">
+                                        <div class="o_primary">
+                                            <field name="name"/>
+                                        </div>
+                                    </div>
+                                    <div class="o_kanban_manage_button_section" t-if="!selection_mode" groups="fl_set.group_fl_set_administrator">
+                                        <a class="o_kanban_manage_toggle_button" href="#">
+                                            <i class="fa fa-ellipsis-v"
+                                               role="img"
+                                               aria-label="Manage"
+                                               title="Manage"/>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="container o_kanban_card_content" t-if="!selection_mode">
+                                    <div class="row">
+                                        <div class="col-6 o_kanban_primary_left">
+                                            <button class="btn btn-primary btn-users" name="%(action_sd_dms_res_users_set_list)d"
+                                                    type="action">Users
+                                            </button>
+                                        </div>
+                                        <div class="col-6 o_kanban_primary_right">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="container o_kanban_card_manage_pane dropdown-menu" role="menu">
+                                    <div t-if="widget.editable" class="o_kanban_card_manage_settings row">
+                                        <div role="menuitem" aria-haspopup="true" class="col-8">
+                                            <ul class="oe_kanban_colorpicker" data-field="color" role="menu"/>
+                                        </div>
+                                        <div class="col-4 text-center">
+                                            <a role="menuitem" type="edit">Settings</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+    </data>
+</odoo>

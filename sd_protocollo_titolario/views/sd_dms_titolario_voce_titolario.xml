@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<odoo>
+    <data noupdate="0">
+
+        <record id="view_sd_dms_titolario_voce_titolario_form" model="ir.ui.view">
+            <field name="name">view.sd.dms.titolario.voce.titolario.form</field>
+            <field name="model">sd.dms.titolario.voce.titolario</field>
+            <field name="inherit_id" ref="sd_dms_titolario.view_sd_dms_titolario_voce_titolario_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//notebook/page[last()]" position="after">
+                    <page string="Assegnatario Default" name="assegnatario_default">
+                        <group>
+                            <field name="assegnatario_default_in"
+                                   string="Protocollo Ingresso"
+                                   options="{'no_open': True}"
+                            />
+                            <field name="assegnatario_default_out"
+                                   string="Protocollo Uscita"
+                                   options="{'no_open': True}"
+                            />
+                            <field name="assegnatario_default_skip"/>
+                        </group>
+                    </page>
+
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="fl_mail_client.Mail" owl="1">
+        <div class="o_Message o_Mail">
+            <t t-if="mail" name="rootCondition">
+                <div class="o_Message_core o_Mail_list_row" t-on-click="_onClick">
+                    <t t-if="mail.author">
+                        <div class="o_Message_authorName o_Message_authorRedirect o_redirect" t-on-click="_onClickAuthorName" title="Open profile">
+                            <t t-esc="mail.author.nameOrDisplayName"/>
+                        </div>
+                    </t>
+                    <t t-elif="mail.email_from">
+                        <div class="o_Mail_list_data o_Mail_email_from">
+                            <span class="fa fa-envelope-o"/>
+                            <t t-esc="mail.email_from"/>
+                        </div>
+                    </t>
+                    <t t-if="mail.subject">
+                        <div class="o_Mail_list_data o_Mail_subject">
+                            <t t-esc="mail.subject"/>
+                        </div>
+                    </t>
+                    <div class="o_Mail_list_data o_Mail_date o_Message_headerDate" t-att-class="{ 'o-message-selected': props.isSelected }" t-att-title="datetime">
+                        <span>
+                            <t t-if="mail.direction == 'in' &amp;&amp; mail.server_received_datetime">
+                                <t t-esc="mail.server_received_datetime.local().format('HH:mm')"/>
+                            </t>
+                            <t t-if="mail.direction == 'out' &amp;&amp; mail.sent_datetime">
+                                <t t-esc="mail.sent_datetime.local().format('HH:mm')"/>
+                            </t>
+                        </span>
+                    </div>
+                </div>
+                <div class="o_Message_footer not_visible">
+                    <div class="o_Message_content" t-ref="content">
+                        <div class="o_Mail_header">
+                            <div class="o_Mail_header_state_out">
+                                <t t-if="mail.direction == 'out'">
+                                    <div class='div_fl_mail_client_state'>
+                                        <ul class='ul_fl_mail_client_state'>
+                                            <t t-foreach="state_out_list" t-as="state_out">
+                                                <t t-set="caso1"
+                                                   t-value="state_out[0] !== 'exception' &amp;&amp; state_out[0] !== 'cancel'"/>
+                                                <t t-set="caso2"
+                                                   t-value="state_out[0] === 'exception' &amp;&amp; mail.state === 'exception'"/>
+                                                <t t-set="caso3"
+                                                   t-value="state_out[0] === 'cancel' &amp;&amp; mail.state === 'cancel'"/>
+                                                <t t-if="caso1 || caso2 || caso3">
+                                                    <t t-set="separator1"
+                                                       t-value="state_out[0] === 'received' &amp;&amp; mail.state !== 'exception' &amp;&amp; mail.state !== 'cancel'"/>
+                                                    <t t-set="separator2" t-value="state_out[0] === 'exception'"/>
+                                                    <t t-set="separator3" t-value="state_out[0] === 'cancel'"/>
+                                                    <t t-if="separator1 || separator2 || separator3">
+                                                        <t t-set="state_label" t-value="state_out[1]"/>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <t t-set="state_label" t-value="state_out[1] + ' /'"/>
+                                                    </t>
+                                                    <t t-if="state_out[0] === mail.state">
+                                                        <li><b><t t-esc="state_label"/></b></li>
+                                                    </t>
+                                                    <t t-elif="state_out[0] !== mail.state">
+                                                        <li><t t-esc="state_label"/></li>
+                                                    </t>
+                                                </t>
+                                            </t>
+                                        </ul>
+                                    </div>
+                                </t>
+                            </div>
+
+                            <t t-if="mail.direction == 'in' &amp;&amp; mail.original_body">
+                                <ul name="nav_tabs" class="nav nav-tabs tab-mail" style="margin-top: -1%;">
+                                    <li class="nav-item"><a class="nav-link active" t-att-href="'#message-'+ mail.id" data-toggle="tab">Message</a></li>
+                                    <li class="nav-item"><a class="nav-link" data-toggle="tab" t-att-href="'#envelope-'+ mail.id" >Transport envelope</a></li>
+                                </ul>
+                            </t>
+
+                            <t t-if="mail.direction == 'in'">
+                                <div class="tab-content">
+                                  <div role="tabpanel" t-att-id="'message-'+ mail.id" class="tab-pane active">
+                                      <ul>
+                                          <li>
+                                              <span class="label">subject:</span>
+                                              <b><span t-esc="mail.subject"/></b>
+                                          </li>
+                                          <t t-if="mail.server_received_datetime">
+                                              <span class="label">date of receipt:</span>
+                                              <span t-esc="server_received_datetime_formatted"/>
+                                          </t>
+                                          <li t-if="mail.email_from">
+                                              <span class="label">from:</span>
+                                              <span t-esc="mail.email_from"/>
+                                          </li>
+                                          <li t-if="mail.email_to">
+                                              <span class="label">to:</span>
+                                              <span t-esc="mail.email_to"/>
+                                          </li>
+                                          <li t-if="mail.email_cc">
+                                              <span class="label">cc:</span>
+                                              <span t-esc="mail.email_cc"/>
+                                          </li>
+                                          <li t-if="mail.reply_to">
+                                              <span class="label">reply to:</span>
+                                              <span t-esc="mail.reply_to"/>
+                                          </li>
+                                      </ul>
+                                      <div class="o_Message_prettyBody" t-ref="prettyBody"/>
+                                      <t t-if="mail.attachments and mail.attachments.length > 0">
+                                            <AttachmentList
+                                                    class="o_Message_attachmentList"
+                                                    areAttachmentsDownloadable="true"
+                                                    areAttachmentsEditable="mail.author === env.messaging.currentPartner"
+                                                    attachmentLocalIds="mail.attachments.map(attachment => attachment.localId)"
+                                                    attachmentsDetailsMode="props.attachmentsDetailsMode"
+                                            />
+                                        </t>
+                                  </div>
+                                    <div role="tabpanel" t-att-id="'envelope-'+ mail.id" class="tab-pane">
+                                        <ul>
+                                          <li t-if="mail.original_subject">
+                                              <span class="label">subject:</span>
+                                              <b><span t-esc="mail.original_subject"/></b>
+                                          </li>
+                                          <t t-if="mail.server_received_datetime">
+                                              <span class="label">date of receipt:</span>
+                                              <span t-esc="server_received_datetime_formatted"/>
+                                          </t>
+                                          <li t-if="mail.original_email_from">
+                                              <span class="label">from:</span>
+                                              <span t-esc="mail.original_email_from"/>
+                                          </li>
+                                          <li t-if="mail.email_to">
+                                              <span class="label">to:</span>
+                                              <span t-esc="mail.email_to"/>
+                                          </li>
+                                          <li t-if="mail.email_cc">
+                                              <span class="label">cc:</span>
+                                              <span t-esc="mail.email_cc"/>
+                                          </li>
+                                          <li t-if="mail.reply_to">
+                                              <span class="label">reply to:</span>
+                                              <span t-esc="mail.reply_to"/>
+                                          </li>
+                                        </ul>
+                                        <span t-raw="mail.original_body"/>
+                                        <t t-if="mail.original_attachments and mail.original_attachments.length > 0">
+                                            <AttachmentList
+                                                    class="o_Message_attachmentList"
+                                                    areAttachmentsDownloadable="true"
+                                                    areAttachmentsEditable="mail.author === env.messaging.currentPartner"
+                                                    attachmentLocalIds="mail.original_attachments.map(attachment => attachment.localId)"
+                                                    attachmentsDetailsMode="props.attachmentsDetailsMode"
+                                            />
+                                        </t>
+                                  </div>
+                                </div>
+                            </t>
+                            <t t-set="odoo_failure_reason"
+                               t-value="'Errore senza eccezione. È probabile sia dovuto all\'invio di una e-mail senza l\'elaborazione dei destinatari.'"/>
+                            <t t-if="mail.direction == 'out'">
+                                <ul>
+                                    <li t-if="mail.subject">
+                                        <span class="label">subject:</span>
+                                        <b><span t-esc="mail.subject"/></b>
+                                    </li>
+                                    <li t-if="mail.sent_datetime">
+                                        <span class="label">send date:</span>
+                                        <span t-esc="sent_datetime_formatted"/>
+                                    </li>
+                                    <li t-if="mail.email_from">
+                                        <span class="label">from:</span>
+                                        <span t-esc="mail.email_from"/>
+                                    </li>
+                                    <li t-if="mail.email_to">
+                                        <span class="label">to:</span>
+                                        <span t-esc="mail.email_to"/>
+                                    </li>
+                                    <li t-if="mail.email_cc">
+                                        <span class="label">cc:</span>
+                                        <span t-esc="mail.email_cc"/>
+                                    </li>
+                                    <li t-if="mail.reply_to">
+                                        <span class="label">reply to:</span>
+                                        <span t-esc="mail.reply_to"/>
+                                    </li>
+                                    <li t-if="mail.failure_reason and mail.failure_reason != odoo_failure_reason">
+                                        <span class="label">failure reason:</span>
+                                        <span t-esc="mail.failure_reason"/>
+                                    </li>
+                                </ul>
+                                <div class="o_Message_prettyBody" t-ref="prettyBody"/>
+                                <t t-if="mail.attachments and mail.attachments.length > 0">
+                                    <AttachmentList
+                                            class="o_Message_attachmentList"
+                                            areAttachmentsDownloadable="true"
+                                            areAttachmentsEditable="mail.author === env.messaging.currentPartner"
+                                            attachmentLocalIds="mail.attachments.map(attachment => attachment.localId)"
+                                            attachmentsDetailsMode="props.attachmentsDetailsMode"
+                                    />
+                                </t>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </div>
+      </t>
+</templates>
+

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_sd_protocollo_wizard_protocollo_rimetti_in_lavorazione_form" model="ir.ui.view">
+            <field name="name">view.sd.protocollo.wizard.protocollo.rimetti.in.lavorazione.form</field>
+            <field name="model">sd.protocollo.wizard.protocollo.rimetti.in.lavorazione</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="stato_da_modificare"
+                                   attrs="{'invisible':[('stato_da_modificare_invisible','=',True)]}"
+                            />
+                            <field name="assegnazione_id"
+                                   widget="selection"
+                                   attrs="{'required':[('stato_da_modificare','=','stato_assegnazione')], 'invisible':['|',('stato_da_modificare','!=','stato_assegnazione'),('assegnazione_id_invisible','=',True)]}"
+                            />
+                            <!--<field name="motivazione"/>-->
+                        </group>
+                        <group invisible="1">
+                            <field name="stato_da_modificare_invisible"/>
+                            <field name="assegnazione_id_invisible"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="action_rimetti_in_lavorazione"
+                                type="object"
+                                string="Rimetti In Lavorazione"
+                                class="oe_highlight"
+                        />
+                        <button string="Abbandona"
+                                class="oe_link"
+                                special="cancel"
+                        />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

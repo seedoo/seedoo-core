@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <data noupdate="0">
+
+        <menuitem id="menu_fl_set"
+                  name="Sets"
+                  web_icon="fl_set,static/description/icon.png"
+        />
+
+        <menuitem id="menu_item_res_users_list"
+                  name="User List"
+                  parent="menu_fl_set"
+                  action="action_res_users_list"
+                  sequence="10"
+        />
+
+        <menuitem id="menu_item_fl_set_set_list"
+                  name="Sets"
+                  parent="menu_fl_set"
+                  sequence="20"
+                  action="action_fl_set_set_list"
+                  groups="fl_set.group_fl_set_user"
+        />
+
+        <menuitem id="menu_item_fl_set_configuration_list"
+                  name="Configuration"
+                  parent="menu_fl_set"
+                  sequence="999"
+                  groups="fl_set.group_fl_set_administrator"
+        />
+
+        <menuitem id="menu_item_fl_set_set_list_configuation"
+                  name="Sets"
+                  parent="menu_item_fl_set_configuration_list"
+                  sequence="10"
+                  action="action_fl_set_set_list_configuration"
+                  groups="fl_set.group_fl_set_administrator"
+        />
+
+        <menuitem id="menu_item_fl_set_res_config_configuration_list"
+                  name="Settings"
+                  parent="menu_item_fl_set_configuration_list"
+                  sequence="20"
+                  action="action_res_config_settings"
+        />
+
+    </data>
+</odoo>

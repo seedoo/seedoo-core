@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <data noupdate="0">
+
+        <record id="view_sd_fascicolo_fascicolo_document_acl_tree" model="ir.ui.view">
+            <field name="name">view.sd.fascicolo.fascicolo.document.acl.tree</field>
+            <field name="model">sd.fascicolo.fascicolo.document.acl</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="res_model"/>
+                    <field name="res_name"/>
+                    <field name="perm_read"/>
+                    <field name="fascicolo_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_sd_fascicolo_fascicolo_document_acl_form" model="ir.ui.view">
+            <field name="name">view.sd.fascicolo.fascicolo.document.acl.form</field>
+            <field name="model">sd.fascicolo.fascicolo.document.acl</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="res_model"/>
+                            <h2>
+                                <field name="res_model"
+                                       required="1"
+                                />
+                            </h2>
+
+                            <h2>
+                                <field name="res_name"/>
+                            </h2>
+                        </div>
+                        <notebook>
+                            <page name="page_acl" string="Acl">
+                                <group>
+                                    <field name="perm_read"/>
+                                </group>
+                            </page>
+                            <page name="page_meta" string="Meta Information" attrs="{'invisible': [('create_date', '=', False)]}">
+                                <group>
+                                    <group>
+                                        <field name="create_date"/>
+                                        <field name="create_uid"/>
+                                        <field name="module_id"
+                                               options="{'no_open':True, 'no_create':True}"
+                                        />
+                                    </group>
+                                    <group>
+                                        <field name="write_date"/>
+                                        <field name="write_uid"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

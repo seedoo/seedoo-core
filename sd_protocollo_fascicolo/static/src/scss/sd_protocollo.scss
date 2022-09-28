@@ -1,0 +1,25 @@
+div.o_kanban_image.sd-fascicolo {
+  padding: 10px;
+}
+
+p.categoria.sd-fascicolo {
+  span {
+    font-family: italic;
+  }
+
+  margin-bottom: 2px !important;
+}
+
+p.o_kanban_record_title.sd-fascicolo {
+  font-weight: bold;
+}
+
+.oe_kanban_global_click.sd-fascicolo.o_kanban_record {
+  //width: 100% !important;
+  height: 90px;
+  margin-top: 10px !important;
+}
+
+p.nome.sd-fascicolo span {
+  font-weight: bold;
+}

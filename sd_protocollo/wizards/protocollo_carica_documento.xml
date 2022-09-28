@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_sd_protocollo_wizard_protocollo_carica_documento_form" model="ir.ui.view">
+            <field name="name">view.sd.protocollo.wizard.protocollo.carica.documento.form</field>
+            <field name="model">sd.protocollo.wizard.protocollo.carica.documento</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+
+                        <group>
+                            <field name="filename" invisible="1"/>
+                            <field name="content" filename="filename"/>
+                            <field name="subject" required="context.get('tipologia_documento',False) != 'allegato'"/>
+                            <field name="folder_id"
+                                   options='{"no_open": True, "no_create": True}'
+                                   />
+                        </group>
+
+                    </sheet>
+                    <footer>
+                        <button string="Salva"
+                                name="action_create_modify"
+                                type="object"
+                                class="oe_highlight"
+                        />
+                        <button string="Abbandona"
+                                class="oe_link"
+                                special="cancel"
+                        />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

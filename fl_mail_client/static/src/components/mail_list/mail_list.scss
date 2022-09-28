@@ -1,0 +1,13 @@
+// ------------------------------------------------------------------
+// Layout Mail List
+// ------------------------------------------------------------------
+
+.o_MessageList.o_MailList {
+    display: flow-root;
+    flex-flow: column;
+    justify-content: flex-start;
+    &.o-empty {
+        align-items: normal;
+        justify-content: center;
+    }
+}

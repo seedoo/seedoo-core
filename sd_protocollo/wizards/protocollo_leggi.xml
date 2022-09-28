@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_sd_protocollo_wizard_protocollo_leggi_form" model="ir.ui.view">
+            <field name="name">view.sd.protocollo.wizard.protocollo.leggi.form</field>
+            <field name="model">sd.protocollo.wizard.protocollo.leggi</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="assegnazione_id"
+                                   widget="selection"
+                            />
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="action_confirm"
+                                type="object"
+                                string="Leggi"
+                                class="oe_highlight"
+                        />
+                        <button string="Abbandona"
+                                class="oe_link"
+                                special="cancel"
+                        />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

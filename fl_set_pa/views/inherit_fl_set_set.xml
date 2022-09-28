@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<odoo>
+    <data noupdate="0">
+
+        <record id="view_fl_set_set_form" model="ir.ui.view">
+            <field name="name">view.fl.set.set.form</field>
+            <field name="model">fl.set.set</field>
+            <field name="inherit_id" ref="fl_set.view_fl_set_set_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='user_ids']" position="before">
+                    <group>
+                        <field name="set_type" widget="radio"/>
+                    </group>
+                    <group>
+                        <field name="cod_aoo"
+                               attrs="{'invisible':[('set_type','!=','aoo')],'required': [('set_type', '=', 'aoo')]}"/>
+                        <field name="cod_ou"
+                               attrs="{'invisible':[('set_type','!=','uo')],'required': [('set_type', '=', 'uo')]}"/>
+                        <field name="aoo_id"
+                               attrs="{'invisible':[('set_type','!=','uo')],'readonly': [('parent_set_id', '!=', False)],'required': [('parent_set_id', '=', False),('set_type','=','uo')]}"
+                        />
+                    </group>
+
+                    <group attrs="{'invisible':[('set_type','=','default')]}">
+                        <label for="street" string="Indirizzo"/>
+                        <div class="o_address_format">
+                            <field name="street" placeholder="Via..." class="o_address_street"/>
+                            <field name="city" placeholder="Città" class="o_address_city"/>
+                            <field name="state_id" class="o_address_state" placeholder="Provincia"
+                                   options='{"no_open": True}'
+                                   context="{'country_id': country_id, 'zip': zip}"/>
+                            <field name="zip" placeholder="CAP" class="o_address_zip"/>
+                            <field name="country_id" placeholder="Nazione" class="o_address_country"
+                                   options='{"no_open": True, "no_create": True}'/>
+                        </div>
+                    </group>
+
+                    <group attrs="{'invisible':[('set_type','not in',['uo','aoo'])]}">
+                        <field name="uo_responsabile_id"
+                               attrs="{'invisible':[('set_type','!=','uo')]}"
+                               options="{'no_open': True, 'no_create': True}"
+                        />
+                        <field name="aoo_responsabile_gestione_documentale_id"
+                               attrs="{'invisible':[('set_type','!=','aoo')]}"
+                               options="{'no_open': True, 'no_create': True}"
+                        />
+                        <field name="aoo_responsabile_conservazione_documentale_id"
+                               attrs="{'invisible':[('set_type','!=','aoo')]}"
+                               options="{'no_open': True, 'no_create': True}"
+                        />
+                    </group>
+
+                </xpath>
+
+                <xpath expr="//field[@name='parent_set_id']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('set_type', '=', 'aoo')]}</attribute>
+                    <attribute name="domain">[('set_type', '=', set_type), ('company_id', '=', company_id)]</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='user_ids']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('set_type', '=', 'aoo')]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='company_id']" position="attributes">
+                    <attribute name="attrs">{'required': [('set_type', '=', 'aoo')]}</attribute>
+                </xpath>
+
+            </field>
+        </record>
+
+
+        <record id="view_fl_set_set_kanban" model="ir.ui.view">
+            <field name="name">view.fl.set.set.kanban</field>
+            <field name="model">fl.set.set</field>
+            <field name="inherit_id" ref="fl_set.view_fl_set_set_kanban"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//kanban/templates//button[@class='btn btn-primary btn-users']" position="attributes">
+                    <attribute name="t-if">record.set_type.raw_value !== 'aoo'</attribute>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

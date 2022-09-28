@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    Copyright 2020-2022 Flosslab S.r.l.
+    Copyright 2017-2019 MuK IT GmbH
+    License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
+-->
+<odoo>
+    <data noupdate="0">
+
+        <record id="action_sd_dms_document_list" model="ir.actions.act_window">
+            <field name="name">Documents</field>
+            <field name="res_model">sd.dms.document</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="limit">20</field>
+            <field name="context">{'default_search_panel_custom_folder' : True}</field>
+
+        </record>
+
+        <record id="action_sd_dms_folder_list" model="ir.actions.act_window">
+            <field name="name">Folders</field>
+            <field name="res_model">sd.dms.folder</field>
+            <field name="view_mode">tree,form,kanban</field>
+            <field name="limit">20</field>
+        </record>
+
+        <record id="action_sd_dms_document_type_list" model="ir.actions.act_window">
+            <field name="name">Document Types</field>
+            <field name="res_model">sd.dms.document.type</field>
+            <field name="view_mode">tree,form</field>
+            <field name="limit">20</field>
+        </record>
+
+        <record id="action_sd_dms_category_list" model="ir.actions.act_window">
+            <field name="name">Categories</field>
+            <field name="res_model">sd.dms.category</field>
+            <field name="view_mode">tree,form</field>
+            <field name="limit">20</field>
+        </record>
+
+        <record id="action_res_config_settings" model="ir.actions.act_window">
+            <field name="name">General Settings</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.config.settings</field>
+            <field name="view_mode">form</field>
+            <field name="target">inline</field>
+            <field name="context">{'module' : 'sd_dms'}</field>
+        </record>
+
+        <record id="action_sd_dms_storage_list" model="ir.actions.act_window">
+            <field name="name">Storages</field>
+            <field name="res_model">sd.dms.storage</field>
+            <field name="view_mode">tree,form</field>
+            <field name="limit">20</field>
+        </record>
+
+        <record id="action_sd_dms_document_list_migration" model="ir.actions.act_window">
+            <field name="name">Documents</field>
+            <field name="res_model">sd.dms.document</field>
+            <field name="view_mode">tree</field>
+            <field name="search_view_id" ref="view_sd_dms_document_search_migration"/>
+            <field name="domain">['|',('active', '=',  False), ('active', '!=',  False)]</field>
+            <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'tree', 'view_id': ref('view_sd_dms_document_tree_migration')})]"/>
+            <field name="context">{'search_default_group_storage_id': 1}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Add a new File.
+                </p>
+                <p>
+                    Files are used to save content directly in Odoo.
+                </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

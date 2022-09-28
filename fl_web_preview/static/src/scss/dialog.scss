@@ -1,0 +1,78 @@
+/**********************************************************************************
+*   Copyright 2020-2022 Flosslab S.r.l.
+*   Copyright 2017-2019 MuK IT GmbH
+*   License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
+**********************************************************************************/
+
+.fl_web_preview_dialog {
+	display: flex;
+	height: calc(100% - #{$modal-dialog-margin * 2});
+	.modal-content {
+		height: calc(100vh - #{$modal-dialog-margin * 2});
+		overflow: hidden;
+	}
+	.modal-header {
+		padding: 0.5rem 1rem;
+		.modal-title {
+			margin-top: 0.5rem;
+		}
+		.fl_web_preview_buttons {
+			float: right;    
+			padding-top: 0.5rem;
+			button, a {
+				@extend .close;
+				margin-left: 0;
+				font-size: $fl-web-preview-actions-font;
+				&:focus {
+					outline: none;
+				}
+			}
+			.fl_web_preview_actions {
+				display: inline-block;
+			}
+			.fl_web_preview_minimize_btn i {
+				line-height: 0.5;
+			    vertical-align: text-top;
+			}
+		}
+	}
+	&.fl_web_preview_maximize {
+		min-width: 100%;
+    	margin: 0;
+		.modal-content {
+			height: 100vh;
+		}
+		.fl_web_preview_maximize_btn {
+			display: none;
+		}
+	}
+	&:not(.fl_web_preview_maximize) {
+		.fl_web_preview_minimize_btn {
+			display: none;
+		}
+	}
+	.modal-header,
+	.modal-footer {
+		flex-shrink: 0;
+	}
+	.modal-body {
+		padding: 5px;
+		overflow-y: auto;
+	}
+	.modal-footer {
+		padding: 0.5rem 1rem;
+	    justify-content: center;
+		.pagination {
+			margin: 0;
+		}
+	}
+}
+
+@include media-breakpoint-up(sm) {
+	.fl_web_preview_dialog {
+		height: calc(100% - #{$modal-dialog-margin-y-sm-up * 2});
+		.modal-content {
+			height: calc(100vh - #{$modal-dialog-margin-y-sm-up * 2});
+		}
+	}
+}

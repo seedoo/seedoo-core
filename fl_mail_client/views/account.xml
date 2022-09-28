@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <data noupdate="0">
+
+        <record id="view_fl_mail_client_account_tree" model="ir.ui.view">
+            <field name="name">view.fl.mail.client.account.tree</field>
+            <field name="model">fl.mail.client.account</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="description"/>
+                    <field name="fetchmail_server_id"/>
+                    <field name="ir_mail_server_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_fl_mail_client_account_form" model="ir.ui.view">
+            <field name="name">view.fl.mail.client.account.form</field>
+            <field name="model">fl.mail.client.account</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div name="button_box" class="oe_button_box">
+                            <button name="%(action_mail_mail_list_received_account)d"
+                                    type="action"
+                                    class="oe_stat_button"
+                                    icon="fa-envelope"
+                                    context="{'account_id': id}"
+                            >
+                                <field string="Emails Received" name="email_received_count" widget="statinfo"/>
+                            </button>
+                            <button name="%(action_mail_mail_list_sent_account)d"
+                                    type="action"
+                                    class="oe_stat_button"
+                                    icon="fa-envelope"
+                                    context="{'account_id': id}"
+                            >
+                                <field string="Emails Sent" name="email_sent_count" widget="statinfo"/>
+                            </button>
+                            <button name="action_show_account_permissions"
+                                    type="object"
+                                    class="oe_stat_button"
+                                    icon="fa-users">
+                                <field string="Permissions" name="account_permission_count" widget="statinfo"/>
+                            </button>
+                        </div>
+                        <div class="oe_title">
+                            <label for="description"/>
+                            <h1>
+                                <field name="description"/>
+                            </h1>
+                            <label for="email"/>
+                            <h2>
+                                <field name="email"/>
+                            </h2>
+                        </div>
+                        <group>
+                            <group name="left">
+                                <field name="fetchmail_server_id"
+                                       domain="[('mail_client', '=', True),('mail_client_account_ids', '=', False)]"
+                                       required="True"
+                                />
+                            </group>
+                            <group name="right">
+                                <field name="ir_mail_server_id"
+                                       domain="[('mail_client', '=', True),('mail_client_account_ids', '=', False)]"
+                                       required="True"
+                                />
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_fl_mail_client_account_search" model="ir.ui.view">
+            <field name="name">view.fl.mail.client.account.search</field>
+            <field name="model">fl.mail.client.account</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="description"/>
+                    <separator/>
+                    <field name="fetchmail_server_id"/>
+                    <separator/>
+                    <field name="ir_mail_server_id"/>
+                </search>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="template_protocollo_dashboard" name="Dashboard">
+
+        <div class="o_action sd">
+            <div class="wrapper">
+                <div id="content">
+                    <div class="o_form_view o_form_readonly">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="sd_dashboard_da_protocollare">
+                                    <div class="sd-container">
+                                        <div class="title">
+                                            <h4>Da Protocollare</h4>
+                                        </div>
+                                        <div class="row sd" id="da_protocollare"/>
+                                    </div>
+                                </div>
+                                <div class="sd_dashboard_protocolli">
+                                    <t t-call="sd_protocollo.template_dashboard_protocolli_protocollati">
+
+                                        <t t-set="protocolli_assegnati_a_me" t-value="protocolli_assegnati_a_me"/>
+                                        <t t-set="protocolli_assegnati_a_me_competenza"
+                                           t-value="protocolli_assegnati_a_me_competenza"/>
+                                        <t t-set="protocolli_assegnati_mio_ufficio"
+                                           t-value="protocolli_assegnati_mio_ufficio"/>
+                                        <t t-set="protocolli_assegnati_mio_ufficio_competenza"
+                                           t-value="protocolli_assegnati_mio_ufficio_competenza"/>
+                                        <t t-set="protocolli_in_lavorazione" t-value="protocolli_in_lavorazione"/>
+
+                                        <t t-set="protocolli_bozza" t-value="protocolli_bozza"/>
+                                        <t t-set="protocolli_da_assegnare" t-value="protocolli_da_assegnare"/>
+                                        <t t-set="protocolli_da_inviare" t-value="protocolli_da_inviare"/>
+                                        <t t-set="protocolli_assegnati_da_me" t-value="protocolli_assegnati_da_me"/>
+                                        <t t-set="protocolli_rifiutati" t-value="protocolli_rifiutati"/>
+                                        <t t-set="protocolli_assegnati_conoscenza"
+                                           t-value="protocolli_assegnati_conoscenza"/>
+
+                                    </t>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="sd_dashboard_user_info">
+                                    <div class="sd-container">
+                                        <t t-call="sd_protocollo.template_dashboard_user_info">
+                                            <t t-set="user" t-value="user_id"/>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            if($("#da_protocollare").html().length ==0){
+            $(".sd_dashboard_da_protocollare").hide();
+            }
+        </script>
+    </template>
+
+    <template id="template_dashboard_protocolli_da_protocollare">
+
+    </template>
+
+    <template id="template_dashboard_user_info">
+        <div class="table-responsive">
+            <div class="sd-info-utente">
+                <div class="title">
+                    <h4>
+                        <t t-esc="user.name"/>
+                    </h4>
+                </div>
+                <t t-if="user.image_1024">
+                    <img class="user-image-sd" t-att-src="image_data_uri(user.image_1024)" alt="Contact"/>
+                </t>
+                <ul>
+                    <li class="email">
+                        <t t-esc="user.email"/>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </template>
+
+    <template id="template_dashboard_protocolli_protocollati">
+        <div class="sd-container">
+            <div class="title">
+                <h4>Protocolli</h4>
+            </div>
+
+            <div class="row sd">
+
+                <t t-if="protocolli_assegnati_a_me is not False">
+                    <t t-call="sd_protocollo.temaplate_protocollo_row_kanban_button">
+                        <t t-set="icon" t-value="'fa fa-user'"/>
+                        <t t-set="value" t-value="protocolli_assegnati_a_me"/>
+                        <t t-set="action_name" t-value="'protocolli_assegnati_a_me'"/>
+                        <t t-set="protocollo_info" t-value="'Assegnati a Me'"/>
+                    </t>
+                </t>
+
+                <t t-if="protocolli_assegnati_mio_ufficio is not False">
+                    <t t-call="sd_protocollo.temaplate_protocollo_row_kanban_button">
+                        <t t-set="icon" t-value="'fa fa-users'"/>
+                        <t t-set="value" t-value="protocolli_assegnati_mio_ufficio"/>
+                        <t t-set="action_name" t-value="'protocolli_assegnati_mio_ufficio'"/>
+                        <t t-set="protocollo_info" t-value="'Assegnati al mio Ufficio'"/>
+                    </t>
+                </t>
+
+                <t t-if="protocolli_assegnati_a_me_competenza is not False">
+                    <t t-call="sd_protocollo.temaplate_protocollo_row_kanban_button">
+                        <t t-set="icon" t-value="'fa fa-users'"/>
+                        <t t-set="value" t-value="protocolli_assegnati_a_me_competenza"/>
+                        <t t-set="action_name" t-value="'protocolli_assegnati_a_me_competenza'"/>
+                        <t t-set="protocollo_info" t-value="'Assegnati a Me per Competenza'"/>
+                    </t>
+                </t>
+
+                <t t-if="protocolli_assegnati_mio_ufficio_competenza is not False">
+                    <t t-call="sd_protocollo.temaplate_protocollo_row_kanban_button">
+                        <t t-set="icon" t-value="'fa fa-users'"/>
+                        <t t-set="value" t-value="protocolli_assegnati_mio_ufficio_competenza"/>
+                        <t t-set="action_name" t-value="'protocolli_assegnati_mio_ufficio_competenza'"/>
+                        <t t-set="protocollo_info" t-value="'Assegnati al mio Ufficio per Competenza'"/>
+                    </t>
+                </t>
+
+                <t t-if="protocolli_assegnati_conoscenza is not False">
+                    <t t-call="sd_protocollo.temaplate_protocollo_row_kanban_button">
+                        <t t-set="icon" t-value="'fa fa-users'"/>
+                        <t t-set="value" t-value="protocolli_assegnati_conoscenza"/>
+                        <t t-set="action_name" t-value="'protocolli_assegnati_conoscenza'"/>
+                        <t t-set="protocollo_info" t-value="'Assegnati per Conoscenza'"/>
+                    </t>
+                </t>
+
+                <t t-if="protocolli_in_lavorazione is not False">
+                    <t t-call="sd_protocollo.temaplate_protocollo_row_kanban_button">
+                        <t t-set="icon" t-value="'fa fa-users'"/>
+                        <t t-set="value" t-value="protocolli_in_lavorazione"/>
+                        <t t-set="action_name" t-value="'protocolli_in_lavorazione'"/>
+                        <t t-set="protocollo_info" t-value="'In Lavorazione'"/>
+                    </t>
+                </t>
+
+            </div>
+
+            <div class="row sd">
+
+                <t t-if="protocolli_bozza is not False">
+                    <t t-call="sd_protocollo.temaplate_protocollo_row_kanban_button">
+                        <t t-set="icon" t-value="'fa fa-pencil-square-o'"/>
+                        <t t-set="value" t-value="protocolli_bozza"/>
+                        <t t-set="action_name" t-value="'protocolli_bozza'"/>
+                        <t t-set="protocollo_info" t-value="'In Bozza'"/>
+                    </t>
+                </t>
+
+                <div name="after_in_bozza"/>
+
+                <t t-if="protocolli_da_assegnare is not False">
+                    <t t-call="sd_protocollo.temaplate_protocollo_row_kanban_button">
+                        <t t-set="icon" t-value="'fa fa-users'"/>
+                        <t t-set="value" t-value="protocolli_da_assegnare"/>
+                        <t t-set="action_name" t-value="'protocolli_da_assegnare'"/>
+                        <t t-set="protocollo_info" t-value="'Da Assegnare'"/>
+                    </t>
+                </t>
+
+                <t t-if="protocolli_da_inviare is not False">
+                    <t t-call="sd_protocollo.temaplate_protocollo_row_kanban_button">
+                        <t t-set="icon" t-value="'fa fa-users'"/>
+                        <t t-set="value" t-value="protocolli_da_inviare"/>
+                        <t t-set="action_name" t-value="'protocolli_da_inviare'"/>
+                        <t t-set="protocollo_info" t-value="'Da Inviare'"/>
+                    </t>
+                </t>
+
+                <t t-if="protocolli_assegnati_da_me is not False">
+                    <t t-call="sd_protocollo.temaplate_protocollo_row_kanban_button">
+                        <t t-set="icon" t-value="'fa fa-users'"/>
+                        <t t-set="value" t-value="protocolli_assegnati_da_me"/>
+                        <t t-set="action_name" t-value="'protocolli_assegnati_da_me'"/>
+                        <t t-set="protocollo_info" t-value="'Assegnati da Me'"/>
+                    </t>
+                </t>
+
+                <t t-if="protocolli_rifiutati is not False">
+                    <t t-call="sd_protocollo.temaplate_protocollo_row_kanban_button">
+                        <t t-set="icon" t-value="'fa fa-users'"/>
+                        <t t-set="value" t-value="protocolli_rifiutati"/>
+                        <t t-set="action_name" t-value="'protocolli_rifiutati'"/>
+                        <t t-set="protocollo_info" t-value="'Rifiutati'"/>
+                    </t>
+                </t>
+
+            </div>
+        </div>
+    </template>
+
+    <template id="temaplate_protocollo_row_kanban_button">
+        <div class="col-4 col-xs-6 col-md-4 col-lg-4 col-xl-2 sd">
+            <a t-att-class="'sd-button full' if value > 0 else 'sd-button empty'"
+               type="object"
+               t-att-data-action-name="action_name"
+               t-att-data-action-context="protocollo_info">
+                <div class="sd-button-container">
+                    <div class="sd-button-counter">
+                        <t t-esc="value"/>
+                    </div>
+                    <div class="sd-button-label">
+                        <t t-esc="protocollo_info"/>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </template>
+
+</odoo>

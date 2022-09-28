@@ -1,0 +1,556 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema 
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	xmlns:prot="http://www.agid.gov.it/protocollo/"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	
+	targetNamespace="http://www.agid.gov.it/protocollo/" 
+	
+	elementFormDefault="qualified" 
+	attributeFormDefault="qualified"          
+	
+	version="3.0"		  
+	> 
+	<xs:import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="import_schemas/xmldsig-core-schema.xsd"/>
+	
+	<xs:element name="SegnaturaInformatica" type="prot:SegnaturaInformaticaType"/>
+	
+	<xs:complexType name="SegnaturaInformaticaType">
+		<xs:annotation>
+			<xs:documentation>
+				La segnatura di protocollo contine i dati relativi ad un messaggio di protocollo.
+				
+				Un messaggio di protocollo è determinato da:
+					- documento primario
+					- eventuali allegati
+					- la segnatura di protocollo qui definita
+					
+				La segnatura di protocollo è associata in forma permanente al documento primario e agli allegati che con esso formano il messaggio di protocollo
+				includendo nella segnatatura di protocollo le impronte (digest) del documento primario e degli allegati e assicurando l’autenticità e integrità
+				della segnatura di protocollo firmando la stessa implementando il profilo XAdES baseline B level signatures definito in ETSI EN 319 132-1 v1.1.1.
+
+				La segnatura di protocollo è caratterizzata da:
+				- Intestazione, i dati necessari per idividuare univocamente il messaggio di protocollo
+				- Riferimento, opzionalmente, dati per permettere al mittente di indicare il messaggio di protocollo ricevuto che ha determinato la presente segnatura
+				- Descrizione, i dati aggiuntivi del messaggio di protocollo
+				- Signature, i dati e metadati della firma dell'XML (profilo XAdES baseline B level signatures definito in ETSI EN 319 132-1 v1.1.1) 
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Intestazione" type="prot:IntestazioneType"/>
+			<xs:element name="Riferimenti" type="prot:RiferimentiType" minOccurs="0"/>
+			<xs:element name="Descrizione" type="prot:DescrizioneType"/>					
+			<xs:element ref="ds:Signature"/>
+		</xs:sequence>
+		<xs:attribute name="versione" type="xs:NMTOKEN" fixed="3.0.0" use="required"/>
+		<xs:attribute name="lang" type="xs:NMTOKEN" fixed="it" use="required"/>
+	</xs:complexType>
+	
+	<xs:complexType name="IntestazioneType">
+		<xs:annotation>
+			<xs:documentation>				
+				L'intestazione contiene i dati essenziali per l'identificazione e caratterizzazione amministrativa del messaggio di protocollato.
+				
+				L'intestazione è caratterizzata da:
+				- Identificatore, i dati per identificare univocamente il messaggio di protocollo in attuazione all'art. 55 del DPR 445/2000
+				- PrimaRegistrazione, si riferisce all'Identificatore di registrazione primario, cioè attribuito per la prima volta ad un documento protocollato che viene ritrasmesso più volte. Deve essere specificato solo se non coincide con l'Identificatore del messaggio protocollato.
+				- Oggetto, sintesi dei contenuti di carattere giuridico, amministrativo e narrativo di un documento 
+				- Classifica, la categoria del Titolario di classificazione associato al messaggio di protocollo 
+				- Fascicolo, opzionalmente, il fascicolo entro cui è presente il messaggio di protocollo
+				- Riservato, opzionalmente, indicazione dell'eventuale stato di riservato del messaggio
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Identificatore" type="prot:IdentificatoreType"/>
+			<xs:element name="PrimaRegistrazione" type="prot:IdentificatoreType" minOccurs="0"/>					
+			<xs:element name="Oggetto" type="xs:string"/>									
+			<xs:element name="Classifica" type="prot:ClassificaType" />			
+			<xs:element name="Fascicolo" type="prot:FascicoloType" minOccurs="0" />
+			<xs:element name="Riservato" type="prot:RiservatoType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="RiferimentiType">
+		<xs:annotation>
+			<xs:documentation>
+				Dati per permettere al mittente di indicare il messaggio di protocollo ricevuto che ha determinato la presente segnatura
+				
+				- Identificatore, i dati per identificare univocamente il messaggio di protocollo in attuazione all'art. 55 del DPR 445/2000
+				- PrimaRegistrazione, si riferisce all'Identificatore di registrazione primario, cioè attribuito per la prima volta ad un documento protocollato che viene ritrasmesso più volte. Deve essere specificato solo se non coincide con l'Identificatore del messaggio protocollato.
+				- Oggetto, sintesi dei contenuti di carattere giuridico, amministrativo e narrativo di un documento 
+				- Classifica, la categoria del Titolario di classificazione associato al messaggio di protocollo
+				- Fascicolo, opzionalmente, il fascicolo entro cui è presente il messaggio di protocollo
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Identificatore" type="prot:IdentificatoreType"/>
+			<xs:element name="PrimaRegistrazione" type="prot:IdentificatoreType" minOccurs="0"/>
+			<xs:element name="Oggetto" type="xs:string"/>									
+			<xs:element name="Classifica" type="prot:ClassificaType" />			
+			<xs:element name="Fascicolo" type="prot:FascicoloType" minOccurs="0" />
+		</xs:sequence>		
+	</xs:complexType>
+	
+	<xs:complexType name="IdentificatoreType">
+		<xs:annotation>
+			<xs:documentation>
+				Contiene i dati identificativi della segnatura di protocollo.
+				
+				L'indentificativo è caratterizzato da:
+					- CodiceAmministrazione, il codice IPA dell'amministrazione
+					- CodiceAOO, il codice IPA dell'AOO 
+					- CodiceRegistro, il codice del Registro  
+					- NumeroRegistrazione, il progressivo di protocollo 
+					- DataRegistrazione, la data di registrazione 
+					- OraRegistrazione, in maniera opzionale l'ora di registrazione
+			</xs:documentation>
+		</xs:annotation>		
+		<xs:sequence>
+			<xs:element name="CodiceAmministrazione" type="prot:CodiceIPA"/>
+			<xs:element name="CodiceAOO" type="prot:CodiceIPA"/>
+			<xs:element name="CodiceRegistro" type="prot:CodiceRegistroType"/>
+			<xs:element name="NumeroRegistrazione" type="prot:NumeroRegistrazioneType"/>			
+			<xs:element name="DataRegistrazione" type="xs:date"/>
+			<xs:element name="OraRegistrazione" type="xs:time" minOccurs="0"/>			
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="CodiceIPA">
+		<xs:annotation>
+			<xs:documentation>
+				Contiene il codice IPA dell'amministrazione o dell'UO o dell'AOO e, in maniera opzionale, la descrizione della stessa.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="descrizione" type="xs:string"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+	
+	<xs:complexType name="FascicoloType">
+		<xs:annotation>
+			<xs:documentation>
+				Il fascicolo riporta il riferimento al fascicolo prevedendo la Denominazione e il relativo CodiceFascicolo
+			</xs:documentation>
+		</xs:annotation>		
+		<xs:sequence>
+			<xs:element name="Denominazione" type="xs:string"/>
+			<xs:element name="CodiceFascicolo" type="xs:string"/>				
+		</xs:sequence>
+	</xs:complexType>
+	
+		<xs:complexType name="ClassificaType">
+		<xs:annotation>
+			<xs:documentation>
+				La classificazione riporta il valore attribuito al messaggio di protocollo.
+				
+				La classificazione è caratterizzata da:
+				- Denominazione, una desccrizione della classificazione attribuita
+				- In alternativa il codice di classificazione può essere rappresentato:
+					- CodiceFlat, l'unione in un'unico element di categoria, classe ed eventuale sottoclasse 
+						es. <CodiceFlat>Titolo I.Classe 1</CodiceFlat>
+					- CodicePath, la separazione in differenti element di categoria, classe ed eventuale sottoclasse 
+						es. <CodicePath>
+								<Livello>Titolo I</Livello>
+								<SubLivello>
+									<Livello>Classe 1</Livello>
+								</SubLivello>
+							</CodicePath>
+			</xs:documentation>
+		</xs:annotation>		
+		<xs:sequence>
+			<xs:element name="Denominazione" type="xs:string"/>
+			<xs:choice>
+				<xs:element name="CodiceFlat" type="xs:string"/>
+				<xs:element name="CodicePath" type="prot:LivelloType"/>	
+			</xs:choice>			
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="RiservatoType">
+		<xs:annotation>
+			<xs:documentation>
+				Esprime la circostanza di un messggio riservato.
+				
+				Assicurare la riservatezza nell'ambito dell'organizzazione della AOO ricevente è a carico della stessa
+			</xs:documentation>			
+		</xs:annotation>	
+		<xs:simpleContent>
+			<xs:extension base="xs:boolean">
+				<xs:attribute name="note" type="xs:string"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	
+	<xs:complexType name="LivelloType">
+		<xs:annotation>
+			<xs:documentation>
+				Il livello riporta i dati relativi alla categoria, classe ed eventuale sottoclasse
+				
+				Il livello è composto dal codice della categoria, classe ed eventuale sottoclasse e la relativa descrizione
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Livello">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attribute name="descrizione" type="xs:string"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="SubLivello" type="prot:LivelloType" minOccurs="0"/>
+		</xs:sequence>			
+	</xs:complexType>
+	
+	<xs:complexType name="DescrizioneType">
+		<xs:annotation>
+			<xs:documentation>
+				La descrizione contiene i dati descrittivi del messaggio di protocollato.
+				
+				La descrizione è caratterizzata da:
+				- Mittente, riferimento del mittente (organizzazione o persona)
+				- Destinatario, riferimento del destinatario (organizzazione o persona) 
+				- DocumentoPrimario, riferimento al documento primario del messaggio di protocollo
+				- Allegato, riferimento ad uno degli allegati del messaggio di protocollo se presente
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>	
+			<xs:element name="Mittente" type="prot:SoggettoType" minOccurs="1"/>
+			<xs:element name="Destinatario" type="prot:DestinatarioType" minOccurs="1" maxOccurs="unbounded"/>
+			<xs:element name="DocumentoPrimario" type="prot:DocumentoType"/>			
+			<xs:element name="Allegato" type="prot:DocumentoType" minOccurs="0" maxOccurs="unbounded"/>						
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="DestinatarioType">
+		<xs:annotation>
+			<xs:documentation>
+				Estende il data type SoggettoType con gli attributi:
+				- confermaRicezione, per permettere al mittende di indicare che richiede la conferma di ricezione del messaggio inoltrato
+				- perConoscenza, per permettere al mittende di indicare che il messaggio è stato inoltrato per conoscenza					
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="prot:SoggettoType">			
+				<xs:attribute name="confermaRicezione" type="xs:boolean" default="true"/>
+				<xs:attribute name="perConoscenza" type="xs:boolean" default="false"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="DocumentoType">
+		<xs:annotation>
+			<xs:documentation>
+				Il documento contiene i dati per referenziare un documento (documento primario o allegato) del messaggio di protocollo
+				
+				Il documento è caratterizzato da:
+				- Descrizione, la descrizione del contenuto dello specifico documento
+				- Impronta, l'impronta digitale (digest) del documento
+				- nomeFile, il nome del file relativo al documento
+				- mimeType, il mime type (RFC 6838) associto al documento
+				- firmatoDigitalmente, flag per indicare il documento è firmato digitalmente (sezione 4 Regolamento UE 910/2014) ed eventuale nome file detached e mime type (RFC 6838) associto allo stesso 				
+				- sigillatoElettronicamente, flag per indicare che al documento è apposto un sigillo elettronico (sezione 5 Regolamento UE 910/2014) ed eventuale nome file detached e mime type (RFC 6838) associto allo stesso
+				- marcaturaTemporale, flag per indicare che al documento è apposta una marca temporale (sezione 6 Regolamento UE 910/2014) ed eventuale nome file detached
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>			
+			<xs:element name="Descrizione" type="xs:string" minOccurs="0"/>
+			<xs:element name="Impronta" type="prot:ImprontaType"/>
+			<xs:element name="CollocazioneTelematica" type="prot:CollocazioneTelematicaType" minOccurs="0"/>
+			<xs:element name="firmatoDigitalmente" type="prot:SignType" minOccurs="0"/>
+			<xs:element name="sigillatoElettronicamente" type="prot:SignType" minOccurs="0"/>					
+			<xs:element name="marcaturaTemporale" type="prot:SignType" minOccurs="0"/>			
+		</xs:sequence>
+		<xs:attribute name="nomeFile" type="xs:string" use="required"/>
+		<xs:attribute name="mimeType" type="xs:string" use="required"/>		
+	</xs:complexType>
+	
+	<xs:complexType name="SignType">
+			<xs:choice>
+				<xs:element name="UnDetached" type="xs:boolean" fixed="true"/>
+				<xs:element name="Detached" type="prot:DetachedType" fixed="true" maxOccurs="unbounded"/>
+			</xs:choice>
+	</xs:complexType>
+	
+	<xs:complexType name="DetachedType">
+		<xs:simpleContent>
+			<xs:extension base="xs:boolean">
+				<xs:attribute name="nomeFile" type="xs:string" use="required"/>
+				<xs:attribute name="mimeType" type="xs:string" />
+				<xs:attribute name="order" type="xs:integer" use="required"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	
+	<xs:complexType name="CollocazioneTelematicaType">
+		<xs:annotation>
+			<xs:documentation>
+				Specifica un riferimento telematico per recuperare la risorsa.
+				
+				Il recupero della risorsa avviene tramite HTTP GET con autenticazione conforme all’RFC 7617 su canale di trasporto TLS.
+				
+					Esempio di chiamata:
+						GET /PathValue HTTP/1.1
+						Host: HostValue
+						Authorization: Basic basic-credentials
+						
+						
+				- HostValue, server che espone la risorsa
+				- PathValue, riferimento alla risorsa da recuperare
+				- timeToLive, numero di millisecondi di disponibilità della risorsa
+				- userId, user-id comunicata dall’AOO Mittente													
+				- password, password comunicata dall’AOO Mittente
+			</xs:documentation>			
+		</xs:annotation>	
+		<xs:sequence>
+			<xs:element name="HostValue" type="xs:anyURI"/>
+			<xs:element name="PathValue" type="xs:anyURI"/>
+		</xs:sequence>
+		<xs:attribute name="timeToLive" type="xs:integer" />				
+		<xs:attribute name="userId" type="xs:string"/>
+		<xs:attribute name="password" type="xs:string"/>
+	</xs:complexType>	
+	
+	<xs:complexType name="SoggettoType">
+		<xs:annotation>			
+			<xs:documentation>
+				Il soggetto contiene i dati per referenziare un corrispondente, che può essere:
+				- una Amministrazione italiana (Amministrazione e opzionalmente AOO e UO) ed opzionalmente una persona fisica interna dell'amministrazione
+				- una persona fisica
+				- una persona giuridica ed opzionalmente un riferimento ad persona fisica interna
+				- una Amministrazione estera
+			</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="Amministrazione" type="prot:AmministrazioneType"/>
+			<xs:element name="PersonaGiuridica" type="prot:PersonaGiuridicaType"/>
+			<xs:element name="PersonaFisica" type="prot:PersonaFisicaType"/>
+			<xs:element name="AmministrazioneEstera" type="prot:AmministrazioneEsteraType"/>
+		</xs:choice>				
+	</xs:complexType>
+	
+	<xs:complexType name="AmministrazioneType">
+		<xs:sequence>
+			<xs:element name="DenominazioneAmministrazione" type="xs:string"/>
+			<xs:element name="CFAmministrazione" type="prot:PartitaIVA" minOccurs="0"/>
+			<xs:element name="CodiceIPAAmministrazione" type="prot:CodiceIPA"/>
+			<xs:element name="ContattiAmministrazione" type="prot:ContattiType" minOccurs="0"/>
+			<xs:element name="CodiceIPAAOO" type="prot:CodiceIPA" minOccurs="0"/>
+			<xs:element name="ContattiAOO" type="prot:ContattiType" minOccurs="0"/>		
+			<xs:element name="CodiceIPAUO" type="prot:CodiceIPA" minOccurs="0"/>
+			<xs:element name="ContattiUO" type="prot:ContattiType" minOccurs="0"/>			
+			<xs:element name="PersonaFisica" type="prot:PersonaFisicaType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="AmministrazioneEsteraType">
+		<xs:sequence>
+			<xs:element name="DenominazioneAmministrazione" type="xs:string"/>
+			<xs:element name="DenominazioneUfficio" type="xs:string" minOccurs="0"/>
+			<xs:element name="ContattiAmministrazione" type="prot:ContattiType" minOccurs="0"/>			
+		</xs:sequence>		
+	</xs:complexType>
+	
+	<xs:complexType name="PersonaGiuridicaType">
+		<xs:sequence>
+			<xs:element name="Denominazione" type="xs:string"/>
+			<xs:element name="PIVAoCF" type="prot:PartitaIVA" minOccurs="0"/>
+			<xs:element name="ContattiPersonaGiuridica" type="prot:ContattiType" minOccurs="0"/>
+			<xs:element name="PersonaFisica" type="prot:PersonaFisicaType" minOccurs="0" maxOccurs="unbounded"/>			
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="IndirizzoPostaleType">
+		<xs:annotation>
+			<xs:documentation>
+				L'indirizzo contiene i dati relativi ad un'indirizzo.
+				
+				L'indirizzo è caratterizzato da:
+				- Toponimo, il riferimento al nome proprio del luogo 
+				- Civico, il riferimento assegnato allo specifico immobile 
+				- CAP, il codice di avviamento postale 
+				- Comune, il riferimento al Comune
+				- Provincia, la provincia 
+				- Nazione, la denominazione della nazione e il codice ISO 3166-1 alpha-3
+			</xs:documentation>
+		</xs:annotation>		
+		<xs:sequence>
+			<xs:element name="Toponimo" type="prot:ToponimoType"/>
+			<xs:element name="Civico" type="xs:string"/>            
+			<xs:element name="CAP" type="prot:CAPType"/>
+			<xs:element name="Comune" type="prot:ComuneType"/>			
+			<xs:element name="Nazione" default="Italia">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attribute name="codice3166" default="ITA"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="ToponimoType">
+		<xs:annotation>
+			<xs:documentation>
+				Il toponimo contiene il riferimento al nome proprio del luogo
+				
+				Il toponimo è carattirizzato da:
+				- dug, denominazione urbanistica generica o qualitficatore del toponimo (e.g., via, viale, piazza, ecc.)
+				- duf, denominazione urbanistica ufficiale o nome della strada
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>			
+			<xs:element name="dug" type="xs:string"/>			
+			<xs:element name="duf" type="xs:string"/>
+		</xs:sequence>		
+	</xs:complexType>
+	
+	<xs:simpleType name="CAPType">
+		<xs:annotation>
+			<xs:documentation>
+				Il CAP contiene il codice di avviamento postale
+			</xs:documentation>
+		</xs:annotation>		
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{5}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:complexType name="ComuneType">
+		<xs:annotation>
+			<xs:documentation>
+				Il Comune contiene il riferimento al Comune
+				
+				Il Comune è caratterizzato dalla denominazione del Comune e il relativo codice ISTAT a 6 cifre
+			</xs:documentation>
+		</xs:annotation>		
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="CodiceISTAT" type="prot:CodiceISTATComune6Type" use="required"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	
+	<xs:simpleType name="CodiceISTATComune6Type">
+		<xs:annotation>
+			<xs:documentation>
+				Il codice ISTAT del Comune a 6 cifre
+			</xs:documentation>
+		</xs:annotation>		
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{6}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:complexType name="ImprontaType">
+		<xs:annotation>
+			<xs:documentation>
+				L'impronta contiene il digest di un documento elettronico
+				
+				L'impronta è caratterizzata dalla codifica base64 del digest calcolato applicando l'algoritmo specifico
+			</xs:documentation>
+		</xs:annotation>		
+		<xs:simpleContent>
+			<xs:extension base="xs:base64Binary">
+				<xs:attribute name="algoritmo" type="xs:string" default="SHA-256"/>				
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+			
+	<xs:complexType name="PersonaFisicaType">
+		<xs:annotation>
+			<xs:documentation>
+				La persona contiene i dati relativi ad una persona fisica
+				
+				La persona è caratterizzata da:
+				- Nome, il nome
+				- Cognome, il cognome
+				- Titolo, il titolo (es. Sig., Dott., ...)
+				- CodiceFiscale, il codice fiscale 
+				- Contatti, i contatti della persona
+			</xs:documentation>
+		</xs:annotation>		
+		<xs:sequence>
+			<xs:element name="Nome" type="xs:string"/>					
+			<xs:element name="Cognome" type="xs:string"/>					
+			<xs:element name="Titolo" type="xs:string" minOccurs="0"/>
+			<xs:element name="CodiceFiscale" type="prot:CodiceFiscaleType" minOccurs="0"/>				
+			<xs:element name="Contatti" type="prot:ContattiType" minOccurs="0">								
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="ContattiType">
+		<xs:annotation>
+			<xs:documentation>
+				L'insieme di contatti, e nel dettaglio:
+				- IndirizzoPostale, un'indirizzo relativo
+				- IndirizzoTelematico, un'indirizzo elettronico
+				- Telefono, un conctatto telefonico
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="IndirizzoPostale" type="prot:IndirizzoPostaleType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="IndirizzoTelematico" type="prot:IndirizzoTelematicoType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Telefono" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="IndirizzoTelematicoType">
+		<xs:annotation>
+			<xs:documentation>
+				Un'indirizzo telematico utilizzato per la trasmissione telematica
+				
+				I tipi di indirizzi telematici sono:
+				- smtp, nel caso della posta elettronica
+				- url, nel caso di interfacce di servizio (API REST o SOAP)
+				- other, in casi differenti dai precedenti				
+			</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="tipo" default="smtp">
+					<xs:simpleType>
+						<xs:restriction base="xs:NMTOKEN">							
+							<xs:enumeration value="smtp"/>
+							<xs:enumeration value="url"/>
+							<xs:enumeration value="other"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+				<xs:attribute name="note" type="xs:string"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	
+	<xs:simpleType name="CodiceFiscaleType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[A-Z]{6}[0-9LMNPQRSTUV]{2}[ABCDEHLMPRST][0-9LMNPQRSTUV]{2}[A-Z][0-9LMNPQRSTUV]{3}[A-Z]"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="PartitaIVA">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{11}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="CodiceRegistroType">		
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[A-Za-z0-9_\.\-]{1,16}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="NumeroRegistrazioneType">			
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{7,}"/>
+		</xs:restriction>  
+	</xs:simpleType>
+	
+</xs:schema>

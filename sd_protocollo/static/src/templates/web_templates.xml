@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <template id="assets_backend" name="assets seedoo" inherit_id="web.assets_backend">
+            <xpath expr="//link[@href='/base/static/src/css/modules.css']" position="after">
+                <script type="text/javascript" src="/sd_protocollo/static/src/js/dashboard.js"/>
+                <script type="text/javascript" src="/sd_protocollo/static/src/js/mezzo_trasmissione.js"/>
+                <script type="text/javascript" src="/sd_protocollo/static/src/js/inherit_basic_view.js"></script>
+                <link rel="stylesheet" href="/sd_protocollo/static/src/scss/dashboard.scss"/>
+                <link rel="stylesheet" href="/sd_protocollo/static/src/scss/message_chatter.scss"/>
+                <link rel="stylesheet" href="/sd_protocollo/static/src/scss/protocollo.scss"/>
+            </xpath>
+        </template>
+    </data>
+</odoo>

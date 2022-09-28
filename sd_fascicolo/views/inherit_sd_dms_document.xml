@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_sd_dms_document_search" model="ir.ui.view">
+            <field name="name">view.sd.dms.document.search</field>
+            <field name="model">sd.dms.document</field>
+            <field name="inherit_id" ref="sd_dms.view_sd_dms_document_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="//search" position="inside">
+                    <field name="fascicolo_ids"/>
+                </xpath>
+            </field>
+        </record>
+
+
+        <record id="view_sd_dms_document_form" model="ir.ui.view">
+            <field name="name">view.sd.dms.document.form</field>
+            <field name="model">sd.dms.document</field>
+            <field name="inherit_id" ref="sd_dms.view_sd_dms_document_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button name="action_show_dossiers"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-book"
+                    >
+                        <field string="Dossiers" name="fascicolo_ids_count" widget="statinfo" />
+                     </button>
+                </xpath>
+
+                <xpath expr="//field[@name='inherit_acl_ids']" position="after">
+                    <separator string="Dossier acl inherited" colspan="2"/>
+                    <field name="fascicolo_acl_ids"
+                           nolabel="1"
+                           colspan="2"
+                    />
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="view_sd_dms_document_tree" model="ir.ui.view">
+            <field name="name">view.sd.dms.document.tree</field>
+            <field name="model">sd.dms.document</field>
+            <field name="inherit_id" ref="sd_dms.view_sd_dms_document_tree"/>
+            <field name="arch" type="xml">
+                 <xpath expr="//tree" position="inside">
+                    <field name="button_disassocia_documento_invisible" invisible ="1"/>
+                    <button attrs="{'invisible': [('button_disassocia_documento_invisible','=',True)]}"
+                            name="disassocia_documento"
+                            help="Disassociate"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-unlink"
+                            />
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

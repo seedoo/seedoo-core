@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <data noupdate="0">
+
+        <record id="report_sd_protocollo_registro_giornaliero_qweb" model="ir.actions.report">
+            <field name="name">sd.protocollo.registro.giornaliero.qweb</field>
+            <field name="model">sd.protocollo.registro.giornaliero</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">sd_protocollo.template_registro_giornaliero_qweb</field>
+            <field name="report_file">sd_protocollo.template_registro_giornaliero_qweb</field>
+            <field name="paperformat_id" ref="sd_protocollo.data_sd_protocollo_paperformat_euro_landscape"/>
+            <field name="attachment">False</field>
+            <field name="attachment_use">False</field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_sd_protocollo_wizard_protocollo_registra_form" model="ir.ui.view">
+            <field name="name">view.sd.protocollo.wizard.protocollo.registra.form</field>
+            <field name="model">sd.protocollo.wizard.protocollo.registra</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group name="mittente">
+                            <field name="mittente"
+                                   attrs="{'invisible': [('mittente','=', False)]}"/>
+                        </group>
+                        <group name="destinatari">
+                            <field name="destinatari"
+                                   attrs="{'invisible': [('destinatari','=', False)]}"/>
+                        </group>
+                        <group name="data_ricezione">
+                            <field name="data_ricezione"
+                                   attrs="{'invisible': [('data_ricezione','=', False)]}"/>
+                        </group>
+                        <group name="assegnatari_competenza">
+                            <field name="assegnatari_competenza"
+                                   attrs="{'invisible': [('assegnatari_competenza','=', False)]}"/>
+                        </group>
+                        <group name="assegnatari_conoscenza">
+                            <field name="assegnatari_conoscenza"
+                                   attrs="{'invisible': [('assegnatari_conoscenza','=', False)]}"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="action_confirm"
+                                type="object"
+                                string="Conferma"
+                                class="oe_highlight oe_read_only"
+                        />
+                        <button string="Torna al protocollo"
+                                class="oe_link"
+                                special="cancel"
+                        />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

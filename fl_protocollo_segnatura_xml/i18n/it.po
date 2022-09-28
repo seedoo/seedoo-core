@@ -1,0 +1,184 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* fl_protocollo_segnatura_xml
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-03-21 14:48+0000\n"
+"PO-Revision-Date: 2022-03-21 14:48+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: fl_protocollo_segnatura_xml
+#: model:ir.model.fields.selection,name:fl_protocollo_segnatura_xml.selection__sd_protocollo_protocollo__interoperability__2001
+msgid "2001"
+msgstr ""
+
+#. module: fl_protocollo_segnatura_xml
+#: model:ir.model.fields.selection,name:fl_protocollo_segnatura_xml.selection__sd_protocollo_protocollo__interoperability__2013
+msgid "2013"
+msgstr ""
+
+#. module: fl_protocollo_segnatura_xml
+#: model:ir.model.fields.selection,name:fl_protocollo_segnatura_xml.selection__sd_protocollo_protocollo__interoperability__2021
+msgid "2021"
+msgstr ""
+
+#. module: fl_protocollo_segnatura_xml
+#: model:ir.model,name:fl_protocollo_segnatura_xml.model_res_config_settings
+msgid "Config Settings"
+msgstr "Impostazioni di configurazione"
+
+#. module: fl_protocollo_segnatura_xml
+#: model:ir.model.fields,field_description:fl_protocollo_segnatura_xml.field_mail_mail__display_name
+#: model:ir.model.fields,field_description:fl_protocollo_segnatura_xml.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:fl_protocollo_segnatura_xml.field_sd_dms_document__display_name
+#: model:ir.model.fields,field_description:fl_protocollo_segnatura_xml.field_sd_protocollo_invio__display_name
+#: model:ir.model.fields,field_description:fl_protocollo_segnatura_xml.field_sd_protocollo_protocollo__display_name
+#: model:ir.model.fields,field_description:fl_protocollo_segnatura_xml.field_sd_protocollo_wizard_protocollo_invio_mail__display_name
+#: model:ir.model.fields,field_description:fl_protocollo_segnatura_xml.field_sd_protocollo_wizard_protocollo_reinvio_mail__display_name
+msgid "Display Name"
+msgstr "Nome visualizzato"
+
+#. module: fl_protocollo_segnatura_xml
+#: model:ir.model,name:fl_protocollo_segnatura_xml.model_sd_dms_document
+msgid "Document"
+msgstr "Documento"
+
+#. module: fl_protocollo_segnatura_xml
+#: code:addons/fl_protocollo_segnatura_xml/utilities/protocollo_segnatura_xml.py:0
+#, python-format
+msgid "Error validating signature.xml"
+msgstr "Errore nella validazione del file segnatura.xml"
+
+#. module: fl_protocollo_segnatura_xml
+#: code:addons/fl_protocollo_segnatura_xml/utilities/protocollo_segnatura_xml.py:0
+#, python-format
+msgid "Errore nella validazione del file segnatura.xml"
+msgstr ""
+
+#. module: fl_protocollo_segnatura_xml
+#: model:ir.model.fields.selection,name:fl_protocollo_segnatura_xml.selection__sd_protocollo_protocollo__interoperability__false
+msgid "False"
+msgstr ""
+
+#. module: fl_protocollo_segnatura_xml
+#: model:ir.model.fields,field_description:fl_protocollo_segnatura_xml.field_mail_mail__id
+#: model:ir.model.fields,field_description:fl_protocollo_segnatura_xml.field_res_config_settings__id
+#: model:ir.model.fields,field_description:fl_protocollo_segnatura_xml.field_sd_dms_document__id
+#: model:ir.model.fields,field_description:fl_protocollo_segnatura_xml.field_sd_protocollo_invio__id
+#: model:ir.model.fields,field_description:fl_protocollo_segnatura_xml.field_sd_protocollo_protocollo__id
+#: model:ir.model.fields,field_description:fl_protocollo_segnatura_xml.field_sd_protocollo_wizard_protocollo_invio_mail__id
+#: model:ir.model.fields,field_description:fl_protocollo_segnatura_xml.field_sd_protocollo_wizard_protocollo_reinvio_mail__id
+msgid "ID"
+msgstr ""
+
+#. module: fl_protocollo_segnatura_xml
+#: model:ir.model.fields,field_description:fl_protocollo_segnatura_xml.field_res_config_settings__valida_segnatura_xml_ingresso
+msgid "Impedisci protocollazione per \"Segnatura.xml\" non valida"
+msgstr ""
+
+#. module: fl_protocollo_segnatura_xml
+#: model:ir.model.fields,field_description:fl_protocollo_segnatura_xml.field_res_config_settings__segnatura_xml_invia_pec
+msgid "Invia \"Segnatura.xml\" (PEC)"
+msgstr ""
+
+#. module: fl_protocollo_segnatura_xml
+#: model:ir.model.fields,field_description:fl_protocollo_segnatura_xml.field_res_config_settings__segnatura_xml_invia_email
+msgid "Invia \"Segnatura.xml\" (e-mail)"
+msgstr ""
+
+#. module: fl_protocollo_segnatura_xml
+#: model:ir.model,name:fl_protocollo_segnatura_xml.model_sd_protocollo_invio
+msgid "Invio"
+msgstr ""
+
+#. module: fl_protocollo_segnatura_xml
+#: model:ir.model,name:fl_protocollo_segnatura_xml.model_sd_protocollo_wizard_protocollo_invio_mail
+msgid "Invio Mail"
+msgstr ""
+
+#. module: fl_protocollo_segnatura_xml
+#: model:ir.model.fields,field_description:fl_protocollo_segnatura_xml.field_mail_mail____last_update
+#: model:ir.model.fields,field_description:fl_protocollo_segnatura_xml.field_res_config_settings____last_update
+#: model:ir.model.fields,field_description:fl_protocollo_segnatura_xml.field_sd_dms_document____last_update
+#: model:ir.model.fields,field_description:fl_protocollo_segnatura_xml.field_sd_protocollo_invio____last_update
+#: model:ir.model.fields,field_description:fl_protocollo_segnatura_xml.field_sd_protocollo_protocollo____last_update
+#: model:ir.model.fields,field_description:fl_protocollo_segnatura_xml.field_sd_protocollo_wizard_protocollo_invio_mail____last_update
+#: model:ir.model.fields,field_description:fl_protocollo_segnatura_xml.field_sd_protocollo_wizard_protocollo_reinvio_mail____last_update
+msgid "Last Modified on"
+msgstr "Ultima modifica il"
+
+#. module: fl_protocollo_segnatura_xml
+#: model:ir.model.fields,field_description:fl_protocollo_segnatura_xml.field_res_config_settings__segnatura_xml_parse
+msgid "Leggi \"Segnatura.xml\""
+msgstr ""
+
+#. module: fl_protocollo_segnatura_xml
+#: model:ir.model,name:fl_protocollo_segnatura_xml.model_mail_mail
+msgid "Message"
+msgstr ""
+
+#. module: fl_protocollo_segnatura_xml
+#: model:ir.model,name:fl_protocollo_segnatura_xml.model_sd_protocollo_protocollo
+msgid "Protocollo"
+msgstr ""
+
+#. module: fl_protocollo_segnatura_xml
+#: model:ir.model,name:fl_protocollo_segnatura_xml.model_sd_protocollo_wizard_protocollo_reinvio_mail
+msgid "Reinvio Mail"
+msgstr ""
+
+#. module: fl_protocollo_segnatura_xml
+#: model:ir.model.fields,field_description:fl_protocollo_segnatura_xml.field_res_config_settings__sender_segnatura_xml_parse
+msgid "Ricava mittente da \"Segnatura.xml\""
+msgstr ""
+
+#. module: fl_protocollo_segnatura_xml
+#: model:ir.model.fields,field_description:fl_protocollo_segnatura_xml.field_sd_protocollo_protocollo__segnatura_xml
+msgid "Segnatura XML"
+msgstr ""
+
+#. module: fl_protocollo_segnatura_xml
+#: model:ir.model.fields,field_description:fl_protocollo_segnatura_xml.field_sd_dms_document__protocollo_segnatura_xml
+msgid "Segnatura Xml"
+msgstr ""
+
+#. module: fl_protocollo_segnatura_xml
+#: code:addons/fl_protocollo_segnatura_xml/models/mail_mail.py:0
+#: code:addons/fl_protocollo_segnatura_xml/utilities/inherit_sd_protocollo_protocollo_storico_actions.py:0
+#, python-format
+msgid "The following errors were found in the segnatura.xml:"
+msgstr "Sono stati riscontrati i seguenti errori nella segnatura.xml"
+
+#. module: fl_protocollo_segnatura_xml
+#: code:addons/fl_protocollo_segnatura_xml/utilities/inherit_mail_mail_storico_actions.py:0
+#, python-format
+msgid ""
+"Unable to create draft protocol, the following errors were found in the "
+"segnatura.xml:"
+msgstr "Impossibile creare la bozza di protocollo, sono stati riscontrati i seguenti errori nella segnatura.xml:"
+
+#. module: fl_protocollo_segnatura_xml
+#: code:addons/fl_protocollo_segnatura_xml/utilities/protocollo_segnatura_xml.py:0
+#, python-format
+msgid "Unable to read xml segnatura"
+msgstr "Impossibile leggere la segnatura xml"
+
+#. module: fl_protocollo_segnatura_xml
+#: code:addons/fl_protocollo_segnatura_xml/utilities/protocollo_segnatura_xml.py:0
+#: code:addons/fl_protocollo_segnatura_xml/utilities/protocollo_segnatura_xml.py:0
+#, python-format
+msgid "error in the validation of the segnatura.xml"
+msgstr "Errore di validazione della segnatura.xml"
+
+#. module: fl_protocollo_segnatura_xml
+#: model:ir.model.fields,field_description:fl_protocollo_segnatura_xml.field_sd_protocollo_protocollo__interoperability
+msgid "interoperability"
+msgstr ""

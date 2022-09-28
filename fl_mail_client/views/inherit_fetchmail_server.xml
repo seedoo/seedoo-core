@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <data noupdate="0">
+
+        <record id="view_fetchmail_server_form" model="ir.ui.view">
+            <field name="name">view.fetchmail.server.form</field>
+            <field name="model">fetchmail.server</field>
+            <field name="inherit_id" ref="fetchmail.view_email_server_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//page[last()]" position="after">
+                    <page name="mail_client" string="Mail Client" groups="base.group_erp_manager">
+                        <group>
+                            <field name="mail_client"/>
+                            <field name="mail_client_fetch_all" widget="boolean_toggle" attrs="{'invisible': [('server_type', '!=', 'imap')]}" />
+                        </group>
+                    </page>
+                    <page string="History" attrs="{'invisible': [('mail_client','=',False)]}">
+                        <group name="history">
+                            <field name="history_ids" nolabel="1">
+                                <tree>
+                                    <field name="action"/>
+                                    <field name="result"/>
+                                    <field name="email_successed_count"/>
+                                    <field name="email_failed_count"/>
+                                    <field name="datetime_start"/>
+                                    <field name="datetime_end"/>
+                                </tree>
+                                <form>
+                                    <group col="4">
+                                        <field name="action"/>
+                                        <field name="result"/>
+                                        <field name="email_successed_count"/>
+                                        <field name="email_failed_count"/>
+                                        <field name="datetime_start"/>
+                                        <field name="datetime_end"/>
+                                    </group>
+                                    <group attrs="{'invisible': [('result','=','success')]}">
+                                        <field name="error_description"/>
+                                    </group>
+                                </form>
+                            </field>
+                        </group>
+                    </page>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

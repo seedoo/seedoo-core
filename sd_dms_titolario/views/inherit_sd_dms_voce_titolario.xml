@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_sd_dms_titolario_voce_titolario_tree" model="ir.ui.view">
+            <field name="name">view.sd.dms.titolario.voce.titolario.tree</field>
+            <field name="model">sd.dms.titolario.voce.titolario</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name='sequence' widget='handle'/>
+                    <field name="complete_name"/>
+                    <field name="titolario_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_sd_dms_titolario_voce_titolario_form" model="ir.ui.view">
+            <field name="name">view.sd.dms.titolario.voce.titolario.form</field>
+            <field name="model">sd.dms.titolario.voce.titolario</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group col="4" colspan="4">
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="titolario_id" readonly="context.get('default_titolario_id', False)"/>
+                            <field name="parent_id"
+                                   widget="ztree_select"
+                                   options="{
+                                   'ztree_parent_key': 'parent_id',
+                                   'ztree_expend_level': '1',
+                                   'ztree_name_field': 'complete_name',
+                                   'ztree_title_field': 'path_name',
+                                   'no_open': True,
+                                   'no_create': True
+                                   }"
+                            />
+                            <field name="class_type"/>
+                            <field name="active" invisible="1"/>
+                            <field name="parent_active" invisible="1"/>
+                            <field name="titolario_company_id" invisible="1"/>
+                        </group>
+                        <notebook>
+                            <page string="Voci Titolario" name="child_ids">
+                                <group col="4">
+                                    <field name="child_ids" nolabel="1" colspan="4"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_sd_dms_titolario_voce_titolario_search" model="ir.ui.view">
+            <field name="name">view.sd.dms.titolario.voce.titolario.search</field>
+            <field name="model">sd.dms.titolario.voce.titolario</field>
+            <field name="arch" type="xml">
+                <search string="Search Partner">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="titolario_id"/>
+                    <field name="parent_id"/>
+                    <field name="class_type"/>
+                    <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+                </search>
+            </field>
+        </record>
+
+    </data>
+</odoo>

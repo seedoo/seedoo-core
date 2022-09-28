@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+
+            <t t-inherit="web.SearchPanel.Category" t-inherit-mode="extension" owl="1">
+                    <xpath expr="//header[hasclass('list-group-item-action')]" position="attributes">
+                        <attribute name="t-att-title">value.display_name</attribute>
+                    </xpath>
+            </t>
+
+</templates>

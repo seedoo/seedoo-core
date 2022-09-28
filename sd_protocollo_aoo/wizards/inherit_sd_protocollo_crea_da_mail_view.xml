@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+
+        <record id="view_sd_protocollo_wizard_protocollo_crea_da_mail_form" model="ir.ui.view">
+            <field name="name">view.sd.protocollo.wizard.protocollo.crea.da.mail.form</field>
+            <field name="model">sd.protocollo.wizard.protocollo.crea.da.mail</field>
+            <field name="inherit_id" ref="sd_protocollo_pec.view_sd_protocollo_wizard_protocollo_crea_da_mail_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='protocollatore_ufficio_id']" position="after">
+                    <field name="aoo_id"
+                           options="{'no_open': True, 'no_create': True}"
+                           required="1"
+                           invisible="1"
+                    />
+                </xpath>
+
+                <xpath expr="//field[@name='registro_id']" position="attributes">
+                    <attribute name="context">{'company_id': context['company_id'], 'aoo_id': context['aoo_id']}</attribute>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

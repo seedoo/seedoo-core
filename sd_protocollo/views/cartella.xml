@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_sd_protocollo_cartella_tree" model="ir.ui.view">
+            <field name="name">view.sd.protocollo.cartella.tree</field>
+            <field name="model">sd.protocollo.cartella</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="protocollo_cartella_id"/>
+                    <field name="registro_giornaliero_cartella_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_sd_protocollo_cartella_form" model="ir.ui.view">
+            <field name="name">view.sd.protocollo.cartella.form</field>
+            <field name="model">sd.protocollo.cartella</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="company_id"
+                                   groups="base.group_multi_company"
+                                   options="{'no_open':True, 'no_create':True}"
+                            />
+                            <newline/>
+                            <field name="protocollo_cartella_id"
+                                   options="{'no_open': True, 'no_create': True}"
+                            />
+                            <field name="registro_giornaliero_cartella_id"
+                                   options="{'no_open': True, 'no_create': True}"
+                            />
+                        </group>
+                        <group name="group_invisible" invisible="1">
+
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="view_sd_protocollo_cartella_search" model="ir.ui.view">
+            <field name="name">view.sd.protocollo.cartella.search</field>
+            <field name="model">sd.protocollo.cartella</field>
+            <field name="arch" type="xml">
+                <search string="Search cartella">
+                    <field name="protocollo_cartella_id"/>
+                    <field name="registro_giornaliero_cartella_id"/>
+                    <field name="company_id"/>
+                </search>
+            </field>
+        </record>
+
+    </data>
+</odoo>

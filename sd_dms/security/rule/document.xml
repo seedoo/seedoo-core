@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2020-2022 Flosslab S.r.l.
+    Copyright 2017-2019 MuK IT GmbH
+    License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
+-->
+<odoo>
+    <data>
+
+        <record id="rule_sd_dms_document_multi_company" model="ir.rule">
+            <field name="name">SD DMS Document Multi-Company</field>
+            <field name="model_id" ref="model_sd_dms_document"/>
+            <field name="domain_force">[("company_id", "in", company_ids)]</field>
+        </record>
+
+    </data>
+</odoo>

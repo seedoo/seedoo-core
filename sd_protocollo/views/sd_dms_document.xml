@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<odoo>
+    <data noupdate="0">
+
+        <record id="view_sd_dms_document_tree" model="ir.ui.view">
+            <field name="name">view.sd.dms.document.tree</field>
+            <field name="model">sd.dms.document</field>
+            <field name="inherit_id" ref="sd_dms.view_sd_dms_document_tree"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='registration_date']" position="before">
+                    <field name="protocollo_id" string="Protocollo N."/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="view_sd_dms_document_form" model="ir.ui.view">
+            <field name="name">view.sd.dms.document.form</field>
+            <field name="model">sd.dms.document</field>
+            <field name="inherit_id" ref="sd_dms.view_sd_dms_document_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button name="documento_lista_protocollo_action"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-gavel"
+                            attrs="{'invisible': [('protocollo_id', '=',False)]}"
+                    >
+                        <div class="o_stat_info">
+                            <span class="o_stat_text">Protocollo</span>
+                            <field name="numero_protocollo_id" class="o_stat_value" options="{'reload_on_button': true}"/>
+                        </div>
+                    </button>
+                </xpath>
+
+                <xpath expr="//field[@name='registration_type']" position="after">
+                    <field name="protocollo_id"
+                           attrs="{'invisible': [('protocollo_id', '=',False)]}"
+                           options="{'no_create': True, 'no_open': True}"
+                           string="Protocollo N."
+                    />
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="view_sd_dms_document_kanban" model="ir.ui.view">
+            <field name="name">view.sd.dms.document.kanban</field>
+            <field name="model">sd.dms.document</field>
+            <field name="inherit_id" ref="sd_dms.view_sd_dms_document_kanban"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='filename']" position="after">
+                    <fild name="protocollo_id"/>
+                    <fild name="protocollo_id_data_registrazione"/>
+                </xpath>
+                <xpath expr="//div[@class='o_kanban_record_body']" position="inside">
+                    <div t-if="record.protocollo_id.raw_value">
+                        <span><strong>Protocollo N. </strong><field name="protocollo_id"/></span>
+                    </div>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="view_sd_dms_document_search" model="ir.ui.view">
+            <field name="name">view.sd.dms.document.search</field>
+            <field name="model">sd.dms.document</field>
+            <field name="inherit_id" ref="sd_dms.view_sd_dms_document_search"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='folder_id']" position="after">
+                    <field name="protocollo_id"/>
+                </xpath>
+                  <xpath expr="//filter[@name='none']" position="after">
+                    <filter name="protocol" string="Protocol" domain="[('registration_type', '=', 'protocol')]"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="view_sd_dms_document_search_protocollo_allegato_list" model="ir.ui.view">
+            <field name="name">view.sd.dms.document.search</field>
+            <field name="model">sd.dms.document</field>
+            <field name="mode">primary</field>
+            <field name="inherit_id" ref="sd_dms.view_sd_dms_document_search"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//searchpanel" position="replace">
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

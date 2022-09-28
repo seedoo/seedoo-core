@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <data noupdate="0">
+
+        <template id="sd_protocollo_pec.template_mail_mail_qweb">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.internal_layout">
+                        <t t-set="company" t-value="o.env.context.get('company_id')"/>
+
+                        <t t-call="sd_protocollo.template_sd_protocollo_header_qweb"/>
+
+                        <div class="page">
+                            <style>
+                                .body_email{margin-left:20px;}
+                                .allegati_email{margin-top:20px;}
+                                .bold_text_email{font-weight: bold;}
+                                .h4_email{font-size: 18px;}
+                                .email_from{width:70%;}
+                                .email_cc{font-size: 18px;}
+                                .bold_text_email.date{float:right;}
+                                .image_email{font-size: 16px;}
+                                .document_png_email{width: 60px; height: 60px;}
+                                .subject_email{margin-top:10px;}
+                            </style>
+                            <div class="subject_email">
+                                <h3><span t-field="o.subject"/></h3>
+                                <hr/>
+                            </div>
+                            <t t-set="date" t-value="o._get_utc_to_local_date()"/>
+                            <p class="bold_text_email date" t-esc="date"/>
+                            <p class="h4_email ">Da: <span class="bold_text_email h4_email" t-field="o.email_from"/></p>
+                            <p class="h4_email">A: <span t-field="o.email_to"/></p>
+                            <t t-if="o.email_cc">
+                                <p class="email_cc">CC: <span t-field="o.email_cc"/></p>
+                            </t>
+                            <br/>
+                            <div class="body_email">
+                                <span t-field="o.body"/>
+                                <hr/>
+                                <t t-if="len(o.attachment_ids) > 0">
+                                    <div class="allegati_email">
+                                        <t t-set="counter" t-value="len(o.attachment_ids)"/>
+                                        <p class="bold_text_email">
+                                            <t t-esc="counter"/>
+                                            <t t-if="counter &lt;= 1">
+                                                allegato
+                                            </t>
+                                            <t t-if="counter > 1">
+                                                allegati
+                                            </t>
+                                        </p>
+                                        <br/>
+                                        <t t-set="documents_list" t-value="o._get_document_list()"/>
+                                        <t t-foreach="documents_list" t-as="document">
+                                            <img class="document_png_email" t-att-src="'%s' % document[0]"><t
+                                                    t-esc="document[1]"/></img>
+                                            <br/>
+                                        </t>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+
+                        <t t-call="sd_protocollo.template_sd_protocollo_footer_qweb"/>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

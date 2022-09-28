@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_ir_attachment_kanban" model="ir.ui.view">
+            <field name="name">view.ir.attachment.kanban</field>
+            <field name="model">ir.attachment</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_small_column align-content-start">
+                    <field name="name"/>
+                    <field name="id"/>
+                    <field name="file_size"/>
+                    <field name="mimetype"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_global_click">
+                                <div class="o_dropdown_kanban dropdown">
+                                    <a class="dropdown-toggle o-no-caret btn" href="#" role="button"
+                                       data-toggle="dropdown" aria-label="Dropdown menu" title="Dropdown menu">
+                                        <span class="fa fa-ellipsis-v"/>
+                                    </a>
+                                    <div class="dropdown-menu" role="menu">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <h6 class="dropdown-header">Operations</h6>
+                                                <a role="menuitem" class="dropdown-item"
+                                                   t-attf-href="/web/content/#{record.id.raw_value}?download=true" target="_blank">
+                                                    <i class="fa fa-download"/>
+                                                    Download
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="oe_kanban_content">
+                                    <div class="o_kanban_image o_kanban_image_preview">
+                                        <div class="o_image o_image_thumbnail"
+                                             t-att-data-mimetype="record.mimetype.raw_value"/>
+                                    </div>
+                                    <div class="o_kanban_details">
+                                        <div class="o_kanban_details_wrapper">
+                                            <div class="o_kanban_record_title o_text_overflow">
+                                                <field name="name"/>
+                                            </div>
+                                            <div class="o_kanban_record_body">
+                                                <p><field name="file_size"/> kB</p>
+                                            </div>
+                                            <div class="o_kanban_record_bottom">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+
+                </kanban>
+            </field>
+        </record>
+
+    </data>
+</odoo>

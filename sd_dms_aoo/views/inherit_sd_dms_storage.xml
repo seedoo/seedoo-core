@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <record id="view_sd_dms_storage_form" model="ir.ui.view">
+            <field name="name">view.sd.dms.storage.form</field>
+            <field name="model">sd.dms.storage</field>
+            <field name="inherit_id" ref="sd_dms.view_sd_dms_storage_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='company_id']" position="after">
+                    <field name="aoo_id_readonly" invisible="1"/>
+                    <field name="aoo_id"
+                           attrs="{'readonly': [('aoo_id_readonly', '=', True)]}"
+                           options="{'no_open': True, 'no_create': True}"
+                           required="1"
+                           force_save="1"
+                    />
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

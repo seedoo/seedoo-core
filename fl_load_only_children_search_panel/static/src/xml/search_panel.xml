@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+
+    <t t-inherit="web.SearchPanel.Category" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[hasclass('o_toggle_fold')]/i" position="replace">
+            <i t-if="value.childrenIds.length || value.children_count"
+                t-attf-class="fa fa-caret-{{ state.expanded[section.id][valueId] ? 'down' : 'right' }}"
+            />
+        </xpath>
+    </t>
+
+</templates>

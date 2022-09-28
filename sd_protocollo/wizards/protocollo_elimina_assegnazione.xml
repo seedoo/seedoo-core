@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_sd_protocollo_wizard_protocollo_elimina_assegnazione_form" model="ir.ui.view">
+            <field name="name">view.sd.protocollo.wizard.protocollo.elimina.assegnazione.form</field>
+            <field name="model">sd.protocollo.wizard.protocollo.elimina.assegnazione</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="assegnatario_id"
+                                       options="{'no_create': True, 'no_open': True}"/>
+                            </group>
+                            <group>
+                                <field name="assegnatario_type"/>
+                            </group>
+                        </group>
+                    <newline/>
+                    <group>
+                        <field name="motivazione" required="1" placeholder="Motivazione" nolabel="1"/>
+                    </group>
+                    </sheet>
+
+                    <footer>
+                        <button name="action_unlink"
+                                type="object"
+                                string="Elimina"
+                                class="oe_highlight"
+                        />
+                        <button string="Abbandona"
+                                class="oe_link"
+                                special="cancel"
+                        />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

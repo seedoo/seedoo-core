@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="data_ir_config_parameter_inserisci_testo_pec" model="ir.config_parameter" forcecreate="False">
+            <field name="key">sd_protocollo.inserisci_testo_pec</field>
+            <field name="value">True</field>
+        </record>
+
+        <record id="data_ir_config_parameter_lunghezza_massima_oggetto_mail" model="ir.config_parameter" forcecreate="False">
+            <field name="key">sd_protocollo.lunghezza_massima_oggetto_mail</field>
+            <field name="value">256</field>
+        </record>
+
+        <record id="data_ir_config_parameter_lunghezza_massima_oggetto_pec" model="ir.config_parameter" forcecreate="False">
+            <field name="key">sd_protocollo.lunghezza_massima_oggetto_pec</field>
+            <field name="value">256</field>
+        </record>
+
+        <!--E-mail/PEC 2 Protocollo-->
+        <record id="data_ir_config_parameter_select_eml_pec" model="ir.config_parameter" forcecreate="False">
+            <field name="key">sd_protocollo.select_eml_pec</field>
+            <field name="value">True</field>
+        </record>
+
+        <record id="data_ir_config_parameter_select_body_pec" model="ir.config_parameter" forcecreate="False">
+            <field name="key">sd_protocollo.select_body_pec</field>
+            <field name="value">True</field>
+        </record>
+
+        <record id="data_ir_config_parameter_select_postacert_eml_pec" model="ir.config_parameter" forcecreate="False">
+            <field name="key">sd_protocollo.select_postacert_eml_pec</field>
+            <field name="value">True</field>
+        </record>
+
+        <record id="data_ir_config_parameter_select_attachments_pec" model="ir.config_parameter" forcecreate="False">
+            <field name="key">sd_protocollo.select_attachments_pec</field>
+            <field name="value">True</field>
+        </record>
+
+    </data>
+</odoo>

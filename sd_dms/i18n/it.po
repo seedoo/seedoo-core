@@ -1,0 +1,2424 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* sd_dms
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-08-05 12:32+0000\n"
+"PO-Revision-Date: 2022-08-05 12:32+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_contact_kanban
+msgid "(PEC)"
+msgstr ""
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_contact_kanban
+msgid "<b>AOO</b>:"
+msgstr ""
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_contact_kanban
+msgid "<b>Digital domiciles</b>:"
+msgstr "<b>Domicili digitali</b>:"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_contact_kanban
+msgid "<b>GPS</b>:"
+msgstr ""
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_contact_kanban
+msgid "<b>Other e-mail PEC addresses</b>:"
+msgstr "<b>Altri indirizzi e-mail PEC</b>:"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_contact_kanban
+msgid "<b>PA</b>:"
+msgstr ""
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_inherit_res_config_settings_form
+msgid ""
+"<b>Storages</b>\n"
+"                                    <br/>"
+msgstr ""
+"<b>Storage</b>\n"
+"                                    <br/>"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_contact_kanban
+msgid "<b>UO</b>:"
+msgstr ""
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_document_kanban
+msgid ""
+"<i class=\"fa fa-download\"/>\n"
+"                                                Download"
+msgstr ""
+"<i class=\"fa fa-download\"/>\n"
+"Scarica"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_contact_kanban
+msgid ""
+"<i class=\"fa fa-edit\"/>\n"
+"                                                Edit"
+msgstr ""
+"<i class=\"fa fa-edit\"/>\n"
+"Modifica"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_document_kanban
+msgid ""
+"<i class=\"fa fa-external-link\"/>\n"
+"                                                Open"
+msgstr ""
+"<i class=\"fa fa-external-link\"/>\n"
+"Apri"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_folder_kanban
+msgid ""
+"<i class=\"fa fa-file-o\"/>\n"
+"                                                    Files"
+msgstr ""
+"<i class=\"fa fa-file-o\"/>\n"
+"Documenti"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_folder_kanban
+msgid ""
+"<i class=\"fa fa-folder-o\"/>\n"
+"                                                    Directories"
+msgstr ""
+"<i class=\"fa fa-folder-o\"/>\n"
+"Cartelle"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_document_form
+msgid ""
+"<i class=\"fa fa-plus\" title=\"Add\">&amp;nbsp;</i>\n"
+"                                    <span>Add</span>"
+msgstr ""
+"<i class=\"fa fa-plus\" title=\"Add\">&amp;nbsp;</i>\n"
+"                                    <span>Aggiungi</span>"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_contact_kanban
+msgid ""
+"<i class=\"fa fa-trash\"/>\n"
+"                                                Delete"
+msgstr ""
+"<i class=\"fa fa-trash\"/>\n"
+"Elimina"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_inherit_res_config_settings_form
+msgid "<span class=\"label-enterprise\">Enterprise</span>"
+msgstr ""
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_inherit_res_config_settings_form
+msgid ""
+"<strong>Save</strong> this page and come back here\n"
+"                                            to set up the feature."
+msgstr ""
+"<strong>Salva</strong> questa pagina e torna in questa sezione per "
+"configurare la funzionalità."
+
+#. module: sd_dms
+#: model:ir.model.constraint,message:sd_dms.constraint_sd_dms_folder_folder_unique
+msgid "A folder with this name already exists in the directory"
+msgstr "Esiste già una cartella con questo nome"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_res_config_settings__module_fl_acl_set
+msgid "ACL Sets"
+msgstr "Permessi strutture"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_res_config_settings__module_fl_acl
+msgid "ACL Users"
+msgstr "Permessi utenti"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document_type__active
+msgid "Abilitata"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__acl_ids
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder__acl_ids
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_document_form
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_folder_form
+msgid "Acl"
+msgstr "Permessi"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document_acl__acl_res_users_ids
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder_acl__acl_res_users_ids
+msgid "Acl Users"
+msgstr "Permessi utenti"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__message_needaction
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder__message_needaction
+msgid "Action Needed"
+msgstr "Richiesta azione"
+
+#. module: sd_dms
+#: model_terms:ir.actions.act_window,help:sd_dms.action_sd_dms_document_list_migration
+#: model_terms:ir.actions.act_window,help:sd_dms.action_sd_dms_document_list_storage_migration
+msgid "Add a new File."
+msgstr "Aggiunge un nuovo File."
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_contact_form
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_wizard_document_add_contact_form
+msgid "Address"
+msgstr "Indirizzo"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_inherit_res_config_settings_form
+msgid "Adds Full-text content searches feature for Documents"
+msgstr "Abilita la ricerca full-text nel contenuto indicizzato dei documenti"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_inherit_res_config_settings_form
+msgid "Adds a sidebox in form view for documents preview."
+msgstr ""
+"Aggiunge nella vista del documento un box laterale sempre visibile per "
+"l'anteprima"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_inherit_res_config_settings_form
+msgid ""
+"Adds support for files with extension: .abc, .acgi, .aip, .asm, .asp, .c,\n"
+"                                        .c++, .cc, .com, .conf,\n"
+"                                        .cpp, .csh, .cxx, .def, .el, .etx, .f, .f77, .f90,\n"
+"                                        .flx, .for, .g, .h, .hh, .hlb, .htc, .htm, .html,\n"
+"                                        .htmls, .htt, .htx, .idc, .jav, .java, .js, .ksh,\n"
+"                                        .list, .log, .lsp, .lst, .m, .mar, .mcf, .p, .pas, .pl,\n"
+"                                        .pl, .pm, .py, .rexx, .rt, .rtf, .s, .scm, .sdml,\n"
+"                                        .sgm, .sgml, .sh, .shtml, .spc, .ssi, .talk, .tcl,\n"
+"                                        .tcsh, .text, .tsv, .txt, .uil, .uni, .unis, .uri, .uris, .uu, .uue,\n"
+"                                        .vcs, .wml, .wmls, .wsc, .xml, .zsh, .less, .aj, .cbl, .cs, .coffee,\n"
+"                                        .go, .groovy, .sc, .js, .json"
+msgstr ""
+"Aggiunge il supporto per i file con estensioni: .abc, .acgi, .aip, .asm, .asp, .c,\n"
+"                                            .c++, .cc, .com, .conf,\n"
+"                                            .cpp, .csh, .cxx, .def, .el, .etx, .f, .f77, .f90,\n"
+"                                            .flx, .for, .g, .h, .hh, .hlb, .htc, .htm, .html,\n"
+"                                            .htmls, .htt, .htx, .idc, .jav, .java, .js, .ksh,\n"
+"                                            .list, .log, .lsp, .lst, .m, .mar, .mcf, .p, .pas, .pl,\n"
+"                                            .pl, .pm, .py, .rexx, .rt, .rtf, .s, .scm, .sdml,\n"
+"                                            .sgm, .sgml, .sh, .shtml, .spc, .ssi, .talk, .tcl,\n"
+"                                            .tcsh, .text, .tsv, .txt, .uil, .uni, .unis, .uri, .uris, .uu, .uue,\n"
+"                                            .vcs, .wml, .wmls, .wsc, .xml, .zsh, .less, .aj, .cbl, .cs, .coffee,\n"
+"                                            .go, .groovy, .sc, .js, .json"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_inherit_res_config_settings_form
+msgid ""
+"Adds support for files with extension: .cod, .ras, .fif, .gif, .ief, .jpeg,\n"
+"                                        .jpg, .jpe, .png, .tiff,\n"
+"                                        .tif, .mcf, .wbmp, .fh4, .fh5, .fhc, .ico, .pnm, .pbm, .pgm,\n"
+"                                        .ppm, .rgb, .xwd, .xbm, .xpm"
+msgstr ""
+"Aggiunge il supporto per i file con estensioni: .cod, .ras, .fif, .gif, .ief, .jpeg,\n"
+"                                            .jpg, .jpe, .png, .tiff,\n"
+"                                            .tif, .mcf, .wbmp, .fh4, .fh5, .fhc, .ico, .pnm, .pbm, .pgm,\n"
+"                                            .ppm, .rgb, .xwd, .xbm, .xpm"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_inherit_res_config_settings_form
+msgid "Adds support for files with extension: .csv"
+msgstr "Aggiunge il supporto per i file con estensioni: .csv"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_inherit_res_config_settings_form
+msgid ""
+"Adds support for files with extension: .doc, .docx, .docm, .ppt, .pptx,\n"
+"                                        .pptm, .xls, .xlsx, .xlsm, .xlsb"
+msgstr ""
+"Aggiunge il supporto per i file con estensioni: .doc, .docx, .docm, .ppt, .pptx,\n"
+"                                            .pptm, .xls, .xlsx, .xlsm, .xlsb"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_inherit_res_config_settings_form
+msgid "Adds support for files with extension: .eml"
+msgstr "Aggiunge il supporto per i file con estensioni: .eml"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_inherit_res_config_settings_form
+msgid ""
+"Adds support for files with extension: .odt, .odp, .ods, .fodt, .ott,\n"
+"                                        .fodp, .otp, .fods, .ots"
+msgstr ""
+"Aggiunge il supporto per i file con estensioni: .odt, .odp, .ods, .fodt, .ott,\n"
+"                                            .fodp, .otp, .fods, .ots"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_inherit_res_config_settings_form
+msgid "Adds support for files with extension: .pdf"
+msgstr "Aggiunge il supporto per i file con estensioni: .pdf"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_inherit_res_config_settings_form
+msgid "Adds support for files with extension: .rst"
+msgstr "Aggiunge il supporto per i file con estensioni: .rst"
+
+#. module: sd_dms
+#: model:res.groups,name:sd_dms.group_sd_dms_administrator
+msgid "Administrator"
+msgstr ""
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_inherit_res_config_settings_form
+msgid "Allows attachments to be stored inside of Documents"
+msgstr ""
+"Permette agli allegati Odoo di essere salvati all'interno dei documenti del "
+"DMS"
+
+#. module: sd_dms
+#: model:ir.model.fields,help:sd_dms.field_res_config_settings__module_fl_dms_attachment
+msgid "Allows attachments to be stored inside of Documents."
+msgstr ""
+"Permette agli allegati Odoo di essere salvati all'interno dei documenti del "
+"DMS"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__active
+msgid "Archived"
+msgstr "Archiviato"
+
+#. module: sd_dms
+#: model:ir.model.fields.selection,name:sd_dms.selection__sd_dms_folder__state__archiviata
+msgid "Archiviata"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__message_attachment_count
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder__message_attachment_count
+msgid "Attachment Count"
+msgstr "Numero allegati"
+
+#. module: sd_dms
+#: model:ir.model.fields.selection,name:sd_dms.selection__sd_dms_folder__state__attiva
+msgid "Attiva"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__author_id
+msgid "Author"
+msgstr "Autore"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_document_search
+msgid "Author E-mail"
+msgstr "Autore E-mail"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_document_search
+msgid "Author Pec Mail"
+msgstr "Autore Pec Mail"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_inherit_res_config_settings_form
+msgid "Bridge between Documentale e Conservazione Digitale applications"
+msgstr "Abilita l'invio in conservazione digitale dei documenti"
+
+#. module: sd_dms
+#: code:addons/sd_dms/models/document.py:0
+#, python-format
+msgid ""
+"By associating a new storage with a different company, the relative company "
+"must also be changed in the category"
+msgstr ""
+"Associando un nuovo storage con una azienda differente, la relativa azienda "
+"dovrà essere cambiata anche nelle categorie"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_wizard_document_add_contact_form
+msgid "Cancel"
+msgstr "Annulla"
+
+#. module: sd_dms
+#: model:ir.actions.act_window,name:sd_dms.action_sd_dms_category_list
+#: model:ir.ui.menu,name:sd_dms.menu_item_sd_dms_category_list
+msgid "Categories"
+msgstr "Categorie"
+
+#. module: sd_dms
+#: model:ir.model,name:sd_dms.model_sd_dms_category
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__company_type
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__category_id
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder__category_id
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_tag__category_id
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__company_type
+msgid "Category"
+msgstr "Categoria"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__checksum
+msgid "Checksum"
+msgstr "Impronta"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_category__child_category_ids
+msgid "Child Categories"
+msgstr "Categorie figlie"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__city
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__city
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_contact_form
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_wizard_document_add_contact_form
+msgid "City"
+msgstr "Città"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_res_config_settings__module_sd_dms_titolario
+msgid "Classifica tramite titolario"
+msgstr ""
+
+#. module: sd_dms
+#: model_terms:ir.actions.act_window,help:sd_dms.action_sd_dms_folder_subfolder_list
+msgid "Click to add a new directory."
+msgstr "Clicca per aggiungere una nuova cartella"
+
+#. module: sd_dms
+#: model_terms:ir.actions.act_window,help:sd_dms.action_sd_dms_document_folder_list
+msgid "Click to add a new file."
+msgstr "Clicca per aggiungere un nuovo file"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__color
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder__color
+msgid "Color"
+msgstr "Colore"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_category__company_id
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__company_id
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder__company_id
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_storage__company_id
+#: model:ir.model.fields.selection,name:sd_dms.selection__sd_dms_contact__company_type__company
+#: model:ir.model.fields.selection,name:sd_dms.selection__sd_dms_contact__parent_person_company_type__company
+#: model:ir.model.fields.selection,name:sd_dms.selection__sd_dms_contact__view_company_type__company
+#: model:ir.model.fields.selection,name:sd_dms.selection__sd_dms_wizard_document_add_contact__company_type__company
+#: model:ir.model.fields.selection,name:sd_dms.selection__sd_dms_wizard_document_add_contact__view_company_type__company
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_wizard_document_add_contact_form
+msgid "Company"
+msgstr "Azienda"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_wizard_document_add_contact_form
+msgid "Company / PA / GPS / AOO / UO"
+msgstr "Azienda / PA / GPS / AOO / UO"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__contact_pa_type
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__contact_pa_type
+msgid "Company PA typology"
+msgstr "Tipologia PA"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__view_contact_pa_type
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__view_contact_pa_type
+msgid "Company PA typology in view"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__company_subject_type
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__company_subject_type
+msgid "Company typology"
+msgstr "Tipologia azienda"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__view_company_subject_type
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__view_company_subject_type
+msgid "Company typology in view"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model,name:sd_dms.model_res_config_settings
+msgid "Config Settings"
+msgstr "Impostazioni di configurazione"
+
+#. module: sd_dms
+#: model:ir.ui.menu,name:sd_dms.menu_item_sd_dms_configuration
+msgid "Configuration"
+msgstr "Configurazione"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_res_config_settings__module_fl_dms_conservazione
+msgid "Conservazione digitale"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model,name:sd_dms.model_res_partner
+#: model:ir.model,name:sd_dms.model_sd_dms_contact
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__contact_pa_name
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__partner_id
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact_digital_domicile__contact_id
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact_email_address__contact_id
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__contact_pa_name
+msgid "Contact"
+msgstr "Contatto"
+
+#. module: sd_dms
+#: model:ir.model,name:sd_dms.model_sd_dms_contact_digital_domicile
+msgid "Contact digital domicile"
+msgstr "Domicilio digitale del contatto"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact_digital_domicile__contact_digital_domicile_id
+msgid "Contact domicile"
+msgstr "Domicilio digitale del contatto"
+
+#. module: sd_dms
+#: model:ir.model,name:sd_dms.model_sd_dms_contact_email_address
+msgid "Contact e-mail address"
+msgstr "Altro indirizzo e-mail PEC del contatto"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact_email_address__contact_email_address_id
+msgid "Contact email address"
+msgstr "Altro indirizzo e-mail PEC del contatto"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__typology
+msgid "Contact typology"
+msgstr "Tipologia contatto"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__partner_id
+msgid "Contacts"
+msgstr "Contatti"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__content
+msgid "Content"
+msgstr "Contenuto"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__content_binary
+msgid "Content Binary"
+msgstr "Contenuto binario"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__content_file
+msgid "Content File"
+msgstr "Contenuto file"
+
+#. module: sd_dms
+#: code:addons/sd_dms/models/document.py:0
+#: code:addons/sd_dms/models/folder.py:0
+#, python-format
+msgid "Copy of %s"
+msgstr "Copia di %s"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_storage__count_storage_folders
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_tag__count_folders
+msgid "Count Directories"
+msgstr "Numero cartelle"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder__count_documents
+msgid "Count Documets"
+msgstr "Numero documenti"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder__count_elements
+msgid "Count Elements"
+msgstr "Numero elementi"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_storage__count_storage_documents
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_tag__count_documents
+msgid "Count Files"
+msgstr "Numero documenti"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder__count_folders
+msgid "Count Subfolders"
+msgstr "Numero sottocartella"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__country_id
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__country_id
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_contact_form
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_wizard_document_add_contact_form
+msgid "Country"
+msgstr "Nazione"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document_acl__perm_create
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder_acl__perm_create
+msgid "Create"
+msgstr "Creazione"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__perm_create
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder__perm_create
+msgid "Create Access"
+msgstr "Accesso in creazione"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_category__create_uid
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__create_uid
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact_digital_domicile__create_uid
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact_email_address__create_uid
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__create_uid
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document_acl__create_uid
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document_type__create_uid
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder__create_uid
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder_acl__create_uid
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_storage__create_uid
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_tag__create_uid
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__create_uid
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact_digital_domicile__create_uid
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact_email_address__create_uid
+msgid "Created by"
+msgstr "Creato da"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document_acl__create_system
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder_acl__create_system
+msgid "Created by System"
+msgstr "Creato dal sistema"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_category__create_date
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__create_date
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact_digital_domicile__create_date
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact_email_address__create_date
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__create_date
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document_acl__create_date
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document_type__create_date
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder__create_date
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder_acl__create_date
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_storage__create_date
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_tag__create_date
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__create_date
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact_digital_domicile__create_date
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact_email_address__create_date
+msgid "Created on"
+msgstr "Creato il"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__save_type
+msgid "Current Save Type"
+msgstr "Tipo di salvataggio"
+
+#. module: sd_dms
+#: model:ir.model.fields.selection,name:sd_dms.selection__sd_dms_storage__save_type__database
+msgid "Database"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_res_users__default_folder_id
+msgid "Default folder"
+msgstr "Cartella di default"
+
+#. module: sd_dms
+#: model:ir.model.fields,help:sd_dms.field_res_users__default_folder_id
+msgid "Default folder in documents kanban view"
+msgstr "Cartella di default nei documenti della vista kanban"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document_acl__perm_delete
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder_acl__perm_delete
+msgid "Delete"
+msgstr "Eliminazione"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__digital_domicile_ids_html
+msgid "Digital domicile list html"
+msgstr "Lista domicili digitali"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__digital_domicile_ids
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__digital_domicile_ids
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_contact_form
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_wizard_document_add_contact_form
+msgid "Digital domiciles"
+msgstr "Domicili digitali"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_folder_form
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_folder_tree
+msgid "Directories"
+msgstr "Cartelle"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_folder_form
+msgid "Directory"
+msgstr "Cartella"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:sd_dms.field_res_partner__display_name
+#: model:ir.model.fields,field_description:sd_dms.field_res_users__display_name
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_category__display_name
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact_digital_domicile__display_name
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact_email_address__display_name
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__display_name
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document_acl__display_name
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document_type__display_name
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder__display_name
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder_acl__display_name
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_locking__display_name
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_storage__display_name
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_tag__display_name
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_thumbnail__display_name
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_utility_tools__display_name
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__display_name
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact_digital_domicile__display_name
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact_email_address__display_name
+msgid "Display Name"
+msgstr "Nome visualizzato"
+
+#. module: sd_dms
+#: model:ir.model,name:sd_dms.model_sd_dms_document
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder__document_ids
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_document_search
+msgid "Document"
+msgstr "Documento"
+
+#. module: sd_dms
+#: model:ir.model,name:sd_dms.model_sd_dms_document_acl
+msgid "Document Acl"
+msgstr "Permessi del documento"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_inherit_res_config_settings_form
+msgid "Document Preview"
+msgstr "Anteprima documento"
+
+#. module: sd_dms
+#: model:ir.model,name:sd_dms.model_sd_dms_document_type
+msgid "Document Type"
+msgstr "Tipologia documento"
+
+#. module: sd_dms
+#: model:ir.actions.act_window,name:sd_dms.action_sd_dms_document_type_list
+#: model:ir.ui.menu,name:sd_dms.menu_item_sd_dms_document_type_list
+msgid "Document Types"
+msgstr "Tipologie documento"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__document_other_subjects_ids
+msgid "Document other subjects"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__document_recipient_ids
+msgid "Document recipients"
+msgstr "Destinatari del documento"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__document_sender_ids
+msgid "Document sender"
+msgstr "Mittenti del documento"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__document_type_id
+msgid "Document type"
+msgstr "Tipologia documentale"
+
+#. module: sd_dms
+#: code:addons/sd_dms/utilities/inherit_res_partner_actions.py:0
+#: model:ir.actions.act_window,name:sd_dms.action_sd_dms_document_folder_list
+#: model:ir.actions.act_window,name:sd_dms.action_sd_dms_document_list
+#: model:ir.actions.act_window,name:sd_dms.action_sd_dms_document_list_migration
+#: model:ir.actions.act_window,name:sd_dms.action_sd_dms_document_list_storage_migration
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_category__document_ids
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document_acl__document_ids
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_storage__document_ids
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_tag__document_ids
+#: model:ir.module.category,description:sd_dms.category_sd_dms
+#: model:ir.module.category,name:sd_dms.category_sd_dms
+#: model:ir.ui.menu,name:sd_dms.menu_item_sd_dms_document_list
+#: model:ir.ui.menu,name:sd_dms.menu_sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_res_partner_form
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_category_form
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_folder_form
+#, python-format
+msgid "Documents"
+msgstr "Documenti"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_res_config_settings__module_fl_dms_attachment
+msgid "Documents Storage Location"
+msgstr "Allegati Odoo in DMS"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_res_partner__documents_count
+#: model:ir.model.fields,field_description:sd_dms.field_res_users__documents_count
+msgid "Documents count"
+msgstr "Numero documenti"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_document_kanban_attachment
+msgid "Download"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields.selection,name:sd_dms.selection__sd_dms_document__state__draft
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_document_search
+msgid "Draft"
+msgstr "Bozza"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_contact_kanban
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_document_kanban
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_folder_kanban
+msgid "Dropdown menu"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__contact_pa_email
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__email
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__email_amm
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__contact_pa_email
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__email
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__email_amm
+msgid "E-mail"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact_email_address__email_address
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact_email_address__email_address
+msgid "E-mail address"
+msgstr "Indirizzo e-mail"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__is_lock_editor
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_locking__is_lock_editor
+msgid "Editor"
+msgstr ""
+
+#. module: sd_dms
+#: model:sd.dms.document.type,name:sd_dms.data_sd_dms_document_type_electronic
+msgid "Electronic"
+msgstr "Documento informatico"
+
+#. module: sd_dms
+#: model:sd.dms.document.type,name:sd_dms.data_sd_dms_document_type_electronic_amministrative
+msgid "Electronic Amministrative"
+msgstr "Documento amministrativo informatico"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_folder_form
+msgid "Elements"
+msgstr "Elementi"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_inherit_res_config_settings_form
+msgid "Enable the classification of documents by Titolario"
+msgstr "Abilita la classificazione dei documenti tramite il titolario"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_inherit_res_config_settings_form
+msgid "Enable the management of AOO"
+msgstr "Abilita l'Area Organizzativa Omogenea nel flusso documentale"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_inherit_res_config_settings_form
+msgid "Enable the management of repertories in document types"
+msgstr "Abilita la gestione dei repertori nelle tipologie di documento"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_inherit_res_config_settings_form
+msgid "Enable the management of the folders to save the documents of a set"
+msgstr ""
+"Abilita la gestione delle cartelle per salvare i documenti di una struttura"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_inherit_res_config_settings_form
+msgid ""
+"Enable the use of collaborative editor for create and modify text, "
+"spreadsheet and presentation documents"
+msgstr ""
+"Abilita l'uso dell'editor collaborativo per creare e modificare documenti di"
+" testo, fogli di calcolo e presentazioni"
+
+#. module: sd_dms
+#: model:ir.model.fields,help:sd_dms.field_res_config_settings__module_fl_acl_set
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_inherit_res_config_settings_form
+msgid "Enables control access list for sets in apps"
+msgstr "Abilita le liste di controllo accessi per le strutture nelle app"
+
+#. module: sd_dms
+#: model:ir.model.fields,help:sd_dms.field_res_config_settings__module_fl_acl
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_inherit_res_config_settings_form
+msgid "Enables control access list for users in apps"
+msgstr "Abilita le liste di controllo accessi per gli utenti nelle app"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_inherit_res_config_settings_form
+msgid "Enables version control for files"
+msgstr "Abilita il sistema di versionemento per le modifiche dei documenti"
+
+#. module: sd_dms
+#: model:ir.model.fields,help:sd_dms.field_res_config_settings__module_fl_dms_version
+msgid "Enables version control for files."
+msgstr "Abilita il sistema di versionemento per le modifiche dei documenti"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__extension
+msgid "Extension"
+msgstr "Estensione"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__fax
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__fax
+msgid "Fax"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__field_readonly
+msgid "Field readonly"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__filename
+msgid "Filename"
+msgstr "Nome file"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_document_tree
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_document_tree_migration
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_folder_form
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_folder_tree
+msgid "Files"
+msgstr "File"
+
+#. module: sd_dms
+#: model_terms:ir.actions.act_window,help:sd_dms.action_sd_dms_document_list_migration
+#: model_terms:ir.actions.act_window,help:sd_dms.action_sd_dms_document_list_storage_migration
+msgid "Files are used to save content directly in Odoo."
+msgstr ""
+"I file vengono utilizzati per salvare i contenuti direttamente in Odoo."
+
+#. module: sd_dms
+#: model:ir.model.fields.selection,name:sd_dms.selection__sd_dms_storage__save_type__file
+msgid "Filestore"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__fiscalcode
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__fiscalcode
+msgid "Fiscalcode"
+msgstr "Codice fiscale"
+
+#. module: sd_dms
+#: model:ir.model,name:sd_dms.model_sd_dms_folder
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__folder_id
+msgid "Folder"
+msgstr "Cartella"
+
+#. module: sd_dms
+#: model:ir.model,name:sd_dms.model_sd_dms_folder_acl
+msgid "Folder Acl"
+msgstr "Permessi della cartella"
+
+#. module: sd_dms
+#: model:ir.actions.act_window,name:sd_dms.action_sd_dms_folder_list
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_category__folder_ids
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder_acl__folder_ids
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_storage__folder_ids
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_tag__folder_ids
+#: model:ir.ui.menu,name:sd_dms.menu_item_sd_dms_folder_list
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_category_form
+msgid "Folders"
+msgstr "Cartelle"
+
+#. module: sd_dms
+#: code:addons/sd_dms/models/folder.py:0
+#, python-format
+msgid "Folders cannot inherit acl from a root folder!"
+msgstr "Le cartelle non possono ereditare i permessi da una cartella root!"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__message_follower_ids
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder__message_follower_ids
+msgid "Followers"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__message_channel_ids
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder__message_channel_ids
+msgid "Followers (Channels)"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__message_partner_ids
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder__message_partner_ids
+msgid "Followers (Partners)"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_res_config_settings__module_fl_dms_fulltext
+msgid "Full-text Content Search"
+msgstr "Ricerca full-text"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_inherit_res_config_settings_form
+msgid "General"
+msgstr "Generale"
+
+#. module: sd_dms
+#: model:ir.actions.act_window,name:sd_dms.action_res_config_settings
+msgid "General Settings"
+msgstr "Impostazioni Generali"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_res_config_settings__module_sd_dms_aoo
+msgid "Gestione AOO"
+msgstr ""
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_document_search_migration
+msgid "Group By"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_res_partner__has_changed
+#: model:ir.model.fields,field_description:sd_dms.field_res_users__has_changed
+msgid "Has Change"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__name_aoo
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__name_aoo
+#: model:ir.model.fields.selection,name:sd_dms.selection__sd_dms_contact__contact_pa_type__aoo
+#: model:ir.model.fields.selection,name:sd_dms.selection__sd_dms_contact__parent_person_contact_pa_type__aoo
+#: model:ir.model.fields.selection,name:sd_dms.selection__sd_dms_contact__view_contact_pa_type__aoo
+#: model:ir.model.fields.selection,name:sd_dms.selection__sd_dms_wizard_document_add_contact__contact_pa_type__aoo
+#: model:ir.model.fields.selection,name:sd_dms.selection__sd_dms_wizard_document_add_contact__view_contact_pa_type__aoo
+msgid "Homogeneous Organizational Area"
+msgstr "Area Organizzativa Omogenea"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_res_config_settings__id
+#: model:ir.model.fields,field_description:sd_dms.field_res_partner__id
+#: model:ir.model.fields,field_description:sd_dms.field_res_users__id
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_category__id
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__id
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact_digital_domicile__id
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact_email_address__id
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__id
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document_acl__id
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document_type__id
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder__id
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder_acl__id
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_locking__id
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_storage__id
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_tag__id
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_thumbnail__id
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_utility_tools__id
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__id
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact_digital_domicile__id
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact_email_address__id
+msgid "ID"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__cod_amm
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__cod_amm
+msgid "IPA code"
+msgstr "Codice IPA"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__name_amm
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__name_amm
+msgid "IPA name"
+msgstr "Nome IPA"
+
+#. module: sd_dms
+#: model:ir.model.fields,help:sd_dms.field_sd_dms_document__active
+msgid ""
+"If a document is set to archived, it is not displayed, but still exists."
+msgstr ""
+"Se un documento è impostato su archiviato, non viene visualizzato, ma esiste"
+" ancora"
+
+#. module: sd_dms
+#: model:ir.model.fields,help:sd_dms.field_sd_dms_wizard_document_add_contact__save_partner
+msgid "If checked save data in contacts"
+msgstr "Se spuntato salva i dati nei contatti"
+
+#. module: sd_dms
+#: model:ir.model.fields,help:sd_dms.field_sd_dms_document__message_needaction
+#: model:ir.model.fields,help:sd_dms.field_sd_dms_document__message_unread
+#: model:ir.model.fields,help:sd_dms.field_sd_dms_folder__message_needaction
+#: model:ir.model.fields,help:sd_dms.field_sd_dms_folder__message_unread
+msgid "If checked, new messages require your attention."
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,help:sd_dms.field_sd_dms_document__message_has_error
+#: model:ir.model.fields,help:sd_dms.field_sd_dms_folder__message_has_error
+msgid "If checked, some messages have a delivery error."
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.constraint,message:sd_dms.constraint_sd_dms_document_type_unique
+msgid "Il nome deve essere univoco!"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__image_1024
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder__image_1024
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_thumbnail__image_1024
+msgid "Image 1920"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__image_filename
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder__image_filename
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_thumbnail__image_filename
+msgid "Image Filename"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields.selection,name:sd_dms.selection__sd_dms_contact__company_type__person
+#: model:ir.model.fields.selection,name:sd_dms.selection__sd_dms_contact__parent_person_company_type__person
+#: model:ir.model.fields.selection,name:sd_dms.selection__sd_dms_contact__view_company_type__person
+#: model:ir.model.fields.selection,name:sd_dms.selection__sd_dms_wizard_document_add_contact__company_type__person
+#: model:ir.model.fields.selection,name:sd_dms.selection__sd_dms_wizard_document_add_contact__view_company_type__person
+msgid "Individual"
+msgstr "Persona"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__inherit_acl
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__inherit_acl_ids
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder__inherit_acl
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder__inherit_acl_ids
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_document_form
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_folder_form
+msgid "Inherit Acl"
+msgstr "Eredita i permessi"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_document_form
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_folder_form
+msgid "Internal / Human Resource"
+msgstr "Interno / Risorse umane"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_category__active
+msgid "Is Active"
+msgstr "È attivo"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__message_is_follower
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder__message_is_follower
+msgid "Is Follower"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__is_locked
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_locking__is_locked
+msgid "Is Locked"
+msgstr "È bloccato"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder__is_root_folder
+msgid "Is Root Folder"
+msgstr "Cartella root"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__is_aoo
+msgid "Is a AOO"
+msgstr "È una AOO"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__is_gps
+msgid "Is a GPS"
+msgstr "È un GPS"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__is_amm
+msgid "Is a PA"
+msgstr "È una PA"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__is_pa
+msgid "Is a PA/GPS"
+msgstr "È una PA/GPS"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__is_uo
+msgid "Is a UO"
+msgstr "È una UO"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__is_private_company
+msgid "Is a private company"
+msgstr "È una azienda privata"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__is_favorite
+msgid "Is favorite"
+msgstr "Preferito"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__is_owner
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder__is_owner
+msgid "Is owner"
+msgstr "È il proprietario"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_res_config_settings____last_update
+#: model:ir.model.fields,field_description:sd_dms.field_res_partner____last_update
+#: model:ir.model.fields,field_description:sd_dms.field_res_users____last_update
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_category____last_update
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact____last_update
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact_digital_domicile____last_update
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact_email_address____last_update
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document____last_update
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document_acl____last_update
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document_type____last_update
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder____last_update
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder_acl____last_update
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_locking____last_update
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_storage____last_update
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_tag____last_update
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_thumbnail____last_update
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_utility_tools____last_update
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact____last_update
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact_digital_domicile____last_update
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact_email_address____last_update
+msgid "Last Modified on"
+msgstr "Ultima modifica il"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_category__write_uid
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__write_uid
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact_digital_domicile__write_uid
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact_email_address__write_uid
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__write_uid
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document_acl__write_uid
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document_type__write_uid
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder__write_uid
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder_acl__write_uid
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_storage__write_uid
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_tag__write_uid
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__write_uid
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact_digital_domicile__write_uid
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact_email_address__write_uid
+msgid "Last Updated by"
+msgstr "Ultimo aggiornamento da"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_category__write_date
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__write_date
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact_digital_domicile__write_date
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact_email_address__write_date
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__write_date
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document_acl__write_date
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document_type__write_date
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder__write_date
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder_acl__write_date
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_storage__write_date
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_tag__write_date
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__write_date
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact_digital_domicile__write_date
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact_email_address__write_date
+msgid "Last Updated on"
+msgstr "Ultimo aggiornamento il"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_wizard_document_add_contact_form
+msgid "Location completion"
+msgstr "Completamento Luogo"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__locked_by_user_id
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_locking__locked_by_user_id
+msgid "Locked by"
+msgstr "Bloccato da"
+
+#. module: sd_dms
+#: model:ir.model,name:sd_dms.model_sd_dms_locking
+msgid "Locking Document"
+msgstr "Blocco documento"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__message_main_attachment_id
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder__message_main_attachment_id
+msgid "Main Attachment"
+msgstr "Allegato principale"
+
+#. module: sd_dms
+#: model:res.groups,name:sd_dms.group_sd_dms_manager
+msgid "Manager"
+msgstr ""
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_storage_form
+msgid "Manual File Migration"
+msgstr "Migrazione dei file manuale"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_inherit_res_config_settings_form
+msgid "Massive file import from smb server"
+msgstr ""
+"Abilita la possibilità di importazione massiva di documenti da server di "
+"tipo smb"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_res_config_settings__module_fl_dms_importer
+msgid "Massive file importer"
+msgstr "Importazione massiva"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__favorite_user_ids
+msgid "Members"
+msgstr "Membri"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__message_has_error
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder__message_has_error
+msgid "Message Delivery error"
+msgstr "Errore di consegna del messaggio"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__message_ids
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder__message_ids
+msgid "Messages"
+msgstr "Messaggi"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_document_form
+msgid "Meta Information"
+msgstr ""
+
+#. module: sd_dms
+#: code:addons/sd_dms/models/document.py:0
+#, python-format
+msgid "Migrate Document %s of %s [ %s ]"
+msgstr "Migrazione documento %s di %s [ %s ]"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_storage_form
+msgid "Migrate Files"
+msgstr "Migrazione file"
+
+#. module: sd_dms
+#: model:ir.ui.menu,name:sd_dms.menu_item_sd_dms_document_list_migration
+msgid "Migration"
+msgstr "Migrazione"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__migration
+msgid "Migration Status"
+msgstr "Migrazione stato"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__mimetype
+msgid "Mimetype"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__mobile
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__mobile
+msgid "Mobile"
+msgstr "Cellulare"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document_acl__module_id
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder_acl__module_id
+msgid "Module"
+msgstr "Modulo"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_folder_form
+msgid "My Documents"
+msgstr "I miei documenti"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_document_search
+msgid "My favorites"
+msgstr "I miei preferiti"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_category__name
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__name
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document_type__name
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder__name
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_storage__name
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_tag__name
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__name
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_contact_form
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_wizard_document_add_contact_form
+msgid "Name"
+msgstr "Nome"
+
+#. module: sd_dms
+#: code:addons/sd_dms/models/document_type.py:0
+#: model:ir.model.constraint,message:sd_dms.constraint_sd_dms_document_type_unique
+#, python-format
+msgid "Name must be unique!"
+msgstr "Il nome deve essere univoco!"
+
+#. module: sd_dms
+#: code:addons/sd_dms/models/document.py:0
+#, python-format
+msgid "New document"
+msgstr "Nuovo documento"
+
+#. module: sd_dms
+#: model:ir.model.fields.selection,name:sd_dms.selection__sd_dms_document__registration_type__none
+#: model:ir.model.fields.selection,name:sd_dms.selection__sd_dms_document_type__registration_type__none
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_document_search
+msgid "None"
+msgstr "Nessuna"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_document_type_search
+msgid "Not Active"
+msgstr "Non attivo"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__notes
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__notes
+msgid "Notes"
+msgstr "Note"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__message_needaction_counter
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Numero di azioni"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__message_has_error_counter
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder__message_has_error_counter
+msgid "Number of errors"
+msgstr "Numero di errori"
+
+#. module: sd_dms
+#: model:ir.model.fields,help:sd_dms.field_sd_dms_document__message_needaction_counter
+#: model:ir.model.fields,help:sd_dms.field_sd_dms_folder__message_needaction_counter
+msgid "Number of messages which requires an action"
+msgstr "Numero di messaggi che richiedono un'azione"
+
+#. module: sd_dms
+#: model:ir.model.fields,help:sd_dms.field_sd_dms_document__message_has_error_counter
+#: model:ir.model.fields,help:sd_dms.field_sd_dms_folder__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Numero di messaggi con errore di consegna"
+
+#. module: sd_dms
+#: model:ir.model.fields,help:sd_dms.field_sd_dms_document__message_unread_counter
+#: model:ir.model.fields,help:sd_dms.field_sd_dms_folder__message_unread_counter
+msgid "Number of unread messages"
+msgstr "Numero di messaggi non letti"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_res_config_settings__fl_web_preview_msoffice_web_base_url
+msgid "Odoo base url to fetch file in MSOffice iframe"
+msgstr "Url di base Odoo per il fetch del file nel MSOffice iframe"
+
+#. module: sd_dms
+#: code:addons/sd_dms/models/storage.py:0
+#, python-format
+msgid "Only managers can execute this action."
+msgstr "Solo i manager possono eseguire questa azione"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_res_config_settings__module_fl_dms_onlyoffice
+msgid "Onlyoffice editor"
+msgstr ""
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_document_kanban
+msgid "Operations"
+msgstr "Operazioni"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__name_ou
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__name_ou
+#: model:ir.model.fields.selection,name:sd_dms.selection__sd_dms_contact__contact_pa_type__uo
+#: model:ir.model.fields.selection,name:sd_dms.selection__sd_dms_contact__parent_person_contact_pa_type__uo
+#: model:ir.model.fields.selection,name:sd_dms.selection__sd_dms_contact__view_contact_pa_type__uo
+#: model:ir.model.fields.selection,name:sd_dms.selection__sd_dms_wizard_document_add_contact__contact_pa_type__uo
+#: model:ir.model.fields.selection,name:sd_dms.selection__sd_dms_wizard_document_add_contact__view_contact_pa_type__uo
+msgid "Organizational Unit"
+msgstr "Unità Organizzativa"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_document_form
+msgid "Other Subjects"
+msgstr "Altri Soggetti"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__email_address_ids_html
+msgid "Other e-mail PEC addresse list html"
+msgstr "Altri indirizzi e-mail PEC html"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__email_address_ids
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__email_address_ids
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_contact_form
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_wizard_document_add_contact_form
+msgid "Other e-mail PEC addresses"
+msgstr "Altri indirizzi e-mail PEC"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_document_search
+msgid "Other subject Category"
+msgstr "Altri Soggetti Etichetta"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_document_search
+msgid "Other subject E-mail"
+msgstr "Altri Soggetti E-mail"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_document_search
+msgid "Other subject Pec Mail"
+msgstr "Altri Soggetti Pec Mail"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__other_subjects_ids
+#: model:ir.model.fields.selection,name:sd_dms.selection__sd_dms_contact__typology__other_subjects
+#: model:ir.model.fields.selection,name:sd_dms.selection__sd_dms_wizard_document_add_contact__typology__other_subjects
+msgid "Other subjects"
+msgstr "Altri soggetti"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__owner_id
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder__owner_id
+msgid "Owner"
+msgstr "Proprietario"
+
+#. module: sd_dms
+#: model:ir.model.fields.selection,name:sd_dms.selection__sd_dms_contact_digital_domicile__type__pec_mail
+#: model:ir.model.fields.selection,name:sd_dms.selection__sd_dms_contact_email_address__type__pec_mail
+#: model:ir.model.fields.selection,name:sd_dms.selection__sd_dms_wizard_document_add_contact_digital_domicile__type__pec_mail
+#: model:ir.model.fields.selection,name:sd_dms.selection__sd_dms_wizard_document_add_contact_email_address__type__pec_mail
+msgid "PEC e-mail"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact_digital_domicile__email_address
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact_digital_domicile__email_address
+msgid "PEC mail address"
+msgstr "Indirizzo PEC Mail"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__parent_id
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__parent_id
+msgid "Parent"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__parent_aoo_name
+msgid "Parent AOO name"
+msgstr "Nome parent AOO"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_category__parent_category_id
+msgid "Parent Category"
+msgstr "Categoria principale"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder__parent_folder_id
+msgid "Parent Folder"
+msgstr "Cartella padre"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__parent_gps_name
+msgid "Parent GPS name"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__parent_pa_name
+msgid "Parent PA name"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_category__parent_path
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__parent_path
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder__parent_path
+msgid "Parent Path"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__parent_uo_name
+msgid "Parent UO name"
+msgstr "Nome parent UO"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__parent_person
+msgid "Parent person"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__parent_person_contact_pa_type
+msgid "Parent person company PA typology"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__parent_person_company_subject_type
+msgid "Parent person company typology"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__parent_person
+msgid "Parent person name"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__parent_person_company_type
+msgid "Parent person type"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__partner_image
+msgid "Partner Image"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__partner_id_updated
+msgid "Partner updated"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder__path_name
+msgid "Path Name"
+msgstr "Nome"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__display_name
+msgid "Path name"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__contact_pa_pec_mail
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__pec_mail
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__pec_mail_amm
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__contact_pa_pec_mail
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__pec_mail
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__pec_mail_amm
+msgid "Pec Mail"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__phone
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__phone
+msgid "Phone"
+msgstr "Telefono"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_res_config_settings__module_fl_web_preview_csv
+msgid "Preview CSV"
+msgstr "Anteprima CSV"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_res_config_settings__module_fl_web_preview_libreoffice
+msgid "Preview LibreOffice"
+msgstr "Anteprima LibreOffice"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_res_config_settings__module_fl_web_preview_msoffice
+msgid "Preview MSOffice"
+msgstr "Anteprima MSOffice"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_res_config_settings__module_fl_web_preview
+msgid "Preview PDF"
+msgstr "Anteprima PDF"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_res_config_settings__module_fl_web_preview_rst
+msgid "Preview RST"
+msgstr "Anteprima RST"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_res_config_settings__module_fl_web_preview_image
+msgid "Preview image"
+msgstr "Anterprima image"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_res_config_settings__module_fl_web_preview_mail
+msgid "Preview mail"
+msgstr "Anterprima mail"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_res_config_settings__module_fl_dms_preview_sidebox
+msgid "Preview sidebox"
+msgstr "Anteprima box laterale"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_res_config_settings__module_fl_web_preview_text
+msgid "Preview text "
+msgstr "Anteprima text"
+
+#. module: sd_dms
+#: model:ir.model.fields.selection,name:sd_dms.selection__sd_dms_contact__company_subject_type__private
+#: model:ir.model.fields.selection,name:sd_dms.selection__sd_dms_contact__parent_person_company_subject_type__private
+#: model:ir.model.fields.selection,name:sd_dms.selection__sd_dms_contact__view_company_subject_type__private
+#: model:ir.model.fields.selection,name:sd_dms.selection__sd_dms_wizard_document_add_contact__company_subject_type__private
+#: model:ir.model.fields.selection,name:sd_dms.selection__sd_dms_wizard_document_add_contact__view_company_subject_type__private
+msgid "Private Company"
+msgstr "Azienda Privata"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__producer
+msgid "Producer"
+msgstr "Produttore"
+
+#. module: sd_dms
+#: model:ir.model.fields.selection,name:sd_dms.selection__sd_dms_contact__company_subject_type__pa
+#: model:ir.model.fields.selection,name:sd_dms.selection__sd_dms_contact__parent_person_company_subject_type__pa
+#: model:ir.model.fields.selection,name:sd_dms.selection__sd_dms_contact__view_company_subject_type__pa
+#: model:ir.model.fields.selection,name:sd_dms.selection__sd_dms_wizard_document_add_contact__company_subject_type__pa
+#: model:ir.model.fields.selection,name:sd_dms.selection__sd_dms_wizard_document_add_contact__view_company_subject_type__pa
+msgid "Public Administration"
+msgstr "Pubblica Amministrazione"
+
+#. module: sd_dms
+#: model:ir.model.fields.selection,name:sd_dms.selection__sd_dms_contact__company_subject_type__gps
+#: model:ir.model.fields.selection,name:sd_dms.selection__sd_dms_contact__parent_person_company_subject_type__gps
+#: model:ir.model.fields.selection,name:sd_dms.selection__sd_dms_contact__view_company_subject_type__gps
+#: model:ir.model.fields.selection,name:sd_dms.selection__sd_dms_wizard_document_add_contact__company_subject_type__gps
+#: model:ir.model.fields.selection,name:sd_dms.selection__sd_dms_wizard_document_add_contact__view_company_subject_type__gps
+msgid "Public Service Manager"
+msgstr "Gestore di Pubblico Servizio"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_document_form
+msgid "REGISTRATION CANCELED"
+msgstr "REGISTRAZIONE ANNULLATA"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document_acl__perm_read
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder_acl__perm_read
+msgid "Read"
+msgstr "Lettura"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__perm_read
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder__perm_read
+msgid "Read Access"
+msgstr "Accesso in lettura"
+
+#. module: sd_dms
+#: model:ir.model.fields.selection,name:sd_dms.selection__sd_dms_contact__typology__recipient
+#: model:ir.model.fields.selection,name:sd_dms.selection__sd_dms_wizard_document_add_contact__typology__recipient
+msgid "Recipient"
+msgstr "Destinatario"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__recipient_ids
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_document_form
+msgid "Recipients"
+msgstr "Destinatari"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_document_search
+msgid "Recipients Category"
+msgstr "Destinatari Etichetta"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_document_search
+msgid "Recipients E-mail"
+msgstr "Destinatari E-mail"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_document_search
+msgid "Recipients Pec Mail"
+msgstr "Destinatari Pec Mail"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_document_search
+msgid "Registered"
+msgstr "Registrato"
+
+#. module: sd_dms
+#: model:ir.model.fields.selection,name:sd_dms.selection__sd_dms_document__state__registration_canceled
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_document_search
+msgid "Registration canceled"
+msgstr "Registrazione annullata"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__registration_date
+msgid "Registration date"
+msgstr "Data registrazione"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__registration_number
+msgid "Registration number"
+msgstr "Numero registrazione"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__registration_type
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document_type__registration_type
+msgid "Registration type"
+msgstr "Tipo registrazione"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__registration_type_invisible
+msgid "Registration type invisible"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields.selection,name:sd_dms.selection__sd_dms_document__state__registered
+msgid "Registrato"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_res_config_settings__module_fl_dms_repertorio
+msgid "Repertory"
+msgstr "Repertorio"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document_acl__res_id
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder_acl__res_id
+msgid "Resource Id"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document_acl__res_model
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder_acl__res_model
+msgid "Resource Model"
+msgstr "Modello"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document_acl__res_name
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder_acl__res_name
+msgid "Resource Name"
+msgstr "Risorsa"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_storage_form
+msgid "Root Directories"
+msgstr "Cartella root"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_storage__root_folder_ids
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_storage_form
+msgid "Root Folders"
+msgstr "Cartella root"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder__root_storage_id
+msgid "Root Storage"
+msgstr "Storage root"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_wizard_document_add_contact_form
+msgid "Save"
+msgstr "Salva"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_storage__save_type
+msgid "Save Type"
+msgstr "Tipologia salvataggio"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__save_partner
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__save_partner
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_wizard_document_add_contact_form
+msgid "Save in contacts"
+msgstr "Salva nei contatti"
+
+#. module: sd_dms
+#: model:ir.model,name:sd_dms.model_sd_dms_thumbnail
+msgid "Seedoo Thumbnail"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model,name:sd_dms.model_sd_dms_utility_tools
+msgid "Seedoo Utility"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__sender_ids
+#: model:ir.model.fields.selection,name:sd_dms.selection__sd_dms_contact__typology__sender
+#: model:ir.model.fields.selection,name:sd_dms.selection__sd_dms_wizard_document_add_contact__typology__sender
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_document_form
+msgid "Sender"
+msgstr "Mittente"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_document_search
+msgid "Sender Category"
+msgstr "Mittente Etichetta"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_document_search
+msgid "Sender E-mail"
+msgstr "Mittente E-mail"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_document_search
+msgid "Sender Pec Mail"
+msgstr "Mittente Pec Mail"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_res_config_settings__module_fl_dms_set_folder
+msgid "Set folders"
+msgstr "Cartelle strutture"
+
+#. module: sd_dms
+#: model:ir.ui.menu,name:sd_dms.menu_item_res_config_settings
+msgid "Settings"
+msgstr "Impostazioni"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_document_search
+msgid "Shared with me"
+msgstr "Condivisi con me"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__human_size
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__size
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder__human_size
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder__size
+msgid "Size"
+msgstr "Dimensione"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__state_id
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__state
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder__state
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__state_id
+#: model:ir.model.fields,help:sd_dms.field_sd_dms_document__state
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_contact_form
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_wizard_document_add_contact_form
+msgid "State"
+msgstr "Stato"
+
+#. module: sd_dms
+#: model:ir.model,name:sd_dms.model_sd_dms_storage
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__storage_id
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder__storage_id
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_document_search_migration
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_storage_form
+msgid "Storage"
+msgstr ""
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_inherit_res_config_settings_form
+msgid "Storage management"
+msgstr "Gestione storage"
+
+#. module: sd_dms
+#: model:ir.actions.act_window,name:sd_dms.action_sd_dms_storage_list
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_storage_tree
+msgid "Storages"
+msgstr "Storage"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__store_fname
+msgid "Store Fname"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__street
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__street
+msgid "Street"
+msgstr "Indirizzo"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__street2
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__street2
+msgid "Street 2"
+msgstr "Indirizzo 2"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_contact_form
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_wizard_document_add_contact_form
+msgid "Street 2..."
+msgstr "Indirizzo 2..."
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_contact_form
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_wizard_document_add_contact_form
+msgid "Street..."
+msgstr "Indirizzo..."
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder__structure_folder
+msgid "Structure Folder"
+msgstr ""
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_folder_form
+msgid "Subdirectories"
+msgstr "Sottodirectory"
+
+#. module: sd_dms
+#: model:ir.actions.act_window,name:sd_dms.action_sd_dms_folder_subfolder_list
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder__child_folder_ids
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_folder_form
+msgid "Subfolders"
+msgstr "Sottocartelle"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__subject
+msgid "Subject"
+msgstr "Oggetto"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__system_acl_ids
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder__system_acl_ids
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_document_form
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_folder_form
+msgid "System Acl"
+msgstr "Permessi di sistema"
+
+#. module: sd_dms
+#: model:ir.model,name:sd_dms.model_sd_dms_tag
+msgid "Tag"
+msgstr "Etichetta"
+
+#. module: sd_dms
+#: model:ir.model.constraint,message:sd_dms.constraint_sd_dms_tag_name_uniq
+msgid "Tag name already exists!"
+msgstr "Nome dell'etichetta già esistente!"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_category__tag_ids
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__category_id
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__tag_ids
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder__tag_ids
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__category_id
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_category_form
+msgid "Tags"
+msgstr "Etichette"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_contact_form
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_document_form
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_folder_form
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_wizard_document_add_contact_form
+msgid "Tags..."
+msgstr "Etichette..."
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_document_form
+msgid "Technical Information"
+msgstr "Informazioni Tecniche"
+
+#. module: sd_dms
+#: code:addons/sd_dms/models/document.py:0
+#, python-format
+msgid "The document '%s' cannot be deleted because it is not in draft state!"
+msgstr "Il documento '%s' non può essere eliminato perché non in stato bozza!"
+
+#. module: sd_dms
+#: code:addons/sd_dms/models/folder.py:0
+#, python-format
+msgid ""
+"The folder '%s' cannot be deleted because it is associated with documents!"
+msgstr ""
+"La cartella '%s' non può essere eliminata perché è associata a dei documenti"
+
+#. module: sd_dms
+#: code:addons/sd_dms/models/locking.py:0
+#, python-format
+msgid "The record (%s [%s]) is locked, by an other user."
+msgstr "Il record (%s [%s]) è bloccato, da un altro utente"
+
+#. module: sd_dms
+#: model:ir.model.fields,help:sd_dms.field_sd_dms_document__save_type
+#: model:ir.model.fields,help:sd_dms.field_sd_dms_storage__save_type
+msgid ""
+"The save type is used to determine how a file is saved by the system. If you"
+" change this setting, you can migrate existing files manually by triggering "
+"the action."
+msgstr ""
+"Il tipo di salvataggio viene utilizzato per determinare come un file viene "
+"salvato dal sistema. Se tu modifichi questa impostazione, potrai migrare "
+"manualmente i file esistenti attivando l'azione."
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_document_kanban
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_folder_kanban
+msgid "Thumbnail"
+msgstr ""
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_wizard_document_add_contact_form
+msgid "Tipology"
+msgstr "Tipologia"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__title
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__title
+msgid "Title"
+msgstr "Titolo"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact_digital_domicile__type
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact_email_address__type
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact_digital_domicile__type
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact_email_address__type
+msgid "Type"
+msgstr "Tipologia"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__view_company_type
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__view_company_type
+msgid "Type in view"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__typology
+msgid "Typology"
+msgstr "Tipologia"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__cod_aoo
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__cod_aoo
+msgid "Unique AOO code"
+msgstr "Codice univoco AOO"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__cod_ou
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__cod_ou
+msgid "Unique UO code"
+msgstr "Codice univoco UO"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__message_unread
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder__message_unread
+msgid "Unread Messages"
+msgstr "Messaggi non letti"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__message_unread_counter
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder__message_unread_counter
+msgid "Unread Messages Counter"
+msgstr "Numero messaggi non letti"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document_acl__res_users_id
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder_acl__res_users_id
+#: model:res.groups,name:sd_dms.group_sd_dms_user
+msgid "User"
+msgstr "Utente"
+
+#. module: sd_dms
+#: model:ir.model,name:sd_dms.model_res_users
+msgid "Users"
+msgstr "Utenti"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__vat
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__vat
+msgid "VAT"
+msgstr "Partita IVA"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_res_config_settings__module_fl_dms_version
+msgid "Versioning"
+msgstr "Versionamento documento"
+
+#. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_folder_kanban
+msgid "Views"
+msgstr ""
+
+#. module: sd_dms
+#: code:addons/sd_dms/models/document.py:0
+#, python-format
+msgid "Warning!"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__website
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__website
+msgid "Website"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact_digital_domicile__wizard_id
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact_email_address__wizard_id
+msgid "Wizard"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model,name:sd_dms.model_sd_dms_wizard_document_add_contact
+msgid "Wizard Document Add contact"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model,name:sd_dms.model_sd_dms_wizard_document_add_contact_digital_domicile
+msgid "Wizard document add contact digital domicile"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model,name:sd_dms.model_sd_dms_wizard_document_add_contact_email_address
+msgid "Wizard document add contact email address"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__function
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__function
+msgid "Working Position"
+msgstr "Posizione lavorativa"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document_acl__perm_write
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder_acl__perm_write
+msgid "Write"
+msgstr "Modifica"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__perm_write
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder__perm_write
+msgid "Write Access"
+msgstr "Accesso in modifica"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__zip
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__zip
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_contact_form
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_wizard_document_add_contact_form
+msgid "ZIP"
+msgstr "CAP"
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__zip_id
+msgid "ZIP Location"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__button_document_add_contact_recipient_invisible
+msgid "button document add contact recipient invisible"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__button_edit_contact_invisible
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__button_document_add_contact_sender_invisible
+msgid "button document add contact sender invisible"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__button_document_add_other_subject_invisible
+msgid "button document add other subject invisible"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields.selection,name:sd_dms.selection__sd_dms_contact_email_address__type__email
+#: model:ir.model.fields.selection,name:sd_dms.selection__sd_dms_wizard_document_add_contact_email_address__type__email
+msgid "e-mail"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__amm_invisible
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__amm_invisible
+msgid "field amm invisible"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__category_id_invisible
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__category_id_invisible
+msgid "field category_id invisible"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__cod_amm_required
+msgid "field cod_amm_required"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__cod_aoo_required
+msgid "field cod_aoo_required"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__cod_ou_required
+msgid "field cod_ou_required"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__contact_pa_email_required
+msgid "field contact_pa_email_required"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__contact_pa_name_required
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__contact_pa_pec_mail_required
+msgid "field contact_pa_name_required"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__email_invisible
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__pec_mail_invisible
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__email_invisible
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__pec_mail_invisible
+msgid "field email invisible"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__email_amm_required
+msgid "field email_amm_required"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__email_required
+msgid "field email_required"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__fiscalcode_invisible
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__fiscalcode_invisible
+msgid "field fiscalcode invisible"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__function_invisible
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__function_invisible
+msgid "field function invisible"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__mobile_invisibile
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__mobile_invisibile
+msgid "field mobile invisible"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__name_invisible
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__name_invisible
+msgid "field name invisible"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__name_amm_invisible
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__name_amm_invisible
+msgid "field name_amm invisible"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__name_amm_required
+msgid "field name_amm_required"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__name_aoo_required
+msgid "field name_aoo_required"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__name_ou_required
+msgid "field name_ou_required"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__parent_person_invisible
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__parent_person_invisible
+msgid "field parent_person invisible"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__pec_mail_amm_required
+msgid "field pec_mail_amm_required"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__pec_mail_required
+msgid "field pec_mail_required"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__person_or_company_invisible
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__person_or_company_invisible
+msgid "field person_or_company invisible"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__phone_invisible
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__phone_invisible
+msgid "field phone invisible"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__document_type_id_readonly
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__field_readonly
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__registration_number_readonly
+msgid "field readonly"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__street_invisible
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__street_invisible
+msgid "field street invisible"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__title_invisible
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__title_invisible
+msgid "field title invisible"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__vat_invisible
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__vat_invisible
+msgid "field vat invisible"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__aoo_invisible
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__aoo_invisible
+msgid "fields aoo invisible"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__contact_pa_invisible
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__contact_pa_invisible
+msgid "fields contact pa invisible"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__uo_invisible
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__uo_invisible
+msgid "fields uo invisible"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__folder_id_readonly
+msgid "folder_id readonly"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder__name_readonly
+msgid "name readonly"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_folder__parent_folder_id_readonly
+msgid "parent_folder_id readonly"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__registration_number_invisible
+msgid "registration number invisible"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_wizard_document_add_contact__save_partner_invisible
+msgid "save partner invisible"
+msgstr ""

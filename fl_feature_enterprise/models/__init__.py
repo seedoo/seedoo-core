@@ -1,0 +1,1 @@
+from . import inherit_ir_module_module

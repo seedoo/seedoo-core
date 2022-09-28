@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <record id="view_sd_protocollo_protocollo_form" model="ir.ui.view">
+            <field name="name">view.sd.protocollo.protocollo.form</field>
+            <field name="model">sd.protocollo.protocollo</field>
+            <field name="inherit_id" ref="sd_protocollo.view_sd_protocollo_protocollo_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='protocollatore_id']" position="before">
+                    <field name="aoo_id"
+                           required="1"
+                           options="{'no_open': True, 'no_create': True}"
+                           force_save="1"
+                    />
+                </xpath>
+                <xpath expr="//div[@name='mittente_set_type']" position="after">
+                    <div class="o_kanban_image_fill_left d-none d-md-block"
+                         style="background-image:url('/fl_partner_pa/static/img/AOO.png')"
+                         attrs="{'invisible': [('mittente_interno_ufficio_id_set_type','!=', 'aoo')]}"
+                    />
+                    <div class="o_kanban_image_fill_left d-none d-md-block"
+                         style="background-image:url('/fl_partner_pa/static/img/UO.png')"
+                         attrs="{'invisible': [('mittente_interno_ufficio_id_set_type','!=', 'uo')]}"
+                    />
+                </xpath>
+
+                <xpath expr="//ul[@name='mittente_interno_id_ul']" position="inside">
+                    <li attrs="{'invisible': [('mittente_interno_utente_id','=', False)]}">
+                        <b>UO: </b> <field name="mittente_interno_utente_id_parent_id"/>
+                    </li>
+                    <li attrs="{'invisible': [('mittente_interno_ufficio_id_aoo_id_name','=', False)]}">
+                        <b>AOO: </b> <field name="mittente_interno_ufficio_id_aoo_id_name"/>
+                    </li>
+                    <li attrs="{'invisible': [('mittente_interno_ufficio_id_aoo_id_company_id_name','=', False)]}">
+                        <b>PA: </b><field name="mittente_interno_ufficio_id_aoo_id_company_id_name"/>
+                    </li>
+
+                </xpath>
+
+                <xpath expr="//field[@name='registro_id']" position="attributes">
+                    <attribute name="context">{'company_id': company_id, 'aoo_id': aoo_id}</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='protocollatore_ufficio_id']" position="attributes">
+                    <attribute name="context">{'company_id': company_id, 'aoo_id': aoo_id}</attribute>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

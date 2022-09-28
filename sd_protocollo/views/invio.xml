@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_sd_protocollo_invio_tree" model="ir.ui.view">
+            <field name="name">view.sd.protocollo.invio.tree</field>
+            <field name="model">sd.protocollo.invio</field>
+            <field name="arch" type="xml">
+                <tree decoration-danger="field_tree_invio_decoration_state == 'danger'"
+                      decoration-success="field_tree_invio_decoration_state == 'success'"
+                      decoration-muted="field_tree_invio_decoration_state == 'muted'"
+                      decoration-info="field_tree_invio_decoration_state == 'info'">
+                    <field name="field_tree_invio_decoration_state" invisible="1"/>
+                    <field name="invio_successivo_ids" invisible="1"/>
+                    <field name="mezzo_trasmissione_nome"/>
+                    <field name="data_invio"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_sd_protocollo_invio_form" model="ir.ui.view">
+            <field name="name">view.sd.protocollo.invio.form</field>
+            <field name="model">sd.protocollo.invio</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <header>
+                            <field name="state" widget="statusbar"/>
+                        </header>
+                        <group>
+                            <group>
+                                <field name="mezzo_trasmissione_id" options="{'no_open': True}"/>
+                            </group>
+                            <group name="data_invio">
+                                <field name="data_invio"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Destinatari" name="destinatari">
+                                <field name="destinatario_ids"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="view_sd_protocollo_invio_search" model="ir.ui.view">
+            <field name="name">view.sd.protocollo.invio.search</field>
+            <field name="model">sd.protocollo.invio</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="state"/>
+                </search>
+            </field>
+        </record>
+
+    </data>
+</odoo>

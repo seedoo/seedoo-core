@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_sd_dms_contact_form" model="ir.ui.view">
+            <field name="name">view.sd.dms.contact.form</field>
+            <field name="model">sd.dms.contact</field>
+            <field name="inherit_id" ref="sd_dms.view_sd_dms_contact_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//group[@name='group_invisible']" position="inside">
+                    <field name="use_in_sending_invisible"/>
+                </xpath>
+
+                <xpath expr="//field[@name='email']" position="before">
+                    <separator attrs="{'invisible': [('fiscalcode_invisible', '=', True),('function_invisible', '=', True)]}"/>
+                </xpath>
+
+                <xpath expr="//field[@name='email']" position="after">
+                    <field name="email_use_in_sending"
+                           attrs="{'invisible': ['|', ('use_in_sending_invisible', '=', True), ('email', '=', False)]}"
+                           readonly="1"
+                    />
+                    <separator/>
+                </xpath>
+
+                <xpath expr="//field[@name='pec_mail']" position="after">
+                    <field name="pec_mail_use_in_sending"
+                           attrs="{'invisible': ['|', ('use_in_sending_invisible', '=', True), ('pec_mail', '=', False)]}"
+                           readonly="1"
+                    />
+                    <separator/>
+                </xpath>
+
+                <xpath expr="//field[@name='email_amm']" position="after">
+                    <field name="email_amm_use_in_sending"
+                           attrs="{'invisible': ['|', ('use_in_sending_invisible', '=', True), ('email_amm', '=', False)]}"
+                           readonly="1"
+                    />
+                    <separator/>
+                </xpath>
+
+                <xpath expr="//field[@name='pec_mail_amm']" position="after">
+                    <field name="pec_mail_amm_use_in_sending"
+                           attrs="{'invisible': ['|', ('use_in_sending_invisible', '=', True), ('pec_mail_amm', '=', False)]}"
+                           readonly="1"
+                    />
+                </xpath>
+
+                <xpath expr="//field[@name='contact_pa_email']" position="after">
+                    <field name="contact_pa_email_use_in_sending"
+                           attrs="{'invisible': ['|', ('use_in_sending_invisible', '=', True), ('contact_pa_email', '=', False)]}"
+                           readonly="1"
+                    />
+                    <separator/>
+                </xpath>
+
+                <xpath expr="//field[@name='contact_pa_pec_mail']" position="after">
+                    <field name="contact_pa_pec_mail_use_in_sending"
+                           attrs="{'invisible': ['|', ('use_in_sending_invisible', '=', True), ('contact_pa_pec_mail', '=', False)]}"
+                           readonly="1"
+                    />
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

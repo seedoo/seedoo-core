@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <template id="template_sd_protocollo_header_qweb">
+            <div t-attf-class="o_company_#{company.id}_layout" style="padding-top: 10px;">
+                <div class="o_boxed_header">
+                    <div class="row mb8">
+                        <div class="col-6">
+                            <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" alt="Logo"/>
+                        </div>
+                        <div class="col-6 text-right mb4">
+                            <h4 class="mt0" t-field="company.report_header"/>
+                            <div name="company_address" class="float-right mb4">
+                                <span class="company_address" t-field="company.partner_id"
+                                      t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}'/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <template id="template_sd_protocollo_footer_qweb">
+            <div t-attf-class="footer o_boxed_footer o_company_#{company.id}_layout">
+                <div class="text-center">
+                    <ul class="list-inline">
+                        <li t-if="company.vat" class="list-inline-item">PIVA: <span
+                                t-field="company.vat"/></li>
+                        <li t-if="company.phone" class="list-inline-item">- Tel. <span class="o_force_ltr" t-field="company.phone"/></li>
+                        <li id="email" t-if="company.email" class="list-inline-item">- <span t-field="company.email"/></li>
+                        <li t-if="company.website" class="list-inline-item">- <span t-field="company.website"/></li>
+
+                    </ul>
+                    <div t-field="company.report_footer"/>
+                    <div t-if="report_type == 'pdf'">
+                        Page: <span class="page"/> / <span class="topage"/>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+    </data>
+</odoo>

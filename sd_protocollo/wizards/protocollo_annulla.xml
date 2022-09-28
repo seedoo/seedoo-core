@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_sd_protocollo_wizard_protocollo_annulla_form" model="ir.ui.view">
+            <field name="name">view.sd.protocollo.wizard.protocollo.annulla.form</field>
+            <field name="model">sd.protocollo.wizard.protocollo.annulla</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="causa"/>
+                        </group>
+                        <group>
+                            <field name="responsabile_id" options="{'no_open': True}"/>
+                            <field name="richiedente_id" options="{'no_open': True, 'no_create_edit': True}"/>
+                            <field name="data"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button string="Annulla Protocollo"
+                                name="action_cancel"
+                                type="object"
+                                class="oe_highlight"
+                        />
+                        <button string="Torna al Protocollo"
+                                class="oe_link"
+                                special="cancel"
+                        />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

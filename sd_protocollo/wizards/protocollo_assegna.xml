@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_sd_protocollo_wizard_protocollo_assegna_step1_form" model="ir.ui.view">
+            <field name="name">view.sd.protocollo.wizard.protocollo.assegna.step1.form</field>
+            <field name="model">sd.protocollo.wizard.protocollo.assegna.step1</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group attrs="{'invisible':[('assegnatari_non_presenti','=',False)]}" col="4">
+                            <div colspan="4">
+                                <h3>Non ci sono assegnatari.</h3>
+                                <p>Per selezionare gli assegnatari è necessario configurare gli uffici e i relativi
+                                    utenti dalla apposita sezione di configurazione.</p>
+                            </div>
+                        </group>
+                        <group attrs="{'invisible':[('assegnatore_ufficio_id_invisible','=',True)]}">
+                            <group>
+                                <field name="assegnatore_ufficio_id" widget="selection"/>
+                            </group>
+                            <group colspan="2"/>
+                        </group>
+
+                        <hr attrs="{'invisible':[('assegnatore_ufficio_id_invisible','=',True)]}"/>
+                        <b><label for="assegnatario_type" string="Nuovo Assegnatario"
+                                  attrs="{'invisible':[('assegnatari_non_presenti','=',True)]}"/></b>
+                        <group attrs="{'invisible':[('assegnatari_non_presenti','=',True)]}">
+                            <group>
+                                <field name="assegnatario_type"
+                                       widget="radio"
+                                       options="{'horizontal': true}"
+                                       required="1"
+                                       nolabel="1"
+                                       attrs="{'readonly':[('assegnatario_type_readonly','=',True)]}"/>
+                            </group>
+                            <br/>
+                            <group name="group_assegnatario_competenza" attrs="{'invisible':[('assegnatario_type','!=','competenza')]}">
+                                <field name="assegnatario_competenza_id"
+                                   widget="ztree_select"
+                                   attrs="{'required':[('assegnatario_competenza_id_required','=',True)]}"
+                                   options="{
+                                   'ztree_parent_key': 'parent_id',
+                                   'ztree_expend_level': '1',
+                                   'ztree_name_field': 'nome',
+                                   'ztree_title_field': 'path_name',
+                                   'no_open': True,
+                                   'no_create': True
+                                   }"
+                                   context="{'disable_ids': context['assegnatario_competenza_disable_ids'].toJSON(), 'protocollo_id': context['protocollo_id']}"
+                                   class="fl_set"
+                                   nolabel="1"
+                            />
+                            </group>
+                            <group name="group_assegnatario_conoscenza" attrs="{'invisible':[('assegnatario_type','!=','conoscenza')]}">
+                                <field name="assegnatario_conoscenza_id"
+                                       widget="ztree_select"
+                                       attrs="{'required':[('assegnatario_conoscenza_id_required','=',True)]}"
+                                       options="{
+                                       'ztree_parent_key': 'parent_id',
+                                       'ztree_expend_level': '1',
+                                       'ztree_name_field': 'nome',
+                                       'ztree_title_field': 'path_name',
+                                       'no_open': True,
+                                       'no_create': True
+                                       }"
+                                       context="{'disable_ids': context['assegnatario_conoscenza_disable_ids'].toJSON(), 'protocollo_id': context['protocollo_id']}"
+                                       class="fl_set"
+                                       nolabel="1"
+                                />
+                            </group>
+                        </group>
+
+                        <group attrs="{'invisible':[('assegnatari_non_presenti','=',True)]}">
+                            <field name="messaggio" placeholder="Messaggio"
+                                   nolabel="1"
+                            />
+                        </group>
+
+                        <hr attrs="{'invisible':[('assegnazione_ids','=',[])]}"/>
+                        <group attrs="{'invisible':[('assegnazione_ids','=',[])]}">
+                            <field name="assegnazione_ids"
+                                   nolabel="1"
+                                   options="{'no_open': True, 'no_create': True}">
+                                <tree create="false" delete="false" edit="false">
+                                    <field name="assegnatario_id"/>
+                                    <field name="assegnatario_type"/>
+                                    <field name="wizard_step1_id" invisible="1"/>
+                                    <field name="messaggio_assegnatario" invisible="1"/>
+                                </tree>
+                            </field>
+                        </group>
+
+
+                        <group invisible="1">
+                            <field name="riservato"/>
+                            <field name="assegnatore_ufficio_id_invisible"/>
+                            <field name="assegnatario_competenza_id_required"/>
+                            <field name="messaggio_invisible"/>
+                            <field name="assegnatari_non_presenti"/>
+                            <field name="assegnatario_type_readonly" />
+                            <field name="button_salva_invisible" />
+                            <field name="button_salva_e_nuovo_invisible" />
+                            <field name="assegnatario_competenza_id_required" />
+                            <field name="assegnatario_conoscenza_id_required" />
+                        </group>
+
+                    </sheet>
+                    <footer>
+                        <!--Salvataggio in aggiunta-->
+                        <button string="Salva ed esci"
+                                name="action_save"
+                                type="object"
+                                attrs="{'invisible':['|',('assegnatari_non_presenti','=',True),('button_salva_invisible','=', True)]}"
+                                class="oe_highlight"
+                        />
+                        <button string="Aggiungi altro assegnatario"
+                                name="action_save_and_new"
+                                type="object"
+                                attrs="{'invisible':['|',('assegnatari_non_presenti','=',True),('button_salva_e_nuovo_invisible','=', True)]}"
+                                class="btn btn-secondary o-kanban-button-new"
+                        />
+                        <button string="Abbandona"
+                                class="oe_link"
+                                special="cancel"
+                        />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="view_sd_protocollo_wizard_protocollo_assegna_assegnatari_form" model="ir.ui.view">
+            <field name="name">view.sd.protocollo.wizard.protocollo.assegna.assegnatari.form</field>
+            <field name="model">sd.protocollo.wizard.protocollo.assegna.assegnatari</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <field name="wizard_step1_id" invisible="1"/>
+                        <field name="wizard_step2_id" invisible="1"/>
+                        <group>
+                            <group>
+                                <field name="assegnatario_id"
+                                       required="1"
+                                       options="{'no_open': True, 'no_create': True}"/>
+                            </group>
+                            <group>
+                                <field name="assegnatario_type"
+                                       required="1"
+                                />
+                            </group>
+                        </group>
+                        <newline/>
+                        <group>
+                            <field name="messaggio_assegnatario" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_sd_protocollo_wizard_protocollo_assegna_step2_form" model="ir.ui.view">
+            <field name="name">view.sd.protocollo.wizard.protocollo.assegna.step2.form</field>
+            <field name="model">sd.protocollo.wizard.protocollo.assegna.step2</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <h3>Di seguito gli assegnatari scelti:</h3>
+                        <group>
+                            <field name="assegnazione_ids"
+                                   nolabel="1"
+                                   options="{'no_open': True, 'no_create': True}">
+                                <tree create="false" delete="false" edit="false">
+                                    <field name="assegnatario_id" />
+                                    <field name="assegnatario_type" />
+                                    <field name="wizard_step2_id" invisible="1"/>
+                                    <field name="messaggio_assegnatario" invisible="1"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button string="Conferma"
+                                name="action_save"
+                                type="object"
+                                class="oe_highlight"
+                        />
+                        <button string="Torna indietro"
+                                name="action_torna_indietro"
+                                type="object"
+                                class="oe_link"
+                        />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <record id="view_sd_protocollo_protocollo_form" model="ir.ui.view">
+            <field name="name">view.sd.protocollo.protocollo.form</field>
+            <field name="model">sd.protocollo.protocollo</field>
+            <field name="inherit_id" ref="sd_protocollo.view_sd_protocollo_protocollo_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//button[@name='protocollo_leggi_assegnazione_action']" position="after">
+                    <field name="button_gestisci_invii_invisible" invisible="1"/>
+                    <button name="protocollo_gestione_invii_action"
+                            type="object"
+                            string="Gestisci invii"
+                            class="oe_highlight oe_read_only"
+                            attrs="{'invisible': [('button_gestisci_invii_invisible', '=', True)]}"
+                    />
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="view_sd_protocollo_protocollo_search" model="ir.ui.view">
+            <field name="name">view.sd.protocollo.protocollo.search</field>
+            <field name="model">sd.protocollo.protocollo</field>
+            <field name="inherit_id" ref="sd_protocollo.view_sd_protocollo_protocollo_search"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//group[@name='filter_state']" position="after">
+                    <separator/>
+                    <group>
+                        <field name="da_gestire_invio" invisible="1"/>
+                        <filter name="invio_errore" string="Invii in uscita" domain="[('in_uscita_invio', '=', True)]"/>
+                        <filter name="invio_uscita" string="Invii in errore" domain="[('da_gestire_invio', '=', True)]"/>
+                    </group>
+                </xpath>
+
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

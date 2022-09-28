@@ -1,0 +1,193 @@
+$dashboard-bg-color: white;
+$dashboard-alternative-color: rgba($o-community-color, 0.8);
+$dashboard-box-color-full: $o-community-color;
+$dashboard-box-color-empty: #aaa;
+$dashboard-box-color-empty-hover: #f4f4f4;
+$dashboard-user-table-title-color: $o-community-color;
+
+$dashboard-container-title-color: $dashboard-box-color-full;
+$dashboard-box-bg-color: transparent;
+$dashboard-box-bg-hover-color-full: $dashboard-alternative-color;
+$dashboard-box-label-color-full: $dashboard-box-color-full;
+$dashboard-box-border-color-full: $dashboard-box-color-full;
+$dashboard-box-counter-color-full: $dashboard-box-color-full;
+$dashboard-box-bg-hover-color-empty: $dashboard-box-color-empty-hover;
+$dashboard-box-label-color-empty: $dashboard-box-color-empty;
+$dashboard-box-border-color-empty: $dashboard-box-color-empty;
+$dashboard-box-counter-color-empty: $dashboard-box-color-empty;
+$dashboard-counter-bg-color: transparent;
+
+
+.o_action.sd {
+  width: 100%;
+  height: 100%;
+  background-color: $dashboard-bg-color;
+}
+
+div.sd_dashboard_user_info {
+  border-color: #e5e5e5 #dbdbdb #d2d2d2;
+  float: right;
+  width: 100%;
+  padding: 30px 30px 0 30px;
+}
+
+div.sd_dashboard_da_protocollare {
+  padding: 30px 30px 0 30px;
+  width: 100%;
+  float: left;
+}
+
+div.sd_dashboard_protocolli {
+  padding: 30px 30px 30px 30px;
+  width: 100%;
+  float: left;
+}
+
+div.sd-container {
+  .title {
+    margin-bottom: 25px;
+    width: 100%;
+    border-bottom: 1px solid #ccc;
+
+    h4 {
+      border-bottom: 2px solid;
+      display: inline-block;
+      padding-bottom: 20px;
+      color: $dashboard-container-title-color;
+      min-width: 145px;
+      margin-bottom: 0;
+    }
+  }
+}
+
+div.col.col-lg-2.sd {
+  box-sizing: border-box;
+  height: 120px;
+}
+
+.sd-info-utente {
+  ul {
+    margin-bottom: 10px;
+    font-style: italic;
+    list-style: none;
+    padding: 0;
+  }
+
+  li.username {
+    font-size: 20px;
+  }
+
+  li.email {
+
+    &:before {
+      content:"\f0e0";
+      font: normal normal normal 14px/1 FontAwesome;
+      color: orange;
+      margin-right: 10px;
+    }
+  }
+}
+
+.thead-sd {
+  color: $dashboard-user-table-title-color;
+}
+
+.fa.fa-user.sd {
+  float: left;
+}
+
+.user-image-sd {
+  float: right;
+  width: 60px;
+  height: 60px;
+  margin-bottom: 20px;
+}
+
+.sd-button {
+  display: block;
+  transition:all 0.3s ease;
+  margin-bottom: 20px;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &-container {
+    background-color: $dashboard-box-bg-color !important;
+    overflow: hidden;
+    width: 100%;
+    display: block;
+    position: relative;
+    height: 100px;
+    text-align: center;
+  }
+
+  &-counter {
+
+    text-align: center;
+    line-height: 30px;
+    margin: auto;
+    font-size: 36px;
+    padding-top: 22px;
+  }
+
+  &-label {
+    position: absolute;
+    bottom: 0;
+    text-align: center;
+    width: 100%;
+    color: $dashboard-box-label-color-full;
+    padding-bottom: 10px;
+  }
+
+  &.empty {
+    border: 1px solid $dashboard-box-border-color-empty;
+
+    .sd-button-label {
+      color: $dashboard-box-label-color-empty;
+    }
+
+    .sd-button-counter {
+      color: #ddd;
+    }
+
+    &:hover {
+      background-color: $dashboard-box-bg-hover-color-empty;
+
+      //.sd-button-label {
+      //  color: white;
+      //}
+      //
+      //.sd-button-counter {
+      //  color: white;
+      //}
+    }
+  }
+
+  &.full {
+    border: 2px solid $dashboard-box-border-color-full;
+
+    .sd-button-label {
+      color: $dashboard-box-label-color-full;
+    }
+
+    .sd-button-counter {
+      color: $dashboard-box-counter-color-full;
+    }
+
+    &:hover {
+      background-color: $dashboard-box-bg-hover-color-full;
+
+      .sd-button-label {
+        color: white;
+      }
+
+      .sd-button-counter {
+        color: white;
+      }
+    }
+
+  }
+}
+
+

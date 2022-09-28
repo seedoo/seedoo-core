@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <template id="assets_backend_fl_mail_client" name="Assets backend" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/fl_mail_client/static/src/components/mail/mail.js"/>
+                <script type="text/javascript" src="/fl_mail_client/static/src/components/mail_list/mail_list.js"/>
+                <script type="text/javascript" src="/fl_mail_client/static/src/components/thread_view/thread_view.js"/>
+                <script type="text/javascript" src="/fl_mail_client/static/src/components/discuss_sidebar/discuss_sidebar.js"/>
+                <script type="text/javascript" src="/fl_mail_client/static/src/components/discuss_sidebar_item/discuss_sidebar_item.js"/>
+                <script type="text/javascript" src="/fl_mail_client/static/src/models/thread/thread.js"/>
+                <script type="text/javascript" src="/fl_mail_client/static/src/models/partner/partner.js"/>
+                <script type="text/javascript" src="/fl_mail_client/static/src/models/thread_view/thread_view.js"/>
+                <script type="text/javascript" src="/fl_mail_client/static/src/models/thread_view/thread_viewer.js"/>
+                <script type="text/javascript" src="/fl_mail_client/static/src/models/mail/mail.js"/>
+                <script type="text/javascript" src="/fl_mail_client/static/src/models/mail_cache/mail_cache.js"/>
+                <script type="text/javascript" src="/fl_mail_client/static/src/models/thread_cache/thread_cache.js"/>
+                <script type="text/javascript" src="/fl_mail_client/static/src/models/messaging/messaging.js"/>
+                <script type="text/javascript" src="/fl_mail_client/static/src/models/messaging_initializer/messaging_initializer.js"/>
+                <script type="text/javascript" src="/fl_mail_client/static/src/models/messaging_notification_handler/messaging_notification_handler.js"/>
+                <script type="text/javascript" src="/fl_mail_client/static/src/models/attachment/attachment.js"/>
+                <script type="text/javascript" src="/fl_mail_client/static/src/widgets/discuss/discuss.js"></script>
+                <link rel="stylesheet" type="text/scss" href="/fl_mail_client/static/src/components/mail_list/mail_list.scss"/>
+                <link rel="stylesheet" type="text/scss" href="/fl_mail_client/static/src/components/mail/mail.scss"/>
+            </xpath>
+        </template>
+    </data>
+</odoo>

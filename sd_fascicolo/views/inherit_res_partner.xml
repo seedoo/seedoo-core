@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record id="view_res_partner_form" model="ir.ui.view">
+            <field name="name">view.res.partner.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button name="action_show_dossiers"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-book">
+                        <field string="Dossiers" name="fascicolo_ids_count" widget="statinfo"/>
+                    </button>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

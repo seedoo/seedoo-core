@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="access_sd_protocollo_registro_emergenza_1" model="ir.model.access">
+            <field name="name">access.sd.protocollo.registro.emergenza.1</field>
+            <field name="model_id" ref="model_sd_protocollo_registro_emergenza"/>
+            <field name="group_id" ref="group_sd_protocollo_assegnatario"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+    </data>
+</odoo>

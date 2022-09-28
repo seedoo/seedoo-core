@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <data>
+
+        <record id="group_sd_protocollo_crea_protocollo_ingresso_da_pec" model="res.groups">
+            <field name="name">Crea protocollo da PEC</field>
+            <field name="category_id" ref="base.module_category_usability"/>
+            <field name="implied_ids" eval="[(6, 0, [
+                ref('sd_protocollo.group_sd_protocollo_crea_protocollo_ingresso'),
+            ])]"/>
+            <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+        </record>
+
+    </data>
+</odoo>

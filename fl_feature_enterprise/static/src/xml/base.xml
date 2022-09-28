@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates>
+    <t t-name="FLEnterpriseUpgrade">
+        <div class="row" role="status">
+            <div class="col-6">
+                Ottieni questa ed altre funzionalità aggiuntive, richiedendo la versione enterprise a info@flosslab.com
+            </div>
+            <div class="col-6">
+                <img class="img-fluid" t-att-src='_s + "/web/static/src/img/enterprise_upgrade.jpg"' draggable="false"
+                     alt="Upgrade to enterprise"/>
+            </div>
+        </div>
+    </t>
+</templates>

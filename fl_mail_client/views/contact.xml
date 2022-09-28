@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <data noupdate="0">
+
+        <record id="view_fl_mail_client_contact_tree" model="ir.ui.view">
+            <field name="name">view.fl.mail.client.contact.tree</field>
+            <field name="model">fl.mail.client.contact</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_fl_mail_client_contact_form" model="ir.ui.view">
+            <field name="name">view.fl.mail.client.contact.form</field>
+            <field name="model">fl.mail.client.contact</field>
+            <field name="arch" type="xml">
+                <form string="Contact">
+                    <field name="is_company" invisible="1"/>
+                    <field name="type" invisible="1"/>
+                    <div class="oe_title">
+                        <field name="company_type" options="{'horizontal': true}" class="oe_edit_only" widget="radio"  groups="base.group_no_one"/>
+                        <h1>
+                            <field name="name" default_focus="1" placeholder="Name" required="1"/>
+                        </h1>
+                        <field name="parent_id"
+                            widget="res_partner_many2one"
+                            placeholder="Company"
+                            domain="[('is_company', '=', True)]" context="{'default_is_company': True, 'show_vat': True}"
+                            attrs="{'invisible': [('is_company', '=', True)]}"/>
+                    </div>
+                    <group>
+                        <field name="function" placeholder="e.g. Sales Director" attrs="{'invisible': [('is_company', '=', True)]}"/>
+                        <field name="email" widget="email" context="{'gravatar_image': True}" attrs="{'required': [('type', '=', 'contact')]}"/>
+                        <field name="phone" widget="phone"/>
+                        <field name="mobile" widget="phone"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_fl_mail_client_contact_search" model="ir.ui.view">
+            <field name="name">view.fl.mail.client.contact.search</field>
+            <field name="model">fl.mail.client.contact</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                </search>
+            </field>
+        </record>
+
+    </data>
+</odoo>

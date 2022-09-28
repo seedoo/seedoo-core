@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="data_sd_protocollo_mezzo_trasmissione_pec" model="sd.protocollo.mezzo.trasmissione" forcecreate="False">
+            <field name="nome">PEC integrata nel sistema</field>
+            <field name="integrazione">pec</field>
+            <field name="ordinamento">10</field>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <data noupdate="0">
+
+        <record id="view_fl_mail_client_account_permission_tree" model="ir.ui.view">
+            <field name="name">view.fl.mail.client.account.permission.tree</field>
+            <field name="model">fl.mail.client.account.permission</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="account_id"/>
+                    <field name="user_id"/>
+                    <field name="show_inbox_mails" widget="boolean_toggle"/>
+                    <field name="show_outgoing_mails" widget="boolean_toggle"/>
+                    <field name="use_outgoing_server" widget="boolean_toggle"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_fl_mail_client_account_permission_form" model="ir.ui.view">
+            <field name="name">view.fl.mail.client.account.permission.form</field>
+            <field name="model">fl.mail.client.account.permission</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="account_id"/>
+                            <h2>
+                                <field name="account_id"
+                                       domain="[('id', 'not in', user_account_ids)]"
+                                       options="{'no_open':True, 'no_create':True}"
+                                />
+                            </h2>
+                            <label for="user_id"/>
+                            <h2>
+                                <field name="user_id"
+                                       domain="[('id', 'not in', account_user_ids)]"
+                                       options="{'no_open':True, 'no_create':True}"
+                                />
+                            </h2>
+                        </div>
+                        <group col="2">
+                            <field name="show_inbox_mails" widget="boolean_toggle"/>
+                            <field name="show_outgoing_mails" widget="boolean_toggle"/>
+                            <field name="use_outgoing_server" widget="boolean_toggle"/>
+
+                            <field name="account_user_ids" invisible="1"/>
+                            <field name="user_account_ids" invisible="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_fl_mail_client_account_permission_search" model="ir.ui.view">
+            <field name="name">view.fl.mail.client.account.permission.search</field>
+            <field name="model">fl.mail.client.account.permission</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="account_id"/>
+                    <separator/>
+                    <field name="user_id"/>
+                    <separator/>
+                    <field name="show_inbox_mails"/>
+                    <separator/>
+                    <field name="show_outgoing_mails"/>
+                    <separator/>
+                    <field name="use_outgoing_server"/>
+                </search>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_sd_protocollo_wizard_protocollo_fascicola_form" model="ir.ui.view">
+            <field name="name">view.sd.protocollo.wizard.protocollo.fascicola.form</field>
+            <field name="model">sd.protocollo.wizard.protocollo.fascicola</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <b>Fascicolo</b>
+                            <br/>
+                            <field name="fascicolo_id"
+                                   nolabel="1"
+                                   options="{'no_open':True, 'no_create':True}"
+                                   colspan="4"
+                            />
+                        </group>
+                        <group attrs="{'invisible': ['|', ('documento_ids', '=', []), ('fascicolo_id', '=', False)]}">
+                            <b>Documenti del protocollo da inserire nel fascicolo</b>
+                        </group>
+                        <group attrs="{'invisible': ['|', ('documento_ids', '!=', []), ('fascicolo_id', '=', False)]}">
+                            <b>Non ci sono documenti associabili al fascicolo selezionato</b>
+                        </group>
+                        <field name="documento_ids"
+                               nolabel="1"
+                               attrs="{'invisible': ['|', ('documento_ids', '=', []), ('fascicolo_id', '=', False)]}"
+                               force_save="1"
+                        >
+                            <tree>
+                                <field name="filename"/>
+                                <field name="subject"/>
+                                <field name="folder_id"/>
+                                <field name="document_type_id"/>
+                                <field name="voce_titolario_id"/>
+                                <field name="state"/>
+                            </tree>
+                        </field>
+                    </sheet>
+                    <footer>
+                        <button name="action_aggiungi_documento_fascicolo"
+                                type="object"
+                                string="Fascicola"
+                                class="oe_highlight"
+                                attrs="{'invisible': [('documento_ids', '=', [])]}"
+                        />
+                        <button string="Abbandona"
+                                class="oe_link"
+                                special="cancel"
+                        />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

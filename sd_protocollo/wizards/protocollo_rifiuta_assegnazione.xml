@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_sd_protocollo_wizard_protocollo_rifiuta_assegnazione_form" model="ir.ui.view">
+            <field name="name">view.sd.protocollo.wizard.protocollo.rifiuta.assegnazione.form</field>
+            <field name="model">sd.protocollo.wizard.protocollo.rifiuta.assegnazione</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="motivazione"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="action_confirm"
+                                type="object"
+                                string="Rifiuta"
+                                class="oe_highlight"
+                        />
+                        <button string="Abbandona"
+                                class="oe_link"
+                                special="cancel"
+                        />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

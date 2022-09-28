@@ -1,0 +1,1136 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* fl_mail_client
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-04-05 15:00+0000\n"
+"PO-Revision-Date: 2022-04-05 15:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_fl_mail_client_account__account_permission_count
+msgid "# Account Permissions"
+msgstr "# Permessi Account"
+
+#. module: fl_mail_client
+#: model_terms:ir.ui.view,arch_db:fl_mail_client.view_ir_attachment_kanban
+msgid ""
+"<i class=\"fa fa-download\"/>\n"
+"                                                    Download"
+msgstr ""
+"<i class=\"fa fa-download\"/>\n"
+"                                                    Scarica"
+
+#. module: fl_mail_client
+#: model_terms:ir.ui.view,arch_db:fl_mail_client.res_config_settings_view_form
+msgid "<span class=\"label-enterprise\">Enterprise</span>"
+msgstr ""
+
+#. module: fl_mail_client
+#: model_terms:ir.ui.view,arch_db:fl_mail_client.res_config_settings_view_form
+msgid ""
+"<strong>Save</strong> this page and come back here\n"
+"                                                to set up the feature."
+msgstr ""
+
+#. module: fl_mail_client
+#. openerp-web
+#: code:addons/fl_mail_client/static/src/components/mail/mail.js:0
+#: model:ir.model.fields.selection,name:fl_mail_client.selection__mail_mail__state__accepted
+#: model:ir.model.fields.selection,name:fl_mail_client.selection__mail_mail__state_out__accepted
+#: model_terms:ir.ui.view,arch_db:fl_mail_client.view_mail_mail_search_sent
+#, python-format
+msgid "Accepted"
+msgstr "Accettato"
+
+#. module: fl_mail_client
+#: model:ir.model,name:fl_mail_client.model_fl_mail_client_account
+#: model:ir.model.fields,field_description:fl_mail_client.field_fl_mail_client_account_permission__account_id
+#: model:ir.model.fields,field_description:fl_mail_client.field_mail_mail__account_id
+#: model:ir.model.fields,field_description:fl_mail_client.field_mail_message__account_id
+msgid "Account"
+msgstr ""
+
+#. module: fl_mail_client
+#: model:ir.model,name:fl_mail_client.model_fl_mail_client_account_permission
+msgid "Account Permission"
+msgstr "Permesso Account"
+
+#. module: fl_mail_client
+#: code:addons/fl_mail_client/models/account.py:0
+#: model:ir.actions.act_window,name:fl_mail_client.action_fl_mail_client_account_permission_list
+#: model:ir.model.fields,field_description:fl_mail_client.field_fl_mail_client_account__account_permission_ids
+#: model:ir.model.fields,field_description:fl_mail_client.field_res_users__account_permission_ids
+#, python-format
+msgid "Account Permissions"
+msgstr "Permessi Account"
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_fl_mail_client_account_permission__account_user_ids
+msgid "Account Users"
+msgstr "Account utenti"
+
+#. module: fl_mail_client
+#: model:ir.actions.act_window,name:fl_mail_client.action_fl_mail_client_account_list
+#: model:ir.ui.menu,name:fl_mail_client.menu_item_fl_mail_client_account_list
+msgid "Accounts"
+msgstr "Account"
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_fetchmail_server_history__action
+msgid "Action"
+msgstr "Azione"
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_mail_mail__message_needaction
+msgid "Action Needed"
+msgstr ""
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_fl_mail_client_contact__type
+msgid "Address Type"
+msgstr "Tipologia indirizzo"
+
+#. module: fl_mail_client
+#: model:res.groups,name:fl_mail_client.group_fl_mail_client_administrator
+msgid "Administrator"
+msgstr "Amministratore"
+
+#. module: fl_mail_client
+#: model_terms:ir.ui.view,arch_db:fl_mail_client.view_mail_mail_form
+msgid "Advanced"
+msgstr "Avanzate"
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_res_config_settings__module_fl_mail_client_history
+msgid "Advanced history management"
+msgstr "Gestione avanzata dello storico"
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_res_partner__has_compose_permission
+#: model:ir.model.fields,field_description:fl_mail_client.field_res_users__has_compose_permission
+msgid "As compose permission"
+msgstr "Ha il permesso di comporre mail"
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_mail_mail__message_attachment_count
+msgid "Attachment Count"
+msgstr ""
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_mail_mail__original_attachment_ids
+msgid "Attachments"
+msgstr "Allegati"
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_mail_compose_message__email_bcc_ids
+#: model:ir.model.fields,field_description:fl_mail_client.field_mail_mail__email_bcc
+msgid "Bcc"
+msgstr ""
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_mail_mail__original_body
+msgid "Body"
+msgstr "Corpo"
+
+#. module: fl_mail_client
+#. openerp-web
+#: code:addons/fl_mail_client/static/src/components/mail/mail.js:0
+#: model:ir.model.fields.selection,name:fl_mail_client.selection__mail_mail__state_out__cancel
+#, python-format
+msgid "Cancelled"
+msgstr "Annullato"
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_mail_compose_message__email_cc_ids
+msgid "Cc"
+msgstr ""
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_res_config_settings__module_fl_mail_client_pec
+msgid "Certified mail"
+msgstr "Posta certificata"
+
+#. module: fl_mail_client
+#: model:ir.model.fields.selection,name:fl_mail_client.selection__fl_mail_client_contact__company_type__company
+#: model_terms:ir.ui.view,arch_db:fl_mail_client.view_fl_mail_client_contact_form
+msgid "Company"
+msgstr "Azienda"
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_fl_mail_client_contact__company_type
+msgid "Company Type"
+msgstr "Tipo azienda"
+
+#. module: fl_mail_client
+#. openerp-web
+#: code:addons/fl_mail_client/static/src/components/discuss_sidebar/discuss_sidebar.xml:0
+#: model:ir.actions.act_window,name:fl_mail_client.action_wizard_mail_compose_message_form
+#, python-format
+msgid "Compose"
+msgstr "Scrivi"
+
+#. module: fl_mail_client
+#: model:ir.model,name:fl_mail_client.model_res_config_settings
+msgid "Config Settings"
+msgstr "Impostazioni di configurazione"
+
+#. module: fl_mail_client
+#: model:ir.ui.menu,name:fl_mail_client.menu_configuration
+#: model_terms:ir.ui.view,arch_db:fl_mail_client.res_config_settings_view_form
+msgid "Configuration"
+msgstr "Configurazione"
+
+#. module: fl_mail_client
+#: code:addons/fl_mail_client/models/inherit_ir_mail_server.py:0
+#, python-format
+msgid ""
+"Connection Test Failed! Here is what we got instead:\n"
+" %s"
+msgstr ""
+
+#. module: fl_mail_client
+#: code:addons/fl_mail_client/models/inherit_ir_mail_server.py:0
+#, python-format
+msgid "Connection Test Succeeded!"
+msgstr ""
+
+#. module: fl_mail_client
+#: model:ir.model,name:fl_mail_client.model_fl_mail_client_contact
+#: model:ir.model,name:fl_mail_client.model_res_partner
+#: model_terms:ir.ui.view,arch_db:fl_mail_client.view_fl_mail_client_contact_form
+msgid "Contact"
+msgstr "Contatto"
+
+#. module: fl_mail_client
+#: code:addons/fl_mail_client/models/contact.py:0
+#, python-format
+msgid "Couldn't create contact without email address!"
+msgstr ""
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_fetchmail_server_history__create_uid
+#: model:ir.model.fields,field_description:fl_mail_client.field_fl_mail_client_account__create_uid
+#: model:ir.model.fields,field_description:fl_mail_client.field_fl_mail_client_account_permission__create_uid
+#: model:ir.model.fields,field_description:fl_mail_client.field_mail_sidebar_item__create_uid
+msgid "Created by"
+msgstr "Creato da"
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_fetchmail_server_history__create_date
+#: model:ir.model.fields,field_description:fl_mail_client.field_fl_mail_client_account__create_date
+#: model:ir.model.fields,field_description:fl_mail_client.field_fl_mail_client_account_permission__create_date
+#: model:ir.model.fields,field_description:fl_mail_client.field_mail_sidebar_item__create_date
+msgid "Created on"
+msgstr "Creato il"
+
+#. module: fl_mail_client
+#: code:addons/fl_mail_client/models/inherit_fetchmail_server.py:0
+#, python-format
+msgid "Date"
+msgstr ""
+
+#. module: fl_mail_client
+#. openerp-web
+#: code:addons/fl_mail_client/static/src/components/mail/mail.js:0
+#: model:ir.model.fields.selection,name:fl_mail_client.selection__mail_mail__state_out__exception
+#, python-format
+msgid "Delivery Failed"
+msgstr "In errore"
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_mail_mail__direction
+#: model:ir.model.fields,field_description:fl_mail_client.field_mail_message__direction
+msgid "Direction"
+msgstr "Direzione"
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_fetchmail_server__display_name
+#: model:ir.model.fields,field_description:fl_mail_client.field_fetchmail_server_history__display_name
+#: model:ir.model.fields,field_description:fl_mail_client.field_fl_mail_client_account__display_name
+#: model:ir.model.fields,field_description:fl_mail_client.field_fl_mail_client_account_permission__display_name
+#: model:ir.model.fields,field_description:fl_mail_client.field_fl_mail_client_contact__display_name
+#: model:ir.model.fields,field_description:fl_mail_client.field_ir_mail_server__display_name
+#: model:ir.model.fields,field_description:fl_mail_client.field_mail_compose_message__display_name
+#: model:ir.model.fields,field_description:fl_mail_client.field_mail_mail__display_name
+#: model:ir.model.fields,field_description:fl_mail_client.field_mail_message__display_name
+#: model:ir.model.fields,field_description:fl_mail_client.field_mail_sidebar_item__display_name
+#: model:ir.model.fields,field_description:fl_mail_client.field_mail_thread__display_name
+#: model:ir.model.fields,field_description:fl_mail_client.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:fl_mail_client.field_res_partner__display_name
+#: model:ir.model.fields,field_description:fl_mail_client.field_res_users__display_name
+msgid "Display Name"
+msgstr "Nome visualizzato"
+
+#. module: fl_mail_client
+#: model_terms:ir.ui.view,arch_db:fl_mail_client.view_ir_attachment_kanban
+msgid "Dropdown menu"
+msgstr ""
+
+#. module: fl_mail_client
+#. openerp-web
+#: code:addons/fl_mail_client/static/src/components/discuss_sidebar/discuss_sidebar.xml:0
+#, python-format
+msgid "E-mail"
+msgstr ""
+
+#. module: fl_mail_client
+#: model:ir.model.fields.selection,name:fl_mail_client.selection__fetchmail_server_history__result__error
+msgid "ERROR"
+msgstr "ERRORE"
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_fl_mail_client_account__email
+#: model:ir.model.fields,field_description:fl_mail_client.field_fl_mail_client_contact__email
+#: model:ir.model.fields.selection,name:fl_mail_client.selection__mail_compose_message__message_type__email
+#: model_terms:ir.ui.view,arch_db:fl_mail_client.view_mail_mail_form
+msgid "Email"
+msgstr ""
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_fl_mail_client_account__email_received_count
+msgid "Email Received"
+msgstr "Email ricevute"
+
+#. module: fl_mail_client
+#: model_terms:ir.ui.view,arch_db:fl_mail_client.view_mail_mail_search
+msgid "Email Search"
+msgstr ""
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_fl_mail_client_account__email_sent_count
+msgid "Email Sent"
+msgstr "Email inviate"
+
+#. module: fl_mail_client
+#: model:ir.model,name:fl_mail_client.model_mail_thread
+msgid "Email Thread"
+msgstr "Discussione e-mail"
+
+#. module: fl_mail_client
+#: model:ir.model,name:fl_mail_client.model_mail_compose_message
+msgid "Email composition wizard"
+msgstr "Procedura composizione e-mail"
+
+#. module: fl_mail_client
+#: model_terms:ir.ui.view,arch_db:fl_mail_client.view_mail_mail_tree
+msgid "Emails"
+msgstr "Email"
+
+#. module: fl_mail_client
+#: model:ir.actions.act_window,name:fl_mail_client.action_mail_mail_list_received
+#: model:ir.actions.act_window,name:fl_mail_client.action_mail_mail_list_received_account
+#: model_terms:ir.ui.view,arch_db:fl_mail_client.view_fl_mail_client_account_form
+msgid "Emails Received"
+msgstr "Email ricevute"
+
+#. module: fl_mail_client
+#: model:ir.actions.act_window,name:fl_mail_client.action_mail_mail_list_sent
+#: model:ir.actions.act_window,name:fl_mail_client.action_mail_mail_list_sent_account
+#: model_terms:ir.ui.view,arch_db:fl_mail_client.view_fl_mail_client_account_form
+msgid "Emails Sent"
+msgstr "Email inviate"
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_mail_mail__original_eml
+#: model_terms:ir.ui.view,arch_db:fl_mail_client.view_mail_mail_form
+msgid "Eml"
+msgstr ""
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_mail_mail__original_eml_filename
+msgid "Eml Filename"
+msgstr "Nome Eml"
+
+#. module: fl_mail_client
+#: model_terms:ir.ui.view,arch_db:fl_mail_client.res_config_settings_view_form
+msgid "Enable the advanced management of the mail history"
+msgstr "Abilita la gestione avanzata dello storico della posta"
+
+#. module: fl_mail_client
+#: model_terms:ir.ui.view,arch_db:fl_mail_client.res_config_settings_view_form
+msgid "Enable the creation of templates for outgoing emails"
+msgstr "Abilita la ricezione e l'invio di posta elettronica certificata"
+
+#. module: fl_mail_client
+#: model_terms:ir.ui.view,arch_db:fl_mail_client.res_config_settings_view_form
+msgid "Enable the fetch from a custom folder"
+msgstr "Abilita il fetch delle e-mail da una cartella configurabile"
+
+#. module: fl_mail_client
+#: model_terms:ir.ui.view,arch_db:fl_mail_client.res_config_settings_view_form
+msgid "Enable the moving of the fetched emails to custom folders"
+msgstr ""
+"Abilita lo spostamento delle e-mail elaborate in una cartella configurabile"
+
+#. module: fl_mail_client
+#: model_terms:ir.ui.view,arch_db:fl_mail_client.res_config_settings_view_form
+msgid "Enable the receipt and sending of certified e-mail"
+msgstr "Abilita la creazione di template per le e-mail in uscita"
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_fetchmail_server_history__datetime_end
+msgid "End"
+msgstr "Fine"
+
+#. module: fl_mail_client
+#: code:addons/fl_mail_client/models/inherit_fetchmail_server.py:0
+#, python-format
+msgid "Error"
+msgstr ""
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_fetchmail_server_history__error_description
+msgid "Errors"
+msgstr "Errori"
+
+#. module: fl_mail_client
+#: code:addons/fl_mail_client/models/inherit_ir_mail_server.py:0
+#, python-format
+msgid "Everything seems properly set up!"
+msgstr ""
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_fetchmail_server_history__email_failed_count
+#: model_terms:ir.ui.view,arch_db:fl_mail_client.view_mail_mail_search_sent
+msgid "Failed"
+msgstr "In errore"
+
+#. module: fl_mail_client
+#: model_terms:ir.ui.view,arch_db:fl_mail_client.view_mail_mail_form
+msgid "Failure Reason"
+msgstr "Causa errore"
+
+#. module: fl_mail_client
+#: model:ir.model.fields.selection,name:fl_mail_client.selection__fetchmail_server_history__action__fetch
+msgid "Fetch"
+msgstr ""
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_res_config_settings__module_fl_mail_client_fetch_flow
+msgid "Fetch Flow"
+msgstr ""
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_res_config_settings__fetch_from_custom_folder
+msgid "Fetch mails from custom inbox"
+msgstr "Fetch delle e-mail da una cartella configurabile"
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_fetchmail_server__mail_client_fetch_all
+msgid "Fetch read and unread messages"
+msgstr "Scarica messaggi letti e da leggere"
+
+#. module: fl_mail_client
+#: model:ir.model,name:fl_mail_client.model_fetchmail_server_history
+msgid "Fetchmail Server History"
+msgstr "Recupera storico dal server"
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_mail_mail__message_follower_ids
+msgid "Followers"
+msgstr ""
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_mail_mail__message_channel_ids
+msgid "Followers (Channels)"
+msgstr ""
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_mail_mail__message_partner_ids
+msgid "Followers (Partners)"
+msgstr ""
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_mail_compose_message__account_id
+msgid "From"
+msgstr "Da"
+
+#. module: fl_mail_client
+#: model:ir.actions.act_window,name:fl_mail_client.action_res_config_settings
+msgid "General Settings"
+msgstr "Impostazioni Generali"
+
+#. module: fl_mail_client
+#: model_terms:ir.ui.view,arch_db:fl_mail_client.view_mail_mail_form
+msgid "Headers"
+msgstr ""
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_fetchmail_server__history_ids
+#: model_terms:ir.ui.view,arch_db:fl_mail_client.view_fetchmail_server_form
+msgid "History"
+msgstr "Storico"
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_fetchmail_server__id
+#: model:ir.model.fields,field_description:fl_mail_client.field_fetchmail_server_history__id
+#: model:ir.model.fields,field_description:fl_mail_client.field_fl_mail_client_account__id
+#: model:ir.model.fields,field_description:fl_mail_client.field_fl_mail_client_account_permission__id
+#: model:ir.model.fields,field_description:fl_mail_client.field_fl_mail_client_contact__id
+#: model:ir.model.fields,field_description:fl_mail_client.field_ir_mail_server__id
+#: model:ir.model.fields,field_description:fl_mail_client.field_mail_compose_message__id
+#: model:ir.model.fields,field_description:fl_mail_client.field_mail_mail__id
+#: model:ir.model.fields,field_description:fl_mail_client.field_mail_message__id
+#: model:ir.model.fields,field_description:fl_mail_client.field_mail_sidebar_item__id
+#: model:ir.model.fields,field_description:fl_mail_client.field_mail_thread__id
+#: model:ir.model.fields,field_description:fl_mail_client.field_res_config_settings__id
+#: model:ir.model.fields,field_description:fl_mail_client.field_res_partner__id
+#: model:ir.model.fields,field_description:fl_mail_client.field_res_users__id
+msgid "ID"
+msgstr ""
+
+#. module: fl_mail_client
+#: model:ir.model.fields,help:fl_mail_client.field_mail_mail__message_needaction
+#: model:ir.model.fields,help:fl_mail_client.field_mail_mail__message_unread
+msgid "If checked, new messages require your attention."
+msgstr ""
+
+#. module: fl_mail_client
+#: model:ir.model.fields,help:fl_mail_client.field_mail_mail__message_has_error
+msgid "If checked, some messages have a delivery error."
+msgstr ""
+
+#. module: fl_mail_client
+#: model:ir.model.fields.selection,name:fl_mail_client.selection__mail_message__direction__in
+msgid "In"
+msgstr ""
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_fl_mail_client_account__fetchmail_server_id
+msgid "Inbox Mail Server"
+msgstr "Server di posta in arrivo"
+
+#. module: fl_mail_client
+#: model:ir.actions.act_window,name:fl_mail_client.action_fetchmail_server_list
+msgid "Inbox Mail Servers"
+msgstr "Server di posta in arrivo"
+
+#. module: fl_mail_client
+#: code:addons/fl_mail_client/models/inherit_mail_thread.py:0
+#, python-format
+msgid "Inbox mail server is not associated with an account!"
+msgstr "Il server di posta in ingresso non è associato ad un account!"
+
+#. module: fl_mail_client
+#: model:ir.model.fields.selection,name:fl_mail_client.selection__mail_mail__state__incoming
+#: model:ir.model.fields.selection,name:fl_mail_client.selection__mail_mail__state_in__incoming
+msgid "Incoming"
+msgstr "Ricevuta"
+
+#. module: fl_mail_client
+#: model:ir.model,name:fl_mail_client.model_fetchmail_server
+msgid "Incoming Mail Server"
+msgstr "Server posta in arrivo"
+
+#. module: fl_mail_client
+#: model:ir.model.fields.selection,name:fl_mail_client.selection__fl_mail_client_contact__company_type__person
+msgid "Individual"
+msgstr "Persona"
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_mail_mail__message_is_follower
+msgid "Is Follower"
+msgstr ""
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_fl_mail_client_contact__is_company
+msgid "Is a Company"
+msgstr "È un'azienda"
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_res_partner__is_fl_mail_reader_writer
+#: model:ir.model.fields,field_description:fl_mail_client.field_res_users__is_fl_mail_reader_writer
+msgid "Is fl mail reader and writer"
+msgstr ""
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_fl_mail_client_contact__function
+msgid "Job Position"
+msgstr "Posizione lavorativa"
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_fetchmail_server____last_update
+#: model:ir.model.fields,field_description:fl_mail_client.field_fetchmail_server_history____last_update
+#: model:ir.model.fields,field_description:fl_mail_client.field_fl_mail_client_account____last_update
+#: model:ir.model.fields,field_description:fl_mail_client.field_fl_mail_client_account_permission____last_update
+#: model:ir.model.fields,field_description:fl_mail_client.field_fl_mail_client_contact____last_update
+#: model:ir.model.fields,field_description:fl_mail_client.field_ir_mail_server____last_update
+#: model:ir.model.fields,field_description:fl_mail_client.field_mail_compose_message____last_update
+#: model:ir.model.fields,field_description:fl_mail_client.field_mail_mail____last_update
+#: model:ir.model.fields,field_description:fl_mail_client.field_mail_message____last_update
+#: model:ir.model.fields,field_description:fl_mail_client.field_mail_sidebar_item____last_update
+#: model:ir.model.fields,field_description:fl_mail_client.field_mail_thread____last_update
+#: model:ir.model.fields,field_description:fl_mail_client.field_res_config_settings____last_update
+#: model:ir.model.fields,field_description:fl_mail_client.field_res_partner____last_update
+#: model:ir.model.fields,field_description:fl_mail_client.field_res_users____last_update
+msgid "Last Modified on"
+msgstr "Ultima modifica il"
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_fetchmail_server_history__write_uid
+#: model:ir.model.fields,field_description:fl_mail_client.field_fl_mail_client_account__write_uid
+#: model:ir.model.fields,field_description:fl_mail_client.field_fl_mail_client_account_permission__write_uid
+#: model:ir.model.fields,field_description:fl_mail_client.field_mail_sidebar_item__write_uid
+msgid "Last Updated by"
+msgstr "Ultimo aggiornamento da"
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_fetchmail_server_history__write_date
+#: model:ir.model.fields,field_description:fl_mail_client.field_fl_mail_client_account__write_date
+#: model:ir.model.fields,field_description:fl_mail_client.field_fl_mail_client_account_permission__write_date
+#: model:ir.model.fields,field_description:fl_mail_client.field_mail_sidebar_item__write_date
+msgid "Last Updated on"
+msgstr "Ultimo aggiornamento il"
+
+#. module: fl_mail_client
+#. openerp-web
+#: code:addons/fl_mail_client/static/src/components/mail_list/mail_list.xml:0
+#, python-format
+msgid "Load more"
+msgstr ""
+
+#. module: fl_mail_client
+#. openerp-web
+#: code:addons/fl_mail_client/static/src/components/mail_list/mail_list.xml:0
+#, python-format
+msgid "Loading..."
+msgstr ""
+
+#. module: fl_mail_client
+#: model:ir.module.category,description:fl_mail_client.category_fl_mail_client
+#: model:ir.module.category,name:fl_mail_client.category_fl_mail_client
+#: model_terms:ir.ui.view,arch_db:fl_mail_client.view_fetchmail_server_form
+#: model_terms:ir.ui.view,arch_db:fl_mail_client.view_ir_mail_server_form
+msgid "Mail Client"
+msgstr ""
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_mail_mail__mail_client_access
+msgid "Mail Client Access"
+msgstr "Accesso client di posta"
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_fetchmail_server__mail_client_account_id
+#: model:ir.model.fields,field_description:fl_mail_client.field_ir_mail_server__mail_client_account_ids
+msgid "Mail Client Account"
+msgstr ""
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_fetchmail_server__mail_client_account_ids
+msgid "Mail Client Accounts"
+msgstr "Mail Client Account"
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_fetchmail_server__mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_ir_mail_server__mail_client
+msgid "Mail Client Active"
+msgstr "Mail client attivo"
+
+#. module: fl_mail_client
+#: model:ir.model,name:fl_mail_client.model_ir_mail_server
+msgid "Mail Server"
+msgstr "Server di posta"
+
+#. module: fl_mail_client
+#: model:ir.model,name:fl_mail_client.model_mail_sidebar_item
+msgid "Mail sidebar item email client"
+msgstr ""
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_mail_mail__message_main_attachment_id
+msgid "Main Attachment"
+msgstr ""
+
+#. module: fl_mail_client
+#: model:res.groups,name:fl_mail_client.group_fl_mail_client_manager
+msgid "Manager"
+msgstr ""
+
+#. module: fl_mail_client
+#. openerp-web
+#: code:addons/fl_mail_client/static/src/components/mail/mail.xml:0
+#: model:ir.model,name:fl_mail_client.model_mail_mail
+#: model:ir.model,name:fl_mail_client.model_mail_message
+#, python-format
+msgid "Message"
+msgstr "Messaggio"
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_mail_mail__message_has_error
+msgid "Message Delivery error"
+msgstr ""
+
+#. module: fl_mail_client
+#: model:ir.model.fields,help:fl_mail_client.field_mail_compose_message__message_type
+msgid ""
+"Message type: email for email message, notification for system message, "
+"comment for other messages such as user replies"
+msgstr ""
+"Tipo di messaggio: e-mail per messaggio di posta elettronica, notifica per "
+"messaggio di sistema, commento per altri messaggi come le risposte "
+"dell'utente"
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_mail_mail__message_ids
+msgid "Messages"
+msgstr "Messaggi"
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_fl_mail_client_contact__mobile
+msgid "Mobile"
+msgstr ""
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_res_config_settings__move_processed_mail
+msgid "Move fetched mails to custom folder"
+msgstr "Spostamento delle e-mail elaborate"
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_fl_mail_client_account__description
+#: model:ir.model.fields,field_description:fl_mail_client.field_fl_mail_client_account__name
+#: model:ir.model.fields,field_description:fl_mail_client.field_fl_mail_client_account_permission__name
+#: model:ir.model.fields,field_description:fl_mail_client.field_fl_mail_client_contact__name
+#: model:ir.model.fields,field_description:fl_mail_client.field_mail_sidebar_item__name
+#: model_terms:ir.ui.view,arch_db:fl_mail_client.view_fl_mail_client_contact_form
+msgid "Name"
+msgstr "Nome"
+
+#. module: fl_mail_client
+#. openerp-web
+#: code:addons/fl_mail_client/static/src/components/mail_list/mail_list.xml:0
+#, python-format
+msgid "New mails appear here."
+msgstr "Le nuove email compaiono qui."
+
+#. module: fl_mail_client
+#. openerp-web
+#: code:addons/fl_mail_client/static/src/components/mail_list/mail_list.xml:0
+#, python-format
+msgid "No message to display"
+msgstr "Nessun messaggio da mostrare"
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_mail_mail__message_needaction_counter
+msgid "Number of Actions"
+msgstr ""
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_mail_mail__message_has_error_counter
+msgid "Number of errors"
+msgstr ""
+
+#. module: fl_mail_client
+#: model:ir.model.fields,help:fl_mail_client.field_mail_mail__message_needaction_counter
+msgid "Number of messages which requires an action"
+msgstr ""
+
+#. module: fl_mail_client
+#: model:ir.model.fields,help:fl_mail_client.field_mail_mail__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr ""
+
+#. module: fl_mail_client
+#: model:ir.model.fields,help:fl_mail_client.field_mail_mail__message_unread_counter
+msgid "Number of unread messages"
+msgstr ""
+
+#. module: fl_mail_client
+#. openerp-web
+#: code:addons/fl_mail_client/static/src/components/mail/mail.xml:0
+#, python-format
+msgid "Open profile"
+msgstr ""
+
+#. module: fl_mail_client
+#: model_terms:ir.ui.view,arch_db:fl_mail_client.view_ir_attachment_kanban
+msgid "Operations"
+msgstr "Operazioni"
+
+#. module: fl_mail_client
+#: model:ir.model.fields.selection,name:fl_mail_client.selection__mail_message__direction__out
+msgid "Out"
+msgstr ""
+
+#. module: fl_mail_client
+#. openerp-web
+#: code:addons/fl_mail_client/static/src/components/mail/mail.js:0
+#: model:ir.model.fields.selection,name:fl_mail_client.selection__mail_mail__state_out__outgoing
+#: model_terms:ir.ui.view,arch_db:fl_mail_client.view_mail_mail_search_sent
+#, python-format
+msgid "Outgoing"
+msgstr "In uscita"
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_fl_mail_client_account__ir_mail_server_id
+msgid "Outgoing Mail Server"
+msgstr "Server di posta in uscita"
+
+#. module: fl_mail_client
+#: model:ir.actions.act_window,name:fl_mail_client.action_ir_mail_server_list
+msgid "Outgoing Mail Servers"
+msgstr "Server di posta in uscita"
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_fl_mail_client_contact__partner_id
+msgid "Partner"
+msgstr ""
+
+#. module: fl_mail_client
+#: model_terms:ir.ui.view,arch_db:fl_mail_client.view_fl_mail_client_account_form
+msgid "Permissions"
+msgstr "Permessi"
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_fl_mail_client_contact__phone
+msgid "Phone"
+msgstr "Telefono"
+
+#. module: fl_mail_client
+#: code:addons/fl_mail_client/models/inherit_ir_mail_server.py:0
+#, python-format
+msgid ""
+"Please configure an email on the current user to simulate sending an email "
+"message via this outgoing server"
+msgstr ""
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_fetchmail_server_history__email_successed_count
+msgid "Processed"
+msgstr "Processate"
+
+#. module: fl_mail_client
+#: model:ir.model.constraint,message:fl_mail_client.constraint_fl_mail_client_account_permission_unique_account_permission
+msgid "Può esserci un solo permesso utente per ogni account"
+msgstr ""
+
+#. module: fl_mail_client
+#. openerp-web
+#: code:addons/fl_mail_client/static/src/components/mail/mail.js:0
+#: model:ir.model.fields.selection,name:fl_mail_client.selection__mail_mail__state_out__received
+#: model_terms:ir.ui.view,arch_db:fl_mail_client.view_mail_mail_search_sent
+#, python-format
+msgid "Received"
+msgstr "Ricevuto"
+
+#. module: fl_mail_client
+#. openerp-web
+#: code:addons/fl_mail_client/static/src/models/messaging_initializer/messaging_initializer.js:0
+#, python-format
+msgid "Received "
+msgstr "Ricevuti"
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_fl_mail_client_contact__parent_id
+msgid "Related Company"
+msgstr ""
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_fetchmail_server_history__result
+msgid "Result"
+msgstr "Risposta"
+
+#. module: fl_mail_client
+#: model:ir.model.fields.selection,name:fl_mail_client.selection__fetchmail_server_history__result__success
+msgid "SUCCESS"
+msgstr ""
+
+#. module: fl_mail_client
+#: model_terms:ir.ui.view,arch_db:fl_mail_client.view_mail_mail_tree
+msgid "Sender"
+msgstr "Mittente"
+
+#. module: fl_mail_client
+#. openerp-web
+#: code:addons/fl_mail_client/static/src/components/mail/mail.js:0
+#: model:ir.model.fields.selection,name:fl_mail_client.selection__mail_mail__state_out__sent
+#: model_terms:ir.ui.view,arch_db:fl_mail_client.view_mail_mail_search_sent
+#, python-format
+msgid "Sent"
+msgstr "Inviato"
+
+#. module: fl_mail_client
+#. openerp-web
+#: code:addons/fl_mail_client/static/src/models/messaging_initializer/messaging_initializer.js:0
+#, python-format
+msgid "Sent "
+msgstr "Inviati"
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_mail_mail__sent_datetime
+msgid "Sent Date"
+msgstr "Data invio"
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_fetchmail_server_history__fetchmail_server_id
+msgid "Server"
+msgstr ""
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_mail_mail__server_received_datetime
+msgid "Server Received Datetime"
+msgstr "Data ricezione"
+
+#. module: fl_mail_client
+#: model:ir.ui.menu,name:fl_mail_client.menu_item_res_config_configuration
+msgid "Settings"
+msgstr "Impostazioni"
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_fl_mail_client_account_permission__show_inbox_mails
+msgid "Show Inbox Mails"
+msgstr "Mostra posta in arrivo"
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_fl_mail_client_account_permission__show_outgoing_mails
+msgid "Show Outgoing Mails"
+msgstr "Mostra posta in uscita"
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_fetchmail_server_history__datetime_start
+msgid "Start"
+msgstr "Inizio"
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_mail_mail__state_in
+#: model:ir.model.fields,field_description:fl_mail_client.field_mail_mail__state_out
+msgid "State"
+msgstr "Stato"
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_mail_mail__state
+#: model_terms:ir.ui.view,arch_db:fl_mail_client.view_mail_mail_form
+msgid "Status"
+msgstr "Stato"
+
+#. module: fl_mail_client
+#: code:addons/fl_mail_client/models/inherit_fetchmail_server.py:0
+#: model:ir.model.fields,field_description:fl_mail_client.field_mail_mail__original_subject
+#, python-format
+msgid "Subject"
+msgstr "Oggetto"
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_res_config_settings__module_fl_mail_client_template
+msgid "Template e-mail"
+msgstr ""
+
+#. module: fl_mail_client
+#: code:addons/fl_mail_client/models/inherit_ir_mail_server.py:0
+#, python-format
+msgid ""
+"The server refused the sender address (%(email_from)s) with error %(repl)s"
+msgstr ""
+
+#. module: fl_mail_client
+#: code:addons/fl_mail_client/models/inherit_ir_mail_server.py:0
+#, python-format
+msgid "The server refused the test connection with error %(repl)s"
+msgstr ""
+
+#. module: fl_mail_client
+#: code:addons/fl_mail_client/models/inherit_ir_mail_server.py:0
+#, python-format
+msgid ""
+"The server refused the test recipient (%(email_to)s) with error %(repl)s"
+msgstr ""
+
+#. module: fl_mail_client
+#. openerp-web
+#: code:addons/fl_mail_client/static/src/components/mail_list/mail_list.xml:0
+#, python-format
+msgid "There aren't received emails"
+msgstr "Non ci sono email ricevute"
+
+#. module: fl_mail_client
+#. openerp-web
+#: code:addons/fl_mail_client/static/src/components/mail_list/mail_list.xml:0
+#, python-format
+msgid "There aren't sent emails"
+msgstr "Non ci sono email inviate"
+
+#. module: fl_mail_client
+#: code:addons/fl_mail_client/models/account_permission.py:0
+#, python-format
+msgid "There can only be one user permission for each account"
+msgstr "Può esserci un solo permesso utente per ogni account"
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_mail_compose_message__email_ids
+msgid "To"
+msgstr "A"
+
+#. module: fl_mail_client
+#. openerp-web
+#: code:addons/fl_mail_client/static/src/components/mail_list/mail_list.js:0
+#, python-format
+msgid "Today"
+msgstr ""
+
+#. module: fl_mail_client
+#. openerp-web
+#: code:addons/fl_mail_client/static/src/components/mail/mail.xml:0
+#, python-format
+msgid "Transport envelope"
+msgstr "Busta di trasporto"
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_mail_compose_message__message_type
+msgid "Type"
+msgstr "Tipologia"
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_mail_mail__message_unread
+msgid "Unread Messages"
+msgstr ""
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_mail_mail__message_unread_counter
+msgid "Unread Messages Counter"
+msgstr ""
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_fl_mail_client_account_permission__use_outgoing_server
+msgid "Use Outgoing Mail Servers"
+msgstr "Usa i server di posta in uscita"
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_fl_mail_client_account__use_outgoing_server
+msgid "Use Outgoing Server"
+msgstr "Usa server in uscita"
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_fl_mail_client_account_permission__user_id
+msgid "User"
+msgstr ""
+
+#. module: fl_mail_client
+#: model:ir.model.fields,field_description:fl_mail_client.field_fl_mail_client_account_permission__user_account_ids
+msgid "User Accounts"
+msgstr "Account utente"
+
+#. module: fl_mail_client
+#: model:res.groups,name:fl_mail_client.group_fl_mail_client_user_advanced
+msgid "User: Read and Compose"
+msgstr "Utente: Leggi e Componi"
+
+#. module: fl_mail_client
+#: model:res.groups,name:fl_mail_client.group_fl_mail_client_user_base
+msgid "User: Read only"
+msgstr "Utente: Leggi"
+
+#. module: fl_mail_client
+#: model:ir.model,name:fl_mail_client.model_res_users
+msgid "Users"
+msgstr "Utenti"
+
+#. module: fl_mail_client
+#. openerp-web
+#: code:addons/fl_mail_client/static/src/components/mail_list/mail_list.js:0
+#, python-format
+msgid "Yesterday"
+msgstr ""
+
+#. module: fl_mail_client
+#. openerp-web
+#: code:addons/fl_mail_client/static/src/components/mail/mail.xml:0
+#, python-format
+msgid "cc:"
+msgstr ""
+
+#. module: fl_mail_client
+#: model_terms:ir.ui.view,arch_db:fl_mail_client.view_mail_mail_form
+msgid "created on"
+msgstr "creato il"
+
+#. module: fl_mail_client
+#. openerp-web
+#: code:addons/fl_mail_client/static/src/components/mail/mail.xml:0
+#, python-format
+msgid "date of receipt:"
+msgstr "data ricezione:"
+
+#. module: fl_mail_client
+#: model_terms:ir.ui.view,arch_db:fl_mail_client.view_fl_mail_client_contact_form
+msgid "e.g. Sales Director"
+msgstr ""
+
+#. module: fl_mail_client
+#. openerp-web
+#: code:addons/fl_mail_client/static/src/components/mail/mail.xml:0
+#, python-format
+msgid "failure reason:"
+msgstr "causa errore:"
+
+#. module: fl_mail_client
+#. openerp-web
+#: code:addons/fl_mail_client/static/src/components/mail/mail.xml:0
+#, python-format
+msgid "from:"
+msgstr "da:"
+
+#. module: fl_mail_client
+#: model_terms:ir.ui.view,arch_db:fl_mail_client.view_ir_attachment_kanban
+msgid "kB"
+msgstr ""
+
+#. module: fl_mail_client
+#. openerp-web
+#: code:addons/fl_mail_client/static/src/components/discuss_sidebar/discuss_sidebar.xml:0
+#, python-format
+msgid ""
+"mailbox.localId!='mail.thread_mail.box_mailreceived' and "
+"mailbox.localId!='mail.thread_mail.box_mailsent'"
+msgstr ""
+
+#. module: fl_mail_client
+#: model_terms:ir.ui.view,arch_db:fl_mail_client.view_mail_mail_form
+msgid "received on"
+msgstr "ricevuto il"
+
+#. module: fl_mail_client
+#. openerp-web
+#: code:addons/fl_mail_client/static/src/components/mail/mail.xml:0
+#, python-format
+msgid "reply to:"
+msgstr "rispondi a:"
+
+#. module: fl_mail_client
+#. openerp-web
+#: code:addons/fl_mail_client/static/src/components/mail/mail.xml:0
+#, python-format
+msgid "send date:"
+msgstr "data invio:"
+
+#. module: fl_mail_client
+#. openerp-web
+#: code:addons/fl_mail_client/static/src/components/mail/mail.xml:0
+#: code:addons/fl_mail_client/static/src/components/mail/mail.xml:0
+#, python-format
+msgid "subject:"
+msgstr "oggetto:"
+
+#. module: fl_mail_client
+#. openerp-web
+#: code:addons/fl_mail_client/static/src/components/thread_view/thread_view.xml:0
+#, python-format
+msgid ""
+"threadView and "
+"threadView.thread.localId!='mail.thread_mail.box_mailreceived' and "
+"threadView.thread.localId!='mail.thread_mail.box_mailsent'"
+msgstr ""
+
+#. module: fl_mail_client
+#. openerp-web
+#: code:addons/fl_mail_client/static/src/components/mail/mail.xml:0
+#, python-format
+msgid "to:"
+msgstr "a:"

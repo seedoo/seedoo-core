@@ -1,0 +1,273 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* sd_protocollo_fascicolo
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-03-24 17:00+0000\n"
+"PO-Revision-Date: 2022-03-24 17:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: sd_protocollo_fascicolo
+#: model:ir.model.fields,field_description:sd_protocollo_fascicolo.field_sd_protocollo_protocollo__fascicolo_ids_count
+msgid "# Fascicoli"
+msgstr ""
+
+#. module: sd_protocollo_fascicolo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo_fascicolo.view_sd_protocollo_wizard_protocollo_fascicola_form
+msgid "<b>Documenti del protocollo da inserire nel fascicolo</b>"
+msgstr ""
+
+#. module: sd_protocollo_fascicolo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo_fascicolo.view_sd_protocollo_wizard_protocollo_fascicola_form
+msgid ""
+"<b>Fascicolo</b>\n"
+"                            <br/>"
+msgstr ""
+
+#. module: sd_protocollo_fascicolo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo_fascicolo.view_sd_protocollo_wizard_documento_disassocia_fascicolo_form
+msgid "<b>Il documento è associato ad un protocollo:</b>"
+msgstr ""
+
+#. module: sd_protocollo_fascicolo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo_fascicolo.view_sd_protocollo_wizard_protocollo_fascicola_form
+msgid "<b>Non ci sono documenti associabili al fascicolo selezionato</b>"
+msgstr ""
+
+#. module: sd_protocollo_fascicolo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo_fascicolo.view_sd_protocollo_wizard_documento_disassocia_fascicolo_form
+msgid ""
+"<b>Pertanto la disassociazione verrà fatta per tutti i seguenti "
+"documenti:</b>"
+msgstr ""
+
+#. module: sd_protocollo_fascicolo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo_fascicolo.view_sd_protocollo_wizard_documento_disassocia_fascicolo_form
+msgid "<b>Procedere con la disassociazione?</b>"
+msgstr ""
+
+#. module: sd_protocollo_fascicolo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo_fascicolo.view_sd_protocollo_wizard_protocollo_fascicola_form
+msgid "Abbandona"
+msgstr ""
+
+#. module: sd_protocollo_fascicolo
+#: model:ir.model.fields,field_description:sd_protocollo_fascicolo.field_sd_protocollo_wizard_documento_disassocia_fascicolo__voce_titolario_id
+msgid "Classificazione"
+msgstr ""
+
+#. module: sd_protocollo_fascicolo
+#: model:ir.model,name:sd_protocollo_fascicolo.model_res_config_settings
+msgid "Config Settings"
+msgstr "Impostazioni di configurazione"
+
+#. module: sd_protocollo_fascicolo
+#: model:ir.model.fields,field_description:sd_protocollo_fascicolo.field_sd_protocollo_wizard_documento_disassocia_fascicolo__create_uid
+#: model:ir.model.fields,field_description:sd_protocollo_fascicolo.field_sd_protocollo_wizard_protocollo_fascicola__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: sd_protocollo_fascicolo
+#: model:ir.model.fields,field_description:sd_protocollo_fascicolo.field_sd_protocollo_wizard_documento_disassocia_fascicolo__create_date
+#: model:ir.model.fields,field_description:sd_protocollo_fascicolo.field_sd_protocollo_wizard_protocollo_fascicola__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: sd_protocollo_fascicolo
+#: model:ir.model.fields,field_description:sd_protocollo_fascicolo.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:sd_protocollo_fascicolo.field_sd_dms_document__display_name
+#: model:ir.model.fields,field_description:sd_protocollo_fascicolo.field_sd_fascicolo_fascicolo__display_name
+#: model:ir.model.fields,field_description:sd_protocollo_fascicolo.field_sd_fascicolo_wizard_documento_aggiungi_fascicolo__display_name
+#: model:ir.model.fields,field_description:sd_protocollo_fascicolo.field_sd_fascicolo_wizard_fascicolo_aggiungi_documento__display_name
+#: model:ir.model.fields,field_description:sd_protocollo_fascicolo.field_sd_protocollo_protocollo__display_name
+#: model:ir.model.fields,field_description:sd_protocollo_fascicolo.field_sd_protocollo_wizard_documento_disassocia_fascicolo__display_name
+#: model:ir.model.fields,field_description:sd_protocollo_fascicolo.field_sd_protocollo_wizard_protocollo_fascicola__display_name
+msgid "Display Name"
+msgstr "Nome visualizzato"
+
+#. module: sd_protocollo_fascicolo
+#: model:ir.model,name:sd_protocollo_fascicolo.model_sd_dms_document
+msgid "Document"
+msgstr "Documento"
+
+#. module: sd_protocollo_fascicolo
+#: model:ir.model.fields,field_description:sd_protocollo_fascicolo.field_sd_protocollo_wizard_documento_disassocia_fascicolo__documento_ids
+#: model:ir.model.fields,field_description:sd_protocollo_fascicolo.field_sd_protocollo_wizard_protocollo_fascicola__documento_ids
+msgid "Documento"
+msgstr ""
+
+#. module: sd_protocollo_fascicolo
+#: code:addons/sd_protocollo_fascicolo/utilities/inherit_sd_dms_document_actions.py:0
+#: code:addons/sd_protocollo_fascicolo/utilities/inherit_sd_fascicolo_fascicolo_actions.py:0
+#, python-format
+msgid "Documento disassocia fascicolo"
+msgstr ""
+
+#. module: sd_protocollo_fascicolo
+#: model:ir.model,name:sd_protocollo_fascicolo.model_sd_protocollo_wizard_documento_disassocia_fascicolo
+msgid "Documento disassocia fascicolo wizard"
+msgstr ""
+
+#. module: sd_protocollo_fascicolo
+#: code:addons/sd_protocollo_fascicolo/utilities/inherit_sd_protocollo_protocollo_storico_actions.py:0
+#: code:addons/sd_protocollo_fascicolo/utilities/inherit_sd_protocollo_protocollo_storico_actions.py:0
+#: code:addons/sd_protocollo_fascicolo/utilities/inherit_sd_protocollo_protocollo_storico_actions.py:0
+#, python-format
+msgid "Dossier"
+msgstr "Fascicolo"
+
+#. module: sd_protocollo_fascicolo
+#: model:ir.model.fields,field_description:sd_protocollo_fascicolo.field_sd_protocollo_protocollo__fascicolo_acl_ids
+msgid "Dossier Acl"
+msgstr "Permessi del fascicolo"
+
+#. module: sd_protocollo_fascicolo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo_fascicolo.view_sd_protocollo_protocollo_form
+msgid "Dossier acl inherited"
+msgstr "Permessi ereditati dal fascicolo"
+
+#. module: sd_protocollo_fascicolo
+#: code:addons/sd_protocollo_fascicolo/utilities/inherit_sd_protocollo_protocollo_storico_actions.py:0
+#, python-format
+msgid "Dossier action"
+msgstr "Fascicolazione"
+
+#. module: sd_protocollo_fascicolo
+#: code:addons/sd_protocollo_fascicolo/utilities/inherit_sd_protocollo_protocollo_storico_actions.py:0
+#, python-format
+msgid "Dossier action %s added from Dossier"
+msgstr "Fascicolazione %s aggiunta da Fascicoli"
+
+#. module: sd_protocollo_fascicolo
+#: code:addons/sd_protocollo_fascicolo/utilities/inherit_sd_protocollo_protocollo_storico_actions.py:0
+#, python-format
+msgid "Dossier delete "
+msgstr "Eliminazione fascicolazione "
+
+#. module: sd_protocollo_fascicolo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo_fascicolo.view_sd_protocollo_protocollo_form
+#: model_terms:ir.ui.view,arch_db:sd_protocollo_fascicolo.view_sd_protocollo_wizard_protocollo_fascicola_form
+msgid "Fascicola"
+msgstr ""
+
+#. module: sd_protocollo_fascicolo
+#: model:ir.model.fields,field_description:sd_protocollo_fascicolo.field_sd_protocollo_protocollo__fascicolo_ids
+#: model_terms:ir.ui.view,arch_db:sd_protocollo_fascicolo.view_sd_protocollo_protocollo_form
+msgid "Fascicoli"
+msgstr ""
+
+#. module: sd_protocollo_fascicolo
+#: model:ir.model,name:sd_protocollo_fascicolo.model_sd_fascicolo_fascicolo
+#: model:ir.model.fields,field_description:sd_protocollo_fascicolo.field_sd_protocollo_wizard_documento_disassocia_fascicolo__fascicolo_id
+#: model:ir.model.fields,field_description:sd_protocollo_fascicolo.field_sd_protocollo_wizard_protocollo_fascicola__fascicolo_id
+msgid "Fascicolo"
+msgstr ""
+
+#. module: sd_protocollo_fascicolo
+#: model:ir.model,name:sd_protocollo_fascicolo.model_sd_fascicolo_wizard_documento_aggiungi_fascicolo
+msgid "Fascicolo wizard documento aggiungi fascicolo"
+msgstr ""
+
+#. module: sd_protocollo_fascicolo
+#: model:ir.model.fields,field_description:sd_protocollo_fascicolo.field_res_config_settings__id
+#: model:ir.model.fields,field_description:sd_protocollo_fascicolo.field_sd_dms_document__id
+#: model:ir.model.fields,field_description:sd_protocollo_fascicolo.field_sd_fascicolo_fascicolo__id
+#: model:ir.model.fields,field_description:sd_protocollo_fascicolo.field_sd_fascicolo_wizard_documento_aggiungi_fascicolo__id
+#: model:ir.model.fields,field_description:sd_protocollo_fascicolo.field_sd_fascicolo_wizard_fascicolo_aggiungi_documento__id
+#: model:ir.model.fields,field_description:sd_protocollo_fascicolo.field_sd_protocollo_protocollo__id
+#: model:ir.model.fields,field_description:sd_protocollo_fascicolo.field_sd_protocollo_wizard_documento_disassocia_fascicolo__id
+#: model:ir.model.fields,field_description:sd_protocollo_fascicolo.field_sd_protocollo_wizard_protocollo_fascicola__id
+msgid "ID"
+msgstr ""
+
+#. module: sd_protocollo_fascicolo
+#: model:ir.model.fields,field_description:sd_protocollo_fascicolo.field_res_config_settings____last_update
+#: model:ir.model.fields,field_description:sd_protocollo_fascicolo.field_sd_dms_document____last_update
+#: model:ir.model.fields,field_description:sd_protocollo_fascicolo.field_sd_fascicolo_fascicolo____last_update
+#: model:ir.model.fields,field_description:sd_protocollo_fascicolo.field_sd_fascicolo_wizard_documento_aggiungi_fascicolo____last_update
+#: model:ir.model.fields,field_description:sd_protocollo_fascicolo.field_sd_fascicolo_wizard_fascicolo_aggiungi_documento____last_update
+#: model:ir.model.fields,field_description:sd_protocollo_fascicolo.field_sd_protocollo_protocollo____last_update
+#: model:ir.model.fields,field_description:sd_protocollo_fascicolo.field_sd_protocollo_wizard_documento_disassocia_fascicolo____last_update
+#: model:ir.model.fields,field_description:sd_protocollo_fascicolo.field_sd_protocollo_wizard_protocollo_fascicola____last_update
+msgid "Last Modified on"
+msgstr "Ultima modifica il"
+
+#. module: sd_protocollo_fascicolo
+#: model:ir.model.fields,field_description:sd_protocollo_fascicolo.field_sd_protocollo_wizard_documento_disassocia_fascicolo__write_uid
+#: model:ir.model.fields,field_description:sd_protocollo_fascicolo.field_sd_protocollo_wizard_protocollo_fascicola__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: sd_protocollo_fascicolo
+#: model:ir.model.fields,field_description:sd_protocollo_fascicolo.field_sd_protocollo_wizard_documento_disassocia_fascicolo__write_date
+#: model:ir.model.fields,field_description:sd_protocollo_fascicolo.field_sd_protocollo_wizard_protocollo_fascicola__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: sd_protocollo_fascicolo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo_fascicolo.view_sd_protocollo_wizard_documento_disassocia_fascicolo_form
+msgid "No"
+msgstr ""
+
+#. module: sd_protocollo_fascicolo
+#: code:addons/sd_protocollo_fascicolo/utilities/inherit_sd_protocollo_protocollo_wizard_actions.py:0
+#, python-format
+msgid ""
+"Non ci sono fascicoli, o non hai visibilità dei fascicoli, con cui "
+"fasciolare i seguenti documenti: %s"
+msgstr ""
+
+#. module: sd_protocollo_fascicolo
+#: model:ir.actions.act_window,name:sd_protocollo_fascicolo.action_sd_protocollo_protocollo_list_protocolli_da_fascicolare
+msgid "Protocolli da Fascicolare"
+msgstr ""
+
+#. module: sd_protocollo_fascicolo
+#: model:ir.model.fields,field_description:sd_protocollo_fascicolo.field_sd_protocollo_protocollo__filter_protocolli_da_fascicolare
+msgid "Protocolli da Inviare"
+msgstr ""
+
+#. module: sd_protocollo_fascicolo
+#: model:ir.model,name:sd_protocollo_fascicolo.model_sd_protocollo_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo_fascicolo.field_sd_protocollo_wizard_documento_disassocia_fascicolo__protocollo_id
+msgid "Protocollo"
+msgstr ""
+
+#. module: sd_protocollo_fascicolo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo_fascicolo.view_sd_protocollo_wizard_documento_disassocia_fascicolo_form
+msgid "Sì"
+msgstr ""
+
+#. module: sd_protocollo_fascicolo
+#: model:ir.model.fields,field_description:sd_protocollo_fascicolo.field_res_config_settings__non_fascicolati_active
+msgid "Visualizza box \"Da fascicolare\""
+msgstr ""
+
+#. module: sd_protocollo_fascicolo
+#: model:ir.model,name:sd_protocollo_fascicolo.model_sd_protocollo_wizard_protocollo_fascicola
+msgid "Wizard Gestione Fascicoli del Protocollo"
+msgstr ""
+
+#. module: sd_protocollo_fascicolo
+#: model:ir.model,name:sd_protocollo_fascicolo.model_sd_fascicolo_wizard_fascicolo_aggiungi_documento
+msgid "Wizard fascicolo aggiungi documento"
+msgstr ""
+
+#. module: sd_protocollo_fascicolo
+#: model:ir.model.fields,field_description:sd_protocollo_fascicolo.field_sd_protocollo_protocollo__button_fascicola_invisible
+msgid "button fascicola invisible"
+msgstr ""
+
+#. module: sd_protocollo_fascicolo
+#: code:addons/sd_protocollo_fascicolo/utilities/inherit_sd_protocollo_protocollo_storico_actions.py:0
+#, python-format
+msgid "from Dossiers"
+msgstr "da Fascicoli"

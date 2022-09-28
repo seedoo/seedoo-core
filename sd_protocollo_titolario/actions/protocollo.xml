@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <record id="action_sd_protocollo_protocollo_list_protocolli_da_classificare" model="ir.actions.act_window">
+            <field name="name">Protocolli da Classificare</field>
+            <field name="res_model">sd.protocollo.protocollo</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[("filter_protocolli_da_classificare", "=", True)]</field>
+            <field name="limit">20</field>
+        </record>
+
+        <record id="action_sd_protocollo_wizard_protocollo_classifica_step2_assegna" model="ir.actions.act_window">
+            <field name="name">Assegna Protocollo</field>
+            <field name="res_model">sd.protocollo.wizard.protocollo.classifica.step2</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</odoo>

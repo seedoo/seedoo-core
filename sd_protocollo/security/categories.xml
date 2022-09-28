@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <data noupdate="0">
+
+
+        <record model="ir.module.category" id="module_protocollo_informatico">
+            <field name="name">Protocollo Informatico</field>
+            <field name="sequence">50</field>
+            <field name="parent_id" eval="False"/>
+        </record>
+
+        <record model="ir.module.category" id="category_sd_protocollo">
+            <field name="name">Protocollo</field>
+            <field name="description">Protocollo</field>
+            <field name="sequence">0</field>
+            <field name="parent_id" ref="module_protocollo_informatico"/>
+        </record>
+
+        <record model="ir.module.category" id="category_sd_protocollo_visiblita">
+            <field name="name">Visibilità</field>
+            <field name="description">Visibilità protocolli</field>
+            <field name="sequence">10</field>
+            <field name="parent_id" ref="module_protocollo_informatico"/>
+        </record>
+
+    </data>
+</odoo>

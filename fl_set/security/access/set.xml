@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="access_fl_set_set_1" model="ir.model.access">
+            <field name="name">access.fl.set.set.1</field>
+            <field name="model_id" ref="model_fl_set_set"/>
+            <field name="group_id" ref="group_fl_set_user"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <record id="access_fl_set_set_2" model="ir.model.access">
+            <field name="name">access.fl.set.set.2</field>
+            <field name="model_id" ref="model_fl_set_set"/>
+            <field name="group_id" ref="group_fl_set_administrator"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+    </data>
+</odoo>

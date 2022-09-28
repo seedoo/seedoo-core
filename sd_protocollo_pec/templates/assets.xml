@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <template id="assets_backend" name="Assets backend" inherit_id="web.assets_backend">
+
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/sd_protocollo_pec/static/src/components/mail/mail.js"/>
+                <script type="text/javascript" src="/sd_protocollo_pec/static/src/models/mail/mail.js"/>
+                <script type="text/javascript" src="/sd_protocollo_pec/static/src/models/messaging_notification_handler/messaging_notification_handler.js"/>
+                <link rel="stylesheet" type="text/scss" href="/sd_protocollo_pec/static/src/components/mail/mail.scss"/>
+            </xpath>
+
+        </template>
+
+    </data>
+</odoo>

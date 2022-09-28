@@ -1,0 +1,285 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* fl_mail_client_pec
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-04-14 15:35+0000\n"
+"PO-Revision-Date: 2022-04-14 15:35+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: fl_mail_client_pec
+#: model_terms:ir.ui.view,arch_db:fl_mail_client_pec.view_fl_mail_client_pec_mail_mail_kanban
+msgid ""
+"<i title=\"Posta Certificata\" class=\"fa fa-envelope-o fl-mail-client-pec\" attrs=\"{'invisible': [('pec_type', '!=', 'posta_certificata')]}\"/>\n"
+"                                            <i title=\"Avvenuta Consegna\" class=\"fa fa-check-circle-o fl-mail-client-pec-consegna\" attrs=\"{'invisible': [('pec_type', 'not in', ['avvenuta-consegna'])]}\"/>\n"
+"                                            <i title=\"Accettazione\" class=\"fa fa-check-circle-o fl-mail-client-pec-accettazione\" attrs=\"{'invisible': [('pec_type', 'not in', ['accettazione'])]}\"/>\n"
+"                                            <i title=\"Errore\" class=\"fa fa-exclamation-circle fl-mail-client-pec-errore\" attrs=\"{'invisible': [('pec_type', 'in', ['posta_certificata','avvenuta-consegna','accettazione'])]}\"/>"
+msgstr ""
+
+#. module: fl_mail_client_pec
+#: model:ir.model,name:fl_mail_client_pec.model_fl_mail_client_account
+msgid "Account"
+msgstr ""
+
+#. module: fl_mail_client_pec
+#: model_terms:ir.ui.view,arch_db:fl_mail_client_pec.view_mail_mail_search_received
+msgid "Anomaly PEC Message"
+msgstr "Anomalia Messaggio PEC"
+
+#. module: fl_mail_client_pec
+#: code:addons/fl_mail_client_pec/models/inherit_mail_thread.py:0
+#, python-format
+msgid "Cannot fetch email from server PEC! Enable the relative configuration."
+msgstr ""
+"Non è possibile recuperare le email dal server PEC! Abilita la relativa "
+"configurazione."
+
+#. module: fl_mail_client_pec
+#: model:ir.model.fields,field_description:fl_mail_client_pec.field_mail_mail__cert_datetime
+msgid "Certified Datetime"
+msgstr "Data in daticert.xml"
+
+#. module: fl_mail_client_pec
+#: model:ir.model,name:fl_mail_client_pec.model_fl_mail_client_contact
+msgid "Contact"
+msgstr "Contatto"
+
+#. module: fl_mail_client_pec
+#: model:ir.model.fields.selection,name:fl_mail_client_pec.selection__mail_mail__pec_type__avvenuta-consegna
+#: model_terms:ir.ui.view,arch_db:fl_mail_client_pec.view_mail_mail_search_received
+msgid "Delivery"
+msgstr "Ricevuta consegna"
+
+#. module: fl_mail_client_pec
+#: model:ir.model.fields.selection,name:fl_mail_client_pec.selection__mail_mail__pec_type__errore-consegna
+#: model_terms:ir.ui.view,arch_db:fl_mail_client_pec.view_mail_mail_search_received
+msgid "Delivery Error"
+msgstr "Ricevuta errore consegna"
+
+#. module: fl_mail_client_pec
+#: model:ir.model.fields,field_description:fl_mail_client_pec.field_fetchmail_server__display_name
+#: model:ir.model.fields,field_description:fl_mail_client_pec.field_fl_mail_client_account__display_name
+#: model:ir.model.fields,field_description:fl_mail_client_pec.field_fl_mail_client_contact__display_name
+#: model:ir.model.fields,field_description:fl_mail_client_pec.field_mail_compose_message__display_name
+#: model:ir.model.fields,field_description:fl_mail_client_pec.field_mail_mail__display_name
+#: model:ir.model.fields,field_description:fl_mail_client_pec.field_mail_thread__display_name
+msgid "Display Name"
+msgstr "Nome visualizzato"
+
+#. module: fl_mail_client_pec
+#. openerp-web
+#: code:addons/fl_mail_client_pec/static/src/components/discuss_sidebar/discuss_sidebar.xml:0
+#, python-format
+msgid "E-mail PEC"
+msgstr ""
+
+#. module: fl_mail_client_pec
+#: model_terms:ir.ui.view,arch_db:fl_mail_client_pec.view_mail_mail_search
+msgid "Email"
+msgstr ""
+
+#. module: fl_mail_client_pec
+#: model:ir.model,name:fl_mail_client_pec.model_mail_thread
+msgid "Email Thread"
+msgstr "Discussione e-mail"
+
+#. module: fl_mail_client_pec
+#: model:ir.model,name:fl_mail_client_pec.model_mail_compose_message
+msgid "Email composition wizard"
+msgstr "Procedura composizione e-mail"
+
+#. module: fl_mail_client_pec
+#: model_terms:ir.ui.view,arch_db:fl_mail_client_pec.view_mail_mail_form
+msgid "Error"
+msgstr "Errore"
+
+#. module: fl_mail_client_pec
+#: model:ir.model.fields,field_description:fl_mail_client_pec.field_fetchmail_server__mail_client_fetch_emails_from_server_pec
+msgid "Accept not PEC messages"
+msgstr "Accetta messaggi di posta non certificata"
+
+#. module: fl_mail_client_pec
+#: model:ir.model.fields,field_description:fl_mail_client_pec.field_fetchmail_server__id
+#: model:ir.model.fields,field_description:fl_mail_client_pec.field_fl_mail_client_account__id
+#: model:ir.model.fields,field_description:fl_mail_client_pec.field_fl_mail_client_contact__id
+#: model:ir.model.fields,field_description:fl_mail_client_pec.field_mail_compose_message__id
+#: model:ir.model.fields,field_description:fl_mail_client_pec.field_mail_mail__id
+#: model:ir.model.fields,field_description:fl_mail_client_pec.field_mail_thread__id
+msgid "ID"
+msgstr ""
+
+#. module: fl_mail_client_pec
+#: model:ir.model.fields.selection,name:fl_mail_client_pec.selection__mail_mail__pec_type__presa-in-carico
+msgid "In Progress"
+msgstr "Presa in carico"
+
+#. module: fl_mail_client_pec
+#: model:ir.model,name:fl_mail_client_pec.model_fetchmail_server
+msgid "Incoming Mail Server"
+msgstr "Server posta in arrivo"
+
+#. module: fl_mail_client_pec
+#: model:ir.model.fields,field_description:fl_mail_client_pec.field_fetchmail_server____last_update
+#: model:ir.model.fields,field_description:fl_mail_client_pec.field_fl_mail_client_account____last_update
+#: model:ir.model.fields,field_description:fl_mail_client_pec.field_fl_mail_client_contact____last_update
+#: model:ir.model.fields,field_description:fl_mail_client_pec.field_mail_compose_message____last_update
+#: model:ir.model.fields,field_description:fl_mail_client_pec.field_mail_mail____last_update
+#: model:ir.model.fields,field_description:fl_mail_client_pec.field_mail_thread____last_update
+msgid "Last Modified on"
+msgstr "Ultima modifica il"
+
+#. module: fl_mail_client_pec
+#: model:ir.model.fields,field_description:fl_mail_client_pec.field_fetchmail_server__mail_client_account_pec
+msgid "Mail Client Account PEC"
+msgstr ""
+
+#. module: fl_mail_client_pec
+#: model_terms:ir.ui.view,arch_db:fl_mail_client_pec.view_mail_mail_search_received
+#: model_terms:ir.ui.view,arch_db:fl_mail_client_pec.view_mail_mail_search_sent
+msgid "Message"
+msgstr "Messaggio"
+
+#. module: fl_mail_client_pec
+#: model:ir.model.fields.selection,name:fl_mail_client_pec.selection__mail_mail__err_type__nessuno
+msgid "No Error"
+msgstr "Nessun errore"
+
+#. module: fl_mail_client_pec
+#: model:ir.model.fields.selection,name:fl_mail_client_pec.selection__mail_mail__pec_type__non-accettazione
+#: model_terms:ir.ui.view,arch_db:fl_mail_client_pec.view_mail_mail_search_received
+msgid "No Reception"
+msgstr "Ricevuta non accettazione"
+
+#. module: fl_mail_client_pec
+#: model:ir.model.fields.selection,name:fl_mail_client_pec.selection__mail_mail__pec_type__preavviso-errore-consegna
+msgid "Notice Delivery Error"
+msgstr "Ricevuta preavviso errore di consegna"
+
+#. module: fl_mail_client_pec
+#: model:ir.model,name:fl_mail_client_pec.model_mail_mail
+msgid "Outgoing Mails"
+msgstr "Posta in uscita"
+
+#. module: fl_mail_client_pec
+#: model:ir.model.fields,field_description:fl_mail_client_pec.field_fl_mail_client_account__pec
+#: model:ir.model.fields,field_description:fl_mail_client_pec.field_fl_mail_client_contact__pec_mail
+#: model:ir.model.fields,field_description:fl_mail_client_pec.field_mail_compose_message__account_pec
+#: model:ir.model.fields,field_description:fl_mail_client_pec.field_mail_mail__pec
+#: model_terms:ir.ui.view,arch_db:fl_mail_client_pec.view_fl_mail_client_account_form
+#: model_terms:ir.ui.view,arch_db:fl_mail_client_pec.view_mail_mail_form
+#: model_terms:ir.ui.view,arch_db:fl_mail_client_pec.view_mail_mail_search
+msgid "PEC"
+msgstr ""
+
+#. module: fl_mail_client_pec
+#: model_terms:ir.ui.view,arch_db:fl_mail_client_pec.view_mail_mail_search_received
+#: model_terms:ir.ui.view,arch_db:fl_mail_client_pec.view_mail_mail_search_sent
+msgid "PEC Message"
+msgstr "Messaggio PEC"
+
+#. module: fl_mail_client_pec
+#: model:ir.model.fields,field_description:fl_mail_client_pec.field_mail_mail__pec_msg_id
+msgid "PEC Message Id"
+msgstr ""
+
+#. module: fl_mail_client_pec
+#: model:ir.model.fields,field_description:fl_mail_client_pec.field_mail_mail__pec_mail_parent_id
+msgid "Parent PEC Mail"
+msgstr "Pec Mail di riferimento"
+
+#. module: fl_mail_client_pec
+#: model:ir.model.fields,field_description:fl_mail_client_pec.field_mail_mail__err_type
+msgid "Pec Error Type"
+msgstr "Tipologia errore pec"
+
+#. module: fl_mail_client_pec
+#: model:ir.model.fields.selection,name:fl_mail_client_pec.selection__mail_mail__pec_type__posta-certificata
+msgid "Pec Mail"
+msgstr ""
+
+#. module: fl_mail_client_pec
+#: model:ir.model.fields.selection,name:fl_mail_client_pec.selection__mail_mail__pec_type__errore
+msgid "Pec Mail Anomaly"
+msgstr "Anomalia Messaggio PEC"
+
+#. module: fl_mail_client_pec
+#: model:ir.model.fields,field_description:fl_mail_client_pec.field_mail_mail__pec_type
+msgid "Pec Type"
+msgstr "Tipologia pec"
+
+#. module: fl_mail_client_pec
+#: model:ir.actions.act_window,name:fl_mail_client_pec.action_mail_mail_list_receipt
+#: model_terms:ir.ui.view,arch_db:fl_mail_client_pec.view_mail_mail_form
+msgid "Receipts"
+msgstr "Ricevute"
+
+#. module: fl_mail_client_pec
+#: model:ir.model.fields.selection,name:fl_mail_client_pec.selection__mail_mail__pec_type__accettazione
+#: model_terms:ir.ui.view,arch_db:fl_mail_client_pec.view_mail_mail_search_received
+msgid "Reception"
+msgstr "Ricevuta accettazione"
+
+#. module: fl_mail_client_pec
+#: model:ir.model.fields,field_description:fl_mail_client_pec.field_mail_mail__error
+msgid "Reception Delivery Error"
+msgstr "Errore di consegna alla ricezione"
+
+#. module: fl_mail_client_pec
+#: model:ir.model.fields,field_description:fl_mail_client_pec.field_mail_mail__recipient_addr
+msgid "Recipient Address"
+msgstr "Indirizzo del destinatario"
+
+#. module: fl_mail_client_pec
+#: model:ir.model.fields.selection,name:fl_mail_client_pec.selection__mail_mail__err_type__no-dest
+msgid "Recipient Adress Error"
+msgstr "Errore nell'indirizzo del destinatario"
+
+#. module: fl_mail_client_pec
+#: model:ir.model.fields.selection,name:fl_mail_client_pec.selection__mail_mail__err_type__no-dominio
+msgid "Recipient domain Error"
+msgstr "Errore destinatario"
+
+#. module: fl_mail_client_pec
+#: model:ir.model.fields,field_description:fl_mail_client_pec.field_mail_mail__pec_mail_child_count
+#: model:ir.model.fields,field_description:fl_mail_client_pec.field_mail_mail__pec_mail_child_ids
+msgid "Related Notifications"
+msgstr "Notifiche correlate"
+
+#. module: fl_mail_client_pec
+#: model:ir.model.fields,field_description:fl_mail_client_pec.field_mail_mail__resized_subject
+msgid "Resized Subject"
+msgstr "Oggetto ridimensionato"
+
+#. module: fl_mail_client_pec
+#: code:addons/fl_mail_client_pec/models/inherit_mail_thread.py:0
+#, python-format
+msgid "Too many existing mails with message_id %s"
+msgstr "Troppi messaggi esistenti con message_id %s"
+
+#. module: fl_mail_client_pec
+#: model_terms:ir.ui.view,arch_db:fl_mail_client_pec.view_mail_mail_form
+msgid "Transport Envelope"
+msgstr "Busta di trasporto"
+
+#. module: fl_mail_client_pec
+#: model:ir.model.fields.selection,name:fl_mail_client_pec.selection__mail_mail__err_type__altro
+msgid "Undefined Error"
+msgstr "Errore indefinito"
+
+#. module: fl_mail_client_pec
+#: model:ir.model.fields.selection,name:fl_mail_client_pec.selection__mail_mail__pec_type__rilevazione-virus
+msgid "Virus Detected"
+msgstr "Virus rilevato"
+
+#. module: fl_mail_client_pec
+#: model:ir.model.fields.selection,name:fl_mail_client_pec.selection__mail_mail__err_type__virus
+msgid "Virus Detected Error"
+msgstr "Errore virus rilevato"

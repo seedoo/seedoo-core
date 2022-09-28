@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2020-2022 Flosslab S.r.l.
+    Copyright 2017-2019 MuK IT GmbH
+    License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
+-->
+<odoo>
+    <data>
+
+        <record id="action_sd_dms_folder_subfolder_list" model="ir.actions.act_window">
+            <field name="name">Subfolders</field>
+            <field name="res_model">sd.dms.folder</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="domain">
+                [
+                ("parent_folder_id", "child_of",  active_id),
+                ("id", "!=",  active_id),
+                ]
+            </field>
+            <field name="context">
+                {
+                'default_parent_folder_id': active_id,
+                }
+            </field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Click to add a new directory.
+                </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

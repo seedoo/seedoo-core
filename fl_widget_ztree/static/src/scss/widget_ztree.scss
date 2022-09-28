@@ -1,0 +1,79 @@
+.ztree {
+  li {
+    a.no-hover {
+      background-color: transparent !important;
+      span {
+        color: silver;
+      }
+    }
+    .no-hover:hover {
+      background: transparent !important;
+    }
+  }
+}
+
+.ztree {
+  max-width: 600px;
+  width: auto !important;
+
+  li {
+    span.button {
+      &.center_docu {
+        display: inline-block !important;
+      }
+      &.bottom_docu {
+        display: inline-block !important;
+      }
+    }
+  }
+
+  @media (min-width: 768px) {
+    & {
+      width: auto !important;
+    }
+  }
+}
+
+.fl_set {
+  .ztree {
+    li {
+      span.button {
+        &.center_docu {
+          display: inline-block !important;
+        }
+        &.bottom_docu {
+          display: inline-block !important;
+        }
+        &.ico_open::before {
+          display: inline-block !important;
+          content: "\f1ad";
+        }
+        &.ico_close::before {
+          display: inline-block !important;
+          content: "\f1ad";
+        }
+        &.ico_docu::before {
+          display: inline-block !important;
+          content: "\f007";
+        }
+        &.ico_open, &.ico_close, &.ico_docu {
+          line-height: 4px;
+        }
+      }
+    }
+  }
+}
+
+.modal-dialog {
+  .o_form_view {
+    .ztree {
+      position: relative;
+      width: 100%;
+      @media (min-width: 768px) {
+        & {
+          width: 100%;
+        }
+      }
+    }
+  }
+}

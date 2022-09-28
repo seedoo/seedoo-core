@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_sd_protocollo_assegnazione_tree" model="ir.ui.view">
+            <field name="name">view.sd.protocollo.assegnazione.tree</field>
+            <field name="model">sd.protocollo.assegnazione</field>
+            <field name="arch" type="xml">
+                <tree decoration-success="presa_in_carico_attuale == True">
+                    <field name="button_elimina_assegnazione_invisible" invisible="1"/>
+                    <field name="assegnatario_nome" string="Assegnatario"/>
+                    <field name="assegnatario_tipologia"/>
+                    <field name="tipologia"/>
+                    <field name="state"/>
+                    <field name="presa_in_carico_attuale" invisible="1"/>
+                    <button name="assegnazione_elimina_action"
+                            type="object"
+                            class="fa fa-trash btn btn-secondary o-kanban-button-new oe_edit_only"
+                            attrs="{'invisible': [('button_elimina_assegnazione_invisible','=', True)]}">
+                    </button>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_sd_protocollo_assegnazione_form" model="ir.ui.view">
+            <field name="name">view.sd.protocollo.assegnazione.form</field>
+            <field name="model">sd.protocollo.assegnazione</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="state" invisible="1"/>
+                        <field name="state_competenza" widget="statusbar"
+                               attrs="{'invisible':[('tipologia','=','conoscenza')]}"
+                               statusbar_visible="assegnato,preso_in_carico,letto_co,rifiutato,lavorazione_completata"/>
+                        <field name="state_conoscenza" widget="statusbar"
+                               attrs="{'invisible':[('tipologia','=','competenza')]}"
+                               statusbar_visible="assegnato,letto_cc,lavorazione_completata"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="assegnatario_utente_id"
+                                       attrs="{'invisible':[('assegnatario_utente_id','=',False)]}"
+                                       string="Assegnatario"
+                                       context="{'create': False, 'edit': False, 'delete': False, 'form_view_ref': 'fl_set.view_fl_set_res_users_custom_form'}"
+                                />
+                                <field name="assegnatario_ufficio_id"
+                                       attrs="{'invisible':[('assegnatario_ufficio_id','=',False)]}"
+                                       string="Assegnatario"
+                                       context="{'create': False, 'edit': False, 'delete': False}"
+                                />
+                                <field name="assegnatario_tipologia"/>
+                                <field name="tipologia"/>
+                            </group>
+                            <group>
+                                <field name="state"/>
+                                <field name="data"/>
+                                <field name="assegnatore_id" options="{'no_open':True, 'no_create':True}"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="messaggio"/>
+                            </group>
+                            <group/>
+                        </group>
+                        <group>
+                            <separator string="Utenti Ufficio"
+                                       attrs="{'invisible':[('child_ids','=',[])]}"
+                                       colspan="2"
+                            />
+                            <field name="child_ids"
+                                   attrs="{'invisible':[('child_ids','=',[])]}"
+                                   nolabel="1"
+                                   colspan="2"
+                            >
+                                <tree decoration-info="presa_in_carico == True">
+                                    <field name="assegnatario_nome"/>
+                                    <field name="assegnatario_tipologia"/>
+                                    <field name="tipologia"/>
+                                    <field name="data"/>
+                                    <field name="presa_in_carico" invisible="1"/>
+                                    <field name="state"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

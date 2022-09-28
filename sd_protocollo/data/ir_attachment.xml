@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="data_ir_attachment_etichetta_logo_id" model="ir.attachment">
+            <field name="name">company_logo.png</field>
+            <field name="type">binary</field>
+            <field name="datas" type="base64" file="sd_protocollo/static/src/img/company_logo.png"/>
+        </record>
+
+        <record id="data_ir_attachment_registro_logo_id" model="ir.attachment">
+            <field name="name">company_logo.png</field>
+            <field name="type">binary</field>
+            <field name="datas" type="base64" file="sd_protocollo/static/src/img/company_logo.png"/>
+        </record>
+
+    </data>
+</odoo>

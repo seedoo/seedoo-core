@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="access_ir_actions_act_window_1" model="ir.model.access">
+            <field name="name">access.ir.actions.act.window.1</field>
+            <field name="model_id" ref="base.model_ir_actions_act_window"/>
+            <field name="group_id" ref="group_sd_protocollo_assegnatario"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+    </data>
+</odoo>

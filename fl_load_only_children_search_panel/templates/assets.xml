@@ -1,0 +1,9 @@
+<odoo>
+    <template id="assets_backend" inherit_id="web.assets_backend" name="FL M2M Search Panel Assets">
+
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/fl_load_only_children_search_panel/static/src/js/views/search_panel_model_extension.js"></script>
+        </xpath>
+
+    </template>
+</odoo>

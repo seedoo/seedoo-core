@@ -1,0 +1,174 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* fl_acl
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-03-17 10:08+0000\n"
+"PO-Revision-Date: 2022-03-17 10:08+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: fl_acl
+#: model:ir.model,name:fl_acl.model_fl_acl
+#: model_terms:ir.ui.view,arch_db:fl_acl.view_fl_acl_form
+msgid "Acl"
+msgstr "Permessi"
+
+#. module: fl_acl
+#: model:ir.model.fields,field_description:fl_acl.field_fl_acl__acl_res_users_ids
+msgid "Acl Users"
+msgstr "Permessi utenti"
+
+#. module: fl_acl
+#: code:addons/fl_acl/models/acl.py:0
+#, python-format
+msgid "Acl field not defined in the inherited document type %s"
+msgstr "Campo permessi non definito nella tipologia documento ereditata %s"
+
+#. module: fl_acl
+#: model:ir.model.fields,field_description:fl_acl.field_fl_acl__perm_create
+msgid "Create"
+msgstr "Creazione"
+
+#. module: fl_acl
+#: model:ir.model.fields,field_description:fl_acl.field_fl_security__perm_create
+msgid "Create Access"
+msgstr "Accesso in creazione"
+
+#. module: fl_acl
+#: model:ir.model.fields,field_description:fl_acl.field_fl_acl__create_uid
+msgid "Created by"
+msgstr "Creato da"
+
+#. module: fl_acl
+#: model:ir.model.fields,field_description:fl_acl.field_fl_acl__create_system
+msgid "Created by System"
+msgstr "Creato dal sistema"
+
+#. module: fl_acl
+#: model:ir.model.fields,field_description:fl_acl.field_fl_acl__create_date
+msgid "Created on"
+msgstr "Creato il"
+
+#. module: fl_acl
+#: model:ir.model.fields,field_description:fl_acl.field_fl_acl__perm_delete
+msgid "Delete"
+msgstr "Eliminazione"
+
+#. module: fl_acl
+#: model:ir.model.fields,field_description:fl_acl.field_fl_acl__display_name
+#: model:ir.model.fields,field_description:fl_acl.field_fl_security__display_name
+msgid "Display Name"
+msgstr "Nome visualizzato"
+
+#. module: fl_acl
+#: model:ir.model.fields,field_description:fl_acl.field_fl_acl__id
+#: model:ir.model.fields,field_description:fl_acl.field_fl_security__id
+msgid "ID"
+msgstr ""
+
+#. module: fl_acl
+#: model:ir.model.fields,field_description:fl_acl.field_fl_security__inherit_acl
+msgid "Inherit Acl"
+msgstr "Eredita i permessi"
+
+#. module: fl_acl
+#: model:ir.model.fields,field_description:fl_acl.field_fl_security__is_owner
+msgid "Is owner"
+msgstr "È il proprietario"
+
+#. module: fl_acl
+#: model:ir.model.fields,field_description:fl_acl.field_fl_acl____last_update
+#: model:ir.model.fields,field_description:fl_acl.field_fl_security____last_update
+msgid "Last Modified on"
+msgstr "Ultima modifica il"
+
+#. module: fl_acl
+#: model:ir.model.fields,field_description:fl_acl.field_fl_acl__write_uid
+msgid "Last Updated by"
+msgstr "Ultimo aggiornamento da"
+
+#. module: fl_acl
+#: model:ir.model.fields,field_description:fl_acl.field_fl_acl__write_date
+msgid "Last Updated on"
+msgstr "Ultimo aggiornamento il"
+
+#. module: fl_acl
+#: model_terms:ir.ui.view,arch_db:fl_acl.view_fl_acl_form
+msgid "Meta Information"
+msgstr ""
+
+#. module: fl_acl
+#: model:ir.model.fields,field_description:fl_acl.field_fl_acl__module_id
+msgid "Module"
+msgstr "Modulo"
+
+#. module: fl_acl
+#: model:ir.model.fields,field_description:fl_acl.field_fl_security__owner_id
+msgid "Owner"
+msgstr "Proprietario"
+
+#. module: fl_acl
+#: model:ir.model.fields,field_description:fl_acl.field_fl_acl__perm_read
+msgid "Read"
+msgstr "Lettura"
+
+#. module: fl_acl
+#: model:ir.model.fields,field_description:fl_acl.field_fl_security__perm_read
+msgid "Read Access"
+msgstr "Accesso in lettura"
+
+#. module: fl_acl
+#: model:ir.model.fields,field_description:fl_acl.field_fl_acl__res_id
+msgid "Resource Id"
+msgstr "Id"
+
+#. module: fl_acl
+#: model:ir.model.fields,field_description:fl_acl.field_fl_acl__res_model
+msgid "Resource Model"
+msgstr "Modello"
+
+#. module: fl_acl
+#: model:ir.model.fields,field_description:fl_acl.field_fl_acl__res_name
+msgid "Resource Name"
+msgstr "Risorsa"
+
+#. module: fl_acl
+#: model:ir.model,name:fl_acl.model_fl_security
+msgid "Security"
+msgstr ""
+
+#. module: fl_acl
+#: code:addons/fl_acl/models/security.py:0
+#, python-format
+msgid ""
+"The requested operation cannot be completed due to group security restrictions. Please contact your system administrator.\n"
+"\n"
+"(Document type: %s, Operation: %s)"
+msgstr ""
+"L'operazione richiesta non può essere completata a causa di restrizioni di sicurezza del gruppo. Si prega di contattare l'amministratore di sistema.\n"
+"\n"
+"(Modello: %s, Operazione: %s)"
+
+#. module: fl_acl
+#: model:ir.model.fields,field_description:fl_acl.field_fl_acl__res_users_id
+#: model:ir.model.fields.selection,name:fl_acl.selection__fl_acl__res_model__res_users
+msgid "User"
+msgstr "Utente"
+
+#. module: fl_acl
+#: model:ir.model.fields,field_description:fl_acl.field_fl_acl__perm_write
+msgid "Write"
+msgstr "Modifica"
+
+#. module: fl_acl
+#: model:ir.model.fields,field_description:fl_acl.field_fl_security__perm_write
+msgid "Write Access"
+msgstr "Accesso in modifica"

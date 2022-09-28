@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2020-2022 Flosslab S.r.l.
+    Copyright 2017-2019 MuK IT GmbH
+    License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
+-->
+<odoo>
+    <data noupdate="0">
+
+        <record id="view_inherit_res_config_settings_form" model="ir.ui.view">
+            <field name="name">view.inherit.res.config.settings.form</field>
+            <field name="model">res.config.settings</field>
+            <field name="priority" eval="20"/>
+            <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//div[@id='user_default_rights']" position="inside">
+                    <div class="col-12 col-lg-6 o_setting_box">
+                        <div class="o_setting_left_pane">
+                            <field name="module_fl_acl"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label for="module_fl_acl"/>
+                            <div class="text-muted">
+                                Enables control access list for users in apps
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 o_setting_box">
+                        <div class="o_setting_left_pane">
+                            <field name="module_fl_acl_set" widget="fl_upgrade_boolean"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label for="module_fl_acl_set"/>
+                            <span class="label-enterprise">Enterprise</span>
+                            <div class="text-muted">
+                                Enables control access list for sets in apps
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+
+                <xpath expr="//div[hasclass('settings')]" position="inside">
+                    <div class="app_settings_block" data-string="Documents" data-key="sd_dms"
+                         groups="base.group_system">
+                        <h2>General</h2>
+                        <div class="row mt16 o_settings_container" name="sd_dms">
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_left_pane">
+                                    <field name="module_sd_dms_titolario"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="module_sd_dms_titolario"/>
+                                    <div class="text-muted" name="titolario">
+                                        Enable the classification of documents by Titolario
+                                    </div>
+                                    <div class="content-group"
+                                         attrs="{'invisible': [('module_sd_dms_titolario', '=', False)]}"
+                                         id="msg_module_sd_dms_titolario">
+                                        <div class="text-warning mt16">
+                                            <strong>Save</strong> this page and come back here
+                                            to set up the feature.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_left_pane">
+                                    <field name="module_sd_dms_aoo"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="module_sd_dms_aoo"/>
+                                    <div class="text-muted">
+                                        Enable the management of AOO
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_left_pane">
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <b>Storages</b>
+                                    <br/>
+                                    <button name="%(action_sd_dms_storage_list)d" icon="fa-arrow-right" type="action" string="Storage management"
+                                            class="btn-link"/>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_left_pane">
+                                    <field name="module_fl_dms_version" widget="fl_upgrade_boolean"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="module_fl_dms_version"/>
+                                    <span class="label-enterprise">Enterprise</span>
+                                    <div class="text-muted">
+                                        Enables version control for files
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_left_pane">
+                                    <field name="module_fl_dms_attachment" widget="fl_upgrade_boolean"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="module_fl_dms_attachment"/>
+                                    <span class="label-enterprise">Enterprise</span>
+                                    <div class="text-muted" name="attachments">
+                                        Allows attachments to be stored inside of Documents
+                                    </div>
+                                    <div class="content-group"
+                                         attrs="{'invisible': [('module_fl_dms_attachment', '=', False)]}"
+                                         id="msg_module_fl_dms_attachment">
+                                        <div class="text-warning mt16">
+                                            <strong>Save</strong> this page and come back here
+                                            to set up the feature.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_left_pane">
+                                    <field name="module_fl_dms_conservazione" widget="fl_upgrade_boolean"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="module_fl_dms_conservazione"/>
+                                    <span class="label-enterprise">Enterprise</span>
+                                    <div class="text-muted">
+                                        Bridge between Documentale e Conservazione Digitale applications
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_left_pane">
+                                    <field name="module_fl_dms_fulltext" widget="fl_upgrade_boolean"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="module_fl_dms_fulltext"/>
+                                    <span class="label-enterprise">Enterprise</span>
+                                    <div class="text-muted" name="params_module_fl_dms_fulltext">
+                                        Adds Full-text content searches feature for Documents
+                                    </div>
+                                    <div class="content-group"
+                                         attrs="{'invisible': [('module_fl_dms_fulltext', '=', False)]}"
+                                         id="msg_module_fl_dms_fulltext">
+                                        <div class="text-warning mt16">
+                                            <strong>Save</strong> this page and come back here
+                                            to set up the feature.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_left_pane">
+                                    <field name="module_fl_dms_onlyoffice" widget="fl_upgrade_boolean"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="module_fl_dms_onlyoffice"/>
+                                    <span class="label-enterprise">Enterprise</span>
+                                    <div class="text-muted" name="params_module_fl_dms_onlyoffice">
+                                        Enable the use of collaborative editor for create and modify text, spreadsheet and presentation documents
+                                    </div>
+                                    <div class="content-group"
+                                         attrs="{'invisible': [('module_fl_dms_onlyoffice', '=', False)]}"
+                                         id="msg_module_fl_dms_onlyoffice">
+                                        <div class="text-warning mt16">
+                                            <strong>Save</strong> this page and come back here
+                                            to set up the feature.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_left_pane">
+                                    <field name="module_fl_dms_workflow" widget="fl_upgrade_boolean"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="module_fl_dms_workflow"/>
+                                    <span class="label-enterprise">Enterprise</span>
+                                    <div class="text-muted" name="params_module_fl_dms_workflow">
+                                        Manage document workflow
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_left_pane">
+                                    <field name="module_fl_dms_importer" widget="fl_upgrade_boolean"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="module_fl_dms_importer"/>
+                                    <span class="label-enterprise">Enterprise</span>
+                                    <div class="text-muted" name="right-pane_module_fl_dms_importer">
+                                        Massive file import from smb server
+                                    </div>
+                                    <div class="content-group"
+                                         attrs="{'invisible': [('module_fl_dms_importer', '=', False)]}"
+                                         id="msg_module_fl_dms_importer">
+                                        <div class="text-warning mt16">
+                                            <strong>Save</strong> this page and come back here
+                                            to set up the feature.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_left_pane">
+                                    <field name="module_fl_dms_repertorio" widget="fl_upgrade_boolean"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="module_fl_dms_repertorio"/>
+                                    <span class="label-enterprise">Enterprise</span>
+                                    <div class="text-muted" name="params_module_fl_dms_repertorio">
+                                        Enable the management of repertories in document types
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_left_pane">
+                                    <field name="module_fl_dms_set_folder" widget="fl_upgrade_boolean"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="module_fl_dms_set_folder"/>
+                                    <span class="label-enterprise">Enterprise</span>
+                                    <div class="text-muted">
+                                        Enable the management of the folders to save the documents of a set
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <h2>Document Preview</h2>
+                        <div class="row mt16 o_settings_container">
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_left_pane">
+                                    <field name="module_fl_web_preview" readonly="1"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="module_fl_web_preview"/>
+                                    <div class="text-muted">
+                                        Adds support for files with extension: .pdf
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_left_pane">
+                                    <field name="module_fl_web_preview_csv" widget="fl_upgrade_boolean"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="module_fl_web_preview_csv"/>
+                                    <span class="label-enterprise">Enterprise</span>
+                                    <div class="text-muted">
+                                        Adds support for files with extension: .csv
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_left_pane">
+                                    <field name="module_fl_web_preview_rst" widget="fl_upgrade_boolean"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="module_fl_web_preview_rst"/>
+                                    <span class="label-enterprise">Enterprise</span>
+                                    <div class="text-muted">
+                                        Adds support for files with extension: .rst
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_left_pane">
+                                    <field name="module_fl_web_preview_libreoffice" widget="fl_upgrade_boolean"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="module_fl_web_preview_libreoffice"/>
+                                    <span class="label-enterprise">Enterprise</span>
+                                    <div class="text-muted">
+                                        Adds support for files with extension: .odt, .odp, .ods, .fodt, .ott,
+                                        .fodp, .otp, .fods, .ots
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_left_pane">
+                                    <field name="module_fl_web_preview_msoffice" widget="fl_upgrade_boolean"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="module_fl_web_preview_msoffice"/>
+                                    <span class="label-enterprise">Enterprise</span>
+                                    <div class="text-muted">
+                                        Adds support for files with extension: .doc, .docx, .docm, .ppt, .pptx,
+                                        .pptm, .xls, .xlsx, .xlsm, .xlsb
+                                    </div>
+                                    <div class="content-group" attrs="{'invisible': [('module_fl_web_preview_msoffice','=',False)]}">
+                                        <div class="text-muted">
+                                            <label for="fl_web_preview_msoffice_web_base_url"/>
+                                            <br/>
+                                            <field name="fl_web_preview_msoffice_web_base_url"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_left_pane">
+                                    <field name="module_fl_web_preview_image" widget="fl_upgrade_boolean"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="module_fl_web_preview_image"/>
+                                    <span class="label-enterprise">Enterprise</span>
+                                    <div class="text-muted">
+                                        Adds support for files with extension: .cod, .ras, .fif, .gif, .ief, .jpeg,
+                                        .jpg, .jpe, .png, .tiff,
+                                        .tif, .mcf, .wbmp, .fh4, .fh5, .fhc, .ico, .pnm, .pbm, .pgm,
+                                        .ppm, .rgb, .xwd, .xbm, .xpm
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_left_pane">
+                                    <field name="module_fl_web_preview_text" widget="fl_upgrade_boolean"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="module_fl_web_preview_text"/>
+                                    <span class="label-enterprise">Enterprise</span>
+                                    <div class="text-muted">
+                                        Adds support for files with extension: .abc, .acgi, .aip, .asm, .asp, .c,
+                                        .c++, .cc, .com, .conf,
+                                        .cpp, .csh, .cxx, .def, .el, .etx, .f, .f77, .f90,
+                                        .flx, .for, .g, .h, .hh, .hlb, .htc, .htm, .html,
+                                        .htmls, .htt, .htx, .idc, .jav, .java, .js, .ksh,
+                                        .list, .log, .lsp, .lst, .m, .mar, .mcf, .p, .pas, .pl,
+                                        .pl, .pm, .py, .rexx, .rt, .rtf, .s, .scm, .sdml,
+                                        .sgm, .sgml, .sh, .shtml, .spc, .ssi, .talk, .tcl,
+                                        .tcsh, .text, .tsv, .txt, .uil, .uni, .unis, .uri, .uris, .uu, .uue,
+                                        .vcs, .wml, .wmls, .wsc, .xml, .zsh, .less, .aj, .cbl, .cs, .coffee,
+                                        .go, .groovy, .sc, .js, .json
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_left_pane">
+                                    <field name="module_fl_web_preview_mail" widget="fl_upgrade_boolean"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="module_fl_web_preview_mail"/>
+                                    <span class="label-enterprise">Enterprise</span>
+                                    <div class="text-muted">
+                                        Adds support for files with extension: .eml
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_left_pane">
+                                    <field name="module_fl_dms_preview_sidebox" widget="fl_upgrade_boolean"/>
+                                </div>
+                                <div class="o_setting_right_pane">
+                                    <label for="module_fl_dms_preview_sidebox"/>
+                                    <span class="label-enterprise">Enterprise</span>
+                                    <div class="text-muted">
+                                        Adds a sidebox in form view for documents preview.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

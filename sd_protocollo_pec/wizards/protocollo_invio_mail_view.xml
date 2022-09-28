@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_sd_protocollo_wizard_protocollo_invio_mail_form" model="ir.ui.view">
+            <field name="name">view.sd.protocollo.wizard.protocollo.invio.mail.form</field>
+            <field name="model">sd.protocollo.wizard.protocollo.invio.mail</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="account_id"
+                                   attrs="{'invisible': [('account_id','!=',False)]}"
+                                   widget="selection"
+                                   context="{'display_with_email': True}"
+                            />
+                            <field name="account_id_name"
+                                   attrs="{'invisible': [('account_id','=',False)]}"
+                            />
+                            <field name="destinatari"/>
+                            <field name="modalita_invio"
+                                   attrs="{'invisible': [('modalita_invio_invisible','=',True)]}"
+                            />
+                            <field name="oggetto"/>
+                            <field name="body"
+                                   attrs="{'invisible': [('body_invisible','=',True)]}"
+                                   nolabel="1"
+                                   colspan="2"
+                            />
+                        </group>
+                        <group col="4">
+                            <field name="document_ids"
+                                   mode="kanban"
+                                   context="{'kanban_view_ref': 'sd_dms.view_sd_dms_document_kanban_attachment'}"
+                                   nolabel="1"
+                                   colspan="2"
+                            />
+                            <field name="template_id"
+                                   attrs="{'invisible': [('template_id_invisible','=',True)]}"
+                                   options="{'no_create': True, 'no_open': True}"
+                            />
+                        </group>
+                        <group invisible="1">
+                            <field name="pec"/>
+                            <field name="modalita_invio_invisible"/>
+                            <field name="body_invisible"/>
+                            <field name="template_id_invisible"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="crea_invii"
+                                type="object"
+                                string="Invia"
+                                class="oe_highlight"
+                        />
+                        <button string="Abbandona"
+                                class="oe_link"
+                                special="cancel"
+                        />
+
+                        <button name="save_as_template"
+                                type="object"
+                                attrs="{'invisible': [('template_id_invisible','=',True)]}"
+                                string="Save as new template"
+                                class="btn-secondary float-right"
+                                icon="fa-lg fa-save"
+                                help="Save as a new template"
+                        />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

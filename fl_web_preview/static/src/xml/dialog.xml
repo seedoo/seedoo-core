@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2020-2022 Flosslab S.r.l.
+    Copyright 2017-2019 MuK IT GmbH
+    License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
+-->
+<templates>
+
+<t t-name="fl_web_preview.PreviewDialog">
+	<div class="modal fade">
+		<div class="modal-dialog modal-lg fl_web_preview_dialog">
+      		<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Preview</h4>
+					<div class="fl_web_preview_buttons">
+						<t t-call="fl_web_preview.PreviewActions"/>
+						<button type="button" class="close" data-dismiss="modal" title="Close">
+							<i class="fa fa-times" />
+						</button>
+						<button type="button" class="fl_web_preview_maximize_btn" title="Maximize">
+							<i class="fa fa-window-maximize" />
+						</button>
+		                <button type="button" class="fl_web_preview_minimize_btn" title="Minimize">
+		                	<i class="fa fa-window-minimize" />
+		                </button>
+					</div>
+				</div>
+				<div class="modal-body">
+					<t t-call="fl_web_preview.PreviewWrapper"/>
+				</div>
+				<div class="modal-footer">
+					<t t-call="fl_web_preview.PreviewPager"/>
+				</div>
+      		</div>
+		</div>
+	</div>
+</t>
+
+<!-- 
+<t t-name="DocumentViewer">
+        <div class="modal o_modal_fullscreen" tabindex="-1" data-keyboard="false" role="dialog">
+            <t t-call="DocumentViewer.Content"/>
+
+            <t t-if="widget.attachment.length !== 1">
+                <a class="arrow arrow-left move_previous" href="#">
+                    <span class="fa fa-chevron-left" role="img" aria-label="Previous" title="Previous"/>
+                </a>
+                <a class="arrow arrow-right move_next" href="#">
+                    <span class="fa fa-chevron-right" role="img" aria-label="Next" title="Next"/>
+                </a>
+            </t>
+        </div>
+    </t>
+
+<div t-name="PreviewDialog" class="modal fade" tabindex="-1" data-backdrop="static" role="dialog" aria-hidden="true" t-att-id="_.uniqueId('modal_')">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header preview-header">
+                <button type="button" class="preview-dialog-btn preview-close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button>
+                <button type="button" class="preview-dialog-btn preview-maximize" aria-hidden="true"><i class="fa fa-desktop"></i></button>
+                <button type="button" class="preview-dialog-btn preview-minimize" aria-hidden="true"><i class="fa fa-minus"></i></button>
+                <a class="preview-dialog-btn preview-download" aria-hidden="true" t-att-href="url"><i class="fa fa-download"></i></a>
+                <button type="button" class="preview-dialog-btn preview-print" aria-hidden="true"><i class="fa fa-print"></i></button>
+                <h4 class="modal-title preview-title"><t t-raw="title"/></h4>
+            </div>
+            <div class="modal-body preview-body">
+            </div>
+            <div class="modal-footer preview-footer">
+            	<button type="button" class="btn btn-primary" data-dismiss="modal">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+	-->
+</templates>

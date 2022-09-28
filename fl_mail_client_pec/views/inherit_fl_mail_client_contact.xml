@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <data noupdate="0">
+
+        <record id="view_fl_mail_client_contact_form" model="ir.ui.view">
+            <field name="name">view.fl.mail.client.contact.form</field>
+            <field name="model">fl.mail.client.contact</field>
+            <field name="inherit_id" ref="fl_mail_client.view_fl_mail_client_contact_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='email']" position="after">
+                    <field name="pec_mail" widget="email" context="{'gravatar_image': True}"/>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

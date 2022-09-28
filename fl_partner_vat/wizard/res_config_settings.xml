@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data noupdate="0">
+        <record id="res_config_settings_view_form" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.base.vat</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@id='partner_autocomplete']" position="after">
+                    <div class="col-12 col-lg-6 o_setting_box">
+                        <div class="o_setting_left_pane">
+                            <field name="vat_unique"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label for="vat_unique"/>
+                            <div class="text-muted">Check the uniqueness of the VAT number</div>
+                        </div>
+                        <div class="o_setting_left_pane">
+                            <field name="vat_mandatory"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label for="vat_mandatory"/>
+                            <div class="text-muted">VAT number mandatory for companies</div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

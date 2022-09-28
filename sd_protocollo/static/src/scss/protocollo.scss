@@ -1,0 +1,142 @@
+.fa.fa-exclamation-triangle.sd-esito-registrazione {
+  color: darkorange;
+  margin-right: 5px;
+}
+
+.fa.fa-check-circle.sd-esito-registrazione {
+  color: #44a1a0;
+  margin-right: 5px;
+}
+
+.fa.fa-check-circle.sd-esito-registrazione-segnatura {
+  color: #44a1a0;
+  margin-right: 5px;
+}
+
+.sd-esito-registrazione-ul {
+  list-style-type: none;
+}
+
+.fa.fa-warning.verifica-campi {
+  color: darkorange;
+  margin-right: 5px;
+  margin-bottom: 10px;
+}
+
+.verifica-campi-container li {
+  margin: 0 0 5px 0;
+}
+
+button.btn.btn-primary.protocollo-genera-etichetta {
+  width: auto;
+  background-color: transparent;
+  color: #4c4c4c;
+  padding-top: 0;
+  border: 0;
+  line-height: 32px;
+
+  &:before {
+    content: "\f02a";
+    font-family: FontAwesome;
+    font-size: 14px;
+    color: #4c4c4c;
+    line-height: 10px;
+  }
+}
+
+button.btn.btn-primary.protocollo-scarica_segnatura {
+  width: auto;
+  background-color: transparent;
+  color: #4c4c4c;
+  padding-top: 0;
+  border: 0;
+  line-height: 32px;
+
+  &:before {
+    content: "\f1c9";
+    font-family: FontAwesome;
+    font-size: 14px;
+    color: #4c4c4c;
+    line-height: 10px;
+  }
+}
+
+div.protocollo-form-numero_protocollo {
+  margin-top: -20px;
+
+  label {
+    font-weight: bold !important;
+    float: left;
+
+    &.data {
+      margin-left: 5px;
+    }
+  }
+
+  h1 {
+    label,span {
+      float:left;
+      font-size: inherit !important;
+      line-height: inherit !important;
+    }
+
+    span {
+      margin: auto 5px;
+    }
+
+  }
+
+  h2 {
+    width: auto;
+    float: left;
+    max-width: 85px;
+    height: 25px;
+    text-align: center;
+    padding-right: 5px;
+
+    &.data {
+      max-width: 195px;
+
+      span {
+        min-width: 180px;
+      }
+    }
+
+    span {
+      border-bottom: 1px solid #f4f4f4;
+      max-width: 85px;
+      height: 25px;
+      line-height: 27px;
+    }
+  }
+}
+
+div.o_group.documento-title {
+
+  margin-top: 40px;
+
+  .o_horizontal_separator {
+    font-size: 16px;
+  }
+}
+
+.o_form_view .o_field_widget .o_kanban_view.o_kanban_ungrouped .o_kanban_record {
+  margin-left: 0;
+}
+
+.sd-mezzo-trasmissione {
+  color: black;
+  font-family: inherit;
+
+  span {
+    color: black;
+    font-weight: normal;
+  }
+
+  &:before {
+    font-family: 'FontAwesome';
+    margin-right: 10px;
+    font-weight: normal;
+  }
+
+}

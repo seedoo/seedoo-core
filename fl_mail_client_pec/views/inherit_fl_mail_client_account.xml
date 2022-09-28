@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <data noupdate="0">
+
+        <record id="view_fl_mail_client_account_tree" model="ir.ui.view">
+            <field name="name">view.fl.mail.client.account.tree</field>
+            <field name="model">fl.mail.client.account</field>
+            <field name="inherit_id" ref="fl_mail_client.view_fl_mail_client_account_tree"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='ir_mail_server_id']" position="after">
+                    <field name="pec" widget="boolean_toggle"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="view_fl_mail_client_account_form" model="ir.ui.view">
+            <field name="name">view.fl.mail.client.account.form</field>
+            <field name="model">fl.mail.client.account</field>
+            <field name="inherit_id" ref="fl_mail_client.view_fl_mail_client_account_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//label[@for='description']" position="before">
+                    <widget name="web_ribbon" title="PEC" bg_color="bg-danger" attrs="{'invisible': [('pec', '!=', True)]}"/>
+                </xpath>
+
+                <xpath expr="//group[@name='left']" position="inside">
+                    <field name="pec" widget="boolean_toggle"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="view_fl_mail_client_account_search" model="ir.ui.view">
+            <field name="name">view.fl.mail.client.account.search</field>
+            <field name="model">fl.mail.client.account</field>
+            <field name="inherit_id" ref="fl_mail_client.view_fl_mail_client_account_search"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='ir_mail_server_id']" position="after">
+                    <field name="pec"/>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_sd_protocollo_invio_destinatario_tree" model="ir.ui.view">
+            <field name="name">view.sd.protocollo.invio.destinatario.tree</field>
+            <field name="model">sd.protocollo.invio.destinatario</field>
+            <field name="inherit_id" ref="sd_protocollo.view_sd_protocollo_invio_destinatario_tree"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='contatto_id_name']" position="after">
+                    <field name="email"/>
+                    <field name="email_tipologia"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="view_sd_protocollo_invio_destinatario_form" model="ir.ui.view">
+            <field name="name">view.sd.protocollo.invio.destinatario.form</field>
+            <field name="model">sd.protocollo.invio.destinatario</field>
+            <field name="inherit_id" ref="sd_protocollo.view_sd_protocollo_invio_destinatario_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='contatto_id_name']" position="after">
+                    <field name="email"/>
+                    <field name="email_tipologia"/>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

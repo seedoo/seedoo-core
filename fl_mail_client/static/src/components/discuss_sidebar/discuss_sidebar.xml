@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-inherit="mail.DiscussSidebar" t-inherit-mode="extension">
+        <xpath expr="//t[@t-foreach='orderedMailboxes']/DiscussSidebarItem" position="attributes">
+            <!-- TODO: improved by making it more generic -->
+            <attribute name="t-if">mailbox.localId!='mail.thread_mail.box_mailreceived' and mailbox.localId!='mail.thread_mail.box_mailsent'</attribute>
+        </xpath>
+        <xpath expr="//div[hasclass('o_DiscussSidebar_groupMailbox')]" position="after">
+
+            <t t-set="mailListSidebarItems" t-value="getMailListSidebarItems()"/>
+            <hr class="o_DiscussSidebar_separator"/>
+            <div class="o_DiscussSidebar_group o_DiscussSidebar_groupChannel"
+                 t-if="env.messaging.currentPartner.is_fl_mail_reader_writer">
+
+                <div class="o_DiscussSidebar_groupHeader">
+                    <div class="o_DiscussSidebar_groupHeaderItem o_DiscussSidebar_groupTitle fl_mail_client_sidebar">
+                        E-mail
+                    </div>
+                    <div class="o-autogrow"/>
+                </div>
+
+                <div class="o_DiscussSidebar_list">
+                    <t t-foreach="mailListSidebarItems" t-as="mailbox" t-key="mailbox.localId">
+                        <DiscussSidebarItem
+                                t-if="env.messaging.currentPartner.is_fl_mail_reader_writer"
+                                class="o_DiscussSidebar_item"
+                                threadLocalId="mailbox.localId"/>
+                    </t>
+                    <div class="o_DiscussSidebarItem o-active o_DiscussSidebar_item" t-on-click="_onClickMailCompose"
+                         t-if="env.messaging.currentPartner.is_fl_mail_reader_writer and env.messaging.currentPartner.has_compose_permission">
+                        <div class="o_DiscussSidebarItem_activeIndicator o_DiscussSidebarItem_item"/>
+                        <div class="o_ThreadIcon o_DiscussSidebarItem_item">
+                            <div class="o_ThreadIcon_mailboxInbox fa fa-edit"/>
+                        </div>
+                        <div class="o_DiscussSidebarItem_item o_DiscussSidebarItem_name">
+                            Compose
+                        </div>
+                        <div class="o-autogrow o_DiscussSidebarItem_item"/>
+                    </div>
+                </div>
+
+            </div>
+        </xpath>
+    </t>
+</templates>

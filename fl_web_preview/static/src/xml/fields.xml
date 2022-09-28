@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2020-2022 Flosslab S.r.l.
+    Copyright 2017-2019 MuK IT GmbH
+    License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
+-->
+<templates>
+
+<t t-name="fl_web_preview.FieldBinaryPreview">
+    <div class="fl_field_preview" aria-atomic="true">
+        <div t-if="widget.mode !== 'readonly'" class="fl_field_preview_controls mb8" role="toolbar" aria-label="Controls">
+            <span class="o_form_binary_progress">Uploading...</span>
+            <button type="button" class="btn btn-primary o_select_file_button" title="Select">Upload your file</button>
+            <button class="btn btn-secondary fa fa-pencil o_select_file_button" title="Select" aria-label="Select" type="button"></button>
+            <button class="btn btn-secondary fa fa-trash-o o_clear_file_button" title="Clear" aria-label="Clear" type="button"></button>
+        </div>
+        <div class="fl_field_preview_container"/>
+    </div>
+</t>
+	
+</templates>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_sd_protocollo_wizard_protocollo_classifica_step1_form" model="ir.ui.view">
+            <field name="name">view.sd.protocollo.wizard.protocollo.classifica.step1.form</field>
+            <field name="model">sd.protocollo.wizard.protocollo.classifica.step1</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group invisible="1">
+                            <field name="voce_titolario_required"/>
+                            <field name="voci_titolario_non_presenti"/>
+                            <field name="protocollo_company_id"/>
+                        </group>
+
+                        <group attrs="{'invisible':[('voci_titolario_non_presenti','=',False)]}">
+                            <div colspan="4">
+                                <h3>Il titolario è vuoto.</h3>
+                                <p>Per classificare il protocollo è necessario inserire delle voci di titolario dalla
+                                    apposita sezione di configurazione.
+                                </p>
+                            </div>
+                        </group>
+
+                        <group attrs="{'invisible':[('voci_titolario_non_presenti','=',True)]}">
+                            <field name="voce_titolario_id"
+                                   widget="ztree_select"
+                                   options="{
+                                   'ztree_parent_key': 'parent_id',
+                                   'ztree_child_key': 'child_ids',
+                                   'ztree_expend_level': '1',
+                                   'ztree_name_field': 'complete_name',
+                                   'ztree_title_field': 'path_name',
+                                   'ztree_only_child': 'only_child',
+                                   'ztree_custom_class': 'no-hover-titolario',
+                                   'order': 'sequence',
+                                   'no_open': True,
+                                   'no_create': True
+                                   }"
+                                   attrs="{'required' : [('voce_titolario_required', '=', True)]}"
+                            />
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button string="Salva"
+                                name="action_salva"
+                                type="object"
+                                class="oe_highlight"
+                                attrs="{'invisible':[('voci_titolario_non_presenti','=',True)]}"
+                        />
+                        <button string="Abbandona"
+                                class="oe_link"
+                                special="cancel"
+                        />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+
+        <record id="view_sd_protocollo_wizard_protocollo_classifica_step2_form" model="ir.ui.view">
+            <field name="name">view.sd.protocollo.wizard.protocollo.classifica.step2.form</field>
+            <field name="model">sd.protocollo.wizard.protocollo.classifica.step2</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <field name="messaggio_sostituzione_invisible" invisible="1"/>
+                        <h4>La voce di titolario selezionata ha il seguente Ufficio Assegnatario di Competenza di
+                            default:</h4>
+                        <group>
+                            <ul>
+                                <li>
+                                    <b>
+                                        <field name="assegnatari_default"
+                                               readonly="1"
+                                               nolabel="1"
+                                               class="assegnatari_default"
+                                        />
+                                    </b>
+                                </li>
+                            </ul>
+                        </group>
+                        <separator/>
+                        <h5 attrs="{'invisible':[('messaggio_sostituzione_invisible','=',False)]}"><p>Desideri
+                            utilizzarlo?</p></h5>
+                        <h5 attrs="{'invisible':[('messaggio_sostituzione_invisible','=',True)]}"><p>Desideri utilizzarlo e
+                            sostituire l'assegnatario del protocollo?</p></h5>
+                    </sheet>
+                    <footer>
+                        <button name="action_yes"
+                                type="object"
+                                string="Utilizza"
+                                class="oe_highlight"
+                                colspan="1"
+                        />
+                        <button name="action_no"
+                                type="object"
+                                string="Non utilizzare"
+                                class="oe_highlight"
+                                colspan="9"
+                        />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

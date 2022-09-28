@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="sd_protocollo.data_sd_protocollo_cartella_corrente" model="sd.protocollo.cartella">
+            <field name="aoo_id" ref="sd_protocollo_aoo.data_fl_set_set_aoo_default"/>
+        </record>
+
+    </data>
+</odoo>

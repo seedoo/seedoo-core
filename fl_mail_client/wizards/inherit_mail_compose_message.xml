@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <data noupdate="0">
+
+        <record id="view_wizard_mail_compose_message_form" model="ir.ui.view">
+            <field name="name">view.wizard.mail.compose.message.form</field>
+            <field name="model">mail.compose.message</field>
+            <field name="mode">primary</field>
+            <field name="inherit_id" ref="mail.email_compose_message_wizard_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='mail_server_id']" position="before">
+                    <field name="account_id"
+                           widget="selection"
+                           context="{'display_with_email': True}"
+                           required="1"
+                    />
+                </xpath>
+
+                <xpath expr="//span[@name='document_followers_text']" position="replace">
+
+                </xpath>
+
+                <xpath expr="//label[@for='partner_ids']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='partner_ids']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='subject']" position="before">
+                    <field name="email_ids"
+                           widget="many2many_tags_email"
+                           options="{'no_quick_create': True}"
+                           attrs="{'invisible': [('composition_mode', '!=', 'comment')]}"
+                           context="{'account_id': account_id}"
+                    />
+                    <field name="email_cc_ids"
+                           widget="many2many_tags_email"
+                           options="{'no_quick_create': True}"
+                           attrs="{'invisible': [('composition_mode', '!=', 'comment')]}"
+                           context="{'account_id': account_id}"
+                    />
+                    <field name="email_bcc_ids"
+                           widget="many2many_tags_email"
+                           options="{'no_quick_create': True}"
+                           attrs="{'invisible': [('composition_mode', '!=', 'comment')]}"
+                           context="{'account_id': account_id}"
+                    />
+                </xpath>
+
+                <xpath expr="//field[@name='template_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+
+                <xpath expr="//button[@name='save_as_template']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

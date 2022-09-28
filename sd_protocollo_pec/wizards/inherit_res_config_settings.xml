@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="res_config_settings_view_form" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.sd.protocollo</field>
+            <field name="model">res.config.settings</field>
+            <field name="priority" eval="20"/>
+            <field name="inherit_id" ref="sd_protocollo.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+
+                <div id="msg_module_sd_protocollo_pec" position="replace"/>
+
+                <xpath expr="//div[@name='right-pane_module_sd_protocollo_pec']" position="after">
+                    <div class="content-group">
+                        <br/>
+                        <div class="row">
+                            <field name="select_eml_pec" class="col-lg-1 ml16"/>
+                            <label for="select_eml_pec"/>
+                        </div>
+                        <div class="text-muted">
+                            Abilita la protocollazione della busta di trasporto PEC
+                        </div>
+                        <br/>
+                         <div class="row">
+                            <field name="select_body_pec" class="col-lg-1 ml16"/>
+                            <label for="select_body_pec"/>
+                        </div>
+                        <div class="text-muted">
+                            Abilita la protocollazione del corpo del messaggio postacert.eml della PEC
+                        </div>
+                        <br/>
+                         <div class="row">
+                            <field name="select_postacert_eml_pec" class="col-lg-1 ml16"/>
+                            <label for="select_postacert_eml_pec"/>
+                        </div>
+                        <div class="text-muted">
+                            Abilita la protocollazione del messaggio postacert.eml contenuto nella busta di trasporto PEC
+                        </div>
+                        <br/>
+                         <div class="row">
+                            <field name="select_attachments_pec" class="col-lg-1 ml16"/>
+                            <label for="select_attachments_pec"/>
+                        </div>
+                        <div class="text-muted">
+                            Abilita la protocollazione degli allegati contenuti nel messaggio postacert.eml della PEC
+                        </div>
+                    </div>
+                </xpath>
+
+                <xpath expr="//div[@name='email-pec']" position="inside">
+                    <div class="col-12 col-lg-6 o_setting_box">
+                        <div class="o_setting_left_pane">
+                            <field name="inserisci_testo_pec"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label for="inserisci_testo_pec"/>
+                            <div class="text-muted">
+                                Permette di inserire un testo nel messaggio PEC dei documenti protocollati in uscita
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-lg-6 o_setting_box">
+                        <div class="o_setting_left_pane">
+                            <field name="rinomina_oggetto_mail_pec"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label for="rinomina_oggetto_mail_pec"/>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-lg-6 o_setting_box">
+                        <div class="o_setting_left_pane">
+                            <field name="modifica_documenti_pec"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label for="modifica_documenti_pec"/>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-lg-6 o_setting_box">
+                        <div class="o_setting_left_pane">
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <div class="content-group">
+                                <div class="mt8">
+                                    <label for="lunghezza_massima_oggetto_mail"
+                                           style="font-weight:normal;"/>
+                                    <field name="lunghezza_massima_oggetto_mail" required="1"/>
+                                </div>
+                                <div class="mt8">
+                                    <label for="lunghezza_massima_oggetto_pec" style="font-weight:normal;"/>
+                                    <field name="lunghezza_massima_oggetto_pec" required="1"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

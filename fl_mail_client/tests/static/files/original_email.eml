@@ -1,0 +1,80 @@
+Delivered-To: testuser00@flosslab.com
+Received: by 2002:a05:6a11:22a5:0:0:0:0 with SMTP id oq37csp7114267pxb;
+        Tue, 14 Dec 2021 01:35:21 -0800 (PST)
+X-Received: by 2002:a9d:19e8:: with SMTP id k95mr3405056otk.12.1639474521111;
+        Tue, 14 Dec 2021 01:35:21 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1639474521; cv=none;
+        d=google.com; s=arc-20160816;
+        b=fKFNecApFrHTTV+x4T7KMAa+9hCKH86ooiaFGA7F0c8tKO2B2FjvWmx1XJqz5Nkq2O
+         OjB665sVKgBxIAoXeAajz+uEo1zVp0BPFCiLzORVyIN8R1rrzJSqHOcptO13Gn6iXJKS
+         V6iOzB6OMdSOTvPKksXPH2mEI4N+mVpPT3fE4tGRnNH35Pq3XQEAvCvhToCCRoMLqeJU
+         Xpm2XjLgM4qD/36afh8L06yFLGkLXY2aBL0Xhg/bw3kpguDnJwMPz7cXxns2s7Xbw3cc
+         k3nrGyeRESNy2L8nvIl7EcWLZXFG4HVQ937dkfzfZn21USFhTwx1mwHarp+ouaXhCkAS
+         ewmQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=x27O1vKTNss+ZanQr50rtO1z44wAJZW6N9YsHF9AvC8=;
+        b=TEpWPxR8Rugga7I3rrphsmx44erPl1eqAhK5xxVMFOp7rJ8VXBwJvR/6hqYqTvTpJn
+         /bHI/j/Tv6MB8jen5J+Cevm0xGcI4WaOniByQGHXUT19CNgKkrs8R7jB9agpp459YuLU
+         bPiWLXVw8Tf4F00v6owjafbT1lYX0v61fTSRymQiAoa9BoSidRXwaAWBFOP9w4cJ7a/y
+         9wV/zsAczbO+/CS9th5dURwo1VKxFTZDcQc83RSVFs+dm1+t76Rnhdr1RiDm1oynpSXQ
+         1hB9bgTZ9GTceryelaHvCKym5pZsdn7+tTqrOc6v+GCaOcQavGsKZHNtXsEMhPATwXW3
+         riNw==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@flosslab.com header.s=google header.b=d6B0ZM3N;
+       spf=pass (google.com: domain of sendmail@flosslab.com designates 209.85.220.41 as permitted sender) smtp.mailfrom=sendmail@flosslab.com
+Return-Path: <sendmail@flosslab.com>
+Received: from mail-sor-f41.google.com (mail-sor-f41.google.com. [209.85.220.41])
+        by mx.google.com with SMTPS id s13sor3724423otv.5.2021.12.14.01.35.20
+        for <testuser00@flosslab.com>
+        (Google Transport Security);
+        Tue, 14 Dec 2021 01:35:20 -0800 (PST)
+Received-SPF: pass (google.com: domain of sendmail@flosslab.com designates 209.85.220.41 as permitted sender) client-ip=209.85.220.41;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@flosslab.com header.s=google header.b=d6B0ZM3N;
+       spf=pass (google.com: domain of sendmail@flosslab.com designates 209.85.220.41 as permitted sender) smtp.mailfrom=sendmail@flosslab.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=flosslab.com; s=google;
+        h=mime-version:from:date:message-id:subject:to:cc;
+        bh=x27O1vKTNss+ZanQr50rtO1z44wAJZW6N9YsHF9AvC8=;
+        b=d6B0ZM3NoR/pULv7cxUjqSqVaeeNitHlK9DIxbKH+11fIBE0yz+gosq/1YRJbhtAzM
+         nJMuXTLhVxFE5U8YuG+aMbvYI/dWLNlzPYPPVG+v+c21a6U8UPGElaiTcspfm9UMzTl8
+         xQFZ91/aZFeI6QwnC8KqEt8rOAK7zqpiUBNv9lPrjTbL9h3c8zuURSPKK5SkpqMbEbux
+         0mGLNFnlSlUWeTbYvlpJYXouXxPGmCJI5C8u0sBSj1I+GZJTOnFBMJuB2uwtPAizSUL0
+         5fRac0ikViYhYL6EbgM+gtWFAzdV6mZ9IH0kjgquVVu5m7nDmYzvKcr4QQg6bV/NYa68
+         o/lg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=x27O1vKTNss+ZanQr50rtO1z44wAJZW6N9YsHF9AvC8=;
+        b=TeDe/2rb0fMkWZOMqtXN3DvY4Oy44qBP9JqOvDU4WvrSM7qDwfDR8Ye4FVNYNsgwGG
+         3r1d9NuzDFj5HPDXFfClR6WJTQ5oRXJtiCqoxzRO47iB4SJFB299HUejiTed7OgoOPjg
+         UqkHYHuGbhElFeDqi6w3jhUkWcJmFNQrQZ/SqekztlDd2AKMLPDqRtKba2+215NiPpY+
+         u20P2DEBOVeKSabKCjVUcSiXT00rrzx0INpzV4wufe/l6beAtoymVb9Tkk5cSP3gVsUZ
+         MC/BJo3tK18ZBNiprP4z8j1a8VEZsjftSqWn0G4YESdEzWwDlomkNiuL1DzGUX1+Vyz3
+         9DmQ==
+X-Gm-Message-State: AOAM533Nv86YnEty9PoFIr56T9Z1p+qDA465o39/wbeuPjUeH4gfpj1B
+	iz82QbrUWubBjsGK4PXQKvIi9T1Lg0xrKV9FKEI3S4okVprrzw==
+X-Google-Smtp-Source: ABdhPJwX10maX/Y769G0Q35O0ZygsnELlaLyQbZdUElCGqD8p2CwDzQ9kM47yuyLZbFxcllH6V1LWG0hvta7YhaWz6g=
+X-Received: by 2002:a9d:4804:: with SMTP id c4mr3493233otf.82.1639474520708;
+ Tue, 14 Dec 2021 01:35:20 -0800 (PST)
+MIME-Version: 1.0
+From: Send Mail Developers <sendmail@flosslab.com>
+Date: Tue, 14 Dec 2021 10:35:10 +0100
+Message-ID: <CABnXwOOycgm8VhJb_kuWn=hrOC=6CNC7m3JqB7hV-RfYbKJ-vg@mail.gmail.com>
+Subject: Subject test email
+To: User 00 Test <testuser00@flosslab.com>
+Cc: User 01 Test <testuser01@flosslab.com>
+Content-Type: multipart/alternative; boundary="0000000000006ce91305d317e86c"
+
+--0000000000006ce91305d317e86c
+Content-Type: text/plain; charset="UTF-8"
+
+Body test email
+
+--0000000000006ce91305d317e86c
+Content-Type: text/html; charset="UTF-8"
+
+<div dir="ltr">Body test email</div>
+
+--0000000000006ce91305d317e86c--

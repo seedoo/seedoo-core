@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <menuitem id="menu_item_sd_dms_titolario_titolario_list"
+                  name="Titolario"
+                  parent="sd_protocollo.menu_item_sd_protocollo_configurazione"
+                  action="sd_dms_titolario.action_sd_dms_titolario_titolario_list"
+                  groups="sd_dms.group_sd_dms_user"
+                  sequence="50"
+        />
+
+    </data>
+</odoo>

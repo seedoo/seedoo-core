@@ -1,0 +1,1 @@
+from . import inherit_sd_protocollo_dashboard

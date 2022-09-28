@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <data noupdate="0">
+
+        <record id="action_sd_dms_titolario_voce_titolario_list" model="ir.actions.act_window">
+            <field name="name">Voci Titolario</field>
+            <field name="res_model">sd.dms.titolario.voce.titolario</field>
+            <field name="view_mode">tree,form</field>
+            <field name="limit">20</field>
+        </record>
+
+        <record id="action_sd_dms_titolario_titolario_list" model="ir.actions.act_window">
+            <field name="name">Titolario</field>
+            <field name="res_model">sd.dms.titolario.titolario</field>
+            <field name="view_mode">tree,form</field>
+            <field name="limit">20</field>
+        </record>
+
+    </data>
+</odoo>

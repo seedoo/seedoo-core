@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="sd_dms.data_sd_dms_storage_filestore" model="sd.dms.storage">
+            <field name="aoo_id" ref="sd_protocollo_aoo.data_fl_set_set_aoo_default"/>
+        </record>
+
+    </data>
+</odoo>

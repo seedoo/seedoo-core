@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="data_sd_protocollo_mezzo_trasmissione_assicurata" model="sd.protocollo.mezzo.trasmissione" forcecreate="False">
+            <field name="nome">Assicurata</field>
+            <field name="icon">fas fa-parachute-box</field>
+        </record>
+
+        <record id="data_sd_protocollo_mezzo_trasmissione_corriere" model="sd.protocollo.mezzo.trasmissione" forcecreate="False">
+            <field name="nome">Corriere</field>
+            <field name="icon">fa fa-truck</field>
+        </record>
+
+        <record id="data_sd_protocollo_mezzo_trasmissione_email_esterna" model="sd.protocollo.mezzo.trasmissione" forcecreate="False">
+            <field name="nome">E-mail esterna al sistema</field>
+            <field name="ordinamento">25</field>
+            <field name="icon">fa fa-envelope</field>
+            <field name="icon_color">#114B5F</field>
+        </record>
+
+        <record id="data_sd_protocollo_mezzo_trasmissione_fax" model="sd.protocollo.mezzo.trasmissione" forcecreate="False">
+            <field name="nome">Fax</field>
+            <field name="icon">fa fa-fax</field>
+        </record>
+
+        <record id="data_sd_protocollo_mezzo_trasmissione_notifica" model="sd.protocollo.mezzo.trasmissione" forcecreate="False">
+            <field name="nome">Notifica</field>
+            <field name="icon">fa fa-bell</field>
+        </record>
+
+        <record id="data_sd_protocollo_mezzo_trasmissione_posta_mano" model="sd.protocollo.mezzo.trasmissione" forcecreate="False">
+            <field name="nome">Posta a mano</field>
+            <field name="icon">fas fa-people-carry</field>
+        </record>
+
+        <record id="data_sd_protocollo_mezzo_trasmissione_posta_ordinaria" model="sd.protocollo.mezzo.trasmissione" forcecreate="False">
+            <field name="nome">Posta ordinaria</field>
+            <field name="icon">fa fa-mail-bulk</field>
+        </record>
+
+        <record id="data_sd_protocollo_mezzo_trasmissione_pec_esterna" model="sd.protocollo.mezzo.trasmissione" forcecreate="False">
+            <field name="nome">PEC esterna al sistema</field>
+            <field name="ordinamento">15</field>
+            <field name="icon">fa fa-envelope-square</field>
+            <field name="icon_color">#114B5F</field>
+        </record>
+
+        <record id="data_sd_protocollo_mezzo_trasmissione_rac" model="sd.protocollo.mezzo.trasmissione" forcecreate="False">
+            <field name="nome">Raccomandata</field>
+            <field name="icon">fa fa-address-card</field>
+        </record>
+
+        <record id="data_sd_protocollo_mezzo_trasmissione_rac_ar" model="sd.protocollo.mezzo.trasmissione" forcecreate="False">
+            <field name="nome">Raccomandata AR</field>
+            <field name="icon">fa fa-exchange-alt</field>
+        </record>
+
+        <record id="data_sd_protocollo_mezzo_trasmissione_web" model="sd.protocollo.mezzo.trasmissione" forcecreate="False">
+            <field name="nome">Web</field>
+            <field name="icon">fa fa-laptop</field>
+        </record>
+
+    </data>
+</odoo>

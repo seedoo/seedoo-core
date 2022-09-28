@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_sd_protocollo_wizard_protocollo_riassegna_form" model="ir.ui.view">
+            <field name="name">view.sd.protocollo.wizard.protocollo.riassegna.form</field>
+            <field name="model">sd.protocollo.wizard.protocollo.riassegna</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+
+                        <group attrs="{'invisible':[('assegnatari_non_presenti','=',False)]}" col="4">
+                            <div colspan="4">
+                                <h3>Non ci sono assegnatari.</h3>
+                                <p>Per selezionare gli assegnatari è necessario configurare gli uffici e i relativi utenti dalla apposita sezione di configurazione.</p>
+                            </div>
+                        </group>
+
+                        <div attrs="{'invisible':[('assegnatari_non_presenti','=',True)]}">
+                            <group>
+                                <field name="assegnazione_competenza_id" invisible="1"/>
+                                <field name="assegnazione_competenza_name"
+                                       options="{
+                                        'no_open': True,
+                                        'no_create': True
+                                        }"/>
+                            </group>
+                        </div>
+                        <hr/>
+
+                        <group attrs="{'invisible':[('assegnatari_non_presenti','=',True)]}">
+                                <field name="assegnatario_competenza_id"
+                                   widget="ztree_select"
+                                   required="1"
+                                   options="{
+                                   'ztree_parent_key': 'parent_id',
+                                   'ztree_expend_level': '1',
+                                   'ztree_name_field': 'nome',
+                                   'ztree_title_field': 'path_name',
+                                   'no_open': True,
+                                   'no_create': True
+                                   }"
+                                   context="{'disable_ids': context['assegnatario_competenza_disable_ids'].toJSON(), 'protocollo_id': context['protocollo_id']}"
+                                   class="fl_set"
+                            />
+                        </group>
+
+                        <group attrs="{'invisible':[('assegnatari_non_presenti','=',True)]}">
+
+                            <field name="messaggio"
+                                   placeholder="messaggio"
+                                   nolabel="1"
+                                   colspan="4"
+                            />
+                        </group>
+
+                        <group invisible="1">
+                            <field name="assegnatore_ufficio_id_invisible"/>
+                            <field name="assegnatari_non_presenti"/>
+                        </group>
+
+                    </sheet>
+                    <footer>
+                        <button string="Riassegna"
+                                name="action_riassegna"
+                                type="object"
+                                attrs="{'invisible':[('assegnatari_non_presenti','=',True)]}"
+                                class="oe_highlight"
+                        />
+                        <button string="Abbandona"
+                                class="oe_link"
+                                special="cancel"
+                        />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

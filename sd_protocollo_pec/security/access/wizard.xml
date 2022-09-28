@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="access_sd_protocollo_wizard_protocollo_crea_da_mail" model="ir.model.access">
+            <field name="name">access.sd.protocollo.wizard.protocollo.crea.da.mail</field>
+            <field name="model_id" ref="model_sd_protocollo_wizard_protocollo_crea_da_mail"/>
+            <field name="group_id" ref="sd_protocollo.group_sd_protocollo_assegnatario"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <record id="access_sd_protocollo_wizard_protocollo_invio_mail" model="ir.model.access">
+            <field name="name">access.sd.protocollo.wizard.protocollo.invio.mail</field>
+            <field name="model_id" ref="model_sd_protocollo_wizard_protocollo_invio_mail"/>
+            <field name="group_id" ref="sd_protocollo.group_sd_protocollo_assegnatario"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <record id="access_sd_protocollo_wizard_protocollo_reinvio_mail" model="ir.model.access">
+            <field name="name">access.sd.protocollo.wizard.protocollo.reinvio.mail</field>
+            <field name="model_id" ref="model_sd_protocollo_wizard_protocollo_reinvio_mail"/>
+            <field name="group_id" ref="sd_protocollo.group_sd_protocollo_assegnatario"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <record id="access_sd_protocollo_wizard_protocollo_reinvio_mail_contatto" model="ir.model.access">
+            <field name="name">access.sd.protocollo.wizard.protocollo.reinvio.mail.contatto</field>
+            <field name="model_id" ref="model_sd_protocollo_wizard_protocollo_reinvio_mail_contatto"/>
+            <field name="group_id" ref="sd_protocollo.group_sd_protocollo_assegnatario"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+    </data>
+</odoo>

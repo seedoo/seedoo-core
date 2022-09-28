@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-inherit="mail.ThreadIcon" t-inherit-mode="extension">
+        <xpath expr="//t[@t-elif='thread === env.messaging.moderation']" position="after">
+            <t t-elif="thread === env.messaging.received">
+                <div class="o_ThreadIcon_mailboxModeration fa fa-envelope"/>
+            </t>
+            <t t-elif="thread === env.messaging.sent">
+                <div class="o_ThreadIcon_mailboxModeration fa fa-send"/>
+            </t>
+        </xpath>
+    </t>
+</templates>

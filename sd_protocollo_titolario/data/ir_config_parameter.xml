@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="data_ir_config_parameter_sostituisci_assegnatari" model="ir.config_parameter" forcecreate="False">
+            <field name="key">sd_protocollo.sostituisci_assegnatari</field>
+            <field name="value">True</field>
+        </record>
+
+        <record id="data_ir_config_parameter_modifica_classificazione" model="ir.config_parameter" forcecreate="False">
+            <field name="key">sd_protocollo.modifica_classificazione</field>
+            <field name="value">True</field>
+        </record>
+
+    </data>
+</odoo>

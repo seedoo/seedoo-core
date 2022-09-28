@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <data noupdate="0">
+
+        <menuitem id="menu_configuration"
+                  name="Configuration"
+                  parent="mail.menu_root_discuss"
+                  groups="group_fl_mail_client_administrator"
+                  sequence="20"
+        />
+        <menuitem id="menu_item_fl_mail_client_account_list"
+                  name="Accounts"
+                  parent="menu_configuration"
+                  action="action_fl_mail_client_account_list"
+                  sequence="10"
+        />
+
+        <menuitem id="menu_item_res_config_configuration"
+                  name="Settings"
+                  parent="menu_configuration"
+                  action="action_res_config_settings"
+                  sequence="50"
+        />
+
+
+    </data>
+</odoo>

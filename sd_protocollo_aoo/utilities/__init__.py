@@ -1,0 +1,5 @@
+from . import inherit_sd_protocollo_actions
+from . import inherit_sd_protocollo_wizard_actions
+from . import inherit_sd_protocollo_cartella_permissions
+from . import inherit_sd_protocollo_registro_giornaliero_permissions
+from . import inherit_sd_protocollo_assegnazione_wizard_actions

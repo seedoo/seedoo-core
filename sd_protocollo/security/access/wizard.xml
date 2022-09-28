@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="access_sd_protocollo_wizard_protocollo_registra" model="ir.model.access">
+            <field name="name">access.sd.protocollo.wizard.protocollo.registra</field>
+            <field name="model_id" ref="model_sd_protocollo_wizard_protocollo_registra"/>
+            <field name="group_id" ref="group_sd_protocollo_assegnatario"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <record id="access_sd_protocollo_wizard_protocollo_annulla" model="ir.model.access">
+            <field name="name">access.sd.protocollo.wizard.protocollo.annulla</field>
+            <field name="model_id" ref="model_sd_protocollo_wizard_protocollo_annulla"/>
+            <field name="group_id" ref="group_sd_protocollo_assegnatario"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <record id="access_sd_protocollo_wizard_protocollo_carica_documento" model="ir.model.access">
+            <field name="name">access.sd.protocollo.wizard.protocollo.carica.documento</field>
+            <field name="model_id" ref="model_sd_protocollo_wizard_protocollo_carica_documento"/>
+            <field name="group_id" ref="group_sd_protocollo_assegnatario"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <record id="access_sd_protocollo_wizard_protocollo_add_mittente_interno" model="ir.model.access">
+            <field name="name">access.sd.protocollo.wizard.add.mittente.interno</field>
+            <field name="model_id" ref="model_sd_protocollo_wizard_protocollo_add_mittente_in"/>
+            <field name="group_id" ref="group_sd_protocollo_assegnatario"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <record id="access_sd_protocollo_wizard_protocollo_assegna_step1" model="ir.model.access">
+            <field name="name">access.sd.protocollo.wizard.protocollo.assegna.step1</field>
+            <field name="model_id" ref="model_sd_protocollo_wizard_protocollo_assegna_step1"/>
+            <field name="group_id" ref="group_sd_protocollo_assegnatario"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <record id="access_sd_protocollo_wizard_protocollo_assegna_step2" model="ir.model.access">
+            <field name="name">access.sd.protocollo.wizard.protocollo.assegna.step2</field>
+            <field name="model_id" ref="model_sd_protocollo_wizard_protocollo_assegna_step2"/>
+            <field name="group_id" ref="group_sd_protocollo_assegnatario"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+
+        <record id="access_sd_protocollo_wizard_protocollo_elimina_assegnazione" model="ir.model.access">
+            <field name="name">access.sd.protocollo.wizard.protocollo.elimina.assegnazione</field>
+            <field name="model_id" ref="model_sd_protocollo_wizard_protocollo_elimina_assegnazione"/>
+            <field name="group_id" ref="group_sd_protocollo_assegnatario"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <record id="access_sd_protocollo_wizard_protocollo_assegna_assegnatari" model="ir.model.access">
+            <field name="name">access.sd.protocollo.wizard.protocollo.assegna.assegnatari</field>
+            <field name="model_id" ref="model_sd_protocollo_wizard_protocollo_assegna_assegnatari"/>
+            <field name="group_id" ref="group_sd_protocollo_assegnatario"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <record id="access_sd_protocollo_wizard_protocollo_rifiuta_assegnazione" model="ir.model.access">
+            <field name="name">access.sd.protocollo.wizard.protocollo.rifiuta.assegnazione</field>
+            <field name="model_id" ref="model_sd_protocollo_wizard_protocollo_rifiuta_assegnazione"/>
+            <field name="group_id" ref="group_sd_protocollo_assegnatario"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <record id="access_sd_protocollo_wizard_protocollo_leggi" model="ir.model.access">
+            <field name="name">access.sd.protocollo.wizard.prendi.visionee</field>
+            <field name="model_id" ref="model_sd_protocollo_wizard_protocollo_leggi"/>
+            <field name="group_id" ref="group_sd_protocollo_assegnatario"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <record id="access_sd_protocollo_wizard_protocollo_completa_lavorazione" model="ir.model.access">
+            <field name="name">access.sd.protocollo.wizard.protocollo.completa.lavorazione</field>
+            <field name="model_id" ref="model_sd_protocollo_wizard_protocollo_completa_lavorazione"/>
+            <field name="group_id" ref="group_sd_protocollo_assegnatario"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <record id="access_sd_protocollo_wizard_protocollo_riassegna" model="ir.model.access">
+            <field name="name">access.sd.protocollo.wizard.protocollo.riassegna</field>
+            <field name="model_id" ref="model_sd_protocollo_wizard_protocollo_riassegna"/>
+            <field name="group_id" ref="group_sd_protocollo_assegnatario"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <record id="access_sd_protocollo_wizard_protocollo_rimetti_in_lavorazione" model="ir.model.access">
+            <field name="name">access.sd.protocollo.wizard.protocollo.rimetti.in.lavorazione</field>
+            <field name="model_id" ref="model_sd_protocollo_wizard_protocollo_rimetti_in_lavorazione"/>
+            <field name="group_id" ref="group_sd_protocollo_assegnatario"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <record id="access_sd_protocollo_wizard_wizard_documento_crea_bozza_protocollo" model="ir.model.access">
+            <field name="name">access.sd.protocollo.wizard.documento.crea.bozza</field>
+            <field name="model_id" ref="model_sd_protocollo_wizard_documento_crea_bozza"/>
+            <field name="group_id" ref="group_sd_protocollo_assegnatario"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+
+    </data>
+</odoo>

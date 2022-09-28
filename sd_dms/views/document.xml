@@ -1,0 +1,453 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2020-2022 Flosslab S.r.l.
+    Copyright 2017-2019 MuK IT GmbH
+    License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
+-->
+<odoo>
+    <data>
+
+        <record id="view_sd_dms_document_tree" model="ir.ui.view">
+            <field name="name">view.sd.dms.document.tree</field>
+            <field name="model">sd.dms.document</field>
+            <field name="arch" type="xml">
+                <tree string="Files">
+                    <field name="filename"/>
+                    <field name="subject"/>
+                    <field name="folder_id"/>
+                    <field name="document_type_id"/>
+                    <field name="registration_date"/>
+                    <field name="write_date"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_sd_dms_document_tree_migration" model="ir.ui.view">
+            <field name="name">view.sd.dms.document.tree.migration</field>
+            <field name="model">sd.dms.document</field>
+            <field name="arch" type="xml">
+                <tree string="Files" decoration-muted="(is_locked and not is_lock_editor)">
+                    <field name="is_locked" invisible="1"/>
+                    <field name="is_lock_editor" invisible="1"/>
+                    <field name="filename"/>
+                    <field name="write_date"/>
+                    <field name="human_size"/>
+                    <field name="mimetype"/>
+                    <field name="storage_id"/>
+                    <field name="migration"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_sd_dms_document_form" model="ir.ui.view">
+            <field name="name">view.sd.dms.document.form</field>
+            <field name="model">sd.dms.document</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="locked_by_user_id" invisible="1"/>
+                        <field name="is_lock_editor" invisible="1"/>
+                        <field name="perm_write" invisible="1"/>
+                        <field name="is_owner" invisible="1"/>
+                        <field name="field_readonly" invisible="1"/>
+                        <field name="folder_id_readonly" invisible="1"/>
+                        <field name="document_type_id_readonly" invisible="1"/>
+                        <field name="registration_type_invisible" invisible="1"/>
+                        <field name="company_id" invisible="1"/>
+                        <field name="button_document_add_contact_sender_invisible" invisible="1"/>
+                        <field name="button_document_add_other_subject_invisible" invisible="1"/>
+                        <field name="button_document_add_contact_recipient_invisible" invisible="1"/>
+                        <!--                        <button string="Lock" class="btn btn-primary" name="lock_document" type="object"-->
+                        <!--                                attrs="{'invisible':[('locked_by_user_id', '!=', False)]}"/>-->
+                        <!--                        <button string="Unlock" class="btn btn-primary" name="unlock_document" type="object"-->
+                        <!--                                attrs="{'invisible':['&amp;',('locked_by_user_id', '=', False),('is_lock_editor','=', False)]}"/>-->
+                        <field name="state"
+                               widget="statusbar"
+                               statusbar_visible="draft,registered"
+                        />
+                    </header>
+                    <sheet>
+                        <div name="button_box" class="oe_button_box">
+                        </div>
+                        <widget name="web_ribbon" title="REGISTRATION CANCELED" bg_color="bg-danger"
+                                attrs="{'invisible': [('state', '!=', 'registration_canceled')]}"/>
+                        <div class="oe_title">
+                            <label for="filename" class="oe_edit_only"/>
+                            <h1>
+                                <field name="filename"
+                                       attrs="{'readonly': [('field_readonly','=',True)]}"
+                                />
+                            </h1>
+                        </div>
+                        <group name="content">
+                            <group>
+                                <field name="subject" attrs="{'readonly': [('field_readonly','=',True)]}"/>
+                                <field name="content"
+                                       filename="filename"
+                                       attrs="{'readonly': [('field_readonly','=',True)]}"
+                                />
+                                <field name="human_size"/>
+                            </group>
+                            <group>
+                                <field name="storage_id"
+                                       options="{'no_open': True}"
+                                />
+                                <field name="folder_id"
+                                       attrs="{'readonly':[('folder_id_readonly','=',True)]}"
+                                       invisible="context.get('folder_invisible')"
+                                       options="{'no_open': True, 'no_create': True}"
+                                />
+                            </group>
+                        </group>
+                        <group>
+                            <group colspan="2" col="4">
+                                <field name="document_type_id"
+                                       options="{'no_open':True, 'no_create':True}"
+                                       attrs="{'readonly':[('document_type_id_readonly','=',True)]}"
+                                       colspan="2"
+                                />
+                                <separator colspan="2"/>
+                            </group>
+                        </group>
+                        <group name="information">
+                            <group>
+                                <field name="category_id"
+                                       placeholder="Internal / Human Resource"
+                                       options="{'no_open': True, 'no_create': True}"
+                                       attrs="{'readonly': [('field_readonly','=',True)]}"
+                                />
+                                <field name="tag_ids"
+                                       widget="many2many_tags"
+                                       placeholder="Tags..."
+                                       options="{'no_create_edit': True}"
+                                       attrs="{'readonly': [('field_readonly','=',True)]}"
+                                />
+                            </group>
+                            <group>
+                                <field name="registration_type"
+                                       attrs="{'invisible':[('registration_type_invisible','=',True)]}"
+                                />
+                                <field name="registration_date" attrs="{'invisible':[('registration_date','=', False)]}" />
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="recipient_ids" string="Recipients">
+                                <button name="document_add_contact_action"
+                                        type="object"
+                                        class="btn btn-secondary o-kanban-button-new oe_edit_only"
+                                        attrs="{'invisible': [('button_document_add_contact_recipient_invisible','=',True)]}"
+                                        context="{'contact_type':'recipient', 'wizard_label': 'Aggiungi Destinatario'}">
+                                    <i class="fa fa-plus" title="Add">&amp;nbsp;</i>
+                                    <span>Add</span>
+                                </button>
+                                <field name="recipient_ids" mode="kanban"
+                                       options="{'no_create_edit': True}"/>
+                            </page>
+                            <page name="sender" string="Sender">
+                                <button name="document_add_contact_action"
+                                        type="object"
+                                        class="btn btn-secondary o-kanban-button-new oe_edit_only"
+                                        attrs="{'invisible': [('button_document_add_contact_sender_invisible','=',True)]}"
+                                        context="{'contact_type':'sender', 'wizard_label': 'Aggiungi Mittente'}">
+                                    <i class="fa fa-plus" title="Add">&amp;nbsp;</i>
+                                    <span>Add</span>
+                                </button>
+                                <field name="sender_ids" mode="kanban"
+                                       options="{'no_create_edit': True}"/>
+                            </page>
+                            <page name="other_subjects_ids" string="Other Subjects">
+                                <button name="document_add_contact_action"
+                                        type="object"
+                                        class="btn btn-secondary o-kanban-button-new oe_edit_only"
+                                        attrs="{'invisible': [('button_document_add_other_subject_invisible','=',True)]}"
+                                        context="{'contact_type':'other_subjects', 'wizard_label': 'Aggiungi Altro Soggetto'}">
+                                    <i class="fa fa-plus" title="Add">&amp;nbsp;</i>
+                                    <span>Add</span>
+                                </button>
+                                <field name="other_subjects_ids" mode="kanban"
+                                       options="{'no_create_edit': True}"/>
+                            </page>
+                            <page name="meta_info" string="Meta Information">
+                                <group>
+                                    <group>
+                                        <field name="producer"/>
+                                    </group>
+                                    <group>
+                                        <field name="author_id"/>
+                                    </group>
+                                </group>
+                                <group>
+                                    <group>
+                                        <field name="create_date" readonly="1"/>
+                                        <field name="create_uid" readonly="1"/>
+                                    </group>
+                                    <group>
+                                        <field name="write_date" readonly="1"/>
+                                        <field name="write_uid" readonly="1"/>
+                                    </group>
+                                </group>
+                                <group>
+                                    <group>
+                                        <field name="extension"/>
+                                        <field name="mimetype"/>
+                                    </group>
+                                    <group>
+                                    <field name="checksum"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page name="page_acl" string="Acl">
+                                <group>
+                                    <field name="owner_id"
+                                           attrs="{'readonly': [('is_owner','!=',True)]}"
+                                           colspan="2"
+                                    />
+                                    <separator string="Inherit Acl"
+                                               attrs="{'invisible': [('inherit_acl','!=',True),('perm_write','!=',True)]}"
+                                               colspan="2"
+                                    />
+                                    <field name="inherit_acl"
+                                           attrs="{'invisible': [('perm_write','!=',True)]}"
+                                           widget="boolean_toggle"
+                                           nolabel="1"
+                                           colspan="2"
+                                    />
+                                    <field name="inherit_acl_ids"
+                                           attrs="{'invisible':[('inherit_acl','!=',True)]}"
+                                           nolabel="1"
+                                           colspan="2"
+                                    />
+                                    <separator string="System Acl" colspan="2"/>
+                                    <field name="system_acl_ids"
+                                           nolabel="1"
+                                           colspan="2"
+                                    />
+                                    <separator string="Acl" colspan="2"/>
+                                    <field name="acl_ids"
+                                           widget="one2many"
+                                           attrs="{'readonly': [('perm_write','!=',True)]}"
+                                           context="{'acl_values': acl_ids}"
+                                           nolabel="1"
+                                           colspan="2"
+                                    />
+                                </group>
+                            </page>
+                            <page name="page_technical" string="Technical Information" invisible="1"
+                                  groups="sd_dms.group_sd_dms_manager,base.group_no_one">
+                                <group name="technical">
+                                    <group name="technical_left">
+                                    </group>
+                                    <group name="technical_right">
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_sd_dms_document_kanban" model="ir.ui.view">
+            <field name="name">view.sd.dms.document.kanban</field>
+            <field name="model">sd.dms.document</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_small_column align-content-start">
+                    <field name="id"/>
+                    <field name="tag_ids"/>
+                    <field name="filename"/>
+                    <field name="color"/>
+                    <field name="mimetype"/>
+                    <field name="image_filename"/>
+                    <field name="image_1024" filename="image_filename"/>
+                    <field name="create_uid"/>
+                    <field name="write_date"/>
+                    <field name="locked_by_user_id"/>
+                    <field name="__last_update"/>
+                    <field name="is_favorite"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="#{kanban_color(record.color.raw_value)} oe_kanban_global_click">
+                                <div class="o_dropdown_kanban dropdown">
+                                    <a class="dropdown-toggle o-no-caret btn" href="#" role="button"
+                                       data-toggle="dropdown" aria-label="Dropdown menu" title="Dropdown menu">
+                                        <span class="fa fa-ellipsis-v"/>
+                                    </a>
+                                    <div class="dropdown-menu" role="menu">
+                                        <h6 class="dropdown-header">Operations</h6>
+                                        <div class="col-4">
+                                            <a role="menuitem" class="dropdown-item"
+                                               t-attf-href="/web/content?id=#{record.id.raw_value}&amp;field=content&amp;model=sd.dms.document&amp;filename_field=filename&amp;download=true">
+                                                <i class="fa fa-download"/>
+                                                Download
+                                            </a>
+                                        </div>
+                                        <div class="col-4">
+                                            <a role="menuitem" type="open" class="dropdown-item">
+                                                <i class="fa fa-external-link"/>
+                                                Open
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="oe_kanban_content">
+                                    <div class="o_kanban_image o_kanban_image_preview">
+                                        <div class="o_kanban_image_wrapper">
+                                            <img t-att-src="kanban_image('sd.dms.document', 'image_1024', record.id.raw_value)"
+                                                 alt="Thumbnail"/>
+                                        </div>
+                                    </div>
+                                    <div class="o_kanban_details">
+                                        <div class="o_kanban_details_wrapper">
+                                            <div class="o_kanban_record_title o_text_overflow">
+                                                <field name="filename"/>
+                                            </div>
+                                            <div class="o_kanban_record_body">
+                                                <field name="tag_ids" widget="many2many_tags"/>
+                                            </div>
+                                            <div class="o_kanban_record_bottom">
+                                                <div class="oe_kanban_bottom_left">
+                                                    <field name="write_date" widget="date"/>
+                                                </div>
+                                            </div>
+                                            <span class="o_right">
+                                                <field name="is_favorite"
+                                                       widget="boolean_favorite"
+                                                       nolabel="1"
+                                                       force_save="1"
+                                                />
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+
+                </kanban>
+            </field>
+        </record>
+
+        <record id="view_sd_dms_document_kanban_attachment" model="ir.ui.view">
+            <field name="name">view.sd.dms.document.kanban.attachment</field>
+            <field name="model">sd.dms.document</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_small_column align-content-start">
+                    <field name="id"/>
+                    <field name="content"/>
+                    <field name="filename"/>
+                    <field name="mimetype"/>
+                    <field name="extension"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <t t-set="url" t-value="'/web/content/sd.dms.document/' + record.id.raw_value + '/content/' + record.filename.raw_value + '/?download=true'"/>
+                            <div t-attf-class="o_attachment o_attachment_many2many" t-att-title="record.filename.raw_value">
+                                <div class="o_attachment_wrap">
+                                    <div class="o_image_box float-left o_kanban_image_preview" t-att-data-id="record.id.raw_value">
+                                        <a t-att-href="url">
+                                            <span class="o_image o_hover" t-att-data-mimetype="record.mimetype.raw_value" t-att-data-ext="record.extension.raw_value" role="img"/>
+                                        </a>
+                                    </div>
+
+                                    <div class="caption">
+                                        <span class="ml4"><t t-esc='record.filename.raw_value'/></span>
+                                    </div>
+                                    <div class="caption small">
+                                        <span class="ml4 small text-uppercase"><b><t t-esc='record.extension.raw_value'/></b></span>
+                                    </div>
+
+                                    <div class="o_attachment_uploaded">
+                                        <a t-att-href="url" t-att-title="'Download ' + record.filename.raw_value" aria-label="Download">
+                                            <i class="fa fa-download"/>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+
+                </kanban>
+            </field>
+        </record>
+
+        <record id="view_sd_dms_document_search" model="ir.ui.view">
+            <field name="name">view.sd.dms.document.search</field>
+            <field name="model">sd.dms.document</field>
+            <field name="arch" type="xml">
+                <search string="Document">
+                    <field name="filename"/>
+                    <field name="subject"/>
+                    <field name="registration_number"/>
+                    <field name="folder_id"/>
+                    <field name="state"/>
+                    <field name="company_id"/>
+                    <field name="document_type_id"/>
+                    <field name="checksum"/>
+                    <field name="category_id"/>
+                    <field name="tag_ids"/>
+                    <field name="author_id"/>
+                    <field name="author_id" string="Author E-mail" filter_domain="[('author_id.email', 'ilike', self)]"/>
+                    <field name="author_id" string="Author Pec Mail" filter_domain="['|', ('author_id.pec_mail', 'ilike', self), ('author_id.digital_domicile_ids.email_address', 'ilike', self)]"/>
+                    <field name="recipient_ids"/>
+                    <field name="recipient_ids" string="Recipients E-mail" filter_domain="[('recipient_ids.email', 'ilike', self)]"/>
+                    <field name="recipient_ids" string="Recipients Pec Mail" filter_domain="['|', ('recipient_ids.pec_mail', 'ilike', self), ('recipient_ids.digital_domicile_ids.email_address', 'ilike', self)]"/>
+                    <field name="recipient_ids" string="Recipients Category" filter_domain="[('recipient_ids.category_id', 'ilike', self)]"/>
+                    <field name="sender_ids"/>
+                    <field name="sender_ids" string="Sender E-mail" filter_domain="[('sender_ids.email', 'ilike', self)]"/>
+                    <field name="sender_ids" string="Sender Pec Mail" filter_domain="['|', ('sender_ids.pec_mail', 'ilike', self), ('sender_ids.digital_domicile_ids.email_address', 'ilike', self)]"/>
+                    <field name="sender_ids" string="Sender Category" filter_domain="[('sender_ids.category_id', 'ilike', self)]"/>
+                    <field name="other_subjects_ids"/>
+                    <field name="other_subjects_ids" string="Other subject E-mail" filter_domain="[('other_subjects_ids.email', 'ilike', self)]"/>
+                    <field name="other_subjects_ids" string="Other subject Pec Mail" filter_domain="['|', ('other_subjects_ids.pec_mail', 'ilike', self), ('other_subjects_ids.digital_domicile_ids.email_address', 'ilike', self)]"/>
+                    <field name="other_subjects_ids" string="Other subject Category" filter_domain="[('other_subjects_ids.category_id', 'ilike', self)]"/>
+                    <separator/>
+                    <filter name="shared" string="Shared with me" domain="[('owner_id', '!=', uid)]"/>
+                    <filter name="my_favorites"  string="My favorites" domain="[('favorite_user_ids', 'in', uid)]"/>
+                    <separator/>
+                    <filter name="draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+                    <filter name="registered" string="Registered" domain="[('state', '=', 'registered')]"/>
+                    <filter name="registration_canceled" string="Registration canceled" domain="[('state', '=', 'registration_canceled')]"/>
+                    <separator/>
+                    <filter name="none" string="None" domain="[('registration_type', '=', 'none')]"/>
+                    <searchpanel>
+                        <field name="folder_id"
+                               icon="fa-folder"
+                               options="{'disable_childof_domain_onexpand': True, 'load_only_children_onexpand': True, 'load_only_children_onexpand_display_name': 'name'}"
+                        />
+                        <field name="category_id"
+                               icon="fa-users"
+                               enable_counters="1"
+                               select="multi"
+                        />
+                        <field name="tag_ids" select="multi" icon="fa-tag" groupby="category_id"/>
+                    </searchpanel>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_sd_dms_document_search_migration" model="ir.ui.view">
+            <field name="name">view.sd.dms.document.search.migration</field>
+            <field name="model">sd.dms.document</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="filename" filter_domain="[('filename','ilike',self)]"/>
+                    <group expand="0" string="Group By">
+                        <filter name="group_storage_id" string="Storage" domain="[]"
+                                context="{'group_by':'storage_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="sd_dms.action_sd_dms_document_list_storage_migration" model="ir.actions.act_window">
+            <field name="search_view_id" ref="view_sd_dms_document_search_migration"/>
+            <field name="view_ids"
+                   eval="[(5, 0, 0), (0, 0, {'view_mode': 'tree', 'view_id': ref('view_sd_dms_document_tree_migration')})]"/>
+        </record>
+
+    </data>
+</odoo>

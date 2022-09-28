@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_sd_protocollo_registro_giornaliero_configurazione_tree" model="ir.ui.view">
+            <field name="name">view.sd.protocollo.registro.giornaliero.configurazione.tree</field>
+            <field name="model">sd.protocollo.registro.giornaliero.configurazione</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="nome"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_sd_protocollo_registro_giornaliero_configurazione_form" model="ir.ui.view">
+            <field name="name">view.sd.protocollo.registro.giornaliero.configurazione.form</field>
+            <field name="model">sd.protocollo.registro.giornaliero.configurazione</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group col="4" name="company_id">
+                                <field name="nome"/>
+                                <field name="company_id"
+                                       groups="base.group_multi_company"
+                                       options="{'no_open': True, 'no_create': True}"
+                                />
+                        </group>
+                        <notebook>
+                            <page string="Protocollo" name="protocollo">
+                                <group>
+                                    <group>
+                                        <field name="archivio_id" options="{'no_open': True, 'no_create': True}"/>
+                                        <field name="registro_id" options="{'no_open': True, 'no_create': True}"/>
+                                    </group>
+                                    <group>
+                                        <field name="protocollatore_id" options="{'no_open': True, 'no_create': True}"/>
+                                        <field name="protocollatore_ufficio_id" options="{'no_open': True, 'no_create': True}"/>
+                                    </group>
+                                </group>
+                                <group>
+                                    <group>
+                                        <field name="oggetto_documento"/>
+                                    </group>
+                                    <group/>
+                                </group>
+                                <group>
+                                    <group>
+                                        <field name="mezzo_trasmissione_id" options="{'no_open': True, 'no_create': True}"/>
+                                        <field name="tipologia_documento" options="{'no_open': True, 'no_create': True}"/>
+                                        <field name="riservato" widget="boolean_toggle"/>
+                                    </group>
+                                    <group/>
+                                </group>
+                                <group>
+                                    <group>
+                                        <field name="mittente_interno_id"
+                                               widget="ztree_select"
+                                               options="{
+                                               'ztree_parent_key': 'parent_id',
+                                               'ztree_expend_level': '1',
+                                               'ztree_name_field': 'nome',
+                                               'ztree_title_field': 'path_name',
+                                               'no_open': True,
+                                               'no_create': True
+                                               }"
+                                               class="fl_set"
+                                               />
+                                        <field name="destinatario_id" options="{'no_open': True, 'no_create': True}"/>
+                                    </group>
+                                    <group/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_sd_protocollo_registro_giornaliero_configurazione_search" model="ir.ui.view">
+            <field name="name">view.sd.protocollo.registro.giornaliero.configurazione.search</field>
+            <field name="model">sd.protocollo.registro.giornaliero.configurazione</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="destinatario_id"/>
+                </search>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,995 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* sd_protocollo_pec
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-08-05 12:33+0000\n"
+"PO-Revision-Date: 2022-08-05 12:33+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: sd_protocollo_pec
+#: model_terms:ir.ui.view,arch_db:sd_protocollo_pec.template_sd_protocollo_footer_qweb
+msgid "- PEC:"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model_terms:ir.ui.view,arch_db:sd_protocollo_pec.view_sd_protocollo_wizard_protocollo_crea_da_mail_form
+#: model_terms:ir.ui.view,arch_db:sd_protocollo_pec.view_sd_protocollo_wizard_protocollo_invio_mail_form
+#: model_terms:ir.ui.view,arch_db:sd_protocollo_pec.view_sd_protocollo_wizard_protocollo_reinvio_mail_form
+msgid "Abbandona"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model_terms:ir.ui.view,arch_db:sd_protocollo_pec.res_config_settings_view_form
+msgid ""
+"Abilita la protocollazione degli allegati contenuti nel messaggio "
+"postacert.eml della PEC"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model_terms:ir.ui.view,arch_db:sd_protocollo_pec.res_config_settings_view_form
+msgid ""
+"Abilita la protocollazione del corpo del messaggio postacert.eml della PEC"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model_terms:ir.ui.view,arch_db:sd_protocollo_pec.res_config_settings_view_form
+msgid ""
+"Abilita la protocollazione del messaggio postacert.eml contenuto nella busta"
+" di trasporto PEC"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model_terms:ir.ui.view,arch_db:sd_protocollo_pec.res_config_settings_view_form
+msgid "Abilita la protocollazione della busta di trasporto PEC"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_res_config_settings__modifica_documenti_pec
+msgid "Abilita modifica documenti in stato bozza"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_protocollo__account_id
+msgid "Account"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_registra__account_id_invisible
+msgid "Account id invisible"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_registra__account_id_required
+msgid "Account id required"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: code:addons/sd_protocollo_pec/utilities/inherit_sd_protocollo_protocollo_storico_actions.py:0
+#, python-format
+msgid "Address changed"
+msgstr "Indirizzo e-mail aggiornato"
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_crea_da_mail__documento_attachment_id
+msgid "Allegato del messaggio"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields.selection,name:sd_protocollo_pec.selection__sd_protocollo_invio_destinatario__email_tipologia__email_address
+msgid "Altro indirizzo e-mail"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_crea_da_mail__company_id
+msgid "Azienda"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_invio_mail__body
+msgid "Body"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_invio_mail__body_invisible
+msgid "Body Invisible"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields.selection,name:sd_protocollo_pec.selection__sd_protocollo_invio__modalita_invio__broadcast
+#: model:ir.model.fields.selection,name:sd_protocollo_pec.selection__sd_protocollo_wizard_protocollo_invio_mail__modalita_invio__broadcast
+#: model:ir.model.fields.selection,name:sd_protocollo_pec.selection__sd_protocollo_wizard_protocollo_reinvio_mail__modalita_invio__broadcast
+msgid "Broadcast"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model_terms:ir.ui.view,arch_db:sd_protocollo_pec.template_mail_mail_qweb
+msgid "CC:"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_crea_da_mail__folder_id
+msgid "Cartella"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_crea_da_mail__folder_id_invisible
+msgid "Cartella Invisible"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields.selection,name:sd_protocollo_pec.selection__sd_protocollo_invio_destinatario__daticert_tipo__certificato
+msgid "Certificato"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: code:addons/sd_protocollo_pec/models/inherit_mail_mail.py:0
+#, python-format
+msgid "Communications"
+msgstr "Comunicazioni"
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_crea_da_mail__company_id_invisible
+msgid "Company Invisible"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model,name:sd_protocollo_pec.model_res_config_settings
+msgid "Config Settings"
+msgstr "Impostazioni di configurazione"
+
+#. module: sd_protocollo_pec
+#: model:ir.model,name:sd_protocollo_pec.model_sd_dms_contact
+msgid "Contact"
+msgstr "Contatto"
+
+#. module: sd_protocollo_pec
+#: model:ir.model,name:sd_protocollo_pec.model_sd_dms_contact_digital_domicile
+msgid "Contact digital domicile"
+msgstr "Domicilio digitale del contatto"
+
+#. module: sd_protocollo_pec
+#: model:ir.model,name:sd_protocollo_pec.model_sd_dms_contact_email_address
+msgid "Contact e-mail address"
+msgstr "Altro indirizzo e-mail PEC del contatto"
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_reinvio_mail__contatto_ids
+#: model_terms:ir.ui.view,arch_db:sd_protocollo_pec.view_sd_protocollo_wizard_protocollo_reinvio_mail_form
+msgid "Contatti"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#. openerp-web
+#: code:addons/sd_protocollo_pec/static/src/components/mail/mail.xml:0
+#: model_terms:ir.ui.view,arch_db:sd_protocollo_pec.view_sd_protocollo_wizard_protocollo_crea_da_mail_form
+#, python-format
+msgid "Crea Bozza Protocollo"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#. openerp-web
+#: code:addons/sd_protocollo_pec/static/src/components/mail/mail.xml:0
+#, python-format
+msgid "Crea bozza protocollo"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model_terms:ir.ui.view,arch_db:sd_protocollo_pec.view_sd_protocollo_wizard_protocollo_reinvio_mail_form
+msgid "Crea invii"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:res.groups,name:sd_protocollo_pec.group_sd_protocollo_crea_protocollo_ingresso_da_pec
+msgid "Crea protocollo da PEC"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model_terms:ir.ui.view,arch_db:sd_protocollo_pec.view_mail_mail_form
+msgid "Create draft protocol"
+msgstr "Crea bozza protocollo"
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_crea_da_mail__create_uid
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_invio_mail__create_uid
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_reinvio_mail__create_uid
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_reinvio_mail_contatto__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_crea_da_mail__create_date
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_invio_mail__create_date
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_reinvio_mail__create_date
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_reinvio_mail_contatto__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_invio_mail__account_id
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_invio_mail__account_id_name
+msgid "Da"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_invio__da_inviare
+msgid "Da Inviare"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_invio__da_reinviare
+msgid "Da Reinviare"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_invio__da_resettare
+msgid "Da Resettare"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model_terms:ir.ui.view,arch_db:sd_protocollo_pec.template_mail_mail_qweb
+msgid "Da:"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_invio__data_invio
+msgid "Data Invio"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_invio_destinatario__daticert_tipo
+msgid "Daticert tipo"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model,name:sd_protocollo_pec.model_sd_protocollo_invio_destinatario
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_reinvio_mail_contatto__destinatario_id
+msgid "Destinatario"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_mail_mail__display_name
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_mail_message__display_name
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_mail_thread__display_name
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_dms_contact_digital_domicile__display_name
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_dms_contact_email_address__display_name
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_dms_document__display_name
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_dms_wizard_document_add_contact__display_name
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_dms_wizard_document_add_contact_digital_domicile__display_name
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_dms_wizard_document_add_contact_email_address__display_name
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_invio__display_name
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_invio_destinatario__display_name
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_mezzo_trasmissione__display_name
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_protocollo__display_name
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_crea_da_mail__display_name
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_invio_mail__display_name
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_registra__display_name
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_reinvio_mail__display_name
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_reinvio_mail_contatto__display_name
+msgid "Display Name"
+msgstr "Nome visualizzato"
+
+#. module: sd_protocollo_pec
+#: model:ir.model,name:sd_protocollo_pec.model_sd_dms_document
+msgid "Document"
+msgstr "Documento"
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_invio_mail__document_ids
+msgid "Documenti"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_crea_da_mail__documento_tipologia
+msgid "Documento Principale"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields.selection,name:sd_protocollo_pec.selection__sd_protocollo_invio_destinatario__email_tipologia__digital_domicile
+msgid "Domicilio digitale"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: code:addons/sd_protocollo_pec/utilities/inherit_mail_mail_storico_actions.py:0
+#, python-format
+msgid "Draft protocol %s deleted"
+msgstr "Bozza protocollo %s eliminata"
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_invio_destinatario__email
+msgid "E-mail"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model,name:sd_protocollo_pec.model_mail_thread
+msgid "Email Thread"
+msgstr "Discussione e-mail"
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_reinvio_mail_contatto__email
+msgid "Email/Pec"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields.selection,name:sd_protocollo_pec.selection__sd_protocollo_invio_destinatario__daticert_tipo__esterno
+msgid "Esterno"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model_terms:ir.ui.view,arch_db:sd_protocollo_pec.view_sd_protocollo_protocollo_form
+msgid "Gestisci invii"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_mail_mail__id
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_mail_message__id
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_mail_thread__id
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_res_config_settings__id
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_dms_contact__id
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_dms_contact_digital_domicile__id
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_dms_contact_email_address__id
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_dms_document__id
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_dms_wizard_document_add_contact__id
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_dms_wizard_document_add_contact_digital_domicile__id
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_dms_wizard_document_add_contact_email_address__id
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_invio__id
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_invio_destinatario__id
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_mezzo_trasmissione__id
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_protocollo__id
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_crea_da_mail__id
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_invio_mail__id
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_registra__id
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_reinvio_mail__id
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_reinvio_mail_contatto__id
+msgid "ID"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model_terms:ir.ui.view,arch_db:sd_protocollo_pec.view_mail_mail_form
+msgid ""
+"Il messaggio verrà rimosso dalla lista di protocollazione. Per ripristinarlo"
+" come da protocollare è necessario accedere all'APP Comunicazioni, ricercare"
+" il messaggio e con il button 'Ripristina per protocollazione' riattivarlo "
+"per la protocollazione."
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: code:addons/sd_protocollo_pec/utilities/inherit_sd_protocollo_protocollo_actions.py:0
+#, python-format
+msgid "Insert PEC to be used in sending for the recipient: %s"
+msgstr "Inserire la PEC da usare nell'invio per il destinatario: %s"
+
+#. module: sd_protocollo_pec
+#: code:addons/sd_protocollo_pec/utilities/inherit_sd_protocollo_protocollo_actions.py:0
+#, python-format
+msgid ""
+"Insert at least the e-mail or PEC to be used in sending for the recipient: "
+"%s"
+msgstr ""
+"Inserire almeno la e-mail o la PEC da usare nell'invio per il destinatario: "
+"%s"
+
+#. module: sd_protocollo_pec
+#: code:addons/sd_protocollo_pec/utilities/inherit_sd_protocollo_protocollo_actions.py:0
+#, python-format
+msgid "Insert e-mail to be used in sending for the recipient: %s"
+msgstr "Inserire la e-mail da usare nell'invio per il destinatario: %s"
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_mezzo_trasmissione__integrazione
+msgid "Integrazione"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model_terms:ir.ui.view,arch_db:sd_protocollo_pec.view_sd_protocollo_wizard_protocollo_invio_mail_form
+msgid "Invia"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model_terms:ir.ui.view,arch_db:sd_protocollo_pec.view_sd_protocollo_protocollo_search
+msgid "Invii in errore"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model_terms:ir.ui.view,arch_db:sd_protocollo_pec.view_sd_protocollo_protocollo_search
+msgid "Invii in uscita"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model,name:sd_protocollo_pec.model_sd_protocollo_invio
+msgid "Invio"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model,name:sd_protocollo_pec.model_sd_protocollo_wizard_protocollo_invio_mail
+msgid "Invio Mail"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_protocollo__da_gestire_invio
+msgid "Invio da gestire"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_protocollo__in_uscita_invio
+msgid "Invio in uscita"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_mail_mail____last_update
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_mail_message____last_update
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_mail_thread____last_update
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_res_config_settings____last_update
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_dms_contact____last_update
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_dms_contact_digital_domicile____last_update
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_dms_contact_email_address____last_update
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_dms_document____last_update
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_dms_wizard_document_add_contact____last_update
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_dms_wizard_document_add_contact_digital_domicile____last_update
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_dms_wizard_document_add_contact_email_address____last_update
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_invio____last_update
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_invio_destinatario____last_update
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_mezzo_trasmissione____last_update
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_protocollo____last_update
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_crea_da_mail____last_update
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_invio_mail____last_update
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_registra____last_update
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_reinvio_mail____last_update
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_reinvio_mail_contatto____last_update
+msgid "Last Modified on"
+msgstr "Ultima modifica il"
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_crea_da_mail__write_uid
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_invio_mail__write_uid
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_reinvio_mail__write_uid
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_reinvio_mail_contatto__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_crea_da_mail__write_date
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_invio_mail__write_date
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_reinvio_mail__write_date
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_reinvio_mail_contatto__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_res_config_settings__lunghezza_massima_oggetto_mail
+msgid "Lunghezza massima dell'oggetto dell'e-mail"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_res_config_settings__lunghezza_massima_oggetto_pec
+msgid "Lunghezza massima dell'oggetto della PEC"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: code:addons/sd_protocollo_pec/wizards/protocollo_invio_mail.py:0
+#, python-format
+msgid "Lunghezza massima dell'oggetto superata"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: code:addons/sd_protocollo_pec/utilities/inherit_sd_protocollo_protocollo_actions.py:0
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_protocollo__mail_id
+#, python-format
+msgid "Mail"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: code:addons/sd_protocollo_pec/utilities/inherit_mail_mail_storico_actions.py:0
+#, python-format
+msgid "Mail created by recovery"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_mail_mail__filter_mail_da_protocollare_pec
+msgid "Mail da Protocollare PEC"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: code:addons/sd_protocollo_pec/utilities/inherit_mail_mail_storico_actions.py:0
+#, python-format
+msgid "Mail recovered for protocol action"
+msgstr "Messaggio ripristinato per protocollazione"
+
+#. module: sd_protocollo_pec
+#: model:ir.model,name:sd_protocollo_pec.model_mail_mail
+#: model:ir.model,name:sd_protocollo_pec.model_mail_message
+msgid "Message"
+msgstr "Messaggio"
+
+#. module: sd_protocollo_pec
+#: code:addons/sd_protocollo_pec/utilities/inherit_mail_mail_storico_actions.py:0
+#: code:addons/sd_protocollo_pec/utilities/inherit_mail_mail_storico_actions.py:0
+#, python-format
+msgid "Message set to protocol not done"
+msgstr "Messaggio impostato da non protocollare"
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_invio__messaggio_id
+msgid "Messaggio"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_crea_da_mail__mail_message_id
+msgid "Messaggio Associato alla Mail"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_invio__undelivery_message_id
+msgid "Messaggio Non Consegnato"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model,name:sd_protocollo_pec.model_sd_protocollo_mezzo_trasmissione
+msgid "Mezzo Trasmissione"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_invio__mezzo_trasmissione_integrazione
+msgid "Mezzo Trasmissione Integrazione"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_invio_mail__modalita_invio
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_reinvio_mail__modalita_invio
+msgid "Modalità Invio"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_invio_mail__modalita_invio_invisible
+msgid "Modalità Invio Invisible"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_invio__modalita_invio
+msgid "Modalità di Invio"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_reinvio_mail__motivazione
+msgid "Motivazione"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: code:addons/sd_protocollo_pec/utilities/inherit_mail_mail_storico_actions.py:0
+#, python-format
+msgid "New mail created for recovery"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_reinvio_mail_contatto__name
+msgid "Nome"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_invio_mail__oggetto
+msgid "Oggetto"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_mail_mail__protocollo_restore_mail_id
+msgid "Original mail"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_invio_mail__pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_registra__pec
+#: model:ir.model.fields.selection,name:sd_protocollo_pec.selection__sd_protocollo_mezzo_trasmissione__integrazione__pec
+msgid "PEC"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields.selection,name:sd_protocollo_pec.selection__sd_protocollo_invio_destinatario__email_tipologia__pec_mail
+msgid "PEC e-mail"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_dms_contact__display_name
+msgid "Path name"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.actions.act_window,name:sd_protocollo_pec.action_mail_mail_list_mail_da_protocollare_pec
+msgid "Pec da Protocollare"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model_terms:ir.ui.view,arch_db:sd_protocollo_pec.res_config_settings_view_form
+msgid ""
+"Permette di inserire un testo nel messaggio PEC dei documenti protocollati "
+"in uscita"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#. openerp-web
+#: code:addons/sd_protocollo_pec/static/src/components/mail/mail.js:0
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_mail_mail__protocollo_id
+#: model_terms:ir.ui.view,arch_db:sd_protocollo_pec.view_mail_mail_form
+#, python-format
+msgid "Protocol"
+msgstr "Protocollo"
+
+#. module: sd_protocollo_pec
+#: code:addons/sd_protocollo_pec/utilities/inherit_mail_mail_storico_actions.py:0
+#, python-format
+msgid "Protocol %s created"
+msgstr "Protocollo %s creato"
+
+#. module: sd_protocollo_pec
+#: code:addons/sd_protocollo_pec/utilities/inherit_mail_mail_storico_actions.py:0
+#, python-format
+msgid "Protocol %s registered"
+msgstr "Protocollo %s registrato"
+
+#. module: sd_protocollo_pec
+#: model_terms:ir.ui.view,arch_db:sd_protocollo_pec.view_mail_mail_search
+msgid "Protocol N°"
+msgstr "Protocollo N°"
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_mail_mail__protocollo_action
+msgid "Protocol action state"
+msgstr "Stato protocollazione"
+
+#. module: sd_protocollo_pec
+#. openerp-web
+#: code:addons/sd_protocollo_pec/static/src/components/mail/mail.js:0
+#: model:ir.model.fields.selection,name:sd_protocollo_pec.selection__mail_mail__protocollo_action__protocollata
+#: model_terms:ir.ui.view,arch_db:sd_protocollo_pec.view_mail_mail_search_received
+#, python-format
+msgid "Protocol done"
+msgstr "Protocollato"
+
+#. module: sd_protocollo_pec
+#. openerp-web
+#: code:addons/sd_protocollo_pec/static/src/components/mail/mail.js:0
+#: model:ir.model.fields.selection,name:sd_protocollo_pec.selection__mail_mail__protocollo_action__bozza_da_protocollare
+#: model_terms:ir.ui.view,arch_db:sd_protocollo_pec.view_mail_mail_search_received
+#, python-format
+msgid "Protocol draft"
+msgstr "Bozza protocollo"
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_mail_mail__protocollo_in_id
+msgid "Protocol from mail"
+msgstr "Protocollo"
+
+#. module: sd_protocollo_pec
+#. openerp-web
+#: code:addons/sd_protocollo_pec/static/src/components/mail/mail.js:0
+#: model:ir.model.fields.selection,name:sd_protocollo_pec.selection__mail_mail__protocollo_action__non_protocollata
+#, python-format
+msgid "Protocol not done"
+msgstr "Non da protocollare"
+
+#. module: sd_protocollo_pec
+#: code:addons/sd_protocollo_pec/utilities/inherit_sd_protocollo_protocollo_storico_actions.py:0
+#, python-format
+msgid "Protocol not sent to:"
+msgstr "Protocollo non invitato a:"
+
+#. module: sd_protocollo_pec
+#. openerp-web
+#: code:addons/sd_protocollo_pec/static/src/components/mail/mail.js:0
+#: code:addons/sd_protocollo_pec/static/src/components/mail/mail.xml:0
+#: code:addons/sd_protocollo_pec/static/src/components/mail/mail.xml:0
+#: model:ir.model.fields.selection,name:sd_protocollo_pec.selection__mail_mail__protocollo_action__non_protocollabile
+#: model_terms:ir.ui.view,arch_db:sd_protocollo_pec.view_mail_mail_form
+#, python-format
+msgid "Protocol not to do"
+msgstr "Non protocollare"
+
+#. module: sd_protocollo_pec
+#: code:addons/sd_protocollo_pec/utilities/inherit_sd_protocollo_protocollo_storico_actions.py:0
+#, python-format
+msgid "Protocol sent to:"
+msgstr "Protocollo inviato a:"
+
+#. module: sd_protocollo_pec
+#. openerp-web
+#: code:addons/sd_protocollo_pec/static/src/components/mail/mail.js:0
+#: model:ir.model.fields.selection,name:sd_protocollo_pec.selection__mail_mail__protocollo_action__mail_da_protocollare
+#: model_terms:ir.ui.view,arch_db:sd_protocollo_pec.view_mail_mail_search_received
+#, python-format
+msgid "Protocol to do"
+msgstr "Da protocollare"
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_res_config_settings__select_attachments_pec
+msgid "Protocolla allegati del messaggio PEC"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_res_config_settings__select_eml_pec
+msgid "Protocolla busta di trasporto PEC (file .eml)"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_res_config_settings__select_body_pec
+msgid "Protocolla corpo del messaggio PEC"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_res_config_settings__select_postacert_eml_pec
+msgid "Protocolla messaggio PEC (file .eml)"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_crea_da_mail__protocollatore_ufficio_id_invisible
+msgid "Protocollatore Ufficio Invisible"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model,name:sd_protocollo_pec.model_sd_protocollo_protocollo
+msgid "Protocollo"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model_terms:ir.ui.view,arch_db:sd_protocollo_pec.view_mail_mail_search_received
+msgid "Protocols not done"
+msgstr "Non protocollate"
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_crea_da_mail__registro_id
+msgid "Registro"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_crea_da_mail__registro_id_invisible
+msgid "Registro Invisible"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model,name:sd_protocollo_pec.model_sd_protocollo_wizard_protocollo_reinvio_mail
+msgid "Reinvio Mail"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model,name:sd_protocollo_pec.model_sd_protocollo_wizard_protocollo_reinvio_mail_contatto
+msgid "Reinvio Mail Contatto"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#. openerp-web
+#: code:addons/sd_protocollo_pec/static/src/components/mail/mail.xml:0
+#: code:addons/sd_protocollo_pec/static/src/components/mail/mail.xml:0
+#: model_terms:ir.ui.view,arch_db:sd_protocollo_pec.view_mail_mail_form
+#, python-format
+msgid "Restore to protocol"
+msgstr "Ripristina per protocollazione"
+
+#. module: sd_protocollo_pec
+#: model_terms:ir.ui.view,arch_db:sd_protocollo_pec.view_sd_protocollo_invio_form
+msgid "Ricevute"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_invio__ricevuta_pec_ids
+msgid "Ricevute Pec"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_res_config_settings__rinomina_oggetto_mail_pec
+msgid "Rinomina oggetto e-mail/PEC"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#. openerp-web
+#: code:addons/sd_protocollo_pec/static/src/components/mail/mail.xml:0
+#: code:addons/sd_protocollo_pec/static/src/components/mail/mail.xml:0
+#, python-format
+msgid "Ripristina per protocollazione"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_crea_da_mail__riservato
+msgid "Riservato"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model_terms:ir.ui.view,arch_db:sd_protocollo_pec.view_sd_protocollo_wizard_protocollo_invio_mail_form
+msgid "Save as a new template"
+msgstr "Salva come nuovo modello"
+
+#. module: sd_protocollo_pec
+#: model_terms:ir.ui.view,arch_db:sd_protocollo_pec.view_sd_protocollo_wizard_protocollo_invio_mail_form
+msgid "Save as new template"
+msgstr "Salva come nuovo modello"
+
+#. module: sd_protocollo_pec
+#: code:addons/sd_protocollo_pec/utilities/inherit_sd_protocollo_protocollo_actions.py:0
+#, python-format
+msgid ""
+"Select at least one e-mail address to be used in sending for the recipient: %s"
+msgstr ""
+"Selezionare almeno un indirizzo e-mail da usare nell'invio per il destinatario: %s"
+
+#. module: sd_protocollo_pec
+#: code:addons/sd_protocollo_pec/utilities/inherit_sd_protocollo_protocollo_actions.py:0
+#, python-format
+msgid ""
+"Select at least the e-mail or PEC to be used in sending for the recipient: %s"
+msgstr ""
+"Selezionare almeno la e-mail o la PEC da usare nell'invio per il destinatario: %s"
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_registra__account_id
+msgid "Sending account"
+msgstr "Account invio"
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_invio_mail__template_id_invisible
+msgid "Template invisible"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_res_config_settings__inserisci_testo_pec
+msgid "Testo messaggio PEC"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: code:addons/sd_protocollo_pec/utilities/inherit_sd_protocollo_protocollo_wizard_actions.py:0
+#, python-format
+msgid "The resending of more than one transmission media is not managed!"
+msgstr "Il reinvio di più di un mezzo di trasmissione non è gestito!"
+
+#. module: sd_protocollo_pec
+#: code:addons/sd_protocollo_pec/wizards/protocollo_reinvio_mail.py:0
+#, python-format
+msgid "There are no ids in context"
+msgstr "Non ci sono id nel context"
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_invio_destinatario__email_tipologia
+msgid "Tipologia e-mail"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_crea_da_mail__protocollatore_ufficio_id
+msgid "Ufficio protocollatore"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_dms_contact__contact_pa_email_use_in_sending
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_dms_contact__contact_pa_pec_mail_use_in_sending
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_dms_contact__email_amm_use_in_sending
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_dms_contact__email_use_in_sending
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_dms_contact__pec_mail_amm_use_in_sending
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_dms_contact__pec_mail_use_in_sending
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_dms_contact_digital_domicile__use_in_sending
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_dms_contact_email_address__use_in_sending
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_dms_wizard_document_add_contact__contact_pa_email_use_in_sending
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_dms_wizard_document_add_contact__contact_pa_pec_mail_use_in_sending
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_dms_wizard_document_add_contact__email_amm_use_in_sending
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_dms_wizard_document_add_contact__email_use_in_sending
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_dms_wizard_document_add_contact__pec_mail_amm_use_in_sending
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_dms_wizard_document_add_contact__pec_mail_use_in_sending
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_dms_wizard_document_add_contact_digital_domicile__use_in_sending
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_dms_wizard_document_add_contact_email_address__use_in_sending
+msgid "Use in sending"
+msgstr "Usa nell'invio"
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_invio_mail__template_id
+msgid "Use template"
+msgstr "Modello da usare"
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_reinvio_mail_contatto__wizard_id
+msgid "Wizard"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model,name:sd_protocollo_pec.model_sd_protocollo_wizard_protocollo_crea_da_mail
+msgid "Wizard Crea da Mail"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model,name:sd_protocollo_pec.model_sd_dms_wizard_document_add_contact
+msgid "Wizard Document Add contact"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model,name:sd_protocollo_pec.model_sd_protocollo_wizard_protocollo_registra
+msgid "Wizard Protocollo Registra"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model,name:sd_protocollo_pec.model_sd_dms_wizard_document_add_contact_digital_domicile
+msgid "Wizard document add contact digital domicile"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model,name:sd_protocollo_pec.model_sd_dms_wizard_document_add_contact_email_address
+msgid "Wizard document add contact email address"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: code:addons/sd_protocollo_pec/models/inherit_sd_protocollo_protocollo.py:0
+#, python-format
+msgid "You can't copy protocol with source mail!"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model_terms:ir.ui.view,arch_db:sd_protocollo_pec.template_mail_mail_qweb
+msgid "allegati"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model_terms:ir.ui.view,arch_db:sd_protocollo_pec.template_mail_mail_qweb
+msgid "allegato"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_mail_mail__button_crea_bozza_protocollo_invisible
+msgid "button crea bozza protocollo invisible"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_protocollo__button_gestisci_invii_invisible
+msgid "button gestisci invii"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_mail_mail__button_non_protocollare_invisible
+msgid "button non protocollare invisible"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_invio__button_reinvia_mail_invisible
+msgid "button reinvia mail invisible"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_invio__button_reset_mail_invisible
+msgid "button reset mail invisible"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_mail_mail__button_ripristina_da_non_protocollata_invisible
+msgid "button ripristina da non protocollare invisible"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_mail_mail__button_ripristina_da_protocollata_invisible
+msgid "button ripristina da protocollata invisible"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields.selection,name:sd_protocollo_pec.selection__sd_protocollo_invio_destinatario__email_tipologia__email
+msgid "e-mail"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_dms_contact__use_in_sending_invisible
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_dms_wizard_document_add_contact__use_in_sending_invisible
+msgid "field use_in_sending_invisible"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_wizard_protocollo_reinvio_mail__modalita_invio_readonly
+msgid "modalita invio readonly"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.actions.report,name:sd_protocollo_pec.report_sd_protocollo_pec_mail_mail_qweb
+msgid "sd.protocollo.pec.mail.mail.qweb"
+msgstr ""
+
+#. module: sd_protocollo_pec
+#: model:ir.model.fields,field_description:sd_protocollo_pec.field_sd_protocollo_invio__messaggio_is_pec
+msgid "È pec"
+msgstr ""

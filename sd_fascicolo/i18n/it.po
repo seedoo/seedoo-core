@@ -1,0 +1,1006 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* sd_fascicolo
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-04-05 10:55+0000\n"
+"PO-Revision-Date: 2022-04-05 10:55+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: sd_fascicolo
+#: code:addons/sd_fascicolo/utilities/fascicolo_storico.py:0
+#, python-format
+msgid " from Dossiers"
+msgstr " dal Fascicolo"
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__documento_ids_count
+msgid "# Documents"
+msgstr "# Documenti"
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_res_partner__fascicolo_ids_count
+#: model:ir.model.fields,field_description:sd_fascicolo.field_res_users__fascicolo_ids_count
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_dms_document__fascicolo_ids_count
+msgid "# Dossiers "
+msgstr "# Fascicoli"
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__inserto_count
+msgid "# Inserti"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__sottofascicolo_count
+msgid "# Sottofascicoli"
+msgstr ""
+
+#. module: sd_fascicolo
+#: code:addons/sd_fascicolo/utilities/fascicolo_storico.py:0
+#, python-format
+msgid "%s added"
+msgstr "%s aggiunto"
+
+#. module: sd_fascicolo
+#: code:addons/sd_fascicolo/utilities/fascicolo_storico.py:0
+#, python-format
+msgid "%s closed"
+msgstr "%s chiuso"
+
+#. module: sd_fascicolo
+#: code:addons/sd_fascicolo/utilities/fascicolo_storico.py:0
+#, python-format
+msgid "%s created"
+msgstr ""
+
+#. module: sd_fascicolo
+#: code:addons/sd_fascicolo/utilities/fascicolo_storico.py:0
+#, python-format
+msgid "%s opened"
+msgstr "%s aperto"
+
+#. module: sd_fascicolo
+#: code:addons/sd_fascicolo/utilities/fascicolo_storico.py:0
+#, python-format
+msgid "%s removed"
+msgstr "%s rimosso"
+
+#. module: sd_fascicolo
+#: code:addons/sd_fascicolo/utilities/fascicolo_storico.py:0
+#: code:addons/sd_fascicolo/utilities/fascicolo_storico.py:0
+#, python-format
+msgid "%s: <span class='%s'> %s</span>"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model_terms:ir.ui.view,arch_db:sd_fascicolo.view_sd_fascicolo_fascicolo_form
+msgid ""
+"<i class=\"fa fa-plus\" title=\"Add\">&amp;nbsp;</i>\n"
+"                                    <span>Aggiungi</span>"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__acl_ids
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo_document_acl__acl_id
+#: model_terms:ir.ui.view,arch_db:sd_fascicolo.view_sd_fascicolo_fascicolo_document_acl_form
+#: model_terms:ir.ui.view,arch_db:sd_fascicolo.view_sd_fascicolo_fascicolo_form
+msgid "Acl"
+msgstr "Permessi"
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo_acl__acl_fl_set_set_ids
+msgid "Acl Sets"
+msgstr "Imposta permessi"
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo_acl__acl_res_users_ids
+msgid "Acl Users"
+msgstr "Permessi utenti"
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__message_needaction
+msgid "Action Needed"
+msgstr "Azione necessaria"
+
+#. module: sd_fascicolo
+#: model:ir.model.fields.selection,name:sd_fascicolo.selection__sd_fascicolo_fascicolo__categoria__attivita
+msgid "Activity"
+msgstr "Attività"
+
+#. module: sd_fascicolo
+#: code:addons/sd_fascicolo/utilities/fascicolo_wizard_actions.py:0
+#: model_terms:ir.ui.view,arch_db:sd_fascicolo.view_sd_fascicolo_fascicolo_form
+#, python-format
+msgid "Add documents"
+msgstr "Aggiungi documenti"
+
+#. module: sd_fascicolo
+#: code:addons/sd_fascicolo/utilities/inherit_sd_dms_document_wizard_actions.py:0
+#, python-format
+msgid "Add dossiers"
+msgstr "Fascicola"
+
+#. module: sd_fascicolo
+#: code:addons/sd_fascicolo/utilities/inherit_sd_dms_document_document_add_contact.py:0
+#, python-format
+msgid "Administration owner can only be a company of type PA!"
+msgstr "Amministrazione Titolare dev'essere un'azienda di tipo PA!"
+
+#. module: sd_fascicolo
+#: model:ir.model.fields.selection,name:sd_fascicolo.selection__sd_fascicolo_fascicolo__categoria__procedimento
+msgid "Administrative Procedure"
+msgstr "Procedimento Amministrativo"
+
+#. module: sd_fascicolo
+#: model:res.groups,name:sd_fascicolo.group_sd_fascicolo_administrator
+msgid "Administrator"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__amministrazione_partecipante_ids
+#: model_terms:ir.ui.view,arch_db:sd_fascicolo.view_sd_fascicolo_fascicolo_form
+msgid "Amministrazione Partecipante"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__amministrazione_titolare_ids
+#: model_terms:ir.ui.view,arch_db:sd_fascicolo.view_sd_fascicolo_fascicolo_form
+msgid "Amministrazione Titolare"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__anno
+msgid "Anno"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model_terms:ir.ui.view,arch_db:sd_fascicolo.view_sd_fascicolo_fascicolo_search
+msgid "Aperto"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model_terms:ir.ui.view,arch_db:sd_fascicolo.view_sd_fascicolo_fascicolo_form
+msgid "Apri Fascicolo"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__message_attachment_count
+msgid "Attachment Count"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__autore
+msgid "Autore"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model_terms:ir.ui.view,arch_db:sd_fascicolo.view_sd_fascicolo_fascicolo_search
+msgid "Bozza"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model_terms:ir.ui.view,arch_db:sd_fascicolo.view_sd_fascicolo_wizard_documento_aggiungi_fascicolo_form
+#: model_terms:ir.ui.view,arch_db:sd_fascicolo.view_sd_fascicolo_wizard_fascicolo_aggiungi_documento_form
+msgid "Cancel"
+msgstr "Annulla"
+
+#. module: sd_fascicolo
+#: model_terms:ir.ui.view,arch_db:sd_fascicolo.view_sd_fascicolo_fascicolo_form
+msgid "Cartaceo"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__categoria
+msgid "Categoria"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__child_ids
+msgid "Child"
+msgstr "Figli"
+
+#. module: sd_fascicolo
+#: model_terms:ir.ui.view,arch_db:sd_fascicolo.view_sd_fascicolo_fascicolo_form
+msgid "Chiudi Fascicolo"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model_terms:ir.ui.view,arch_db:sd_fascicolo.view_sd_fascicolo_fascicolo_search
+msgid "Chiuso"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__voce_titolario_id
+#: model:ir.model.fields.selection,name:sd_fascicolo.selection__res_config_settings__nomenclatura_fascicolo__classificazione
+msgid "Classificazione"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields.selection,name:sd_fascicolo.selection__sd_fascicolo_fascicolo__state__chiuso
+msgid "Close"
+msgstr "Chiuso"
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__company_id
+msgid "Company"
+msgstr "Azienda"
+
+#. module: sd_fascicolo
+#: model:ir.model,name:sd_fascicolo.model_res_config_settings
+msgid "Config Settings"
+msgstr "Impostazioni di configurazione"
+
+#. module: sd_fascicolo
+#: model:ir.ui.menu,name:sd_fascicolo.menu_item_sd_fascicolo_configurazione_list
+#: model_terms:ir.ui.view,arch_db:sd_fascicolo.res_config_settings_view_form
+msgid "Configurazione"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model,name:sd_fascicolo.model_res_partner
+#: model:ir.model,name:sd_fascicolo.model_sd_dms_contact
+msgid "Contact"
+msgstr "Contatto"
+
+#. module: sd_fascicolo
+#: code:addons/sd_fascicolo/models/fascicolo.py:0
+#, python-format
+msgid "Copy of %s"
+msgstr "Copia di %s"
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo_acl__perm_create
+msgid "Create"
+msgstr "Creazione"
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__perm_create
+msgid "Create Access"
+msgstr "Accesso in creazione"
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__create_uid
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo_acl__create_uid
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo_document_acl__create_uid
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_wizard_documento_aggiungi_fascicolo__create_uid
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_wizard_fascicolo_aggiungi_documento__create_uid
+msgid "Created by"
+msgstr "Creato da"
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo_acl__create_system
+msgid "Created by System"
+msgstr "Creato dal sistema"
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__create_date
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo_acl__create_date
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo_document_acl__create_date
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_wizard_documento_aggiungi_fascicolo__create_date
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_wizard_fascicolo_aggiungi_documento__create_date
+msgid "Created on"
+msgstr "Creato il"
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__data_apertura
+msgid "Data Apertura"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__data_chiusura
+msgid "Data Chiusura"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model_terms:ir.ui.view,arch_db:sd_fascicolo.view_sd_fascicolo_fascicolo_search
+msgid "Data apertura"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model_terms:ir.ui.view,arch_db:sd_fascicolo.view_sd_fascicolo_fascicolo_search
+msgid "Data chiusura"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields.selection,name:sd_fascicolo.selection__sd_fascicolo_fascicolo__categoria__affare
+msgid "Deal"
+msgstr "Affare"
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo_acl__perm_delete
+msgid "Delete"
+msgstr "Eliminazione"
+
+#. module: sd_fascicolo
+#: model_terms:ir.ui.view,arch_db:sd_fascicolo.view_sd_dms_document_tree
+#: model_terms:ir.ui.view,arch_db:sd_fascicolo.view_sd_fascicolo_fascicolo_tree
+msgid "Disassociate"
+msgstr "Disassocia"
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:sd_fascicolo.field_res_partner__display_name
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_dms_contact__display_name
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_dms_document__display_name
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_dms_wizard_document_add_contact__display_name
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__display_name
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo_acl__display_name
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo_document_acl__display_name
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_wizard_documento_aggiungi_fascicolo__display_name
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_wizard_fascicolo_aggiungi_documento__display_name
+msgid "Display Name"
+msgstr "Nome visualizzato"
+
+#. module: sd_fascicolo
+#: model:ir.model,name:sd_fascicolo.model_sd_dms_document
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo_document_acl__document_id
+msgid "Document"
+msgstr "Documento"
+
+#. module: sd_fascicolo
+#: model:ir.model,name:sd_fascicolo.model_sd_fascicolo_fascicolo_document_acl
+msgid "Document dossier acl"
+msgstr "Permessi documento fascicolo"
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__documento_ids
+msgid "Documenti"
+msgstr ""
+
+#. module: sd_fascicolo
+#: code:addons/sd_fascicolo/utilities/fascicolo_actions.py:0
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_wizard_fascicolo_aggiungi_documento__documento_ids
+#: model_terms:ir.ui.view,arch_db:sd_fascicolo.view_sd_fascicolo_fascicolo_form
+#, python-format
+msgid "Documents"
+msgstr "Documenti"
+
+#. module: sd_fascicolo
+#: code:addons/sd_fascicolo/utilities/fascicolo_storico.py:0
+#, python-format
+msgid "Documents added"
+msgstr "Documenti aggiunti"
+
+#. module: sd_fascicolo
+#: code:addons/sd_fascicolo/utilities/fascicolo_storico.py:0
+#, python-format
+msgid "Documents removed"
+msgstr "Documenti rimossi"
+
+#. module: sd_fascicolo
+#: code:addons/sd_fascicolo/utilities/fascicolo_storico.py:0
+#: code:addons/sd_fascicolo/utilities/fascicolo_storico.py:0
+#, python-format
+msgid "Documents: <span class='%s'> %s</span>"
+msgstr "Documenti: <span class='%s'> %s</span>"
+
+#. module: sd_fascicolo
+#: code:addons/sd_fascicolo/utilities/fascicolo_storico.py:0
+#: code:addons/sd_fascicolo/utilities/fascicolo_storico.py:0
+#: code:addons/sd_fascicolo/utilities/fascicolo_storico.py:0
+#: code:addons/sd_fascicolo/utilities/fascicolo_storico.py:0
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo_document_acl__fascicolo_id
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_wizard_documento_aggiungi_fascicolo__fascicolo_id
+#: model:ir.model.fields.selection,name:sd_fascicolo.selection__sd_fascicolo_fascicolo__tipologia__fascicolo
+#, python-format
+msgid "Dossier"
+msgstr "Fascicolo"
+
+#. module: sd_fascicolo
+#: model:ir.model,name:sd_fascicolo.model_sd_fascicolo_fascicolo_acl
+msgid "Dossier Acl inherited"
+msgstr "Permessi ereditati dal fascicolo"
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_dms_document__fascicolo_acl_ids
+#: model_terms:ir.ui.view,arch_db:sd_fascicolo.view_sd_dms_document_form
+msgid "Dossier acl inherited"
+msgstr "Permessi ereditati dal fascicolo"
+
+#. module: sd_fascicolo
+#: code:addons/sd_fascicolo/utilities/fascicolo_storico.py:0
+#, python-format
+msgid "Dossier closed"
+msgstr "Fascicolo chiuso"
+
+#. module: sd_fascicolo
+#: code:addons/sd_fascicolo/utilities/fascicolo_storico.py:0
+#, python-format
+msgid "Dossier created"
+msgstr "Fascicolo creato"
+
+#. module: sd_fascicolo
+#: code:addons/sd_fascicolo/utilities/fascicolo_storico.py:0
+#, python-format
+msgid "Dossier opened"
+msgstr "Fascicolo aperto"
+
+#. module: sd_fascicolo
+#: code:addons/sd_fascicolo/utilities/inherit_res_partner_actions.py:0
+#: code:addons/sd_fascicolo/utilities/inherit_sd_dms_document_actions.py:0
+#: model_terms:ir.ui.view,arch_db:sd_fascicolo.view_res_partner_form
+#: model_terms:ir.ui.view,arch_db:sd_fascicolo.view_sd_dms_document_form
+#, python-format
+msgid "Dossiers"
+msgstr "Fascicoli"
+
+#. module: sd_fascicolo
+#: model:ir.model.fields.selection,name:sd_fascicolo.selection__sd_fascicolo_fascicolo__state__bozza
+msgid "Draft"
+msgstr "Bozza"
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__edificio
+msgid "Edificio"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.actions.server,name:sd_fascicolo.action_sd_dms_document_documento_aggiungi_fascicolo
+msgid "Fascicola"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_dms_document__fascicolo_ids
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo_acl__fascicolo_ids
+#: model:ir.ui.menu,name:sd_fascicolo.menu_item_sd_fascicolo_fascicolo_list
+#: model:ir.ui.menu,name:sd_fascicolo.menu_sd_fascicolo
+msgid "Fascicoli"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.actions.act_window,name:sd_fascicolo.action_sd_fascicolo_list
+#: model:ir.model,name:sd_fascicolo.model_sd_fascicolo_fascicolo
+#: model:ir.module.category,description:sd_fascicolo.category_sd_fascicolo
+#: model:ir.module.category,name:sd_fascicolo.category_sd_fascicolo
+#: model_terms:ir.ui.view,arch_db:sd_fascicolo.view_sd_fascicolo_fascicolo_search
+msgid "Fascicolo"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model,name:sd_fascicolo.model_sd_fascicolo_wizard_documento_aggiungi_fascicolo
+msgid "Fascicolo wizard documento aggiungi fascicolo"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__message_follower_ids
+msgid "Followers"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__message_channel_ids
+msgid "Followers (Channels)"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__message_partner_ids
+msgid "Followers (Partners)"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.actions.act_window,name:sd_fascicolo.action_res_config_settings
+msgid "General Settings"
+msgstr "Impostazioni Generali"
+
+#. module: sd_fascicolo
+#: model_terms:ir.ui.view,arch_db:sd_fascicolo.view_sd_fascicolo_fascicolo_search
+msgid "I miei fascicoli"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_res_config_settings__id
+#: model:ir.model.fields,field_description:sd_fascicolo.field_res_partner__id
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_dms_contact__id
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_dms_document__id
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_dms_wizard_document_add_contact__id
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__id
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo_acl__id
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo_document_acl__id
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_wizard_documento_aggiungi_fascicolo__id
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_wizard_fascicolo_aggiungi_documento__id
+msgid "ID"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,help:sd_fascicolo.field_sd_fascicolo_fascicolo__message_needaction
+#: model:ir.model.fields,help:sd_fascicolo.field_sd_fascicolo_fascicolo__message_unread
+msgid "If checked, new messages require your attention."
+msgstr "Se selezionata, nuovi messaggi richiedono attenzione."
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,help:sd_fascicolo.field_sd_fascicolo_fascicolo__message_has_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Se selezionata, alcuni messaggi presentano un errore di consegna."
+
+#. module: sd_fascicolo
+#: model:ir.ui.menu,name:sd_fascicolo.menu_item_sd_fascicolo_res_config_settings
+msgid "Impostazioni"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__inherit_acl
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__inherit_acl_ids
+#: model_terms:ir.ui.view,arch_db:sd_fascicolo.view_sd_fascicolo_fascicolo_form
+msgid "Inherit Acl"
+msgstr "Eredita permessi"
+
+#. module: sd_fascicolo
+#: code:addons/sd_fascicolo/utilities/fascicolo_storico.py:0
+#: code:addons/sd_fascicolo/utilities/fascicolo_storico.py:0
+#: code:addons/sd_fascicolo/utilities/fascicolo_storico.py:0
+#: code:addons/sd_fascicolo/utilities/fascicolo_storico.py:0
+#: model:ir.model.fields.selection,name:sd_fascicolo.selection__sd_fascicolo_fascicolo__tipologia__inserto
+#, python-format
+msgid "Insert"
+msgstr "Inserto"
+
+#. module: sd_fascicolo
+#: model_terms:ir.ui.view,arch_db:sd_fascicolo.view_sd_fascicolo_fascicolo_form
+msgid "Inserti"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model_terms:ir.ui.view,arch_db:sd_fascicolo.view_sd_fascicolo_fascicolo_search
+msgid "Inserto"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__inserto_child_ids
+msgid "Inserto Figli"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__message_is_follower
+msgid "Is Follower"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__is_owner
+msgid "Is owner"
+msgstr "È il proprietario"
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_res_config_settings____last_update
+#: model:ir.model.fields,field_description:sd_fascicolo.field_res_partner____last_update
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_dms_contact____last_update
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_dms_document____last_update
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_dms_wizard_document_add_contact____last_update
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo____last_update
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo_acl____last_update
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo_document_acl____last_update
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_wizard_documento_aggiungi_fascicolo____last_update
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_wizard_fascicolo_aggiungi_documento____last_update
+msgid "Last Modified on"
+msgstr "Ultima modifica il"
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__write_uid
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo_acl__write_uid
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo_document_acl__write_uid
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_wizard_documento_aggiungi_fascicolo__write_uid
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_wizard_fascicolo_aggiungi_documento__write_uid
+msgid "Last Updated by"
+msgstr "Ultima modifica da"
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__write_date
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo_acl__write_date
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo_document_acl__write_date
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_wizard_documento_aggiungi_fascicolo__write_date
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_wizard_fascicolo_aggiungi_documento__write_date
+msgid "Last Updated on"
+msgstr "Ultima modifica il"
+
+#. module: sd_fascicolo
+#: model:ir.model.fields.selection,name:sd_fascicolo.selection__sd_fascicolo_fascicolo__categoria__persona_giuridica
+msgid "Legal Person"
+msgstr "Persona Giuridica"
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__message_main_attachment_id
+msgid "Main Attachment"
+msgstr "Allegato principale"
+
+#. module: sd_fascicolo
+#: model:res.groups,name:sd_fascicolo.group_sd_fascicolo_manager
+msgid "Manager"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__message_has_error
+msgid "Message Delivery error"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__message_ids
+msgid "Messages"
+msgstr "Messaggi"
+
+#. module: sd_fascicolo
+#: model_terms:ir.ui.view,arch_db:sd_fascicolo.view_sd_fascicolo_fascicolo_document_acl_form
+msgid "Meta Information"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo_acl__module_id
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo_document_acl__module_id
+msgid "Module"
+msgstr "Modulo"
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__nome
+msgid "Nome"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__nome_fascicolo
+msgid "Nome Fascicolo"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_res_config_settings__nomenclatura_fascicolo
+msgid "Nomenclatura fascicolo"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Numero azioni"
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__message_has_error_counter
+msgid "Number of errors"
+msgstr "Numero errori"
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,help:sd_fascicolo.field_sd_fascicolo_fascicolo__message_needaction_counter
+msgid "Number of messages which requires an action"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,help:sd_fascicolo.field_sd_fascicolo_fascicolo__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,help:sd_fascicolo.field_sd_fascicolo_fascicolo__message_unread_counter
+msgid "Number of unread messages"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__oggetto
+msgid "Oggetto"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields.selection,name:sd_fascicolo.selection__sd_fascicolo_fascicolo__state__aperto
+msgid "Open"
+msgstr "Aperto"
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__owner_id
+msgid "Owner"
+msgstr "Proprietario"
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__parent_id
+msgid "Padre"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__parent_voce_titolario_id
+msgid "Parent Classificazione"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__parent_codice_sequenza
+msgid "Parent Sequence Code"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__parent_id_domain
+msgid "Parent domain"
+msgstr ""
+
+#. module: sd_fascicolo
+#: code:addons/sd_fascicolo/utilities/inherit_sd_dms_document_document_add_contact.py:0
+#, python-format
+msgid "Participating Administration can only be a company of type PA!"
+msgstr "Amministrazione Partecipante dev'essere un'azienda di tipo PA!"
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_res_partner__soggetto_coinvolto_fascicolo_ids
+#: model:ir.model.fields,field_description:sd_fascicolo.field_res_users__soggetto_coinvolto_fascicolo_ids
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__partner_ids
+msgid "Partner"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields.selection,name:sd_fascicolo.selection__sd_fascicolo_fascicolo__categoria__persona_fisica
+msgid "Physical Person"
+msgstr "Persona Fisica"
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__piano
+msgid "Piano"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__posizione
+msgid "Posizione"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo_acl__perm_read
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo_document_acl__perm_read
+msgid "Read"
+msgstr "Lettura"
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__perm_read
+msgid "Read Access"
+msgstr "Accesso in lettura"
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo_acl__res_id
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo_document_acl__res_id
+msgid "Resource Id"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo_acl__res_model
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo_document_acl__res_model
+msgid "Resource Model"
+msgstr "Modello"
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo_acl__res_name
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo_document_acl__res_name
+msgid "Resource Name"
+msgstr "Risorsa"
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__rup_ids
+#: model_terms:ir.ui.view,arch_db:sd_fascicolo.view_sd_fascicolo_fascicolo_form
+msgid "Responsabile Unico Procedimento"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model_terms:ir.ui.view,arch_db:sd_fascicolo.view_sd_fascicolo_wizard_documento_aggiungi_fascicolo_form
+#: model_terms:ir.ui.view,arch_db:sd_fascicolo.view_sd_fascicolo_wizard_fascicolo_aggiungi_documento_form
+msgid "Save"
+msgstr "Salva"
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__codice_sequenza
+msgid "Sequence Code"
+msgstr "Codice sequenza"
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo_acl__fl_set_set_id
+msgid "Set"
+msgstr ""
+
+#. module: sd_fascicolo
+#: code:addons/sd_fascicolo/utilities/inherit_sd_dms_document_document_add_contact.py:0
+#, python-format
+msgid "Single procedure manager can only be a person!"
+msgstr "Responsabile Unico Procedimento dev'essere una persona!"
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__soggetto_intestatario_ids
+#: model_terms:ir.ui.view,arch_db:sd_fascicolo.view_sd_fascicolo_fascicolo_form
+msgid "Soggetto Intestatario"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model_terms:ir.ui.view,arch_db:sd_fascicolo.view_sd_fascicolo_fascicolo_form
+msgid "Sottofascicoli"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model_terms:ir.ui.view,arch_db:sd_fascicolo.view_sd_fascicolo_fascicolo_search
+msgid "Sottofascicolo"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__sottofascicolo_child_ids
+msgid "Sottofascicolo Figli"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__stanza
+msgid "Stanza"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__state
+msgid "Stato"
+msgstr ""
+
+#. module: sd_fascicolo
+#: code:addons/sd_fascicolo/utilities/fascicolo_storico.py:0
+#: code:addons/sd_fascicolo/utilities/fascicolo_storico.py:0
+#: code:addons/sd_fascicolo/utilities/fascicolo_storico.py:0
+#: code:addons/sd_fascicolo/utilities/fascicolo_storico.py:0
+#: model:ir.model.fields.selection,name:sd_fascicolo.selection__sd_fascicolo_fascicolo__tipologia__sottofascicolo
+#, python-format
+msgid "Sub-Dossier"
+msgstr "Sottofascicolo"
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__system_acl_ids
+#: model_terms:ir.ui.view,arch_db:sd_fascicolo.view_sd_fascicolo_fascicolo_form
+msgid "System Acl"
+msgstr "Permessi di sistema"
+
+#. module: sd_fascicolo
+#: code:addons/sd_fascicolo/models/inherit_sd_dms_document.py:0
+#, python-format
+msgid ""
+"The classification of the document cannot be modified when the document is "
+"associated with dossiers!"
+msgstr ""
+"La classificazione di un documento non può essere modificata quando il "
+"documento è associato ad un fascicolo"
+
+#. module: sd_fascicolo
+#: code:addons/sd_fascicolo/utilities/inherit_sd_dms_document_wizard_actions.py:0
+#, python-format
+msgid "The document already has an associated dossier!"
+msgstr "Il documento ha già un fascicolo associato!"
+
+#. module: sd_fascicolo
+#: code:addons/sd_fascicolo/utilities/inherit_sd_dms_document_wizard_actions.py:0
+#, python-format
+msgid "The document does not have an associated titular item!"
+msgstr "Il documento non ha una voce di titolario associata!"
+
+#. module: sd_fascicolo
+#: code:addons/sd_fascicolo/models/fascicolo.py:0
+#, python-format
+msgid "The dossier cannot be deleted because it is already opened!"
+msgstr "Il fascicolo non può essere eliminato perché è già stato aperto!"
+
+#. module: sd_fascicolo
+#: code:addons/sd_fascicolo/utilities/fascicolo_actions.py:0
+#, python-format
+msgid "The dossier cannot be opened because parent is in draft state!"
+msgstr "Il fascicolo non può essere aperto perché il parent è in stato bozza!"
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__tipologia
+msgid "Tipologia"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__ufficio_autore_id
+msgid "Ufficio autore"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__ufficio_autore_id_readonly
+msgid "Ufficio autore readonly"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model_terms:ir.ui.view,arch_db:sd_fascicolo.view_sd_fascicolo_fascicolo_form
+msgid ""
+"Una volta aperto il fascicolo non sarà più possibile modificare oggetto e "
+"classificazione"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__message_unread
+msgid "Unread Messages"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__message_unread_counter
+msgid "Unread Messages Counter"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo_acl__res_users_id
+#: model:res.groups,name:sd_fascicolo.group_sd_fascicolo_user
+msgid "User"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model,name:sd_fascicolo.model_sd_dms_wizard_document_add_contact
+msgid "Wizard Document Add contact"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model,name:sd_fascicolo.model_sd_fascicolo_wizard_fascicolo_aggiungi_documento
+msgid "Wizard fascicolo aggiungi documento"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo_acl__perm_write
+msgid "Write"
+msgstr "Modifica"
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__perm_write
+msgid "Write Access"
+msgstr "Accesso in modifica"
+
+#. module: sd_fascicolo
+#: code:addons/sd_fascicolo/models/fascicolo.py:0
+#, python-format
+msgid "You don't have an associated office!"
+msgstr "Non hai un ufficio associato!"
+
+#. module: sd_fascicolo
+#: code:addons/sd_fascicolo/utilities/inherit_sd_dms_document_wizard_actions.py:0
+#, python-format
+msgid "You don't have write permissions!"
+msgstr "Non hai i permessi di scrittura!"
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__button_add_amministrazione_partecipante_invisible
+msgid "button aggiungi amministrazione partecipante invisible"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__button_add_amministrazione_titolare_invisible
+msgid "button aggiungi amministrazione titolare invisible"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__button_add_rup_invisible
+msgid "button aggiungi rup invisible"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__button_add_soggetto_intestatario_invisible
+msgid "button aggiungi soggetto intestatario invisible"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__button_apri_fascicolo_invisible
+msgid "button apri fascicolo invisible"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__button_chiudi_fascicolo_invisible
+msgid "button chiudi fascicolo invisible"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_dms_document__button_disassocia_documento_invisible
+msgid "button disassocia documento invisible"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_dms_document__button_documento_aggiungi_fascicolo_invisible
+msgid "button documento aggiungi fascicolo invisible"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__button_fascicolo_aggiungi_documento_invisible
+msgid "button fascicolo aggiungi documento invisible"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__button_tree_disassocia_fascicolo_invisible
+msgid "button tree disassocia fascicolo invisible"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__documento_ids_readonly
+msgid "documento_ids readonly"
+msgstr ""
+
+#. module: sd_fascicolo
+#: model:ir.model.fields,field_description:sd_fascicolo.field_sd_fascicolo_fascicolo__field_readonly
+msgid "field readonly"
+msgstr ""

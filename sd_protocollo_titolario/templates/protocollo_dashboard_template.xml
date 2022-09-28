@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <template id="template_protocollo_dashboard" name="protocollo_dashboard_titolario"
+              inherit_id="sd_protocollo.template_protocollo_dashboard">
+        <xpath expr="//t[@t-set='protocolli_bozza']" position="after">
+            <t t-set="protocolli_da_classificare" t-value="protocolli_da_classificare"/>
+        </xpath>
+
+    </template>
+
+
+    <template id="template_dashboard_protocolli_protocollati" name="protocollo_dashboard_titolario"
+              inherit_id="sd_protocollo.template_dashboard_protocolli_protocollati">
+
+        <xpath expr="//div[@name='after_in_bozza']" position="after">
+
+            <t t-if="protocolli_da_classificare is not False">
+                <t t-call="sd_protocollo.temaplate_protocollo_row_kanban_button">
+                    <t t-set="icon" t-value="'fa fa-th-list'"/>
+                    <t t-set="value" t-value="protocolli_da_classificare"/>
+                    <t t-set="action_name" t-value="'protocolli_da_classificare'"/>
+                    <t t-set="protocollo_info" t-value="'Da Classificare'"/>
+                </t>
+            </t>
+            <div name="after_da_classificare"/>
+
+        </xpath>
+
+    </template>
+
+</odoo>

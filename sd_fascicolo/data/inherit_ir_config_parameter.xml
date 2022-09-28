@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="data_ir_config_nomenclatura_fascicolo" model="ir.config_parameter" forcecreate="False">
+            <field name="key">sd_fascicolo.nomenclatura_fascicolo</field>
+            <field name="value">classificazione</field>
+        </record>
+
+    </data>
+</odoo>

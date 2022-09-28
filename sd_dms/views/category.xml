@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2020-2022 Flosslab S.r.l.
+    Copyright 2017-2019 MuK IT GmbH
+    License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
+-->
+<odoo>
+    <data>
+
+        <record id="view_sd_dms_category_tree" model="ir.ui.view">
+            <field name="name">view.sd.dms.category.tree</field>
+            <field name="model">sd.dms.category</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="parent_category_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_sd_dms_category_form" model="ir.ui.view">
+            <field name="name">view.sd.dms.category.form</field>
+            <field name="model">sd.dms.category</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="parent_category_id"/>
+                                <field name="company_id"
+                                       groups="base.group_multi_company"
+                                       options="{'no_open': True, 'no_create': True}"
+                                />
+                            </group>
+                        </group>
+
+                        <notebook>
+                            <page string="Folders">
+                                <field name="folder_ids" nolabel="1"/>
+                            </page>
+                            <page string="Documents">
+                                <field name="document_ids" nolabel="1"/>
+                            </page>
+                            <page string="Tags">
+                                <field name="tag_ids" nolabel="1"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

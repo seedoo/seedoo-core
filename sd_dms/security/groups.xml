@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    Copyright 2020-2022 Flosslab S.r.l.
+    Copyright 2017-2019 MuK IT GmbH
+    License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
+-->
+<odoo>
+    <data noupdate="0">
+
+        <record id="group_sd_dms_user" model="res.groups">
+            <field name="name">User</field>
+            <field name="category_id" ref="category_sd_dms"/>
+            <field name="implied_ids" eval="[(6, 0, [
+                ref('base.group_user'),
+            ])]"/>
+        </record>
+
+        <record id="group_sd_dms_manager" model="res.groups">
+            <field name="name">Manager</field>
+            <field name="category_id" ref="category_sd_dms"/>
+            <field name="implied_ids" eval="[(6, 0, [
+                ref('group_sd_dms_user'),
+            ])]"/>
+        </record>
+
+        <record id="group_sd_dms_administrator" model="res.groups">
+            <field name="name">Administrator</field>
+            <field name="category_id" ref="category_sd_dms"/>
+            <field name="implied_ids" eval="[(6, 0, [
+                ref('group_sd_dms_manager'),
+            ])]"/>
+            <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+        </record>
+
+    </data>
+</odoo>

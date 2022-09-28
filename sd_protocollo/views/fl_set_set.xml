@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<odoo>
+    <data noupdate="0">
+
+        <record id="view_fl_set_set_form" model="ir.ui.view">
+            <field name="name">view.fl.set.set.form</field>
+            <field name="model">fl.set.set</field>
+            <field name="inherit_id" ref="fl_set.view_fl_set_set_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='user_ids']" position="before">
+                        <field name="can_used_to_protocol" invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

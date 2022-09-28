@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-inherit="mail.ThreadView" t-inherit-mode="extension">
+        <xpath expr="//t[@t-if='threadView']" position="after">
+            <!-- TODO: improved by making it more generic -->
+            <t t-if="threadView.thread.localId=='mail.thread_mail.box_mailreceived' or threadView.thread.localId=='mail.thread_mail.box_mailsent'">
+                <MailList
+                    class="o_ThreadView_messageList"
+                    order="props.order"
+                    threadViewLocalId="threadView.localId"
+                    t-ref="mailList"/>
+            </t>
+        </xpath>
+        <xpath expr="//t[@t-if='threadView']" position="attributes">
+            <!-- TODO: improved by making it more generic -->
+            <attribute name="t-if">threadView and threadView.thread.localId!='mail.thread_mail.box_mailreceived' and threadView.thread.localId!='mail.thread_mail.box_mailsent'</attribute>
+        </xpath>
+    </t>
+</templates>

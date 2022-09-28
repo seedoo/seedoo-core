@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <data noupdate="0">
+
+        <record id="view_fl_acl_tree" model="ir.ui.view">
+            <field name="name">view.fl.acl.tree</field>
+            <field name="model">fl.acl</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="res_model"/>
+                    <field name="res_name"/>
+                    <field name="res_id" invisible="1"/>
+                    <field name="res_users_id" invisible="1"/>
+                    <field name="perm_create"/>
+                    <field name="perm_read"/>
+                    <field name="perm_write"/>
+                    <field name="perm_delete"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_fl_acl_form" model="ir.ui.view">
+            <field name="name">view.fl.acl.form</field>
+            <field name="model">fl.acl</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="res_model"/>
+                            <h2>
+                                <field name="res_model"
+                                       required="1"
+                                />
+                                <field name="res_name"
+                                       invisible="1"
+                                />
+                            </h2>
+
+                            <label for="res_users_id"
+                                   attrs="{'invisible': [('res_model', '!=', 'res_users')]}"
+                            />
+                            <h2 attrs="{'invisible': [('res_model', '!=', 'res_users')]}">
+                                <field name="res_users_id"
+                                       domain="[('id', 'not in', acl_res_users_ids)]"
+                                       options="{'no_open':True, 'no_create':True}"
+                                       attrs="{'required': [('res_model', '=', 'res_users')]}"
+                                />
+                            </h2>
+                        </div>
+                        <notebook>
+                            <page name="page_acl" string="Acl">
+                                <group>
+                                    <field name="perm_create"/>
+                                    <field name="perm_read"/>
+                                    <field name="perm_write"/>
+                                    <field name="perm_delete"/>
+                                    <field name="acl_res_users_ids" invisible="1"/>
+                                </group>
+                            </page>
+                            <page name="page_meta" string="Meta Information" attrs="{'invisible': [('create_date', '=', False)]}">
+                                <group>
+                                    <group>
+                                        <field name="create_date"/>
+                                        <field name="create_uid"/>
+                                        <field name="create_system"/>
+                                        <field name="module_id"
+                                               options="{'no_open':True, 'no_create':True}"
+                                        />
+                                    </group>
+                                    <group>
+                                        <field name="write_date"/>
+                                        <field name="write_uid"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_fl_acl_search" model="ir.ui.view">
+            <field name="name">view.fl.acl.search</field>
+            <field name="model">fl.acl</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="res_model"/>
+                </search>
+            </field>
+        </record>
+
+    </data>
+</odoo>

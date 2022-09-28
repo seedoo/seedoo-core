@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+
+            <t t-inherit="web.SearchPanel.Category" t-inherit-mode="extension" owl="1">
+                    <xpath expr="//span[hasclass('o_search_panel_counter')]" position="replace">
+                        <t t-if="state.expanded[section.id][valueId] and section.disableChildofDomainOnexpand">
+                            <span t-if="section.enableCounters and value.__count_distinct gt 0"
+                                  class="o_search_panel_counter text-muted ml-2 small"
+                                  t-esc="value.__count_distinct"
+                            />
+                        </t>
+                        <t t-else="">
+                            <span t-if="section.enableCounters and value.__count gt 0"
+                                  class="o_search_panel_counter text-muted ml-2 small"
+                                  t-esc="value.__count"
+                            />
+                        </t>
+                    </xpath>
+            </t>
+
+</templates>

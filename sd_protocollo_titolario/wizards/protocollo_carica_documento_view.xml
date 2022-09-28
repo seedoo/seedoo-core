@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_sd_protocollo_wizard_protocollo_carica_documento_form" model="ir.ui.view">
+            <field name="name">view.sd.protocollo.wizard.protocollo.carica.documento.form</field>
+            <field name="model">sd.protocollo.wizard.protocollo.carica.documento</field>
+            <field name="inherit_id" ref="sd_protocollo.view_sd_protocollo_wizard_protocollo_carica_documento_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='folder_id']" position="after">
+                    <field name="protocollo_company_id" invisible="1"/>
+                    <field name="voce_titolario_id"
+                           widget="ztree_select"
+                           options="{
+                            'ztree_parent_key': 'parent_id',
+                            'ztree_child_key': 'child_ids',
+                            'ztree_expend_level': '1',
+                            'ztree_name_field': 'complete_name',
+                            'ztree_title_field': 'path_name',
+                            'ztree_only_child': 'only_child',
+                            'ztree_custom_class': 'no-hover-titolario',
+                            'order': 'sequence',
+                            'no_open': True,
+                            'no_create': True
+                            }"
+                           invisible="context.get('tipologia_documento',False) != 'allegato'"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

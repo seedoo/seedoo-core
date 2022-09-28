@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data noupdate="0">
+
+        <record id="view_mail_mail_form" model="ir.ui.view">
+            <field name="name">view.mail.mail.form</field>
+            <field name="model">mail.mail</field>
+            <field name="inherit_id" ref="fl_mail_client.view_mail_mail_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='state_out']" position="after">
+                    <button name="protocollo_crea_da_mail_action"
+                            type="object"
+                            string="Create draft protocol"
+                            attrs="{'invisible': [('button_crea_bozza_protocollo_invisible', '=', True)]}"
+                            context="{'active_id': id}"
+                            class="oe_highlight"
+                    />
+                    <button name="non_protocollare_mail_action"
+                            type="object"
+                            string="Protocol not to do"
+                            confirm="Il messaggio verrà rimosso dalla lista di protocollazione. Per ripristinarlo come da protocollare è necessario accedere all'APP Comunicazioni, ricercare il messaggio e con il button 'Ripristina per protocollazione' riattivarlo per la protocollazione."
+                            attrs="{'invisible': [('button_non_protocollare_invisible', '=', True)]}"
+                            context="{'active_id': id}"
+                            class="oe_highlight"
+                    />
+                    <button name="ripristina_da_non_protocollata_action"
+                            type="object"
+                            string="Restore to protocol"
+                            attrs="{'invisible': [('button_ripristina_da_non_protocollata_invisible', '=', True)]}"
+                            context="{'active_id': id}"
+                            class="oe_highlight"
+                    />
+                    <button name="ripristina_da_protocollata_action"
+                            type="object"
+                            string="Restore to protocol"
+                            attrs="{'invisible': [('button_ripristina_da_protocollata_invisible', '=', True)]}"
+                            context="{'active_id': id}"
+                            class="oe_highlight"
+                    />
+                </xpath>
+
+                <xpath expr="//notebook/page[last()]" position="after">
+                    <page string="Protocol"
+                          attrs="{'invisible': [('protocollo_in_id', '=', False)]}"
+                    >
+                        <group>
+                            <field name="protocollo_action"/>
+                            <field name="protocollo_in_id"
+                                   attrs="{'invisible': [('protocollo_in_id', '=', False)]}"
+                            />
+                        </group>
+                    </page>
+                </xpath>
+
+                <xpath expr="//field[@name='reply_to']" position="after">
+                    <field name="button_crea_bozza_protocollo_invisible" invisible="1"/>
+                    <field name="button_non_protocollare_invisible" invisible="1"/>
+                    <field name="button_ripristina_da_non_protocollata_invisible" invisible="1"/>
+                    <field name="button_ripristina_da_protocollata_invisible" invisible="1"/>
+                </xpath>
+
+            </field>
+        </record>
+
+
+        <record id="view_mail_mail_search" model="ir.ui.view">
+            <field name="name">view.mail.mail.search</field>
+            <field name="model">mail.mail</field>
+            <field name="inherit_id" ref="fl_mail_client.view_mail_mail_search"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[last()]" position="after">
+                    <field name="protocollo_id" string="Protocol N°"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="view_mail_mail_search_received" model="ir.ui.view">
+            <field name="name">view.mail.mail.search.received</field>
+            <field name="model">mail.mail</field>
+            <field name="inherit_id" ref="fl_mail_client_pec.view_mail_mail_search_received"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//filter[last()]" position="after">
+                    <separator/>
+                    <filter name="message" string="Protocol to do" domain="[('protocollo_action','=','mail_da_protocollare')]"/>
+                    <filter name="message" string="Protocol draft" domain="[('protocollo_action','=','bozza_da_protocollare')]"/>
+                    <filter name="message" string="Protocol done" domain="[('protocollo_action','=','protocollata')]"/>
+                    <filter name="message" string="Protocols not done" domain="[('protocollo_action','=','non_protocollata')]"/>
+                </xpath>
+
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

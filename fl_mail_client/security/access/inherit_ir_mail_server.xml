@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <data noupdate="0">
+
+        <record id="access_ir_mail_server_1" model="ir.model.access">
+            <field name="name">access.ir.mail.server.1</field>
+            <field name="model_id" ref="base.model_ir_mail_server"/>
+            <field name="group_id" ref="group_fl_mail_client_user_base"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <record id="access_ir_mail_server_2" model="ir.model.access">
+            <field name="name">access.ir.mail.server.2</field>
+            <field name="model_id" ref="base.model_ir_mail_server"/>
+            <field name="group_id" ref="group_fl_mail_client_user_advanced"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <record id="access_ir_mail_server_3" model="ir.model.access">
+            <field name="name">access.ir.mail.server.3</field>
+            <field name="model_id" ref="base.model_ir_mail_server"/>
+            <field name="group_id" ref="group_fl_mail_client_manager"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+    </data>
+</odoo>

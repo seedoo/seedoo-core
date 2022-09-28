@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <data noupdate="0">
+
+        <record id="view_res_partner_form" model="ir.ui.view">
+            <field name="name">view.res.partner.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='website']" position="before">
+                    <field name="fl_pec_mail_invisible" invisible="1"/>
+                    <field name="fl_pec_mail_required" invisible="1"/>
+                    <field name="pec_mail"
+                           widget="email"
+                           attrs="{'required': [('fl_pec_mail_required', '=', True)], 'invisible': [('fl_pec_mail_invisible', '=', True)]}"
+                    />
+                </xpath>
+
+                <xpath expr="//field[@name='child_ids']//form//field[@name='email']" position="after">
+                    <field name="pec_mail"
+                           widget="email"
+                    />
+                </xpath>
+
+                <xpath expr="//field[@name='child_ids']//kanban//field[@name='email']" position="after">
+                    <field name="pec_mail"/>
+                </xpath>
+                <xpath expr="//field[@name='child_ids']//kanban//div[@t-if='record.email.raw_value']" position="after">
+                    <div t-if="record.pec_mail.raw_value"><field name="pec_mail" widget="email"/></div>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="view_res_partner_tree" model="ir.ui.view">
+            <field name="name">view.res.partner.tree</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_tree"/>
+            <field name="arch" type="xml">
+
+                <field name="email" position="after">
+                    <field name="pec_mail" />
+                </field>
+
+            </field>
+        </record>
+
+        <record id="view_res_partner_kanban" model="ir.ui.view">
+            <field name="name">view.res.partner.kanban</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.res_partner_kanban_view"/>
+            <field name="arch" type="xml">
+
+                <field name="email" position="after">
+                    <field name="pec_mail"/>
+                    <field name="fl_pec_mail_invisible"/>
+                </field>
+                <xpath expr='//kanban/templates/t/div/div/ul/li[@t-if="record.city.raw_value or record.country_id.raw_value"]' position="after">
+                    <li t-if="record.pec_mail.raw_value and !record.fl_pec_mail_invisible.raw_value" class="o_text_overflow">
+                        <field name="pec_mail"/><span> (PEC)</span>
+                    </li>
+                </xpath>
+
+            </field>
+        </record>
+         <record id="view_res_partner_search" model="ir.ui.view">
+            <field name="name">view.res.partner.search</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_res_partner_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='email']" position="after">
+                     <field name="pec_mail"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

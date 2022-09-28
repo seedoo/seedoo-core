@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!--Generale-->
+
+        <record id="data_ir_config_registro_logo_id" model="ir.config_parameter" forcecreate="False">
+            <field name="key">sd_protocollo.registro_logo_id</field>
+            <field name="value" ref="sd_protocollo.data_ir_attachment_registro_logo_id"/>
+        </record>
+
+        <record id="data_ir_config_parameter_assegnazione" model="ir.config_parameter" forcecreate="False">
+            <field name="key">sd_protocollo.assegnazione</field>
+            <field name="value">tutti</field>
+        </record>
+
+        <record id="data_ir_config_prima_assegnazione" model="ir.config_parameter" forcecreate="False">
+            <field name="key">sd_protocollo.prima_assegnazione</field>
+            <field name="value">tutti</field>
+        </record>
+
+        <record id="data_ir_config_abilita_aggiungi_assegnatari_cc" model="ir.config_parameter" forcecreate="False">
+            <field name="key">sd_protocollo.abilita_aggiungi_assegnatari_cc</field>
+            <field name="value">True</field>
+        </record>
+
+        <record id="data_ir_config_abilita_lettura_assegnazione_competenza" model="ir.config_parameter" forcecreate="False">
+            <field name="key">sd_protocollo.abilita_lettura_assegnazione_competenza</field>
+            <field name="value">True</field>
+        </record>
+
+        <record id="data_ir_config_parameter_unique_pec_mail" model="ir.config_parameter" forcecreate="False">
+            <field name="key">sd_protocollo.unique_pec_mail</field>
+            <field name="value">True</field>
+        </record>
+
+        <!--Dashboard-->
+
+        <record id="data_ir_config_parameter_assegnato_a_me_active" model="ir.config_parameter"
+                forcecreate="False">
+            <field name="key">sd_protocollo.assegnato_a_me_active</field>
+            <field name="value">True</field>
+        </record>
+
+        <record id="data_ir_config_parameter_assegnato_a_mio_ufficio_active" model="ir.config_parameter"
+                forcecreate="False">
+            <field name="key">sd_protocollo.assegnato_a_mio_ufficio_active</field>
+            <field name="value">True</field>
+        </record>
+
+        <record id="data_ir_config_parameter_assegnato_da_me_active" model="ir.config_parameter" forcecreate="False">
+            <field name="key">sd_protocollo.assegnato_da_me_active</field>
+            <field name="value">True</field>
+        </record>
+
+        <record id="data_ir_config_parameter_da_assegnare_active" model="ir.config_parameter" forcecreate="False">
+            <field name="key">sd_protocollo.da_assegnare_active</field>
+            <field name="value">True</field>
+        </record>
+
+
+        <!--Etichetta-->
+        <record id="data_ir_config_parameter_etichetta_altezza" model="ir.config_parameter" forcecreate="False">
+            <field name="key">sd_protocollo.etichetta_altezza</field>
+            <field name="value">28</field>
+        </record>
+
+        <record id="data_ir_config_parameter_etichetta_larghezza" model="ir.config_parameter" forcecreate="False">
+            <field name="key">sd_protocollo.etichetta_larghezza</field>
+            <field name="value">54</field>
+        </record>
+
+        <record id="data_ir_config_parameter_etichetta_logo_id" model="ir.config_parameter" forcecreate="False">
+            <field name="key">sd_protocollo.etichetta_logo_id</field>
+            <field name="value" ref="sd_protocollo.data_ir_attachment_etichetta_logo_id"/>
+        </record>
+
+        <!--Segnatura Pdf-->
+
+        <record id="data_ir_config_segnatura_pdf_protocollo_ingresso" model="ir.config_parameter" forcecreate="False">
+            <field name="key">sd_protocollo.segnatura_pdf_protocollo_ingresso</field>
+            <field name="value">True</field>
+        </record>
+
+        <record id="data_ir_config_segnatura_pdf_protocollo_uscita" model="ir.config_parameter" forcecreate="False">
+            <field name="key">sd_protocollo.segnatura_pdf_protocollo_uscita</field>
+            <field name="value">True</field>
+        </record>
+
+        <record id="data_ir_config_genera_segnatura_append_solo_pdf_firmati" model="ir.config_parameter" forcecreate="False">
+            <field name="key">sd_protocollo.genera_segnatura_append_solo_pdf_firmati</field>
+            <field name="value">True</field>
+        </record>
+
+        <!--Campi obbligatori per Registrazione Protocollo-->
+
+        <record id="data_ir_config_parameter_required_data_ricezione" model="ir.config_parameter" forcecreate="False">
+            <field name="key">sd_protocollo.required_data_ricezione</field>
+            <field name="value">True</field>
+        </record>
+
+
+        <!--Timezone-->
+        <record id="data_ir_config_parameter_timezone" model="ir.config_parameter" forcecreate="False">
+            <field name="key">sd_protocollo.timezone</field>
+            <field name="value">Europe/Rome</field>
+        </record>
+    </data>
+</odoo>

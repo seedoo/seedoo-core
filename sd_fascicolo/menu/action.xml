@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <record id="action_sd_fascicolo_list" model="ir.actions.act_window">
+            <field name="name">Fascicolo</field>
+            <field name="res_model">sd.fascicolo.fascicolo</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="limit">20</field>
+        </record>
+
+        <record id="action_res_config_settings" model="ir.actions.act_window">
+            <field name="name">General Settings</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.config.settings</field>
+            <field name="view_mode">form</field>
+            <field name="target">inline</field>
+            <field name="context">{'module' : 'sd_fascicolo'}</field>
+        </record>
+
+    </data>
+</odoo>

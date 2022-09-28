@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="action_sd_dms_res_users_set_list" model="ir.actions.act_window">
+            <field name="name">User List</field>
+            <field name="res_model">res.users</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="domain">[("fl_set_set_ids", "in", active_id)]</field>
+            <field name="context">{'create': False, 'edit': False, 'delete': False, 'archive': False}</field>
+        </record>
+
+    </data>
+</odoo>

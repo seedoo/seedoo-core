@@ -1,0 +1,712 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <record id="res_config_settings_view_form" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.sd.protocollo</field>
+            <field name="model">res.config.settings</field>
+            <field name="priority" eval="20"/>
+            <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//div[hasclass('settings')]" position="inside">
+                    <div class="app_settings_block" data-string="Protocollo" data-key="sd_protocollo"
+                         groups="base.group_system">
+                        <div name="sd_protocollo_settings">
+                            <h2>Generale</h2>
+                            <div class="row mt16 o_settings_container" name="general">
+
+                                <div class="col-12 col-lg-6 o_setting_box" name="before_rinomina_documento_allegati">
+                                    <div class="o_setting_left_pane">
+                                        <field name="rinomina_documento_allegati"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="rinomina_documento_allegati"/>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-lg-6 o_setting_box" name="abilita_aggiungi_assegnatari_cc">
+                                    <div class="o_setting_left_pane">
+                                        <field name="abilita_aggiungi_assegnatari_cc"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="abilita_aggiungi_assegnatari_cc"/>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-lg-6 o_setting_box">
+                                    <div class="o_setting_right_pane">
+                                        <span class="o_form_label">Prima assegnazione</span>
+                                        <div class="text-muted">
+                                        </div>
+                                        <div class="content-group">
+                                            <div class="mt16 row">
+                                                <label for="prima_assegnazione" string="Prima assegnazione"
+                                                       class="col-3 col-lg-3 o_light_label"/>
+                                                <field name="prima_assegnazione" class="oe_inline" required="1"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-lg-6 o_setting_box" name="assegnazione">
+                                    <div class="o_setting_right_pane">
+                                        <span class="o_form_label">Assegnazione</span>
+                                        <div class="text-muted">
+                                        </div>
+                                        <div class="content-group">
+                                            <div class="mt16 row">
+                                                <label for="assegnazione" string="Assegnazione"
+                                                       class="col-3 col-lg-3 o_light_label"/>
+                                                <field name="assegnazione" class="oe_inline" required="1"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-lg-6 o_setting_box" name="abilita_assegnazione_stesso_utente_ufficio">
+                                    <div class="o_setting_left_pane">
+                                        <field name="abilita_assegnazione_stesso_utente_ufficio"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="abilita_assegnazione_stesso_utente_ufficio"/>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-lg-6 o_setting_box" name="abilita_lettura_assegnazione_competenza">
+                                    <div class="o_setting_left_pane">
+                                        <field name="abilita_lettura_assegnazione_competenza"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="abilita_lettura_assegnazione_competenza"/>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-lg-6 o_setting_box">
+                                    <div class="o_setting_right_pane">
+                                        <span class="o_form_label">Fuso orario</span>
+                                        <div class="text-muted">
+                                            Fuso orario di default per registro giornaliero di protocollo e segnatura PDF
+                                        </div>
+                                        <div class="content-group">
+                                            <div class="mt16 row">
+                                                <label for="timezone" string="Fuso orario" class="col-3 col-lg-3 o_light_label"/>
+                                                <field name="timezone" class="oe_inline" required="1"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-lg-6 o_setting_box" >
+                                    <div class="o_setting_left_pane">
+                                        <field name="visualizza_motivazione_completa_lavorazione"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="visualizza_motivazione_completa_lavorazione"/>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane">
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <span class="o_form_label">Logo registro giornaliero di protocollo</span>
+                                        <div class="text-muted">
+                                            Logo inserito nel registro giornaliero di protocollo in formato PDF
+                                        </div>
+                                        <div class="content-group">
+                                            <div class="mt16">
+                                                <field name="registro_logo_id" />
+                                            </div>
+                                            <div class="mt8">
+                                                <field name="registro_logo_fname" invisible="1"/>
+                                                <field name="registro_logo_datas" widget="image"
+                                                       filename="registro_logo_fname"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6 o_setting_box" >
+                                </div>
+
+                                <div class="col-12 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane">
+                                        <field name="module_sd_protocollo_titolario"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="module_sd_protocollo_titolario"/>
+                                        <div class="text-muted" name="right-pane-module_sd_protocollo_titolario">
+                                            Abilita la classificazione del documento e degli allegati del protocollo tramite il titolario
+                                        </div>
+                                        <div class="content-group"
+                                             attrs="{'invisible': [('module_sd_protocollo_titolario', '=', False)]}"
+                                             id="msg_module_sd_protocollo_titolario">
+                                            <div class="text-warning mt16">
+                                                Per configurare la funzionalità <strong>salvare</strong> questa pagina e
+                                                ritornare qui.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane">
+                                        <field name="module_sd_protocollo_fascicolo"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="module_sd_protocollo_fascicolo"/>
+                                        <div class="text-muted">
+                                            Permette di inserire il documento principale e gli allegati di un protocollo all'interno di un fascicolo
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane">
+                                        <field name="module_sd_protocollo_aoo"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="module_sd_protocollo_aoo"/>
+                                        <div class="text-muted">
+                                            Abilita l'Area Organizzativa Omogenea nel flusso di protocollazione
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane">
+                                        <field name="module_fl_protocollo_interno" widget="fl_upgrade_boolean"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="module_fl_protocollo_interno"/>
+                                        <span class="label-enterprise">Enterprise</span>
+                                        <div class="text-muted">
+                                            Abilita la protocollazione tra strutture dell'organizzazione
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane">
+                                        <field name="module_fl_protocollo_gruppi_destinatari" widget="fl_upgrade_boolean"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="module_fl_protocollo_gruppi_destinatari"/>
+                                        <span class="label-enterprise">Enterprise</span>
+                                        <div class="text-muted">
+                                            Permette l'aggiunta di destinatari tramite gruppi
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane">
+                                        <field name="module_fl_protocollo_registro" widget="fl_upgrade_boolean"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="module_fl_protocollo_registro"/>
+                                        <span class="label-enterprise">Enterprise</span>
+                                        <div class="text-muted">
+                                            Removes the modification restrictions of the official register
+                                            and allows logging even on unofficial registers
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane">
+                                        <field name="module_fl_protocollo_ricevute" widget="fl_upgrade_boolean"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="module_fl_protocollo_ricevute"/>
+                                        <span class="label-enterprise">Enterprise</span>
+                                        <div class="text-muted">
+                                            Adds notification receipts for incoming protocols and the receipts for
+                                            registered protocols
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane">
+                                        <field name="module_fl_protocollo_notifiche" widget="fl_upgrade_boolean"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="module_fl_protocollo_notifiche"/>
+                                        <span class="label-enterprise">Enterprise</span>
+                                        <div class="text-muted">
+                                            Abilita le notifiche di assegnazione dei protocolli
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-lg-6 o_setting_box" name="fl_protocollo_importer">
+                                    <div class="o_setting_left_pane">
+                                        <field name="module_fl_protocollo_importer" widget="fl_upgrade_boolean"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="module_fl_protocollo_importer"/>
+                                        <span class="label-enterprise">Enterprise</span>
+                                        <div class="text-muted">
+                                            Adds box "Scans" in Dashboard view
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-lg-6 o_setting_box" >
+                                    <div class="o_setting_left_pane">
+                                        <field name="module_sd_protocollo_conservazione_rgp" widget="fl_upgrade_boolean"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="module_sd_protocollo_conservazione_rgp"/>
+                                        <span class="label-enterprise">Enterprise</span>
+                                        <div class="text-muted">
+                                            Abilita l'invio in conservazione del registro giornaliero di protocollo
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-lg-6 o_setting_box" >
+                                    <div class="o_setting_left_pane">
+                                        <field name="module_fl_protocollo_dms_folder" widget="fl_upgrade_boolean"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="module_fl_protocollo_dms_folder"/>
+                                        <span class="label-enterprise">Enterprise</span>
+                                        <div class="text-muted" name="right-pane_module_fl_protocollo_dms_folder">
+                                            Abilita la gestione delle cartelle in cui salvare i documenti e gli allegati del Protocollo
+                                        </div>
+                                        <div class="content-group"
+                                             attrs="{'invisible': [('module_fl_protocollo_dms_folder', '=', False)]}"
+                                             id="msg_module_fl_protocollo_dms_folder">
+                                            <div class="text-warning mt16">
+                                                Per configurare la funzionalità <strong>salvare</strong> questa pagina e
+                                                ritornare qui.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-12 col-lg-6 o_setting_box" >
+                                    <div class="o_setting_left_pane">
+                                        <field name="module_fl_protocollo_preview_sidebox" widget="fl_upgrade_boolean"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="module_fl_protocollo_preview_sidebox"/>
+                                        <span class="label-enterprise">Enterprise</span>
+                                        <div class="text-muted">
+                                            Abilita una sidebox nella vista del protocollo per l'anteprima del documento principale
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-lg-6 o_setting_box" >
+                                    <div class="o_setting_left_pane">
+                                        <field name="module_fl_protocollo_riferimento" widget="fl_upgrade_boolean"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="module_fl_protocollo_riferimento"/>
+                                        <span class="label-enterprise">Enterprise</span>
+                                        <div class="text-muted">
+                                            Enable the possibility to add references to a protocol
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane">
+                                        <field name="module_fl_protocollo_smistamento" widget="fl_upgrade_boolean"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="module_fl_protocollo_smistamento"/>
+                                        <span class="label-enterprise">Enterprise</span>
+                                        <div class="text-muted" name="right-pane_module_fl_protocollo_smistamento">
+                                            Enable the management of the protocol assignment workflow by switching
+                                        </div>
+                                        <div class="content-group"
+                                             attrs="{'invisible': [('module_fl_protocollo_smistamento', '=', False)]}"
+                                             id="msg_module_fl_protocollo_smistamento">
+                                            <div class="text-warning mt16">
+                                                Per configurare la funzionalità <strong>salvare</strong> questa pagina e
+                                                ritornare qui.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-lg-6 o_setting_box" >
+                                    <div class="o_setting_left_pane">
+                                        <field name="module_fl_protocollo_archivio" widget="fl_upgrade_boolean"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="module_fl_protocollo_archivio"/>
+                                        <span class="label-enterprise">Enterprise</span>
+                                        <div class="text-muted">
+                                            Enable the possibility to archive protocols
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                            <h2>Etichetta cartacea</h2>
+                            <div class="row mt16 o_settings_container">
+                                <div class="col-12 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane">
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <span class="o_form_label">Logo etichetta</span>
+                                        <div class="text-muted">
+                                            Carica il logo dell'etichetta
+                                        </div>
+                                        <div class="content-group">
+                                            <div class="mt16">
+                                                <field name="etichetta_logo_id"/>
+                                            </div>
+                                            <div class="mt8">
+                                                <field name="etichetta_logo_fname" invisible="1"/>
+                                                <field name="etichetta_logo_datas" widget="image"
+                                                       filename="etichetta_logo_fname"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane">
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <span class="o_form_label">Dimensioni etichetta</span>
+                                        <div class="text-muted">
+                                            Inserisci le dimensioni dell'etichetta
+                                        </div>
+                                        <div class="content-group">
+                                            <div class="mt8">
+                                                <label for="etichetta_altezza" style="font-weight:normal;"/>
+                                                <field name="etichetta_altezza"/>
+                                            </div>
+                                            <div class="mt8">
+                                                <label for="etichetta_larghezza" style="font-weight:normal;"/>
+                                                <field name="etichetta_larghezza"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h2>Segnatura documenti PDF</h2>
+                            <field name="module_fl_protocollo_segnatura_pdf_invisible" invisible="1"/>
+                            <div class="row mt16 o_settings_container" name="segnatura_pdf">
+
+                                <div class="col-12 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane">
+                                        <field name="segnatura_pdf_protocollo_ingresso"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="segnatura_pdf_protocollo_ingresso"/>
+                                        <div class="text-muted">
+                                            Abilita la segnatura grafica sui documenti PDF protocollati in ingresso
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-lg-6 o_setting_box" name="segnatura_pdf_protocollo_uscita_after">
+                                    <div class="o_setting_left_pane">
+                                        <field name="segnatura_pdf_protocollo_uscita"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="segnatura_pdf_protocollo_uscita"/>
+                                        <div class="text-muted">
+                                            Abilita la segnatura grafica sui documenti PDF protocollati in uscita
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <field name="module_fl_protocollo_segnatura_pdf" invisible="1"/>
+
+                                <div class="col-12 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane">
+                                        <field name="genera_segnatura_append_solo_pdf_firmati"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="genera_segnatura_append_solo_pdf_firmati"/>
+                                        <div class="text-muted">
+                                            Abilita la segnatura in modalità append solo sui PDF con firma digitale PAdES
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane">
+                                        <field name="genera_segnatura_allegati" widget="fl_upgrade_boolean"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="genera_segnatura_allegati"/>
+                                        <span class="label-enterprise">Enterprise</span>
+                                        <div class="text-muted">
+                                            Abilita la segnatura grafica sui documenti PDF allegati al protocollo
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane">
+                                        <field name="codice_ufficio_in_segnatura" widget="fl_upgrade_boolean"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="codice_ufficio_in_segnatura"/>
+                                        <span class="label-enterprise">Enterprise</span>
+                                        <div class="text-muted">
+                                            Inserisce nella segnatura il codice dell'ufficio/UO relativo alla struttura che esegue il protocollo
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane">
+                                        <field name="genera_segnatura_ogni_pagina" widget="fl_upgrade_boolean"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="genera_segnatura_ogni_pagina"/>
+                                        <span class="label-enterprise">Enterprise</span>
+                                        <div class="text-muted">
+                                            Inserisce la segnatura su tutte le pagine dei documenti PDF
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <h2>Campi obbligatori per Registrazione Protocollo</h2>
+                            <div class="row mt16 o_settings_container" name="required_fields">
+                                <div class="col-12 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane">
+                                        <field name="required_assegnatari_competenza_uffici"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="required_assegnatari_competenza_uffici"/>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane">
+                                        <field name="required_assegnatari_conoscenza_uffici"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="required_assegnatari_conoscenza_uffici"/>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane">
+                                        <field name="required_assegnatari_competenza_dipendenti"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="required_assegnatari_competenza_dipendenti"/>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane">
+                                        <field name="required_assegnatari_conoscenza_dipendenti"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="required_assegnatari_conoscenza_dipendenti"/>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane">
+                                        <field name="required_data_ricezione"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="required_data_ricezione"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h2>Integrazione canali e-mail e PEC</h2>
+                            <div class="row mt16 o_settings_container" name="email-pec">
+                                <div class="col-12 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane">
+                                        <field name="module_sd_protocollo_pec"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="module_sd_protocollo_pec"/>
+                                        <div class="text-muted" name="right-pane_module_sd_protocollo_pec">
+                                            Permette di protocollare PEC e inviare un documento protocollato tramite mezzo di trasmissione PEC
+                                        </div>
+                                        <div class="content-group"
+                                             attrs="{'invisible': [('module_sd_protocollo_pec', '=', False)]}"
+                                             id="msg_module_sd_protocollo_pec">
+                                            <div class="text-warning mt16">
+                                                Per configurare la funzionalità <strong>salvare</strong> questa pagina e
+                                                ritornare qui.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane">
+                                        <field name="module_fl_protocollo_email" widget="fl_upgrade_boolean"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="module_fl_protocollo_email"/>
+                                        <span class="label-enterprise">Enterprise</span>
+                                        <div class="text-muted" name="right-pane_module_fl_protocollo_email">
+                                            Permette di protocollare una e-mail e inviare un documento protocollato tramite mezzo di trasmissione e-mail
+                                        </div>
+                                        <div class="content-group"
+                                             attrs="{'invisible': [('module_fl_protocollo_email', '=', False)]}"
+                                             id="msg_module_fl_protocollo_email">
+                                            <div class="text-warning mt16">
+                                                Per configurare la funzionalità <strong>salvare</strong> questa pagina e
+                                                ritornare qui.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane">
+                                        <field name="module_fl_protocollo_mezzo_trasmissione_misto" widget="fl_upgrade_boolean"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="module_fl_protocollo_mezzo_trasmissione_misto"/>
+                                        <span class="label-enterprise">Enterprise</span>
+                                        <div class="text-muted">
+                                            Abilita la possibilità di scegliere un mezzo di trasmissione differente per ogni destinatario
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane">
+                                        <field name="module_fl_protocollo_invio_unicast" widget="fl_upgrade_boolean"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="module_fl_protocollo_invio_unicast"/>
+                                        <span class="label-enterprise">Enterprise</span>
+                                        <div class="text-muted">
+                                            Abilitia l'invio del documento protocollato con un messaggio distinto per ogni destinatario
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h2>Interoperabilità</h2>
+                            <div class="row mt16 o_settings_container" name="interoperabilita">
+
+                                <div class="col-12 col-lg-6 o_setting_box" >
+                                    <div class="o_setting_left_pane">
+                                        <field name="module_fl_protocollo_segnatura_xml"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="module_fl_protocollo_segnatura_xml"/>
+                                        <div class="text-muted" name="module_fl_protocollo_segnatura_xml">
+                                            Abilita la generazione e il parsing della segnatura.xml
+                                        </div>
+                                        <div class="content-group"
+                                             attrs="{'invisible': [('module_fl_protocollo_segnatura_xml', '=', False)]}"
+                                             id="msg_module_fl_protocollo_segnatura_xml">
+                                            <div class="text-warning mt16">
+                                                Per configurare la funzionalità <strong>salvare</strong> questa pagina e
+                                                ritornare qui.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6 o_setting_box" name="module_fl_protocollo_interoperabilita">
+                                    <div class="o_setting_left_pane">
+                                        <field name="module_fl_protocollo_interoperabilita" widget="fl_upgrade_boolean"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="module_fl_protocollo_interoperabilita"/>
+                                        <span class="label-enterprise">Enterprise</span>
+                                        <div class="text-muted" name="after_module_fl_protocollo_interoperabilita">
+                                            Abilita la generazione e parsing dei messaggi di ritorno (conferma.xml, annullamento.xml e eccezione.xml)
+                                        </div>
+                                        <div class="content-group"
+                                             attrs="{'invisible': [('module_fl_protocollo_interoperabilita', '=', False)]}"
+                                             id="msg_module_fl_protocollo_interoperabilita">
+                                            <div class="text-warning mt16">
+                                                Per configurare la funzionalità <strong>salvare</strong> questa pagina e
+                                                ritornare qui.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h2>Dashboard</h2>
+                            <div class="row mt16 o_settings_container">
+                                <div class="col-12 col-lg-6 o_setting_box" name="assegnato_a_me">
+                                    <div class="o_setting_left_pane">
+                                        <field name="assegnato_a_me_active"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="assegnato_a_me_active"/>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane">
+                                        <field name="assegnato_a_mio_ufficio_active"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="assegnato_a_mio_ufficio_active"/>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane">
+                                        <field name="assegnato_a_me_competenza_active"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="assegnato_a_me_competenza_active"/>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane">
+                                        <field name="assegnato_a_mio_ufficio_competenza_active"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="assegnato_a_mio_ufficio_competenza_active"/>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane">
+                                        <field name="assegnato_cc_active"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="assegnato_cc_active"/>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane">
+                                        <field name="assegnato_da_me_active"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="assegnato_da_me_active"/>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-lg-6 o_setting_box">
+                                    <div class="o_setting_left_pane">
+                                        <field name="da_assegnare_active"/>
+                                    </div>
+                                    <div class="o_setting_right_pane">
+                                        <label for="da_assegnare_active"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <template id="template_sd_protocollo_footer_qweb"
+                  inherit_id="sd_protocollo.template_sd_protocollo_footer_qweb">
+
+            <xpath expr="//li[@id='email']" position="after">
+                <li t-if="company.partner_id.pec_mail" class="list-inline-item">- PEC: <span t-field="company.partner_id.pec_mail"/></li>
+            </xpath>
+
+        </template>
+
+    </data>
+</odoo>

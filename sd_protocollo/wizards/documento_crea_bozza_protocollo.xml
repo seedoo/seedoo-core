@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_sd_protocollo_wizard_documento_crea_bozza" model="ir.ui.view">
+            <field name="name">view.sd.protocollo.wizard.documento.crea.bozza</field>
+            <field name="model">sd.protocollo.wizard.documento.crea.bozza</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group invisible="1">
+                            <field name="company_id_invisible" />
+                            <field name="registro_id_readonly" />
+                            <field name="mezzo_trasmissione_id_invisible" />
+                        </group>
+                        <group>
+                            <field name="crea_bozza" widget="boolean_toggle"/>
+                        </group>
+                        <group attrs="{'invisible': [('crea_bozza', '=', False)]}">
+                            <group>
+                                <field name="company_id"
+                                       attrs="{'required': [('crea_bozza', '=', True)],'invisible': [('company_id_invisible', '=', True)]}"
+                                       options="{'no_create': True, 'no_open': True}"
+                                       force_save="1"
+                                />
+                                <field name="protocollatore_ufficio_id"
+                                       attrs="{'required': [('crea_bozza', '=', True)]}"
+                                       options="{'no_create': True, 'no_open': True}"/>
+
+                                <field name="user_tipologia_protocollo"
+                                       attrs="{'required': [('crea_bozza', '=', True)]}"
+                                />
+
+                                <field name="riservato"
+                                       attrs="{'required': [('crea_bozza', '=', True)]}"
+                                />
+
+                            </group>
+                            <group>
+                                <field name="registro_id"
+                                       attrs="{'required': [('crea_bozza', '=', True)],'readonly':[('registro_id_readonly','=',True)]}"
+                                       options="{'no_create': True, 'no_open': True}"
+                                       force_save="1"
+                                />
+
+                                <field name="mezzo_trasmissione_id"
+                                       context="{'company_id':company_id, 'tipologia_protocollo': user_tipologia_protocollo, 'state_protocollo': 'bozza'}"
+                                       attrs="{'required': [('crea_bozza', '=', True), ('mezzo_trasmissione_id_invisible', '=', False)], 'invisible': [('mezzo_trasmissione_id_invisible', '=', True)]}"
+                                       options="{'no_create': True, 'no_open': True}"/>
+
+                                <field name="data_ricezione"
+                                       attrs="{'invisible': ['|', ('crea_bozza', '=', False), ('user_tipologia_protocollo', '!=', 'ingresso')]}"
+                                       />
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="protocollo_id"
+                                       options="{'no_create': True, 'no_open': True}"
+                                       attrs="{'invisible': [('crea_bozza', '=', True)], 'required': [('crea_bozza','=', False)]}"
+                                />
+                            </group>
+                            <group/>
+                        </group>
+                        <group attrs="{'invisible': [('field_selection_documenti_invisible', '=', True)]}">
+                            <b>Select the main document</b>
+                        </group>
+                        <group>
+                            <field name="field_selection_documenti_invisible" invisible="1"/>
+                            <field name="selection_documenti"
+                                   attrs="{'invisible': [('field_selection_documenti_invisible', '=', True)]}"
+                                   widget="radio"
+                                   nolabel="1"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button string="Create"
+                                name="crea_protocollo"
+                                attrs="{'invisible': [('crea_bozza', '=', False)]}"
+                                type="object"
+                                class="oe_highlight"
+                        />
+                        <button string="Add"
+                                name="aggiungi_a_protocollo"
+                                attrs="{'invisible': [('crea_bozza', '=', True)]}"
+                                type="object"
+                                class="oe_highlight"
+                        />
+                        <button string="Cancel"
+                                class="oe_link"
+                                special="cancel"
+                        />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,123 @@
+// ------------------------------------------------------------------
+// Layout Mail Content
+// ------------------------------------------------------------------
+
+.o_Message.o_Mail {
+  display: block;
+  flex: 0 0 auto;
+  padding: 0;
+  border-top: 3px solid #fff;
+  border-bottom: 3px solid #fff;
+
+  .o_Message_content {
+    margin: 5px 0;
+    padding: 10px 20px;
+    background: white;
+  }
+
+  .o_Message_core {
+    margin-inline-end: 0;
+  }
+
+  .o_Message_footer {
+    background: #ededed;
+    padding: 20px;
+  }
+
+  .o_Message_footer.not_visible {
+    display: none;
+  }
+
+  .o_Mail_header {
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      margin-bottom: 20px;
+      border-bottom: 1px solid;
+      padding-bottom: 10px;
+
+      span {
+        display: inline-block;
+
+        &.label {
+          width: 90px;
+          text-align: right;
+          color: #aaa;
+          margin-right: 20px;
+        }
+
+      }
+    }
+
+    .nav-tabs {
+      .nav-link {
+        border: none;
+        color: $o-brand-primary;
+        background-color: white;
+      }
+      .nav-link.active {
+        border: none;
+        color: white;
+        background-color: $o-brand-primary;
+      }
+    }
+  }
+}
+
+// ------------------------------------------------------------------
+// Layout Mail Row
+// ------------------------------------------------------------------
+
+.o_Mail_list_row {
+  display: flex;
+  flex-direction: row;
+  transition: transform 150ms, box-shadow .2s;
+
+  &:hover {
+    cursor: pointer;
+    background-color: #efefef;
+    transform: translateY(-1px);
+    box-shadow: 0 0 7px rgba(33,33,33,.2);
+  }
+
+  .o_Mail_list_data {
+    padding: 5px 20px;
+    flex: 1 20%;
+
+    &.o_Mail_date {
+      text-align: right;
+      color: #adb5bd;
+    }
+  }
+
+  .o_Attachment_image.o-details-overlay.o-medium {
+    min-width: 20px;
+    min-height: 20px;
+  }
+
+  .o_AttachmentList_nonImageAttachment .o_image {
+    width: 20px;
+    height: 20px;
+  }
+
+  .o_Mail_email_from {
+    font-style: italic;
+    flex: 1 70%;
+    color: #666;
+
+    span {
+      margin-right: 10px;
+    }
+  }
+
+  .o_Mail_subject {
+    color: #222;
+    flex: 1 200%;
+  }
+
+  .o_Attachment_extension {
+    display: none;
+  }
+}
+

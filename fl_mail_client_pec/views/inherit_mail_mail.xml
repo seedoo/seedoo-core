@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <data noupdate="0">
+
+        <record id="view_mail_mail_form" model="ir.ui.view">
+            <field name="name">view.mail.mail.form</field>
+            <field name="model">mail.mail</field>
+            <field name="inherit_id" ref="fl_mail_client.view_mail_mail_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button name="%(action_mail_mail_list_receipt)d"
+                            type="action"
+                            class="oe_stat_button"
+                            icon="fa-envelope"
+                            context="{'mail_id': id}"
+                            attrs="{'invisible': [('direction', '=', 'in')]}"
+                    >
+                        <field string="Receipts"
+                               name="pec_mail_child_count"
+                               widget="statinfo"
+                        />
+                    </button>
+                </xpath>
+
+                <xpath expr="//group[@name='status']" position="after">
+                    <group name="pec"
+                           string="PEC"
+                           attrs="{'invisible': [('pec', '!=', True)]}"
+                    >
+                        <field name="pec_type"/>
+                        <field name="cert_datetime"/>
+                        <field name="recipient_addr"/>
+                        <field name="pec_msg_id"/>
+                        <field name="pec_mail_parent_id"
+                               context="{'form_view_ref':'fl_mail_client_pec.view_mail_mail_form'}"
+                        />
+                        <field name="err_type"
+                               attrs="{'invisible': [('error', '!=', True)]}"
+                        />
+                        <field name="pec"
+                               invisible="1"
+                               readonly="1"
+                        />
+                        <field name="error"
+                               invisible="1"
+                               readonly="1"
+                        />
+                    </group>
+                </xpath>
+
+                <xpath expr="//page[@name='advanced']" position="after">
+                    <page string="Transport Envelope"
+                          attrs="{'invisible': [('original_attachment_ids', '=', [])]}"
+                    >
+                        <h2>
+                            <field name="original_subject"
+                                   nolabel="1"
+                            />
+                        </h2>
+                        <group>
+                            <field name="original_body"
+                                   widget="html"
+                                   options="{'style-inline': true}"
+                                   readonly="1"
+                                   nolabel="1"
+                                   colspan="2"
+                            />
+                            <field name="original_attachment_ids"
+                                   readonly="1"
+                                   nolabel="1"
+                                   mode="kanban"
+                                   context="{'kanban_view_ref': 'fl_mail_client.view_ir_attachment_kanban'}"
+                                   colspan="2"
+                            />
+
+                        </group>
+                        <group string="Error" attrs="{'invisible': [('error', '!=', True)]}">
+                            <field name="err_type"/>
+                        </group>
+                        <group invisible="1">
+                            <field name="pec" readonly="1"/>
+                            <field name="error" readonly="1"/>
+                        </group>
+                    </page>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="view_fl_mail_client_pec_mail_mail_kanban" model="ir.ui.view">
+            <field name="name">view.fl.mail.client.pec.mail.mail.kanban</field>
+            <field name="model">mail.mail</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_small_column align-content-start">
+                    <field name="id"/>
+                    <field name="subject"/>
+                    <field name="resized_subject"/>
+                    <field name="cert_datetime"/>
+                    <field name="pec_type"/>
+                    <field name="recipient_addr"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_global_click  fl-mail-client-pec">
+                                <div class="oe_kanban_content">
+                                    <div class="o_kanban_image">
+                                        <div class="o_kanban_image_wrapper fl-mail-client-pec-image-wrapper">
+                                            <i title="Posta Certificata" class="fa fa-envelope-o fl-mail-client-pec"
+                                               attrs="{'invisible': [('pec_type', '!=', 'posta_certificata')]}"/>
+                                            <i title="Avvenuta Consegna"
+                                               class="fa fa-check-circle-o fl-mail-client-pec-consegna"
+                                               attrs="{'invisible': [('pec_type', 'not in', ['avvenuta-consegna'])]}"/>
+                                            <i title="Accettazione"
+                                               class="fa fa-check-circle-o fl-mail-client-pec-accettazione"
+                                               attrs="{'invisible': [('pec_type', 'not in', ['accettazione'])]}"/>
+                                            <i title="Errore" class="fa fa-exclamation-circle fl-mail-client-pec-errore"
+                                               attrs="{'invisible': [('pec_type', 'in', ['posta_certificata','avvenuta-consegna','accettazione'])]}"/>
+                                        </div>
+                                        <div class="fl-mail-client-pec-date"><field name="cert_datetime"/></div>
+                                    </div>
+                                    <div class="o_kanban_details">
+                                        <div class="o_kanban_details_wrapper">
+                                            <div class="o_kanban_record_title o_text_overflow">
+                                                <b class="fl-mail-client-pec-pec-type"><field name="pec_type"/></b>
+                                            </div>
+                                            <div class="o_kanban_record_body">
+                                            </div>
+                                            <div class="o_kanban_record_bottom">
+                                                <div class="oe_kanban_bottom_left">
+                                                    <b><field name="recipient_addr"/></b>
+                                                </div>
+                                                <div class="oe_kanban_bottom_right">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr class="fl-mail-client-pec-mail-subject-hr"/>
+                                <div class="fl-mail-client-pec-mail-subject">
+                                    <div class="fl-mail-client-pec-mail-subject subject">
+                                        <field name="resized_subject"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+
+                </kanban>
+            </field>
+        </record>
+
+        <record id="view_mail_mail_search_sent" model="ir.ui.view">
+            <field name="name">view.mail.mail.search.sent</field>
+            <field name="model">mail.mail</field>
+            <field name="inherit_id" ref="fl_mail_client.view_mail_mail_search_sent"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[last()]" position="after">
+                    <separator/>
+                    <filter name="email" string="Message" domain="[('pec','!=',True)]"/>
+                    <filter name="pec" string="PEC Message" domain="[('pec','=',True)]"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="view_mail_mail_search_received" model="ir.ui.view">
+            <field name="name">view.mail.mail.search.received</field>
+            <field name="model">mail.mail</field>
+            <field name="inherit_id" ref="fl_mail_client.view_mail_mail_search_received"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[last()]" position="after">
+                    <filter name="message" string="Message" domain="[('pec_type','=',False)]"/>
+                    <filter name="message" string="PEC Message" domain="[('pec_type','=','posta-certificata')]"/>
+                    <filter name="message" string="Anomaly PEC Message" domain="[('pec_type','=','errore')]"/>
+                    <filter name="message" string="Reception" domain="[('pec_type','=','accettazione')]"/>
+                    <filter name="message" string="No Reception" domain="[('pec_type','=','non-accettazione')]"/>
+                    <filter name="message" string="Delivery" domain="[('pec_type','=','avvenuta-consegna')]"/>
+                    <filter name="message" string="Delivery Error" domain="[('pec_type','=','errore-consegna')]"/>
+                    <separator/>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

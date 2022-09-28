@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_sd_protocollo_wizard_documento_disassocia_fascicolo_form" model="ir.ui.view">
+            <field name="name">view.sd.protocollo.wizard.documento.disassocia.fascicolo.form</field>
+            <field name="model">sd.protocollo.wizard.documento.disassocia.fascicolo</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <b>Il documento è associato ad un protocollo:</b>
+                        </group>
+                        <group>
+                            <field name="protocollo_id"
+                                   options="{'no_open': True}"
+                                   colspan="4"
+                            />
+                            <field name="voce_titolario_id"
+                                   options="{'no_open': True}"
+                                   colspan="4"
+                            />
+                            <field name="fascicolo_id"
+                                   invisible="1"
+                                   colspan="4"
+                            />
+                        </group>
+                        <group>
+                            <b>Pertanto la disassociazione verrà fatta per tutti i seguenti documenti:</b>
+                        </group>
+                        <group>
+                            <field name="documento_ids"
+                                   nolabel="1"
+                                   force_save="1"
+                            >
+                                <tree>
+                                    <field name="filename"/>
+                                    <field name="folder_id"/>
+                                    <field name="document_type_id"/>
+                                    <field name="voce_titolario_id"/>
+                                    <field name="state"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <group>
+                            <b>Procedere con la disassociazione?</b>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="action_yes"
+                                type="object"
+                                string="Sì"
+                                class="oe_highlight"
+                        />
+                        <button string="No"
+                                class="oe_link"
+                                special="cancel"
+                        />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

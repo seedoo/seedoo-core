@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="data_fl_set_set_amministrazione" model="fl.set.set">
+            <field name="name">Amministrazione</field>
+            <field name="user_ids" eval="[(6, 0, [
+                ref('base.user_admin')
+            ])]"/>
+            <field name="active">True</field>
+        </record>
+
+    </data>
+</odoo>

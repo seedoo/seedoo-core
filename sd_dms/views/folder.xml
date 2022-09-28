@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2020-2022 Flosslab S.r.l.
+    Copyright 2017-2019 MuK IT GmbH
+    License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
+-->
+<odoo>
+    <data>
+        <record id="view_sd_dms_folder_tree" model="ir.ui.view">
+            <field name="name">view.sd.dms.folder.tree</field>
+            <field name="model">sd.dms.folder</field>
+            <field name="arch" type="xml">
+                <tree string="Directories">
+                    <field name="path_name"/>
+                    <field name="write_date"/>
+                    <field name="count_documents" string="Files"/>
+                    <field name="count_folders" string="Directories"/>
+                    <field name="storage_id"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="view_sd_dms_folder_form" model="ir.ui.view">
+            <field name="name">view.sd.dms.folder.form</field>
+            <field name="model">sd.dms.folder</field>
+            <field name="arch" type="xml">
+                <form string="Directory" >
+                    <field name="perm_write" invisible="1"/>
+                    <field name="name_readonly" invisible="1"/>
+                    <field name="parent_folder_id_readonly" invisible="1"/>
+                    <field name="is_owner" invisible="1"/>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name"
+                                       placeholder="My Documents"
+                                       attrs="{'readonly': [('name_readonly','=',True)]}"
+                                />
+                            </h1>
+                        </div>
+                        <group name="settings">
+                            <group>
+                                <field name="is_root_folder"
+                                       attrs="{'readonly': [('perm_write','!=',True)]}"
+                                />
+                                <field name="storage_id"
+                                       options="{'no_open': True}"
+                                       attrs="{'invisible':['|', ('is_root_folder','=',True), ('parent_folder_id','=',False)]}"
+                                />
+                                <field name="root_storage_id"
+                                       options="{'no_open': True}"
+                                       attrs="{'invisible':[('is_root_folder','=',False)], 'required':[('is_root_folder','=',True)], 'readonly': [('perm_write','!=',True)]}"
+                                />
+                            </group>
+                            <group>
+                                <field name="parent_folder_id"
+                                       invisible="context.get('folder_invisible')"
+                                       attrs="{'invisible':[('is_root_folder','=',True)], 'required':[('is_root_folder','=',False)], 'readonly': [('parent_folder_id_readonly','=',True)]}"
+                                       options="{'no_open': True, 'no_create': True}"
+                                />
+                            </group>
+                        </group>
+                        <group name="data">
+                            <group>
+                                <!--<field name="human_size"/>-->
+                                <field name="count_elements"
+                                       string="Elements"
+                                />
+                            </group>
+                            <group>
+                                <field name="category_id"
+                                       placeholder="Internal / Human Resource"
+                                       options="{'no_open': True, 'no_create': True}"
+                                       attrs="{'readonly': [('perm_write','!=',True)]}"
+                                />
+                                <field name="tag_ids"
+                                       widget="many2many_tags"
+                                       placeholder="Tags..."
+                                       options="{'no_create_edit': True}"
+                                       attrs="{'readonly': [('perm_write','!=',True)]}"
+                                />
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="create_date" readonly="1"/>
+                                <field name="create_uid" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="write_date" readonly="1"/>
+                                <field name="write_uid" readonly="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="page_directories" string="Subfolders">
+                                <field name="child_folder_ids"
+                                       context="{
+                                       'default_parent_folder_id': id,
+                                       'folder_invisible': True
+                                       }"
+                                        readonly="1"
+                                >
+                                    <tree string="Subdirectories" limit="10">
+                                        <field name="name"/>
+                                        <field name="count_folders" string="Directories"/>
+                                        <field name="count_documents" string="Files"/>
+                                        <!--<field name="human_size"/>-->
+                                    </tree>
+                                </field>
+                            </page>
+                            <page name="page_files" string="Documents">
+                                <field name="document_ids"
+                                       options="{'no_create':True}"
+                                       context="{
+                                       'default_folder_id': id,
+                                       'folder_invisible': True
+                                       }"
+                                       readonly="1"
+                                />
+                            </page>
+                            <page name="page_acl" string="Acl">
+                                <group>
+                                    <field name="owner_id"
+                                           attrs="{'readonly': [('is_owner','!=',True)]}"
+                                           colspan="2"
+                                    />
+                                    <separator string="Inherit Acl"
+                                               attrs="{'invisible': ['|', ('parent_folder_id','=',False), '&amp;', ('inherit_acl','!=',True),('perm_write','!=',True)]}"
+                                               colspan="2"
+                                    />
+                                    <field name="inherit_acl"
+                                           attrs="{'invisible': ['|', ('parent_folder_id','=',False), ('perm_write','!=',True)]}"
+                                           widget="boolean_toggle"
+                                           nolabel="1"
+                                           colspan="2"
+                                    />
+                                    <field name="inherit_acl_ids"
+                                           attrs="{'invisible':['|', ('parent_folder_id','=',False), ('inherit_acl','!=',True)]}"
+                                           nolabel="1"
+                                           colspan="2"
+                                    />
+                                    <separator string="System Acl" colspan="2"/>
+                                    <field name="system_acl_ids"
+                                           nolabel="1"
+                                           colspan="2"
+                                    >
+                                        <tree>
+                                            <field name="res_model"/>
+                                            <field name="res_name"/>
+                                            <field name="perm_create"/>
+                                            <field name="perm_read"/>
+                                            <field name="perm_write"/>
+                                            <field name="perm_delete"/>
+                                        </tree>
+                                    </field>
+                                    <separator string="Acl" colspan="2"/>
+                                    <field name="acl_ids"
+                                           widget="one2many"
+                                           attrs="{'readonly': [('perm_write','!=',True)]}"
+                                           context="{'acl_values': acl_ids}"
+                                           nolabel="1"
+                                           colspan="2"
+                                    >
+                                        <tree>
+                                            <field name="res_model"/>
+                                            <field name="res_name"/>
+                                            <field name="perm_create"/>
+                                            <field name="perm_read"/>
+                                            <field name="perm_write"/>
+                                            <field name="perm_delete"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread" />
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_sd_dms_folder_kanban" model="ir.ui.view">
+            <field name="name">view.sd.dms.folder.kanban</field>
+            <field name="model">sd.dms.folder</field>
+            <field name="arch" type="xml">
+                <kanban class="sd_dms_kanban_view o_kanban_small_column align-content-start">
+                    <field name="id"/>
+                    <field name="tag_ids"/>
+                    <field name="name"/>
+                    <field name="color"/>
+                    <field name="create_uid"/>
+                    <field name="write_date"/>
+                    <field name="count_folders"/>
+                    <field name="count_documents"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="#{kanban_color(record.color.raw_value)} oe_kanban_global_click">
+                                <div class="o_dropdown_kanban dropdown">
+                                    <a class="dropdown-toggle o-no-caret btn" href="#" role="button"
+                                       data-toggle="dropdown" aria-label="Dropdown menu" title="Dropdown menu">
+                                        <span class="fa fa-ellipsis-v"/>
+                                    </a>
+                                    <div class="dropdown-menu" role="menu">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <h6 class="dropdown-header">Views</h6>
+                                                <a type="action" name="%(action_sd_dms_document_folder_list)d"
+                                                   role="menuitem" class="dropdown-item">
+                                                    <i class="fa fa-folder-o"/>
+                                                    Directories
+                                                </a>
+                                                <a type="action" name="%(action_sd_dms_folder_subfolder_list)d"
+                                                   role="menuitem" class="dropdown-item">
+                                                    <i class="fa fa-file-o"/>
+                                                    Files
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="oe_kanban_content">
+                                    <div class="o_kanban_image">
+                                        <div class="o_kanban_image_wrapper">
+                                            <img t-att-src="kanban_image('sd.dms.folder', 'image_1024', record.id.raw_value)"
+                                                 alt="Thumbnail"/>
+                                        </div>
+                                    </div>
+                                    <div class="o_kanban_details">
+                                        <div class="o_kanban_details_wrapper">
+                                            <div class="o_kanban_record_title o_text_overflow">
+                                                <field name="name"/>
+                                            </div>
+                                            <div class="o_kanban_record_body">
+                                                <field name="tag_ids" widget="many2many_tags"
+                                                       options="{'color_field': 'color'}"/>
+                                            </div>
+                                            <div class="o_kanban_record_bottom">
+                                                <div class="oe_kanban_bottom_left">
+                                                    <field name="write_date" widget="date"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                    <searchpanel>
+                        <field name="category_id" select="multi" icon="fa-users"/>
+                        <field name="tag_ids" select="multi" icon="fa-tag" groupby="category_id"/>
+                    </searchpanel>
+                </kanban>
+            </field>
+        </record>
+
+    </data>
+</odoo>

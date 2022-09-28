@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_sd_dms_document_form" model="ir.ui.view">
+            <field name="name">view.sd.dms.document.form</field>
+            <field name="model">sd.dms.document</field>
+            <field name="inherit_id" ref="sd_dms.view_sd_dms_document_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='company_id']" position="after">
+                    <field name="voce_titolario_id_required" invisible="1"/>
+                    <field name="voce_titolario_id_readonly" invisible="1"/>
+                </xpath>
+
+                <xpath expr="//field[@name='document_type_id']" position="before">
+                    <field name="voce_titolario_id"
+                           widget="ztree_select"
+                           options="{
+                                   'ztree_parent_key': 'parent_id',
+                                   'ztree_child_key': 'child_ids',
+                                   'ztree_expend_level': '1',
+                                   'ztree_name_field': 'complete_name',
+                                   'ztree_name_field_readonly': 'path_name',
+                                   'ztree_title_field': 'path_name',
+                                   'ztree_only_child': 'only_child',
+                                   'ztree_custom_class': 'no-hover-titolario',
+                                   'order': 'sequence',
+                                   'no_open': True,
+                                   'no_create': True
+                                   }"
+                           attrs="{'required': [('voce_titolario_id_required','=',True)], 'readonly': [('voce_titolario_id_readonly','=',True)]}"
+                           colspan="4"
+                    />
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="view_sd_dms_document_search" model="ir.ui.view">
+            <field name="name">view.sd.dms.document.search</field>
+            <field name="model">sd.dms.document</field>
+            <field name="inherit_id" ref="sd_dms.view_sd_dms_document_search"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//searchpanel" position="inside">
+                    <field name="voce_titolario_id"
+                           icon="fa-folder"
+                           options="{'disable_childof_domain_onexpand': True, 'load_only_children_onexpand': True}"
+                    />
+                </xpath>
+
+            </field>
+        </record>
+    </data>
+</odoo>

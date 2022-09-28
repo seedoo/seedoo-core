@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="data_sd_protocollo_archivio_corrente" model="sd.protocollo.archivio">
+            <field name="nome">Archivio Corrente</field>
+            <field name="corrente" eval="True"/>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <data>
+
+        <!-- Gruppi usati per settare il profilo Protocollo dell'utente -->
+        <record id="group_sd_protocollo_assegnatario" model="res.groups">
+            <field name="name">Assegnatario</field>
+            <field name="category_id" ref="category_sd_protocollo"/>
+            <field name="implied_ids" eval="[(6, 0, [
+                ref('base.group_user')
+            ])]"/>
+        </record>
+
+        <record id="group_sd_protocollo_protocollatore" model="res.groups">
+            <field name="name">Protocollatore</field>
+            <field name="category_id" ref="category_sd_protocollo"/>
+            <field name="implied_ids" eval="[(6, 0, [
+                ref('group_sd_protocollo_assegnatario')
+            ])]"/>
+        </record>
+
+        <record id="group_sd_protocollo_manager" model="res.groups">
+            <field name="name">Manager</field>
+            <field name="category_id" ref="category_sd_protocollo"/>
+            <field name="implied_ids" eval="[(6, 0, [
+                ref('group_sd_protocollo_protocollatore')
+            ])]"/>
+        </record>
+
+        <record id="group_sd_protocollo_administrator" model="res.groups">
+            <field name="name">Administrator</field>
+            <field name="category_id" ref="category_sd_protocollo"/>
+            <field name="implied_ids" eval="[(6, 0, [
+                ref('group_sd_protocollo_manager')
+            ])]"/>
+        </record>
+
+        <record id="group_sd_protocollo_superadmin" model="res.groups">
+            <field name="name">Superadmin</field>
+            <field name="category_id" ref="category_sd_protocollo"/>
+            <field name="implied_ids" eval="[(6, 0, [
+                ref('group_sd_protocollo_administrator')
+            ])]"/>
+            <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+        </record>
+
+        <!-- Gruppi usati per settare la visibilità dei protocolli all'utente -->
+        <record id="group_sd_protocollo_visibilita_xs" model="res.groups">
+            <field name="name">XS</field>
+            <field name="category_id" ref="category_sd_protocollo_visiblita"/>
+            <field name="comment">Un utente vede le bozze protocollo create da se stesso;
+Un utente vede i protocolli registrati da se stesso;
+Un utente vede i protocolli registrati e da lui assegnati;
+Un utente vede i protocolli registrati e a lui assegnati;
+Un utente vede i protocolli registrati, a lui assegnati e presi in carico;
+Un utente vede i protocolli registrati e assegnati al suo ufficio;
+Un utente vede i protocolli registrati, assegnati al suo ufficio e presi in carico;
+Un utente vede i protocolli registrati di cui lui o il suo ufficio è il mittente;
+Un utente NON vede i protocolli registrati da un altro utente, a lui assegnati e da lui rifiutati;
+Un utente NON vede i protocolli riservati;
+Un utente NON vede i protocolli registrati da un altro utente, assegnati al suo ufficio e rifiutati da lui o da un altro utente dell’ufficio stesso.</field>
+        </record>
+
+        <record id="group_sd_protocollo_visibilita_s" model="res.groups">
+            <field name="name">S</field>
+            <field name="category_id" ref="category_sd_protocollo_visiblita"/>
+            <field name="implied_ids" eval="[(6, 0, [
+                ref('group_sd_protocollo_visibilita_xs')
+            ])]"/>
+            <field name="comment">Visibilità XS + :
+Vedi protocolli in Ingresso registrati dal mio ufficio;
+Vedi protocolli Interni registrati dal mio ufficio;
+Vedi protocolli in Uscita registrati dal mio ufficio.</field>
+        </record>
+
+        <record id="group_sd_protocollo_visibilita_m" model="res.groups">
+            <field name="name">M</field>
+            <field name="category_id" ref="category_sd_protocollo_visiblita"/>
+            <field name="implied_ids" eval="[(6, 0, [
+                ref('group_sd_protocollo_visibilita_s')
+            ])]"/>
+            <field name="comment">Visibilità S + :
+Vedi protocolli in Ingresso assegnati ad un utente del mio ufficio;
+Vedi protocolli Interno assegnati ad un utente del mio ufficio;
+Vedi protocolli in Uscita assegnati ad un utente del mio ufficio;
+Vedi protocolli Interni il cui mittente è un utente del mio ufficio.</field>
+        </record>
+
+        <record id="group_sd_protocollo_visibilita_l" model="res.groups">
+            <field name="name">L</field>
+            <field name="category_id" ref="category_sd_protocollo_visiblita"/>
+            <field name="implied_ids" eval="[(6, 0, [
+                ref('group_sd_protocollo_visibilita_m')
+            ])]"/>
+            <field name="comment">Visibilità M + :
+Vedi protocolli in Ingresso registrati da un ufficio figlio;
+Vedi protocolli Interni registrati da un ufficio figlio;
+Vedi protocolli in Uscita registrati da un ufficio figlio;
+Vedi protocolli in Ingresso assegnati ad un ufficio figlio;
+Vedi protocolli Interno assegnati ad un ufficio figlio;
+Vedi protocolli in Uscita assegnati ad un ufficio figlio;
+Vedi protocolli in Ingresso assegnati ad un utente di un ufficio figlio;
+Vedi protocolli Interno assegnati ad un utente di un ufficio figlio;
+Vedi protocolli in Uscita assegnati ad un utente di un ufficio figlio.</field>
+        </record>
+
+        <record id="group_sd_protocollo_visibilita_xl" model="res.groups">
+            <field name="name">XL</field>
+            <field name="category_id" ref="category_sd_protocollo_visiblita"/>
+            <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+            <field name="implied_ids" eval="[(6, 0, [
+                ref('group_sd_protocollo_visibilita_l')
+            ])]"/>
+            <field name="comment">Visibilità L + :
+Vedi tutti protocolli archiviati della AOO;
+Vedi tutti protocolli in Ingresso registrati della AOO;
+Vedi tutti protocolli Interno registrati della AOO;
+Vedi tutti protocolli in Uscita registrati della AOO;
+Non vede i protocolli riservati;
+            </field>
+        </record>
+
+
+
+        <!-- Gruppi usati per aggiungere permessi extra all'utente -->
+        <record id="group_sd_protocollo_crea_protocollo_ingresso" model="res.groups">
+            <field name="name">Crea protocollo in ingresso</field>
+            <field name="category_id" ref="base.module_category_usability"/>
+            <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+        </record>
+
+        <record id="group_sd_protocollo_crea_protocollo_uscita" model="res.groups">
+            <field name="name">Crea protocollo in uscita</field>
+            <field name="category_id" ref="base.module_category_usability"/>
+            <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+        </record>
+
+        <record id="group_sd_protocollo_protocollazione_riservata" model="res.groups">
+            <field name="name">Protocollazione riservata</field>
+            <field name="category_id" ref="base.module_category_usability"/>
+            <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+        </record>
+
+        <record id="group_sd_protocollo_registra_protocollo_senza_assegnazione" model="res.groups">
+            <field name="name">Registra protocollo senza assegnazione</field>
+            <field name="category_id" ref="base.module_category_usability"/>
+            <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+        </record>
+
+<!--        <record id="group_sd_protocollo_registra_protocollo_senza_documento" model="res.groups">-->
+<!--            <field name="name">Registra protocollo senza documento</field>-->
+<!--            <field name="category_id" ref="base.module_category_usability"/>-->
+<!--            <field name="users" eval="[(4, ref('base.user_admin'))]"/>-->
+<!--        </record>-->
+
+    </data>
+</odoo>

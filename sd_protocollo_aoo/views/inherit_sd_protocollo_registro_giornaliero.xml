@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <record id="view_sd_protocollo_registro_giornaliero_tree" model="ir.ui.view">
+            <field name="name">view.sd.protocollo.registro.giornaliero.tree</field>
+            <field name="model">sd.protocollo.registro.giornaliero</field>
+            <field name="inherit_id" ref="sd_protocollo.view_sd_protocollo_registro_giornaliero_tree"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='data']" position="after">
+                    <field name="aoo_id"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="view_sd_protocollo_registro_giornaliero_form" model="ir.ui.view">
+            <field name="name">view.sd.protocollo.registro.giornaliero.form</field>
+            <field name="model">sd.protocollo.registro.giornaliero</field>
+            <field name="inherit_id" ref="sd_protocollo.view_sd_protocollo_registro_giornaliero_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='company_id']" position="after">
+                    <field name="aoo_id_readonly" invisible="1"/>
+                    <field name="aoo_id"
+                           attrs="{'readonly': ['|',('field_readonly','=',True),('aoo_id_readonly','=',True)]}"
+                           options="{'no_open': True, 'no_create': True}"
+                           force_save="1"
+                    />
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="view_sd_protocollo_registro_giornaliero_search" model="ir.ui.view">
+            <field name="name">view.sd.protocollo.registro.giornaliero.search</field>
+            <field name="model">sd.protocollo.registro.giornaliero</field>
+            <field name="inherit_id" ref="sd_protocollo.view_sd_protocollo_registro_giornaliero_search"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='autore_id']" position="after">
+                    <field name="aoo_id"/>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

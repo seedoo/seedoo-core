@@ -1,0 +1,5 @@
+from . import inherit_res_config_settings
+from . import inherit_sd_fascicolo_documento_aggiungi_fascicolo
+from . import inherit_sd_fascicolo_fascicolo_aggiungi_documento
+from . import protocollo_fascicola
+from . import documento_disassocia_fascicolo

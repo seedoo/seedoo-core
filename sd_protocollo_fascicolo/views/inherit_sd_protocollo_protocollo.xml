@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <record id="view_sd_protocollo_protocollo_form" model="ir.ui.view">
+            <field name="name">view.sd.protocollo.protocollo.form</field>
+            <field name="model">sd.protocollo.protocollo</field>
+            <field name="inherit_id" ref="sd_protocollo.view_sd_protocollo_protocollo_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//group[@name='group_invisible']" position="inside">
+                    <field name="button_fascicola_invisible" invisible="1"/>
+                </xpath>
+
+                <xpath expr="//button[@name='protocollo_completa_lavorazione_action']" position="before">
+                    <button name="protocollo_fascicola_action"
+                            string="Fascicola"
+                            type="object"
+                            class="oe_highlight oe_read_only btn_sd"
+                            context="{'wizard_label': 'Fascicola'}"
+                            attrs="{'invisible': [('button_fascicola_invisible', '=', True)]}"
+                    />
+                </xpath>
+
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button name="action_show_dossiers"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-book"
+                    >
+                        <field string="Fascicoli" name="fascicolo_ids_count" widget="statinfo"/>
+                    </button>
+                </xpath>
+
+                <xpath expr="//field[@name='perm_write']" position="after">
+                    <separator string="Dossier acl inherited" colspan="2"/>
+                    <field name="fascicolo_acl_ids"
+                           nolabel="1"
+                           colspan="2"
+                    />
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

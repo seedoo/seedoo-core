@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_sd_protocollo_invio_destinatario_tree" model="ir.ui.view">
+            <field name="name">view.sd.protocollo.invio.destinatario.tree</field>
+            <field name="model">sd.protocollo.invio.destinatario</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="contatto_id_name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_sd_protocollo_invio_destinatario_form" model="ir.ui.view">
+            <field name="name">view.sd.protocollo.invio.destinatario.form</field>
+            <field name="model">sd.protocollo.invio.destinatario</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group col="4">
+                            <field name="contatto_id_name" colspan="4"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+	<template id="assets_backend" inherit_id="web.assets_backend">
+	    <xpath expr="//link[last()]" position="after">
+			<link rel="stylesheet" href="/sd_dms_titolario/static/src/scss/widget_ztree.scss" />
+		</xpath>
+	</template>
+</odoo>

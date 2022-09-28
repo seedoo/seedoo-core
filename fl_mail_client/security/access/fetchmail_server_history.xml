@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <data noupdate="0">
+
+        <record id="access_fetchmail_server_history_1" model="ir.model.access">
+            <field name="name">access.fetchmail.server.history.1</field>
+            <field name="model_id" ref="fl_mail_client.model_fetchmail_server_history"/>
+            <field name="group_id" ref="group_fl_mail_client_user_base"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <record id="access_fetchmail_server_history_3" model="ir.model.access">
+            <field name="name">access.fetchmail.server.history.3</field>
+            <field name="model_id" ref="fl_mail_client.model_fetchmail_server_history"/>
+            <field name="group_id" ref="group_fl_mail_client_manager"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+    </data>
+</odoo>

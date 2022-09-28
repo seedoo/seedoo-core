@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="data_ir_config_parameter_segnatura_xml_invia_pec" model="ir.config_parameter" forcecreate="False">
+            <field name="key">sd_protocollo.segnatura_xml_invia_pec</field>
+            <field name="value">True</field>
+        </record>
+
+        <record id="data_ir_config_parameter_segnatura_xml_parse" model="ir.config_parameter" forcecreate="False">
+            <field name="key">sd_protocollo.segnatura_xml_parse</field>
+            <field name="value">True</field>
+        </record>
+
+        <record id="data_ir_config_parameter_sender_segnatura_xml_parse" model="ir.config_parameter"
+                forcecreate="False">
+            <field name="key">sd_protocollo.sender_segnatura_xml_parse</field>
+            <field name="value">True</field>
+        </record>
+
+        <record id="data_ir_config_parameter_valida_segnatura_xml_ingresso" model="ir.config_parameter" forcecreate="False">
+            <field name="key">sd_protocollo.valida_segnatura_xml_ingresso</field>
+            <field name="value">True</field>
+        </record>
+
+    </data>
+</odoo>

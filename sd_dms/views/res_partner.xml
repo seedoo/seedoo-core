@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!--
+    Copyright 2020-2022 Flosslab S.r.l.
+    Copyright 2017-2019 MuK IT GmbH
+    License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
+-->
+<odoo>
+    <data>
+        <record id="view_res_partner_form" model="ir.ui.view">
+            <field name="name">view.res.partner.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button name="action_show_document_list"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-file">
+                        <field string="Documents" name="documents_count" widget="statinfo"/>
+                    </button>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_res_partner_tree_simplified" model="ir.ui.view">
+            <field name="name">view.res.partner.tree.simplified</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <tree create="false" import="false" edit="false" delete="false">
+                    <field name="display_name"/>
+                    <field name="pec_mail"/>
+                    <field name="email"/>
+                </tree>
+            </field>
+        </record>
+    </data>
+</odoo>

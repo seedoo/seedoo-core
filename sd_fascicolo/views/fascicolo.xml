@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_sd_fascicolo_fascicolo_tree" model="ir.ui.view">
+            <field name="name">view.sd.fascicolo.fascicolo.tree</field>
+            <field name="model">sd.fascicolo.fascicolo</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="nome"/>
+                    <field name="oggetto"/>
+                    <field name="anno"/>
+                    <field name="data_apertura"/>
+                    <field name="data_chiusura"/>
+                    <field name="autore_id"/>
+                    <field name="state"/>
+                    <field name="button_tree_disassocia_fascicolo_invisible" invisible="1"/>
+                    <button attrs="{'invisible': [('button_tree_disassocia_fascicolo_invisible','=',True)]}"
+                            name="disassocia_fascicolo"
+                            help="Disassociate"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-unlink"
+                            />
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_sd_fascicolo_fascicolo_form" model="ir.ui.view">
+            <field name="name">view.sd.fascicolo.fascicolo.form</field>
+            <field name="model">sd.fascicolo.fascicolo</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                        <button name="apri_fascicolo"
+                                type="object"
+                                string="Apri Fascicolo"
+                                class="oe_highlight"
+                                attrs="{'invisible': [('button_apri_fascicolo_invisible', '=', True)]}"
+                                confirm="Una volta aperto il fascicolo non sarà più possibile modificare oggetto e classificazione"
+                        />
+                        <button name="chiudi_fascicolo"
+                                type="object"
+                                string="Chiudi Fascicolo"
+                                class="oe_highlight"
+                                attrs="{'invisible': [('button_chiudi_fascicolo_invisible', '=', True)]}"
+                        />
+                        <field name="button_fascicolo_aggiungi_documento_invisible" invisible="1"/>
+                        <button name="fascicolo_aggiungi_documento_action"
+                            type="object"
+                            string="Add documents"
+                            class="oe_highlight"
+                            attrs="{'invisible': [('button_fascicolo_aggiungi_documento_invisible','=',True)]}"
+                    />
+                    </header>
+                    <sheet>
+                        <group invisible="1">
+                            <field name="codice_sequenza"/>
+                            <field name="field_readonly"/>
+                            <field name="categoria_readonly"/>
+                            <field name="documento_ids_readonly"/>
+                            <field name="button_apri_fascicolo_invisible"/>
+                            <field name="button_chiudi_fascicolo_invisible"/>
+                        </group>
+
+                        <div name="button_box" class="oe_button_box">
+                            <button name="protocollo_lista_sottofascicoli_action"
+                                    type="object"
+                                    attrs="{'invisible': [('tipologia', '!=', 'fascicolo')]}"
+                                    class="oe_stat_button"
+                                    icon="fa-file">
+                                <field name="sottofascicolo_count" widget="statinfo" string="Sottofascicoli" options="{'reload_on_button': true}" />
+                            </button>
+                            <button name="action_show_documents"
+                                    type="object"
+                                    class="oe_stat_button"
+                                    icon="fa-file">
+                                <field string="Documents" name="documento_ids_count" widget="statinfo" />
+                             </button>
+                            <button name="protocollo_lista_inserti_action"
+                                    type="object"
+                                    class="oe_stat_button"
+                                    attrs="{'invisible': [('tipologia', '!=', 'sottofascicolo')]}"
+                                    icon="fa-file">
+                                <field name="inserto_count" widget="statinfo" string="Inserti" options="{'reload_on_button': true}" />
+                            </button>
+                        </div>
+
+                        <h2 class="fascicolo-title" attrs="{'invisible': [('nome', '=', False)]}">
+                            <field name="nome" force_save="1" />
+                        </h2>
+                        <group name="fascicolo">
+                            <group>
+                                <field name="tipologia"
+                                       readonly="context.get('default_tipologia', False)"
+                                       attrs="{'readonly': [('field_readonly', '=', True)]}"/>
+                                <field name="categoria" attrs="{'readonly': [('categoria_readonly', '=', True)]}"/>
+                                <field name="parent_id_domain" invisible="1"/>
+                                <field name="parent_id"
+                                       force_save="1"
+                                       readonly="context.get('default_tipologia', False)"
+                                       options="{'no_create': True}"
+                                       attrs="{'invisible': [('tipologia', 'not in', ['sottofascicolo','inserto'])], 'required':[('tipologia','!=','fascicolo')],'readonly': [('field_readonly', '=', True)]}"
+                                />
+                            </group>
+                            <group>
+                                <field name="company_id"
+                                       groups="base.group_multi_company"
+                                       options="{'no_open': True, 'no_create': True}"
+                                />
+                                <field name="autore_id"
+                                       options="{'no_open': True, 'no_create': True}"/>
+                                <field name="ufficio_autore_id_readonly" invisible="1"/>
+                                <field name="ufficio_autore_id"
+                                       attrs="{'readonly': [('ufficio_autore_id_readonly', '=', True)]}"
+                                       options="{'no_create': True, 'no_open': True}"
+                                       force_save="1"
+                                />
+                            </group>
+                        </group>
+
+                        <group name="group_subject">
+                            <group colspan="2">
+                                <field name="voce_titolario_id"
+                                       widget="ztree_select"
+                                       options="{
+                                       'ztree_parent_key': 'parent_id',
+                                       'ztree_child_key': 'child_ids',
+                                       'ztree_expend_level': '1',
+                                       'ztree_name_field': 'complete_name',
+                                       'ztree_name_field_readonly': 'path_name',
+                                       'ztree_title_field': 'path_name',
+                                       'ztree_only_child': 'only_child',
+                                       'ztree_custom_class': 'no-hover-titolario',
+                                       'order': 'sequence',
+                                       'no_open': True,
+                                       'no_create': True
+                                       }"
+                                       attrs="{'invisible': [('tipologia', '!=', 'fascicolo')], 'required':[('tipologia','=','fascicolo')],'readonly': [('field_readonly', '=', True)]}"
+                                />
+                                <field name="oggetto" attrs="{'readonly': [('field_readonly', '=', True)]}"/>
+                            </group>
+                            </group>
+
+                        <group/>
+                        <group>
+                            <group>
+                                <field name="data_apertura"/>
+                                <field name="data_chiusura"/>
+                            </group>
+                            <group>
+                                <field name="anno"/>
+                            </group>
+                        </group>
+
+                        <notebook>
+                            <page string="Amministrazione Titolare">
+                                <field name="button_add_amministrazione_titolare_invisible" invisible="1"/>
+                                <button name="fascicolo_aggiungi_contatto_action"
+                                        type="object"
+                                        class="btn btn-secondary o-kanban-button-new oe_edit_only"
+                                        attrs="{'invisible': [('button_add_amministrazione_titolare_invisible','=', True)]}"
+                                        context="{'from':'amministrazione_titolare_ids', 'wizard_label': 'Aggiungi Amministrazione Titolare'}">
+                                    <i class="fa fa-plus" title="Add">&amp;nbsp;</i>
+                                    <span>Aggiungi</span>
+                                </button>
+                                <group>
+                                    <field name="amministrazione_titolare_ids" nolabel="1" mode="kanban"
+                                           options="{'no_create_edit': True}"
+                                           context="{'fascicolo_id': id}"/>
+                                </group>
+                            </page>
+                            <page string="Amministrazione Partecipante">
+                                <field name="button_add_amministrazione_partecipante_invisible" invisible="1"/>
+                                <button name="fascicolo_aggiungi_contatto_action"
+                                        type="object"
+                                        class="btn btn-secondary o-kanban-button-new oe_edit_only"
+                                         attrs="{'invisible': [('button_add_amministrazione_partecipante_invisible','=', True)]}"
+                                        context="{'from':'amministrazione_partecipante_ids', 'wizard_label': 'Aggiungi Amministrazione Partecipante'}">
+                                    <i class="fa fa-plus" title="Add">&amp;nbsp;</i>
+                                    <span>Aggiungi</span>
+                                </button>
+                                <group>
+                                    <field name="amministrazione_partecipante_ids" nolabel="1" mode="kanban"
+                                           options="{'no_create_edit': True}"
+                                           context="{'fascicolo_id': id}"/>
+                                </group>
+                            </page>
+                            <page string="Soggetto Intestatario">
+                                <field name="button_add_soggetto_intestatario_invisible" invisible="1"/>
+                                <button name="fascicolo_aggiungi_contatto_action"
+                                        type="object"
+                                        class="btn btn-secondary o-kanban-button-new oe_edit_only"
+                                        attrs="{'invisible': [('button_add_soggetto_intestatario_invisible','=', True)]}"
+                                        context="{'from':'soggetto_intestatario_ids', 'wizard_label': 'Aggiungi Soggetto Intestatario'}">
+                                    <i class="fa fa-plus" title="Add">&amp;nbsp;</i>
+                                    <span>Aggiungi</span>
+                                </button>
+                                <group>
+                                    <field name="soggetto_intestatario_ids" nolabel="1" mode="kanban"
+                                           options="{'no_create_edit': True}"
+                                           context="{'fascicolo_id': id}"/>
+                                </group>
+                            </page>
+                            <page string="Responsabile Unico Procedimento">
+                                <field name="button_add_rup_invisible" invisible="1"/>
+                                <button name="fascicolo_aggiungi_contatto_action"
+                                        type="object"
+                                        class="btn btn-secondary o-kanban-button-new oe_edit_only"
+                                         attrs="{'invisible': [('button_add_rup_invisible','=', True)]}"
+                                        context="{'from':'rup_ids', 'wizard_label': 'Responsabile Unico Procedimento'}">
+                                    <i class="fa fa-plus" title="Add">&amp;nbsp;</i>
+                                    <span>Aggiungi</span>
+                                </button>
+                                <group>
+                                    <field name="rup_ids" nolabel="1" mode="kanban"
+                                           options="{'no_create_edit': True}"
+                                           context="{'fascicolo_id': id}"/>
+                                </group>
+                            </page>
+                            <page string="Cartaceo">
+                                <group>
+                                    <field name="nome_fascicolo"/>
+                                </group>
+                                <group>
+                                    <group>
+                                        <field name="edificio"/>
+                                        <field name="piano"/>
+                                    </group>
+                                    <group>
+                                        <field name="stanza"/>
+                                        <field name="posizione"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page name="page_acl" string="Acl">
+                                <group>
+                                    <field name="perm_write" invisible="1"/>
+                                    <field name="is_owner" invisible="1"/>
+                                    <field name="owner_id"
+                                           attrs="{'readonly': [('is_owner','!=',True)]}"
+                                           colspan="2"
+                                    />
+                                    <separator string="Inherit Acl"
+                                               attrs="{'invisible': ['|', ('parent_id','=',False), '&amp;', ('inherit_acl','!=',True),('perm_write','!=',True)]}"
+                                               colspan="2"
+                                    />
+                                    <field name="inherit_acl"
+                                           attrs="{'invisible': ['|', ('parent_id','=',False), ('perm_write','!=',True)]}"
+                                           widget="boolean_toggle"
+                                           nolabel="1"
+                                           colspan="2"
+                                    />
+                                    <field name="inherit_acl_ids"
+                                           attrs="{'invisible':['|', ('parent_id','=',False), ('inherit_acl','!=',True)]}"
+                                           nolabel="1"
+                                           colspan="2"
+                                    />
+                                    <separator string="System Acl" colspan="2"/>
+                                    <field name="system_acl_ids"
+                                           nolabel="1"
+                                           colspan="2"
+                                    />
+                                    <separator string="Acl" colspan="2"/>
+                                    <field name="acl_ids"
+                                           widget="one2many"
+                                           attrs="{'readonly': [('perm_write','!=',True)]}"
+                                           context="{'acl_values': acl_ids}"
+                                           nolabel="1"
+                                           colspan="2"
+                                    />
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_sd_fascicolo_fascicolo_search" model="ir.ui.view">
+            <field name="name">view.sd.fascicolo.fascicolo.search</field>
+            <field name="model">sd.fascicolo.fascicolo</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="nome"/>
+                    <field name="oggetto"/>
+                    <field name="anno"/>
+                    <field name="owner_id"/>
+                    <field name="state"/>
+                    <field name="tipologia"/>
+                    <field name="amministrazione_titolare_ids"/>
+                    <field name="amministrazione_partecipante_ids"/>
+                    <field name="soggetto_intestatario_ids"/>
+                    <field name="rup_ids"/>
+                    <filter string="I miei fascicoli" name="filter_miei_fascicoli" domain="[('owner_id','=', uid)]"/>
+                    <separator/>
+                    <filter string="Bozza" name="filter_state_bozza" domain="[('state','=','bozza')]"/>
+                    <filter string="Aperto" name="filter_state_aperto" domain="[('state','=','aperto')]"/>
+                    <filter string="Chiuso" name="filter_state_chiuso" domain="[('state','=','chiuso')]"/>
+                    <separator/>
+                    <filter string="Fascicolo" name="filter_fascicolo" domain="[('tipologia','=','fascicolo')]"/>
+                    <filter string="Sottofascicolo" name="filter_sottofascicolo" domain="[('tipologia','=','sottofascicolo')]"/>
+                    <filter string="Inserto" name="filter_inserto" domain="[('tipologia','=','inserto')]"/>
+                    <separator/>
+                    <filter string="Data apertura" name="filter_data_apertura" date="data_apertura"
+                            default_period="this_month"/>
+                    <separator/>
+                    <filter string="Data chiusura" name="filter_data_chiusura" date="data_chiusura"
+                            default_period="this_month"/>
+                    <separator/>
+                    <searchpanel>
+                        <field name="voce_titolario_id"
+                               icon="fa-folder"
+                               options="{'disable_childof_domain_onexpand': True, 'load_only_children_onexpand': True}"
+                        />
+                    </searchpanel>
+                </search>
+            </field>
+        </record>
+
+    </data>
+</odoo>

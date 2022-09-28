@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_sd_protocollo_registro_emergenza_form" model="ir.ui.view">
+            <field name="name">view.sd.protocollo.registro.emergenza.form</field>
+            <field name="model">sd.protocollo.registro.emergenza</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                        <button string="Apri"
+                                class="oe_highlight"
+                                type="object"
+                                name="action_apri"
+                                attrs="{'invisible': [('state','!=','bozza')]}"
+                        />
+                    </header>
+                    <sheet>
+                        <field name="field_readonly" invisible="1"/>
+                        <field name="company_id" invisible="1"/>
+                        <group>
+                            <field name="numero_protocolli"/>
+                            <field name="causa" attrs="{'readonly': [('field_readonly','=', False)]}"/>
+                            <field name="utente_id"/>
+                            <field name="data_inizio" attrs="{'readonly': [('field_readonly','=', False)]}"/>
+                            <field name="data_fine" attrs="{'readonly': [('field_readonly','=', False)]}"/>
+                            <field name="registro_id" attrs="{'readonly': [('field_readonly','=', False)]}"/>
+                        </group>
+                        <notebook>
+                            <page string="Numeri">
+                                <field name="numero_ids"
+                                       nolabel="1"
+                                       attrs="{'invisible': [('state','=','bozza')]}"
+                                />
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_sd_protocollo_registro_emergenza_search" model="ir.ui.view">
+            <field name="name">view.sd.protocollo.registro.emergenza.search</field>
+            <field name="model">sd.protocollo.registro.emergenza</field>
+            <field name="arch" type="xml">
+                <search string="Search Registro Emergenza">
+                    <field name="numero_protocolli"/>
+                    <field name="causa"/>
+                </search>
+            </field>
+        </record>
+
+    </data>
+</odoo>

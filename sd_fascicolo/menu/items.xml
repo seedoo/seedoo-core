@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <menuitem id="menu_sd_fascicolo"
+                  name="Fascicoli"
+                  sequence="20"
+                  web_icon="sd_fascicolo,static/description/icon.png"
+        />
+
+        <menuitem id="menu_item_sd_fascicolo_fascicolo_list"
+                  name="Fascicoli"
+                  parent="menu_sd_fascicolo"
+                  sequence="10"
+                  action="action_sd_fascicolo_list"
+        />
+
+        <menuitem id="menu_item_sd_fascicolo_configurazione_list"
+                  name="Configurazione"
+                  parent="menu_sd_fascicolo"
+                  sequence="20"
+                  groups="sd_fascicolo.group_sd_fascicolo_administrator"
+        />
+
+        <menuitem id="menu_item_sd_fascicolo_res_config_settings"
+                  name="Impostazioni"
+                  parent="menu_item_sd_fascicolo_configurazione_list"
+                  sequence="20"
+                  action="action_res_config_settings"
+                  groups="sd_fascicolo.group_sd_fascicolo_administrator"
+        />
+
+    </data>
+</odoo>

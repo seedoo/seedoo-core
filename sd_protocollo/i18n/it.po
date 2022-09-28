@@ -1,0 +1,3680 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* sd_protocollo
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-06-12 19:27+0000\n"
+"PO-Revision-Date: 2022-06-12 19:27+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__allegato_count
+msgid "# Allegati"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_partner__protocollo_ids_count
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_users__protocollo_ids_count
+msgid "# Dossiers"
+msgstr "# Fascicoli"
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_archivio__protocollo_count
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro_giornaliero__protocollo_count
+msgid "# Protocollo"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__source_count
+msgid "# Source"
+msgstr "# Sorgente"
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/utilities/protocollo_storico_actions.py:0
+#, python-format
+msgid "(for office %s)"
+msgstr "(per ufficio %s)"
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.template_sd_protocollo_footer_qweb
+msgid "- Tel."
+msgstr ""
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/utilities/protocollo_actions.py:0
+#, python-format
+msgid ". Protocol must be registered."
+msgstr ". Il protocollo dev'essere registrato."
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/utilities/protocollo_actions.py:0
+#, python-format
+msgid ""
+". You are not authorized to create an outbound protocol, please contact your"
+" system administrator."
+msgstr ""
+". Non sei autorizzato a creare un protocollo in uscita, contatta il tuo "
+"amministratore di sistema."
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/utilities/protocollo_actions.py:0
+#, python-format
+msgid ". You cannot reply to an internal protocol."
+msgstr ". Non puoi rispondere ad un protocollo interno."
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/utilities/protocollo_actions.py:0
+#, python-format
+msgid ". You cannot reply to an outbound protocol."
+msgstr ". Non puoi rispondere ad un protocollo in uscita."
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_wizard_documento_crea_bozza
+msgid "<b>Select the main document</b>"
+msgstr "<b>Seleziona il documento principale</b>"
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_protocollo_form
+msgid ""
+"<i class=\"fa fa-plus\" title=\"Add\">&amp;nbsp;</i>\n"
+"                                        <span>Aggiungi assegnatari conoscenza</span>"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_protocollo_form
+msgid ""
+"<i class=\"fa fa-plus\" title=\"Add\">&amp;nbsp;</i>\n"
+"                                        <span>Aggiungi</span>"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_protocollo_form
+msgid ""
+"<i class=\"fa fa-trash\"/>\n"
+"                                                        Elimina"
+msgstr ""
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/utilities/protocollo_storico_actions.py:0
+#, python-format
+msgid "<p>%s removed: <span class='%s'> %s</span></p>"
+msgstr "<p>%s rimossi: <span class='%s'> %s</span></p>"
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.res_config_settings_view_form
+msgid "<span class=\"label-enterprise\">Enterprise</span>"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.res_config_settings_view_form
+msgid "<span class=\"o_form_label\">Assegnazione</span>"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.res_config_settings_view_form
+msgid "<span class=\"o_form_label\">Dimensioni etichetta</span>"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.res_config_settings_view_form
+msgid "<span class=\"o_form_label\">Fuso orario</span>"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.res_config_settings_view_form
+msgid "<span class=\"o_form_label\">Logo etichetta</span>"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.res_config_settings_view_form
+msgid ""
+"<span class=\"o_form_label\">Logo registro giornaliero di protocollo</span>"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.res_config_settings_view_form
+msgid "<span class=\"o_form_label\">Prima assegnazione</span>"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_dms_document_form
+msgid "<span class=\"o_stat_text\">Protocollo</span>"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_protocollo_form
+msgid "<span>(PEC)</span>"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_dms_document_kanban
+msgid "<strong>Protocollo N. </strong>"
+msgstr ""
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/models/sd_dms_document.py:0
+#, python-format
+msgid "A protocol associated with '%s' already exist"
+msgstr "Esiste già un protocollo associato con '%s'"
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_protocollo_form
+msgid "ANNULLATO"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_wizard_protocollo_add_mittente_interno_form
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_wizard_protocollo_assegna_step1_form
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_wizard_protocollo_carica_documento_form
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_wizard_protocollo_completa_lavorazione_form
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_wizard_protocollo_elimina_assegnazione_form
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_wizard_protocollo_leggi_form
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_wizard_protocollo_riassegna_form
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_wizard_protocollo_rifiuta_assegnazione_form
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_wizard_protocollo_rimetti_in_lavorazione_form
+msgid "Abbandona"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__abilita_assegnazione_stesso_utente_ufficio
+msgid ""
+"Abilita assegnazione alla stesso utente/ufficio per competenza e conoscenza"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__abilita_aggiungi_assegnatari_cc
+msgid "Abilita button \"Aggiungi assegnatari per conoscenza\""
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.res_config_settings_view_form
+msgid "Abilita l'Area Organizzativa Omogenea nel flusso di protocollazione"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.res_config_settings_view_form
+msgid ""
+"Abilita l'invio in conservazione del registro giornaliero di protocollo"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.res_config_settings_view_form
+msgid ""
+"Abilita la classificazione del documento e degli allegati del protocollo "
+"tramite il titolario"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.res_config_settings_view_form
+msgid "Abilita la generazione e il parsing della segnatura.xml"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.res_config_settings_view_form
+msgid ""
+"Abilita la generazione e parsing dei messaggi di ritorno (conferma.xml, "
+"annullamento.xml e eccezione.xml)"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.res_config_settings_view_form
+msgid ""
+"Abilita la gestione delle cartelle in cui salvare i documenti e gli allegati"
+" del Protocollo"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.res_config_settings_view_form
+msgid ""
+"Abilita la possibilità di scegliere un mezzo di trasmissione differente per "
+"ogni destinatario"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.res_config_settings_view_form
+msgid "Abilita la protocollazione tra strutture dell'organizzazione"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.res_config_settings_view_form
+msgid "Abilita la segnatura grafica sui documenti PDF allegati al protocollo"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.res_config_settings_view_form
+msgid ""
+"Abilita la segnatura grafica sui documenti PDF protocollati in ingresso"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.res_config_settings_view_form
+msgid "Abilita la segnatura grafica sui documenti PDF protocollati in uscita"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.res_config_settings_view_form
+msgid ""
+"Abilita la segnatura in modalità append solo sui PDF con firma digitale "
+"PAdES"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__abilita_lettura_assegnazione_competenza
+msgid "Abilita lettura assegnazione competenza"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.res_config_settings_view_form
+msgid ""
+"Abilita una sidebox nella vista del protocollo per l'anteprima del documento"
+" principale"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.res_config_settings_view_form
+msgid ""
+"Abilitia l'invio del documento protocollato con un messaggio distinto per "
+"ogni destinatario"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__sd_protocollo_invio__state__accepted
+msgid "Accettato"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__acl_ids
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_protocollo_form
+msgid "Acl"
+msgstr "Permessi"
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__inherit_acl_ids
+msgid "Acl inherited"
+msgstr "Permessi ereditati"
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__message_needaction
+msgid "Action Needed"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__active
+msgid "Active"
+msgstr "Attivo"
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_wizard_documento_crea_bozza
+msgid "Add"
+msgstr "Aggiungi"
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/utilities/protocollo_storico_actions.py:0
+#, python-format
+msgid "Added document: %s"
+msgstr "Aggiunto allegato: %s"
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/utilities/protocollo_storico_actions.py:0
+#, python-format
+msgid "Added main document: %s"
+msgstr "Aggiunto documento principale: %s"
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.res_config_settings_view_form
+msgid "Adds box \"Scans\" in Dashboard view"
+msgstr ""
+"Aggiunge il box \"Scansioni\" nella Dashboard del'applicazione di Protocollo"
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.res_config_settings_view_form
+msgid ""
+"Adds notification receipts for incoming protocols and the receipts for\n"
+"                                            registered protocols"
+msgstr ""
+"Abilita le ricevute di notifica per i protocolli in ingresso le ricevute per\n"
+"                                            i protocolli in uscita registrati"
+
+#. module: sd_protocollo
+#: model:res.groups,name:sd_protocollo.group_sd_protocollo_administrator
+msgid "Administrator"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__aggiungi_allegati_post_registrazione
+msgid "Aggiungi allegato Post-Registrazione"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_wizard_protocollo_assegna_step1_form
+msgid "Aggiungi altro assegnatario"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__module_fl_protocollo_gruppi_destinatari
+msgid "Aggiunta destinatari da un gruppo"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__allegato_ids
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_protocollo_form
+msgid "Allegati"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__etichetta_altezza
+msgid "Altezza"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__altro_soggetto_ids
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_protocollo_form
+msgid "Altri Soggetti"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__anno
+msgid "Anno"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__anno_numero_protocollo
+msgid "Anno Numero Protocollo"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.actions.server,name:sd_protocollo.action_sd_protocollo_protocollo_annulla
+msgid "Annulla"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_wizard_protocollo_annulla_form
+msgid "Annulla Protocollo"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__sd_protocollo_protocollo__state__annullato
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_protocollo_search
+msgid "Annullato"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__sd_protocollo_registro_emergenza__state__aperto
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__sd_protocollo_registro_giornaliero__state__aperto
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_registro_giornaliero_search
+msgid "Aperto"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_registro_emergenza_form
+msgid "Apri"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_mezzo_trasmissione_search
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_registro_search
+msgid "Archived"
+msgstr "Archiviato"
+
+#. module: sd_protocollo
+#: model:ir.ui.menu,name:sd_protocollo.menu_item_sd_protocollo_archivio_list
+msgid "Archivi"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_mezzo_trasmissione__active
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro__active
+msgid "Archiviato"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__module_fl_protocollo_archivio
+msgid "Archiving"
+msgstr "Archiviazione"
+
+#. module: sd_protocollo
+#: model:ir.actions.act_window,name:sd_protocollo.action_sd_protocollo_archivio_list
+#: model:ir.model,name:sd_protocollo.model_sd_protocollo_archivio
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_assegnazione__archivio_id
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__archivio_id
+msgid "Archivio"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_protocollo_form
+msgid "Assegna"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__assegnazione_ids
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_assegna_step1__assegnazione_ids
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_assegna_step2__assegnazione_ids
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_protocollo_form
+msgid "Assegnatari"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_registra__assegnatari_competenza
+msgid "Assegnatari Competenza"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_registra__assegnatari_conoscenza
+msgid "Assegnatari Conoscenza"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_assegna_step1__assegnatari_non_presenti
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_riassegna__assegnatari_non_presenti
+msgid "Assegnatari non Presenti"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__assegnazione_parent_ids
+msgid "Assegnatari parent"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_assegnazione__assegnatario_id
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_assegnazione__assegnatario_nome
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_assegna_assegnatari__assegnatario_id
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_assegna_step1__assegnatario_competenza_id
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_assegna_step1__assegnatario_conoscenza_id
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_elimina_assegnazione__assegnatario_id
+#: model:res.groups,name:sd_protocollo.group_sd_protocollo_assegnatario
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_assegnazione_form
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_assegnazione_tree
+msgid "Assegnatario"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_assegnazione__assegnatario_ufficio_id
+msgid "Assegnatario Ufficio"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_assegnazione__assegnatario_ufficio_parent_id
+msgid "Assegnatario Ufficio Padre"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_assegnazione__assegnatario_utente_id
+msgid "Assegnatario Utente"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_assegnazione__assegnatario_utente_parent_id
+msgid "Assegnatario Utente Padre"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_assegna_step1__assegnatario_type_readonly
+msgid "Assegnatario type readonly"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__sd_protocollo_assegnazione__state__assegnato
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__sd_protocollo_assegnazione__state_competenza__assegnato
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__sd_protocollo_assegnazione__state_conoscenza__assegnato
+msgid "Assegnato"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_assegnazione__assegnatore_id
+msgid "Assegnatore"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_assegnazione__assegnatore_nome
+msgid "Assegnatore Nome"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_assegnazione__assegnatore_nome_completo
+msgid "Assegnatore Nome Completo"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_assegnazione__assegnatore_parent_id
+msgid "Assegnatore Padre"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model,name:sd_protocollo.model_sd_protocollo_assegnazione
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__assegnazione
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_assegnazione__nome
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_assegnazione__tipologia
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_completa_lavorazione__assegnazione_id
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_leggi__assegnazione_id
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_rimetti_in_lavorazione__assegnazione_id
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.res_config_settings_view_form
+msgid "Assegnazione"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_completa_lavorazione__assegnazione_id_invisible
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_rimetti_in_lavorazione__assegnazione_id_invisible
+msgid "Assegnazione Invisible"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_riassegna__assegnazione_competenza_id
+msgid "Assegnazione Rifiutata"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__assegnazione_competenza_ids
+msgid "Assegnazioni Competenza"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__assegnazione_conoscenza_ids
+msgid "Assegnazioni Conoscenza"
+msgstr ""
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/utilities/protocollo_storico_actions.py:0
+#, python-format
+msgid "Assignee competence"
+msgstr "Assegnatario competenza"
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/utilities/protocollo_storico_actions.py:0
+#, python-format
+msgid "Assignee knowledge"
+msgstr "Assegnatari conoscenza"
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/utilities/protocollo_storico_actions.py:0
+#, python-format
+msgid "Assignment refused"
+msgstr "Assegnazione rifiutata"
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/utilities/protocollo_storico_actions.py:0
+#, python-format
+msgid "Assignment taken charge"
+msgstr "Assegnazione presa in carico"
+
+#. module: sd_protocollo
+#: model:ir.model,name:sd_protocollo.model_ir_attachment
+msgid "Attachment"
+msgstr "Allegato"
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__message_attachment_count
+msgid "Attachment Count"
+msgstr "Numero allegati"
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro_giornaliero__autore_id
+msgid "Autore"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__company_id
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_documento_crea_bozza__company_id
+msgid "Azienda"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__module_fl_protocollo_preview_sidebox
+msgid "Box laterale anteprima"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__sd_protocollo_protocollo__state__bozza
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__sd_protocollo_registro_emergenza__state__bozza
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_protocollo_search
+msgid "Bozza"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.actions.act_window,name:sd_protocollo.action_sd_protocollo_protocollo_list_bozza
+msgid "Bozze"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.res_config_settings_view_form
+msgid "Campi obbligatori per Registrazione Protocollo"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_fl_set_set__can_used_to_protocol
+#: model:ir.model.fields,field_description:sd_protocollo.field_fl_set_voce_organigramma__can_used_to_protocol
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_archivio__can_used_to_protocol
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_mezzo_trasmissione__can_used_to_protocol
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro__can_used_to_protocol
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro_emergenza__can_used_to_protocol
+msgid "Can Used To Protocol"
+msgstr "Può essere usato per protocollare"
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_wizard_documento_crea_bozza
+msgid "Cancel"
+msgstr "Annulla"
+
+#. module: sd_protocollo
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__sd_protocollo_invio__state__cancel
+msgid "Cancellato"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.res_config_settings_view_form
+msgid "Carica il logo dell'etichetta"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.actions.act_window,name:sd_protocollo.action_sd_protocollo_cartella_list
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__documento_id_cartella_id
+msgid "Cartella"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_cartella__protocollo_cartella_id
+msgid "Cartella Protocolli"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_cartella__registro_giornaliero_cartella_id
+msgid "Cartella Registri Giornalieri"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model,name:sd_protocollo.model_sd_protocollo_cartella
+msgid "Cartella per la configurazione del modulo Protocollo sul DMS"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.ui.menu,name:sd_protocollo.menu_item_sd_protocollo_cartella_list
+msgid "Cartelle"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro_emergenza__causa
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_annulla__causa
+msgid "Causa"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_registro_giornaliero_form
+msgid "Chiudi"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__sd_protocollo_registro_emergenza__state__chiuso
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__sd_protocollo_registro_giornaliero__state__chiuso
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_registro_giornaliero_search
+msgid "Chiuso"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.constraint,message:sd_protocollo.constraint_sd_dms_document_acl_unique_protocollo_acl
+msgid "Ci può essere solo una acl per ogni protocollo e risorsa"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__module_sd_protocollo_titolario
+msgid "Classifica tramite titolario "
+msgstr ""
+
+#. module: sd_protocollo
+#. openerp-web
+#: code:addons/sd_protocollo/static/src/xml/mezzo_trasmissione.xml:0
+#, python-format
+msgid "Clear"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro__codice
+msgid "Codice"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_company__codice_ipa
+msgid "Codice iPA"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__codice_ufficio_in_segnatura
+msgid "Codice ufficio"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model,name:sd_protocollo.model_res_company
+msgid "Companies"
+msgstr "Aziende"
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_archivio__company_id
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_cartella__company_id
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_mezzo_trasmissione__company_id
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro__company_id
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro_emergenza__company_id
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro_giornaliero__company_id
+msgid "Company"
+msgstr "Azienda"
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_documento_crea_bozza__company_id_invisible
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_documento_crea_bozza__registro_id_readonly
+msgid "Company invisible"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__company_id_readonly
+msgid "Company readonly"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__sd_protocollo_assegnazione__tipologia__competenza
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__sd_protocollo_wizard_protocollo_assegna_assegnatari__assegnatario_type__competenza
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__sd_protocollo_wizard_protocollo_assegna_step1__assegnatario_type__competenza
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__sd_protocollo_wizard_protocollo_elimina_assegnazione__assegnatario_type__competenza
+msgid "Competenza"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_wizard_protocollo_completa_lavorazione_form
+msgid "Completa lavorazione"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_wizard_protocollo_assegna_step2_form
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_wizard_protocollo_registra_form
+msgid "Conferma"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model,name:sd_protocollo.model_res_config_settings
+msgid "Config Settings"
+msgstr "Impostazioni di configurazione"
+
+#. module: sd_protocollo
+#: model:ir.ui.menu,name:sd_protocollo.menu_item_sd_protocollo_configurazione
+msgid "Configurazione"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__sd_protocollo_assegnazione__tipologia__conoscenza
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__sd_protocollo_wizard_protocollo_assegna_assegnatari__assegnatario_type__conoscenza
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__sd_protocollo_wizard_protocollo_assegna_step1__assegnatario_type__conoscenza
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__sd_protocollo_wizard_protocollo_elimina_assegnazione__assegnatario_type__conoscenza
+msgid "Conoscenza"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__module_sd_protocollo_conservazione_rgp
+msgid "Conservazione del registro giornaliero"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model,name:sd_protocollo.model_res_partner
+#: model:ir.model,name:sd_protocollo.model_sd_dms_contact
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.template_dashboard_user_info
+msgid "Contact"
+msgstr "Contatto"
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_carica_documento__content
+msgid "Content"
+msgstr "Contenuto"
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_archivio__corrente
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_archivio_form
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_archivio_search
+msgid "Corrente"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:res.groups,name:sd_protocollo.group_sd_protocollo_crea_protocollo_ingresso
+msgid "Crea protocollo in ingresso"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:res.groups,name:sd_protocollo.group_sd_protocollo_crea_protocollo_uscita
+msgid "Crea protocollo in uscita"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_wizard_documento_crea_bozza
+msgid "Create"
+msgstr "Crea"
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__perm_create
+msgid "Create Access"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__create_date
+msgid "Create Date"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_documento_crea_bozza__crea_bozza
+msgid "Create draft"
+msgstr "Crea bozza protocollo"
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/utilities/inherit_documento_wizard_actions.py:0
+#, python-format
+msgid "Create draft / Add documents"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.actions.server,name:sd_protocollo.action_sd_protocollo_protocollo_crea_bozza_da_documento
+msgid "Create/Edit protocol draft"
+msgstr "Registra protocollo"
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_archivio__create_uid
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_assegnazione__create_uid
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_cartella__create_uid
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_invio__create_uid
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_invio_destinatario__create_uid
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_mezzo_trasmissione__create_uid
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro__create_uid
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro_emergenza__create_uid
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro_emergenza_numero__create_uid
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro_giornaliero__create_uid
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_documento_crea_bozza__create_uid
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_add_mittente_in__create_uid
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_annulla__create_uid
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_assegna_assegnatari__create_uid
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_assegna_step1__create_uid
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_assegna_step2__create_uid
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_carica_documento__create_uid
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_completa_lavorazione__create_uid
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_elimina_assegnazione__create_uid
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_leggi__create_uid
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_registra__create_uid
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_riassegna__create_uid
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_rifiuta_assegnazione__create_uid
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_rimetti_in_lavorazione__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_dms_document__created_by_protocol
+msgid "Created by protocol"
+msgstr "Creato dal protocollo"
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_archivio__create_date
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_assegnazione__create_date
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_cartella__create_date
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_invio__create_date
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_invio_destinatario__create_date
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_mezzo_trasmissione__create_date
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro__create_date
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro_emergenza__create_date
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro_emergenza_numero__create_date
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro_giornaliero__create_date
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_documento_crea_bozza__create_date
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_add_mittente_in__create_date
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_annulla__create_date
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_assegna_assegnatari__create_date
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_assegna_step1__create_date
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_assegna_step2__create_date
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_carica_documento__create_date
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_completa_lavorazione__create_date
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_elimina_assegnazione__create_date
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_leggi__create_date
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_registra__create_date
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_riassegna__create_date
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_rifiuta_assegnazione__create_date
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_rimetti_in_lavorazione__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__module_sd_protocollo_zip
+msgid "Creazione zip"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__da_assegnare
+msgid "Da Assegnare"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__da_inviare
+msgid "Da Inviare"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.template_protocollo_dashboard
+msgid "Da Protocollare"
+msgstr ""
+
+#. module: sd_protocollo
+#. openerp-web
+#: code:addons/sd_protocollo/static/src/js/dashboard.js:0
+#: model:ir.actions.client,name:sd_protocollo.action_sd_protocollo_protocollo_dashboard
+#: model:ir.ui.menu,name:sd_protocollo.menu_item_sd_protocollo_dashboard
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.res_config_settings_view_form
+#, python-format
+msgid "Dashboard"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro_giornaliero__data
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_annulla__data
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.template_registro_giornaliero_qweb
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_registro_giornaliero_search
+msgid "Data"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro_emergenza__data_fine
+msgid "Data Fine"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro_emergenza__data_inizio
+msgid "Data Inizio"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_invio__data_invio
+msgid "Data Invio"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__data_registrazione
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_protocollo_search
+msgid "Data Registrazione"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__emergenza_data_registrazione
+msgid "Data Registrazione Emergenza"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__mittente_data_registrazione
+msgid "Data Registrazione Mittente"
+msgstr ""
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/tests/test_sd_protocollo_protocollo.py:0
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__data_ricezione
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_documento_crea_bozza__data_ricezione
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_protocollo_search
+#, python-format
+msgid "Data Ricezione"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__data_ricezione_invisible
+msgid "Data Ricezione Invisible"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__data_ricezione_readonly
+msgid "Data Ricezione Readonly"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__data_ricezione_required
+msgid "Data Ricezione Required"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro_giornaliero__data_chiusura
+msgid "Data ed Ora Chiusura"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_registra__data_ricezione
+msgid "Data ricezione"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__required_data_ricezione
+msgid "Data ricezione documento"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_assegnazione__data
+msgid "Data ultima operazione"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_invio_destinatario__invio_precedente_destinatario_id
+msgid "Destiantario invio precedente"
+msgstr ""
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/tests/test_sd_protocollo_protocollo.py:0
+#: code:addons/sd_protocollo/utilities/protocollo_actions.py:0
+#: code:addons/sd_protocollo/utilities/protocollo_actions.py:0
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_invio__destinatario_ids
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__destinatario_ids
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_registra__destinatari
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_invio_form
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_protocollo_form
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_protocollo_search
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_protocollo_tree
+#, python-format
+msgid "Destinatari"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model,name:sd_protocollo.model_sd_protocollo_invio_destinatario
+msgid "Destinatario"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_wizard_protocollo_assegna_step2_form
+msgid "Di seguito gli assegnatari scelti:"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__required_assegnatari_competenza_dipendenti
+msgid "Dipendenti assegnatari per competenza"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__required_assegnatari_competenza_dipendenti_senza_doc
+msgid "Dipendenti assegnatari per competenza (senza documento)"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__required_assegnatari_conoscenza_dipendenti
+msgid "Dipendenti assegnatari per conoscenza"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__required_assegnatari_conoscenza_dipendenti_senza_doc
+msgid "Dipendenti assegnatari per conoscenza (senza documento)"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_fl_set_set__display_name
+#: model:ir.model.fields,field_description:sd_protocollo.field_fl_set_voce_organigramma__display_name
+#: model:ir.model.fields,field_description:sd_protocollo.field_ir_attachment__display_name
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_company__display_name
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_partner__display_name
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_users__display_name
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_dms_document__display_name
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_dms_document_acl__display_name
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_dms_document_type__display_name
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_archivio__display_name
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_assegnazione__display_name
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_cartella__display_name
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_invio__display_name
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_invio_destinatario__display_name
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_mezzo_trasmissione__display_name
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__display_name
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro__display_name
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro_emergenza__display_name
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro_emergenza_numero__display_name
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro_giornaliero__display_name
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_documento_crea_bozza__display_name
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_add_mittente_in__display_name
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_annulla__display_name
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_assegna_assegnatari__display_name
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_assegna_step1__display_name
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_assegna_step2__display_name
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_carica_documento__display_name
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_completa_lavorazione__display_name
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_elimina_assegnazione__display_name
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_leggi__display_name
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_registra__display_name
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_riassegna__display_name
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_rifiuta_assegnazione__display_name
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_rimetti_in_lavorazione__display_name
+msgid "Display Name"
+msgstr "Nome Mostrato"
+
+#. module: sd_protocollo
+#: model:ir.model,name:sd_protocollo.model_sd_dms_document
+msgid "Document"
+msgstr "Documento"
+
+#. module: sd_protocollo
+#: model:ir.model,name:sd_protocollo.model_sd_dms_document_acl
+msgid "Document Acl"
+msgstr "Permessi del documento"
+
+#. module: sd_protocollo
+#: model:ir.model,name:sd_protocollo.model_sd_dms_document_type
+msgid "Document Type"
+msgstr "Tipologia documento"
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/tests/test_sd_protocollo_protocollo.py:0
+#: code:addons/sd_protocollo/tests/test_sd_protocollo_protocollo.py:0
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__documento_id
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__documento_id_content
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro_giornaliero__documento_id
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_protocollo_form
+#, python-format
+msgid "Documento"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__documento_id_cartella_id_readonly
+msgid "Documento Cartella Readonly"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__documento_id_content_readonly
+msgid "Documento Content Readonly"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__documento_id_content_required
+msgid "Documento Content Required"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__documento_id_oggetto_readonly
+msgid "Documento Oggetto Readonly"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__documento_id_oggetto_required
+msgid "Documento Oggetto Required"
+msgstr ""
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/wizards/documento_crea_bozza_protocollo.py:0
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_documento_crea_bozza__selection_documenti
+#, python-format
+msgid "Documents"
+msgstr "Documenti"
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/utilities/protocollo_storico_actions.py:0
+#, python-format
+msgid "Documents inserted as attachments from Documents:"
+msgstr "Documenti inseriti come allegati da Documenti:"
+
+#. module: sd_protocollo
+#. openerp-web
+#: code:addons/sd_protocollo/static/src/xml/mezzo_trasmissione.xml:0
+#, python-format
+msgid "Draw your signature"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_protocollo_form
+msgid "Dropdown menu"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_wizard_protocollo_elimina_assegnazione_form
+msgid "Elimina"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_protocollo_form
+msgid "Elimina bozza"
+msgstr ""
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/utilities/protocollo_storico_actions.py:0
+#, python-format
+msgid "Elimination of assignee"
+msgstr "Eliminazione assegnatario"
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__mittente_interno_utente_id_email
+msgid "Email"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__sd_protocollo_protocollo__tipologia_registrazione__emergenza
+msgid "Emergenza"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro_emergenza_numero__emergenza_data_registrazione
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro_emergenza_numero__emergenza_numero_protocollo
+msgid "Emergenza Numero Protocolo"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.res_config_settings_view_form
+msgid "Enable the management of the protocol assignment workflow by switching"
+msgstr ""
+"Abilita la gestione del flusso di assegnazione del protocollo mediante "
+"smistamento"
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.res_config_settings_view_form
+msgid "Enable the possibility to add references to a protocol"
+msgstr "Abilita la possibilità di aggiungere collegamenti ad un protocollo"
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.res_config_settings_view_form
+msgid "Enable the possibility to archive protocols"
+msgstr "Abilita la possibilità di archiviare i protocolli"
+
+#. module: sd_protocollo
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__sd_protocollo_invio__state__exception
+msgid "Errore"
+msgstr ""
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/utilities/protocollo_actions.py:0
+#, python-format
+msgid "Errore nel reperimento del numero del protocollo"
+msgstr ""
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/utilities/protocollo_actions.py:0
+#, python-format
+msgid "Errore nella segnatura PDF del documento"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.constraint,message:sd_protocollo.constraint_sd_protocollo_registro_giornaliero_unique
+msgid "Esiste già un registro per la stessa data"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.constraint,message:sd_protocollo.constraint_sd_protocollo_cartella_unique
+msgid "Esiste già una configurazione per la stessa company"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_protocollo_search
+msgid "Etichetta Altri soggetti"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_protocollo_search
+msgid "Etichetta Destinatari"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_protocollo_search
+msgid "Etichetta Mittente"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.res_config_settings_view_form
+msgid "Etichetta cartacea"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__module_fl_protocollo_segnatura_pdf
+msgid "Extra segnatura PDF"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__module_sd_protocollo_fascicolo
+msgid "Fascicola documenti"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro_emergenza__field_readonly
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro_giornaliero__field_readonly
+msgid "Field Invisible"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__field_invisible
+msgid "Field Invisile"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__field_readonly
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__field_required
+msgid "Field Required"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_assegnazione__child_ids
+msgid "Figli"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro_giornaliero__documento_id_content
+msgid "File"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__registro_logo_fname
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_carica_documento__filename
+msgid "File Name"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__etichetta_logo_fname
+msgid "File Name "
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_carica_documento__folder_id
+msgid "Folder"
+msgstr "Cartella"
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__message_follower_ids
+msgid "Followers"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__message_channel_ids
+msgid "Followers (Channels)"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__message_partner_ids
+msgid "Followers (Partners)"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,help:sd_protocollo.field_sd_protocollo_mezzo_trasmissione__icon
+#: model:ir.model.fields,help:sd_protocollo.field_sd_protocollo_protocollo__mezzo_trasmissione_icon
+msgid "Font awesome icon e.g. fa-envelope"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__timezone
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.res_config_settings_view_form
+msgid "Fuso orario"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.res_config_settings_view_form
+msgid ""
+"Fuso orario di default per registro giornaliero di protocollo e segnatura "
+"PDF"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.actions.act_window,name:sd_protocollo.action_res_config_settings
+msgid "General Settings"
+msgstr "Impostazioni generali"
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.res_config_settings_view_form
+msgid "Generale"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__module_sd_protocollo_aoo
+msgid "Gestione AOO "
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_protocollo_search
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_registro_giornaliero_search
+msgid "Group By"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_partner__has_changed
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_users__has_changed
+msgid "Has Change"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_fl_set_set__id
+#: model:ir.model.fields,field_description:sd_protocollo.field_fl_set_voce_organigramma__id
+#: model:ir.model.fields,field_description:sd_protocollo.field_ir_attachment__id
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_company__id
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__id
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_partner__id
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_users__id
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_dms_contact__id
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_dms_document__id
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_dms_document_acl__id
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_dms_document_type__id
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_archivio__id
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_assegnazione__id
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_cartella__id
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_invio__id
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_invio_destinatario__id
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_mezzo_trasmissione__id
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__id
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro__id
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro_emergenza__id
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro_emergenza_numero__id
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro_giornaliero__id
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_documento_crea_bozza__id
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_add_mittente_in__id
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_annulla__id
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_assegna_assegnatari__id
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_assegna_step1__id
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_assegna_step2__id
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_carica_documento__id
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_completa_lavorazione__id
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_elimina_assegnazione__id
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_leggi__id
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_registra__id
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_riassegna__id
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_rifiuta_assegnazione__id
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_rimetti_in_lavorazione__id
+msgid "ID"
+msgstr ""
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/wizards/res_config_settings.py:0
+#, python-format
+msgid ""
+"IPA code not completed! Before installing this module, add the ipa code to "
+"your company."
+msgstr ""
+"Codice IPA assente! Prima di installare questo modulo aggiungi il codice IPA"
+" alla tua organizzazione."
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_mezzo_trasmissione__icon
+msgid "Icon"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_mezzo_trasmissione__icon_color
+msgid "Icon Color"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,help:sd_protocollo.field_sd_protocollo_mezzo_trasmissione__icon_color
+#: model:ir.model.fields,help:sd_protocollo.field_sd_protocollo_protocollo__mezzo_trasmissione_icon_color
+msgid "Icon color in RGB"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,help:sd_protocollo.field_sd_protocollo_protocollo__message_needaction
+#: model:ir.model.fields,help:sd_protocollo.field_sd_protocollo_protocollo__message_unread
+msgid "If checked, new messages require your attention."
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,help:sd_protocollo.field_sd_protocollo_protocollo__message_has_error
+msgid "If checked, some messages have a delivery error."
+msgstr ""
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/utilities/protocollo_actions.py:0
+#, python-format
+msgid ""
+"Il protocollo deve essere in stato registrato per poter essere annullato!"
+msgstr ""
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/utilities/protocollo_actions.py:0
+#, python-format
+msgid "Il protocollo è già stato annullato in precedenza!"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.ui.menu,name:sd_protocollo.menu_item_res_config_settings
+msgid "Impostazioni"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__documento_id_impronta
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.template_registro_giornaliero_qweb
+msgid "Impronta"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__sd_protocollo_invio__state__outgoing
+msgid "In Uscita"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__sd_protocollo_protocollo__protocollatore_stato__lavorazione
+msgid "In lavorazione"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__sd_protocollo_protocollo__tipologia_protocollo__ingresso
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_protocollo_search
+msgid "Ingresso"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__inherit_acl
+msgid "Inherit Acl"
+msgstr "Eredita i permessi"
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.res_config_settings_view_form
+msgid "Inserisce la segnatura su tutte le pagine dei documenti PDF"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.res_config_settings_view_form
+msgid ""
+"Inserisce nella segnatura il codice dell'ufficio/UO relativo alla struttura "
+"che esegue il protocollo"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.res_config_settings_view_form
+msgid "Inserisci le dimensioni dell'etichetta"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_protocollo_form
+msgid "Inserisci segnatura PDF"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__module_sd_protocollo_pec
+msgid "Integrazione PEC"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.res_config_settings_view_form
+msgid "Integrazione canali e-mail e PEC"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__module_fl_protocollo_email
+msgid "Integrazione e-mail"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.res_config_settings_view_form
+msgid "Interoperabilità"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_protocollo_form
+msgid "Invia"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__sd_protocollo_invio__state__sent
+msgid "Inviato"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_dms_contact__invio_ids
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__invio_ids
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_protocollo_form
+msgid "Invii"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.actions.act_window,name:sd_protocollo.action_sd_protocollo_invio_list
+#: model:ir.model,name:sd_protocollo.model_sd_protocollo_invio
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_invio_destinatario__invio_id
+msgid "Invio"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_invio__invio_precedente_ids
+msgid "Invio Precedente"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_invio__invio_successivo_ids
+msgid "Invio Successivo"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__module_fl_protocollo_mezzo_trasmissione_misto
+msgid "Invio misto"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__module_fl_protocollo_invio_unicast
+msgid "Invio unicast"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__message_is_follower
+msgid "Is Follower"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__is_owner
+msgid "Is owner"
+msgstr "È il proprietario"
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/utilities/protocollo_wizard_actions.py:0
+#: code:addons/sd_protocollo/utilities/protocollo_wizard_actions.py:0
+#, python-format
+msgid "L'utente ha più di una assegnazione per competenza nel protocollo!"
+msgstr ""
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/utilities/protocollo_wizard_actions.py:0
+#, python-format
+msgid "L'utente non ha assegnazioni da leggere nel protocollo!"
+msgstr ""
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/utilities/protocollo_wizard_actions.py:0
+#: code:addons/sd_protocollo/utilities/protocollo_wizard_actions.py:0
+#, python-format
+msgid "L'utente non ha assegnazioni per competenza nel protocollo!"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__etichetta_larghezza
+msgid "Larghezza"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_fl_set_set____last_update
+#: model:ir.model.fields,field_description:sd_protocollo.field_fl_set_voce_organigramma____last_update
+#: model:ir.model.fields,field_description:sd_protocollo.field_ir_attachment____last_update
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_company____last_update
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings____last_update
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_partner____last_update
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_users____last_update
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_dms_contact____last_update
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_dms_document____last_update
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_dms_document_acl____last_update
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_dms_document_type____last_update
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_archivio____last_update
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_assegnazione____last_update
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_cartella____last_update
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_invio____last_update
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_invio_destinatario____last_update
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_mezzo_trasmissione____last_update
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo____last_update
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro____last_update
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro_emergenza____last_update
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro_emergenza_numero____last_update
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro_giornaliero____last_update
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_documento_crea_bozza____last_update
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_add_mittente_in____last_update
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_annulla____last_update
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_assegna_assegnatari____last_update
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_assegna_step1____last_update
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_assegna_step2____last_update
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_carica_documento____last_update
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_completa_lavorazione____last_update
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_elimina_assegnazione____last_update
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_leggi____last_update
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_registra____last_update
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_riassegna____last_update
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_rifiuta_assegnazione____last_update
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_rimetti_in_lavorazione____last_update
+msgid "Last Modified on"
+msgstr "Ultima modifica il"
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_archivio__write_uid
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_assegnazione__write_uid
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_cartella__write_uid
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_invio__write_uid
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_invio_destinatario__write_uid
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_mezzo_trasmissione__write_uid
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__write_uid
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro__write_uid
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro_emergenza__write_uid
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro_emergenza_numero__write_uid
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro_giornaliero__write_uid
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_documento_crea_bozza__write_uid
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_add_mittente_in__write_uid
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_annulla__write_uid
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_assegna_assegnatari__write_uid
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_assegna_step1__write_uid
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_assegna_step2__write_uid
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_carica_documento__write_uid
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_completa_lavorazione__write_uid
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_elimina_assegnazione__write_uid
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_leggi__write_uid
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_registra__write_uid
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_riassegna__write_uid
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_rifiuta_assegnazione__write_uid
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_rimetti_in_lavorazione__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_archivio__write_date
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_assegnazione__write_date
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_cartella__write_date
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_invio__write_date
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_invio_destinatario__write_date
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_mezzo_trasmissione__write_date
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__write_date
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro__write_date
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro_emergenza__write_date
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro_emergenza_numero__write_date
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro_giornaliero__write_date
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_documento_crea_bozza__write_date
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_add_mittente_in__write_date
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_annulla__write_date
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_assegna_assegnatari__write_date
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_assegna_step1__write_date
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_assegna_step2__write_date
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_carica_documento__write_date
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_completa_lavorazione__write_date
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_elimina_assegnazione__write_date
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_leggi__write_date
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_registra__write_date
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_riassegna__write_date
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_rifiuta_assegnazione__write_date
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_rimetti_in_lavorazione__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.actions.server,name:sd_protocollo.action_sd_protocollo_protocollo_completa_lavorazione
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__sd_protocollo_assegnazione__state__lavorazione_completata
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__sd_protocollo_assegnazione__state_competenza__lavorazione_completata
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__sd_protocollo_assegnazione__state_conoscenza__lavorazione_completata
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__sd_protocollo_protocollo__protocollatore_stato__lavorazione_completata
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_protocollo_form
+msgid "Lavorazione completata"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_wizard_protocollo_leggi_form
+msgid "Leggi"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__sd_protocollo_assegnazione__state__letto_cc
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__sd_protocollo_assegnazione__state__letto_co
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__sd_protocollo_assegnazione__state_competenza__letto_cc
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__sd_protocollo_assegnazione__state_competenza__letto_co
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__sd_protocollo_assegnazione__state_conoscenza__letto_cc
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__sd_protocollo_assegnazione__state_conoscenza__letto_co
+msgid "Letto"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__altro_soggetto
+msgid "Lista altri soggetti"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__destinatari
+msgid "Lista destinatari"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__etichetta_logo_id
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.template_sd_protocollo_header_qweb
+msgid "Logo"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__etichetta_logo_datas
+msgid "Logo Etichetta Attachment"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__registro_logo_datas
+msgid "Logo Registro Attachment"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__registro_logo_id
+msgid "Logo Registro Giornaliero"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.res_config_settings_view_form
+msgid "Logo inserito nel registro giornaliero di protocollo in formato PDF"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__message_main_attachment_id
+msgid "Main Attachment"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:res.groups,name:sd_protocollo.group_sd_protocollo_manager
+msgid "Manager"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_documento_crea_bozza__mezzo_trasmissione_id
+msgid "Means of transmission"
+msgstr "Mezzo di trasmissione"
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_documento_crea_bozza__mezzo_trasmissione_id_invisible
+msgid "Means of transmission invisible"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__message_has_error
+msgid "Message Delivery error"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_ir_attachment__message_ids
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__message_ids
+msgid "Messages"
+msgstr "Messaggi"
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__module_fl_protocollo_interoperabilita
+msgid "Messaggi di ritorno"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_assegnazione__messaggio
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_assegna_assegnatari__messaggio_assegnatario
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_assegna_step1__messaggio
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_riassegna__messaggio
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_protocollo_form
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_wizard_protocollo_assegna_step1_form
+msgid "Messaggio"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_assegna_step1__messaggio_invisible
+msgid "Messaggio Invisible"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.ui.menu,name:sd_protocollo.menu_item_sd_protocollo_mezzo_trasmissione_list
+msgid "Mezzi di Trasmissione"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model,name:sd_protocollo.model_sd_protocollo_mezzo_trasmissione
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__mezzo_trasmissione_id
+msgid "Mezzo Trasmissione"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__mezzo_trasmissione_icon
+msgid "Mezzo Trasmissione Icon"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__mezzo_trasmissione_icon_color
+msgid "Mezzo Trasmissione Icon Color"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_dms_contact__mezzo_trasmissione_nome
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__mezzo_trasmissione_nome
+msgid "Mezzo Trasmissione Nome"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.actions.act_window,name:sd_protocollo.action_sd_protocollo_mezzo_trasmissione_list
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_dms_contact__mezzo_trasmissione_id
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_invio__mezzo_trasmissione_id
+msgid "Mezzo di Trasmissione"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__mezzo_trasmissione_id_invisible
+msgid "MezzoTrasmissione Invisible"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__mezzo_trasmissione_id_readonly
+msgid "MezzoTrasmissione Readonly"
+msgstr ""
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/tests/test_sd_protocollo_protocollo.py:0
+#: code:addons/sd_protocollo/tests/test_sd_protocollo_protocollo.py:0
+#: code:addons/sd_protocollo/utilities/protocollo_actions.py:0
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_add_mittente_in__mittente_interno_id
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_registra__mittente
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_protocollo_form
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_protocollo_search
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_protocollo_tree
+#, python-format
+msgid "Mittente"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__mittente_interno_id_invisible
+msgid "Mittente Interno Invisible"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__mittente_invisible
+msgid "Mittente Invisibile"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__mittente_interno_id
+msgid "Mittente interno"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__mittente_interno_ufficio_id_set_type
+msgid "Mittente interno uffcio tipologia"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.template_registro_giornaliero_qweb
+msgid "Mittente/Destinatario"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__mittente_ids
+msgid "Mittenti"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_completa_lavorazione__motivazione
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_elimina_assegnazione__motivazione
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_rifiuta_assegnazione__motivazione
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_rimetti_in_lavorazione__motivazione
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_wizard_protocollo_elimina_assegnazione_form
+msgid "Motivazione"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_completa_lavorazione__motivazione_invisible
+msgid "Motivazione Invisible"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_assegnazione__motivazione_rifiuto
+msgid "Motivazione Rifiuto"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_archivio__nome
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_invio_destinatario__contatto_id
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_mezzo_trasmissione__nome
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro__nome
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro_giornaliero__nome
+msgid "Nome"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__documento_id_filename
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro_giornaliero__documento_id_filename
+msgid "Nome File"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_invio__mezzo_trasmissione_nome
+msgid "Nome Mezzo Trasmissione"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__mittente_nome
+msgid "Nome Mittente"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_protocollo_search
+msgid "Nome file"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__protocollatore_name
+msgid "Nome protocollatore"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__protocollatore_ufficio_name
+msgid "Nome ufficio protocollatore"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__mittente
+msgid "Nominativo mittente"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__mittente_interno_nome
+msgid "Nominativo mittente interno"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_wizard_protocollo_assegna_step1_form
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_wizard_protocollo_riassegna_form
+msgid "Non ci sono assegnatari."
+msgstr ""
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/models/registro_emergenza.py:0
+#, python-format
+msgid "Non puoi cancellare un registro emergenza che non sia in stato bozza"
+msgstr ""
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/models/assegnazione.py:0
+#, python-format
+msgid "Non si possono inserire più assegnatari per competenza!"
+msgstr ""
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/wizards/protocollo_riassegna.py:0
+#, python-format
+msgid "Non è più possibile eseguire l'operazione richiesta!"
+msgstr ""
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/wizards/protocollo_assegna.py:0
+#, python-format
+msgid ""
+"Non è più possibile eseguire l'operazione richiesta! Il protocollo è già "
+"stato assegnato da un altro utente!"
+msgstr ""
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/utilities/protocollo_actions.py:0
+#, python-format
+msgid ""
+"Non è più possibile eseguire l'operazione richiesta! L'assegnazione è in "
+"stato %s"
+msgstr ""
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/models/registro_emergenza.py:0
+#, python-format
+msgid "Non è possibile avere più di un registro aperto per la stessa AOO"
+msgstr ""
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/utilities/protocollo_actions.py:0
+#, python-format
+msgid "Non è stato trovato l'assegnatario associato all'utente"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__sd_protocollo_protocollo__tipologia_registrazione__normale
+msgid "Normale"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__message_needaction_counter
+msgid "Number of Actions"
+msgstr "NUmero di Azioni"
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__message_has_error_counter
+msgid "Number of errors"
+msgstr "Numero di errori"
+
+#. module: sd_protocollo
+#: model:ir.model.fields,help:sd_protocollo.field_sd_protocollo_protocollo__message_needaction_counter
+msgid "Number of messages which requires an action"
+msgstr "NUmero di messaggi che richiedono un intervento"
+
+#. module: sd_protocollo
+#: model:ir.model.fields,help:sd_protocollo.field_sd_protocollo_protocollo__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Numero di messaggi con errore di consegna"
+
+#. module: sd_protocollo
+#: model:ir.model.fields,help:sd_protocollo.field_sd_protocollo_protocollo__message_unread_counter
+msgid "Number of unread messages"
+msgstr "Numero di messaggi non letti"
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_registro_emergenza_form
+msgid "Numeri"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro_emergenza__numero_ids
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.template_registro_giornaliero_qweb
+msgid "Numero"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro_emergenza__numero_protocolli
+msgid "Numero Protocolli"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_dms_document__numero_protocollo_id
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro_emergenza_numero__numero_protocollo
+msgid "Numero Protocollo"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__mittente_numero_protocollo
+msgid "Numero Protocollo Mittente"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__emergenza_numero_protocollo
+msgid "Numero Protocollo in Emergenza"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_protocollo_tree
+msgid "Numero protocollo"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_riassegna__assegnatario_competenza_id
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_wizard_protocollo_assegna_step1_form
+msgid "Nuovo Assegnatario"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_documento_crea_bozza__protocollatore_ufficio_id
+msgid "Office head of protocol"
+msgstr "Ufficio protocollatore"
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/tests/test_sd_protocollo_protocollo.py:0
+#: code:addons/sd_protocollo/tests/test_sd_protocollo_protocollo.py:0
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__documento_id_oggetto
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.template_registro_giornaliero_qweb
+#, python-format
+msgid "Oggetto"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_protocollo_search
+msgid "Oggetto allegato"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_protocollo_search
+msgid "Oggetto documento"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_mezzo_trasmissione__ordinamento
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro__ordinamento
+msgid "Ordinamento"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__owner_id
+msgid "Owner"
+msgstr "Proprietario"
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.template_sd_protocollo_footer_qweb
+msgid "PIVA:"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_assegnazione__parent_id
+msgid "Padre"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.template_sd_protocollo_footer_qweb
+msgid "Page: <span class=\"page\"/> / <span class=\"topage\"/>"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_dms_contact__display_name
+msgid "Path name"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__mittente_interno_utente_id_pec_mail
+msgid "Pec Mail"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.res_config_settings_view_form
+msgid ""
+"Per configurare la funzionalità <strong>salvare</strong> questa pagina e\n"
+"                                                ritornare qui."
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.res_config_settings_view_form
+msgid ""
+"Per configurare la funzionalità <strong>salvare</strong> questa pagina e "
+"ritornare qui."
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_wizard_protocollo_assegna_step1_form
+msgid ""
+"Per selezionare gli assegnatari è necessario configurare gli uffici e i relativi\n"
+"                                    utenti dalla apposita sezione di configurazione."
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_wizard_protocollo_riassegna_form
+msgid ""
+"Per selezionare gli assegnatari è necessario configurare gli uffici e i "
+"relativi utenti dalla apposita sezione di configurazione."
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.res_config_settings_view_form
+msgid ""
+"Permette di inserire il documento principale e gli allegati di un protocollo"
+" all'interno di un fascicolo"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.res_config_settings_view_form
+msgid ""
+"Permette di protocollare PEC e inviare un documento protocollato tramite "
+"mezzo di trasmissione PEC"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.res_config_settings_view_form
+msgid ""
+"Permette di protocollare una e-mail e inviare un documento protocollato "
+"tramite mezzo di trasmissione e-mail"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.res_config_settings_view_form
+msgid "Permette l'aggiunta di destinatari tramite gruppi"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.res_config_settings_view_form
+msgid ""
+"Permette la creazione di un file zip con all'interno tutti i documenti\n"
+"                                            dei protocolli selezionati"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_protocollo_form
+msgid "Prendi in carico"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_assegnazione__presa_in_carico
+msgid "Presa In Carico"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__sd_protocollo_assegnazione__state__preso_in_carico
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__sd_protocollo_assegnazione__state_competenza__preso_in_carico
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__sd_protocollo_assegnazione__state_conoscenza__preso_in_carico
+msgid "Preso in carico"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__prima_assegnazione
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.res_config_settings_view_form
+msgid "Prima assegnazione"
+msgstr ""
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/utilities/protocollo_storico_actions.py:0
+#, python-format
+msgid "Processing completed"
+msgstr "Lavorazione completata"
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/utilities/protocollo_storico_actions.py:0
+#, python-format
+msgid "Processing reopened"
+msgstr "Lavorazione riaperta"
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.template_registro_giornaliero_qweb
+msgid "Prot. Mittente"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_documento_crea_bozza__protocollo_id
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__sd_dms_document__registration_type__protocol
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__sd_dms_document_type__registration_type__protocol
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_dms_document_search
+msgid "Protocol"
+msgstr "Protocollo"
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/utilities/inherit_document_storico_actions.py:0
+#, python-format
+msgid "Protocol %s created from that document as main document"
+msgstr "Documento inserito come principale nel protocollo %s"
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/utilities/inherit_document_storico_actions.py:0
+#, python-format
+msgid "Protocol %s created with that document as attachment"
+msgstr "Protocollo %s creato con questo documento come allegato"
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/utilities/protocollo_storico_actions.py:0
+#, python-format
+msgid "Protocol assigned:"
+msgstr "Protocollo assegnato:"
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/utilities/protocollo_storico_actions.py:0
+#, python-format
+msgid "Protocol canceled (requested by %s)"
+msgstr "Protocollo annullato (richiesto da %s)"
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/utilities/protocollo_storico_actions.py:0
+#, python-format
+msgid "Protocol draft created"
+msgstr "Bozza protocollo creata"
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/utilities/protocollo_storico_actions.py:0
+#, python-format
+msgid "Protocol draft created from %s"
+msgstr "Bozza protocollo creata da %s"
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/utilities/protocollo_storico_actions.py:0
+#, python-format
+msgid "Protocol read"
+msgstr "Protocollo letto"
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/utilities/protocollo_storico_actions.py:0
+#, python-format
+msgid "Protocol reassigned"
+msgstr "Protocollo riassegnato"
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__module_fl_protocollo_registro
+msgid "Protocol register"
+msgstr "Registro protocollo"
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/utilities/protocollo_storico_actions.py:0
+#, python-format
+msgid "Protocol registered"
+msgstr "Protocollo registrato"
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__protocollatore_id
+#: model:res.groups,name:sd_protocollo.group_sd_protocollo_protocollatore
+msgid "Protocollatore"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__module_fl_protocollo_interno
+msgid "Protocollazione interna"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:res.groups,name:sd_protocollo.group_sd_protocollo_protocollazione_riservata
+msgid "Protocollazione riservata"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.actions.act_window,name:sd_protocollo.action_sd_protocollo_protocollo_list
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_archivio__protocollo_ids
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro_giornaliero__protocollo_ids
+#: model:ir.ui.menu,name:sd_protocollo.menu_item_sd_protocollo_protocollo_list
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.template_dashboard_protocolli_protocollati
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_archivio_form
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_registro_giornaliero_form
+msgid "Protocolli"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.actions.act_window,name:sd_protocollo.action_sd_protocollo_protocollo_list_protocolli_assegnati_a_me
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__filter_protocolli_assegnati_a_me
+msgid "Protocolli Assegnati a Me"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.actions.act_window,name:sd_protocollo.action_sd_protocollo_protocollo_list_protocolli_assegnati_a_me_competenza
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__filter_protocolli_assegnati_a_me_competenza
+msgid "Protocolli Assegnati a me per Competenza"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.actions.act_window,name:sd_protocollo.action_sd_protocollo_protocollo_list_protocolli_assegnati_mio_ufficio
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__filter_protocolli_assegnati_mio_ufficio
+msgid "Protocolli Assegnati al mio Ufficio"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.actions.act_window,name:sd_protocollo.action_sd_protocollo_protocollo_list_protocolli_assegnati_mio_ufficio_competenza
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__filter_protocolli_assegnati_mio_ufficio_competenza
+msgid "Protocolli Assegnati al mio Ufficio per Competenza"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.actions.act_window,name:sd_protocollo.action_sd_protocollo_protocollo_list_protocolli_assegnati_da_me
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__filter_protocolli_assegnati_da_me
+msgid "Protocolli Assegnati da me"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__filter_protocolli_assegnati_conoscenza
+msgid "Protocolli Assegnati per Conoscenza"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__filter_protocolli_bozza
+msgid "Protocolli Bozza"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.actions.act_window,name:sd_protocollo.action_sd_protocollo_protocollo_list_protocolli_rifiutati
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__filter_protocolli_rifiutati
+msgid "Protocolli Rifiutati"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.actions.act_window,name:sd_protocollo.action_sd_protocollo_protocollo_list_protocolli_da_assegnare
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__filter_protocolli_da_assegnare
+msgid "Protocolli da Assegnare"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.actions.act_window,name:sd_protocollo.action_sd_protocollo_protocollo_list_protocolli_da_inviare
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__filter_protocolli_da_inviare
+msgid "Protocolli da Inviare"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.actions.act_window,name:sd_protocollo.action_sd_protocollo_protocollo_list_protocolli_bozza
+msgid "Protocolli in Bozza"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.actions.act_window,name:sd_protocollo.action_sd_protocollo_protocollo_list_protocolli_in_lavorazione
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__filter_protocolli_in_lavorazione
+msgid "Protocolli in Lavorazione"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model,name:sd_protocollo.model_sd_protocollo_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_dms_document__protocollo_id
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_dms_document_acl__protocollo_id
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_assegnazione__protocollo_id
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_invio__protocollo_id
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro_emergenza_numero__protocollo_id
+#: model:ir.module.category,description:sd_protocollo.category_sd_protocollo
+#: model:ir.module.category,name:sd_protocollo.category_sd_protocollo
+#: model:ir.ui.menu,name:sd_protocollo.menu_sd_protocollo
+msgid "Protocollo"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.module.category,name:sd_protocollo.module_protocollo_informatico
+msgid "Protocollo Informatico"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__numero_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_dms_document_form
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_dms_document_tree
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_protocollo_form
+msgid "Protocollo N."
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_dms_document_acl__protocollo_visibility
+msgid "Protocollo Visibility"
+msgstr "Visibilità Protocollo"
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__is_reply
+msgid "Protocollo generato tramite la funzionalità rispondi"
+msgstr ""
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/utilities/inherit_res_partner_actions.py:0
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_res_partner_form
+#, python-format
+msgid "Protocols"
+msgstr "Protocolli"
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__perm_read
+msgid "Read Access"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__tipologia_protocollo_readonly
+msgid "Readonly tipologia protocollo"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__module_fl_protocollo_ricevute
+msgid "Receipts"
+msgstr "Ricevute"
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/utilities/protocollo_storico_actions.py:0
+#, python-format
+msgid "Reception date changed"
+msgstr ""
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/utilities/protocollo_storico_actions.py:0
+#, python-format
+msgid ""
+"Reception date: <span class='%s'> %s</span> -> <span class='%s'> %s</span>"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__module_fl_protocollo_riferimento
+msgid "Reference"
+msgstr "Collegamento"
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_documento_crea_bozza__registro_id
+msgid "Register"
+msgstr "Registro"
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/models/sd_dms_document.py:0
+#, python-format
+msgid "Registered"
+msgstr "Registrato"
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_protocollo_form
+msgid "Registra"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:res.groups,name:sd_protocollo.group_sd_protocollo_registra_protocollo_senza_assegnazione
+msgid "Registra protocollo senza assegnazione"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_dms_document__registration_type
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_dms_document_type__registration_type
+msgid "Registration type"
+msgstr "Tipo registrazione"
+
+#. module: sd_protocollo
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__sd_dms_document__state__registered
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__sd_protocollo_protocollo__state__registrato
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_protocollo_search
+msgid "Registrato"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_company__registro_ids
+#: model:ir.ui.menu,name:sd_protocollo.menu_item_sd_protocollo_registri_list
+#: model:ir.ui.menu,name:sd_protocollo.menu_item_sd_protocollo_registro_list
+msgid "Registri"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.actions.act_window,name:sd_protocollo.action_sd_protocollo_registro_list
+#: model:ir.model,name:sd_protocollo.model_sd_protocollo_registro
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__registro_id
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__registro_id_readonly
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro_emergenza__registro_id
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.template_registro_giornaliero_qweb
+msgid "Registro"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.actions.act_window,name:sd_protocollo.action_sd_protocollo_registro_emergenza_list
+#: model:ir.model,name:sd_protocollo.model_sd_protocollo_registro_emergenza
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro_emergenza_numero__registro_emergenza_id
+#: model:ir.ui.menu,name:sd_protocollo.menu_item_sd_protocollo_registro_emergenza_list
+msgid "Registro Emergenza"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model,name:sd_protocollo.model_sd_protocollo_registro_emergenza_numero
+msgid "Registro Emergenza Numero"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.actions.act_window,name:sd_protocollo.action_sd_protocollo_registro_giornaliero_list
+#: model:ir.model,name:sd_protocollo.model_sd_protocollo_registro_giornaliero
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__registro_giornaliero_id
+#: model:ir.ui.menu,name:sd_protocollo.menu_item_sd_protocollo_registro_giornaliero_list
+msgid "Registro Giornaliero"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.actions.server,name:sd_protocollo.ir_cron_sd_protocollo_registro_giornaliero_genera_registri_mancanti_ir_actions_server
+#: model:ir.cron,cron_name:sd_protocollo.ir_cron_sd_protocollo_registro_giornaliero_genera_registri_mancanti
+#: model:ir.cron,name:sd_protocollo.ir_cron_sd_protocollo_registro_giornaliero_genera_registri_mancanti
+msgid "Registro Giornaliero - Creazione e Chiusura"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__mittente_registro
+msgid "Registro Mittente"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:sd.dms.document.type,name:sd_protocollo.data_sd_dms_document_type_rgp
+msgid "Registro giornaliero di protocollo"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.template_registro_giornaliero_qweb
+msgid "Registro giornaliero di protocollo del"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.res_config_settings_view_form
+msgid ""
+"Removes the modification restrictions of the official register\n"
+"                                            and allows logging even on unofficial registers"
+msgstr ""
+"Rimuove le restrizioni sul registro ufficiale\n"
+"                                            e permette la registrazione anche su registri non ufficiali"
+
+#. module: sd_protocollo
+#: model:ir.actions.server,name:sd_protocollo.action_sd_protocollo_protocollo_rispondi
+msgid "Reply"
+msgstr "Rispondi"
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro_emergenza__utente_id
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_annulla__responsabile_id
+msgid "Responsabile"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_protocollo_form
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_wizard_protocollo_riassegna_form
+msgid "Riassegna"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__sd_protocollo_invio__state__received
+msgid "Ricevuto"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_annulla__richiedente_id
+msgid "Richiedente"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_wizard_protocollo_rifiuta_assegnazione_form
+msgid "Rifiuta"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_protocollo_form
+msgid "Rifiuta assegnazione"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__sd_protocollo_assegnazione__state__rifiutato
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__sd_protocollo_assegnazione__state_competenza__rifiutato
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__sd_protocollo_assegnazione__state_conoscenza__rifiutato
+msgid "Rifiutato"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_wizard_protocollo_rimetti_in_lavorazione_form
+msgid "Rimetti In Lavorazione"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_protocollo_form
+msgid "Rimetti in lavorazione"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__rinomina_documento_allegati
+msgid "Rinomina documento principale e allegati"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__riservato
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_documento_crea_bozza__riservato
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_assegna_step1__riservato
+msgid "Riservato"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__riservato_readonly
+msgid "Riservato Readonly"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_wizard_protocollo_add_mittente_interno_form
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_wizard_protocollo_carica_documento_form
+msgid "Salva"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_wizard_protocollo_assegna_step1_form
+msgid "Salva ed esci"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__module_fl_protocollo_importer
+msgid "Scans"
+msgstr "Scansioni"
+
+#. module: sd_protocollo
+#: model:ir.actions.server,name:sd_protocollo.action_sd_protocollo_protocollo_genera_etichetta
+msgid "Scarica Etichetta"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_registro_search
+msgid "Search Registro"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_registro_emergenza_search
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_registro_giornaliero_search
+msgid "Search Registro Emergenza"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_archivio_search
+msgid "Search archivio"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_cartella_search
+msgid "Search cartella"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_protocollo_form
+msgid "Segna come letto"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_dms_document__protocollo_segnatura_pdf
+msgid "Segnatura PDF"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__segnatura_pdf_protocollo_ingresso
+msgid "Segnatura PDF protocollazioni ingresso"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__segnatura_pdf_protocollo_uscita
+msgid "Segnatura PDF protocollazioni uscita"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__genera_segnatura_allegati
+msgid "Segnatura allegati"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__genera_segnatura_append_solo_pdf_firmati
+msgid "Segnatura append solo su PDF firmati"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.res_config_settings_view_form
+msgid "Segnatura documenti PDF"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__genera_segnatura_ogni_pagina
+msgid "Segnatura su tutte le pagine"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__module_fl_protocollo_segnatura_xml
+msgid "Segnatura.xml"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro__sequence_id
+msgid "Sequence"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model,name:sd_protocollo.model_fl_set_set
+msgid "Set"
+msgstr "Struttura"
+
+#. module: sd_protocollo
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__res_config_settings__assegnazione__uffici
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__res_config_settings__prima_assegnazione__uffici
+msgid "Solo Uffici"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__res_config_settings__prima_assegnazione__utenti
+msgid "Solo Utenti"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_registro_giornaliero_form
+msgid "Stampa"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_dms_document__state
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_invio__state
+#: model:ir.model.fields,help:sd_protocollo.field_sd_dms_document__state
+msgid "State"
+msgstr "Stato"
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_assegnazione__state_competenza
+msgid "State Competenza"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_assegnazione__state
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__state
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro_emergenza__state
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro_giornaliero__state
+msgid "Stato"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__sd_protocollo_wizard_protocollo_completa_lavorazione__stato_da_modificare__stato_assegnazione
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__sd_protocollo_wizard_protocollo_rimetti_in_lavorazione__stato_da_modificare__stato_assegnazione
+msgid "Stato Assegnazione"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_assegnazione__state_conoscenza
+msgid "Stato Conoscenza"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__sd_protocollo_wizard_protocollo_completa_lavorazione__stato_da_modificare__stato_protocollatore
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__sd_protocollo_wizard_protocollo_rimetti_in_lavorazione__stato_da_modificare__stato_protocollatore
+msgid "Stato Protocollatore"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_completa_lavorazione__stato_da_modificare
+msgid "Stato da Modificare"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_completa_lavorazione__stato_da_modificare_invisible
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_rimetti_in_lavorazione__stato_da_modificare_invisible
+msgid "Stato da Modificare Invisible"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_rimetti_in_lavorazione__stato_da_modificare
+msgid "Stato da Rimettere in Lavorazione"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__protocollatore_stato
+msgid "Stato protocollatore"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__module_fl_protocollo_dms_folder
+msgid "Struttura Cartelle"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_carica_documento__subject
+msgid "Subject"
+msgstr "Soggetto"
+
+#. module: sd_protocollo
+#: model:res.groups,name:sd_protocollo.group_sd_protocollo_superadmin
+msgid "Superadmin"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__module_fl_protocollo_smistamento
+msgid "Switching"
+msgstr "Smistamento"
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__system_acl_ids
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_protocollo_form
+msgid "System Acl"
+msgstr "Permessi di sistema"
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_assegnazione__presa_in_carico_attuale
+msgid "Taken in charge now"
+msgstr ""
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/utilities/protocollo_actions.py:0
+#, python-format
+msgid "The attachment <b>%s</b> doesn't have a document type associated"
+msgstr "L'allegato <b>%s</b> non ha una tipologia documento associata"
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/models/protocollo.py:0
+#, python-format
+msgid "The date of receipt cannot be greater than the current date"
+msgstr "La data di ricezione non può essere più grande della data attuale"
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/models/sd_dms_document.py:0
+#, python-format
+msgid ""
+"The document '%s' does not have the same recipients as the main document"
+msgstr ""
+"Il documento '%s' non ha gli stessi destinatari del documento principale"
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/models/sd_dms_document.py:0
+#, python-format
+msgid "The document '%s' does not have the same senders as the main document"
+msgstr "Il documento '%s' non ha gli stessi mittenti del documento principale"
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/utilities/inherit_documento_wizard_actions.py:0
+#, python-format
+msgid "The document do not have protocol as registration type!"
+msgstr "Il documento non ha 'Protocollo' come tipo di registrazione!"
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/utilities/inherit_documento_wizard_actions.py:0
+#, python-format
+msgid "The document is already associated with a protocol"
+msgstr "Il documento è già associato ad un protocollo"
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/tests/test_sd_protocollo_protocollo.py:0
+#: code:addons/sd_protocollo/tests/test_sd_protocollo_protocollo.py:0
+#: code:addons/sd_protocollo/utilities/protocollo_actions.py:0
+#, python-format
+msgid "The main document doesn't have a document type associated"
+msgstr "Il documento principale non ha un una tipologia documento associata"
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/models/protocollo.py:0
+#, python-format
+msgid "The receipt date entered cannot be greater than the registration date"
+msgstr ""
+"La data di ricezione inserita non può essere maggiore della data di "
+"registrazione"
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/utilities/protocollo_actions.py:0
+#, python-format
+msgid ""
+"There are attachments (<b>%s</b>) that doesn't have a document type "
+"associated"
+msgstr "Gli allegati (<b>%s</b>) non hanno una tipologia documento associata"
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/utilities/inherit_documento_wizard_actions.py:0
+#, python-format
+msgid "There are documents already associated with a protocol:"
+msgstr "Sono già presenti documenti associati ad un protocollo:"
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/utilities/inherit_documento_wizard_actions.py:0
+#, python-format
+msgid "There are documents that do not have protocol as registration type!"
+msgstr "Sono presenti documenti senza tipo di registrazione!"
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.template_registro_giornaliero_qweb
+msgid "Tipo"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__documento_id_document_type_id_readonly
+msgid "Tipo Documento Readonly"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__documento_id_document_type_id_required
+msgid "Tipo Documento Required"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_assegnazione__assegnatario_tipologia
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__tipologia_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__user_tipologia_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_assegna_assegnatari__assegnatario_type
+msgid "Tipologia"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_assegna_step1__assegnatario_type
+msgid "Tipologia Assegnatario"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_elimina_assegnazione__assegnatario_type
+msgid "Tipologia Assegnazione"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__tipologia_registrazione
+msgid "Tipologia Registrazione"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__tipologia_registrazione_invisible
+msgid "Tipologia Registrazione Invisible"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__documento_id_document_type_id
+msgid "Tipologia documento"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_wizard_protocollo_annulla_form
+msgid "Torna al Protocollo"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_wizard_protocollo_registra_form
+msgid "Torna al protocollo"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_wizard_protocollo_assegna_step2_form
+msgid "Torna indietro"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__mimetype
+msgid "Type"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_documento_crea_bozza__user_tipologia_protocollo
+msgid "Typology"
+msgstr "Tipologia"
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__required_assegnatari_competenza_uffici
+msgid "Uffici assegnatari per competenza"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__required_assegnatari_competenza_uffici_senza_doc
+msgid "Uffici assegnatari per competenza (senza documento)"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__required_assegnatari_conoscenza_uffici
+msgid "Uffici assegnatari per conoscenza"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__required_assegnatari_conoscenza_uffici_senza_doc
+msgid "Uffici assegnatari per conoscenza (senza documento)"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__res_config_settings__assegnazione__tutti
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__res_config_settings__prima_assegnazione__tutti
+msgid "Uffici e Utenti"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro__ufficiale
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_registro_form
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_registro_search
+msgid "Ufficiale"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__sd_protocollo_assegnazione__assegnatario_tipologia__ufficio
+msgid "Ufficio"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_assegna_step1__assegnatore_ufficio_id
+msgid "Ufficio Assegnatore"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__mittente_interno_ufficio_id
+msgid "Ufficio Mittente Interno"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_assegna_step2__assegnatore_ufficio_id
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_riassegna__assegnatore_ufficio_id
+msgid "Ufficio dell'Assegnatore"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_assegna_step1__assegnatore_ufficio_id_invisible
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_riassegna__assegnatore_ufficio_id_invisible
+msgid "Ufficio dell'Assegnatore Invisible"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__protocollatore_ufficio_id
+msgid "Ufficio protocollatore"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__protocollatore_ufficio_id_readonly
+msgid "Ufficio protocollatore readonly"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:res.groups,comment:sd_protocollo.group_sd_protocollo_visibilita_xs
+msgid ""
+"Un utente vede le bozze protocollo create da se stesso;\n"
+"Un utente vede i protocolli registrati da se stesso;\n"
+"Un utente vede i protocolli registrati e da lui assegnati;\n"
+"Un utente vede i protocolli registrati e a lui assegnati;\n"
+"Un utente vede i protocolli registrati, a lui assegnati e presi in carico;\n"
+"Un utente vede i protocolli registrati e assegnati al suo ufficio;\n"
+"Un utente vede i protocolli registrati, assegnati al suo ufficio e presi in carico;\n"
+"Un utente vede i protocolli registrati di cui lui o il suo ufficio è il mittente;\n"
+"Un utente NON vede i protocolli registrati da un altro utente, a lui assegnati e da lui rifiutati;\n"
+"Un utente NON vede i protocolli riservati;\n"
+"Un utente NON vede i protocolli registrati da un altro utente, assegnati al suo ufficio e rifiutati da lui o da un altro utente dell’ufficio stesso."
+msgstr ""
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/utilities/protocollo_actions.py:0
+#, python-format
+msgid "Unable to create a response for the following reasons:"
+msgstr "Impossibile creare una risposta per i seguenti motivi:"
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/utilities/protocollo_actions.py:0
+#, python-format
+msgid "Unable to generate a reply with this sender!"
+msgstr "Impossibile generare una risposta con questo mittente!"
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__message_unread
+msgid "Unread Messages"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__message_unread_counter
+msgid "Unread Messages Counter"
+msgstr ""
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/utilities/protocollo_storico_actions.py:0
+#, python-format
+msgid "Upload document"
+msgstr "Upload documento"
+
+#. module: sd_protocollo
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__sd_protocollo_protocollo__tipologia_protocollo__uscita
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_protocollo_search
+msgid "Uscita"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__create_uid
+msgid "User Creatore del Protocollo"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__mittente_interno_utente_id
+msgid "User Mittente Interno"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model,name:sd_protocollo.model_res_users
+msgid "Users"
+msgstr "Utenti"
+
+#. module: sd_protocollo
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__sd_protocollo_assegnazione__assegnatario_tipologia__utente
+msgid "Utente"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_registro__utente_abilitato_ids
+msgid "Utenti Abilitati"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_assegnazione_form
+msgid "Utenti Ufficio"
+msgstr ""
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/utilities/protocollo_actions.py:0
+#, python-format
+msgid ""
+"Valorizzare correttamente i seguenti campi per procedere alla registrazione:"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_riassegna__assegnazione_competenza_name
+msgid "Vecchio Assegnatario"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.module.category,name:sd_protocollo.category_sd_protocollo_visiblita
+msgid "Visibilità"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:res.groups,comment:sd_protocollo.group_sd_protocollo_visibilita_xl
+msgid ""
+"Visibilità L + :\n"
+"Vedi tutti protocolli archiviati della AOO;\n"
+"Vedi tutti protocolli in Ingresso registrati della AOO;\n"
+"Vedi tutti protocolli Interno registrati della AOO;\n"
+"Vedi tutti protocolli in Uscita registrati della AOO;\n"
+"Non vede i protocolli riservati;\n"
+"            "
+msgstr ""
+
+#. module: sd_protocollo
+#: model:res.groups,comment:sd_protocollo.group_sd_protocollo_visibilita_l
+msgid ""
+"Visibilità M + :\n"
+"Vedi protocolli in Ingresso registrati da un ufficio figlio;\n"
+"Vedi protocolli Interni registrati da un ufficio figlio;\n"
+"Vedi protocolli in Uscita registrati da un ufficio figlio;\n"
+"Vedi protocolli in Ingresso assegnati ad un ufficio figlio;\n"
+"Vedi protocolli Interno assegnati ad un ufficio figlio;\n"
+"Vedi protocolli in Uscita assegnati ad un ufficio figlio;\n"
+"Vedi protocolli in Ingresso assegnati ad un utente di un ufficio figlio;\n"
+"Vedi protocolli Interno assegnati ad un utente di un ufficio figlio;\n"
+"Vedi protocolli in Uscita assegnati ad un utente di un ufficio figlio."
+msgstr ""
+
+#. module: sd_protocollo
+#: model:res.groups,comment:sd_protocollo.group_sd_protocollo_visibilita_m
+msgid ""
+"Visibilità S + :\n"
+"Vedi protocolli in Ingresso assegnati ad un utente del mio ufficio;\n"
+"Vedi protocolli Interno assegnati ad un utente del mio ufficio;\n"
+"Vedi protocolli in Uscita assegnati ad un utente del mio ufficio;\n"
+"Vedi protocolli Interni il cui mittente è un utente del mio ufficio."
+msgstr ""
+
+#. module: sd_protocollo
+#: model:res.groups,comment:sd_protocollo.group_sd_protocollo_visibilita_s
+msgid ""
+"Visibilità XS + :\n"
+"Vedi protocolli in Ingresso registrati dal mio ufficio;\n"
+"Vedi protocolli Interni registrati dal mio ufficio;\n"
+"Vedi protocolli in Uscita registrati dal mio ufficio."
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.module.category,description:sd_protocollo.category_sd_protocollo_visiblita
+msgid "Visibilità protocolli"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__assegnato_a_me_competenza_active
+msgid "Visualizza box \"Assegnati a me per competenza\""
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__assegnato_a_me_active
+msgid "Visualizza box \"Assegnati a me\""
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__assegnato_a_mio_ufficio_competenza_active
+msgid "Visualizza box \"Assegnati al mio ufficio per competenza\""
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__assegnato_a_mio_ufficio_active
+msgid "Visualizza box \"Assegnati al mio ufficio\""
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__assegnato_da_me_active
+msgid "Visualizza box \"Assegnati da me\""
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__assegnato_cc_active
+msgid "Visualizza box \"Assegnati per conoscenza\""
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__da_assegnare_active
+msgid "Visualizza box \"Da assegnare\""
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__visualizza_motivazione_completa_lavorazione
+msgid "Visualizza il campo \"Motivazione\" in completa lavorazione"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model,name:sd_protocollo.model_fl_set_voce_organigramma
+msgid "Voce Organigramma"
+msgstr ""
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/utilities/inherit_documento_wizard_actions.py:0
+#: code:addons/sd_protocollo/utilities/inherit_documento_wizard_actions.py:0
+#, python-format
+msgid "Warning!"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model,name:sd_protocollo.model_sd_protocollo_wizard_protocollo_add_mittente_in
+msgid "Wizard Aggiungi Mittente Interno"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model,name:sd_protocollo.model_sd_protocollo_wizard_protocollo_assegna_step1
+#: model:ir.model,name:sd_protocollo.model_sd_protocollo_wizard_protocollo_assegna_step2
+msgid "Wizard Assegna Step1"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model,name:sd_protocollo.model_sd_protocollo_wizard_protocollo_completa_lavorazione
+msgid "Wizard Completa Lavorazione"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model,name:sd_protocollo.model_sd_protocollo_wizard_protocollo_elimina_assegnazione
+msgid "Wizard Elimina Assegnazione"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model,name:sd_protocollo.model_sd_protocollo_wizard_protocollo_leggi
+msgid "Wizard Leggi Assegnazione"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model,name:sd_protocollo.model_sd_protocollo_wizard_protocollo_annulla
+msgid "Wizard Protocollo Annulla"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model,name:sd_protocollo.model_sd_protocollo_wizard_protocollo_carica_documento
+msgid "Wizard Protocollo Carica Documento"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model,name:sd_protocollo.model_sd_protocollo_wizard_protocollo_registra
+msgid "Wizard Protocollo Registra"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model,name:sd_protocollo.model_sd_protocollo_wizard_protocollo_riassegna
+msgid "Wizard Riassegna"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model,name:sd_protocollo.model_sd_protocollo_wizard_protocollo_rifiuta_assegnazione
+msgid "Wizard Rifiuta Assegnazione"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model,name:sd_protocollo.model_sd_protocollo_wizard_protocollo_rimetti_in_lavorazione
+msgid "Wizard Rimetti in Lavorazione"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_assegna_assegnatari__wizard_step1_id
+msgid "Wizard Step1"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_assegna_assegnatari__wizard_step2_id
+msgid "Wizard Step2"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model,name:sd_protocollo.model_sd_protocollo_wizard_protocollo_assegna_assegnatari
+msgid "Wizard protocollo assegna assegnatari"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model,name:sd_protocollo.model_sd_protocollo_wizard_documento_crea_bozza
+msgid "Wizard protocollo documento crea bozza"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__perm_write
+msgid "Write Access"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__sd_dms_document_acl__protocollo_visibility__xl
+#: model:res.groups,name:sd_protocollo.group_sd_protocollo_visibilita_xl
+msgid "XL"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields.selection,name:sd_protocollo.selection__sd_dms_document_acl__protocollo_visibility__xs
+#: model:res.groups,name:sd_protocollo.group_sd_protocollo_visibilita_xs
+msgid "XS"
+msgstr ""
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/utilities/inherit_documento_wizard_actions.py:0
+#, python-format
+msgid "You do not have writing permission on the following documents:"
+msgstr "Non hai il permesso di scrittura nei seguenti documenti:"
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/models/protocollo.py:0
+#, python-format
+msgid "You don't have a folder to save documents protocol!"
+msgstr "Non hai una cartella per salvare i documenti del protocollo!"
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/models/protocollo.py:0
+#, python-format
+msgid "You don't have a register enable to protocol!"
+msgstr "Non hai un registro abilitato alla protocollazione!"
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/models/protocollo.py:0
+#, python-format
+msgid "You don't have an archive enable to protocol!"
+msgstr "Non hai un archivio abilitato alla protocollazione!"
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/models/protocollo.py:0
+#, python-format
+msgid "You don't have an office enable to protocol!"
+msgstr "Non hai un ufficio abilitato alla protocollazione"
+
+#. module: sd_protocollo
+#: code:addons/sd_protocollo/wizards/documento_crea_bozza_protocollo.py:0
+#, python-format
+msgid "You need to configure the archive"
+msgstr "Hai bisogno di configurare l'archivio"
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_assegna_step1__assegnatario_competenza_id_required
+msgid "assegnatario competenza required"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_assegna_step1__assegnatario_conoscenza_id_required
+msgid "assegnatario conoscenza required"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__button_aggiungi_allegati_invisible
+msgid "button aggiungi allegati invisible"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__button_aggiungi_altro_soggetto_invisible
+msgid "button aggiungi altro soggetto invisible"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__button_aggiungi_assegnatari_conoscenza_invisible
+msgid "button aggiungi assegnatari conoscenza invisible"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__button_aggiungi_assegnatari_invisible
+msgid "button aggiungi assegnatari invisible"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__button_aggiungi_destinatario_invisible
+msgid "button aggiungi destinatario invisible"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__button_aggiungi_mittente_invisible
+msgid "button agiungi mittente invisible"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__button_annulla_invisible
+msgid "button annulla invisible"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__button_assegna_invisible
+msgid "button assegna invisible"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__button_completa_lavorazione_stato_invisible
+msgid "button completa lavorazione invisible"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__button_elimina_altro_soggetto_invisible
+msgid "button elimina altro soggetto invisible"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__button_elimina_destinatario_invisible
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__button_elimina_mittente_invisible
+msgid "button elimina destinatario invisible"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__button_elimina_mittente_interno_invisible
+msgid "button elimina mittente interno"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__button_etichetta_invisible
+msgid "button etichetta"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__button_inserisci_segnatura_pdf_documento_invisible
+msgid "button inserisci pdf documento"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__button_invia_invisible
+msgid "button invia"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__button_leggi_assegnazione_invisible
+msgid "button leggi assegnazione invisible"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_dms_document__button_modifica_allegati_invisible
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__button_modifica_allegati_invisible
+msgid "button modifica allegati invisible"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__button_modifica_altro_soggetto_invisible
+msgid "button modifica altro soggetto invisible"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__button_elimina_assegnatari_invisible
+msgid "button modifica assegnatari invisible"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_assegnazione__button_elimina_assegnazione_invisible
+msgid "button modifica assegnazione invisible"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__button_modifica_destinatario_invisible
+msgid "button modifica destinatario invisible"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__button_modifica_mittente_invisible
+msgid "button modifica elimina destinatario invisible"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__button_prendi_in_carico_assegnazione_invisible
+msgid "button prendi in carico assegnazione invisible"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__button_registra_invisible
+msgid "button registra invisible"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__button_riassegna_invisible
+msgid "button riassegna invisible"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__button_rifiuta_assegnazione_invisible
+msgid "button rifiuta assegnazione invisible"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__button_rimetti_in_lavorazione_stato_invisible
+msgid "button rimetti in lavorazione invisible"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_assegna_step1__button_salva_e_nuovo_invisible
+msgid "button salva e nuovo visibility"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__button_aggiungi_mittente_interno_invisible
+msgid "button salva mittente interno"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_protocollo_assegna_step1__button_salva_invisible
+msgid "button salva visibility"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_protocollo__button_elimina_bozza_invisible
+msgid "button unlink bozza"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.template_registro_giornaliero_qweb
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_protocollo_form
+msgid "del"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__module_fl_protocollo_segnatura_pdf_invisible
+msgid "field module_fl_protocollo_segnatura_pdf invisible"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_invio__field_tree_invio_decoration_state
+msgid "field_tree invio decoration state"
+msgstr ""
+
+#. module: sd_protocollo
+#: model_terms:ir.ui.view,arch_db:sd_protocollo.view_sd_protocollo_wizard_protocollo_riassegna_form
+msgid "messaggio"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.actions.report,name:sd_protocollo.report_sd_protocollo_registro_giornaliero_qweb
+msgid "sd.protocollo.registro.giornaliero.qweb"
+msgstr ""
+
+#. module: sd_protocollo
+#: model:ir.model.fields,field_description:sd_protocollo.field_sd_protocollo_wizard_documento_crea_bozza__field_selection_documenti_invisible
+msgid "selection_documenti_invisible"
+msgstr ""

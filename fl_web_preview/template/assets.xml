@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2020-2022 Flosslab S.r.l.
+    Copyright 2017-2019 MuK IT GmbH
+    License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
+-->
+<odoo>
+    <template id="assets_backend" inherit_id="web.assets_backend">
+        <xpath expr="//link[last()]" position="after">
+            <link rel="stylesheet" href="/fl_web_preview/static/src/scss/variables.scss"/>
+            <link rel="stylesheet" href="/fl_web_preview/static/src/scss/mixins.scss"/>
+            <link rel="stylesheet" href="/fl_web_preview/static/src/scss/sidebar.scss"/>
+            <link rel="stylesheet" href="/fl_web_preview/static/src/scss/binary.scss"/>
+            <link rel="stylesheet" href="/fl_web_preview/static/src/scss/image.scss"/>
+            <link rel="stylesheet" href="/fl_web_preview/static/src/scss/content.scss"/>
+            <link rel="stylesheet" href="/fl_web_preview/static/src/scss/pdf.scss"/>
+            <link rel="stylesheet" href="/fl_web_preview/static/src/scss/loading.scss"/>
+            <link rel="stylesheet" href="/fl_web_preview/static/src/scss/manager.scss"/>
+            <link rel="stylesheet" href="/fl_web_preview/static/src/scss/dialog.scss"/>
+        </xpath>
+        <xpath expr="//script[last()]" position="after">
+            <script type="text/javascript" src="/fl_web_preview/static/src/js/preview/registry.js"/>
+            <script type="text/javascript" src="/fl_web_preview/static/src/js/utils/utils.js"/>
+            <script type="text/javascript" src="/fl_web_preview/static/src/js/preview/content.js"/>
+            <script type="text/javascript" src="/fl_web_preview/static/src/js/widgets/manager.js"/>
+            <script type="text/javascript" src="/fl_web_preview/static/src/js/widgets/dialog.js"/>
+<!--            <script type="text/javascript" src="/fl_web_preview/static/src/js/chrome/sidebar.js"/>-->
+            <script type="text/javascript" src="/fl_web_preview/static/src/js/fields/binary.js"/>
+            <script type="text/javascript" src="/fl_web_preview/static/src/js/fields/image.js"/>
+            <script type="text/javascript" src="/fl_web_preview/static/src/js/preview/pdf.js"/>
+            <script type="text/javascript" src="/fl_web_preview/static/src/js/preview/unsupported.js"/>
+            <script type="text/javascript" src="/fl_web_preview/static/src/js/views/kanban_record.js"/>
+        </xpath>
+    </template>
+</odoo>

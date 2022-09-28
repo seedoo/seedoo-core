@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+<odoo>
+    <record id="view_partner_form_fiscalcode_data" model="ir.ui.view">
+        <field name="name">res.partner.fiscalcode.data</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <field name="type" position="after">
+                <field name="fl_fiscalcode_invisible" invisible="1"/>
+                <label name="fl_fiscalcode" for="fiscalcode" attrs="{'invisible': [('fl_fiscalcode_invisible', '=', True)]}"/>
+                <div name="fl_fiscalcode" class="o_row" attrs="{'invisible': [('fl_fiscalcode_invisible', '=', True)]}">
+                    <field name="fiscalcode" class="fl_fiscalcode oe_inline"/>
+                </div>
+            </field>
+        </field>
+    </record>
+    <record id="view_res_partner_filter_fiscalcode_data" model="ir.ui.view">
+        <field name="name">res.partner.fiscalcode.filter</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <search>
+                <field name="fiscalcode"/>
+            </search>
+        </field>
+    </record>
+</odoo>

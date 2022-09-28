@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2020-2022 Flosslab S.r.l.
+    Copyright 2017-2019 MuK IT GmbH
+    License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
+-->
+<odoo>
+    <data>
+        <template id="assets_backend" name="assets seedoo" inherit_id="web.assets_backend">
+
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/sd_dms/static/src/js/views/inherit_basic_model.js"></script>
+                <script type="text/javascript" src="/sd_dms/static/src/js/views/inherit_search_panel.js"></script>
+            </xpath>
+
+            <xpath expr="//link[@href='/base/static/src/css/modules.css']" position="after">
+                <link rel="stylesheet" href="/sd_dms/static/src/scss/res_config_settings.scss"/>
+            </xpath>
+
+        </template>
+    </data>
+</odoo>

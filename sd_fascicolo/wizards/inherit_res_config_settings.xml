@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <record id="res_config_settings_view_form" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.sd_dms</field>
+            <field name="model">res.config.settings</field>
+            <field name="priority" eval="20"/>
+            <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//div[hasclass('settings')]" position="inside">
+                    <div class="app_settings_block" data-string="Fascicoli" data-key="sd_fascicolo"
+                         groups="base.group_system">
+                        <div name="sd_fascicolo_settings">
+
+                            <h2>Configurazione</h2>
+
+                            <div class="row mt16 o_settings_container">
+                                <div class="col-12 col-lg-6 o_setting_box" name="fascicolo">
+                                    <div class="o_setting_right_pane">
+                                        <div class="content-group">
+                                            <div class="mt16 row">
+                                                <label for="nomenclatura_fascicolo" class="col-3 col-lg-3 o_light_label"/>
+                                                <field name="nomenclatura_fascicolo" class="oe_inline" required="1"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

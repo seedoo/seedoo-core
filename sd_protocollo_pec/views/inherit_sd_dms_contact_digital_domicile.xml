@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_sd_dms_contact_digital_domicile_tree" model="ir.ui.view">
+            <field name="name">view.sd.dms.contact.digital.domicile.tree</field>
+            <field name="model">sd.dms.contact.digital.domicile</field>
+            <field name="inherit_id" ref="sd_dms.view_sd_dms_contact_digital_domicile_tree"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='email_address']" position="after">
+                    <field name="use_in_sending"
+                           readonly="1"
+                           invisible="context.get('use_in_sending_invisible', True)"
+                    />
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="view_sd_dms_contact_digital_domicile_form" model="ir.ui.view">
+            <field name="name">view.sd.dms.contact.digital.domicile.form</field>
+            <field name="model">sd.dms.contact.digital.domicile</field>
+            <field name="inherit_id" ref="sd_dms.view_sd_dms_contact_digital_domicile_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='email_address']" position="after">
+                    <field name="use_in_sending"
+                           readonly="1"
+                           invisible="context.get('use_in_sending_invisible', True)"
+                    />
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

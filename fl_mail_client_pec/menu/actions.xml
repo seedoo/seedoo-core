@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <data noupdate="0">
+
+        <!--
+        <record id="action_wizard_mail_compose_message_form" model="ir.actions.act_window">
+            <field name="name">Compose</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">mail.compose.message</field>
+            <field name="binding_model_id" ref="mail.model_mail_compose_message"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="fl_mail_client.view_wizard_mail_compose_message_form"/>
+            <field name="target">new</field>
+            <field name="context">{'mail_compose_message': True}</field>
+        </record>
+        -->
+
+    </data>
+</odoo>

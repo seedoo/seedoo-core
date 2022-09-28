@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2020-2022 Flosslab S.r.l.
+    Copyright 2017-2019 MuK IT GmbH
+    License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
+-->
+<odoo>
+    <data>
+
+        <record id="view_sd_dms_wizard_document_add_contact_form" model="ir.ui.view">
+            <field name="name">view.sd.dms.wizard.document.add.contact.form</field>
+            <field name="model">sd.dms.wizard.document.add.contact</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group invisible="1">
+                            <field name="partner_id_updated"/>
+                            <field name="typology"/>
+                            <field name="view_contact_pa_type"/>
+                            <field name="parent_id"/>
+                            <field name="field_readonly"/>
+                            <field name="parent_person_invisible"/>
+                            <field name="name_invisible"/>
+                            <field name="phone_invisible"/>
+                            <field name="mobile_invisibile"/>
+                            <field name="title_invisible"/>
+                            <field name="street_invisible"/>
+                            <field name="function_invisible"/>
+                            <field name="fiscalcode_invisible"/>
+                            <field name="vat_invisible"/>
+                            <field name="email_invisible"/>
+                            <field name="pec_mail_invisible"/>
+                            <field name="name_amm_invisible"/>
+                            <field name="person_or_company_invisible"/>
+                            <field name="amm_invisible"/>
+                            <field name="aoo_invisible"/>
+                            <field name="uo_invisible"/>
+                            <field name="contact_pa_invisible"/>
+                            <field name="category_id_invisible"/>
+                            <field name="save_partner_invisible"/>
+                            <field name="email_required"/>
+                            <field name="pec_mail_required"/>
+                            <field name="name_amm_required"/>
+                            <field name="cod_amm_required"/>
+                            <field name="email_amm_required"/>
+                            <field name="pec_mail_amm_required"/>
+                            <field name="name_aoo_required"/>
+                            <field name="cod_aoo_required"/>
+                            <field name="name_ou_required"/>
+                            <field name="cod_ou_required"/>
+                            <field name="contact_pa_name_required"/>
+                            <field name="contact_pa_email_required"/>
+                            <field name="contact_pa_pec_mail_required"/>
+                        </group>
+                        <group>
+                            <field name="partner_id"
+                                   context="{'tree_view_ref': 'sd_dms.view_res_partner_tree_simplified'}"
+                                   options="{'no_quick_create': True}"
+                            />
+                        </group>
+                        <hr/>
+                        <b>
+                            <field name="view_company_type"
+                                   widget="radio"
+                                   force_save="1"
+                                   options="{'horizontal': true}"
+                                   required="1"
+                                   attrs="{'readonly': [('field_readonly','=', True)]}"
+                            />
+                        </b>
+                        <group attrs="{'invisible': [('view_company_type','!=','company')]}">
+                            <field name="view_company_subject_type"
+                                   attrs="{'required': [('view_company_type','=','company')], 'invisible': [('view_company_type','!=','company')], 'readonly': [('field_readonly','=',True)]}"
+                                   placeholder="Tipology"
+                                   force_save="1"
+                                   nolabel="1"
+                                   style="width: 60% !important;"
+                            />
+                        </group>
+                        <h3>
+                            <field name="name"
+                                   attrs="{'readonly': [('field_readonly','=', True)], 'invisible': [('name_invisible','=',True)]}"
+                                   force_save="1"
+                                   placeholder="Name"
+                                   style="width: 60% !important;"
+                            />
+                            <field name="name_amm"
+                                   attrs="{'required': [('name_amm_required','=',True)], 'readonly': [('field_readonly','=',True)], 'invisible': [('name_amm_invisible','=',True)]}"
+                                   force_save="1"
+                                   placeholder="Name"
+                                   style="width: 60% !important;"
+                            />
+                        </h3>
+                        <group colspan="2">
+                            <field name="parent_person"
+                                   attrs="{'invisible': [('parent_person_invisible','=',True)], 'readonly': [('field_readonly','=', True)]}"
+                                   force_save="1"
+                                   nolabel="1"
+                                   placeholder="Company"
+                            />
+                        </group>
+
+                        <group attrs="{'invisible':[('person_or_company_invisible','=',True)]}"
+                               colspan="2"
+                        >
+                            <group>
+                                <field name="title"
+                                       attrs="{'readonly': [('field_readonly','=', True)], 'invisible':[('title_invisible','=',True)]}"
+                                       force_save="1"
+                                />
+                                <field name="vat"
+                                       attrs="{'readonly': [('field_readonly','=', True)], 'invisible':[('vat_invisible','=',True)]}"
+                                       force_save="1"
+                                />
+                                <label for="street"
+                                       string="Address"
+                                       attrs="{'readonly': [('field_readonly','=',True)], 'invisible': [('street_invisible','=',True)]}"
+                                       force_save="1"
+                                />
+                                <div class="o_address_format" attrs="{'invisible': [('street_invisible','=',True)]}">
+                                    <field name="street"
+                                           placeholder="Street..."
+                                           class="o_address_street"
+                                           attrs="{'readonly': [('field_readonly','=', True)]}"
+                                           force_save="1"
+                                    />
+                                    <field name="street2"
+                                           placeholder="Street 2..."
+                                           class="o_address_street"
+                                           attrs="{'readonly': [('field_readonly','=', True)]}"
+                                           force_save="1"
+                                    />
+                                    <field name="zip_id"
+                                           options="{'no_open': True, 'no_quick_create': True}"
+                                           placeholder="Location completion"
+                                           class="oe_edit_only"
+                                           attrs="{'readonly': [('field_readonly','=', True)]}"
+                                           force_save="1"
+                                    />
+                                    <field name="city"
+                                           placeholder="City"
+                                           class="o_address_city"
+                                           attrs="{'readonly': [('field_readonly','=', True)]}"
+                                           force_save="1"
+                                    />
+                                    <field name="state_id"
+                                           class="o_address_state"
+                                           placeholder="State"
+                                           options="{'no_open': True, 'no_quick_create': True}"
+                                           context="{'default_country_id': country_id}"
+                                           attrs="{'readonly': [('field_readonly','=', True)]}"
+                                           force_save="1"
+                                    />
+                                    <field name="zip"
+                                           placeholder="ZIP"
+                                           class="o_address_zip"
+                                           attrs="{'readonly': [('field_readonly','=', True)]}"
+                                           force_save="1"
+                                    />
+                                    <field name="country_id"
+                                           placeholder="Country"
+                                           class="o_address_country"
+                                           attrs="{'readonly': [('field_readonly','=', True)]}"
+                                           options='{"no_open": True, "no_create": True}'
+                                           force_save="1"
+                                    />
+                                </div>
+                            </group>
+                            <group>
+                                <field name="fiscalcode"
+                                       attrs="{'readonly': [('field_readonly','=',True)], 'invisible': [('fiscalcode_invisible','=',True)]}"
+                                       force_save="1"
+                                />
+                                <field name="function"
+                                       attrs="{'readonly': [('field_readonly','=',True)], 'invisible': [('function_invisible','=',True)]}"
+                                       force_save="1"
+                                />
+                                <field name="email"
+                                       attrs="{'readonly': [('field_readonly','=',True)], 'required': [('email_required','=',True)], 'invisible': [('email_invisible','=',True)]}"
+                                       force_save="1"
+                                />
+                                <field name="pec_mail"
+                                       attrs="{'readonly': [('field_readonly','=',True)], 'required': [('pec_mail_required','=',True)], 'invisible': [('pec_mail_invisible','=',True)]}"
+                                       force_save="1"
+                                />
+                                <field name="phone"
+                                       attrs="{'readonly': [('field_readonly','=',True)], 'invisible': [('phone_invisible','=',True)]}"
+                                       force_save="1"
+                                />
+                                <field name="mobile"
+                                       attrs="{'readonly': [('field_readonly','=',True)], 'invisible': [('mobile_invisibile','=',True)]}"
+                                       force_save="1"
+                                />
+                            </group>
+                        </group>
+
+                        <group attrs="{'invisible': [('amm_invisible','=',True)]}"
+                               colspan="2"
+                        >
+                            <group>
+                                <field name="cod_amm"
+                                       attrs="{'required': [('cod_amm_required','=',True)],  'readonly': [('field_readonly','=',True)]}"
+                                       force_save="1"
+                                />
+                            </group>
+                            <group>
+                                <field name="email_amm"
+                                       attrs="{'readonly': [('field_readonly','=',True)], 'required': [('email_amm_required','=',True)]}"
+                                       force_save="1"
+                                />
+                                <field name="pec_mail_amm"
+                                       attrs="{'readonly': [('field_readonly','=',True)], 'required': [('pec_mail_amm_required','=',True)]}"
+                                       force_save="1"
+                                />
+                            </group>
+                        </group>
+
+                        <group attrs="{'invisible': [('aoo_invisible','=',True)]}"
+                               colspan="2"
+                        >
+                            <group col="1">
+                                <field name="name_aoo"
+                                       attrs="{'required': [('name_aoo_required','=',True)], 'readonly': [('field_readonly','=', True)]}"
+                                       force_save="1"
+                                />
+                                <field name="cod_aoo"
+                                       attrs="{'required': [('cod_aoo_required','=',True)], 'readonly': [('field_readonly','=', True)]}"
+                                       force_save="1"
+                                />
+                            </group>
+                            <group col="1">
+                                <h4>Digital domiciles</h4>
+                                <field name="digital_domicile_ids"
+                                       attrs="{'readonly': [('field_readonly','=', True)]}"
+                                       options="{'no_open':True}"
+                                       force_save="1"
+                                       nolabel="1"
+                                       class="pa_tree"
+                                />
+                            </group>
+                        </group>
+
+                        <group attrs="{'invisible': [('uo_invisible','=',True)]}"
+                               colspan="2"
+                        >
+                            <group col="1">
+                                <field name="name_ou"
+                                       attrs="{'required': [('name_ou_required','=',True)], 'readonly': [('field_readonly','=', True)]}"
+                                       force_save="1"
+                                />
+                                <field name="cod_ou"
+                                       attrs="{'required': [('cod_ou_required','=',True)], 'readonly': [('field_readonly','=', True)]}"
+                                       force_save="1"
+                                />
+                            </group>
+                            <group col="1">
+                                <h4>Other e-mail PEC addresses</h4>
+                                <field name="email_address_ids"
+                                       attrs="{'readonly': [('field_readonly','=', True)]}"
+                                       options="{'no_open':True}"
+                                       force_save="1"
+                                       nolabel="1"
+                                       class="pa_tree"
+                                />
+                            </group>
+                        </group>
+
+                        <group attrs="{'invisible': [('contact_pa_invisible','=',True)]}"
+                               colspan="2"
+                        >
+                            <group>
+                                <field name="contact_pa_name"
+                                       attrs="{'readonly': [('field_readonly','=', True)], 'required': [('contact_pa_name_required','=',True)]}"
+                                       force_save="1"
+                                />
+                            </group>
+                            <group>
+                                <field name="contact_pa_email"
+                                       attrs="{'readonly': [('field_readonly','=',True)], 'required': [('contact_pa_email_required','=',True)]}"
+                                       force_save="1"
+                                />
+                                <field name="contact_pa_pec_mail"
+                                       attrs="{'readonly': [('field_readonly','=',True)], 'required': [('contact_pa_pec_mail_required','=',True)]}"
+                                       force_save="1"
+                                />
+                            </group>
+                        </group>
+
+                        <group attrs="{'invisible':[('category_id_invisible','=',True)]}"
+                               colspan="2"
+                        >
+                            <field name="category_id"
+                                   widget="many2many_tags"
+                                   options="{'color_field': 'color', 'no_create_edit': True}"
+                                   placeholder="Tags..."
+                                   optional="hide"
+                                   attrs="{'readonly': [('field_readonly','=', True)]}"
+                                   force_save="1"
+                            />
+                        </group>
+
+                        <group attrs="{'invisible': [('save_partner_invisible','=', True)]}"
+                               colspan="1"
+                        >
+                            <label for="save_partner"
+                                   string="Save in contacts"
+                                   style="width: 200px !important;"
+                            />
+                            <field name="save_partner"
+                                   force_save="1"
+                                   nolabel="1"
+                            />
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button string="Save"
+                                name="save_contact_action"
+                                type="object"
+                                class="oe_highlight"
+                        />
+                        <button string="Cancel"
+                                class="oe_link"
+                                special="cancel"
+                        />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+
+        <record id="view_sd_dms_wizard_document_add_contact_digital_domicile_form" model="ir.ui.view">
+            <field name="name">view.sd.dms.wizard.document.add.contact.digital.domicile.form</field>
+            <field name="model">sd.dms.wizard.document.add.contact.digital.domicile</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="email_address" readonly="1"/>
+                            <field name="contact_digital_domicile_id" readonly="1" invisible="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_sd_dms_wizard_document_add_contact_digital_domicile_tree" model="ir.ui.view">
+            <field name="name">view.sd.dms.wizard.document.add.contact.digital.domicile.tree</field>
+            <field name="model">sd.dms.wizard.document.add.contact.digital.domicile</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="email_address"/>
+                    <field name="contact_digital_domicile_id" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+
+
+        <record id="view_sd_dms_wizard_document_add_contact_email_address_form" model="ir.ui.view">
+            <field name="name">view.sd.dms.wizard.document.add.contact.email.address.form</field>
+            <field name="model">sd.dms.wizard.document.add.contact.email.address</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="type" readonly="1"/>
+                            <field name="email_address" readonly="1"/>
+                            <field name="contact_email_address_id" readonly="1" invisible="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_sd_dms_wizard_document_add_contact_email_address_tree" model="ir.ui.view">
+            <field name="name">view.sd.dms.wizard.document.add.contact.email.address.tree</field>
+            <field name="model">sd.dms.wizard.document.add.contact.email.address</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="type"/>
+                    <field name="email_address"/>
+                    <field name="contact_email_address_id" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+    </data>
+</odoo>

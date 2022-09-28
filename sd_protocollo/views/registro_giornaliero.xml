@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_sd_protocollo_registro_giornaliero_tree" model="ir.ui.view">
+            <field name="name">view.sd.protocollo.registro.giornaliero.tree</field>
+            <field name="model">sd.protocollo.registro.giornaliero</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="data"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_sd_protocollo_registro_giornaliero_form" model="ir.ui.view">
+            <field name="name">view.sd.protocollo.registro.giornaliero.form</field>
+            <field name="model">sd.protocollo.registro.giornaliero</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="state"
+                               widget="statusbar"
+                               statusbar_visible="aperto,chiuso,protocollato"
+                        />
+                        <button string="Chiudi"
+                                class="oe_highlight"
+                                type="object"
+                                name="action_chiudi"
+                                attrs="{'invisible': [('state','!=','aperto')]}"
+                        />
+                        <button string="Stampa"
+                                class="oe_highlight"
+                                type="object"
+                                name="action_stampa"
+                                attrs="{'invisible': [('state','!=','aperto')]}"
+                        />
+                    </header>
+                    <sheet>
+                        <div name="button_box" class="oe_button_box">
+                            <button name="action_show_protocollo_ids"
+                                    type="object"
+                                    class="oe_stat_button"
+                                    icon="fa-gavel"
+                            >
+                                <field string="Protocolli" name="protocollo_count" widget="statinfo"/>
+                            </button>
+                        </div>
+                        <h1>
+                            <field name="nome"/>
+                        </h1>
+                        <group>
+                            <field name="data" attrs="{'readonly': [('field_readonly','=',True)]}"/>
+                            <field name="data_chiusura"
+                                   attrs="{'invisible': [('data_chiusura','=',False)]}"
+                            />
+                            <field name="autore_id"/>
+                            <field name="company_id"
+                                   groups="base.group_multi_company"
+                                   options="{'no_open': True, 'no_create': True}"
+                                   attrs="{'readonly': [('field_readonly','=',True)]}"
+                            />
+                            <field name="protocollo_id"
+                                   attrs="{'invisible': [('protocollo_id','=',False)]}"/>
+                            <field name="documento_id"
+                                   attrs="{'invisible': [('documento_id','=',False)]}"
+                            />
+                            <field name="documento_id_filename" invisible="1"/>
+                            <field name="documento_id_content"
+                                   filename="documento_id_filename"
+                                   attrs="{'invisible': [('documento_id_content','=',False)]}"
+                            />
+                            <field name="field_readonly" invisible="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_sd_protocollo_registro_giornaliero_search" model="ir.ui.view">
+            <field name="name">view.sd.protocollo.registro.giornaliero.search</field>
+            <field name="model">sd.protocollo.registro.giornaliero</field>
+            <field name="arch" type="xml">
+                <search string="Search Registro Emergenza">
+                    <field name="autore_id"/>
+                    <filter string="Data" name="filter_data" date="data"
+                            default_period="this_month"/>
+                    <separator/>
+                    <group expand="0" string="Group By">
+                        <filter name="aperto" string="Aperto" domain="[('state', '=', 'aperto')]"/>
+                        <filter name="chiuso" string="Chiuso" domain="[('state', '=', 'chiuso')]"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="action_mail_mail_list_mail_da_protocollare_pec" model="ir.actions.act_window">
+            <field name="name">Pec da Protocollare</field>
+            <field name="res_model">mail.mail</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[("filter_mail_da_protocollare_pec", "=", True)]</field>
+            <field name="search_view_id" ref="fl_mail_client.view_mail_mail_search_received"/>
+        </record>
+
+        <record id="action_mail_mail_list_received_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="fl_mail_client.view_mail_mail_tree_received"/>
+            <field name="act_window_id" ref="action_mail_mail_list_mail_da_protocollare_pec"/>
+        </record>
+        <record id="action_mail_mail_list_received_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="fl_mail_client.view_mail_mail_form"/>
+            <field name="act_window_id" ref="action_mail_mail_list_mail_da_protocollare_pec"/>
+        </record>
+
+    </data>
+</odoo>

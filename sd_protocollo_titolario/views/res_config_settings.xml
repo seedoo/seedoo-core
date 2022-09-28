@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="res_config_settings_view_form" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.sd.protocollo</field>
+            <field name="model">res.config.settings</field>
+            <field name="priority" eval="20"/>
+            <field name="inherit_id" ref="sd_protocollo.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+
+
+                <xpath expr="//div[@name='assegnato_a_me']" position="before">
+                    <div class="col-12 col-lg-6 o_setting_box">
+                        <div class="o_setting_left_pane">
+                            <field name="non_classificati_active"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label for="non_classificati_active"/>
+                        </div>
+                    </div>
+                </xpath>
+
+                <div id="msg_module_sd_protocollo_titolario" position="replace" />
+                <xpath expr="//div[@name='right-pane-module_sd_protocollo_titolario']" position="after">
+
+                    <div class="content-group">
+                        <br/>
+                        <div class="row">
+                            <field name="modifica_classificazione" class="col-lg-1 ml16"/>
+                            <label for="modifica_classificazione"/>
+                        </div>
+                        <div class="text-muted">
+                            Assegnatario per competenza può modificare la classificazione dopo aver
+                            messo in lavorazione il protocollo
+                        </div>
+                        <br/>
+                        <div class="row">
+                            <field name="sostituisci_assegnatari" class="col-lg-1 ml16"/>
+                            <label for="sostituisci_assegnatari"/>
+                        </div>
+                        <div class="text-muted">
+                            Assegnatario per competenza può modificare la classificazione dopo aver
+                            messo in lavorazione il protocollo
+                        </div>
+                    </div>
+
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

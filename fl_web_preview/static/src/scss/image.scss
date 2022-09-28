@@ -1,0 +1,11 @@
+/**********************************************************************************
+*   Copyright 2020-2022 Flosslab S.r.l.
+*   Copyright 2017-2019 MuK IT GmbH
+*   License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
+**********************************************************************************/
+
+.o_field_widget.o_field_image .fl_field_image_wrapper:not(.fl_no_preview) {
+	&:hover {
+        cursor: zoom-in;
+    }
+}

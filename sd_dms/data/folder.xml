@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2020-2022 Flosslab S.r.l.
+    Copyright 2017-2019 MuK IT GmbH
+    License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
+-->
+<odoo>
+    <data noupdate="1">
+
+        <record id="data_sd_dms_folder_root" model="sd.dms.folder">
+            <field name="name">Documenti</field>
+            <field name="is_root_folder">True</field>
+            <field name="root_storage_id" ref="sd_dms.data_sd_dms_storage_filestore"/>
+            <field name="inherit_acl">False</field>
+        </record>
+
+    </data>
+</odoo>

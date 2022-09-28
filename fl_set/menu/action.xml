@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <data noupdate="0">
+
+        <record id="action_fl_set_set_list" model="ir.actions.act_window">
+            <field name="name">Sets</field>
+            <field name="res_model">fl.set.set</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="domain">[]</field>
+            <field name="limit">20</field>
+        </record>
+
+        <record id="action_fl_set_set_list_configuration" model="ir.actions.act_window">
+            <field name="name">Sets</field>
+            <field name="res_model">fl.set.set</field>
+            <field name="view_mode">tree,form,kanban</field>
+            <field name="domain">[]</field>
+            <field name="limit">20</field>
+        </record>
+
+        <record id="action_res_users_list" model="ir.actions.act_window">
+            <field name="name">User List</field>
+            <field name="res_model">res.users</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{'create': False, 'edit': False, 'delete': False}</field>
+            <field name="search_view_id" ref="view_res_users_search"/>
+            <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'kanban'}),
+            (0, 0, {'view_mode': 'tree'}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('fl_set.view_fl_set_res_users_custom_form')})]"/>
+        </record>
+
+        <record id="action_res_config_settings" model="ir.actions.act_window">
+            <field name="name">General Settings</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.config.settings</field>
+            <field name="view_mode">form</field>
+            <field name="target">inline</field>
+            <field name="context">{'module': 'fl_set'}</field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="template_protocollo_dashboard" name="protocollo_dashboard_pec"
+              inherit_id="sd_protocollo.template_protocollo_dashboard">
+
+        <xpath expr="//div[@id='da_protocollare']" position="inside">
+            <t t-call="sd_protocollo_pec.template_dashboard_protocolli_da_protocollare">
+                <t t-set="mail_da_protocollare_pec" t-value="mail_da_protocollare_pec"/>
+            </t>
+        </xpath>
+
+    </template>
+
+
+    <template id="template_dashboard_protocolli_da_protocollare">
+            <t t-call="sd_protocollo.temaplate_protocollo_row_kanban_button">
+                <t t-set="icon" t-value="'fa fa-envelope-o'"/>
+                <t t-set="value" t-value="mail_da_protocollare_pec"/>
+                <t t-set="action_name" t-value="'mail_da_protocollare_pec'"/>
+                <t t-set="protocollo_info" t-value="'PEC'"/>
+            </t>
+    </template>
+
+</odoo>

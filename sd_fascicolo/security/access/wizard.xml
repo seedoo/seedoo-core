@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="access_sd_fascicolo_wizard_documento_aggiungi_fascicolo" model="ir.model.access">
+            <field name="name">access.sd.fascicolo.wizard.documento.aggiungi.fascicolo</field>
+            <field name="model_id" ref="model_sd_fascicolo_wizard_documento_aggiungi_fascicolo"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <record id="access_sd_fascicolo_wizard_fascicolo_aggiungi_documento" model="ir.model.access">
+            <field name="name">access.sd.fascicolo.wizard.fascicolo.aggiungi.documento</field>
+            <field name="model_id" ref="model_sd_fascicolo_wizard_fascicolo_aggiungi_documento"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+    </data>
+</odoo>

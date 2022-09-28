@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_sd_protocollo_invio_tree" model="ir.ui.view">
+            <field name="name">view.sd.protocollo.invio.tree</field>
+            <field name="model">sd.protocollo.invio</field>
+            <field name="inherit_id" ref="sd_protocollo.view_sd_protocollo_invio_tree"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='state']" position="before">
+                    <field name="messaggio_id"/>
+                    <field name="button_reinvia_mail_invisible" invisible="1"/>
+                    <field name="button_reset_mail_invisible" invisible="1"/>
+                    <field name="invio_successivo_ids" invisible="1"/>
+                    <field name="ricevuta_pec_ids" invisible="1"/>
+                </xpath>
+
+                <xpath expr="//field[@name='state']" position="after">
+                    <button name="action_reinvia_mail"
+                            type="object"
+                            class="fa fa-repeat btn btn-secondary o-kanban-button-new oe_edit_only"
+                            attrs="{'invisible': [('button_reinvia_mail_invisible','=', True)]}">
+                    </button>
+                    <button name="action_reset_mail"
+                            type="object"
+                            class="fa fa-repeat btn btn-secondary o-kanban-button-new oe_edit_only"
+                            attrs="{'invisible': [('button_reset_mail_invisible','=', True)]}">
+                    </button>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="view_sd_protocollo_invio_form" model="ir.ui.view">
+            <field name="name">view.sd.protocollo.invio.form</field>
+            <field name="model">sd.protocollo.invio</field>
+            <field name="inherit_id" ref="sd_protocollo.view_sd_protocollo_invio_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='mezzo_trasmissione_id']" position="before">
+                    <field name="messaggio_id"
+                           options="{'no_create_edit': True}"
+                           context="{'form_view_ref':'fl_mail_client_pec.view_mail_mail_form'}"/>
+                </xpath>
+
+                <xpath expr="//field[@name='data_invio']" position="after">
+                    <field name="modalita_invio"/>
+                </xpath>
+
+                <xpath expr="//page[@name='destinatari']" position="after">
+                    <page string="Ricevute" attrs="{'invisible': [('ricevuta_pec_ids','=',[])]}">
+                        <field name="ricevuta_pec_ids">
+                            <tree>
+                                <field name="subject"/>
+                                <field name="date"/>
+                                <field name="pec_type"/>
+                                <field name="recipient_addr"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="data_sd_protocollo_registro_default" model="sd.protocollo.registro">
+            <field name="nome">Registro Ufficiale</field>
+            <field name="codice">REG.UFF</field>
+            <field name="utente_abilitato_ids" eval="[(6, 0, [
+                ref('base.user_admin')
+            ])]"/>
+            <field name="ufficiale" eval="True"/>
+            <field name="active" eval="True"/>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="m2m_tree">
+        <t t-if="widget.mode === 'readonly'">
+            <span class="oe_form_m2m_follow"/>
+        </t>
+        <t t-if="widget.mode === 'edit'">
+            <ul t-att-id="'treeData_' + widget.name" class="fl-ztree"></ul>
+        </t>
+    </t>
+</templates>

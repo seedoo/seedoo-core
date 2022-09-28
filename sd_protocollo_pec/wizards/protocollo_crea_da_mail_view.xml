@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_sd_protocollo_wizard_protocollo_crea_da_mail_form" model="ir.ui.view">
+            <field name="name">view.sd.protocollo.wizard.protocollo.crea.da.mail.form</field>
+            <field name="model">sd.protocollo.wizard.protocollo.crea.da.mail</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="company_id"
+                                   groups="base.group_multi_company"
+                                   attrs="{'invisible': [('company_id_invisible', '=', True)]}"
+                                   options="{'no_open': True, 'no_create': True}"
+                                   required="1"
+                            />
+                            <field name="protocollatore_ufficio_id"
+                                   attrs="{'invisible': [('protocollatore_ufficio_id_invisible','=',True)]}"
+                                   context="{'company_id': company_id}"
+                                   required="1"
+                            />
+                            <field name="registro_id"
+                                   attrs="{'invisible': [('registro_id_invisible','=',True)]}"
+                                   options="{'no_open': True, 'no_create': True}"
+                                   context="{'company_id': company_id}"
+                                   required="1"
+                            />
+                            <field name="documento_tipologia"/>
+                        </group>
+                        <group>
+                            <field name="documento_attachment_id"
+                                   domain="[('message_ids','=',mail_message_id)]"
+                                   attrs="{'invisible': [('documento_tipologia','!=','allegato')], 'required':[('documento_tipologia','=','allegato')]}"
+                                   widget="selection"
+                            />
+                        </group>
+                        <group>
+                            <field name="folder_id"
+                                   attrs="{'invisible': [('folder_id_invisible','=',True)]}"
+                                   options="{'no_open': True, 'no_create': True}"
+                                   required="1"
+                            />
+                        </group>
+                        <group>
+                            <field name="riservato"/>
+                        </group>
+                        <group invisible="1">
+                            <field name="mail_message_id"/>
+                            <field name="company_id_invisible"/>
+                            <field name="registro_id_invisible"/>
+                            <field name="protocollatore_ufficio_id_invisible"/>
+                            <field name="folder_id_invisible"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="action_crea_bozza_protocollo"
+                                type="object"
+                                string="Crea Bozza Protocollo"
+                                class="oe_highlight"
+                        />
+                        <button string="Abbandona"
+                                class="oe_link"
+                                special="cancel"
+                        />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

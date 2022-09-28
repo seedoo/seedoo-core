@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="action_sd_dms_titolario_voce_titolario_list" model="ir.actions.act_window">
+            <field name="name">Voci Titolario</field>
+            <field name="res_model">sd.dms.titolario.voce.titolario</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">
+                [
+                ("titolario_id", "=", active_id)
+                ]
+            </field>
+        </record>
+
+    </data>
+</odoo>

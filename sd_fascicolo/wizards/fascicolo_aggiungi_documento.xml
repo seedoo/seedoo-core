@@ -1,0 +1,18 @@
+<odoo>
+    <record id="view_sd_fascicolo_wizard_fascicolo_aggiungi_documento_form" model="ir.ui.view">
+        <field name="name">view.sd.fascicolo.wizard.fascicolo.aggiungi.documento.form</field>
+        <field name="model">sd.fascicolo.wizard.fascicolo.aggiungi.documento</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="documento_ids"
+                       options="{'no_create': True}"
+                />
+                <footer>
+                    <button name="write_documents" string="Save" type="object" class="oe_highlight"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+
+        </field>
+    </record>
+</odoo>

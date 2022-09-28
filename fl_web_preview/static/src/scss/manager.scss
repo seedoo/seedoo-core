@@ -1,0 +1,58 @@
+/**********************************************************************************
+*   Copyright 2020-2022 Flosslab S.r.l.
+*   Copyright 2017-2019 MuK IT GmbH
+*   License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
+**********************************************************************************/
+
+.fl_web_preview_manager {
+	height: 100%;
+	@include fl-flex-container(column);
+	.fl_web_preview_manager_body {
+		@include fl-flex-child(1, 1, auto);
+	}
+	.fl_web_preview_manager_header,
+	.fl_web_preview_manager_footer {
+		@include fl-flex-child(0, 0, auto);
+		background: gray('700');
+	}
+	.fl_web_preview_manager_header {
+		justify-content: flex-end;
+		.fl_web_preview_actions {
+			padding: 0.6rem 0.8rem;
+			a {
+				color: gray('200');
+				padding: 0 0.5rem;
+				&:hover {
+					color: gray('400');
+				}
+			}
+			&:empty {
+			   display: none;
+			}
+		}
+	}
+	.fl_web_preview_manager_footer {
+		justify-content: center;
+		.pagination {
+			margin: 0;
+			.page-item .page-link {
+			    background-color: gray('700');
+			    color: gray('200');
+			    border: none;
+			    &:focus, &:hover {
+			    	box-shadow: none;
+				    background-color: gray('200');
+				    color: gray('700');
+			    }
+			}
+			.page-item.disabled .page-link {
+			    color: gray('400');
+			}
+			.page-item.active .page-link {
+			    background-color: gray('200');
+			    color: gray('700');
+			}
+
+		}
+	}
+}

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <data noupdate="0">
+
+        <record id="group_sd_fascicolo_user" model="res.groups">
+            <field name="name">User</field>
+            <field name="category_id" ref="category_sd_fascicolo"/>
+            <field name="implied_ids" eval="[(6, 0, [
+                ref('base.group_user'),
+            ])]"/>
+        </record>
+
+        <record id="group_sd_fascicolo_manager" model="res.groups">
+            <field name="name">Manager</field>
+            <field name="category_id" ref="category_sd_fascicolo"/>
+            <field name="implied_ids" eval="[(6, 0, [
+                ref('group_sd_fascicolo_user'),
+            ])]"/>
+        </record>
+
+        <record id="group_sd_fascicolo_administrator" model="res.groups">
+            <field name="name">Administrator</field>
+            <field name="category_id" ref="category_sd_fascicolo"/>
+            <field name="implied_ids" eval="[(6, 0, [
+                ref('group_sd_fascicolo_manager'),
+            ])]"/>
+            <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+        </record>
+
+    </data>
+</odoo>

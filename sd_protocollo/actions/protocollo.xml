@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <record id="action_sd_protocollo_protocollo_annulla" model="ir.actions.server">
+            <field name="name">Annulla</field>
+            <field name="model_id" ref="model_sd_protocollo_protocollo"/>
+            <field name="binding_model_id" ref="sd_protocollo.model_sd_protocollo_protocollo"/>
+            <field name="binding_view_types">form</field>
+            <field name="state">code</field>
+            <field name="code">
+                action = records.protocollo_annulla_action()
+            </field>
+        </record>
+
+        <record id="action_sd_protocollo_protocollo_completa_lavorazione" model="ir.actions.server">
+            <field name="name">Lavorazione completata</field>
+            <field name="model_id" ref="model_sd_protocollo_protocollo"/>
+            <field name="binding_model_id" ref="sd_protocollo.model_sd_protocollo_protocollo"/>
+            <field name="binding_view_types">list</field>
+            <field name="state">code</field>
+            <field name="code">
+                action = records.protocollo_completa_lavorazione_action()
+            </field>
+        </record>
+
+        <record id="action_sd_protocollo_protocollo_list_protocolli_assegnati_a_me" model="ir.actions.act_window">
+            <field name="name">Protocolli Assegnati a Me</field>
+            <field name="res_model">sd.protocollo.protocollo</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[("filter_protocolli_assegnati_a_me", "=", True)]</field>
+            <field name="limit">20</field>
+        </record>
+
+        <record id="action_sd_protocollo_protocollo_list_protocolli_in_lavorazione" model="ir.actions.act_window">
+            <field name="name">Protocolli in Lavorazione</field>
+            <field name="res_model">sd.protocollo.protocollo</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[("filter_protocolli_in_lavorazione", "=", True)]</field>
+            <field name="limit">20</field>
+        </record>
+
+        <record id="action_sd_protocollo_protocollo_list_protocolli_bozza" model="ir.actions.act_window">
+            <field name="name">Protocolli in Bozza</field>
+            <field name="res_model">sd.protocollo.protocollo</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[("filter_protocolli_bozza", "=", True)]</field>
+            <field name="limit">20</field>
+        </record>
+
+        <record id="action_sd_protocollo_protocollo_list_protocolli_assegnati_a_me_competenza" model="ir.actions.act_window">
+            <field name="name">Protocolli Assegnati a me per Competenza</field>
+            <field name="res_model">sd.protocollo.protocollo</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[("filter_protocolli_assegnati_a_me_competenza", "=", True)]</field>
+            <field name="limit">20</field>
+        </record>
+
+        <record id="action_sd_protocollo_protocollo_list_protocolli_assegnati_mio_ufficio" model="ir.actions.act_window">
+            <field name="name">Protocolli Assegnati al mio Ufficio</field>
+            <field name="res_model">sd.protocollo.protocollo</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[("filter_protocolli_assegnati_mio_ufficio", "=", True)]</field>
+            <field name="limit">20</field>
+        </record>
+
+        <record id="action_sd_protocollo_protocollo_list_protocolli_assegnati_mio_ufficio_competenza" model="ir.actions.act_window">
+            <field name="name">Protocolli Assegnati al mio Ufficio per Competenza</field>
+            <field name="res_model">sd.protocollo.protocollo</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[("filter_protocolli_assegnati_mio_ufficio_competenza", "=", True)]</field>
+            <field name="limit">20</field>
+        </record>
+
+        <record id="action_sd_protocollo_protocollo_list_protocolli_da_assegnare" model="ir.actions.act_window">
+            <field name="name">Protocolli da Assegnare</field>
+            <field name="res_model">sd.protocollo.protocollo</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[("filter_protocolli_da_assegnare", "=", True)]</field>
+            <field name="limit">20</field>
+        </record>
+
+        <record id="action_sd_protocollo_protocollo_list_protocolli_da_inviare" model="ir.actions.act_window">
+            <field name="name">Protocolli da Inviare</field>
+            <field name="res_model">sd.protocollo.protocollo</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[("filter_protocolli_da_inviare", "=", True)]</field>
+            <field name="limit">20</field>
+        </record>
+
+        <record id="action_sd_protocollo_protocollo_list_protocolli_assegnati_da_me" model="ir.actions.act_window">
+            <field name="name">Protocolli Assegnati da me</field>
+            <field name="res_model">sd.protocollo.protocollo</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[("filter_protocolli_assegnati_da_me", "=", True)]</field>
+            <field name="limit">20</field>
+        </record>
+
+        <record id="action_sd_protocollo_protocollo_list_protocolli_rifiutati" model="ir.actions.act_window">
+            <field name="name">Protocolli Rifiutati</field>
+            <field name="res_model">sd.protocollo.protocollo</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[("filter_protocolli_rifiutati", "=", True)]</field>
+            <field name="limit">20</field>
+        </record>
+
+        <record id="action_sd_protocollo_protocollo_genera_etichetta" model="ir.actions.server">
+            <field name="name">Scarica Etichetta</field>
+            <field name="model_id" ref="model_sd_protocollo_protocollo"/>
+            <field name="binding_model_id" ref="sd_protocollo.model_sd_protocollo_protocollo"/>
+            <field name="binding_view_types">form</field>
+            <field name="state">code</field>
+            <field name="code">
+                action = records.genera_etichetta()
+            </field>
+        </record>
+
+        <record id="action_sd_protocollo_protocollo_rispondi" model="ir.actions.server">
+            <field name="name">Reply</field>
+            <field name="model_id" ref="model_sd_protocollo_protocollo"/>
+            <field name="binding_model_id" ref="sd_protocollo.model_sd_protocollo_protocollo"/>
+            <field name="binding_view_types">form</field>
+            <field name="state">code</field>
+            <field name="code">
+                action = records.protocollo_rispondi_action()
+            </field>
+        </record>
+
+    </data>
+</odoo>

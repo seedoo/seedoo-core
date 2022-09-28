@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+    xmlns:pec="http://www.agid.gov.it/protocollo/pec/"
+    xmlns:prot="http://www.agid.gov.it/protocollo/"
+    xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+    
+    targetNamespace="http://www.agid.gov.it/protocollo/pec/" 
+    
+    elementFormDefault="qualified" 
+    attributeFormDefault="qualified"          
+    
+    version="3.0"		  
+    > 
+    <xs:import namespace="http://www.agid.gov.it/protocollo/" schemaLocation="segnatura_protocollo.xsd"/>
+        
+    <xs:element name="SegnaturaInformatica" type="prot:SegnaturaInformaticaType"/>
+    
+    <xs:element name="ConfermaRicezione" type="pec:ConfermaType"/>
+    
+    <xs:element name="AggiornamentoConferma" type="pec:ConfermaType"/>
+    
+    <xs:element name="NotificaEccezione" type="pec:NotificaEccezioneType"/>
+    
+    <xs:element name="AnnullamentoProtocollazione" type="pec:AnnullamentoProtocollazioneType"/>
+    
+    <xs:complexType name="ConfermaType">
+        <xs:sequence>
+            <xs:element name="Identificatore" type="prot:IdentificatoreType"/>
+            <xs:element name="MessaggioRicevuto" type="pec:MessaggioRicevutoType"/>            
+        </xs:sequence>
+        <xs:attribute name="versione" type="xs:NMTOKEN" fixed="3.0.0" use="required"/>
+        <xs:attribute name="lang" type="xs:NMTOKEN" fixed="it" use="required"/>
+    </xs:complexType>
+    
+    <xs:complexType name="NotificaEccezioneType">
+        <xs:sequence>
+            <xs:element name="Identificatore" type="prot:IdentificatoreType" minOccurs="0"/>
+            <xs:element name="MessaggioRicevuto" type="pec:MessaggioRicevutoType"/>
+            <xs:element name="Motivo" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="versione" type="xs:NMTOKEN" fixed="3.0.0" use="required"/>
+        <xs:attribute name="lang" type="xs:NMTOKEN" fixed="it" use="required"/>
+    </xs:complexType>
+    
+    <xs:complexType name="AnnullamentoProtocollazioneType">
+        <xs:sequence>            
+            <xs:element name="Identificatore" type="prot:IdentificatoreType"/>
+            <xs:element name="Motivo" type="xs:string"/>
+            <xs:element name="Provvedimento" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="versione" type="xs:NMTOKEN" fixed="3.0.0" use="required"/>
+        <xs:attribute name="lang" type="xs:NMTOKEN" fixed="it" use="required"/>
+    </xs:complexType>
+   
+    <xs:complexType name="MessaggioRicevutoType"> 
+        <xs:choice>
+            <xs:sequence>
+                <xs:element name="Identificatore" type="prot:IdentificatoreType"/>
+                <xs:element name="PrimaRegistrazione" type="prot:IdentificatoreType" minOccurs="0"/>                   
+            </xs:sequence>
+            <xs:element name="DescrizioneMessaggio" type="xs:string" />
+        </xs:choice>                   
+    </xs:complexType>
+    
+</xs:schema>

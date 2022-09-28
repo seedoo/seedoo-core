@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_res_partner_digital_domicile_tree" model="ir.ui.view">
+            <field name="name">view.res.partner.digital.domicile.tree</field>
+            <field name="model">res.partner.digital.domicile</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="type" invisible="1"/>
+                    <field name="email_address"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_res_partner_digital_domicile_tree_aoo" model="ir.ui.view">
+            <field name="name">view.res.partner.digital.domicile.tree.aoo</field>
+            <field name="model">res.partner.digital.domicile</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="aoo_id_name"/>
+                    <field name="email_address"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_res_partner_digital_domicile_form" model="ir.ui.view">
+            <field name="name">view.res.partner.digital.domicile.form</field>
+            <field name="model">res.partner.digital.domicile</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="email_address"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_res_partner_digital_domicile_form_aoo" model="ir.ui.view">
+            <field name="name">view.res.partner.digital.domicile.form.aoo</field>
+            <field name="model">res.partner.digital.domicile</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="aoo_id_name"/>
+                            <field name="email_address"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

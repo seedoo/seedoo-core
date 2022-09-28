@@ -1,0 +1,256 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* sd_dms_titolario
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-07-22 13:39+0000\n"
+"PO-Revision-Date: 2021-07-22 13:39+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: sd_dms_titolario
+#: model:ir.model.fields,field_description:sd_dms_titolario.field_sd_dms_titolario_titolario__active
+#: model:ir.model.fields,field_description:sd_dms_titolario.field_sd_dms_titolario_voce_titolario__active
+msgid "Active"
+msgstr "Attivo"
+
+#. module: sd_dms_titolario
+#: model_terms:ir.ui.view,arch_db:sd_dms_titolario.view_sd_dms_titolario_titolario_search
+#: model_terms:ir.ui.view,arch_db:sd_dms_titolario.view_sd_dms_titolario_voce_titolario_search
+msgid "Archived"
+msgstr "Archiviato"
+
+#. module: sd_dms_titolario
+#: code:addons/sd_dms_titolario/models/document.py:0
+#, python-format
+msgid ""
+"Associando un'altra voce di titolario con company diversa da quella del "
+"documento si dovrà aggiornare la company del titolario"
+msgstr ""
+
+#. module: sd_dms_titolario
+#: model:ir.model.fields.selection,name:sd_dms_titolario.selection__sd_dms_titolario_voce_titolario__class_type__classe
+msgid "Classe"
+msgstr ""
+
+#. module: sd_dms_titolario
+#: model:ir.model.fields,field_description:sd_dms_titolario.field_sd_dms_document__voce_titolario_id
+msgid "Classificazione"
+msgstr ""
+
+#. module: sd_dms_titolario
+#: model:ir.model.fields,field_description:sd_dms_titolario.field_sd_dms_titolario_voce_titolario__code
+msgid "Codice"
+msgstr ""
+
+#. module: sd_dms_titolario
+#: model:ir.model.fields,field_description:sd_dms_titolario.field_sd_dms_titolario_titolario__company_id
+#: model:ir.model.fields,field_description:sd_dms_titolario.field_sd_dms_titolario_voce_titolario__titolario_company_id
+msgid "Company"
+msgstr "Azienda"
+
+#. module: sd_dms_titolario
+#: model:ir.model,name:sd_dms_titolario.model_res_config_settings
+msgid "Config Settings"
+msgstr "Impostazioni di configurazione"
+
+#. module: sd_dms_titolario
+#: model:ir.model.fields,field_description:sd_dms_titolario.field_sd_dms_titolario_titolario__count_voci_titolario
+msgid "Count voci titolario"
+msgstr "Numero voci di titolario"
+
+#. module: sd_dms_titolario
+#: model:ir.model.fields,field_description:sd_dms_titolario.field_sd_dms_titolario_titolario__create_uid
+#: model:ir.model.fields,field_description:sd_dms_titolario.field_sd_dms_titolario_voce_titolario__create_uid
+#: model:ir.model.fields,field_description:sd_dms_titolario.field_sd_dms_titolario_wizard_set_titolario__create_uid
+msgid "Created by"
+msgstr "Creato da"
+
+#. module: sd_dms_titolario
+#: model:ir.model.fields,field_description:sd_dms_titolario.field_sd_dms_titolario_titolario__create_date
+#: model:ir.model.fields,field_description:sd_dms_titolario.field_sd_dms_titolario_voce_titolario__create_date
+#: model:ir.model.fields,field_description:sd_dms_titolario.field_sd_dms_titolario_wizard_set_titolario__create_date
+msgid "Created on"
+msgstr "Creato il"
+
+#. module: sd_dms_titolario
+#: model:ir.model.fields,field_description:sd_dms_titolario.field_sd_dms_titolario_voce_titolario__description
+msgid "Descrizione"
+msgstr ""
+
+#. module: sd_dms_titolario
+#: model:ir.model.fields,field_description:sd_dms_titolario.field_ir_config_parameter__display_name
+#: model:ir.model.fields,field_description:sd_dms_titolario.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:sd_dms_titolario.field_sd_dms_document__display_name
+#: model:ir.model.fields,field_description:sd_dms_titolario.field_sd_dms_titolario_titolario__display_name
+#: model:ir.model.fields,field_description:sd_dms_titolario.field_sd_dms_titolario_voce_titolario__display_name
+#: model:ir.model.fields,field_description:sd_dms_titolario.field_sd_dms_titolario_wizard_set_titolario__display_name
+msgid "Display Name"
+msgstr "Nome visualizzato"
+
+#. module: sd_dms_titolario
+#: model:ir.model,name:sd_dms_titolario.model_sd_dms_document
+#: model:ir.model.fields,field_description:sd_dms_titolario.field_sd_dms_titolario_wizard_set_titolario__document_id
+msgid "Document"
+msgstr "Documento"
+
+#. module: sd_dms_titolario
+#: model:ir.model.fields,field_description:sd_dms_titolario.field_ir_config_parameter__id
+#: model:ir.model.fields,field_description:sd_dms_titolario.field_res_config_settings__id
+#: model:ir.model.fields,field_description:sd_dms_titolario.field_sd_dms_document__id
+#: model:ir.model.fields,field_description:sd_dms_titolario.field_sd_dms_titolario_titolario__id
+#: model:ir.model.fields,field_description:sd_dms_titolario.field_sd_dms_titolario_voce_titolario__id
+#: model:ir.model.fields,field_description:sd_dms_titolario.field_sd_dms_titolario_wizard_set_titolario__id
+msgid "ID"
+msgstr ""
+
+#. module: sd_dms_titolario
+#: model:ir.model.fields,field_description:sd_dms_titolario.field_ir_config_parameter____last_update
+#: model:ir.model.fields,field_description:sd_dms_titolario.field_res_config_settings____last_update
+#: model:ir.model.fields,field_description:sd_dms_titolario.field_sd_dms_document____last_update
+#: model:ir.model.fields,field_description:sd_dms_titolario.field_sd_dms_titolario_titolario____last_update
+#: model:ir.model.fields,field_description:sd_dms_titolario.field_sd_dms_titolario_voce_titolario____last_update
+#: model:ir.model.fields,field_description:sd_dms_titolario.field_sd_dms_titolario_wizard_set_titolario____last_update
+msgid "Last Modified on"
+msgstr "Ultima modifica il"
+
+#. module: sd_dms_titolario
+#: model:ir.model.fields,field_description:sd_dms_titolario.field_sd_dms_titolario_titolario__write_uid
+#: model:ir.model.fields,field_description:sd_dms_titolario.field_sd_dms_titolario_voce_titolario__write_uid
+#: model:ir.model.fields,field_description:sd_dms_titolario.field_sd_dms_titolario_wizard_set_titolario__write_uid
+msgid "Last Updated by"
+msgstr "Ultima modifica da"
+
+#. module: sd_dms_titolario
+#: model:ir.model.fields,field_description:sd_dms_titolario.field_sd_dms_titolario_titolario__write_date
+#: model:ir.model.fields,field_description:sd_dms_titolario.field_sd_dms_titolario_voce_titolario__write_date
+#: model:ir.model.fields,field_description:sd_dms_titolario.field_sd_dms_titolario_wizard_set_titolario__write_date
+msgid "Last Updated on"
+msgstr "Ultima modifica il"
+
+#. module: sd_dms_titolario
+#: model:ir.model.fields,field_description:sd_dms_titolario.field_sd_dms_titolario_titolario__name
+#: model:ir.model.fields,field_description:sd_dms_titolario.field_sd_dms_titolario_voce_titolario__name
+msgid "Nome"
+msgstr ""
+
+#. module: sd_dms_titolario
+#: model:ir.model.fields,field_description:sd_dms_titolario.field_sd_dms_titolario_voce_titolario__complete_name
+msgid "Nome Completo"
+msgstr ""
+
+#. module: sd_dms_titolario
+#: model:ir.model.fields,field_description:sd_dms_titolario.field_sd_dms_titolario_voce_titolario__parent_active
+msgid "Parent Active"
+msgstr "Padre attivo"
+
+#. module: sd_dms_titolario
+#: model:ir.model.fields,field_description:sd_dms_titolario.field_sd_dms_titolario_voce_titolario__parent_path_name
+msgid "Parent path"
+msgstr "Path padre"
+
+#. module: sd_dms_titolario
+#: model:ir.model.fields,field_description:sd_dms_titolario.field_sd_dms_titolario_voce_titolario__path_name
+msgid "Path Name"
+msgstr ""
+
+#. module: sd_dms_titolario
+#: model_terms:ir.ui.view,arch_db:sd_dms_titolario.view_sd_dms_titolario_titolario_search
+#: model_terms:ir.ui.view,arch_db:sd_dms_titolario.view_sd_dms_titolario_voce_titolario_search
+msgid "Search Partner"
+msgstr "Cerca partner"
+
+#. module: sd_dms_titolario
+#: model:ir.model.fields.selection,name:sd_dms_titolario.selection__sd_dms_titolario_voce_titolario__class_type__sottoclasse
+msgid "Sottoclasse"
+msgstr ""
+
+#. module: sd_dms_titolario
+#: model:ir.model.fields,field_description:sd_dms_titolario.field_sd_dms_titolario_titolario__state
+msgid "Stato"
+msgstr ""
+
+#. module: sd_dms_titolario
+#: model:ir.model,name:sd_dms_titolario.model_ir_config_parameter
+msgid "System Parameter"
+msgstr "Parametro di sistema"
+
+#. module: sd_dms_titolario
+#: model:ir.model.fields,field_description:sd_dms_titolario.field_sd_dms_titolario_voce_titolario__class_type
+msgid "Tipologia"
+msgstr ""
+
+#. module: sd_dms_titolario
+#: model:ir.actions.act_window,name:sd_dms_titolario.action_sd_dms_titolario_titolario_list
+#: model:ir.model,name:sd_dms_titolario.model_sd_dms_titolario_titolario
+#: model:ir.model.fields,field_description:sd_dms_titolario.field_sd_dms_titolario_voce_titolario__titolario_id
+#: model:ir.ui.menu,name:sd_dms_titolario.menu_item_sd_dms_titolario_titolario_list
+msgid "Titolario"
+msgstr ""
+
+#. module: sd_dms_titolario
+#: model:ir.model.fields.selection,name:sd_dms_titolario.selection__sd_dms_titolario_voce_titolario__class_type__titolo
+msgid "Titolo"
+msgstr ""
+
+#. module: sd_dms_titolario
+#: model:ir.model.fields.selection,name:sd_dms_titolario.selection__res_config_settings__ztree_widget_config__all
+msgid "Tutte"
+msgstr ""
+
+#. module: sd_dms_titolario
+#: model:ir.model,name:sd_dms_titolario.model_sd_dms_titolario_voce_titolario
+msgid "Voce Titolario"
+msgstr ""
+
+#. module: sd_dms_titolario
+#: model:ir.model.fields,field_description:sd_dms_titolario.field_sd_dms_document__voce_titolario_name
+msgid "Voce Titolario Nome"
+msgstr ""
+
+#. module: sd_dms_titolario
+#: model:ir.model.fields,field_description:sd_dms_titolario.field_sd_dms_titolario_voce_titolario__parent_id
+msgid "Voce Titolario Padre"
+msgstr ""
+
+#. module: sd_dms_titolario
+#: model:ir.model.fields.selection,name:sd_dms_titolario.selection__res_config_settings__ztree_widget_config__only_child
+msgid "Voci Senza Figli"
+msgstr ""
+
+#. module: sd_dms_titolario
+#: model:ir.actions.act_window,name:sd_dms_titolario.action_sd_dms_titolario_voce_titolario_list
+#: model:ir.model.fields,field_description:sd_dms_titolario.field_sd_dms_titolario_titolario__voce_titolario_ids
+#: model:ir.model.fields,field_description:sd_dms_titolario.field_sd_dms_titolario_voce_titolario__child_ids
+#: model_terms:ir.ui.view,arch_db:sd_dms_titolario.view_sd_dms_titolario_titolario_form
+#: model_terms:ir.ui.view,arch_db:sd_dms_titolario.view_sd_dms_titolario_voce_titolario_form
+msgid "Voci Titolario"
+msgstr ""
+
+#. module: sd_dms_titolario
+#: model:ir.model.fields,field_description:sd_dms_titolario.field_res_config_settings__ztree_widget_config
+msgid "Voci di titolario selezionabili"
+msgstr ""
+
+#. module: sd_dms_titolario
+#: code:addons/sd_dms_titolario/models/document.py:0
+#, python-format
+msgid "Warning!"
+msgstr ""
+
+#. module: sd_dms_titolario
+#: model:ir.model,name:sd_dms_titolario.model_sd_dms_titolario_wizard_set_titolario
+msgid "Wizard set Titolario"
+msgstr ""
+
+#. module: sd_dms_titolario
+#: model:ir.model.fields,field_description:sd_dms_titolario.field_sd_dms_titolario_voce_titolario__sequence
+msgid "sequence"
+msgstr "sequenza"

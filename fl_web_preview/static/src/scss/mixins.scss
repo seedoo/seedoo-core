@@ -1,0 +1,24 @@
+/**********************************************************************************
+*   Copyright 2020-2022 Flosslab S.r.l.
+*   Copyright 2017-2019 MuK IT GmbH
+*   License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
+**********************************************************************************/
+
+@mixin fl-flex-container ($direction: row, $wrap: nowrap, $justify: flex-start, $items: stretch, $content: stretch) {
+	display: flex;
+	flex-wrap: $wrap;
+	flex-direction: $direction;
+	justify-content: $justify;
+	align-content: $content;
+	align-items: $items;
+}
+
+@mixin fl-flex-child ($grow: 0, $shrink: 1, $basis: auto, $order: 0) {
+	display: flex;
+	flex-grow: $grow;
+	flex-shrink: $shrink;
+	flex-basis: $basis;
+	order: $order;
+}
+
+

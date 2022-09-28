@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="data_sd_protocollo_cartella_corrente" model="sd.protocollo.cartella">
+            <field name="company_id" ref="base.main_company"/>
+            <field name="protocollo_cartella_id" ref="sd_protocollo.data_sd_dms_folder_protocolli"/>
+            <field name="registro_giornaliero_cartella_id" ref="sd_protocollo.data_sd_dms_folder_registri_giornalieri"/>
+        </record>
+
+    </data>
+</odoo>

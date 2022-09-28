@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_sd_protocollo_wizard_protocollo_reinvio_mail_form" model="ir.ui.view">
+            <field name="name">view.sd.protocollo.wizard.protocollo.reinvio.mail.form</field>
+            <field name="model">sd.protocollo.wizard.protocollo.reinvio.mail</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="modalita_invio_readonly" invisible="1"/>
+                            <field name="modalita_invio" attrs="{'readonly':[('modalita_invio_readonly', '=', True)]}"/>
+                            <field name="motivazione"/>
+                        </group>
+                        <label for="contatto_ids" string="Contatti"/>
+                        <group>
+                            <field name="contatto_ids" options="{'create': false}" nolabel="1">
+                                <tree string="Contatti" editable="top">
+                                    <field name="name" readonly="1"/>
+                                    <field name="email"/>
+                                    <field name="destinatario_id" invisible="1"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="action_crea_invii"
+                                type="object"
+                                string="Crea invii"
+                                class="oe_highlight oe_read_only"
+                        />
+                        <button string="Abbandona"
+                                class="oe_link"
+                                special="cancel"
+                        />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_sd_protocollo_wizard_protocollo_reinvio_mail_contatto_tree" model="ir.ui.view">
+            <field name="name">view.sd.protocollo.wizard.protocollo.reinvio.mail.contatto.tree</field>
+            <field name="model">sd.protocollo.wizard.protocollo.reinvio.mail.contatto</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="email"/>
+                    <field name="destinatario_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_sd_protocollo_wizard_protocollo_reinvio_mail_contatto_form" model="ir.ui.view">
+            <field name="name">view.sd.protocollo.wizard.protocollo.reinvio.mail.contatto.form</field>
+            <field name="model">sd.protocollo.wizard.protocollo.reinvio.mail.contatto</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="destinatario_id" readonly="1" invisible="1"/>
+                            <field name="name" readonly="1"/>
+                            <field name="email"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

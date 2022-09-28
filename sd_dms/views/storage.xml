@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2020-2022 Flosslab S.r.l.
+    Copyright 2017-2019 MuK IT GmbH
+    License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
+-->
+<odoo>
+    <data noupdate="0">
+
+        <record id="view_sd_dms_storage_tree" model="ir.ui.view">
+            <field name="name">view.sd.dms.storage.tree</field>
+            <field name="model">sd.dms.storage</field>
+            <field name="arch" type="xml">
+                <tree string="Storages">
+                    <field name="name"/>
+                    <field name="count_storage_folders"/>
+                    <field name="count_storage_documents"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_sd_dms_storage_form" model="ir.ui.view">
+            <field name="name">view.sd.dms.storage.form</field>
+            <field name="model">sd.dms.storage</field>
+            <field name="arch" type="xml">
+                <form string="Storage">
+                    <header>
+                        <button name="action_storage_migrate"
+                                type="object"
+                                string="Migrate Files"
+                        />
+                        <button name="%(sd_dms.action_sd_dms_document_list_storage_migration)d"
+                                type="action"
+                                string="Manual File Migration"
+                                class="oe_stat_button"
+                        />
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group name="settings">
+                            <group>
+                                <field name="save_type"/>
+                            </group>
+                            <group>
+                                <field name="company_id"
+                                       groups="base.group_multi_company"
+                                       options="{'no_open': True, 'no_create': True}"
+                                />
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="page_roots" string="Root Folders">
+                                <field name="root_folder_ids"
+                                       context="{'default_root_storage_id': active_id, 'default_is_root_folder': True}">
+                                    <tree string="Root Directories">
+                                        <field name="name"/>
+                                        <field name="size" widget="binary_size"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>
