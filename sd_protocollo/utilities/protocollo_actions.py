@@ -64,7 +64,6 @@ class ProtocolloActions(models.Model):
         except Exception as e:
             _logger.error(e)
             errors["segnatura_pdf"] = "Errore nell'inserimento della segnatura sui PDF"
-
         try:
             self.aggiorna_acl("registrazione", self.id)
         except Exception as e:
@@ -74,7 +73,7 @@ class ProtocolloActions(models.Model):
             self.rinomina_documenti()
         except Exception as e:
             _logger.error(e)
-            errors["rinomina_documenti"] = "Errore nel rinominazione dei documenti"
+            errors["rinomina_documenti"] = "Errore nella rinominazione dei documenti"
 
         try:
             # creazione dello storico della action di registrazione del protocollo
@@ -209,8 +208,9 @@ class ProtocolloActions(models.Model):
 
     def salva_mittente_interno(self, mittente):
         self.ensure_one()
+
         self.write({
-            "mittente_interno_id": mittente.id,
+            "mittente_interno_id_char": str(mittente.id),
             "mittente_interno_nome": mittente.nome
         })
 
@@ -719,14 +719,16 @@ class ProtocolloActions(models.Model):
         # se nessuno dei precedenti casi è verificato allora è un'assegnazione successiva alla prima
         return False
 
-    def get_assegnatario_disable_dictionary_ids(self, tipologia=None, assegnazione_to_exclude_ids=[]):
+    def get_assegnatario_disable_dictionary_ids(self, action_tipologia=None, tipologia=None, assegnazione_to_exclude_ids=[]):
         self.ensure_one()
         config_obj = self.env["ir.config_parameter"].sudo()
         assegnatario_disable_dictionary_ids = {
             "competenza": [],
             "conoscenza": []
         }
-        if not bool(config_obj.get_param("sd_protocollo.abilita_assegnazione_stesso_utente_ufficio")):
+        stesso_ufficio = bool(config_obj.get_param("sd_protocollo.abilita_assegnazione_stesso_utente_ufficio"))
+        if not stesso_ufficio and action_tipologia != "riassegnazione" and self.tipologia_protocollo in ["ingresso",
+                                                                                                         "uscita"]:
             assegnatario_disable_ids = self._get_assegnatario_disable_ids(
                 self.assegnazione_parent_ids, assegnazione_to_exclude_ids=assegnazione_to_exclude_ids
             )
@@ -848,6 +850,9 @@ class ProtocolloActions(models.Model):
     @api.model
     def verifica_campi_obbligatori(self):
         errors = self.verifica_campi_obbligatori_non_configurati()
+        document_errors = self.documento_id.verifica_campi_obbligatori()
+        if document_errors:
+            errors.extend(document_errors)
         config = {}
 
         ir_config_obj = self.env['ir.config_parameter'].sudo()
@@ -1016,6 +1021,17 @@ class ProtocolloActions(models.Model):
                 "search"
             ],
             "context": context
+        }
+
+    def protocollo_form_documento_action(self):
+        self.ensure_one()
+        return {
+            "name": "Documento",
+            "type": "ir.actions.act_window",
+            "res_model": "sd.dms.document",
+            "view_mode": "form",
+            "res_id": self.documento_id.id,
+
         }
 
     def _get_context_for_list_allegati(self):

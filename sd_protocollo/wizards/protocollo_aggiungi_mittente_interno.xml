@@ -19,7 +19,7 @@
                                    'no_open': True,
                                    'no_create': True
                                    }"
-                                   context="{'protocollo_id': context['protocollo_id']}"
+                                   context="{'protocollo_id': context['protocollo_id'], 'disable_ids': context['mittente_disable_ids'].toJSON()}"
                                    class="fl_set"
                             />
                         </group>

@@ -18,6 +18,19 @@
                             class="fa fa-trash btn btn-secondary o-kanban-button-new oe_edit_only"
                             attrs="{'invisible': [('button_elimina_assegnazione_invisible','=', True)]}">
                     </button>
+
+                    <field name="nome" invisible="1"/>
+                    <field name="assegnatario_id" invisible="1"/>
+                    <field name="assegnatore_id" invisible="1"/>
+                    <field name="data" invisible="1"/>
+                    <field name="assegnatore_nome" invisible="1"/>
+                    <field name="assegnatore_nome_completo" invisible="1"/>
+                    <field name="assegnatore_parent_id" invisible="1"/>
+                    <field name="assegnatario_utente_id" invisible="1"/>
+                    <field name="assegnatario_utente_parent_id" invisible="1"/>
+                    <field name="assegnatario_ufficio_id" invisible="1"/>
+                    <field name="assegnatario_ufficio_parent_id" invisible="1"/>
+
                 </tree>
             </field>
         </record>

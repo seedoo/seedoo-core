@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-08-05 12:32+0000\n"
-"PO-Revision-Date: 2022-08-05 12:32+0000\n"
+"POT-Creation-Date: 2022-09-20 07:08+0000\n"
+"PO-Revision-Date: 2022-09-20 07:08+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -421,11 +421,6 @@ msgstr "Colore"
 #: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_wizard_document_add_contact_form
 msgid "Company"
 msgstr "Azienda"
-
-#. module: sd_dms
-#: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_wizard_document_add_contact_form
-msgid "Company / PA / GPS / AOO / UO"
-msgstr "Azienda / PA / GPS / AOO / UO"
 
 #. module: sd_dms
 #: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__contact_pa_type
@@ -1266,6 +1261,11 @@ msgid "Main Attachment"
 msgstr "Allegato principale"
 
 #. module: sd_dms
+#: model_terms:ir.ui.view,arch_db:sd_dms.view_inherit_res_config_settings_form
+msgid "Manage document workflow"
+msgstr ""
+
+#. module: sd_dms
 #: model:res.groups,name:sd_dms.group_sd_dms_manager
 msgid "Manager"
 msgstr ""
@@ -1358,6 +1358,11 @@ msgid "My favorites"
 msgstr "I miei preferiti"
 
 #. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__registration_number
+msgid "N. repertory"
+msgstr "N. repertorio"
+
+#. module: sd_dms
 #: model:ir.model.fields,field_description:sd_dms.field_sd_dms_category__name
 #: model:ir.model.fields,field_description:sd_dms.field_sd_dms_contact__name
 #: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document_type__name
@@ -1372,7 +1377,6 @@ msgstr "Nome"
 
 #. module: sd_dms
 #: code:addons/sd_dms/models/document_type.py:0
-#: model:ir.model.constraint,message:sd_dms.constraint_sd_dms_document_type_unique
 #, python-format
 msgid "Name must be unique!"
 msgstr "Il nome deve essere univoco!"
@@ -1749,6 +1753,7 @@ msgid "Recipients Pec Mail"
 msgstr "Destinatari Pec Mail"
 
 #. module: sd_dms
+#: model:ir.model.fields.selection,name:sd_dms.selection__sd_dms_document__state__registered
 #: model_terms:ir.ui.view,arch_db:sd_dms.view_sd_dms_document_search
 msgid "Registered"
 msgstr "Registrato"
@@ -1765,11 +1770,6 @@ msgid "Registration date"
 msgstr "Data registrazione"
 
 #. module: sd_dms
-#: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__registration_number
-msgid "Registration number"
-msgstr "Numero registrazione"
-
-#. module: sd_dms
 #: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__registration_type
 #: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document_type__registration_type
 msgid "Registration type"
@@ -1778,11 +1778,6 @@ msgstr "Tipo registrazione"
 #. module: sd_dms
 #: model:ir.model.fields,field_description:sd_dms.field_sd_dms_document__registration_type_invisible
 msgid "Registration type invisible"
-msgstr ""
-
-#. module: sd_dms
-#: model:ir.model.fields.selection,name:sd_dms.selection__sd_dms_document__state__registered
-msgid "Registrato"
 msgstr ""
 
 #. module: sd_dms
@@ -2171,6 +2166,11 @@ msgstr ""
 #. module: sd_dms
 #: model:ir.model,name:sd_dms.model_sd_dms_wizard_document_add_contact_email_address
 msgid "Wizard document add contact email address"
+msgstr ""
+
+#. module: sd_dms
+#: model:ir.model.fields,field_description:sd_dms.field_res_config_settings__module_fl_dms_workflow
+msgid "Workflow"
 msgstr ""
 
 #. module: sd_dms

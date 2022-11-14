@@ -31,20 +31,13 @@ var AbstractFieldUpgrade = {
     //--------------------------------------------------------------------------
 
     /**
-     * Redirects the user to the odoo-enterprise/uprade page
+     * Redirects the user to the upgrade page
      *
      * @private
      * @returns {Promise}
      */
     _confirmUpgrade: function () {
-        return this._rpc({
-                model: 'res.users',
-                method: 'search_count',
-                args: [[["share", "=", false]]],
-            })
-            .then(function (data) {
-                window.open("https://www.flosslab.com/", "_blank");
-            });
+        window.open("https://www.flosslab.com/", "_blank");
     },
     /**
      * This function is meant to be overridden to insert the 'Enterprise' label
@@ -87,20 +80,6 @@ var AbstractFieldUpgrade = {
         }).open();
     },
 
-    //--------------------------------------------------------------------------
-    // Handlers
-    //--------------------------------------------------------------------------
-
-    /**
-     * @private
-     * @param {MouseEvent} event
-     */
-    _onInputClicked: function (event) {
-        if ($(event.currentTarget).prop("checked")) {
-            this._openDialog().on('closed', this, this._resetValue.bind(this));
-        }
-    },
-
 };
 
 var FLUpgradeBoolean = FieldBoolean.extend(AbstractFieldUpgrade, {
@@ -120,6 +99,7 @@ var FLUpgradeBoolean = FieldBoolean.extend(AbstractFieldUpgrade, {
 
     _onInputClicked: function (event) {
         self = this
+        this._setValue(!this.value)
         this._rpc({
                 model: 'ir.module.module',
                 method: 'show_dialog_on_checkbox_click',
@@ -144,6 +124,7 @@ var FLUpgradeBoolean = FieldBoolean.extend(AbstractFieldUpgrade, {
      */
     _resetValue: function () {
         this.$input.prop("checked", false).change();
+        this._setValue(false)
     },
 });
 

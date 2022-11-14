@@ -27,7 +27,6 @@ patch(components.SearchPanel, 'sd_dms/static/src/js/views/search_panel.js', {
             }).then((result) => defaultFolder = result);
 
             for (const section of sections) {
-                console.log(section)
                 if (section.fieldName === "folder_id") {
                     await this._toggleCategory(section, section.values.get(defaultFolder["folder_id"]))
                 }

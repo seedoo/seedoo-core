@@ -112,8 +112,11 @@ class ProtocolloRiassegna(models.TransientModel):
 
     def action_riassegna(self):
         self.ensure_one()
+        assegnazione_obj = self.env["sd.protocollo.assegnazione"]
         protocollo_obj = self.env["sd.protocollo.protocollo"]
+        config_obj = self.env["ir.config_parameter"].sudo()
         protocollo = protocollo_obj.browse(self.env.context.get("protocollo_id"))
+        assegnatario_conoscenza = False
         old_assegnatario_id = self.assegnazione_competenza_id.assegnatario_id.id
 
         stato_iniziale_assegnatari = self.env.context.get("stato_iniziale_assegnatari", False)
@@ -122,5 +125,18 @@ class ProtocolloRiassegna(models.TransientModel):
                 error = _("Non è più possibile eseguire l'operazione richiesta!")
                 raise ValidationError(error)
 
+        if not config_obj.get_param("sd_protocollo.abilita_assegnazione_stesso_utente_ufficio"):
+            # si verifica che il nuovo assegnatario non sia presente anche in un'assegnazione per conoscenza,
+            # se presente si andrà ad eliminare tale assegnazione.
+            assegnazione_conoscenza_id = assegnazione_obj.search([
+                ("protocollo_id", "=", protocollo.id),
+                ("tipologia", "=", "conoscenza"),
+                ("assegnatario_id", "=", self.assegnatario_competenza_id.id),
+                ("parent_id", "=", False)
+            ], limit=1).id
+            if assegnazione_conoscenza_id:
+                protocollo.elimina_assegnazione(assegnazione_conoscenza_id)
+                assegnatario_conoscenza = self.assegnatario_competenza_id.id
+
         self.salva_competenza(protocollo, self.env.uid, self.assegnatore_ufficio_id.id)
-        protocollo.storico_riassegna(old_assegnatario_id, self.assegnatario_competenza_id.id)
+        protocollo.storico_riassegna(old_assegnatario_id, self.assegnatario_competenza_id.id, assegnatario_conoscenza)

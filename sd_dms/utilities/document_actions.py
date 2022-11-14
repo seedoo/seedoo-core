@@ -47,7 +47,7 @@ class DocumentActions(models.Model):
 
         database_uuid = ""
         try:
-            database_uuid = self.env["ir.config_parameter"].get_param("database.uuid", "")
+            database_uuid = self.env["ir.config_parameter"].sudo().get_param("database.uuid", "")
         except Exception:
             pass
         data["uuid"] = database_uuid
@@ -145,3 +145,9 @@ class DocumentActions(models.Model):
             )
         except Exception:
             return
+ 
+    def verifica_campi_obbligatori(self):
+        return []
+
+    def register_validation(self):
+        return True

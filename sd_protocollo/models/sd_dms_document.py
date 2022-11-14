@@ -24,20 +24,12 @@ SIGNATURE_RETURN_CODE = {
     40: 'SIGNED_PDF'
 }
 
-SELECTION_STATE_ADD = [
-    ("registered", _("Registered"))
-]
-
 SELECTION_REGISTRATION_TYPE_ADD = [
     ("protocol", "Protocol"),
 ]
 
 class Document(models.Model):
     _inherit = "sd.dms.document"
-
-    state = fields.Selection(
-        selection_add=SELECTION_STATE_ADD,
-    )
 
     protocollo_id = fields.Many2one(
         string="Protocollo",
@@ -67,6 +59,7 @@ class Document(models.Model):
 
     @api.depends("protocollo_id.state")
     def _compute_state(self):
+        super(Document, self)._compute_state()
         for rec in self:
             if rec.protocollo_id and rec.protocollo_id.state == "registrato":
                 rec.state = "registered"

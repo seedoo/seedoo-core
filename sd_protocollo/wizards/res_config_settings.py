@@ -333,7 +333,7 @@ class ResConfigSettings(models.TransientModel):
     )
 
     module_fl_protocollo_notifiche = fields.Boolean(
-        string="Notifiche Protocollo Enterprise"
+        string="Notifiche assegnazione protocollo"
     )
 
     # ----------------------------------------------------------

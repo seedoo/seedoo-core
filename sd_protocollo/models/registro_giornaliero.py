@@ -164,7 +164,8 @@ class RegistroGiornaliero(models.Model):
                 "filename": name,
                 "content": base64.b64encode(data_pdf),
                 "folder_id": folder.id,
-                "document_type_id": self.env.ref("sd_protocollo.data_sd_dms_document_type_rgp").id
+                "document_type_id": self.env.ref("sd_protocollo.data_sd_dms_document_type_rgp").id,
+                "producer": "Metafora"
             })
             rec.write({
                 "state": "chiuso",

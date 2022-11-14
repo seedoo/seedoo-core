@@ -71,12 +71,10 @@ class ProtocolloWizardActions(models.Model):
 
     def protocollo_aggiungi_mittente_interno_action(self):
         self.ensure_one()
-        context = dict(
-            self.env.context,
-            company_id=self.company_id.id,
-            display_field="path_name",
-            protocollo_id=self.id
-        )
+        # si ricercano tutti gli uffici per disabilitarne la selezione (deve essere possibile selezionare solo utenti)
+        ufficio_data_list = self.env["fl.set.voce.organigramma"].search_read([("tipologia", "=", "ufficio")], ["id"])
+        mittente_disable_ids = [ufficio_data["id"] for ufficio_data in ufficio_data_list]
+        context = self._get_context_aggiungi_mittente_interno_action(mittente_disable_ids)
         return {
             "name": context.get("wizard_label", ""),
             "view_type": "form",
@@ -87,12 +85,21 @@ class ProtocolloWizardActions(models.Model):
             "context": context
         }
 
+    def _get_context_aggiungi_mittente_interno_action(self, mittente_disable_ids):
+        return dict(
+            self.env.context,
+            company_id=self.company_id.id,
+            display_field="path_name",
+            protocollo_id=self.id,
+            mittente_disable_ids=mittente_disable_ids
+        )
+
     def protocollo_assegna_action(self):
         self.ensure_one()
         organigramma_obj = self.env["fl.set.voce.organigramma"]
         prima_assegnazione = self.is_prima_assegnazione(self.env.context.get("modifica_assegnatari", False))
         disable_ids = organigramma_obj.get_disable_ids(prima_assegnazione)
-        assegnatario_disable_dictionary_ids = self.get_assegnatario_disable_dictionary_ids()
+        assegnatario_disable_dictionary_ids = self.get_assegnatario_disable_dictionary_ids("assegna")
         assegnatario_competenza_disable_ids = disable_ids + assegnatario_disable_dictionary_ids["competenza"]
         assegnatario_conoscenza_disable_ids = disable_ids + assegnatario_disable_dictionary_ids["conoscenza"]
         context = dict(
@@ -120,7 +127,8 @@ class ProtocolloWizardActions(models.Model):
         organigramma_obj = self.env["fl.set.voce.organigramma"]
         prima_assegnazione = self.is_prima_assegnazione(self.env.context.get("modifica_assegnatari", False))
         disable_ids = organigramma_obj.get_disable_ids(prima_assegnazione)
-        assegnatario_disable_dictionary_ids = self.get_assegnatario_disable_dictionary_ids("conoscenza")
+        assegnatario_disable_dictionary_ids = self.get_assegnatario_disable_dictionary_ids("assegna_conoscenza",
+                                                                                           "conoscenza")
         assegnatario_conoscenza_disable_ids = disable_ids + assegnatario_disable_dictionary_ids["conoscenza"]
         context = dict(
             self.env.context,
@@ -185,6 +193,7 @@ class ProtocolloWizardActions(models.Model):
         disable_ids = organigramma_obj.get_disable_ids(False)
         assegnazione_rifiutata_ids = self.get_assegnazione_assegnatore_ids("competenza", "rifiutato", self.env.uid)
         assegnatario_disable_dictionary_ids = self.get_assegnatario_disable_dictionary_ids(
+            "riassegnazione",
             "competenza",
             assegnazione_to_exclude_ids=assegnazione_rifiutata_ids
         )

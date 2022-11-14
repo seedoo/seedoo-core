@@ -425,8 +425,31 @@ class Protocollo(models.Model):
         string="Mittente interno",
         comodel_name="fl.set.voce.organigramma",
         domain=[("parent_active", "=", True)],
-        readonly=True
+        compute="_compute_mittente_interno_id",
+        inverse="_inverse_mittente_interno_id",
+        store=False
     )
+
+    mittente_interno_id_char = fields.Char(
+        string="Mittente Interno Id Char"
+    )
+
+    @api.depends("mittente_interno_id_char")
+    def _compute_mittente_interno_id(self):
+        voce_organigramma_obj = self.env["fl.set.voce.organigramma"]
+        for rec in self:
+            if rec.mittente_interno_id_char:
+                mittente = voce_organigramma_obj.search([("id", "=", int(rec.mittente_interno_id_char))])
+                rec.mittente_interno_id = mittente.id
+            else:
+                rec.mittente_interno_id = False
+
+    def _inverse_mittente_interno_id(self):
+        for rec in self:
+            if rec.mittente_interno_id:
+                rec.mittente_interno_id_char = str(rec.mittente_interno_id.id)
+            else:
+                rec.mittente_interno_id_char = False
 
     mittente_interno_nome = fields.Char(
         string="Nominativo mittente interno",
@@ -442,12 +465,14 @@ class Protocollo(models.Model):
 
     mittente_interno_utente_id_email = fields.Char(
         string="Email",
-        related="mittente_interno_utente_id.email"
+        compute="_compute_mittente_user_set_id",
+        store=True
     )
 
     mittente_interno_utente_id_pec_mail = fields.Char(
         string="Pec Mail",
-        related="mittente_interno_utente_id.pec_mail"
+        compute="_compute_mittente_user_set_id",
+        store=True
     )
 
     mittente_interno_ufficio_id = fields.Many2one(
@@ -457,9 +482,17 @@ class Protocollo(models.Model):
         store=True
     )
 
-    mittente_interno_ufficio_id_set_type = fields.Selection(
+    mittente_interno_utente_parent_id = fields.Many2one(
+        string="Ufficio dello User Mittente Interno",
+        comodel_name="fl.set.set",
+        compute="_compute_mittente_user_set_id",
+        store=True
+    )
+
+    mittente_interno_ufficio_id_set_type = fields.Char(
         string="Mittente interno uffcio tipologia",
-        related="mittente_interno_ufficio_id.set_type"
+        compute="_compute_mittente_user_set_id",
+        store=True
     )
 
     mittente_ids = fields.Many2many(
@@ -737,6 +770,14 @@ class Protocollo(models.Model):
         default = dict(default or {})
         default["active"] = True
         default["company_id"] = values["company_id"]
+        default["mittente_interno_id_char"] = False
+        default["mittente_interno_ufficio_id_set_type"] = False
+        default["mittente_interno_utente_parent_id"] = False
+        default["mittente_interno_ufficio_id"] = False
+        default["mittente_interno_nome"] = False
+        default["mittente_interno_utente_id"] = False
+        default["mittente_interno_utente_id_pec_mail"] = False
+        default["mittente_interno_utente_id_email"] = False
         default["protocollatore_id"] = self.env.user.id
         default["protocollatore_name"] = self.env.user.name
         default["protocollatore_ufficio_id"] = values["protocollatore_ufficio"].id
@@ -867,8 +908,7 @@ class Protocollo(models.Model):
                     [("parent_id", "=", ufficio_id), ("utente_id", "=", self.protocollatore_id.id)]
                 )
             if mittente_interno:
-                self.mittente_interno_id = mittente_interno.id
-                self.mittente_interno_nome = mittente_interno.nome
+                self.salva_mittente_interno(mittente_interno)
 
     def _get_tipologia_mittente_id(self):
         return ["uscita"]
@@ -941,12 +981,22 @@ class Protocollo(models.Model):
             else:
                 protocollo.documento_id.write(vals)
 
-    @api.depends("mittente_interno_id")
+    @api.depends("mittente_interno_id_char")
     def _compute_mittente_user_set_id(self):
+        voce_organigramma_obj = self.env["fl.set.voce.organigramma"]
         for protocollo in self:
-            if protocollo.mittente_interno_id:
-                protocollo.mittente_interno_ufficio_id = protocollo.mittente_interno_id.ufficio_id.id
-                protocollo.mittente_interno_utente_id = protocollo.mittente_interno_id.utente_id.id
+            if protocollo.mittente_interno_id_char:
+                mittente = voce_organigramma_obj.search([("id", "=", int(protocollo.mittente_interno_id_char))])
+                if mittente:
+                    protocollo.mittente_interno_ufficio_id = mittente.ufficio_id.id
+                    protocollo.mittente_interno_ufficio_id_set_type = mittente.ufficio_id.set_type
+                    protocollo.mittente_interno_utente_id = mittente.utente_id.id
+                    if mittente.utente_id and mittente.parent_id:
+                        protocollo.mittente_interno_utente_parent_id = mittente.parent_id.ufficio_id.id
+                        protocollo.mittente_interno_utente_id_email = mittente.utente_id.email
+                        protocollo.mittente_interno_utente_id_pec_mail = mittente.utente_id.pec_mail
+                    else:
+                        protocollo.mittente_interno_utente_parent_id = False
 
     def _compute_documento_id_content_required(self):
         for protocollo in self:
@@ -1165,6 +1215,7 @@ class Protocollo(models.Model):
                 "mittente_interno_id": False,
                 "mittente_interno_nome": False
             })
+        protocollo.assegnazione_ids = [(6, 0, [])]
         self._compute_mittente_invisible()
         self._compute_mittente_interno_id_invisible()
 
@@ -1205,9 +1256,9 @@ class Protocollo(models.Model):
     def _compute_mittente_interno_id_invisible(self):
         for protocollo in self:
             # visibilità mittente_interno_id se:
-            # - caso1: mittente interno non è popolato
+            # - caso1: mittente interno nome non è popolato
             # - caso2: protocollo non è in ingresso
-            caso1 = False if protocollo.mittente_interno_id else True
+            caso1 = False if protocollo.mittente_interno_id_char else True
             caso2 = protocollo.tipologia_protocollo == "ingresso"
 
             protocollo.mittente_interno_id_invisible = caso1 or caso2

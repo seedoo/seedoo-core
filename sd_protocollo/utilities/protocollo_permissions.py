@@ -149,6 +149,11 @@ class ProtocolloPermissions(models.Model):
         compute="compute_buttons_invisible"
     )
 
+    page_destinatari_ids_invisible = fields.Boolean(
+        string="page destinatari_ids invisible",
+        compute="_compute_page_destinatari_ids_invisible"
+    )
+
     @api.depends("tipologia_protocollo")
     def compute_buttons_invisible(self):
         for protocollo in self:
@@ -510,3 +515,11 @@ class ProtocolloPermissions(models.Model):
         if self.env.uid == self.protocollatore_id.id and self.state == "bozza":
             return False
         return True
+
+    @api.depends("tipologia_protocollo")
+    def _compute_page_destinatari_ids_invisible(self):
+        for protocollo in self:
+            page_destinatari_ids_invisible = True
+            if protocollo.tipologia_protocollo in ["uscita"]:
+                page_destinatari_ids_invisible = False
+            protocollo.page_destinatari_ids_invisible = page_destinatari_ids_invisible

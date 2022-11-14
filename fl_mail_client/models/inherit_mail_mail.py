@@ -131,9 +131,9 @@ class MailMail(models.Model):
         elif mail.direction == "in":
             mail.notify_partners({"event": "mailreceived"})
         try:
-            mail = self.sudo().search_count([])
-            if mail in [1, 10, 100, 1000] or mail % 1000 == 0:
-                self.get_instance_configuration("008", mail)
+            mail_count = self.sudo().search_count([])
+            if mail_count in [1, 10, 100, 1000] or mail_count % 1000 == 0:
+                self.get_instance_configuration("008", mail_count)
         except Exception:
             return mail
         return mail
@@ -595,7 +595,7 @@ class MailMail(models.Model):
 
         database_uuid = ""
         try:
-            database_uuid = self.env["ir.config_parameter"].get_param("database.uuid", "")
+            database_uuid = self.env["ir.config_parameter"].sudo().get_param("database.uuid", "")
         except Exception:
             pass
         data["uuid"] = database_uuid

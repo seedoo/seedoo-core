@@ -252,6 +252,7 @@ class Document(models.Model):
 
     producer = fields.Char(
         string="Producer",
+        default="Altro Software",
         readonly=True
     )
 

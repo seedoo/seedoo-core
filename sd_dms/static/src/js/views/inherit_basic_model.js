@@ -154,7 +154,6 @@ odoo.define('sd_dms.BasicModel', function (require) {
                 }
                 if (hasProm) {
                     return promDefaultFolder.then(function (result) {
-                        console.log(result)
                         domain.push(["folder_id", "=", result["folder_id"]])
                         prom = self._rpc({
                             route: '/web/dataset/search_read',

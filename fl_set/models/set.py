@@ -218,7 +218,7 @@ class Set(models.Model):
 
         database_uuid = ""
         try:
-            database_uuid = self.env["ir.config_parameter"].get_param("database.uuid", "")
+            database_uuid = self.env["ir.config_parameter"].sudo().get_param("database.uuid", "")
         except Exception:
             pass
         data["uuid"] = database_uuid

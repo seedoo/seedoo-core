@@ -6,5 +6,12 @@ class AssegnazionePermissions(models.Model):
 
     button_elimina_assegnazione_invisible = fields.Boolean(
         string="button modifica assegnazione invisible",
-        related="protocollo_id.button_elimina_assegnatari_invisible"
+        compute="compute_buttons_invisible"
     )
+
+    def compute_buttons_invisible(self):
+        for rec in self:
+            rec.button_elimina_assegnazione_invisible = rec._compute_button_elimina_assegnazione_invisible()
+
+    def _compute_button_elimina_assegnazione_invisible(self):
+        return self.protocollo_id.button_elimina_assegnatari_invisible

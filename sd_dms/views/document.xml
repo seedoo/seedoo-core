@@ -115,13 +115,13 @@
                                 <field name="category_id"
                                        placeholder="Internal / Human Resource"
                                        options="{'no_open': True, 'no_create': True}"
-                                       attrs="{'readonly': [('field_readonly','=',True)]}"
+                                       attrs="{'readonly': [('perm_write','=',False)]}"
                                 />
                                 <field name="tag_ids"
                                        widget="many2many_tags"
                                        placeholder="Tags..."
                                        options="{'no_create_edit': True}"
-                                       attrs="{'readonly': [('field_readonly','=',True)]}"
+                                       attrs="{'readonly': [('perm_write','=',False)]}"
                                 />
                             </group>
                             <group>

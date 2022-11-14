@@ -15,7 +15,7 @@ class IrModuleModule(models.Model):
             "move_processed_mail": ["module_fl_mail_client_fetch_flow"],
             # sd_protocollo
             "genera_segnatura_allegati": ["module_fl_protocollo_segnatura_pdf"],
-            "genera_segnatura_su_ogni_pagina": ["module_fl_protocollo_segnatura_pdf"],
+            "genera_segnatura_ogni_pagina": ["module_fl_protocollo_segnatura_pdf"],
             "codice_ufficio_in_segnatura": ["module_fl_protocollo_segnatura_pdf"]
         }
 

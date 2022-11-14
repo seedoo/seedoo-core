@@ -156,8 +156,11 @@ class Mail(models.Model):
         protocollo = protocollo_obj.with_context(
             from_module=_("Communications"),
             tipologia_documento_protocollo="documento").create(vals)
-        # salvataggio del mittente nel documento del protocollo
-        protocollo.documento_id.write({"sender_ids": mittente_ids})
+        # salvataggio del mittente nel documento del protocollo e aggiornamento del producer
+        protocollo.documento_id.write({
+            "sender_ids": mittente_ids,
+            "producer": "Metafora"
+        })
         # creazione degli allegati al protocollo
         for allegato_vals in allegato_vals_list:
             allegato_vals["protocollo_id"] = protocollo.id

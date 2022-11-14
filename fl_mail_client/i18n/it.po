@@ -358,7 +358,7 @@ msgstr "Abilita la gestione avanzata dello storico della posta"
 #. module: fl_mail_client
 #: model_terms:ir.ui.view,arch_db:fl_mail_client.res_config_settings_view_form
 msgid "Enable the creation of templates for outgoing emails"
-msgstr "Abilita la ricezione e l'invio di posta elettronica certificata"
+msgstr "Abilita la creazione di template per le e-mail in uscita"
 
 #. module: fl_mail_client
 #: model_terms:ir.ui.view,arch_db:fl_mail_client.res_config_settings_view_form
@@ -374,7 +374,7 @@ msgstr ""
 #. module: fl_mail_client
 #: model_terms:ir.ui.view,arch_db:fl_mail_client.res_config_settings_view_form
 msgid "Enable the receipt and sending of certified e-mail"
-msgstr "Abilita la creazione di template per le e-mail in uscita"
+msgstr "Abilita la ricezione e l'invio di posta elettronica certificata"
 
 #. module: fl_mail_client
 #: model:ir.model.fields,field_description:fl_mail_client.field_fetchmail_server_history__datetime_end

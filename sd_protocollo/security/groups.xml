@@ -56,7 +56,7 @@ Un utente vede i protocolli registrati e a lui assegnati;
 Un utente vede i protocolli registrati, a lui assegnati e presi in carico;
 Un utente vede i protocolli registrati e assegnati al suo ufficio;
 Un utente vede i protocolli registrati, assegnati al suo ufficio e presi in carico;
-Un utente vede i protocolli registrati di cui lui o il suo ufficio è il mittente;
+Un utente vede i protocolli registrati in cui lui è il mittente;
 Un utente NON vede i protocolli registrati da un altro utente, a lui assegnati e da lui rifiutati;
 Un utente NON vede i protocolli riservati;
 Un utente NON vede i protocolli registrati da un altro utente, assegnati al suo ufficio e rifiutati da lui o da un altro utente dell’ufficio stesso.</field>
@@ -69,9 +69,8 @@ Un utente NON vede i protocolli registrati da un altro utente, assegnati al suo 
                 ref('group_sd_protocollo_visibilita_xs')
             ])]"/>
             <field name="comment">Visibilità XS + :
-Vedi protocolli in Ingresso registrati dal mio ufficio;
-Vedi protocolli Interni registrati dal mio ufficio;
-Vedi protocolli in Uscita registrati dal mio ufficio.</field>
+Vedi protocolli registrati dal mio ufficio;
+Vedi protocolli il cui mittente è un utente del mio ufficio.</field>
         </record>
 
         <record id="group_sd_protocollo_visibilita_m" model="res.groups">
@@ -81,10 +80,7 @@ Vedi protocolli in Uscita registrati dal mio ufficio.</field>
                 ref('group_sd_protocollo_visibilita_s')
             ])]"/>
             <field name="comment">Visibilità S + :
-Vedi protocolli in Ingresso assegnati ad un utente del mio ufficio;
-Vedi protocolli Interno assegnati ad un utente del mio ufficio;
-Vedi protocolli in Uscita assegnati ad un utente del mio ufficio;
-Vedi protocolli Interni il cui mittente è un utente del mio ufficio.</field>
+Vedi protocolli assegnati ad un utente del mio ufficio.</field>
         </record>
 
         <record id="group_sd_protocollo_visibilita_l" model="res.groups">
@@ -94,15 +90,9 @@ Vedi protocolli Interni il cui mittente è un utente del mio ufficio.</field>
                 ref('group_sd_protocollo_visibilita_m')
             ])]"/>
             <field name="comment">Visibilità M + :
-Vedi protocolli in Ingresso registrati da un ufficio figlio;
-Vedi protocolli Interni registrati da un ufficio figlio;
-Vedi protocolli in Uscita registrati da un ufficio figlio;
-Vedi protocolli in Ingresso assegnati ad un ufficio figlio;
-Vedi protocolli Interno assegnati ad un ufficio figlio;
-Vedi protocolli in Uscita assegnati ad un ufficio figlio;
-Vedi protocolli in Ingresso assegnati ad un utente di un ufficio figlio;
-Vedi protocolli Interno assegnati ad un utente di un ufficio figlio;
-Vedi protocolli in Uscita assegnati ad un utente di un ufficio figlio.</field>
+Vedi protocolli registrati da un ufficio figlio;
+Vedi protocolli assegnati ad un ufficio figlio;
+Vedi protocolli assegnati ad un utente di un ufficio figlio.</field>
         </record>
 
         <record id="group_sd_protocollo_visibilita_xl" model="res.groups">
@@ -114,9 +104,7 @@ Vedi protocolli in Uscita assegnati ad un utente di un ufficio figlio.</field>
             ])]"/>
             <field name="comment">Visibilità L + :
 Vedi tutti protocolli archiviati della AOO;
-Vedi tutti protocolli in Ingresso registrati della AOO;
-Vedi tutti protocolli Interno registrati della AOO;
-Vedi tutti protocolli in Uscita registrati della AOO;
+Vedi tutti protocolli registrati della AOO;
 Non vede i protocolli riservati;
             </field>
         </record>

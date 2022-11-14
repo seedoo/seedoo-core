@@ -167,6 +167,9 @@
                             <field name="button_elimina_bozza_invisible"/>
                             <field name="button_completa_lavorazione_stato_invisible"/>
                             <field name="button_rimetti_in_lavorazione_stato_invisible"/>
+
+                            <field name="page_destinatari_ids_invisible"/>
+                            <field name="source_count"/>
                         </group>
                         <div name="button_box" class="oe_button_box">
                             <button name="protocollo_lista_source_action"
@@ -175,16 +178,19 @@
                                     class="oe_stat_button"
                                     icon="fa-envelope"
                             >
-                                <field name="source_count"
-                                       widget="statinfo"
-                                       string="Messaggio"
-                                       options="{'reload_on_button': true}"
-                                />
+                                Messaggio
+                            </button>
+                            <button name="protocollo_form_documento_action"
+                                    type="object"
+                                    class="oe_stat_button"
+                                    icon="fa-file-text"
+                            >
+                                Documento
                             </button>
                             <button name="protocollo_lista_allegati_action"
                                     type="object"
                                     class="oe_stat_button"
-                                    icon="fa-file"
+                                    icon="fa-paperclip"
                             >
                                 <field name="allegato_count"
                                        widget="statinfo"
@@ -319,7 +325,7 @@
                         <notebook attrs="{'invisible': ['|', ('tipologia_protocollo','=',False), ('protocollatore_ufficio_id','=',False)]}">
 
                             <page string="Destinatari" name="destinatari_ids"
-                                  attrs="{'invisible': [('tipologia_protocollo','!=', 'uscita')]}">
+                                  attrs="{'invisible': [('page_destinatari_ids_invisible','=', True)]}">
 
                                 <div attrs="{'invisible': [('button_aggiungi_destinatario_invisible','=', True)]}">
                                     <button name="protocollo_aggiungi_contatto_action"
@@ -358,7 +364,7 @@
                                     </button>
                                 </div>
 
-                                <field name="mittente_interno_id" invisible="1" force_save="1"/>
+                                <field name="mittente_interno_id_char" invisible="1" force_save="1"/>
                                 <field name="mittente_interno_nome" invisible="1" force_save="1"/>
                                 <field name="mittente_interno_utente_id" invisible="1"/>
                                 <field name="mittente_interno_id_invisible" invisible="1"/>
@@ -462,6 +468,7 @@
                                     </button>
                                 </div>
                                 <field name="assegnazione_parent_ids"
+                                       force_save="1"
                                        attrs="{'invisible': [('assegnazione_parent_ids','=',[])]}"/>
                             </page>
 
@@ -537,7 +544,7 @@
                     <filter string="Data Ricezione" name="filter_data_ricezione" date="data_ricezione"
                             default_period="this_month"/>
                     <separator/>
-                    <group expand="0" string="Group By">
+                    <group expand="0" string="Group By" name="filter_tipologia">
                         <filter name="uscita" string="Uscita" domain="[('tipologia_protocollo', '=', 'uscita')]"/>
                         <filter name="ingresso" string="Ingresso" domain="[('tipologia_protocollo', '=', 'ingresso')]"/>
                     </group>

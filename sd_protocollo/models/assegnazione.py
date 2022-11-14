@@ -192,7 +192,7 @@ class Assegnazione(models.Model):
 
     @api.model
     def crea_assegnazione(self, protocollo_id, assegnatario_id, assegnatore_id, assegnatore_ufficio_id, tipologia,
-                          parent_id=False, values={}):
+                          parent_id=False, values={}, create=True):
         assegnatario_obj = self.env["fl.set.voce.organigramma"]
         assegnatario = assegnatario_obj.browse(assegnatario_id)
 
@@ -225,7 +225,8 @@ class Assegnazione(models.Model):
         if assegnatario.tipologia == "ufficio":
             vals["assegnatario_ufficio_id"] = assegnatario.ufficio_id.id
             vals["assegnatario_ufficio_parent_id"] = assegnatario.parent_id.ufficio_id.id if assegnatario.parent_id.ufficio_id else False
-
+        if not create:
+            return vals
         assegnazione = self.create(vals)
         # self.notifica_assegnazione(assegnazione)
         # il metodo refresh serve per invalidare la cache degli id memorizzati nell'oggetto assegnatario_obj: se non si

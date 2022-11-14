@@ -139,11 +139,14 @@ class ProtocolloHistoryActions(models.Model):
         body += "</div>"
         self.message_post(body=body)
 
-    def storico_riassegna(self, old_assegnatario_id, new_assegnatario_id):
+    def storico_riassegna(self, old_assegnatario_comp_id, new_assegnatario_comp_id, old_assegnatario_con_id=False):
         self.ensure_one()
         voce_organigramma_obj = self.env["fl.set.voce.organigramma"]
-        old_assegnatario_name = voce_organigramma_obj.browse(old_assegnatario_id).path_name
-        new_assegnatario_name = voce_organigramma_obj.browse(new_assegnatario_id).path_name
+        old_assegnatario_name = voce_organigramma_obj.browse(old_assegnatario_comp_id).path_name
+        new_assegnatario_name = voce_organigramma_obj.browse(new_assegnatario_comp_id).path_name
+        old_assegnatario_con_name = False
+        if old_assegnatario_con_id:
+            old_assegnatario_con_name = voce_organigramma_obj.browse(old_assegnatario_con_id).path_name
         subject = _("Protocol reassigned")
         subject = "<p>%s</p>" % (self._get_subject(subject))
         action_class = "%s reasigned" % HISTORY_CLASS
@@ -155,6 +158,13 @@ class ProtocolloHistoryActions(models.Model):
             SUCCESS_CLASS,
             new_assegnatario_name
         )
+        if old_assegnatario_con_name:
+            body = body + "<br/>"
+            body = body + "%s: <span class='%s'> %s</span></li>" % (
+                self.get_label_storico_conoscenza(),
+                ERROR_CLASS,
+                old_assegnatario_con_name,
+            )
         body += "</div>"
         self.message_post(body=subject + body)
 

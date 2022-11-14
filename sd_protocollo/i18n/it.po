@@ -2379,7 +2379,7 @@ msgstr "Protocollo riassegnato"
 #. module: sd_protocollo
 #: model:ir.model.fields,field_description:sd_protocollo.field_res_config_settings__module_fl_protocollo_registro
 msgid "Protocol register"
-msgstr "Registro protocollo"
+msgstr "Registri di protocollo non ufficiali"
 
 #. module: sd_protocollo
 #: code:addons/sd_protocollo/utilities/protocollo_storico_actions.py:0
